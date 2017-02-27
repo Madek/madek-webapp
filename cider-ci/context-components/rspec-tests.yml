@@ -39,21 +39,36 @@ generate_tasks:
 tasks:
 
   # manually prioritize slow tests higher
-
+  spec/features/batch_edit/batch_update_permissions_spec.rb: {priority: 2}
   spec/features/batch_edit/form_values_and_appearance_spec.rb: {priority: 1}
   spec/features/collection/collection_destroy_spec.rb: {priority: 1}
   spec/features/collection/collection_meta_data_edit_spec.rb: {priority: 1}
-  spec/features/collection/collection_select_collection_spec.rb: {priority: 2}
+  spec/features/collection/collection_select_collection_spec.rb: {priority: 3}
   spec/features/collection/collection_show_spec.rb: {priority: 2}
   spec/features/collection/edit_collection_cover_spec.rb: {priority: 1}
+  spec/features/collection/edit_collection_cover_spec.rb: {priority: 2}
   spec/features/collection/edit_collection_highlights_spec.rb: {priority: 1}
   spec/features/flyout_actions_spec.rb: {priority: 2}
-  spec/features/media_entry/media_entry_index_spec.rb: {priority: 1}
-  spec/features/media_entry/permissions/media_entry_permissions_spec.rb: {priority: 1}
-  spec/features/media_entry/media_entry_select_collection_spec.rb: {priority: 2}
+  spec/features/manage_custom_urls/check-table-and-uuid_spec.rb: {priority: 2}
+  spec/features/manage_custom_urls/transfer-without-primary_spec.rb: {priority: 2}
+  spec/features/media_entry/media_entry_context_meta_data_edit_spec.rb: {priority: 3}
   spec/features/media_entry/media_entry_export_spec.rb: {priority: 2}
+  spec/features/media_entry/media_entry_index_spec.rb: {priority: 1}
+  spec/features/media_entry/media_entry_select_collection_spec.rb: {priority: 2}
+  spec/features/media_entry/media_entry_show_spec.rb: {priority: 2}
+  spec/features/media_entry/permissions/media_entry_permissions_spec.rb: {priority: 1}
+  spec/features/meta_data/inputs/input_keywords_spec.rb: {priority: 2}
+  spec/features/meta_data/inputs/input_textdate_spec.rb: {priority: 2}
   spec/features/meta_data/meta_data_spec.rb: {priority: 1}
+  spec/features/meta_data/naughty_strings/naughty_strings_10_spec.rb: {priority: 2}
+  spec/features/meta_data/naughty_strings/naughty_strings_11_spec.rb: {priority: 2}
+  spec/features/meta_data/naughty_strings/naughty_strings_12_spec.rb: {priority: 2}
+  spec/features/meta_data/naughty_strings/naughty_strings_13_spec.rb: {priority: 2}
+  spec/features/meta_data/naughty_strings/naughty_strings_14_spec.rb: {priority: 2}
+  spec/features/meta_data/naughty_strings/naughty_strings_3_spec.rb: {priority: 2}
+  spec/features/my/my_groups_spec.rb: {priority: 2}
   spec/features/search_spec.rb: {priority: 2}
+  spec/features/side_filter/side_filter_spec.rb: {priority: 3}
 
   spec/features/styleguide_spec.rb:
     priority: 2
