@@ -87,6 +87,54 @@ CREATE TYPE reservation_status AS ENUM (
 
 
 --
+-- Name: delete_procurement_users_filters_after_procurement_accesses(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION delete_procurement_users_filters_after_procurement_accesses() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  IF
+    (EXISTS
+      (SELECT 1
+       FROM procurement_users_filters
+       WHERE procurement_users_filters.user_id = OLD.user_id)
+     AND NOT EXISTS
+      (SELECT 1
+       FROM procurement_accesses
+       WHERE procurement_accesses.user_id = OLD.user_id))
+  THEN
+    DELETE FROM procurement_users_filters
+    WHERE procurement_users_filters.user_id = OLD.user_id;
+  END IF;
+  RETURN NEW;
+END;
+$$;
+
+
+--
+-- Name: delete_procurement_users_filters_after_users(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION delete_procurement_users_filters_after_users() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  IF
+    (EXISTS
+      (SELECT 1
+       FROM procurement_users_filters
+       WHERE procurement_users_filters.user_id = OLD.id))
+  THEN
+    DELETE FROM procurement_users_filters
+    WHERE procurement_users_filters.user_id = OLD.id;
+  END IF;
+  RETURN NEW;
+END;
+$$;
+
+
+--
 -- Name: hex_to_int(character varying); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -746,6 +794,17 @@ CREATE TABLE procurement_templates (
 
 
 --
+-- Name: procurement_users_filters; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE procurement_users_filters (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    user_id uuid,
+    filter json
+);
+
+
+--
 -- Name: properties; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1204,6 +1263,14 @@ ALTER TABLE ONLY procurement_settings
 
 ALTER TABLE ONLY procurement_templates
     ADD CONSTRAINT procurement_templates_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: procurement_users_filters procurement_users_filters_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY procurement_users_filters
+    ADD CONSTRAINT procurement_users_filters_pkey PRIMARY KEY (id);
 
 
 --
@@ -1697,6 +1764,13 @@ CREATE UNIQUE INDEX index_procurement_settings_on_key ON procurement_settings US
 
 
 --
+-- Name: index_procurement_users_filters_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_procurement_users_filters_on_user_id ON procurement_users_filters USING btree (user_id);
+
+
+--
 -- Name: index_properties_on_model_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1799,6 +1873,20 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 --
 
 CREATE INDEX user_index ON audits USING btree (user_id, user_type);
+
+
+--
+-- Name: procurement_accesses trigger_delete_procurement_users_filters_after_procurement_acce; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_delete_procurement_users_filters_after_procurement_acce AFTER DELETE ON procurement_accesses DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE delete_procurement_users_filters_after_procurement_accesses();
+
+
+--
+-- Name: users trigger_delete_procurement_users_filters_after_users; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_delete_procurement_users_filters_after_users AFTER DELETE ON users DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE delete_procurement_users_filters_after_users();
 
 
 --
@@ -2424,6 +2512,8 @@ INSERT INTO schema_migrations (version) VALUES ('103');
 INSERT INTO schema_migrations (version) VALUES ('104');
 
 INSERT INTO schema_migrations (version) VALUES ('105');
+
+INSERT INTO schema_migrations (version) VALUES ('106');
 
 INSERT INTO schema_migrations (version) VALUES ('11');
 
