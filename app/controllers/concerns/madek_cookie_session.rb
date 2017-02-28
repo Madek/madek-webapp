@@ -4,11 +4,20 @@ module Concerns
     include ::MadekOpenSession
 
     COOKIE_NAME = Madek::Constants::MADEK_SESSION_COOKIE_NAME
+    MADEK_DISABLE_HTTPS = Madek::Constants::MADEK_DISABLE_HTTPS
 
     def set_madek_session(user, remember = false)
+      # NOTE: we do NOT need to protect against session fixation attack,
+      #       because a separate cookie for the login session is used:
+      #       http://guides.rubyonrails.org/v4.2/security.html#session-fixation-countermeasures
+
+      # NOTE: manually setting cookies, must apply security options ourselves:
+      #       http://api.rubyonrails.org/v4.2.7.1/classes/ActionDispatch/Cookies.html
       cookies[COOKIE_NAME] = {
         expires: remember ? 2.weeks.from_now : nil,
-        value: build_session_value(user)
+        value: build_session_value(user),
+        httponly: true,
+        secure: (Rails.env == 'production' && !MADEK_DISABLE_HTTPS)
       }
       user.update_attributes! last_signed_in_at: Time.zone.now
     end
