@@ -17,6 +17,16 @@ contexts:
               bin/precompile-assets
               cider-ci/bin/check-precompiled-assets tmp/static_assets public/assets
 
+  'npm':
+    tasks:
+      node-modules:
+        name: "npm: node_modules are checked in"
+        git_options: { submodules: { include_match: ^node_modules$ } }
+        scripts:
+          test:
+            body:
+              cider-ci/bin/check-node-modules
+
   'Docs/Specs':
     include: cider-ci/context-components/rails-setup.yml
     tasks:

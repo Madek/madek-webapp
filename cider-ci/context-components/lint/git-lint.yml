@@ -1,0 +1,31 @@
+"git Lint":
+  tasks:
+
+    git-log-debug:
+      name: 'git: Log (for debug)'
+      scripts: {test: {body: "git log -n5"}}
+
+    git-linear-history:
+      name: 'git: check linear history'
+      scripts:
+        test:
+          body: |
+            #!/usr/bin/env bash
+            set -eux
+            # no merges between GIT_LINEAR_HISTORY_CHECK_START_SHA and the current commit
+            test -z $(git rev-list --merges ${GIT_LINEAR_HISTORY_CHECK_START_SHA}..HEAD)
+
+    git-branch-current:
+      name: "git: tree contains latest commit from origin/master"
+      scripts:
+        test:
+          body:
+            read_and_replace_with: cider-ci/bin/check-git-branch-current
+
+    git-submodules-current:
+      name: "git: submodules trees all contain latest commit from origin/master"
+      git_options: { submodules: { include_match: ^.*$ } }
+      scripts:
+        test:
+          body:
+            read_and_replace_with: cider-ci/bin/check-git-submodules-current

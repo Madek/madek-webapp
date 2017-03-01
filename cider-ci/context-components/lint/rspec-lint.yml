@@ -1,0 +1,8 @@
+"RSpec Lint":
+  tasks:
+
+    rspec-check-misnamed-specs:
+      name: 'Rspec: check misnamed specs'
+      scripts: {test: {body: {
+        read_and_replace_with: cider-ci/bin/check-misnamed-specs
+      }}}
