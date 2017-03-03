@@ -59,7 +59,7 @@
     "underscore.string": "3.3.4",
     "uuid-validate": "0.0.2",
     "video.js": "5.16.0",
-    "xhr": "2.2.0"
+    "xhr": "2.3.3"
   },
   "devDependencies": {
     "@eins78/rspec-render-docs": "^1.0.0-alpha.3",
