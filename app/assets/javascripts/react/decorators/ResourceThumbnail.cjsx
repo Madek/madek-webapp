@@ -202,10 +202,12 @@ module.exports = React.createClass
         title={textProps.title}
         subtitle={textProps.subtitle}
         mediaUrl={get.url}
-        metaData={@props.indexMetaData}
-        loadingMetadata={@props.loadingMetadata}
+        metaData={model.list_meta_data.meta_data if model.list_meta_data}
         style={@props.style}
         selectProps={selectProps}
+        favoriteProps={favoriteProps}
+        deleteProps={deleteProps}
+        get={get}
         />
     else
       <ResourceThumbnailRenderer

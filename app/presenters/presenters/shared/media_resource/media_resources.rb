@@ -119,7 +119,11 @@ module Presenters
           resources.map do |resource|
             # if no presenter given, need to check class of every member!
             presenter = determined_presenter || presenter_by_class(resource.class)
-            presenter.new(resource, @user, load_meta_data: @load_meta_data)
+            presenter.new(
+              resource,
+              @user,
+              load_meta_data: @load_meta_data,
+              list_conf: @conf)
           end
         end
 
