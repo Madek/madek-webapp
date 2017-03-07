@@ -11,7 +11,6 @@ module Presenters
           list_conf: @list_conf,
           load_meta_data: @load_meta_data)
       end
-
     end
   end
 end

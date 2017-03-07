@@ -41,6 +41,8 @@ module Shared
         visible?
       end
 
+      alias_method :list_meta_data?, :show?
+
       def usage_data?
         show? and logged_in?
       end

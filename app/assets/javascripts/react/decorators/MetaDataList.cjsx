@@ -14,6 +14,8 @@ Icon = require('../ui-components/Icon.cjsx')
 VocabTitleLink = require('../ui-components/VocabTitleLink.cjsx')
 listingHelper = require('../../lib/metadata-listing-helper.coffee')
 
+MetaDataTable = require('./MetaDataTable.cjsx')
+MetaDataDefinitionList = require('./MetaDataDefinitionList.cjsx')
 
 # TODO: inline Edit - MetaDatumEdit = require('../meta-datum-edit.cjsx')
 
@@ -51,13 +53,15 @@ module.exports = React.createClass
     # build key/value pairs:
     listingData = f.map metaData, (dat)->
       # NOTE: either context or vocabulary…
-      [datum, key] = if listingType is 'Vocabulary'
-        [dat, dat.meta_key]
+      [key, label, value] = if listingType is 'Vocabulary'
+        [dat.meta_key_id, dat.meta_key.label, dat]
       else
-        [dat.meta_datum, dat.context_key]
+        [dat.context_key.meta_key_id, dat.context_key.label, dat.meta_datum]
       return {
-        key: key.label
-        value: datum
+        key: key
+        type: 'datum'
+        label: label
+        value: value
       }
 
     {
@@ -87,52 +91,14 @@ module.exports = React.createClass
               {title}
             </h3>
         }
-        {if type is 'list'
-          <MetaDataDefinitionList
-            listingData={listingData} fallbackMsg={fallbackMsg} tagMods={tagMods} />
-        else
-          <MetaDataTable
-            listingData={listingData} fallbackMsg={fallbackMsg} tagMods={tagMods} />
+
+        {
+          if type is 'list'
+            <MetaDataDefinitionList
+              labelValuePairs={listingData} fallbackMsg={fallbackMsg} tagMods={tagMods} />
+          else
+            <MetaDataTable
+              labelValuePairs={listingData} fallbackMsg={fallbackMsg} tagMods={tagMods}
+              listClasses={@props.listClasses} keyClasses={@props.keyClasses} valueClasses={@props.valueClasses} />
         }
       </div>
-
-MetaDataDefinitionList = ({listingData, fallbackMsg, tagMods} = props) ->
-  listClasses = 'media-data'
-  keyClass = 'media-data-title title-xs-alt'
-  valClass = 'media-data-content'
-
-  <dl className={listClasses}>
-    {if fallbackMsg
-      <dt className={keyClass}>{fallbackMsg}</dt>
-    else
-      f.map listingData, (item) ->
-        # NOTE: weird array + keys because of <http://facebook.github.io/react/tips/maximum-number-of-jsx-root-nodes.html>
-        [
-          (<dt key='dt' className={keyClass}>{item.key}</dt>),
-          (<dd key='dd' className={valClass}>
-            <MetaDatumValues metaDatum={item.value} tagMods={tagMods}/>
-          </dd>)
-        ]
-    }
-  </dl>
-
-MetaDataTable = ({listingData, fallbackMsg, tagMods} = props) ->
-  listClasses = 'borderless'
-  keyClass = 'ui-summary-label'
-  valClass = 'ui-summary-content'
-
-  <table className={listClasses}>
-    <tbody>
-      {if fallbackMsg
-        <tr><td className={keyClass}>{fallbackMsg}</td></tr>
-      else
-        f.map listingData, (item) ->
-          <tr key={item.key}>
-            <td className={keyClass}>{item.key}</td>
-            <td className={valClass}>
-              <MetaDatumValues metaDatum={item.value} tagMods={tagMods}/>
-            </td>
-          </tr>
-      }
-      </tbody>
-    </table>

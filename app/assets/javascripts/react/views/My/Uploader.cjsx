@@ -91,7 +91,8 @@ module.exports = React.createClass
           withBox={true}
           heading={props.appCollection.length + ' Upload(s)'}
           fallback={spacerDiv}
-          get={boxGet}>
+          get={boxGet}
+          disableListMode={true}>
 
             <div className='ui-form-group rowed by-center'>
               <h3 className='title-l'>
