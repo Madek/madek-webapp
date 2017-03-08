@@ -1,7 +1,7 @@
 task_defaults:
   include:
     - submodule: [datalayer]
-      path: cider-ci/task_components/bundle.yml
+      path: cider-ci/task-components/bundle.yml
 
   git_options:
     submodules:

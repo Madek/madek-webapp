@@ -24,8 +24,10 @@ jobs:
       contexts:
         include:
           - path: cider-ci/context-components/lint/git-lint.yml
-          - path: cider-ci/context-components/lint/javascript-lint.yml
+            submodule: [datalayer]
           - path: cider-ci/context-components/lint/rspec-lint.yml
+            submodule: [datalayer]
+          - path: cider-ci/context-components/lint/javascript-lint.yml
           - path: cider-ci/context-components/lint/ruby-lint.yml
 
   precompilation-checks:
@@ -33,18 +35,6 @@ jobs:
     run_when: *DEFAULT_TRIGGERS
     context:
       include: cider-ci/context-components/precompilation.yml
-
-  good-to-merge:
-    name: "Good To Merge"
-    description: |
-      This job depends on all jobs that need to pass for "Delivery".
-      It is depended upon by GitHub's branch protection (for `master`)!
-    priority: 999 # "delivery" job = high priority
-    context:
-      include: cider-ci/context-components/merge-checks.yml
-    depends_on:
-      all-tests: {job_key: all-tests, type: job, states: [passed]}
-      good to merge of the datalayer: {job_key: good-to-merge, type: job, submodule: [datalayer], states: [passed]}
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # META JOBS (only depend on other jobs)                                           #
@@ -55,15 +45,35 @@ jobs:
     description: |
       This job depends on all unit jobs that need to pass.
       It is depended upon by the super-project!
+      *Note that there still be more requirements for actually pushing to `origin`,
+      look in job **"Good to Merge"**!*
     priority: 999 # "empty" job = high priority
     context:
       task: "echo '✔︎ All dependencies have passed' ; exit 0"
     run_when: *DEFAULT_TRIGGERS
     depends_on:
       lint: {job_key: lint, type: job, states: [passed]}
-      rspec-tests:    {job_key: rspec-tests,    type: job, states: [passed]}
+      rspec-tests: {job_key: rspec-tests, type: job, states: [passed]}
       precompilation-checks: {job_key: precompilation-checks, type: job, states: [passed]}
       all-tests of the datalayer: {job_key: all-tests, type: job, submodule: [datalayer], states: [passed]}
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# GITHUB BRANCH PROTECTION                                                        #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+  good-to-merge:
+    name: "⚑ Good To Merge"
+    description: |
+      This job depends on all jobs that need to pass for "Delivery".
+      It is depended upon by GitHub's branch protection (for `master`)!
+    priority: 999 # "delivery" job = high priority
+    context:
+      include:
+        - path: cider-ci/context-components/merge-checks.yml
+          submodule: [datalayer]
+    depends_on:
+      all-tests: {job_key: all-tests, type: job, states: [passed]}
+      good to merge of the datalayer: {job_key: good-to-merge, type: job, submodule: [datalayer], states: [passed]}
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # OTHER JOBS (not strictly needed for development process/delivery)
@@ -106,7 +116,7 @@ jobs:
 # while merging (by using the CI as a "global lock")
 
   # do-merge:
-  #   name: "\uD83D\uDE80 Do Merge"
+  #   name: "\uD83D\uDE4C Do Push and Merge"
   #   description: |
   #     *This job can be run instead of manually delivering and then re-trying the 'Merge-Checks'.*
   #
