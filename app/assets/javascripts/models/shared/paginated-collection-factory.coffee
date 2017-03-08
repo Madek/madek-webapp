@@ -24,6 +24,7 @@ module.exports = (collectionClass, {jsonPath})->
       firstPage: ['number']
       currentPage: ['number']
       totalCount: ['number']
+      jobQueue: ['array']
 
     derived:
       # make it behave more like a normal collection (for controllers)
@@ -62,7 +63,8 @@ module.exports = (collectionClass, {jsonPath})->
         firstPage: getOrThrow(data, 'config.page'),
         currentPage: getOrThrow(data, 'config.page'),
         totalCount: getOrThrow(data, 'pagination.total_count'),
-        totalPages: getOrThrow(data, 'pagination.total_pages')
+        totalPages: getOrThrow(data, 'pagination.total_pages'),
+        jobQueue: []
       })
       # listen to child collections
       if @resources && f.isFunction(@resources.on)
@@ -71,7 +73,7 @@ module.exports = (collectionClass, {jsonPath})->
     # instance methods:
 
     # fetches the next page of `resources`
-    fetchNext: (callback)->
+    fetchNext: (fetchListData, callback)->
       throw new Error('Callback missing!') if (!f.isFunction(callback))
       return callback(null) unless @currentPage
 
@@ -96,5 +98,69 @@ module.exports = (collectionClass, {jsonPath})->
 
           @resources.add(f.get(body, jsonPath))
           @set({currentPage: nextPage})
+          @fetchListData() if fetchListData
           callback(null)
       ))
+
+
+
+
+    listMetadataJob: (resource) ->
+      {
+        state: 'waiting'
+        groupId: resource.uuid
+        id: 'list_meta_data'
+        load: (callback) -> resource.loadListMetadata((err, res) -> callback(if err then 'failure' else 'success'))
+        callback: (callback) ->
+      }
+
+    createPendingJobs: (resource) ->
+      f.compact([
+        @listMetadataJob(resource) unless resource.list_meta_data
+      ])
+
+
+    tryAddPendingJobs: (resource) ->
+      jobs = @createPendingJobs(resource)
+      f.each(
+        jobs,
+        (job) =>
+          existing = f.find(@jobQueue, {groupId: job.groupId, id: job.id})
+          if (not existing) && f.size(@jobQueue) < 10
+            @jobQueue.push(job)
+      )
+
+    checkJobs: (callback) ->
+      f.remove(@jobQueue, {state: 'done'})
+
+      f.each(@pages, (page) =>
+        f.each(page.resources, (resource) =>
+          @tryAddPendingJobs(resource)
+        )
+      )
+
+      waitingJobs = f.filter(
+        @jobQueue,
+        (job) ->
+          job.state == 'waiting' || job.state == 'failure'
+      )
+
+      f.each(waitingJobs, (job) =>
+        job.state = 'loading'
+        job.load((result) =>
+          if result == 'success'
+            job.state = 'done'
+          else
+            job.state = 'failure'
+
+          @checkJobs(callback)
+        )
+      )
+
+      if callback
+        callback()
+
+
+    fetchListData: () ->
+
+      @checkJobs()

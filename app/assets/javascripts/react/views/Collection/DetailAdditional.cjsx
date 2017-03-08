@@ -75,7 +75,6 @@ module.exports = React.createClass
         get={get.child_media_resources} authToken={authToken}
         router={@router}
         initial={ { show_filter: true } } mods={ [ {bordered: false}, 'rounded-bottom' ] }
-        allowListMode={true}
         collectionData={{uuid: get.uuid, layout: get.layout, editable: get.editable, order: get.sorting}}
         loadChildMediaResources={@_loadChildMediaResources}
         toolBarMiddle={resourceTypeSwitcher()} />

@@ -43,7 +43,6 @@ module.exports = React.createClass
       <MediaResourcesBox withBox={true}
         get={get.relation_resources} authToken={authToken}
         mods={[ {bordered: false}, 'rounded-bottom' ]}
-        allowListMode={false}
         collectionData={{uuid: get.uuid, editable: false}}
       />
 

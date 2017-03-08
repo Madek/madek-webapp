@@ -8,8 +8,10 @@ t = ui.t('de')
 setUrlParams = require('../../lib/set-params-for-url.coffee')
 parseUrl = require('url').parse
 stringifyUrl = require('url').format
+parseQuery = require('qs').parse
 Selection = require('../../lib/selection.coffee')
 resourceListParams = require('../../shared/resource_list_params.coffee')
+appRequest = require('../../lib/app-request.coffee')
 
 Waypoint = require('react-waypoint')
 RailsForm = require('../lib/forms/rails-form.cjsx')
@@ -30,7 +32,6 @@ CollectionChildren = require('../../models/collection-children.coffee')
 
 # interactive stuff, should be moved to controller
 router = null # client-side only
-qs = require('qs')
 xhr = require('xhr')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 BatchAddToSetModal = require('./BatchAddToSetModal.cjsx')
@@ -77,7 +78,7 @@ filterConfigProps = React.PropTypes.shape
     value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.bool])
 
 # view Config - bound to the URL (params)!
-viewConfigProps = React.PropTypes.shape
+viewConfigProps =
   show_filter: React.PropTypes.bool
   filter: filterConfigProps
   layout: React.PropTypes.oneOf(['tiles', 'miniature', 'grid', 'list'])
@@ -108,7 +109,7 @@ boxSetUrlParams = (url, params...) ->
 module.exports = React.createClass
   displayName: 'MediaResourcesBox'
   propTypes:
-    initial: viewConfigProps
+    initial: React.PropTypes.shape(viewConfigProps)
     withBox: React.PropTypes.bool # toggles simple grid or full box
     fetchRelations: React.PropTypes.bool
     fallback: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.node])
@@ -116,14 +117,16 @@ module.exports = React.createClass
     toolBarMiddle: React.PropTypes.node
     authToken: React.PropTypes.string.isRequired
     disablePermissionsEdit: React.PropTypes.bool
-    allowListMode: React.PropTypes.bool
+    disableListMode: React.PropTypes.bool
     get: React.PropTypes.shape
       # resources: React.PropTypes.array # TODO: array of ampersandCollection
       type: React.PropTypes.oneOf([
         'MediaEntries', 'Collections', 'FilterSets', 'MediaResources'])
       with_actions: React.PropTypes.bool # toggles actions, hover, flyout
       can_filter: React.PropTypes.bool # if true, get.resources can be filtered
-      config: viewConfigProps # <- config that is part of the URL!
+      config: React.PropTypes.shape(viewConfigProps) # <- config that is part of the URL!
+      user_config: React.PropTypes.shape( # <- subset that is *also* stored per session
+        f.pick(viewConfigProps, 'layout', 'order', 'show_filter'))
       dynamic_filters: React.PropTypes.array
 
   getDefaultProps: ()->
@@ -150,7 +153,7 @@ module.exports = React.createClass
       {mode: 'tiles', title: 'Kachel-Ansicht', icon: 'vis-pins'}
       {mode: 'grid', title: 'Raster-Ansicht', icon: 'vis-grid'}
     ].concat(
-      if @props.allowListMode then [
+      if not @props.disableListMode then [
         {mode: 'list', title: 'Listen-Ansicht', icon: 'vis-list'}
       ] else []
     ).concat(
@@ -206,6 +209,10 @@ module.exports = React.createClass
     @setState(resources: resources)
 
   componentDidMount: ()->
+
+    if @state.resources.fetchListData && @_mergeGet(@props, @state).config.layout == 'list'
+      @state.resources.fetchListData()
+
     router = if @props.router # NOTE: not a default prop so we know if we have to start()
       @props.router
     else
@@ -225,7 +232,11 @@ module.exports = React.createClass
       )
 
     if @state.resources
-      @fetchNextPage = f.throttle(((c)=> @state.resources.fetchNext(c)), 1000)
+      @fetchNextPage = f.throttle(
+        ((c) =>
+          @state.resources.fetchNext(@_mergeGet(@props, @state).config.layout == 'list', c)
+        )
+      , 1000)
       @doOnUnmount.push(@fetchNextPage.cancel())
     @setState(isClient: true, router: router, selectedResources: selection)
 
@@ -234,7 +245,9 @@ module.exports = React.createClass
   _handleChangeInternally: (event) ->
     handleLinkIfLocal(
       event,
-      (href) ->
+      (href) =>
+        cfg = f.pick(parseQuery(parseUrl(href).query).list, ['layout', 'order', 'show_filter'])
+        if cfg then @_persistListConfig(list_config: cfg) # async, but fire-and-forget
         router.goTo(href)
     )
 
@@ -316,6 +329,12 @@ module.exports = React.createClass
     batchEditUrl = setUrlParams(path, {id: selected, return_to: @_currentUrl()})
     window.location = batchEditUrl # SYNC!
 
+  _persistListConfig: (config) ->
+    req = appRequest(
+      { method: 'PATCH', url: '/session/list_config', json: config }
+      , (err, res) -> if err then console.error(err))
+    @doOnUnmount.push ()-> req.abort if req && req.abort
+
   _onBatchEdit: (resources, event) ->
     @_sharedOnBatch(resources, event, '/entries/batch_edit_meta_data_by_context')
 
@@ -386,21 +405,28 @@ module.exports = React.createClass
       throw new Error "Invalid Layout!"
     @setState(config: f.merge(@state.config, {layout: layoutMode}))
 
+  _mergeGet: (props, state) ->
+    # TODO: refactor this + currentQuery into @getInitialState + @getCurrentQuery
+    get = f.defaultsDeep \      # combine config in order:
+      {config: state.config},  # - client-side state
+      props.get,                      # - presenter & config (from params)
+      {config: props.initial},        # - per-view initial default config
+      if props.withBox                # - user session config
+        {config: props.get.config.user}
+      ,
+      config:                   # - default config
+        layout: state.savedLayout || 'grid'
+        order: state.savedOrder || 'last_change'
+        show_filter: false
+
+
   render: ()->
     {
       get, mods, initial, withBox, fallback, heading, listMods
       fetchRelations, saveable, authToken, children
     } = @props
 
-    # TODO: refactor this + currentQuery into @getInitialState + @getCurrentQuery
-    get = f.defaultsDeep \      # combine config in order:
-      {config: @state.config},  # - client-side state
-      get,                      # - presenter & config (from params)
-      {config: initial},        # - per-view initial default config
-      config:                   # - default config
-        layout: @state.savedLayout || 'grid'
-        order: @state.savedOrder || 'created_at DESC'
-        show_filter: false
+    get = @_mergeGet(@props, @state)
 
     # FIXME: always get from state!
     resources = @state.resources || get.resources
@@ -412,7 +438,7 @@ module.exports = React.createClass
     fetchRelations = if f.present(fetchRelations)
       fetchRelations
     else
-      @state.isClient and withActions and (config.layout is 'grid')
+      @state.isClient and withActions and f.includes(['grid', 'list'], config.layout)
 
     baseClass = 'ui-polybox'
     boxClasses = cx({ # defaults first, mods last so they can override
@@ -444,7 +470,7 @@ module.exports = React.createClass
       'ui-resources')
 
     currentQuery = f.merge(
-      {list: f.merge f.omit(config, 'for_url')},
+      {list: f.merge f.omit(config, 'for_url', 'user')},
       {
         list: filter: config.filter,
         accordion: config.accordion
@@ -470,7 +496,9 @@ module.exports = React.createClass
         f.merge layoutMode,
           mods: {'active': layoutMode.mode == layout}
           href: href
-          onClick: @_handleChangeInternally # if layoutMode.mode != 'list'
+          onClick: (event) =>
+            @state.resources.fetchListData() if layoutMode.mode == 'list'
+            @_handleChangeInternally(event)
 
       onSortItemClick = (event, itemKey) =>
         @_handleChangeInternally(event)
@@ -773,18 +801,6 @@ module.exports = React.createClass
                                 {opacity: 0.35}
 
 
-                          listMetadata = null
-                          if @state.isClient && config.layout == 'list'
-                            listMetadata = @state.listMetadata[item.uuid]
-                            unless listMetadata
-                              setTimeout(
-                                () =>
-                                  @_tryLoadListMetadata(item)
-                                ,
-                                10
-                              )
-
-
 
                           # TODO: get={model}
                           <ResourceThumbnail elm='div'
@@ -795,8 +811,7 @@ module.exports = React.createClass
                             authToken={authToken} key={key}
                             pinThumb={config.layout == 'tiles'}
                             listThumb={config.layout == 'list'}
-                            indexMetaData={listMetadata}
-                            loadingMetadata={@state.loadingListMetadataResource == item.uuid}/>
+                          />
                       }
 
                     </ul>
