@@ -2,7 +2,6 @@ React = require('react')
 f = require('active-lodash')
 t = require('../../lib/string-translation.js')('de')
 
-# VideoJS = false # required on mount, only works client-side!
 VideoJS = require('./VideoJs').default
 
 module.exports = React.createClass
@@ -18,7 +17,6 @@ module.exports = React.createClass
 
   getInitialState: () -> { active: false, showHint: false }
   componentDidMount: ()->
-    # VideoJS = require('./VideoJs').default
     @setState(active: true)
 
   _ref: (ref) ->

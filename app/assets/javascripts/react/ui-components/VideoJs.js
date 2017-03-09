@@ -3,6 +3,7 @@ import React from 'react'
 import cx from 'classnames'
 import omit from 'lodash/omit'
 import merge from 'lodash/merge'
+import endsWith from 'lodash/endsWith'
 
 const DEFAULT_OPTIONS = {
   fluid: true,
@@ -29,36 +30,52 @@ const DEFAULT_OPTIONS = {
   }
 }
 
+const sourceLabel = ({ profile }) => endsWith(profile, '_HD') ? 'HD' : 'SD'
+
 class VideoJS extends React.Component {
   componentDidMount () {
     const videoTag = this.refs.video
     if (!videoTag) throw new Error('no video tag!')
 
-    const playerOptions = merge(DEFAULT_OPTIONS, this.props.options)
+    const playerOptions = merge(DEFAULT_OPTIONS, this.props.options, {
+      plugins: {
+        videoJsResolutionSwitcher: { default: 'SD', dynamicLabel: true }
+      }
+    })
+
     // init:
     const videojs = require('video.js')
+    window.videojs = videojs
+    require('videojs-resolution-switcher')
     this.player = videojs(videoTag, playerOptions)
   }
 
-  render ({props, state} = this) {
-    const {sources, ...restProps} = props
+  render ({ props, state } = this) {
+    const { sources, ...restProps } = props
     const videoProps = omit(restProps, 'options')
 
-    const classes = cx(this.props.className, 'videojs video-js video-fluid vjs-default-skin')
+    const classes = cx(
+      this.props.className,
+      'videojs video-js video-fluid vjs-default-skin'
+    )
 
     return (
       <video ref='video' {...videoProps} className={classes}>
-        {sources.map(({url, content_type}) =>
-          <source src={url} type={content_type} key={`${url}${content_type}`}/>
-        )}
+        {
+          sources.map(source => (
+            <source
+              src={source.url}
+              type={source.content_type}
+              label={sourceLabel(source)}
+              key={`${source.url}${source.content_type}`}
+            />
+          ))
+        }
       </video>
     )
   }
 }
 
-VideoJS.defaultProps = {
-  controls: true,
-  preload: 'auto'
-}
+VideoJS.defaultProps = { controls: true, preload: 'auto' }
 
 export default VideoJS

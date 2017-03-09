@@ -7,6 +7,8 @@
 
 @import '../../../node_modules/video.js/dist/video-js';
 //= depend_on_asset '../../../node_modules/video.js/dist/video-js'
+@import '../../../node_modules/videojs-resolution-switcher/lib/videojs-resolution-switcher';
+//= depend_on_asset '../../../node_modules/videojs-resolution-switcher/lib/videojs-resolution-switcher'
 
 // default sizing:
 .video-js { width: 300px; height: 150px; }
@@ -38,8 +40,6 @@ body.vjs-full-window {
     cursor: none;
   }
 
-.no-js .video-js .vjs-big-play-button { display: none }
-
 $brand-color: $main-color;
 $contrast-ratio: 12%; // for darker darks
 $brand-color: lighten($brand-color, 8%); // lighter lights
@@ -50,6 +50,9 @@ $primary-foreground-color: #f1f1f1; // #fff default
 
 // can still be seen on all-black video frames, which are common.
 $primary-background-color: darken(#666666, $contrast-ratio);  // #2B333F default
+$main-font-family: "Open Sans", sans-serif;
+
+.no-js .video-js .vjs-big-play-button { display: none }
 
 .video-js {
   /* The base font size controls the size of everything, not just text.
@@ -60,7 +63,7 @@ $primary-background-color: darken(#666666, $contrast-ratio);  // #2B333F default
   /* The main font color changes the ICON COLORS as well as the text */
   color: $primary-foreground-color;
 
-  font-family: "Open Sans", sans-serif;
+  font-family: $main-font-family;
 }
 
 // sizing
@@ -122,6 +125,14 @@ $control-bar-height:  3em;
   background-image:  linear-gradient(transparentize(darken(#666, $contrast-ratio), $controls-opacity), transparentize(darken(#4c4c4c, $contrast-ratio), $controls-opacity));
 }
 
+.vjs-menu {
+  li.vjs-selected,
+  li.vjs-selected:focus,
+  li.vjs-selected:hover {
+    background-color: rgba($primary-foreground-color, $controls-opacity);
+    color: #2B333F;
+  }
+}
 
 // Make a slightly lighter version of the main background
 // for the slider background.
@@ -138,15 +149,15 @@ $slider-bg-color: lighten($primary-background-color, 33.34%);
 .video-js .vjs-volume-level,
 .video-js .vjs-play-progress,
 .video-js .vjs-slider-bar {
-  background: $primary-foreground-color;
+  background-color: $primary-foreground-color;
 }
 
 /* The main progress bar also has a bar that shows how much has been loaded. */
 .video-js .vjs-load-progress {
   /* For IE8 we'll lighten the color */
-  background: ligthen($slider-bg-color, 25%);
+  background-color: ligthen($slider-bg-color, 25%);
   /* Otherwise we'll rely on stacked opacities */
-  background: rgba($slider-bg-color, 0.5);
+  background-color: rgba($slider-bg-color, 0.5);
   // background: #83a92c;
 }
 
@@ -154,7 +165,28 @@ $slider-bg-color: lighten($primary-background-color, 33.34%);
    smaller disconnected loaded time ranges */
 .video-js .vjs-load-progress div {
   /* For IE8 we'll lighten the color */
-  background: ligthen($slider-bg-color, 50%);
+  background-color: ligthen($slider-bg-color, 50%);
   /* Otherwise we'll rely on stacked opacities */
-  background: rgba($slider-bg-color, 0.75);
+  background-color: rgba($slider-bg-color, 0.75);
+}
+
+
+// plugins
+.vjs-resolution-button {
+
+  // .vjs-menu .vjs-menu-content {
+  //   width: 3em;
+  // }
+
+  &,
+  // .vjs-resolution-button-label,
+  .vjs-menu li {
+  font-family: $main-font-family;
+  font-weight: bold;
+  }
+
+  .vjs-resolution-button-label {
+      font-size: 1.34em;
+      line-height: 2.23em;
+  }
 }
