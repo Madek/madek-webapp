@@ -2,7 +2,7 @@ module Presenters
   module Collections
     module Permissions
       class CollectionUserPermission < \
-        Presenters::Shared::Resource::ResourceUserPermission
+        Presenters::Shared::MediaResource::Permissions::MediaResourceUserPermission
 
         include Presenters::Shared::MediaResource::\
           Permissions::MediaResourceCommonPermissions
