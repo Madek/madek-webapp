@@ -3,10 +3,8 @@
   return unless @get.media_type == 'video'
 
   # NOTE: according to the spec, relative links would be enough,
-  # but the wordpress clients nly understand absolute URLs (incl. scheme and host)
-  full_url = URI.parse(request.base_url)
-    .merge(oembed_path(url: @get.url))
-    .tap {|u| u.scheme = 'https'}.to_s
+  # but the wordpress client only understands absolute URLs (incl. scheme and host)
+  full_url = URI.parse(request.base_url).merge(oembed_path(url: @get.url)).to_s
 
   props = {
     rel: 'alternate',

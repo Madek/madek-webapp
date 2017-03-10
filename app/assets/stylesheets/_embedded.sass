@@ -1,0 +1,19 @@
+// NOTE: should in be separate from main app, but its not easy to split the bundle
+
+body[data-r="media_entries"][data-a="embedded"]
+  background: transparent
+  overflow: hidden
+  top: 0
+  margin: 0
+  padding: 0
+  height: 100%
+  width: 100%
+  min-width: initial
+
+  .ui-tile
+    +box-shadow(none)
+    .ui-tile__flags
+      .ui-tile__flag
+        margin-top: 8px
+      &:hover
+        color: inherit

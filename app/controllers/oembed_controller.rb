@@ -4,6 +4,7 @@ class OembedController < ApplicationController
 
   include Presenters::Shared::MediaResource::Modules::IndexPresenterByClass
 
+  OEMBED_VERSION = '1.0'.freeze # should never change, spec is frozen
   API_ENDPOINT = '/oembed'.freeze
   # naming like controllers, only is supposed to work for "resourcefull routes"!
   SUPPORTED_RESOURCES = ['media_entries'].freeze
@@ -18,8 +19,8 @@ class OembedController < ApplicationController
     # NOTE: this *only* returns JSON, no matter what was requested!
     #       therefore all errors are catched to not trigger rails default behaviour
 
-    # NOTE: `url` accepts anything that Rails recongnizes,
-    # this is easier than finding out the "external_base_url".
+    # NOTE: `url` accepts anything that Rails recognizes, for simplicity
+    #       (so giving the "correct" external hostname is not strcitly needed)
 
     # disregard any auth (only 'public' resources are served!)
     skip_authorization
@@ -66,6 +67,8 @@ class OembedController < ApplicationController
   def oembed_response(resource, params)
     source_height = resource.media_file.previews[:videos].map(&:height).max
     source_width = resource.media_file.previews[:videos].map(&:width).max
+    # NOTE: MUST set fixed sizes on iframe (regardless of calculations inside)
+    #       use optional params or from source – don't enlarge unless requested.
     height = params[:maxheight].nil? || source_height <= params[:maxheight].to_i \
       ? source_height : params[:maxheight]
     width = params[:maxwidth].nil? || source_width <= params[:maxwidth].to_i \
@@ -75,7 +78,7 @@ class OembedController < ApplicationController
       embedded_media_entry_path(resource.uuid, maxheight: height, maxwidth: width))
 
     {
-      version: '1.0',
+      version: OEMBED_VERSION,
       type: 'video',
       width: width,
       height: height,
@@ -92,8 +95,7 @@ class OembedController < ApplicationController
   end
 
   def absolute_url(path)
-    # appends path to base_url, forces HTTPS!
-    URI.parse(request.base_url).merge(path).tap { |u| u.scheme = 'https' }.to_s
+    URI.parse(request.base_url).merge(path).to_s
   end
 
   def oembed_params

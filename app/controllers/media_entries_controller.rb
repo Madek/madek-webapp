@@ -47,6 +47,9 @@ class MediaEntriesController < ApplicationController
     # custom auth, only public entries supported!
     skip_authorization
     media_entry = MediaEntry.find(id_param)
+    unless media_entry.media_file.try(:media_type) == 'video'
+      raise ActionController::NotImplemented, 'video'
+    end
     raise Errors::ForbiddenError unless media_entry.get_metadata_and_previews
 
     conf = params.permit(:maxwidth, :maxheight)
