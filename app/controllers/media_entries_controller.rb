@@ -18,7 +18,7 @@ class MediaEntriesController < ApplicationController
   # used in Concerns::ResourceListParams
   ALLOWED_FILTER_PARAMS = [:search, :meta_data, :media_files, :permissions].freeze
 
-  layout false, only: [:embedded] # LOL Rails
+  layout false, only: [:embedded]
 
   def show
     # TODO: handle in MediaResources::CrudActions

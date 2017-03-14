@@ -12,6 +12,16 @@ module Presenters
 
       attr_reader :embed_config
 
+      def caption_text(resource = @app_resource)
+        [ # array of 2 text lines for caption
+          [resource.title],
+          [
+            resource.authors.presence,
+            resource.copyright_notice.presence
+          ].compact.join(' — ')
+        ]
+      end
+
     end
   end
 end

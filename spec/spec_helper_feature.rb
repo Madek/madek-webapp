@@ -10,8 +10,12 @@ BROWSER_DONWLOAD_DIR = Rails.root.join('tmp', 'test_driver_browser_downloads')
 `rm -rf #{BROWSER_DONWLOAD_DIR} && mkdir -p #{BROWSER_DONWLOAD_DIR}`
 
 TEST_DBS = {
-  personas: ['db', 'personas.pgbin'],
-  test_media: ['spec', '_support', 'test_media', 'madek_test_media.pgbin']
+  personas: { dump: Rails.root.join('db', 'personas.pgbin') },
+  test_media: {
+    dump: Rails.root.join(
+      'spec', '_support', 'test_media', 'madek_test_media.pgbin'),
+    files: 'spec/_support/test_media/file_storage'
+  }
 }.freeze
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
@@ -55,14 +59,19 @@ RSpec.configure do |config|
   def prepare_db(example)
     # default: personas!
     truncate_tables
-    db_path = \
+    test_db = \
       case example.metadata[:with_db]
       when nil, true, :personas then TEST_DBS[:personas]
       when :test_media then TEST_DBS[:test_media]
       when false then nil
       else fail "unknown database dump! '#{example.metadata[:with_db]}'"
       end
-    if db_path then PgTasks.data_restore Rails.root.join(*db_path) end
+    # TODO: must run migrations??? or should we update the dump?
+    if test_db then PgTasks.data_restore test_db[:dump] end
+    # NOTE: config must be set from outside. but do verify:
+    if test_db[:files] && Settings.default_storage_dir != test_db[:files]
+      fail 'Missing storage config! Look up the CI config for this spec.'
+    end
   end
 
   config.before(:each) do |example|

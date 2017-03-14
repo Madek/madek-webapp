@@ -39,7 +39,7 @@ module.exports = React.createClass({
 
     # just the picure element (might be wrapped)
     picture = if image_url
-      <Picture className={classes} title={title} src={image_url} />
+      <Picture title={title} src={image_url} />
     else
       <ResourceIcon mediaType={media_type} thumbnail={false} type={type} />
 
@@ -48,7 +48,6 @@ module.exports = React.createClass({
       originalUrl = @props.get.media_file.original_file_url
 
     mediaPlayerConfig = {
-      className: classes
       poster: image_url,
       originalUrl: originalUrl,
     }
@@ -66,7 +65,7 @@ module.exports = React.createClass({
         else
           t('media_entry_conversion_status_' + get.media_file.conversion_status)
 
-      <div className='ui-media-overview-preview'>
+      <div className={classes}>
         <div className="ui-alert warning">{warningText}</div>
         <div className="p pvh mth">
           {t('media_entry_conversion_hint')}
@@ -78,7 +77,7 @@ module.exports = React.createClass({
       </div>
     else
 
-      <div className='ui-media-overview-preview'>
+      <div className={classes}>
         {
           switch
 
@@ -98,6 +97,7 @@ module.exports = React.createClass({
               <MediaPlayer type='video'
                 {...mediaPlayerConfig}
                 sources={previews.videos}
+                options={{fluid: true}}
               />
 
             # audio player

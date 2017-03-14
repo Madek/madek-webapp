@@ -1,5 +1,5 @@
 # rubocop:disable Metrics/MethodLength
-# rubocop:disable Style/MultilineTernaryOperator
+# rubocop:disable Metrics/LineLength
 class OembedController < ApplicationController
 
   include Presenters::Shared::MediaResource::Modules::IndexPresenterByClass
@@ -8,6 +8,8 @@ class OembedController < ApplicationController
   API_ENDPOINT = '/oembed'.freeze
   # naming like controllers, only is supposed to work for "resourcefull routes"!
   SUPPORTED_RESOURCES = ['media_entries'].freeze
+  SUPPORTED_MEDIA = ['video'].freeze
+  UI_EXTRA_HEIGHT = 55 # pixels (added by tile on bottom)
 
   # # if a config (according to oEmbed spec) needed to be built, it would be like:
   # OEMBED_CONFIG = [{ # pairs of supported URL schemes and their API endpoint
@@ -57,36 +59,41 @@ class OembedController < ApplicationController
       return render(json: { error: 'non-public Resource!' }, status: 401)
     end
 
+    # correct media type?
+    unless SUPPORTED_MEDIA.include?(resource.try(:media_file).try(:media_type))
+      return render(json: { error: 'unsupported media_type!' }, status: 501)
+    end
+
     presenter = presenter_by_class(resource_class).new(resource, current_user)
-    render(json: oembed_response(presenter, params))
+    render(json: oembed_response(resource, presenter, params))
   end
 
   private
 
   # NOTE: only 'video' type supported
-  def oembed_response(resource, params)
-    source_height = resource.media_file.previews[:videos].map(&:height).max
-    source_width = resource.media_file.previews[:videos].map(&:width).max
-    # NOTE: MUST set fixed sizes on iframe (regardless of calculations inside)
-    #       use optional params or from source – don't enlarge unless requested.
-    height = params[:maxheight].nil? || source_height <= params[:maxheight].to_i \
-      ? source_height : params[:maxheight]
-    width = params[:maxwidth].nil? || source_width <= params[:maxwidth].to_i \
-      ? source_width : params[:maxwidth]
+  def oembed_response(resource, presenter, params)
+    # NOTE: MUST set fixed sizes on iframe, so we need to proportionally scale it!
+    #      'minwidth' and 'minheight' is what the UI supports
+    #       we respect it but don't return an error (would be correct but no fun)
+    scaled = scale_preview_sizes(
+      presenter,
+      ui_minwidth: 320, ui_minheight: 140, ui_extraheight: UI_EXTRA_HEIGHT,
+      maxwidth: params[:maxwidth], maxheight: params[:maxheight])
 
     target_url = absolute_url(
-      embedded_media_entry_path(resource.uuid, maxheight: height, maxwidth: width))
+      embedded_media_entry_path(
+        resource.id, maxheight: scaled[:height], maxwidth: scaled[:width]))
 
     {
       version: OEMBED_VERSION,
       type: 'video',
-      width: width,
-      height: height,
+      width: scaled[:width],
+      height: scaled[:height],
       title: resource.title.presence || '', # always include
-      author_name: resource.authors_pretty.presence, # only include if present
+      author_name: [resource.authors.presence, resource.copyright_notice.presence].compact.join(' / '),
       provider_name: settings.site_title,
       provider_url: absolute_url(''),
-      html: oembed_iframe(target_url, width, height)
+      html: oembed_iframe(target_url, scaled[:width], scaled[:height])
     }
   end
 
@@ -115,6 +122,24 @@ class OembedController < ApplicationController
       src="#{url}"
       ></iframe>
     HTML
+  end
+
+  def scale_preview_sizes(entry, ui_minwidth:, ui_minheight:, ui_extraheight:, maxwidth: nil, maxheight: nil)
+    # we don't know size of source, but get from largest preview
+    source_width = entry.media_file.previews[:videos].map(&:width).max
+    source_height = entry.media_file.previews[:videos].map(&:height).max
+
+    # use optional params or from source – don't enlarge unless requested.
+    max_width = maxwidth.nil? ? source_width : [maxwidth.to_i, source_width].min
+    max_height = maxheight.nil? ? source_height + ui_extraheight : [maxheight.to_i, source_height + ui_extraheight].min
+    max_height -= ui_extraheight
+    scale = [max_width.to_f / source_width, max_height.to_f / source_height].min
+
+    # dont go smaller than the UI supports
+    {
+      width: [(source_width * scale), ui_minwidth].max.to_i,
+      height: [(source_height * scale), ui_minheight].max.to_i + ui_extraheight
+    }
   end
 
 end

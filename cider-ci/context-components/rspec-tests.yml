@@ -103,3 +103,14 @@ tasks:
         start_when:
           zhdk integration has been configured:
             script_key: configure_zhdk_integration
+
+  spec/features/embed_player/embed_player_spec.rb:
+    scripts:
+      configure_file_storage:
+        body: |
+          echo "default_storage_dir: 'spec/_support/test_media/file_storage'" >> config/settings.local.yml
+          echo "file_storage_dir: 'spec/_support/test_media/file_storage/originals'" >> config/settings.local.yml
+          echo "thumbnail_storage_dir: 'spec/_support/test_media/file_storage/thumbnails'" >> config/settings.local.yml
+      test:
+        start_when:
+          file_storage has been configured: {script_key: configure_file_storage}

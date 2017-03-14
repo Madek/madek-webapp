@@ -39,7 +39,7 @@ module.exports = React.createClass
                   mods='ui-media-overview-metadata'
                   tagMods='small'
                   list={summaryContext} showTitle={false}/>
-      previewLg: <MediaEntryPreview get={get} mods='ui-media-overview-preview-item'/>
+      previewLg: <MediaEntryPreview get={get} mods='ui-media-overview-preview'/>
 
     layout =
       overview: <ResourceShowOverview mods='ui-media-overview' {...overview}/>
