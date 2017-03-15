@@ -163,6 +163,7 @@ module.exports = React.createClass
       modelIsNew: (model.isNew() if model.type is 'MediaEntry')
       modelPublished: (model['published?'] if model.type is 'MediaEntry')
       privacyStatus: get.privacy_status
+      onClipboard: true if model.on_clipboard
     }
 
     selectProps = {
@@ -221,6 +222,7 @@ module.exports = React.createClass
         selectProps={selectProps}
         textProps={textProps}
         style={@props.style}
+        showDraftBadge={@props.showDraftBadge}
         />
 
 

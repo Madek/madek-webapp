@@ -8,7 +8,6 @@ Tabs = require('../views/Tabs.cjsx')
 Tab = require('../views/Tab.cjsx')
 batchDiff = require('../../lib/batch-diff.coffee')
 BatchHintBox = require('./BatchHintBox.cjsx')
-SelectCollectionDialog = require('../views/Collection/SelectCollectionDialog.cjsx')
 
 Button = require('../ui-components/Button.cjsx')
 Icon = require('../ui-components/Icon.cjsx')
