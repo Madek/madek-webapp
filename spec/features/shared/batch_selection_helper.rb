@@ -1,30 +1,100 @@
 module BatchSelectionHelper
 
-  def click_batch_action(key)
-    text_key = text_keys[key]
+  def click_batch_action(key, clipboard_all: false)
+    text =
+      if key == :add_to_clipboard
+        if clipboard_all
+          I18n.t(:resources_box_batch_actions_addalltoclipboard)
+        else
+          I18n.t(:resources_box_batch_actions_addselectedtoclipboard)
+        end
+      else
+        I18n.t(text_keys[key])
+      end
+
     find('[data-test-id=resources_box_dropdown]')
-      .find('.ui-drop-item', text: I18n.t(text_key)).click
+      .find('.ui-drop-item', text: text).click
   end
 
-  def check_given_highlights(expected_highlights)
-    some_text_keys = text_keys.select do |text_key|
-      true if expected_highlights[text_key]
+  def check_partial_dropdown(expected_counts)
+    no_unknown_keys = (expected_counts.keys - all_logical_menu_keys).empty?
+    expect(no_unknown_keys).to eq(true)
+
+    check_dropdown(expected_counts)
+  end
+
+  def check_full_dropdown(expected_counts)
+    expect(expected_counts.keys.sort).to eq(all_logical_menu_keys.sort)
+
+    within '[data-test-id=resources_box_dropdown]' do
+      expect(page).to have_selector(
+        '.ui-drop-item', count: expected_counts.keys.length)
     end
-    check_highlights(some_text_keys, expected_highlights)
+
+    check_dropdown(expected_counts)
   end
 
-  def check_all_highlights(expected_highlights)
-    check_highlights(text_keys, expected_highlights)
+  def check_menu_config(menu_config)
+    if menu_config[:count] == 0 ||
+      menu_config[:active] == false ||
+      menu_config[:highlights] == []
+      expect(menu_config[:count]).to eq(0)
+      expect(menu_config[:active]).to eq(false)
+      if menu_config[:highlights]
+        expect(menu_config[:highlights]).to eq([])
+      end
+    end
   end
 
-  def check_highlights(some_text_keys, key_resources)
-    some_text_keys.each do |key, text_key|
-      find('[data-test-id=resources_box_dropdown]')
-        .find('.ui-drop-item', text: I18n.t(text_key)).hover
+  def expected_label_and_count(key, menu_config)
+    if key == :add_to_clipboard
+      if menu_config[:all]
+        count = nil
+        text = I18n.t(:resources_box_batch_actions_addalltoclipboard)
+      else
+        count = menu_config[:count]
+        text = I18n.t(:resources_box_batch_actions_addselectedtoclipboard)
+      end
+    else
+      count = menu_config[:count].to_s
+      text = I18n.t(text_keys[key])
+    end
 
-      resources = key_resources[key]
+    {
+      count: count,
+      text: text
+    }
+  end
 
-      highlighted_titles = resources.map(&:title)
+  def check_label_and_count(key, menu_config, text, count)
+    within '[data-test-id=resources_box_dropdown]' do
+      item = find('.ui-drop-item', text: text)
+      if count
+        expect(item).to(
+          have_css('.ui-count', text: count),
+          'Wrong count for: ' + key.to_s
+        )
+      else
+        expect(item).to(
+          have_no_css('.ui-count'))
+      end
+
+      if menu_config[:active] == false
+        find('.ui-drop-item.disabled', text: text)
+      else
+        find('.ui-drop-item:not([class*=disabled])', text: text)
+      end
+    end
+  end
+
+  def check_highlights(menu_config, text)
+    highlights = menu_config[:highlights]
+    if highlights
+      within '[data-test-id=resources_box_dropdown]' do
+        find('.ui-drop-item', text: text).hover
+      end
+
+      highlighted_titles = highlights.map(&:title)
 
       find('.ui-polybox').find('.ui-resources-page-items')
         .all('.ui-resource').each do |thumbnail|
@@ -40,64 +110,26 @@ module BatchSelectionHelper
     end
   end
 
-  def check_given_counts(expected_counts)
-    some_text_keys = text_keys.select do |text_key|
-      true if expected_counts[text_key]
-    end
-    check_counts(some_text_keys, expected_counts)
-  end
+  def check_dropdown(expected_counts)
+    expected_counts.keys.each do |key|
 
-  def check_all_counts(expected_counts)
-    check_counts(text_keys, expected_counts)
-  end
+      if expected_counts.include?(key)
 
-  def check_counts(to_check, counts)
-    to_check.each do |key, text_key|
-      within '[data-test-id=resources_box_dropdown]' do
-        if counts.include?(key)
-          expect(
-            find('.ui-drop-item', text: I18n.t(text_key))
-          ).to have_css('.ui-count', text: counts[key])
-        else
-          expect(
-            find('.ui-drop-item', text: I18n.t(text_key)).find('.ui-count').text
-          ).to eq('')
-        end
-      end
-    end
-  end
+        menu_config = expected_counts[key]
 
-  def check_all_items_inactive
-    active_items = {}
-    text_keys.keys.each do |text_key|
-      active_items[text_key] = false
-    end
-    check_items_active(text_keys, active_items)
-  end
+        check_menu_config(menu_config)
 
-  def check_all_items_active
-    active_items = {}
-    text_keys.keys.each do |text_key|
-      active_items[text_key] = true
-    end
-    check_items_active(text_keys, active_items)
-  end
+        label_and_count = expected_label_and_count(key, menu_config)
 
-  def check_given_items_active(active_items)
-    some_text_keys = text_keys.select do |text_key|
-      true if active_items[text_key]
-    end
-    check_items_active(some_text_keys, active_items)
-  end
+        check_label_and_count(
+          key,
+          menu_config,
+          label_and_count[:text],
+          label_and_count[:count])
 
-  def check_items_active(some_keys, active_items)
-    some_keys.each do |key, text_key|
-      within '[data-test-id=resources_box_dropdown]' do
-        if active_items[key] == true
-          find('.ui-drop-item:not([class*=disabled])', text: I18n.t(text_key))
-        else
-          find('.ui-drop-item.disabled', text: I18n.t(text_key))
-        end
+        check_highlights(menu_config, label_and_count[:text])
+      else
+        raise 'not expected'
       end
     end
   end
@@ -154,6 +186,20 @@ module BatchSelectionHelper
     within '[data-test-id=resources_box_dropdown]' do
       find('.dropdown-toggle').click
     end
+  end
+
+  def all_logical_menu_keys
+    [
+      :add_to_clipboard,
+      :add_to_set,
+      :remove_from_set,
+      :media_entries_metadata,
+      :collections_metadata,
+      :media_entries_permissions,
+      :collections_permissions,
+      :media_entries_transfer_responsibility,
+      :collections_transfer_responsibility
+    ]
   end
 
   def text_keys

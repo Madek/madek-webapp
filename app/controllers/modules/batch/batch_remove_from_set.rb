@@ -23,32 +23,14 @@ module Modules
           params,
           params.require(:parent_collection_id))
 
-        remove_transaction(
-          action_values[:parent_collection],
-          action_values[:media_entries],
-          action_values[:collections])
+        ActiveRecord::Base.transaction do
+          remove_transaction(
+            action_values[:parent_collection],
+            action_values[:media_entries],
+            action_values[:collections])
+        end
 
         redirect_to(return_to)
-      end
-
-      private
-
-      def remove_transaction(parent_collection, media_entries, collections)
-        ActiveRecord::Base.transaction do
-          to_remove_media_entries = media_entries.select do |media_entry|
-            parent_collection.media_entries.include? media_entry
-          end
-          to_remove_media_entries.each do |media_entry|
-            parent_collection.media_entries.delete(media_entry)
-          end
-
-          to_remove_collections = collections.select do |collection|
-            parent_collection.collections.include? collection
-          end
-          to_remove_collections.each do |collection|
-            parent_collection.collections.delete(collection)
-          end
-        end
       end
     end
   end

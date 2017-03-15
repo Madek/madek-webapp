@@ -17,7 +17,7 @@ if !render_async
       mods: mods,
       withBox: with_box,
       fallback: fallback,
-      initial: { show_filter: false },
+      initial: { show_filter: false, is_clipboard: section[:id] == :clipboard },
       disablePermissionsEdit: section[:id] == :unpublished_entries)
 
 else
@@ -33,7 +33,7 @@ else
       mods: mods,
       withBox: with_box,
       fallback: fallback,
-      initial: { show_filter: false }})
+      initial: { show_filter: false, is_clipboard: section[:id] == :clipboard }})
 end
 
   %>

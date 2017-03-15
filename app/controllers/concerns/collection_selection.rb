@@ -5,6 +5,11 @@ module Concerns
 
     include Modules::Collections::Store
 
+    include Modules::Batch::BatchShared
+    include Modules::Batch::BatchAddToClipboard
+
+    include Concerns::Clipboard
+
     def select_collection
       resource = get_authorized_resource
 
@@ -35,6 +40,8 @@ module Concerns
     def add_remove_collection
       resource = get_authorized_resource
 
+      add_to_clipboard(resource) if params[:add_to_clipboard] == 'on'
+
       existing_counter = save_existing_collections(resource)
       new_counter = save_new_collections(resource)
 
@@ -46,10 +53,24 @@ module Concerns
         removed_count: removed_count,
         added_count: added_count)
 
-      redirect_to redirect_to_resource_path(resource), flash: { success: message }
+      redirect_to(
+        redirect_to_resource_path(resource),
+        flash: { success: message })
     end
 
     private
+
+    def add_to_clipboard(resource)
+      ActiveRecord::Base.transaction do
+        ensure_clipboard_collection(current_user)
+        clipboard = clipboard_collection(current_user)
+        add_transaction(
+          clipboard,
+          resource.class == MediaEntry ? [resource] : [],
+          resource.class == Collection ? [resource] : []
+        )
+      end
+    end
 
     def save_existing_collections(resource)
       added_count = 0

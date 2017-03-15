@@ -6,9 +6,10 @@ SelectionScope = require('../../../lib/selection-scope.coffee')
 { Icon, Dropdown } = require('../../ui-components/index.coffee')
 MenuItem = Dropdown.MenuItem
 
-createActionsDropdown = (withActions, selection, saveable, disablePermissionsEdit, isClient, collectionData, config, callbacks) ->
-
+createActionsDropdown = (totalCount, withActions, selection, saveable, disablePermissionsEdit, isClient, collectionData, config, isClipboard, callbacks) ->
   showActions = if not withActions then {} else {
+    addToClipboard: true if !isClipboard
+    removeFromClipboard: true if isClipboard
     addToSet: true if selection
     edit: true if selection
     editSets: true if selection
@@ -22,13 +23,19 @@ createActionsDropdown = (withActions, selection, saveable, disablePermissionsEdi
 
   return unless f.any(f.values(showActions))
 
-  createHoverActionItem = (enableEntryByOnClick, hoverId, count, icon, textKey) ->
+  createHoverActionItem = (enableEntryByOnClick, hoverId, count, icon, text) ->
     <MenuItem onClick={enableEntryByOnClick}
       onMouseEnter={f.curry(callbacks.onHoverMenu)(hoverId)} onMouseLeave={f.curry(callbacks.onHoverMenu)(null)}>
-      <Icon i={icon} mods="ui-drop-icon"
-      /> <span className="ui-count">
-        {count}
-      </span> {t(textKey)}
+      <Icon i={icon} mods='ui-drop-icon' style={{position: 'static', display: 'inline-block', minWidth: '20px', marginLeft: '5px'}} />
+      {
+        if count != undefined
+          <span className='ui-count' style={{position: 'static', display: 'inline-block', minWidth: '10px', marginLeft: '5px', paddingLeft: '0px', textAlign: 'left'}}>
+            {count}
+          </span>
+      }
+      <span style={{display: 'inline', marginLeft: '5px'}}>
+        {text}
+      </span>
     </MenuItem>
 
 
@@ -44,7 +51,7 @@ createActionsDropdown = (withActions, selection, saveable, disablePermissionsEdi
             'add_to_set',
             selection.length(),
             'move',
-            'resources_box_batch_actions_addtoset')}
+            t('resources_box_batch_actions_addtoset'))}
 
         {if showActions.removeFromSet
           createHoverActionItem(
@@ -52,7 +59,7 @@ createActionsDropdown = (withActions, selection, saveable, disablePermissionsEdi
             'remove_from_set',
             selection.length(),
             'close',
-            'resources_box_batch_actions_removefromset')}
+            t('resources_box_batch_actions_removefromset'))}
 
         {if showActions.edit
           # TODO if selection most likely not needed, should be already included in the if condition.
@@ -62,7 +69,7 @@ createActionsDropdown = (withActions, selection, saveable, disablePermissionsEdi
             'media_entries_edit',
             batchEditables.length,
             'pen',
-            'resources_box_batch_actions_edit')}
+            t('resources_box_batch_actions_edit'))}
 
         {if showActions.editSets
           # TODO if selection most likely not needed, should be already included in the if condition.
@@ -72,7 +79,7 @@ createActionsDropdown = (withActions, selection, saveable, disablePermissionsEdi
             'collections_edit',
             batchSetEditables.length,
             'pen',
-            'resources_box_batch_actions_edit_sets')}
+            t('resources_box_batch_actions_edit_sets'))}
 
         {if showActions.managePermissions
           # TODO if selection most likely not needed, should be already included in the if condition.
@@ -82,7 +89,7 @@ createActionsDropdown = (withActions, selection, saveable, disablePermissionsEdi
             'media_entries_permissions',
             batchPermissionEditables.length,
             'lock',
-            'resources_box_batch_actions_managepermissions')}
+            t('resources_box_batch_actions_managepermissions'))}
 
         {if showActions.managePermissionsSets
           # TODO if selection most likely not needed, should be already included in the if condition.
@@ -92,7 +99,7 @@ createActionsDropdown = (withActions, selection, saveable, disablePermissionsEdi
             'collections_permissions',
             batchPermissionSetsEditables.length,
             'lock',
-            'resources_box_batch_actions_sets_managepermissions')}
+            t('resources_box_batch_actions_sets_managepermissions'))}
 
         {if showActions.transferResponsibility
           # TODO if selection most likely not needed, should be already included in the if condition.
@@ -102,7 +109,7 @@ createActionsDropdown = (withActions, selection, saveable, disablePermissionsEdi
             'media_entries_transfer_responsibility',
             batchTransferResponsibilityEditables.length,
             'user',
-            'resources_box_batch_actions_transfer_responsibility_entries')}
+            t('resources_box_batch_actions_transfer_responsibility_entries'))}
 
         {if showActions.transferResponsibilitySets
           # TODO if selection most likely not needed, should be already included in the if condition.
@@ -112,7 +119,40 @@ createActionsDropdown = (withActions, selection, saveable, disablePermissionsEdi
             'collections_transfer_responsibility',
             batchTransferResponsibilitySetsEditables.length,
             'user',
-            'resources_box_batch_actions_transfer_responsibility_sets')}
+            t('resources_box_batch_actions_transfer_responsibility_sets'))}
+
+
+        {if showActions.addToClipboard
+          if (not selection) || selection.empty()
+            createHoverActionItem(
+              if totalCount > 0 then callbacks.onBatchAddAllToClipboard,
+              'add_all_to_clipboard',
+              undefined,
+              'move',
+              t('resources_box_batch_actions_addalltoclipboard'))
+          else
+            createHoverActionItem(
+              if !selection.empty() then f.curry(callbacks.onBatchAddSelectedToClipboard)(selection.selection),
+              'add_selected_to_clipboard',
+              selection.length(),
+              'move',
+              t('resources_box_batch_actions_addselectedtoclipboard'))}
+
+        {if showActions.removeFromClipboard
+          if (not selection) || selection.empty()
+            createHoverActionItem(
+              if totalCount > 0 then callbacks.onBatchRemoveAllFromClipboard,
+              'remove_all_from_clipboard',
+              undefined,
+              'move',
+              t('resources_box_batch_actions_removeallfromclipboard'))
+          else
+            createHoverActionItem(
+              if !selection.empty() then f.curry(callbacks.onBatchRemoveFromClipboard)(selection.selection),
+              'remove_from_clipboard',
+              selection.length(),
+              'close',
+              t('resources_box_batch_actions_removefromclipboard'))}
 
 
 
@@ -139,31 +179,51 @@ highlightingRules = (item, isSelected) ->
     {
       hoverMenuId: 'media_entries_edit'
       rule: () -> (!SelectionScope.batchMetaDataResource(item.serialize()) or
-        item.type != 'MediaEntry' or not isSelected)
+        item.type != 'MediaEntry' or (not isSelected))
     }
     {
       hoverMenuId: 'collections_edit'
       rule: () -> (!SelectionScope.batchMetaDataResource(item.serialize()) or
-        item.type != 'Collection' or not isSelected)
+        item.type != 'Collection' or (not isSelected))
     }
     {
       hoverMenuId: 'media_entries_permissions'
       rule: () -> (!SelectionScope.batchPermissionResource(item.serialize()) or
-        item.type != 'MediaEntry' or not isSelected)
+        item.type != 'MediaEntry' or (not isSelected))
     }
     {
       hoverMenuId: 'collections_permissions'
       rule: () -> (!SelectionScope.batchPermissionResource(item.serialize()) or
-        item.type != 'Collection' or not isSelected)
+        item.type != 'Collection' or (not isSelected))
+    }
+    {
+      hoverMenuId: 'add_all_to_clipboard'
+      rule: () ->
+        ((item.type != 'MediaEntry' and item.type != 'Collection') or item.on_clipboard)
+    }
+    {
+      hoverMenuId: 'add_selected_to_clipboard'
+      rule: () ->
+        ((item.type != 'MediaEntry' and item.type != 'Collection') or (not isSelected) or item.on_clipboard)
+    }
+    {
+      hoverMenuId: 'remove_all_from_clipboard'
+      rule: () ->
+        ((item.type != 'MediaEntry' and item.type != 'Collection') or (not item.on_clipboard))
+    }
+    {
+      hoverMenuId: 'remove_from_clipboard'
+      rule: () ->
+        ((item.type != 'MediaEntry' and item.type != 'Collection') or (not isSelected) or (not item.on_clipboard))
     }
     {
       hoverMenuId: 'add_to_set'
       rule: () ->
-        ((item.type != 'MediaEntry' and item.type != 'Collection') or not isSelected)
+        ((item.type != 'MediaEntry' and item.type != 'Collection') or (not isSelected))
     }
     {
       hoverMenuId: 'remove_from_set'
-      rule: () -> ((item.type != 'MediaEntry' and item.type != 'Collection') or not isSelected)
+      rule: () -> ((item.type != 'MediaEntry' and item.type != 'Collection') or (not isSelected))
     }
     {
       hoverMenuId: 'media_entries_transfer_responsibility'

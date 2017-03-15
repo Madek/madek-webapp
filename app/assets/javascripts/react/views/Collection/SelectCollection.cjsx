@@ -203,6 +203,7 @@ module.exports = React.createClass
         <h3 key='content4' className="by-center title-m">{t('resource_select_collection_non_assigned')}</h3>
       )
 
+
     <SelectCollectionDialog
       onCancel={@props.onClose}
       cancelUrl={get.resource_url}
@@ -212,7 +213,8 @@ module.exports = React.createClass
       authToken={authToken}
       content={_content}
       method='patch'
-      showSave={true} />
+      showSave={true}
+      showAddToClipboard={true} />
 
 
 ControlledCheckbox = React.createClass

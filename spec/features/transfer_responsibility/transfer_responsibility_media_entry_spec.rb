@@ -78,8 +78,10 @@ feature 'transfer responsibility collection' do
     open_resource(parent)
     toggle_select_all
     open_dropdown
-    check_given_counts(
-      media_entries_transfer_responsibility: 2
+    check_partial_dropdown(
+      media_entries_transfer_responsibility: {
+        count: 2,
+        highlights: [media_entry1, media_entry3] }
     )
     click_batch_action(:media_entries_transfer_responsibility)
 
@@ -90,8 +92,8 @@ feature 'transfer responsibility collection' do
     open_resource(parent)
     toggle_select_all
     open_dropdown
-    check_given_counts(
-      media_entries_transfer_responsibility: 0
+    check_partial_dropdown(
+      media_entries_transfer_responsibility: { count: 0, active: false }
     )
   end
 end

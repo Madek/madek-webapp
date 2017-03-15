@@ -69,6 +69,8 @@ Madek::Application.routes.draw do
   put 'batch_add_to_set', controller: :batch, action: :batch_add_to_set, as: 'batch_add_to_set'
   get 'batch_ask_remove_from_set', controller: :batch, action: :batch_ask_remove_from_set, as: 'batch_ask_remove_from_set'
   patch 'batch_remove_from_set', controller: :batch, action: :batch_remove_from_set, as: 'batch_remove_from_set'
+  put 'batch_add_to_clipboard', controller: :batch, action: :batch_add_to_clipboard, as: 'batch_add_to_clipboard'
+  put 'batch_remove_from_clipboard', controller: :batch, action: :batch_remove_from_clipboard, as: 'batch_remove_from_clipboard'
 
   resources :collections, path: 'sets', only: [:index, :show, :create, :update, :destroy] do
     member do

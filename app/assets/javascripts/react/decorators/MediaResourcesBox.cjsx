@@ -43,6 +43,7 @@ Preloader = require('../ui-components/Preloader.cjsx')
 
 SortDropdown = require('./resourcesbox/SortDropdown.cjsx')
 ActionsDropdown = require('./resourcesbox/ActionsDropdown.cjsx')
+Clipboard = require('./resourcesbox/Clipboard.cjsx')
 
 # Props/Config overview:
 # - props.get.with_actions = should the UI offer any interaction
@@ -132,6 +133,7 @@ module.exports = React.createClass
   # kick of client-side mode:
   getInitialState: ()-> {
     isClient: false,
+    clipboardModal: 'hidden',
     batchAddToSet: false,
     batchRemoveFromSet: false,
     savedLayout: @props.collectionData.layout if @props.collectionData
@@ -167,10 +169,16 @@ module.exports = React.createClass
       when 'MediaResources' then CollectionChildren
       when 'MediaEntries' then MediaEntries
       when 'Collections' then Collections
+
     if collectionClass
       if withBox && f.present(f.get(get, 'pagination.total_count'))
         if !collectionClass.Paginated then throw new Error('Collection has no Pagination!')
-        (new collectionClass.Paginated(get))
+
+        # HACK
+        if get.config.for_url.pathname == '/my/clipboard'
+          (new collectionClass.PaginatedClipboard(get))
+        else
+          (new collectionClass.Paginated(get))
       else
         (new collectionClass(get.resources))
 
@@ -346,12 +354,28 @@ module.exports = React.createClass
     @setState(batchAddToSet: true)
     return false
 
-  _batchRemoveFromSetIds: () ->
+  _resourceIdsWithTypes: () ->
     @state.selectedResources.selection.map (model) ->
       {
         uuid: model.uuid
         type: model.type
       }
+
+  _onBatchAddAllToClipboard: (event) ->
+    event.preventDefault()
+    @setState(clipboardModal: 'add_all')
+
+  _onBatchAddSelectedToClipboard: (resources, event) ->
+    event.preventDefault()
+    @setState(clipboardModal: 'add_selected')
+
+  _onBatchRemoveAllFromClipboard: (event) ->
+    event.preventDefault()
+    @setState(clipboardModal: 'remove_all')
+
+  _onBatchRemoveFromClipboard: (resources, event) ->
+    event.preventDefault()
+    @setState(clipboardModal: 'remove_selected')
 
   _onBatchRemoveFromSet: (resources, event)->
     event.preventDefault()
@@ -359,6 +383,7 @@ module.exports = React.createClass
     return false
 
   _onCloseModal: () ->
+    @setState(clipboardModal: 'hidden')
     @setState(batchAddToSet: false)
     @setState(batchRemoveFromSet: false)
 
@@ -562,9 +587,14 @@ module.exports = React.createClass
       selection = f.presence(@state.selectedResources) or false
 
       actionsDropdown = ActionsDropdown.createActionsDropdown(
+        @props.get.pagination.total_count if @props.get.pagination,
         withActions, selection, saveable, @props.disablePermissionsEdit,
-        @state.isClient, @props.collectionData, config,
+        @state.isClient, @props.collectionData, config, if @props.initial then @props.initial.is_clipboard else false,
         {
+          onBatchAddAllToClipboard: @_onBatchAddAllToClipboard
+          onBatchAddSelectedToClipboard: @_onBatchAddSelectedToClipboard
+          onBatchRemoveAllFromClipboard: @_onBatchRemoveAllFromClipboard
+          onBatchRemoveFromClipboard: @_onBatchRemoveFromClipboard
           onBatchAddToSet: @_onBatchAddToSet
           onBatchRemoveFromSet: @_onBatchRemoveFromSet
           onBatchEdit: @_onBatchEdit
@@ -796,7 +826,9 @@ module.exports = React.createClass
                             pinThumb={config.layout == 'tiles'}
                             listThumb={config.layout == 'list'}
                             indexMetaData={listMetadata}
-                            loadingMetadata={@state.loadingListMetadataResource == item.uuid}/>
+                            loadingMetadata={@state.loadingListMetadataResource == item.uuid}
+                            showDraftBadge={@props.initial and @props.initial.is_clipboard}
+                            />
                       }
 
                     </ul>
@@ -811,6 +843,13 @@ module.exports = React.createClass
       </div>
 
       {
+        if @state.clipboardModal != 'hidden'
+          <Clipboard type={@state.clipboardModal}
+            onClose={() => @setState(clipboardModal: 'hidden')}
+            resources={@state.resources}
+            selectedResources={@state.selectedResources} />
+      }
+      {
         if @state.batchAddToSet
           <BatchAddToSetModal resourceIds={@_batchAddToSetIds()} authToken={@props.authToken}
             get={null} onClose={@_onCloseModal} returnTo={currentUrl}/>
@@ -818,8 +857,8 @@ module.exports = React.createClass
       {
         if @state.batchRemoveFromSet
           <BatchRemoveFromSetModal collectionUuid={@props.collectionData.uuid}
-            resourceIds={@_batchRemoveFromSetIds()} authToken={@props.authToken}
-            get={null} onClose={@_onCloseModal} returnTo={currentUrl}/>
+            resourceIds={@_resourceIdsWithTypes()} authToken={@props.authToken}
+            get={null} onClose={@_onCloseModal} returnTo={currentUrl} />
       }
 
     </div>

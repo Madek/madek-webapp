@@ -98,3 +98,30 @@ module.exports = (collectionClass, {jsonPath})->
           @set({currentPage: nextPage})
           callback(null)
       ))
+
+    fetchAllResourceIds: (callback)->
+      throw new Error('Callback missing!') if (!f.isFunction(callback))
+
+      path = @url.pathname
+      if path.indexOf('/relations/children') > 0 or path.indexOf('/relations/siblings') > 0 or path.indexOf('/relations/parents') > 0
+        jsonPath = 'relation_resources.resources'
+
+      if path.indexOf('/vocabulary') == 0 and path.indexOf('/contents') > 0
+        jsonPath = 'resources.resources'
+
+      nextUrl = setUrlParams(
+        @url,
+        {list: {page: 1, per_page: @totalCount}},
+        {___sparse: JSON.stringify(f.set({}, jsonPath, [{uuid: {}, type: {}}]))})
+
+      return xhr.get(
+        {url: nextUrl, json: true },
+        (err, res, body) -> (
+          if err || res.statusCode > 400
+            return callback({result: 'error'})
+
+          callback({
+            result: 'success',
+            data: f.get(body, jsonPath)
+          })
+      ))

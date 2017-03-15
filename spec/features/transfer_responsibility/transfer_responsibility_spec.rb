@@ -91,8 +91,8 @@ feature 'transfer responsibility shared' do
     check_responsible_and_link(user2, false)
 
     expect(media_entry.user_permissions.length).to eq(2)
-    expect(media_entry.user_permissions[0].user_id).to eq(user3.id)
-    expect(media_entry.user_permissions[1].user_id).to eq(user1.id)
+    expect(media_entry.user_permissions.map(&:user_id).sort).to eq(
+      [user1.id, user3.id].sort)
   end
 
   scenario 'check batch selection' do
@@ -119,29 +119,50 @@ feature 'transfer responsibility shared' do
     open_resource(parent)
 
     open_dropdown
-    check_all_items_inactive
+    # check_all_items_inactive
+    check_full_dropdown(
+      add_to_clipboard: { count: 6, all: true },
+      add_to_set: { count: 0, active: false },
+      remove_from_set: { count: 0, active: false },
+      media_entries_metadata: { count: 0, active: false },
+      collections_metadata: { count: 0, active: false },
+      media_entries_permissions: { count: 0, active: false },
+      collections_permissions: { count: 0, active: false },
+      media_entries_transfer_responsibility: { count: 0, active: false },
+      collections_transfer_responsibility: { count: 0, active: false }
+    )
     toggle_select_all
 
     open_dropdown
-    check_all_counts(
-      add_to_set: 6,
-      remove_from_set: 6,
-      media_entries_metadata: 2,
-      collections_metadata: 1,
-      media_entries_permissions: 2,
-      collections_permissions: 1,
-      media_entries_transfer_responsibility: 1,
-      collections_transfer_responsibility: 1
-    )
-    check_all_highlights(
-      add_to_set: all_media_entries,
-      remove_from_set: all_media_entries,
-      media_entries_metadata: [media_entry1, media_entry4],
-      collections_metadata: [collection1],
-      media_entries_permissions: [media_entry1, media_entry4],
-      collections_permissions: [collection1],
-      media_entries_transfer_responsibility: [media_entry1],
-      collections_transfer_responsibility: [collection1]
+    check_full_dropdown(
+      add_to_clipboard: {
+        count: 6,
+        all: false,
+        highlights: all_media_entries },
+      add_to_set: {
+        count: 6,
+        highlights: all_media_entries },
+      remove_from_set: {
+        count: 6,
+        highlights: all_media_entries },
+      media_entries_metadata: {
+        count: 2,
+        highlights: [media_entry1, media_entry4] },
+      collections_metadata: {
+        count: 1,
+        highlights: [collection1] },
+      media_entries_permissions: {
+        count: 2,
+        highlights: [media_entry1, media_entry4] },
+      collections_permissions: {
+        count: 1,
+        highlights: [collection1] },
+      media_entries_transfer_responsibility: {
+        count: 1,
+        highlights: [media_entry1] },
+      collections_transfer_responsibility: {
+        count: 1,
+        highlights: [collection1] }
     )
   end
 end

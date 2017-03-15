@@ -72,6 +72,42 @@ module.exports = React.createClass
         {badgeLeft}
       </div>
 
+
+    bubbles = []
+
+    if @props.draft # && @props.showDraftBadge
+      bubbles.push({
+        key: 'draft'
+        label: 'Entwurf'
+        color: '#f99'
+        href: @props.href + '/meta_data/edit/by_context'
+      })
+
+    if @props.onClipboard
+      bubbles.push({
+        key: 'batch'
+        label: 'Stapel'
+        color: '#99f'
+        href: '/my/clipboard'
+      })
+
+
+    bubbleElements =
+      <div className='ui-bubbles'>
+        {
+          f.map(bubbles, (bubble, index) =>
+            style = {
+              backgroundColor: bubble.color
+            }
+            <a key={bubble.key} href={bubble.href}>
+              <div className='ui-bubble' style={style}>{bubble.label}</div>
+            </a>
+          )
+        }
+      </div>
+
+    useBubbles = false
+
     badgeRight = if badgeRight
       <div className='ui-thumbnail-filterset-flag'>
         {badgeRight}
@@ -112,7 +148,7 @@ module.exports = React.createClass
       {flyoutTop}
       {badgeLeft}
       {badgeRight}
-
+      {bubbleElements if useBubbles}
       {
         if @props.disableLink
           <div className='ui-thumbnail-image-wrapper'>{innerPart}</div>

@@ -14,7 +14,7 @@ module Presenters
           @app_resource = if app_resource.respond_to?(:is_published)
             app_resource
           else
-            ::MediaEntry.find(app_resource.id)
+            ::MediaEntry.unscoped.find(app_resource.id)
           end
           @user = user
           @list_conf = list_conf

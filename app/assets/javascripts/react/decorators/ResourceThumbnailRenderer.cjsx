@@ -81,6 +81,8 @@ module.exports = React.createClass
 
     Element = elm or 'div'
     thumbProps =
+      draft: statusProps.modelPublished == false
+      onClipboard: statusProps.onClipboard
       type: get.type
       mods: (['video'] if mediaType is 'video')
       src: get.image_url
@@ -97,6 +99,8 @@ module.exports = React.createClass
         <Icon i='filter' title='This is a Filterset'/>
       actionsLeft: actionsLeft
       actionsRight: actionsRight
+
+      showDraftBadge: @props.showDraftBadge
 
       flyoutTop: if relationsProps and relationsProps.parent and (f.include ['MediaEntry', 'Collection'], resourceType)
         title: 'Übergeordnete Sets'

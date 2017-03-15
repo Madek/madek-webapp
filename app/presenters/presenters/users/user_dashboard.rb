@@ -1,6 +1,9 @@
 module Presenters
   module Users
     class UserDashboard < Presenter
+
+      include Presenters::Shared::Clipboard
+
       def initialize(
             user, user_scopes,
             dashboard_header,
@@ -89,6 +92,12 @@ module Presenters
 
       def entrusted_filter_sets
         presenterify @user_scopes[:entrusted_filter_sets]
+      end
+
+      def clipboard
+        if @user and clipboard_collection(@user)
+          presenterify @user_scopes[:clipboard]
+        end
       end
 
       def groups
