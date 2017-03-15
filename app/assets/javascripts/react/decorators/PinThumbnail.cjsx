@@ -115,13 +115,15 @@ module.exports = React.createClass
             {innerImage}
           </a>
         </div>
-        <div className='ui-tile__foot'>
-          <h3 className='ui-tile__title'>{title}</h3>
-          <h4 className='ui-tile__meta'>{subtitle}</h4>
-          <span className='ui-tile__flags'>
-            {badgeLeft}
-            {badgeRight}
-          </span>
-        </div>
+        <a href={mediaUrl}>
+          <div className='ui-tile__foot'>
+            <h3 className='ui-tile__title'>{title}</h3>
+            <h4 className='ui-tile__meta'>{subtitle}</h4>
+            <span className='ui-tile__flags'>
+              {badgeLeft}
+              {badgeRight}
+            </span>
+          </div>
+        </a>
       </div>
     </li>
