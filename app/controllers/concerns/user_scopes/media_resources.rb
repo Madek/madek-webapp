@@ -5,9 +5,13 @@ module Concerns
 
       def user_scopes_for_media_resource(resource, user = current_user)
         { parent_collections: \
-            auth_policy_scope(user, resource.parent_collections),
+            auth_policy_scope(
+              user,
+              resource.parent_collections),
           sibling_collections: \
-            auth_policy_scope(user, resource.sibling_collections) }
+            auth_policy_scope(
+              user,
+              resource.sibling_collections) }
       end
 
       def user_scopes_for_collection(collection, user = current_user)

@@ -223,4 +223,5 @@ module.exports = React.createClass
       authToken={authToken}
       content={_content}
       method='put'
-      showSave={false} />
+      showSave={false}
+      showAddToClipboard={false} />

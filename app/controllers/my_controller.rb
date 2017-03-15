@@ -4,6 +4,9 @@ class MyController < ApplicationController
   include Concerns::ResourceListParams
   include Concerns::UserScopes::Dashboard
   include Concerns::NewCollectionModal
+
+  include Concerns::Clipboard
+
   layout 'my'
 
   after_action :verify_policy_scoped
@@ -34,94 +37,107 @@ class MyController < ApplicationController
   # - `partial: :foobar` → `section_partial_foobar.haml`, used for index and show
   # - no `partial` but `href` renders an entry in the sidebar only
 
-  SECTIONS = {
-    activity_stream: {
-      title: 'Aktivitäten',
-      icon: 'icon-privacy-private',
-      partial: :activity_stream,
-      hide_from_index: true
-    },
-    unpublished_entries: {
-      title: I18n.t(:sitemap_my_unpublished),
-      icon: 'icon-privacy-private',
-      partial: :media_resources,
-      allowed_filter_params: MediaEntriesController::ALLOWED_FILTER_PARAMS
-    },
-    content_media_entries: {
-      title: I18n.t(:sitemap_my_content_media_entries),
-      icon: 'icon-privacy-private',
-      partial: :media_resources,
-      allowed_filter_params: MediaEntriesController::ALLOWED_FILTER_PARAMS
-    },
-    content_collections: {
-      title: I18n.t(:sitemap_my_content_collections),
-      icon: 'icon-privacy-private',
-      partial: :media_resources,
-      allowed_filter_params: CollectionsController::ALLOWED_FILTER_PARAMS
-    },
-    # content_filter_sets: {
-    #   title: I18n.t(:sitemap_my_content_filter_sets),
-    #   icon: 'icon-privacy-private',
-    #   partial: :media_resources
-    # },
-    latest_imports: {
-      title: I18n.t(:sitemap_my_latest_imports),
-      icon: 'icon-privacy-private',
-      partial: :media_resources,
-      allowed_filter_params: MediaEntriesController::ALLOWED_FILTER_PARAMS
-    },
-    favorite_media_entries: {
-      title: I18n.t(:sitemap_my_favorite_media_entries),
-      icon: 'icon-privacy-private',
-      partial: :media_resources,
-      allowed_filter_params: MediaEntriesController::ALLOWED_FILTER_PARAMS
-    },
-    favorite_collections: {
-      title: I18n.t(:sitemap_my_favorite_collections),
-      icon: 'icon-privacy-private',
-      partial: :media_resources,
-      allowed_filter_params: CollectionsController::ALLOWED_FILTER_PARAMS
-    },
-    # favorite_filter_sets: {
-    #   title: I18n.t(:sitemap_my_favorite_filter_sets),
-    #   icon: 'icon-privacy-private',
-    #   partial: :media_resources
-    # },
-    used_keywords: {
-      title: I18n.t(:sitemap_my_used_keywords),
-      icon: 'icon-tag',
-      partial: :keywords
-    },
-    entrusted_media_entries: {
-      title: I18n.t(:sitemap_my_entrusted_media_entries),
-      icon: 'icon-privacy-group',
-      partial: :media_resources,
-      allowed_filter_params: MediaEntriesController::ALLOWED_FILTER_PARAMS
-    },
-    entrusted_collections: {
-      title: I18n.t(:sitemap_my_entrusted_collections),
-      icon: 'icon-privacy-group',
-      partial: :media_resources,
-      allowed_filter_params: CollectionsController::ALLOWED_FILTER_PARAMS
-    },
-    # entrusted_filter_sets: {
-    #   title: I18n.t(:sitemap_my_entrusted_filter_sets),
-    #   icon: 'icon-privacy-group',
-    #   partial: :media_resources
-    # },
-    groups: {
-      title: I18n.t(:sitemap_my_groups),
-      icon: 'icon-privacy-group',
-      partial: :groups
-    },
-    vocabularies: {
-      title: I18n.t(:sitemap_vocabularies),
-      icon: 'icon-privacy-group',
-      hide_from_index: true,
-      href: '/vocabulary' # NOTE: no path helper, this route is fixed
+  # rubocop:disable Metrics/MethodLength
+  def sections_definition(user)
+    hash = {
+      activity_stream: {
+        title: 'Aktivitäten',
+        icon: 'icon-privacy-private',
+        partial: :activity_stream,
+        hide_from_index: true
+      },
+      unpublished_entries: {
+        title: I18n.t(:sitemap_my_unpublished),
+        icon: 'icon-privacy-private',
+        partial: :media_resources,
+        allowed_filter_params: MediaEntriesController::ALLOWED_FILTER_PARAMS
+      },
+      content_media_entries: {
+        title: I18n.t(:sitemap_my_content_media_entries),
+        icon: 'icon-privacy-private',
+        partial: :media_resources,
+        allowed_filter_params: MediaEntriesController::ALLOWED_FILTER_PARAMS
+      },
+      content_collections: {
+        title: I18n.t(:sitemap_my_content_collections),
+        icon: 'icon-privacy-private',
+        partial: :media_resources,
+        allowed_filter_params: CollectionsController::ALLOWED_FILTER_PARAMS
+      },
+      # content_filter_sets: {
+      #   title: I18n.t(:sitemap_my_content_filter_sets),
+      #   icon: 'icon-privacy-private',
+      #   partial: :media_resources
+      # },
+      latest_imports: {
+        title: I18n.t(:sitemap_my_latest_imports),
+        icon: 'icon-privacy-private',
+        partial: :media_resources,
+        allowed_filter_params: MediaEntriesController::ALLOWED_FILTER_PARAMS
+      },
+      favorite_media_entries: {
+        title: I18n.t(:sitemap_my_favorite_media_entries),
+        icon: 'icon-privacy-private',
+        partial: :media_resources,
+        allowed_filter_params: MediaEntriesController::ALLOWED_FILTER_PARAMS
+      },
+      favorite_collections: {
+        title: I18n.t(:sitemap_my_favorite_collections),
+        icon: 'icon-privacy-private',
+        partial: :media_resources,
+        allowed_filter_params: CollectionsController::ALLOWED_FILTER_PARAMS
+      },
+      # favorite_filter_sets: {
+      #   title: I18n.t(:sitemap_my_favorite_filter_sets),
+      #   icon: 'icon-privacy-private',
+      #   partial: :media_resources
+      # },
+      used_keywords: {
+        title: I18n.t(:sitemap_my_used_keywords),
+        icon: 'icon-tag',
+        partial: :keywords
+      },
+      entrusted_media_entries: {
+        title: I18n.t(:sitemap_my_entrusted_media_entries),
+        icon: 'icon-privacy-group',
+        partial: :media_resources,
+        allowed_filter_params: MediaEntriesController::ALLOWED_FILTER_PARAMS
+      },
+      entrusted_collections: {
+        title: I18n.t(:sitemap_my_entrusted_collections),
+        icon: 'icon-privacy-group',
+        partial: :media_resources,
+        allowed_filter_params: CollectionsController::ALLOWED_FILTER_PARAMS
+      },
+      # entrusted_filter_sets: {
+      #   title: I18n.t(:sitemap_my_entrusted_filter_sets),
+      #   icon: 'icon-privacy-group',
+      #   partial: :media_resources
+      # },
+      groups: {
+        title: I18n.t(:sitemap_my_groups),
+        icon: 'icon-privacy-group',
+        partial: :groups
+      },
+      vocabularies: {
+        title: I18n.t(:sitemap_vocabularies),
+        icon: 'icon-privacy-group',
+        hide_from_index: true,
+        href: '/vocabulary' # NOTE: no path helper, this route is fixed
+      }
     }
 
-  }
+    if user and clipboard_collection(user)
+      hash[:clipboard] = {
+        title: I18n.t(:sitemap_clipboard),
+        icon: 'icon-privacy-group',
+        partial: :media_resources
+      }
+    end
+
+    hash
+  end
+  # rubocop:enable Metrics/MethodLength
 
   before_action do
     auth_authorize :dashboard, :logged_in?
@@ -154,7 +170,7 @@ class MyController < ApplicationController
     # any possible user-given (filter, …)-config!
     # TODO: port this logic to dashboard presenter, build table of contents there
     @sections = set_async_below_fold order_sections_according_to_counts(
-      SECTIONS,
+      sections_definition(current_user),
       Presenters::Users::UserDashboard.new(current_user,
                                            user_scopes_for_dashboard(current_user),
                                            nil,
@@ -177,7 +193,8 @@ class MyController < ApplicationController
 
   def order_sections_according_to_counts(sections, presenter)
     sections = \
-      put_empty_sections_last_and_set_is_empty_key_true(SECTIONS, presenter)
+      put_empty_sections_last_and_set_is_empty_key_true(
+        sections_definition(current_user), presenter)
 
     sections = (sections[false].presence || [])
       .concat(

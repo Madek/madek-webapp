@@ -29,4 +29,7 @@ CollectionChildren = AppCollection.extend
 CollectionChildren.Paginated = PaginatedCollection(
   CollectionChildren, jsonPath: 'child_media_resources.resources')
 
+CollectionChildren.PaginatedClipboard = PaginatedCollection(
+  CollectionChildren, jsonPath: 'resources')
+
 module.exports = CollectionChildren

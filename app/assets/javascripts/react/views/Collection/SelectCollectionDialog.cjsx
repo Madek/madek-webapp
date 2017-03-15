@@ -34,7 +34,7 @@ module.exports = React.createClass
       </SelectCollectionToolbar>
 
 
-      <SelectCollectionForm action={action} authToken={authToken}
+      <SelectCollectionForm showAddToClipboard={@props.showAddToClipboard} action={action} authToken={authToken}
         cancelUrl={cancelUrl} onCancel={@_onCancel} method={method}, showSave={showSave}>
 
         <SelectCollectionBody>
@@ -64,6 +64,17 @@ SelectCollectionFooter = React.createClass
   render: ({cancelUrl, onCancel, showSave} = @props) ->
     className = if showSave then 'line weak' else 'primary-button'
     <div className="ui-modal-footer body-lower-limit">
+      {
+        if @props.showAddToClipboard
+          <div>
+            <div style={{textAlign: 'center', paddingTop: '0px', paddingBottom: '10px'}}>
+              <input type='checkbox' name='add_to_clipboard' />
+              {t('clipboard_add_hint')}
+            </div>
+            <hr className='separator' style={{marginBottom: '20px'}} />
+          </div>
+      }
+
       <div className="ui-actions">
         <a href={cancelUrl} className={className} onClick={onCancel}>
           {t('resource_select_collection_cancel')}</a>
@@ -88,7 +99,8 @@ SelectCollectionForm = React.createClass
     <RailsForm name='select_collections' action={action}
             method={method} authToken={authToken} className='dummy' className='save-arcs'>
       {children}
-      <SelectCollectionFooter cancelUrl={cancelUrl} onCancel={onCancel} showSave={showSave}/>
+      <SelectCollectionFooter showAddToClipboard={@props.showAddToClipboard}
+        cancelUrl={cancelUrl} onCancel={onCancel} showSave={showSave}/>
     </RailsForm>
 
 

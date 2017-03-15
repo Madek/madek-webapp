@@ -20,81 +20,67 @@ feature 'Batch dropdown' do
     visit collection_path(@parent_collection)
 
     open_dropdown
-    check_all_items_inactive
-    check_given_counts(
-      add_to_set: 0,
-      remove_from_set: 0,
-      media_entries_metadata: 0,
-      collections_metadata: 0,
-      media_entries_permissions: 0
+    check_full_dropdown(
+      add_to_clipboard: { count: 6, all: true },
+      add_to_set: { count: 0, active: false },
+      remove_from_set: { count: 0, active: false },
+      media_entries_metadata: { count: 0, active: false },
+      collections_metadata: { count: 0, active: false },
+      media_entries_permissions: { count: 0, active: false },
+      collections_permissions: { count: 0, active: false },
+      media_entries_transfer_responsibility: { count: 0, active: false },
+      collections_transfer_responsibility: { count: 0, active: false }
     )
 
     toggle_select_all
 
     open_dropdown
-    check_all_items_active
-    check_given_counts(
-      add_to_set: 6,
-      remove_from_set: 6,
-      media_entries_metadata: 3,
-      collections_metadata: 3,
-      media_entries_permissions: 3
-    )
-    check_given_highlights(
-      add_to_set: all_resources,
-      remove_from_set: all_resources,
-      media_entries_metadata: media_entries_1_2_3,
-      collections_metadata: collections_1_2_3,
-      media_entries_permissions: media_entries_1_2_3
+    check_full_dropdown(
+      add_to_clipboard: { count: 6, all: false },
+      add_to_set: { count: 6, highlights: all_resources },
+      remove_from_set: { count: 6, highlights: all_resources },
+      media_entries_metadata: { count: 3, highlights: media_entries_1_2_3 },
+      collections_metadata: { count: 3, highlights: collections_1_2_3 },
+      media_entries_permissions: { count: 3, highlights: media_entries_1_2_3 },
+      collections_permissions: { count: 3 },
+      media_entries_transfer_responsibility: { count: 3 },
+      collections_transfer_responsibility: { count: 3 }
     )
 
     toggle_select_all
     select_media_entries(media_entries_1_3)
 
     open_dropdown
-    check_given_items_active(
-      add_to_set: true,
-      remove_from_set: true,
-      media_entries_metadata: true,
-      media_entries_permissions: true
-    )
-    check_given_counts(
-      add_to_set: 2,
-      remove_from_set: 2,
-      media_entries_metadata: 2,
-      collections_metadata: 0,
-      media_entries_permissions: 2
-    )
-    check_given_highlights(
-      add_to_set: media_entries_1_3,
-      remove_from_set: media_entries_1_3,
-      media_entries_metadata: media_entries_1_3,
-      collections_metadata: [],
-      media_entries_permissions: media_entries_1_3
+    check_full_dropdown(
+      add_to_clipboard: { count: 2, all: false },
+      add_to_set: { count: 2, highlights: media_entries_1_3 },
+      remove_from_set: { count: 2, highlights: media_entries_1_3 },
+      media_entries_metadata: { count: 2, highlights: media_entries_1_3 },
+      collections_metadata: { count: 0, active: false, highlights: [] },
+      media_entries_permissions: { count: 2, highlights: media_entries_1_3 },
+      collections_permissions: { count: 0, active: false, highlights: [] },
+      media_entries_transfer_responsibility: {
+        count: 2, highlights: media_entries_1_3 },
+      collections_transfer_responsibility: {
+        count: 0, active: false, highlights: [] }
     )
 
     toggle_select_all
     select_collections(collections_1_3)
 
     open_dropdown
-    check_given_items_active(
-      add_to_set: true,
-      remove_from_set: true,
-      collections_metadata: true
-    )
-    check_given_counts(
-      add_to_set: 2,
-      remove_from_set: 2,
-      media_entries_metadata: 0,
-      collections_metadata: 2,
-      media_entries_permissions: 0
-    )
-    check_given_highlights(
-      add_to_set: collections_1_3,
-      remove_from_set: collections_1_3,
-      media_entries_metadata: [],
-      collections_metadata: collections_1_3,
-      media_entries_permissions: []
+    check_full_dropdown(
+      add_to_clipboard: { count: 2, all: false },
+      add_to_set: { count: 2, highlights: collections_1_3 },
+      remove_from_set: { count: 2, highlights: collections_1_3 },
+      media_entries_metadata: { count: 0, active: false, highlights: [] },
+      collections_metadata: { count: 2, highlights: collections_1_3 },
+      media_entries_permissions: { count: 0, active: false, highlights: [] },
+      collections_permissions: { count: 2, highlights: collections_1_3 },
+      media_entries_transfer_responsibility: {
+        count: 0, active: false, highlights: [] },
+      collections_transfer_responsibility: {
+        count: 2, highlights: collections_1_3 }
     )
   end
 end

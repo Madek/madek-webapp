@@ -27,6 +27,11 @@ class CollectionPolicy < Shared::MediaResources::MediaResourcePolicy
     edit?
   end
 
+  alias_method :batch_add_to_clipboard?, :update?
+  alias_method :batch_remove_from_clipboard?, :update?
+  alias_method :batch_add_all_in_set_to_clipboard?, :update?
+  alias_method :batch_add_all_from_filter_to_clipboard?, :update?
+
   alias_method :relations?, :show?
   alias_method :more_data?, :show?
   alias_method :context?, :show?

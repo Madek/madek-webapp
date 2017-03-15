@@ -32,7 +32,7 @@ module.exports = React.createClass
 
   _submit: (clickEvent) ->
     @setState(saving: true)
-    railsFormPut(@refs.form, (result) =>
+    railsFormPut.byForm(@refs.form, (result) =>
       if result.result == 'error'
         window.scrollTo(0, 0)
         @setState(saving: false, errorMessage: result.message)

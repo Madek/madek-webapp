@@ -3,10 +3,11 @@ module Concerns
     module Dashboard
       extend ActiveSupport::Concern
 
+      include Concerns::Clipboard
+
       # rubocop:disable Metrics/MethodLength
-      def user_scopes_for_dashboard(user)
-        @user_scopes ||= apply_policy_scope_on_hash \
-          user,
+      def build_hash(user)
+        hash = {
           unpublished_media_entries: \
             user.unpublished_media_entries,
           content_media_entries: \
@@ -35,8 +36,22 @@ module Concerns
             user
             .used_keywords
             .where(meta_data: { meta_key_id: 'madek_core:keywords' })
+        }
+
+        if user and clipboard_collection(user)
+          hash[:clipboard] = clipboard_collection(user)
+            .child_media_resources_with_unpublished
+        end
+
+        hash
       end
       # rubocop:enable Metrics/MethodLength
+
+      def user_scopes_for_dashboard(user)
+        @user_scopes ||= apply_policy_scope_on_hash \
+          user,
+          build_hash(user)
+      end
 
       def apply_policy_scope_on_hash(user, hash)
         Hash[hash.map { |k, v| [k, auth_policy_scope(user, v)] }]

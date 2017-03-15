@@ -24,10 +24,12 @@ module Modules
 
         action_values = action_values(params, parent_collection_id)
 
-        add_transaction(
-          action_values[:parent_collection],
-          action_values[:media_entries],
-          action_values[:collections])
+        ActiveRecord::Base.transaction do
+          add_transaction(
+            action_values[:parent_collection],
+            action_values[:media_entries],
+            action_values[:collections])
+        end
 
         redirect_to(return_to)
       end
@@ -44,28 +46,6 @@ module Modules
           raise 'error'
         end
         parent_collection_id
-      end
-
-      private
-
-      def add_transaction(parent_collection, media_entries, collections)
-        ActiveRecord::Base.transaction do
-          existing = parent_collection.media_entries
-            .rewhere(is_published: [true, false]).reload
-          media_entries.each do |media_entry|
-            # Do not add if already in the collection.
-            next if existing.include? media_entry
-            parent_collection.media_entries << media_entry
-          end
-          existing = parent_collection.collections.reload
-          collections.each do |collection|
-            # Do not add if already in the collection.
-            next if existing.include? collection
-            # Do not add to itself.
-            next if parent_collection.id == collection.id
-            parent_collection.collections << collection
-          end
-        end
       end
     end
   end
