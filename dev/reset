@@ -8,18 +8,10 @@ set -exu # be verbose and fail on any error
 
 git submodule update --init
 
-rm -rf "$(dirname "$0")/../tmp" &
-
 for ENV in test development; do
-  cp ./config/database.yml ./datalayer/config/database.yml
-  cd ./datalayer
-  RAILS_ENV=$ENV bundle exec rake db:create || true # ignore error
-  RAILS_ENV=$ENV bundle exec rake db:pg:terminate_connections
-  RAILS_ENV=$ENV ./bin/rerun_personas_migrations
-  cd -
+  RAILS_ENV=$ENV bundle exec rake db:pg:terminate_connections db:drop || true # ignore error if not exists yet
+  RAILS_ENV=$ENV time bundle exec rake db:create db:pg:structure_and_data:restore FILE="datalayer/db/personas.pgbin"
 done
-
-
 
 echo ""
 echo "Now run a clean test!"

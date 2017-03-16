@@ -12,7 +12,7 @@ DUMPFILE="db/backups/staging.zhdk-data_${CURRENT_DATE}.pgbin"
 if [[ ! -e "$DUMPFILE" ]]; then
   ansible-playbook -i ../deploy/inventories/zhdk/hosts_staging ../deploy/play_dump-and-fetch-data.yml
   mkdir -p "$(dirname "$DUMPFILE")"
-  mv ../deploy/tmp/staging/tmp/madek_structure_and_data.pgbin "$DUMPFILE"
+  mv ../deploy/tmp/staging/tmp/madek.pgbin "$DUMPFILE"
 fi
 
 bundle exec rake db:pg:terminate_connections db:drop || true # ignore error if not exists yet
