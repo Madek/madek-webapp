@@ -92,8 +92,7 @@ module Madek
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
-
-    config.logger = ActiveSupport::Logger.new(STDOUT)
+    config.logger = ActiveSupport::Logger.new(STDOUT) unless Rails.env.development?
 
     if ENV['RAILS_LOG_LEVEL'].present?
       config.log_level = ENV['RAILS_LOG_LEVEL']
