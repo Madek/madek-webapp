@@ -38,8 +38,15 @@ class VideoJS extends React.Component {
     if (!videoTag) throw new Error('no video tag!')
 
     const playerOptions = merge(DEFAULT_OPTIONS, this.props.options, {
+      // NOTE: new source list because it must include config for HD-toggle
+      sources: this.props.sources.map(source => ({
+        src: source.url,
+        type: source.content_type,
+        label: sourceLabel(source),
+        res: source.height
+      })),
       plugins: {
-        videoJsResolutionSwitcher: { default: 'SD', dynamicLabel: true }
+        videoJsResolutionSwitcher: { default: 'low', dynamicLabel: true }
       }
     })
 
@@ -66,7 +73,6 @@ class VideoJS extends React.Component {
             <source
               src={source.url}
               type={source.content_type}
-              label={sourceLabel(source)}
               key={`${source.url}${source.content_type}`}
             />
           ))
