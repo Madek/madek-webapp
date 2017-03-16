@@ -39,13 +39,22 @@ class MyController < ApplicationController
 
   # rubocop:disable Metrics/MethodLength
   def sections_definition(user)
-    hash = {
+    {
       activity_stream: {
         title: 'Aktivitäten',
         icon: 'icon-privacy-private',
         partial: :activity_stream,
         hide_from_index: true
       },
+      clipboard: (\
+        if (user && clipboard_collection(user))
+          {
+            title: I18n.t(:sitemap_clipboard),
+            icon: 'icon-privacy-group',
+            partial: :media_resources,
+            is_beta: true
+          }
+        end),
       unpublished_entries: {
         title: I18n.t(:sitemap_my_unpublished),
         icon: 'icon-privacy-private',
@@ -125,17 +134,7 @@ class MyController < ApplicationController
         hide_from_index: true,
         href: '/vocabulary' # NOTE: no path helper, this route is fixed
       }
-    }
-
-    if user and clipboard_collection(user)
-      hash[:clipboard] = {
-        title: I18n.t(:sitemap_clipboard),
-        icon: 'icon-privacy-group',
-        partial: :media_resources
-      }
-    end
-
-    hash
+    }.compact
   end
   # rubocop:enable Metrics/MethodLength
 
