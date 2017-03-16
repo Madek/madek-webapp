@@ -9,6 +9,11 @@ DEFAULT_BROWSER_TIMEOUT = 180 # instead of the default 60
 BROWSER_DONWLOAD_DIR = Rails.root.join('tmp', 'test_driver_browser_downloads')
 `rm -rf #{BROWSER_DONWLOAD_DIR} && mkdir -p #{BROWSER_DONWLOAD_DIR}`
 
+TEST_DBS = {
+  personas: ['db', 'personas.pgbin'],
+  test_media: ['spec', '_support', 'test_media', 'madek_test_media.pgbin']
+}.freeze
+
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
@@ -47,9 +52,21 @@ RSpec.configure do |config|
       end
   end
 
-  config.before(:each) do |example|
+  def prepare_db(example)
+    # default: personas!
     truncate_tables
-    PgTasks.data_restore Rails.root.join('db', 'personas.pgbin')
+    db_path = \
+      case example.metadata[:with_db]
+      when nil, true, :personas then TEST_DBS[:personas]
+      when :test_media then TEST_DBS[:test_media]
+      when false then nil
+      else fail "unknown database dump! '#{example.metadata[:with_db]}'"
+      end
+    if db_path then PgTasks.data_restore Rails.root.join(*db_path) end
+  end
+
+  config.before(:each) do |example|
+    prepare_db(example)
     set_browser(example)
   end
 
