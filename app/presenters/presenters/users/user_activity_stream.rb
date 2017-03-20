@@ -39,10 +39,14 @@ module Presenters
 
       def edited_contents
         time_range_query(UserActivityStream.edits(@user)).map do |es|
-          resource = es.media_entry || es.collection
+          # NOTE: ignores FilterSet
+          resource = es.collection \
+            || MediaEntry.unscoped.find_by_id(es.media_entry_id)
+          next unless resource
+
           activity_item(
             type: 'edit', object: resource, subject: @user, date: es.created_at)
-        end
+        end.compact
       end
 
       def shared_contents

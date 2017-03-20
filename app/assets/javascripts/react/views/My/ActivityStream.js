@@ -31,9 +31,16 @@ class MyTimeline extends React.Component {
     }
   }
   componentDidMount () {
-    this.setState({ isClient: true, shouldFetchPast: true })
+    this.setState({ isClient: true })
 
-    // start fetching loop into the past (can't be turned off atm)
+    // if the stream is already empty, otherwise set signal to start fetching
+    if (f.isEmpty(this.state.stream)) {
+      return
+    } else {
+      this.setState({ shouldFetchPast: true })
+    }
+
+    // start fetching loop into the past
     this.state.shouldFetchPast && asyncWhile(
       () => this.state.shouldFetchPast && !this.state.endOfStream,
       (loopCallback) => {
