@@ -6,10 +6,32 @@ require 'spec_helper_feature_shared'
 #       this only tests the HTML output that is served from oEmbed (iframe etc)
 feature 'Embed aka. "Madek-Player"', with_db: :test_media do
 
-  context 'video sizing' do
+  let(:video_entry) { MediaEntry.find('29b7522c-84eb-4abd-89e0-9285075813ac') }
+  VIDEO_CAPTION = 'madek-test-video Madek Team — Public Domain'.freeze
 
-    let(:video_entry) { MediaEntry.find('29b7522c-84eb-4abd-89e0-9285075813ac') }
-    VIDEO_CAPTION = 'madek-test-video Madek Team — Public Domain'.freeze
+  context 'video player interaction' do
+    # NOTE: tested here because test video is already set up
+
+    it 'starts with SD resolution and can change to HD' do
+      fake_oembed_client(url: media_entry_path(video_entry), maxwidth: 550)
+      page.within_frame(page.find('iframe')) do
+        play_btn = find('.vjs-big-play-button')
+        play_btn.click
+
+        within('.vjs-control-bar') do
+          res_btn = find('.vjs-resolution-button')
+          expect(res_btn.text).to eq 'Quality SD'
+          res_btn.click
+          hd_btn = res_btn.find('.vjs-menu-content li', text: 'HD')
+          hd_btn.click
+        end
+        expect(find('.vjs-control-bar .vjs-resolution-button').text)
+          .to eq 'Quality HD'
+      end
+    end
+  end
+
+  context 'video embed with caption and size config' do
 
     it 'gives default sizes if no sizes requested' do
       fake_oembed_client(
