@@ -32,13 +32,6 @@ module Presenters
                 collection, @user)
             }
           end
-
-          @p_shared_resource =
-            Presenters::Shared::PresSharedResource.new(@app_resource)
-        end
-
-        def title
-          @p_shared_resource.title
         end
 
         def add_remove_collection_url

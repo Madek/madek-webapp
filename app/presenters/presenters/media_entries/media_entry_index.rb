@@ -4,6 +4,8 @@ module Presenters
 
       include Presenters::MediaEntries::Modules::MediaEntryCommon
 
+      delegate_to_app_resource :subtitle
+
       def image_url
         size = :medium
         imgs = self.media_file.try(:previews)
@@ -13,13 +15,7 @@ module Presenters
       end
 
       def keywords_pretty
-        @app_resource.keywords.map(&:to_s).join(', ')
-      end
-
-      def subtitle
-        meta_data = @app_resource.meta_data.where(
-          meta_key_id: 'madek_core:subtitle')
-        !meta_data.empty? ? meta_data[0].string : ''
+        (@app_resource.keywords || []).map(&:to_s).join(', ')
       end
 
     end

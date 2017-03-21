@@ -6,8 +6,8 @@ module Presenters
           extend ActiveSupport::Concern
           include Presenters::Shared::MediaResource::Modules::Responsible
 
-          def title
-            _resource_title(@app_resource)
+          included do
+            delegate_to_app_resource :title
           end
 
           def created_at_pretty
@@ -25,9 +25,7 @@ module Presenters
           end
 
           def authors_pretty
-            authors = @app_resource.meta_data.find_by(
-              meta_key_id: 'madek_core:authors')
-            authors ? authors.value.map(&:to_s).join(', ') : ''
+            @app_resource.authors || ''
           end
 
           def destroyable

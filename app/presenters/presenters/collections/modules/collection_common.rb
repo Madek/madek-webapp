@@ -11,12 +11,6 @@ module Presenters
           @app_resource = app_resource
           @user = user
           @_unused_list_conf = list_conf
-          @p_collection =
-            Presenters::Collections::PresCollection.new(@app_resource)
-        end
-
-        def title
-          @p_collection.title
         end
 
         def destroyable

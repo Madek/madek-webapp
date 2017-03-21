@@ -19,10 +19,6 @@ module Presenters
           @user = user
           @list_conf = list_conf
 
-          # FIXME: remove this, e.g use helper method directly in here
-          @p_media_entry =
-            Presenters::MediaEntries::PresMediaEntry.new(@app_resource)
-
           @load_meta_data = load_meta_data
         end
 
@@ -50,10 +46,6 @@ module Presenters
         end
 
         included do
-
-          def title
-            @p_media_entry.title
-          end
 
           def media_type
             @app_resource.try(:media_file).try(:media_type)

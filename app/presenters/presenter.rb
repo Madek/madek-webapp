@@ -2,7 +2,6 @@ class Presenter
 
   include Presenters::Modules::DumpHelpers
   include Rails.application.routes.url_helpers
-  include Presenters::Helpers::Helpers
 
   def api
     self_singleton_methods = self.singleton_methods

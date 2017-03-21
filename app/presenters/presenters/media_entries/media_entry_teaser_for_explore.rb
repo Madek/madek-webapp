@@ -5,16 +5,10 @@ module Presenters
         super(media_entry)
       end
 
-      def title
-        # PERF: try to get title from model
-        @app_resource.title \
-          || Presenters::MediaEntries::PresMediaEntry.new(@app_resource).title
-      end
+      delegate_to_app_resource :title
 
       def authors_pretty
-        authors = @app_resource.meta_data
-          .find_by(meta_key_id: 'madek_core:authors')
-        authors ? authors.value.map(&:to_s).join(', ') : ''
+        @app_resource.authors || ''
       end
 
       def image_url

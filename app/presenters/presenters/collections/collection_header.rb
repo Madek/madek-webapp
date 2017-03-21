@@ -8,14 +8,16 @@ module Presenters
         app_resource,
         user,
         show_collection_selection: false,
-        search_term: '')
+        search_term: ''
+      )
 
         super(app_resource)
         @user = user
         @show_collection_selection = show_collection_selection
         @search_term = search_term
-        @p_collection = Presenters::Collections::PresCollection.new(@app_resource)
       end
+
+      delegate_to_app_resource :title
 
       def collection_selection
         if @show_collection_selection
@@ -29,10 +31,6 @@ module Presenters
             @app_resource,
             @search_term)
         end
-      end
-
-      def title
-        @p_collection.title
       end
 
       def url
