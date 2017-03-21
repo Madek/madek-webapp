@@ -17,6 +17,7 @@ class MediaEntriesController < ApplicationController
 
   # used in Concerns::ResourceListParams
   ALLOWED_FILTER_PARAMS = [:search, :meta_data, :media_files, :permissions].freeze
+  EMBED_SUPPORTED_MEDIA = Madek::Constants::Webapp::EMBED_SUPPORTED_MEDIA
 
   layout false, only: [:embedded]
 
@@ -47,10 +48,11 @@ class MediaEntriesController < ApplicationController
     # custom auth, only public entries supported!
     skip_authorization
     media_entry = MediaEntry.find(id_param)
-    unless media_entry.media_file.try(:media_type) == 'video'
-      raise ActionController::NotImplemented, 'video'
-    end
+    media_type = media_entry.try(:media_file).try(:media_type)
     raise Errors::ForbiddenError unless media_entry.get_metadata_and_previews
+    unless EMBED_SUPPORTED_MEDIA.include?(media_type)
+      raise ActionController::NotImplemented, "media: #{EMBED_SUPPORTED_MEDIA}"
+    end
 
     conf = params.permit(:maxwidth, :maxheight)
     @get = Presenters::MediaEntries::MediaEntryEmbedded.new(media_entry, conf)

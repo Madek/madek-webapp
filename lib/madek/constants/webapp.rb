@@ -12,6 +12,20 @@ module Madek
         unknown: 'thumbnails/document_unknown.png'
       }
 
+      # embed
+      EMBED_SUPPORTED_RESOURCES = ['media_entries'].freeze
+      EMBED_SUPPORTED_MEDIA = ['video'].freeze
+      EMBED_UI_EXTRA_HEIGHT = 55 # pixels (added by tile on bottom)
+
+      # oEmbed
+      OEMBED_VERSION = '1.0'.freeze # should never change, spec is frozen
+      OEMBED_API_ENDPOINT = '/oembed'.freeze
+      # if a config (according to oEmbed spec) is needed, it would be like this:
+      # OEMBED_CONFIG = [{ # pairs of supported URL schemes and their API endpoint
+      #     url_scheme: 'https://madek.example.com/entries/*',
+      #     api_endpoint: 'https://madek.example.com/oembed'
+      # }]
+
       VERIFY_AUTH_SKIP_CONTROLLERS = \
         [ConfigurationManagementBackdoorController,
          ErrorsController,

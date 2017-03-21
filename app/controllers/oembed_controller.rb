@@ -4,18 +4,11 @@ class OembedController < ApplicationController
 
   include Presenters::Shared::MediaResource::Modules::IndexPresenterByClass
 
-  OEMBED_VERSION = '1.0'.freeze # should never change, spec is frozen
-  API_ENDPOINT = '/oembed'.freeze
-  # naming like controllers, only is supposed to work for "resourcefull routes"!
-  SUPPORTED_RESOURCES = ['media_entries'].freeze
-  SUPPORTED_MEDIA = ['video'].freeze
-  UI_EXTRA_HEIGHT = 55 # pixels (added by tile on bottom)
-
-  # # if a config (according to oEmbed spec) needed to be built, it would be like:
-  # OEMBED_CONFIG = [{ # pairs of supported URL schemes and their API endpoint
-  #     url_scheme: 'https://madek.example.com/entries/*',
-  #     api_endpoint: 'https://madek.example.com/oembed'
-  # }]
+  OEMBED_VERSION = Madek::Constants::Webapp::OEMBED_VERSION
+  API_ENDPOINT = Madek::Constants::Webapp::OEMBED_API_ENDPOINT
+  SUPPORTED_RESOURCES = Madek::Constants::Webapp::EMBED_SUPPORTED_RESOURCES
+  SUPPORTED_MEDIA = Madek::Constants::Webapp::EMBED_SUPPORTED_MEDIA
+  UI_EXTRA_HEIGHT = Madek::Constants::Webapp::EMBED_UI_EXTRA_HEIGHT
 
   def show
     # NOTE: this *only* returns JSON, no matter what was requested!
@@ -70,7 +63,6 @@ class OembedController < ApplicationController
 
   private
 
-  # NOTE: only 'video' type supported
   def oembed_response(resource, presenter, params)
     # NOTE: MUST set fixed sizes on iframe, so we need to proportionally scale it!
     #      'minwidth' and 'minheight' is what the UI supports
