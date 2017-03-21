@@ -26,7 +26,14 @@
   position: relative
   min-height: 500px
   max-width: 500px
+  vertical-align: middle
 
-// .ui-media-overview-preview .ui-media-overview-preview-item
-//   display: inline-block
-//   max-width: 500px
+// enforce maximum media height *except* when in fullscreen (videojs)
+.ui-media-overview-preview
+  img, audio, video
+    display: inline-block
+    max-height: 500px
+
+  .vjs-fullscreen
+    img, audio, video
+      max-height: initial

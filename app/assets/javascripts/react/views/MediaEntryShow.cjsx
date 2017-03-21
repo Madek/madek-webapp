@@ -34,12 +34,20 @@ module.exports = React.createClass
     # [summaryContext, listContexts] = [f.first(metaData, 1), f.drop(metaData, 1)]
 
     # overview has summary on the left and preview on the right
+    previewStyle = {width: '100%'}
+    previewStyle.maxHeight = '500px' unless get.media_type == 'video'
     overview =
       content: <MetaDataList
                   mods='ui-media-overview-metadata'
                   tagMods='small'
                   list={summaryContext} showTitle={false}/>
-      previewLg: <MediaEntryPreview get={get} mods='ui-media-overview-preview'/>
+      previewLg: <MediaEntryPreview
+        get={get}
+        mediaProps={{style: previewStyle}}
+        mods='ui-media-overview-preview'
+        withLink 
+        withZoomLink
+        />
 
     layout =
       overview: <ResourceShowOverview mods='ui-media-overview' {...overview}/>

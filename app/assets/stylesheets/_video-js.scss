@@ -37,6 +37,8 @@ body.vjs-full-window {
     right: 0;
     width: 100% !important;
     height: 100% !important;
+    max-width: initial !important;
+    max-height: initial !important;
   }
   .video-js:-webkit-full-screen {
     width: 100% !important;

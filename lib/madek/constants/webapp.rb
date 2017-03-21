@@ -14,7 +14,9 @@ module Madek
 
       # embed
       EMBED_SUPPORTED_RESOURCES = ['media_entries'].freeze
-      EMBED_SUPPORTED_MEDIA = ['video'].freeze
+      EMBED_SUPPORTED_MEDIA = ['video', 'audio', 'image'].freeze
+      EMBED_UI_MIN_HEIGHT = 140 # pixels
+      EMBED_UI_MIN_WIDTH = 320 # pixels
       EMBED_UI_EXTRA_HEIGHT = 55 # pixels (added by tile on bottom)
 
       # oEmbed

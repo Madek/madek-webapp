@@ -10,6 +10,7 @@ class MediaEntriesController < ApplicationController
   include Modules::MediaEntries::Upload
   include Modules::MediaEntries::MetaDataUpdate
   include Modules::MediaEntries::PermissionsUpdate
+  include Modules::MediaEntries::Embedded
   include Modules::MetaDataStorage
   include Modules::Resources::ResourceCustomUrls
   include Modules::Resources::ResourceTransferResponsibility
@@ -17,9 +18,6 @@ class MediaEntriesController < ApplicationController
 
   # used in Concerns::ResourceListParams
   ALLOWED_FILTER_PARAMS = [:search, :meta_data, :media_files, :permissions].freeze
-  EMBED_SUPPORTED_MEDIA = Madek::Constants::Webapp::EMBED_SUPPORTED_MEDIA
-
-  layout false, only: [:embedded]
 
   def show
     # TODO: handle in MediaResources::CrudActions
@@ -42,23 +40,6 @@ class MediaEntriesController < ApplicationController
   # NOTE: modal "on top of" #show
   def export
     show
-  end
-
-  def embedded
-    # custom auth, only public entries supported!
-    skip_authorization
-    media_entry = MediaEntry.find(id_param)
-    media_type = media_entry.try(:media_file).try(:media_type)
-    raise Errors::ForbiddenError unless media_entry.get_metadata_and_previews
-    unless EMBED_SUPPORTED_MEDIA.include?(media_type)
-      raise ActionController::NotImplemented, "media: #{EMBED_SUPPORTED_MEDIA}"
-    end
-
-    conf = params.permit(:maxwidth, :maxheight)
-    @get = Presenters::MediaEntries::MediaEntryEmbedded.new(media_entry, conf)
-
-    # allow this to be displaye inside an <iframe>
-    response.headers.delete('X-Frame-Options')
   end
 
   def destroy

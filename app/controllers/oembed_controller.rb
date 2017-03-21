@@ -1,14 +1,13 @@
 # rubocop:disable Metrics/MethodLength
-# rubocop:disable Metrics/LineLength
 class OembedController < ApplicationController
 
+  include EmbedHelper
   include Presenters::Shared::MediaResource::Modules::IndexPresenterByClass
 
   OEMBED_VERSION = Madek::Constants::Webapp::OEMBED_VERSION
   API_ENDPOINT = Madek::Constants::Webapp::OEMBED_API_ENDPOINT
   SUPPORTED_RESOURCES = Madek::Constants::Webapp::EMBED_SUPPORTED_RESOURCES
   SUPPORTED_MEDIA = Madek::Constants::Webapp::EMBED_SUPPORTED_MEDIA
-  UI_EXTRA_HEIGHT = Madek::Constants::Webapp::EMBED_UI_EXTRA_HEIGHT
 
   def show
     # NOTE: this *only* returns JSON, no matter what was requested!
@@ -47,6 +46,11 @@ class OembedController < ApplicationController
       return error_response(err, 500)
     end
 
+    # preview?
+    unless resource.try(:media_file).try(:previews).try(:any?)
+      return render(json: { error: 'no media!' }, status: 404)
+    end
+
     # public?
     unless resource.get_metadata_and_previews
       return render(json: { error: 'non-public Resource!' }, status: 401)
@@ -69,12 +73,11 @@ class OembedController < ApplicationController
     #       we respect it but don't return an error (would be correct but no fun)
     scaled = scale_preview_sizes(
       presenter,
-      ui_minwidth: 320, ui_minheight: 140, ui_extraheight: UI_EXTRA_HEIGHT,
       maxwidth: params[:maxwidth], maxheight: params[:maxheight])
 
     target_url = absolute_url(
       embedded_media_entry_path(
-        resource.id, maxheight: scaled[:height], maxwidth: scaled[:width]))
+        resource.id, height: scaled[:height], width: scaled[:width]))
 
     {
       version: OEMBED_VERSION,
@@ -82,7 +85,9 @@ class OembedController < ApplicationController
       width: scaled[:width],
       height: scaled[:height],
       title: resource.title.presence || '', # always include
-      author_name: [resource.authors.presence, resource.copyright_notice.presence].compact.join(' / '),
+      author_name: [
+        resource.authors.presence, resource.copyright_notice.presence
+      ].compact.join(' / '),
       provider_name: settings.site_title,
       provider_url: absolute_url(''),
       html: oembed_iframe(target_url, scaled[:width], scaled[:height])
@@ -116,24 +121,4 @@ class OembedController < ApplicationController
     HTML
   end
 
-  def scale_preview_sizes(entry, ui_minwidth:, ui_minheight:, ui_extraheight:, maxwidth: nil, maxheight: nil)
-    # we don't know size of source, but get from largest preview
-    source_width = entry.media_file.previews[:videos].map(&:width).max
-    source_height = entry.media_file.previews[:videos].map(&:height).max
-
-    # use optional params or from source – don't enlarge unless requested.
-    max_width = maxwidth.nil? ? source_width : [maxwidth.to_i, source_width].min
-    max_height = maxheight.nil? ? source_height + ui_extraheight : [maxheight.to_i, source_height + ui_extraheight].min
-    max_height -= ui_extraheight
-    scale = [max_width.to_f / source_width, max_height.to_f / source_height].min
-
-    # dont go smaller than the UI supports
-    {
-      width: [(source_width * scale), ui_minwidth].max.to_i,
-      height: [(source_height * scale), ui_minheight].max.to_i + ui_extraheight
-    }
-  end
-
 end
-# rubocop:enable Metrics/MethodLength
-# rubocop:enable Style/MultilineTernaryOperator

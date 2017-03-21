@@ -25,21 +25,21 @@ module.exports = React.createClass({
     },
 
   render: ()->
-
-    {image_url, title, media_type, type} = @props.get
-    {previews} = @props.get.media_file
+    {get, mediaProps, withLink, withZoomLink} = @props
+    {image_url, title, media_type, type} = get
+    {previews} = get.media_file
 
     classes = cx(this.props.mods)
 
     # get the largest image and use it as 'full size link'
     # NOTE: we want this link even if the file is the same,
     # for consistency and bc it's easier for users…
-    href = f.chain(previews.images).sortBy('width').last().get('url').run()
-
+    imageHref = f.chain(previews.images).sortBy('width').last().get('url').run()
 
     # just the picure element (might be wrapped)
-    picture = if image_url
-      <Picture title={title} src={image_url} />
+    # prefer the given image_url, but fallback to largest
+    picture = if image_url || imageHref
+      <Picture title={title} src={image_url || imageHref} {...mediaProps} />
     else
       <ResourceIcon mediaType={media_type} thumbnail={false} type={type} />
 
@@ -47,10 +47,10 @@ module.exports = React.createClass({
     if @props.get.media_file && @props.get.media_file.original_file_url
       originalUrl = @props.get.media_file.original_file_url
 
-    mediaPlayerConfig = {
-      poster: image_url,
-      originalUrl: originalUrl,
-    }
+    mediaPlayerConfig = f.merge({
+      poster: imageHref || image_url,
+      originalUrl: originalUrl
+    }, mediaProps)
 
     get = @props.get
     not_ready = (get.media_type == 'video' || get.media_type == 'audio') && get.media_file &&
@@ -97,12 +97,15 @@ module.exports = React.createClass({
               <MediaPlayer type='video'
                 {...mediaPlayerConfig}
                 sources={previews.videos}
-                options={{fluid: true}}
+                options={f.merge({fluid: true}, f.get(mediaPlayerConfig, 'options'))}
               />
 
             # audio player
             when previews.audios
-              <div className='ui-container mvm'>
+              <div
+                className='ui-container mvm'
+                style={{width: '100%', padding: '1em', display: 'inline-block', boxSizing: 'border-box'}}
+              >
                 <MediaPlayer type='audio'
                   {...mediaPlayerConfig}
                   sources={previews.audios}
@@ -110,14 +113,13 @@ module.exports = React.createClass({
               </div>
 
             # picture with link and 'zoom' icon on hover
-            when href
-              hasZoom = !(href == image_url)
-              <div className={cx({'ui-has-magnifier': hasZoom})}>
-                <a href={href}>
+            when imageHref && (withLink || withZoomLink)
+              <div className={cx({'ui-has-magnifier': withZoomLink})}>
+                <a href={imageHref}>
                   {picture}
                 </a>
-                {if hasZoom
-                  <a href={href} target='_blank' className='ui-magnifier' style={{textDecoration: 'none'}}>
+                {if withZoomLink
+                  <a href={imageHref} target='_blank' className='ui-magnifier' style={{textDecoration: 'none'}}>
                     <Icon i='magnifier' mods='bright'/>
                   </a>}
               </div>

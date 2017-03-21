@@ -1,6 +1,6 @@
 :ruby
-  # only for videos
-  return unless @get.media_type == 'video'
+  # only for supported types
+  return unless Madek::Constants::Webapp::EMBED_SUPPORTED_MEDIA.include?(@get.media_type)
 
   # NOTE: according to the spec, relative links would be enough,
   # but the wordpress client only understands absolute URLs (incl. scheme and host)

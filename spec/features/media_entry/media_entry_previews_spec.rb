@@ -25,7 +25,7 @@ feature 'Resource: MediaEntry' do
       visit media_entry_path(entry)
 
       preview = page.find('.ui-media-overview-preview')
-      preview_link = preview.find('a')
+      preview_link = preview.find('a:not(.ui-magnifier)')
       preview_img = preview_link.find('img')
 
       expect(URI.parse(preview_img[:src]).path).to eq(large_preview)

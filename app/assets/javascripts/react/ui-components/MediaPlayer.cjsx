@@ -28,15 +28,18 @@ module.exports = React.createClass
       @setState({showHint: true})
 
   render: ({type, sources, poster} = @props)->
-    MediaTag = type
-
     # TMP: audios (will just re-use <VideoJS> which could handle audio via `videojs`)
     if type == 'audio'
       <div style={{margin: '0px', padding: '0px'}}>
-        <MediaTag controls ref={@_ref}>
+        <audio
+          controls
+          preload='auto'
+          style={{width: '100%'}}
+          ref={@_ref}
+        >
           {f.map sources, (vid)->
             <source src={vid.url} type={vid.content_type} key={vid.content_type + vid.url}/>}
-        </MediaTag>
+        </audio>
         {
           if @state.showHint
             <p style={{marginTop: '40px'}}>
