@@ -8,16 +8,21 @@ class CollectionThumbUrl
     @recursed_collections_for_cover = []
   end
 
+  # legacy helper, `get_cover` should be used
   def get(size:)
-    cover_media_entry = _choose_media_entry_for_preview
-    preview = \
-      if cover_media_entry.try(:media_file).present?
-        images = Presenters::MediaFiles::MediaFile.new(cover_media_entry, @user)
-          .try(:image_previews)
-
-        images.try(:fetch, size, nil) || images.try(:values).try(:first)
-      end
+    cover_previews = get_cover
+    preview = cover_previews.try(:fetch, size, nil)
+    preview ||= cover_previews.try(:values).try(:first)
     preview.url if preview.present?
+  end
+
+  def get_cover
+    cover_media_entry = _choose_media_entry_for_preview
+    if cover_media_entry.try(:media_file).present?
+      Presenters::MediaFiles::MediaFile
+        .new(cover_media_entry, @user)
+        .try(:previews).try(:[], :images)
+    end
   end
 
   private

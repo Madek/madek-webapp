@@ -15,6 +15,10 @@ module Presenters
         @load_meta_data = load_meta_data
       end
 
+      def cover
+        CollectionThumbUrl.new(@app_resource, @user).get_cover
+      end
+
     end
   end
 end

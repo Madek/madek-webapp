@@ -46,10 +46,15 @@ HighlightedContent = React.createClass
 
     aClass = cx('ui-tile', {'ui-tile--set': mediaResource.type == 'Collection'})
 
-    images = f.get(mediaResource, 'media_file.previews.images')
+    images = if f.get(mediaResource, 'type') == 'Collection'
+      f.get(mediaResource, 'cover')
+    else
+      f.get(mediaResource, 'media_file.previews.images')
     # smallest image that is smaller than wanted or the largest available:
     image = f.findLast(images, (i) => i.width >= 300)
     image ||= f.first(f.where(images, (i) => i.width > 0))
+
+    console.error 'No image!', {props: @props}
 
     imgProps = {}
     if image
