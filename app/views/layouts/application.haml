@@ -12,6 +12,13 @@
   }
 
 
+:ruby
+
+  if controller.class.name == 'MediaEntriesController' && controller.action_name == 'show'
+    render('media_entries/_show/head_meta_tags')
+  end
+
+
 - content_for(:body) do
 
   - if content_for?(:modal)

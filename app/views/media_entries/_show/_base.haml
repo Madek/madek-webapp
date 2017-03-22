@@ -1,6 +1,4 @@
 :ruby
-  render('media_entries/_show/head_meta_tags')
-
   unless @get.published?
     content_for(:top_notice) { render('media_entries/_show/unpublished_header') }
   end
