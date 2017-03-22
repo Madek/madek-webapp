@@ -1,6 +1,10 @@
 :ruby
   unless @get.published?
-    content_for(:top_notice) { render('media_entries/_show/unpublished_header') }
+    if not flash.to_hash.present?
+      content_for(:app_alerts) do
+        component('alert', level: 'warning', text: t(:media_entry_not_published_warning_msg))
+      end
+    end
   end
 
   unless content_for?(:header)
