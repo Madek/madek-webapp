@@ -110,7 +110,7 @@ module Presenters
       end
 
       def calc_30_percent_position(list) # NOTE: extracted bc. `flog` hates math
-        list[(list.length.to_f / 10 * 3.0).ceil]
+        list[[(list.length.to_f / 10 * 3.0).ceil, list.length - 1].min]
       end
 
       def latest_zencoder_job
