@@ -115,7 +115,7 @@ feature 'Embed aka. "Madek-Player"', with_db: :test_media do
       do_oembed_client(
         url: media_entry_path(audio_entry)
       )
-      expected_size = { height: 300, width: 500 }
+      expected_size = { height: 200, width: 500 }
 
       expect(displayed_embedded_ui)
         .to eq(expected_embedded_ui(expected_size, AUDIO_CAPTION))
@@ -127,7 +127,7 @@ feature 'Embed aka. "Madek-Player"', with_db: :test_media do
         maxheight: 320,
         maxwidth: 400
       )
-      expected_size = { height: 251, width: 400 }
+      expected_size = { height: 195, width: 400 }
 
       expect(displayed_embedded_ui)
         .to eq(expected_embedded_ui(expected_size, AUDIO_CAPTION))

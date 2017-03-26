@@ -25,14 +25,14 @@ module.exports = React.createClass
     hasPlayer = media_type == 'audio' || media_type == 'video'
 
     defaultSize = {width: 500, height: 500}
-    defaultSize.height = 300 if media_type == 'audio'
+    defaultSize.height = 200 if media_type == 'audio'
 
     eWidth = embed_config.width || defaultSize.width
     eHeight = embed_config.height || defaultSize.height
 
     style = {
-      width: (if eWidth > 0 then eWidth + 'px'),
-      height: (if eHeight > 0 then eHeight + 'px'),
+      maxWidth: (if eWidth > 0 then eWidth + 'px'),
+      maxHeight: (if eHeight > 0 then eHeight + 'px'),
       overflow: 'hidden'
     }
 
@@ -53,14 +53,17 @@ module.exports = React.createClass
       width: eWidth + 'px'
     }
 
-    linkProps = {
-      href: get.url,
-      target: '_blank'
-    }
-
-    mediaProps = switch media_type
+    switch media_type
       when 'image', 'document'
-        {
+        style = f.assign({}, style, {
+          width: (if eWidth > 0 then eWidth + 'px'),
+          height: (if eHeight > 0 then eHeight + 'px')
+        })
+        linkProps = {
+          href: get.url,
+          target: '_blank'
+        }
+        mediaProps = {
           style: {
             maxWidth: eWidth + 'px'
             maxHeight: (eHeight - (1 * CAPTION_HEIGHT)) + 'px'
@@ -69,7 +72,7 @@ module.exports = React.createClass
           }
         }
       when 'video'
-        f.merge(fullsize, {
+        mediaProps = f.merge(fullsize, {
           options: {
             fluid: false,
             height: eHeight - CAPTION_HEIGHT,
@@ -77,7 +80,7 @@ module.exports = React.createClass
           }
         })
       else
-        fullsize
+        mediaProps = fullsize
 
     mediaPreview = <MediaEntryPreview
       get={get}

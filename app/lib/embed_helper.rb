@@ -3,8 +3,11 @@
 module EmbedHelper
   extend ActiveSupport::Concern
 
-  UI_MIN_HEIGHT = Madek::Constants::Webapp::EMBED_UI_MIN_HEIGHT
+  UI_DEFAULT_WIDTH  = Madek::Constants::Webapp::EMBED_UI_DEFAULT_WIDTH
+  UI_DEFAULT_HEIGHT = Madek::Constants::Webapp::EMBED_UI_DEFAULT_HEIGHT
+  UI_DEFAULT_HEIGHTS = Madek::Constants::Webapp::EMBED_UI_DEFAULT_HEIGHTS
   UI_MIN_WIDTH = Madek::Constants::Webapp::EMBED_UI_MIN_WIDTH
+  UI_MIN_HEIGHT = Madek::Constants::Webapp::EMBED_UI_MIN_HEIGHT
   UI_EXTRA_HEIGHT = Madek::Constants::Webapp::EMBED_UI_EXTRA_HEIGHT
 
   def scale_preview_sizes(
@@ -12,14 +15,11 @@ module EmbedHelper
     ui_minwidth: UI_MIN_WIDTH, ui_minheight: UI_MIN_HEIGHT, ui_extraheight: UI_EXTRA_HEIGHT,
     maxwidth: nil, maxheight: nil
   )
-    # default *media* sizes
-    default_width = 500
-    default_height = 500
+    type = entry.media_type.to_sym
+    default_width = UI_DEFAULT_WIDTH
+    default_height = UI_DEFAULT_HEIGHTS[type] || UI_DEFAULT_HEIGHT
 
-    case entry.media_type.to_sym
-    when :audio
-      # make more wide than high
-      default_height = 300
+    case type
     when :video
       # we don't know size of source, but get from largest preview
       source_width = entry.media_file.previews[:videos].map(&:width).max

@@ -15,9 +15,13 @@ module Madek
       # embed
       EMBED_SUPPORTED_RESOURCES = ['media_entries'].freeze
       EMBED_SUPPORTED_MEDIA = ['video', 'audio', 'image'].freeze
-      EMBED_UI_MIN_HEIGHT = 140 # pixels
-      EMBED_UI_MIN_WIDTH = 320 # pixels
-      EMBED_UI_EXTRA_HEIGHT = 55 # pixels (added by tile on bottom)
+      # pixels:
+      EMBED_UI_DEFAULT_WIDTH = 500
+      EMBED_UI_DEFAULT_HEIGHT = 500
+      EMBED_UI_DEFAULT_HEIGHTS = { audio: 200 }
+      EMBED_UI_MIN_WIDTH = 320
+      EMBED_UI_MIN_HEIGHT = 140
+      EMBED_UI_EXTRA_HEIGHT = 55 # (added by tile on bottom)
 
       # oEmbed
       OEMBED_VERSION = '1.0'.freeze # should never change, spec is frozen
