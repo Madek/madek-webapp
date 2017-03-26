@@ -22,6 +22,8 @@ module.exports = React.createClass
     if (!media_type == 'video') then throw new Error('only videos supported!')
     {previews, original_file_url} = media_file
 
+    hasPlayer = media_type == 'audio' || media_type == 'video'
+
     defaultSize = {width: 500, height: 500}
     defaultSize.height = 300 if media_type == 'audio'
 
@@ -77,15 +79,20 @@ module.exports = React.createClass
       else
         fullsize
 
+    mediaPreview = <MediaEntryPreview
+      get={get}
+      mediaProps={mediaProps}
+    />
+
     <div style={style}>
       <div className="ui-tile" style={{display: 'block'}}>
         <div className="ui-tile__body" style={bodyStyle}>
-          <a {...linkProps}>
-            <MediaEntryPreview
-              get={get}
-              mediaProps={mediaProps}
-            />
-          </a>
+          {if hasPlayer
+            mediaPreview
+          else
+            <a {...linkProps}>
+              {mediaPreview}
+            </a>}
         </div>
         <a
           className="ui-tile__foot"
