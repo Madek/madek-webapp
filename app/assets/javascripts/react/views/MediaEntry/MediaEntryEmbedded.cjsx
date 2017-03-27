@@ -30,6 +30,8 @@ module.exports = React.createClass
     eWidth = embed_config.width || defaultSize.width
     eHeight = embed_config.height || defaultSize.height
 
+    # for tile body and footer
+    linkProps = { href: get.url, target: '_blank' }
     style = {
       maxWidth: (if eWidth > 0 then eWidth + 'px'),
       maxHeight: (if eHeight > 0 then eHeight + 'px'),
@@ -59,10 +61,6 @@ module.exports = React.createClass
           width: (if eWidth > 0 then eWidth + 'px'),
           height: (if eHeight > 0 then eHeight + 'px')
         })
-        linkProps = {
-          href: get.url,
-          target: '_blank'
-        }
         mediaProps = {
           style: {
             maxWidth: eWidth + 'px'
