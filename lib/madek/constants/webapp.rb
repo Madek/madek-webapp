@@ -14,7 +14,13 @@ module Madek
 
       # embed
       EMBED_SUPPORTED_RESOURCES = ['media_entries'].freeze
-      EMBED_SUPPORTED_MEDIA = ['video', 'audio', 'image'].freeze
+      EMBED_MEDIA_TYPES_MAP = {
+        # madek_type : oembed_type
+        video: :video,
+        audio: :rich,
+        image: :rich
+      }.freeze
+      EMBED_SUPPORTED_MEDIA = EMBED_MEDIA_TYPES_MAP.keys.map(&:to_s).freeze
       # pixels:
       EMBED_UI_DEFAULT_WIDTH = 500
       EMBED_UI_DEFAULT_HEIGHT = 500

@@ -8,6 +8,7 @@ class OembedController < ApplicationController
   API_ENDPOINT = Madek::Constants::Webapp::OEMBED_API_ENDPOINT
   SUPPORTED_RESOURCES = Madek::Constants::Webapp::EMBED_SUPPORTED_RESOURCES
   SUPPORTED_MEDIA = Madek::Constants::Webapp::EMBED_SUPPORTED_MEDIA
+  EMBED_MEDIA_TYPES_MAP = Madek::Constants::Webapp::EMBED_MEDIA_TYPES_MAP
 
   def show
     # NOTE: this *only* returns JSON, no matter what was requested!
@@ -81,7 +82,7 @@ class OembedController < ApplicationController
 
     {
       version: OEMBED_VERSION,
-      type: 'video',
+      type: EMBED_MEDIA_TYPES_MAP[presenter.media_type.to_sym],
       width: scaled[:width],
       height: scaled[:height],
       title: resource.title.presence || '', # always include
