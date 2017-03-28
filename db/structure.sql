@@ -891,7 +891,9 @@ CREATE TABLE settings (
     disable_borrow_section boolean DEFAULT false NOT NULL,
     disable_borrow_section_message text,
     text text,
-    timeout_minutes integer DEFAULT 30 NOT NULL
+    timeout_minutes integer DEFAULT 30 NOT NULL,
+    external_base_url character varying,
+    custom_head_tag text
 );
 
 
@@ -2514,6 +2516,8 @@ INSERT INTO schema_migrations (version) VALUES ('104');
 INSERT INTO schema_migrations (version) VALUES ('105');
 
 INSERT INTO schema_migrations (version) VALUES ('106');
+
+INSERT INTO schema_migrations (version) VALUES ('107');
 
 INSERT INTO schema_migrations (version) VALUES ('11');
 
