@@ -25,12 +25,20 @@ module Modules
         }
       end
 
-      def action_values(
-        params,
-        parent_collection_id,
-        skip_parent_authorization: false)
+      def read_media_entries(resource_ids)
+        media_entry_ids = resource_ids_to_uuids(resource_ids, 'MediaEntry')
+        authorize_media_entries(media_entry_ids)
+      end
 
-        auth_authorize MediaEntry, :logged_in?
+      def read_collections(resource_ids)
+        collection_ids = resource_ids_to_uuids(resource_ids, 'Collection')
+        authorize_collections(collection_ids)
+      end
+
+      def read_parent_collection(
+        parent_collection_id, skip_parent_authorization)
+
+        return unless parent_collection_id
 
         parent_collection = Collection.unscoped.find(parent_collection_id)
         # Cannot authorize for clipboard, since default scope would say
@@ -38,19 +46,24 @@ module Modules
         unless skip_parent_authorization
           auth_authorize parent_collection, "#{action_name}?".to_sym
         end
+        parent_collection
+      end
+
+      def action_values(
+        params,
+        parent_collection_id,
+        skip_parent_authorization: false)
+
+        auth_authorize MediaEntry, :logged_in?
 
         resource_ids = params.require(:resource_id)
 
-        media_entry_ids = resource_ids_to_uuids(resource_ids, 'MediaEntry')
-        collection_ids = resource_ids_to_uuids(resource_ids, 'Collection')
-
-        media_entries = authorize_media_entries(media_entry_ids)
-        collections = authorize_collections(collection_ids)
-
         {
-          parent_collection: parent_collection,
-          media_entries: media_entries,
-          collections: collections
+          media_entries: read_media_entries(resource_ids),
+          collections: read_collections(resource_ids),
+          parent_collection: read_parent_collection(
+            parent_collection_id,
+            skip_parent_authorization)
         }
       end
 

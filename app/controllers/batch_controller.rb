@@ -6,6 +6,7 @@ class BatchController < ApplicationController
 
   include Modules::Batch::BatchAddToSet
   include Modules::Batch::BatchRemoveFromSet
+  include Modules::Batch::BatchDestroyResources
   include Modules::Batch::BatchPermissionActions
   include Modules::Batch::BatchAddToClipboard
 

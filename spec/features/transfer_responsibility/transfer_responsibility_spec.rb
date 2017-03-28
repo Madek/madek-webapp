@@ -126,6 +126,7 @@ feature 'transfer responsibility shared' do
       remove_from_set: { count: 0, active: false },
       media_entries_metadata: { count: 0, active: false },
       collections_metadata: { count: 0, active: false },
+      resources_destroy: { count: 0, active: false },
       media_entries_permissions: { count: 0, active: false },
       collections_permissions: { count: 0, active: false },
       media_entries_transfer_responsibility: { count: 0, active: false },
@@ -151,6 +152,9 @@ feature 'transfer responsibility shared' do
       collections_metadata: {
         count: 1,
         highlights: [collection1] },
+      resources_destroy: {
+        count: 2,
+        highlights: [media_entry1, collection1] },
       media_entries_permissions: {
         count: 2,
         highlights: [media_entry1, media_entry4] },

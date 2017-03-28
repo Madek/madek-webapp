@@ -11,6 +11,9 @@ toExport =
   batchTransferResponsibilityResource: (resource) ->
     resource.responsibility_transferable
 
+  batchDestroyResource: (resource) ->
+    resource.destroyable
+
   batchMetaDataResources: (selection, types) ->
     f.filter selection.selection, (r) =>
       @batchMetaDataResource(r) && f.includes(types, r.type)
@@ -22,6 +25,10 @@ toExport =
   batchTransferResponsibilityResources: (selection, types) ->
     f.filter selection.selection, (r) =>
       @batchTransferResponsibilityResource(r) && f.includes(types, r.type)
+
+  batchDestroyResources: (selection, types) ->
+    f.filter selection.selection, (r) =>
+      @batchDestroyResource(r) && f.includes(types, r.type)
 
 
 module.exports = toExport

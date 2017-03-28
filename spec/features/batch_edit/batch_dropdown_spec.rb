@@ -25,6 +25,7 @@ feature 'Batch dropdown' do
       add_to_set: { count: 0, active: false },
       remove_from_set: { count: 0, active: false },
       media_entries_metadata: { count: 0, active: false },
+      resources_destroy: { count: 0, active: false },
       collections_metadata: { count: 0, active: false },
       media_entries_permissions: { count: 0, active: false },
       collections_permissions: { count: 0, active: false },
@@ -41,6 +42,7 @@ feature 'Batch dropdown' do
       remove_from_set: { count: 6, highlights: all_resources },
       media_entries_metadata: { count: 3, highlights: media_entries_1_2_3 },
       collections_metadata: { count: 3, highlights: collections_1_2_3 },
+      resources_destroy: { count: 6, highlights: all_resources },
       media_entries_permissions: { count: 3, highlights: media_entries_1_2_3 },
       collections_permissions: { count: 3 },
       media_entries_transfer_responsibility: { count: 3 },
@@ -57,6 +59,7 @@ feature 'Batch dropdown' do
       remove_from_set: { count: 2, highlights: media_entries_1_3 },
       media_entries_metadata: { count: 2, highlights: media_entries_1_3 },
       collections_metadata: { count: 0, active: false, highlights: [] },
+      resources_destroy: { count: 2, highlights: media_entries_1_3 },
       media_entries_permissions: { count: 2, highlights: media_entries_1_3 },
       collections_permissions: { count: 0, active: false, highlights: [] },
       media_entries_transfer_responsibility: {
@@ -75,6 +78,7 @@ feature 'Batch dropdown' do
       remove_from_set: { count: 2, highlights: collections_1_3 },
       media_entries_metadata: { count: 0, active: false, highlights: [] },
       collections_metadata: { count: 2, highlights: collections_1_3 },
+      resources_destroy: { count: 2, highlights: collections_1_3 },
       media_entries_permissions: { count: 0, active: false, highlights: [] },
       collections_permissions: { count: 2, highlights: collections_1_3 },
       media_entries_transfer_responsibility: {

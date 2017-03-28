@@ -66,6 +66,7 @@ Madek::Application.routes.draw do
   end
 
   get 'batch_select_add_to_set', controller: :batch, action: :batch_select_add_to_set, as: 'batch_select_add_to_set'
+  put 'batch_destroy_resources', controller: :batch, action: :batch_destroy_resources, as: 'batch_destroy_resources'
   put 'batch_add_to_set', controller: :batch, action: :batch_add_to_set, as: 'batch_add_to_set'
   get 'batch_ask_remove_from_set', controller: :batch, action: :batch_ask_remove_from_set, as: 'batch_ask_remove_from_set'
   patch 'batch_remove_from_set', controller: :batch, action: :batch_remove_from_set, as: 'batch_remove_from_set'

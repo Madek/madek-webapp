@@ -45,6 +45,8 @@ SortDropdown = require('./resourcesbox/SortDropdown.cjsx')
 ActionsDropdown = require('./resourcesbox/ActionsDropdown.cjsx')
 Clipboard = require('./resourcesbox/Clipboard.cjsx')
 
+railsFormPut = require('../../lib/form-put-with-errors.coffee')
+
 # Props/Config overview:
 # - props.get.with_actions = should the UI offer any interaction
 # - props.fetchRelations = should relations be fetched (async, only grid layout)
@@ -144,7 +146,7 @@ module.exports = React.createClass
     modelReloading: false
     showBatchTransferResponsibility: false
     batchTransferResponsibilityResources: []
-
+    batchDestroyResourcesModal: false
   }
 
   _allowedLayoutModes: () ->
@@ -330,6 +332,26 @@ module.exports = React.createClass
   _onBatchEditSets: (resources, event) ->
     @_sharedOnBatch(resources, event, '/sets/batch_edit_meta_data_by_context')
 
+  _onBatchDeleteResources: (resources, event) ->
+    event.preventDefault()
+    @setState(batchDestroyResourcesModal: true, batchDestroyResourcesError: false)
+    return false
+
+  _onExecuteBatchDeleteResources: () ->
+    resourceIds = @_selectedResourceIdsWithTypes()
+    url = setUrlParams('/batch_destroy_resources', {})
+    railsFormPut.byData({resource_id: resourceIds}, url, (result) =>
+      if result.result == 'error'
+        window.scrollTo(0, 0)
+        @setState(batchDestroyResourcesError: result.message)
+      else
+        location.reload()
+    )
+    return false
+
+
+
+
   _onBatchPermissionsEdit: (resources, event) ->
     @_sharedOnBatch(resources, event, '/entries/batch_edit_permissions')
 
@@ -342,19 +364,12 @@ module.exports = React.createClass
   _onBatchTransferResponsibilitySetsEdit: (resources, event) ->
     @_showBatchTransferResponsibility(resources, event)
 
-  _batchAddToSetIds: () ->
-    @state.selectedResources.selection.map (model) ->
-      {
-        uuid: model.uuid
-        type: model.type
-      }
-
   _onBatchAddToSet: (resources, event)->
     event.preventDefault()
     @setState(batchAddToSet: true)
     return false
 
-  _resourceIdsWithTypes: () ->
+  _selectedResourceIdsWithTypes: () ->
     @state.selectedResources.selection.map (model) ->
       {
         uuid: model.uuid
@@ -386,6 +401,7 @@ module.exports = React.createClass
     @setState(clipboardModal: 'hidden')
     @setState(batchAddToSet: false)
     @setState(batchRemoveFromSet: false)
+    @setState(batchDestroyResourcesModal: false)
 
   _onCreateFilterSet: (config, event)->
     event.preventDefault()
@@ -599,6 +615,7 @@ module.exports = React.createClass
           onBatchRemoveFromSet: @_onBatchRemoveFromSet
           onBatchEdit: @_onBatchEdit
           onBatchEditSets: @_onBatchEditSets
+          onBatchDeleteResources: @_onBatchDeleteResources
           onBatchPermissionsEdit: @_onBatchPermissionsEdit
           onBatchPermissionsSetsEdit: @_onBatchPermissionsSetsEdit
           onBatchTransferResponsibilityEdit: @_onBatchTransferResponsibilityEdit
@@ -851,14 +868,38 @@ module.exports = React.createClass
       }
       {
         if @state.batchAddToSet
-          <BatchAddToSetModal resourceIds={@_batchAddToSetIds()} authToken={@props.authToken}
+          <BatchAddToSetModal resourceIds={@_selectedResourceIdsWithTypes()} authToken={@props.authToken}
             get={null} onClose={@_onCloseModal} returnTo={currentUrl}/>
       }
       {
         if @state.batchRemoveFromSet
           <BatchRemoveFromSetModal collectionUuid={@props.collectionData.uuid}
-            resourceIds={@_resourceIdsWithTypes()} authToken={@props.authToken}
-            get={null} onClose={@_onCloseModal} returnTo={currentUrl} />
+            resourceIds={@_selectedResourceIdsWithTypes()} authToken={@props.authToken}
+            get={null} onClose={@_onCloseModal} returnTo={currentUrl}/>
+      }
+      {
+        if @state.batchDestroyResourcesModal
+          <Modal widthInPixel={400}>
+            <div style={{margin: '20px', marginBottom: '20px', textAlign: 'center'}}>
+              {
+                if @state.batchDestroyResourcesError
+                  <div className="ui-alerts" style={marginBottom: '10px'}>
+                    <div className="error ui-alert">
+                      {@state.batchDestroyResourcesError}
+                    </div>
+                  </div>
+              }
+              <div style={{marginBottom: '20px', textAlign: 'center'}}>
+                {t('batch_destroy_resources_ask_1')}{@_selectedResourceIdsWithTypes().length}{t('batch_destroy_resources_ask_2')}
+              </div>
+              <div className="ui-actions" style={{padding: '10px'}}>
+                <a onClick={@_onCloseModal} className="link weak">{t('batch_destroy_resources_cancel')}</a>
+                <button className="primary-button" type="submit" onClick={@_onExecuteBatchDeleteResources}>
+                  {t('batch_destroy_resources_ok')}
+                </button>
+              </div>
+            </div>
+          </Modal>
       }
 
     </div>

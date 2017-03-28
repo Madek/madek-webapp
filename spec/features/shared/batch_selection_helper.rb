@@ -195,6 +195,7 @@ module BatchSelectionHelper
       :remove_from_set,
       :media_entries_metadata,
       :collections_metadata,
+      :resources_destroy,
       :media_entries_permissions,
       :collections_permissions,
       :media_entries_transfer_responsibility,
@@ -208,6 +209,7 @@ module BatchSelectionHelper
       remove_from_set: :resources_box_batch_actions_removefromset,
       media_entries_metadata: :resources_box_batch_actions_edit,
       collections_metadata: :resources_box_batch_actions_edit_sets,
+      resources_destroy: :resources_box_batch_actions_delete,
       media_entries_permissions:
         :resources_box_batch_actions_managepermissions,
       collections_permissions:

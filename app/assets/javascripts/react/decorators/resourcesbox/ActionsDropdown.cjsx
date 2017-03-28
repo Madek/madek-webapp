@@ -13,6 +13,7 @@ createActionsDropdown = (totalCount, withActions, selection, saveable, disablePe
     addToSet: true if selection
     edit: true if selection
     editSets: true if selection
+    deleteResources: true if selection
     managePermissions: true if !disablePermissionsEdit && selection
     managePermissionsSets: true if !disablePermissionsEdit && selection
     save: true if isClient and saveable
@@ -80,6 +81,16 @@ createActionsDropdown = (totalCount, withActions, selection, saveable, disablePe
             batchSetEditables.length,
             'pen',
             t('resources_box_batch_actions_edit_sets'))}
+
+        {if showActions.deleteResources
+          # TODO if selection most likely not needed, should be already included in the if condition.
+          batchDestroyables = SelectionScope.batchDestroyResources(selection, ['MediaEntry', 'Collection']) if selection
+          createHoverActionItem(
+            if f.present(batchDestroyables) then f.curry(callbacks.onBatchDeleteResources)(batchDestroyables),
+            'resources_destroy',
+            batchDestroyables.length,
+            'close',
+            t('resources_box_batch_actions_delete'))}
 
         {if showActions.managePermissions
           # TODO if selection most likely not needed, should be already included in the if condition.
@@ -185,6 +196,11 @@ highlightingRules = (item, isSelected) ->
       hoverMenuId: 'collections_edit'
       rule: () -> (!SelectionScope.batchMetaDataResource(item.serialize()) or
         item.type != 'Collection' or (not isSelected))
+    }
+    {
+      hoverMenuId: 'resources_destroy'
+      rule: () -> (!SelectionScope.batchDestroyResource(item.serialize()) or
+        (item.type != 'MediaEntry' and item.type != 'Collection') or not isSelected)
     }
     {
       hoverMenuId: 'media_entries_permissions'

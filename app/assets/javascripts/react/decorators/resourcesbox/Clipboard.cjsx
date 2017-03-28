@@ -58,7 +58,7 @@ module.exports = React.createClass
     railsFormPut.byData({resource_id: resourceIds}, url, (result) =>
       if result.result == 'error'
         window.scrollTo(0, 0)
-        @setState(step: 'action-error', error: result.message)
+        @setState(step: 'adding-error', error: result.message)
       else
         location.reload()
     )
@@ -77,7 +77,7 @@ module.exports = React.createClass
     railsFormPut.byData({resource_id: resourceIds}, url, (result) =>
       if result.result == 'error'
         window.scrollTo(0, 0)
-        @setState(step: 'action-error', error: result.message)
+        @setState(step: 'adding-error', error: result.message)
       else
         location.reload()
     )
@@ -86,10 +86,10 @@ module.exports = React.createClass
     @setState(step: 'removing')
 
     @props.resources.fetchAllResourceIds(
-      (result) ->
+      (result) =>
         if result.result == 'error'
           window.scrollTo(0, 0)
-          @setState(step: 'fetching-error', error: 'There was an error. Please try again.')
+          @setState(step: 'removing-error', error: 'There was an error. Please try again.')
         else
 
           resourceIds = f.map(result.data, (entry) ->
@@ -103,7 +103,7 @@ module.exports = React.createClass
           railsFormPut.byData({resource_id: resourceIds}, url, (result) =>
             if result.result == 'error'
               window.scrollTo(0, 0)
-              @setState(step: 'action-error', error: result.message)
+              @setState(step: 'removing-error', error: result.message)
             else if result.type == 'data' && result.data.result == 'clipboard_deleted'
               location.href = '/my'
             else
@@ -119,7 +119,7 @@ module.exports = React.createClass
     railsFormPut.byData({resource_id: resourceIds}, url, (result) =>
       if result.result == 'error'
         window.scrollTo(0, 0)
-        @setState(step: 'action-error', error: result.message)
+        @setState(step: 'removing-error', error: result.message)
       else if result.type == 'data' && result.data.result == 'clipboard_deleted'
         location.href = '/my'
       else
@@ -127,6 +127,27 @@ module.exports = React.createClass
     )
     return false
 
+  _infoText: (text) ->
+    <div style={{margin: '20px', marginBottom: '20px', textAlign: 'center'}}>
+      {text}
+    </div>
+
+  _errorBox: (error) ->
+    <div style={{margin: '20px', marginBottom: '20px', textAlign: 'center'}}>
+      <div className="ui-alerts" style={marginBottom: '20px'}>
+        <div className="error ui-alert">
+          {@state.error}
+        </div>
+      </div>
+    </div>
+
+  _okCloseAction: () ->
+    <div style={{margin: '20px', marginBottom: '20px', textAlign: 'center'}}>
+      <div className="ui-actions">
+        <a href={null} className={'primary-button'} onClick={@props.onClose}>
+          {t('clipboard_ask_add_all_ok')}</a>
+      </div>
+    </div>
 
   render: () ->
 
@@ -138,38 +159,38 @@ module.exports = React.createClass
 
       when 'fetching'
         <Modal widthInPixel={400}>
-          <div style={{margin: '20px', marginBottom: '20px', textAlign: 'center'}}>
-            {t('clipboard_fetching_resources')}
-          </div>
+          {@_infoText(t('clipboard_fetching_resources'))}
+        </Modal>
+
+      when 'fetching-error'
+        <Modal widthInPixel={400}>
+          {@_errorBox(@state.error)}
+          {@_infoText(t('clipboard_fetching_resources'))}
+          {@_okCloseAction()}
         </Modal>
 
       when 'adding'
         <Modal widthInPixel={400}>
-          <div style={{margin: '20px', marginBottom: '20px', textAlign: 'center'}}>
-            {t('clipboard_adding_resources')}
-          </div>
+          {@_infoText(t('clipboard_adding_resources'))}
+        </Modal>
+
+      when 'adding-error'
+        <Modal widthInPixel={400}>
+          {@_errorBox(@state.error)}
+          {@_infoText(t('clipboard_adding_resources'))}
+          {@_okCloseAction()}
         </Modal>
 
       when 'removing'
         <Modal widthInPixel={400}>
-          <div style={{margin: '20px', marginBottom: '20px', textAlign: 'center'}}>
-            {t('clipboard_removing_resources')}
-          </div>
+          {@_infoText(t('clipboard_removing_resources'))}
         </Modal>
 
-      when 'fetching-error', 'action-error'
+      when 'removing-error'
         <Modal widthInPixel={400}>
-          <div style={{margin: '20px', marginBottom: '20px', textAlign: 'center'}}>
-            <div className="ui-alerts" style={marginBottom: '10px'}>
-              <div className="error ui-alert">
-                {@state.error}
-              </div>
-            </div>
-            <div className="ui-actions">
-              <a href={null} className={'primary-button'} onClick={@props.onClose}>
-                {t('clipboard_ask_add_all_ok')}</a>
-            </div>
-          </div>
+          {@_errorBox(@state.error)}
+          {@_infoText(t('clipboard_removing_resources'))}
+          {@_okCloseAction()}
         </Modal>
 
       when 'dialog'
