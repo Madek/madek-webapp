@@ -64,7 +64,6 @@ module.exports = React.createClass
         for_url={for_url} withBox={true}
         get={get.resources} authToken={authToken}
         mods={[ {bordered: false}, 'rounded-bottom' ]}
-        allowListMode={false}
         toolBarMiddle={resourceTypeSwitcher()}
       />
     </VocabularyPage>
