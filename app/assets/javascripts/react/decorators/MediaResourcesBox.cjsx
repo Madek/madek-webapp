@@ -630,7 +630,7 @@ module.exports = React.createClass
           active: 'Alle abwählen',
           inactive: 'Alle auswählen'
           isActive: selection && !(selection.empty())
-          isDirty: selection && resources && !(selection.length() == resources.length)
+          isDirty: selection && resources && !(selection.length() == resources.totalCount)
           onClick: (if selection then @_onSelectionAllToggle)
 
         labelText = if selector.isActive then selector.active else selector.inactive
@@ -795,10 +795,49 @@ module.exports = React.createClass
 
                     {if withBox and (pagination = f.presence(page.pagination))
                       if (pagination.totalPages > 1)
+
+                        onSelectPage = null
+                        checkboxMods = cx({'active': false, 'mid': false})
+
+                        if @state.isClient
+
+                          selection = @state.selectedResources
+                          selectionCountOnPage =
+                            if selection
+                              f.size(
+                                page.resources.filter (item) =>
+                                  selection.contains(item.serialize())
+                              )
+                            else
+                              0
+
+                          fullPageCount =
+                            if page.pagination.totalPages == page.pagination.page
+                              if page.pagination.totalCount < resources.perPage * page.pagination.totalPages
+                                page.pagination.totalCount - (page.pagination.totalPages - 1) * resources.perPage
+                              else
+                                resources.perPage
+                            else
+                              resources.perPage
+
+                          checkboxMods = cx({'active': selectionCountOnPage > 0, 'mid': selectionCountOnPage < fullPageCount})
+
+                          onSelectPage = (event) ->
+                            event.preventDefault()
+                            if selectionCountOnPage > 0
+                              page.resources.forEach (item) ->
+                                selection.remove(item.serialize())
+                            else
+                              page.resources.forEach (item) ->
+                                selection.add(item.serialize())
+
                         <PageCounter
                           href={page.url}
                           page={pagination.page}
-                          total={(pagination.totalPages)}/>}
+                          total={(pagination.totalPages)}
+                          onSelectPage={onSelectPage}
+                          checkboxMods={checkboxMods}
+                          />}
 
                     <ul className='ui-resources-page-items'>
                       {
@@ -908,15 +947,19 @@ module.exports = React.createClass
 module.exports.boxSetUrlParams = boxSetUrlParams
 # Partials and UI-Components only used here:
 
-PageCounter = ({href, page, total} = @props)->
+PageCounter = ({href, page, total, onSelectPage, checkboxMods} = @props)->
   # TMP: this link causes to view to start loading at page Nr. X
   #      it's ONLY needed for some edge cases (viewing page N + 1),
   #      where N = number of pages the browser can handle (memory etc)
   #      BUT the UI is unfinished in this case (no way to scroll "backwards")
   #      SOLUTION: disable the link-click so it is not clicked accidentally
-  <Link href={href} onClick={(e) -> e.preventDefault()}
-    className='ui-resources-page-counter ui-pager small'
-    >Seite {page} von {total}</Link>
+  <div className='ui-resources-page-counter ui-pager small'>
+    <div style={{display: 'inline-block'}}>Seite {page} von {total}</div>
+    <div style={{float: 'right', position: 'relative'}} onClick={onSelectPage}>
+      <span style={{marginRight: '20px'}}>Seite auswählen</span>
+      <Icon style={{position: 'absolute', right: '0px', top: '0px'}} mods={checkboxMods} i='checkbox' />
+    </div>
+  </div>
 
 SideFilterFallback = ({filter} = @props)->
   filter = f.presence(filter) or {}
