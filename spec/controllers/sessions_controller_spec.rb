@@ -6,6 +6,7 @@ describe SessionsController do
   describe 'Singing in via Shibboleth i.e. shib_sign_in ' do
 
     before :each do
+      Settings.shibboleth_sign_in_enabled = true
       User.delete_all
       Person.delete_all
       request.env['HTTP_SURNAME'] = 'LASTNAME'

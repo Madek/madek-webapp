@@ -15,13 +15,17 @@ class SessionsController < ActionController::Base
   end
 
   def shib_sign_in
-    @last_name = request.env['HTTP_SURNAME'].presence
-    @first_name = request.env['HTTP_GIVENNAME'].presence
-    @email = request.env['HTTP_MAIL'].try(&:downcase).presence
-    unless @last_name && @first_name && @email
-      deny_shibboleth_sign_in
+    unless Settings.shibboleth_sign_in_enabled == true
+      render status: :forbidden, text: 'Sibboleth sign in is not enabled!'
     else
-      perform_shibboleth_sign_in
+      @last_name = request.env['HTTP_SURNAME'].presence
+      @first_name = request.env['HTTP_GIVENNAME'].presence
+      @email = request.env['HTTP_MAIL'].try(&:downcase).presence
+      unless @last_name && @first_name && @email
+        deny_shibboleth_sign_in
+      else
+        perform_shibboleth_sign_in
+      end
     end
   end
 
