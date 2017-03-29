@@ -138,6 +138,11 @@ module Presenters
         return unless ['usage_data'].include?(@action)
         super
       end
+
+      def relation_counts
+        return unless ['usage_data'].include?(@action)
+        Presenters::MediaResources::RelationCounts.new(@app_resource, @user)
+      end
       # </otherTabs>
 
       # shared:

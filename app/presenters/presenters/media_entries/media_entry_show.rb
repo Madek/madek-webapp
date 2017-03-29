@@ -78,6 +78,11 @@ module Presenters
         super
       end
 
+      def relation_counts
+        return unless ['usage_data'].include?(@active_tab)
+        Presenters::MediaResources::RelationCounts.new(@app_resource, @user)
+      end
+
       def permissions
         return unless ['permissions', 'permissions_edit'].include?(@active_tab)
         Presenters::MediaEntries::MediaEntryPermissions.new(@app_resource, @user)

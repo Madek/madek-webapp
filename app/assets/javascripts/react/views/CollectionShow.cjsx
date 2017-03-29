@@ -19,6 +19,7 @@ MediaEntryHeader = require('./MediaEntryHeader.cjsx')
 MetaDataByListing = require('../decorators/MetaDataByListing.cjsx')
 TagCloud = require('../ui-components/TagCloud.cjsx')
 resourceName = require('../lib/decorate-resource-names.coffee')
+UsageData = require('../decorators/UsageData.cjsx')
 
 
 parseUrlState = (location) ->
@@ -95,89 +96,8 @@ module.exports = React.createClass
               <div className="bright pal rounded-bottom rounded-top-right ui-container">
                 {
                   if get.logged_in
-                    <div className='col1of3'>
-                      <div className='ui-container prm'>
-                        <h3 className='title-l separated mbm'>{t('usage_data_responsibility_title')}</h3>
-                        <div className="ui-metadata-box">
-                          <table className="borderless">
-                            <tbody>
-                              <tr>
-                                <td className="ui-summary-label">{t('usage_data_responsible')}</td>
-                                <td className="ui-summary-content">
-                                  {
-                                    list = [
-                                      {
-                                        children: get.responsible.name,
-                                        href: get.responsible.url,
-                                        key: get.responsible.uuid
-                                      }
-                                    ]
-                                    <TagCloud mod='person' mods='small' list={list}></TagCloud>
-                                  }
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="ui-summary-label">{t('usage_data_created_at')}</td>
-                                <td className="ui-summary-content">
-                                  {get.created_at_pretty}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                      <div className='ui-container prm'>
-                        <h3 className='title-l separated mvm mtl'>{t('usage_data_last_changes_title')}</h3>
-                        {
-                          if f.isEmpty(get.edit_sessions)
-                            <div>{t('usage_data_last_changes_empty')}</div>
-                          else
-                            <div className="ui-metadata-box">
-                              <table className="borderless">
-                                <tbody>
-                                  {
-                                    f.map(get.edit_sessions, (edit_session) ->
-                                      return if not edit_session.user
-                                      list = [{
-                                        href: edit_session.user.url
-                                        children: resourceName(edit_session.user)
-                                        key:  edit_session.user.uuid
-                                      }]
-                                      <tr>
-                                        <td className="ui-summary-label">{edit_session.change_date}</td>
-                                        <td className="ui-summary-content">
-                                          <TagCloud mod='person' mods='small' list={list}></TagCloud>
-                                        </td>
-                                      </tr>
-                                    )
-                                  }
-                                </tbody>
-                              </table>
-                            </div>
-                        }
-                      </div>
-                      <div className='ui-container prm'>
-                        <h3 className='title-l separated mvm mtl'>{t('usage_data_relations_title')}</h3>
-                        <div className="ui-metadata-box">
-                          <table className="borderless">
-                            <tbody>
-                              <tr>
-                                <td className="ui-summary-label">{t('usage_data_relations_parents')}</td>
-                                <td className="ui-summary-content">
-                                  {get.relations.parent_collections.pagination['total_count']}
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="ui-summary-label">{t('usage_data_relations_children')}</td>
-                                <td className="ui-summary-content">
-                                  {get.child_media_resources.pagination['total_count']}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
+                    <UsageData get={get} />
+
                 }
               </div>
             </TabContent>

@@ -12,9 +12,13 @@ module Presenters
           @load_meta_data = load_meta_data
         end
 
-        def index_meta_data
-          return unless @load_meta_data
-          Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
+        def list_meta_data
+          layout_is_list = @list_conf && @list_conf[:layout] == 'list'
+
+          return unless layout_is_list
+
+          Presenters::MediaResources::MediaResourceListMetadata.new(
+            @app_resource, @user)
         end
 
         def on_clipboard

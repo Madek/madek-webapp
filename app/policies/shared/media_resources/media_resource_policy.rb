@@ -41,6 +41,10 @@ module Shared
         visible?
       end
 
+      def list_meta_data?
+        show?
+      end
+
       def usage_data?
         show? and logged_in?
       end
@@ -52,9 +56,18 @@ module Shared
       def update_custom_urls?
         logged_in? and record.manageable_by_user?(user)
       end
-      alias_method :edit_custom_urls?, :update_custom_urls?
-      alias_method :custom_urls?, :show?
-      alias_method :set_primary_custom_url?, :update_custom_urls?
+
+      def edit_custom_urls?
+        update_custom_urls?
+      end
+
+      def custom_urls?
+        show?
+      end
+
+      def set_primary_custom_url?
+        update_custom_urls?
+      end
 
       def destroy?
         logged_in? and record.responsible_user == user
@@ -63,7 +76,10 @@ module Shared
       def update_transfer_responsibility?
         logged_in? and record.responsible_user == user
       end
-      alias_method :edit_transfer_responsibility?, :update_transfer_responsibility?
+
+      def edit_transfer_responsibility?
+        update_transfer_responsibility?
+      end
 
       def favor?
         logged_in? and visible?
@@ -81,7 +97,10 @@ module Shared
       def permissions_edit?
         logged_in? and user.can_edit_permissions_for?(record)
       end
-      alias_method :permissions_update?, :permissions_edit?
+
+      def permissions_update?
+        permissions_edit?
+      end
 
       private
 

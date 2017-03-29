@@ -45,7 +45,7 @@ module.exports = React.createClass
         get={get}
         mediaProps={{style: previewStyle}}
         mods='ui-media-overview-preview'
-        withLink 
+        withLink
         withZoomLink
         />
 
