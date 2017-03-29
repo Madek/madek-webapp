@@ -221,6 +221,11 @@ Madek::Application.routes.draw do
   # get '/Shibboleth.sso/Session', to: 'sessions#shibboleth'
   get '/session/shib_sign_in', to: 'sessions#shib_sign_in'
 
+  # user-friendly redirects:
+  get '/session/sign_in', to: 'sessions#redirect_for_get_methods'
+  get '/session/sign_out', to: 'sessions#redirect_for_get_methods'
+  get '/session/uberadmin', to: 'sessions#redirect_for_get_methods'
+
   post '/zencoder_jobs/:id/notification' => 'zencoder_jobs#notification', as: :zencoder_job_notification
 
   get '/oembed', controller: 'oembed', action: 'show'

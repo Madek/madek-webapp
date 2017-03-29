@@ -35,6 +35,12 @@ class SessionsController < ActionController::Base
     redirect_to root_path, notice: I18n.t(:app_notice_logged_out)
   end
 
+  def redirect_for_get_methods
+    # sometime users GET the `sign_*` actions due to browser behaviour (refresh, …)
+    # redirect instead of showing weird error
+    redirect_back_or my_dashboard_path
+  end
+
   private
 
   def deny_shibboleth_sign_in
