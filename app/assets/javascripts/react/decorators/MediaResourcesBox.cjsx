@@ -233,7 +233,7 @@ module.exports = React.createClass
     @doOnUnmount.push(unlistenFn)
     router.start() unless @props.router
 
-    if ['MediaResources', 'MediaEntries', 'Collections'].includes(@props.get.type)
+    if f.includes(['MediaResources', 'MediaEntries', 'Collections'], @props.get.type)
       selection = Selection.createEmpty(() =>
         @setState(selectedResources: selection) if @isMounted()
       )
