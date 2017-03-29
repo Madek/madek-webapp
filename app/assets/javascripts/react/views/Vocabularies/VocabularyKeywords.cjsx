@@ -15,14 +15,19 @@ MIN_COLS = 2 # for layout
 MAX_COLS = 4
 
 MetakeyItem = ({meta_key, keywords}) ->
+  [sortLabel, sortTitle] = if meta_key.alphabetical_order
+    [t('meta_key_order_alphabetical'), t('meta_key_order_alphabetical_hint')]
+  else
+    [t('meta_key_order_custom'), t('meta_key_order_custom_hint')]
+
   <div className='ui-metadata-box prl mbm'>
     <h3 className='title-s-alt separated light mbx'>
       {meta_key.label}
-      <small className='title-xs-alt mlx'>(a-z)</small>
+      <small title={sortTitle} className='title-xs-alt mlx'>({sortLabel})</small>
     </h3>
 
     {
-      if f.size(keywords) > 0 
+      if f.size(keywords) > 0
         <ul className='ui-tag-cloud small ellipsed compact'>
           {f.map keywords, (kw) ->
             <KeywordItem {...kw} key={kw.uuid}/>

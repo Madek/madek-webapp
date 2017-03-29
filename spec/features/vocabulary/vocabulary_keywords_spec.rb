@@ -169,6 +169,13 @@ feature 'Vocabulary keywords' do
 
     meta_keys.each do |meta_key|
       expect(page).to have_selector('.ui-metadata-box', text: meta_key.label)
+      label = if meta_key.keywords_alphabetical_order
+        I18n.t(:meta_key_order_alphabetical)
+      else
+        I18n.t(:meta_key_order_custom)
+      end
+      expect(find('h3.title-s-alt', text: meta_key.label).find('small').text)
+        .to include(label)
     end
   end
 
@@ -184,7 +191,10 @@ feature 'Vocabulary keywords' do
     vocabulary = FactoryGirl.create(:vocabulary, id: vocabulary_id)
 
     keyword_meta_keys = keyword_ids.map do |index|
-      FactoryGirl.create(:meta_key_keywords, id: vocabulary_id + ':' + index)
+      FactoryGirl.create(
+        :meta_key_keywords,
+        id: vocabulary_id + ':' + index,
+        keywords_alphabetical_order: [true, false].sample)
     end
 
     other_meta_keys = other_ids.map do |index|
