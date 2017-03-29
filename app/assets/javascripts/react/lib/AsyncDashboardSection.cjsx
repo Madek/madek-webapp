@@ -1,4 +1,7 @@
 # Proof of Concept: AsyncView - only works for my/dashboard!
+# Tries to fetch the props needed to display the component before rendering it.
+# If it fails, a retry icon is shown, with a fallback link
+# If fetching is retryed 5 times only use fallback link (sync, for browser error)
 
 React = require('react')
 PropTypes = React.PropTypes
@@ -12,6 +15,7 @@ UILibrary =
   Deco:
     MediaResourcesBox: require('../decorators/MediaResourcesBox.cjsx')
 
+Icon = require('../ui-components/Icon.cjsx')
 Preloader = require('../ui-components/Preloader.cjsx')
 
 module.exports = React.createClass
@@ -25,7 +29,11 @@ module.exports = React.createClass
   getInitialState: ()-> { isClient: false, fetchedProps: null }
 
   componentDidMount: ()->
-    @setState(isClient: true, fetching: true)
+    @setState(isClient: true)
+    @_fetchProps()
+
+  _fetchProps: ()->
+    @setState(fetching: true)
     @_getPropsAsync((err, props)=>
       return if !@isMounted()
       @setState(fetching: false)
@@ -34,6 +42,12 @@ module.exports = React.createClass
         @setState(fetchError: err)
       else
         @setState(fetchedProps: props))
+
+  _retryFetchProps: (event)->
+    @_retryCount = (@_retryCount || 0) + 1
+    unless @_retryCount > 5
+      event.preventDefault()
+      @_fetchProps()
 
   _getPropsAsync: (callback)->
     @_runningRequest = xhr({url: @props.url, json: true}, (err, res, data)=>
@@ -48,11 +62,11 @@ module.exports = React.createClass
   componentWillUnmount: ()->
     if @_runningRequest then @_runningRequest.abort()
 
-  render: ()->
-    unless (UIComponent = f.get(UILibrary, @props.component))
-      throw new Error('Invalid UI Component! ' + @props.component)
+  render: ({props} = @)->
+    {component, fallback_url} = props
 
-    errorMessage =
+    unless (UIComponent = f.get(UILibrary, component))
+      throw new Error('Invalid UI Component! ' + component)
 
     <div className='ui_async-view'>
       {if !@state.isClient or @state.fetching
@@ -63,8 +77,15 @@ module.exports = React.createClass
         React.createElement(UIComponent, @state.fetchedProps)
       else
         <div style={{height: '250px'}}>
-          <div className='pvh mth mbl'>
-            <div className='title-l by-center'>Error!</div></div>
+          <div className='pvh mth mbl by-center'>
+            <a
+              className='title-l'
+              href={fallback_url}
+              onClick={@_retryFetchProps}
+            >
+              <Icon i='undo' />
+            </a>
+          </div>
         </div>
       }
     </div>

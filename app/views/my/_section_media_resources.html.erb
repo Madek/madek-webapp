@@ -29,6 +29,7 @@ else
     url: my_dashboard_path(section[:id], format: :json) +
           '?___sparse={"' + section[:id].to_s + '":{}}',
     json_path: section[:id].to_s,
+    fallback_url: my_dashboard_section_path(section[:id]),
     initial_props: {
       mods: mods,
       withBox: with_box,
