@@ -50,7 +50,7 @@ feature 'batch delete' do
     )
     click_batch_action(:resources_destroy)
 
-    check_delete_question(5)
+    check_delete_question(3, 2)
     click_delete_question_ok
     check_delete_success_message
 
@@ -71,11 +71,12 @@ feature 'batch delete' do
       text: I18n.t(:batch_destroy_resources_ok)).click
   end
 
-  def check_delete_question(count)
+  def check_delete_question(media_entries_count, collections_count)
     text =
       I18n.t(:batch_destroy_resources_ask_1) \
-      + count.to_s \
-      + I18n.t(:batch_destroy_resources_ask_2)
+      + ' ' + media_entries_count.to_s + I18n.t(:batch_destroy_resources_ask_2) \
+      + ' ' + collections_count.to_s + I18n.t(:batch_destroy_resources_ask_3) \
+      + ' ' + I18n.t(:batch_destroy_resources_ask_4)
     find('.modal', text: text)
   end
 

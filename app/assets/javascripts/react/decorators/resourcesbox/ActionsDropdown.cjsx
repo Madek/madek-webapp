@@ -89,7 +89,7 @@ createActionsDropdown = (totalCount, withActions, selection, saveable, disablePe
             if f.present(batchDestroyables) then f.curry(callbacks.onBatchDeleteResources)(batchDestroyables),
             'resources_destroy',
             batchDestroyables.length,
-            'close',
+            'trash',
             t('resources_box_batch_actions_delete'))}
 
         {if showActions.managePermissions

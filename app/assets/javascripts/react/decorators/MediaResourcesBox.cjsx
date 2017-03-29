@@ -928,8 +928,22 @@ module.exports = React.createClass
                     </div>
                   </div>
               }
-              <div style={{marginBottom: '20px', textAlign: 'center'}}>
-                {t('batch_destroy_resources_ask_1')}{@_selectedResourceIdsWithTypes().length}{t('batch_destroy_resources_ask_2')}
+              <div style={{marginBottom: '20px'}}>
+                <div>
+                  {t('batch_destroy_resources_ask_1')}
+                </div>
+
+                <div style={{fontWeight: 'bold'}}>
+                  {f.size(f.filter(@_selectedResourceIdsWithTypes(), {type: 'MediaEntry'}))}
+                  {t('batch_destroy_resources_ask_2')}
+                </div>
+                <div style={{fontWeight: 'bold'}}>
+                  {f.size(f.filter(@_selectedResourceIdsWithTypes(), {type: 'Collection'}))}
+                  {t('batch_destroy_resources_ask_3')}
+                </div>
+                <div>
+                  {t('batch_destroy_resources_ask_4')}
+                </div>
               </div>
               <div className="ui-actions" style={{padding: '10px'}}>
                 <a onClick={@_onCloseModal} className="link weak">{t('batch_destroy_resources_cancel')}</a>
