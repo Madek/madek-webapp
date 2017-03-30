@@ -116,4 +116,21 @@ feature 'Resource: MediaEntry' do
     expect(@entry.user_permissions.first[perm_4]).to be false
   end
 
+  scenario 'subjects can\'t be added twice' do
+    sign_in_as @user.login
+    open_permission_editable
+    expect(@entry.user_permissions.length).to eq 0
+
+    add_subject_with_permission(@node_people, 'Norbert', permission_types[3])
+    # NOTE: the helper clicks twice so last checkbox is disabled. thats ok.
+    add_subject_with_permission(@node_people, 'Norbert', permission_types[3])
+    @node_form.click_on(I18n.t(:permissions_table_save_btn))
+    @entry.reload
+
+    expect(current_path).to eq permissions_media_entry_path(@entry)
+
+    expect(@entry.user_permissions.length).to eq 1
+    expect(@entry.user_permissions.first.user).to eq User.find_by(login: :norbert)
+  end
+
 end

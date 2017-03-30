@@ -97,6 +97,7 @@ module.exports = React.createClass
           showTitles = (i == 0) # show titles on first table only
           <PermissionsBySubjectType
             {...row}
+            key={i}
             showTitles={showTitles}
             editing={editing}
             permissionTypes={get.permission_types}
@@ -135,7 +136,9 @@ PermissionsBySubjectType = React.createClass
   mixins: [ampersandReactMixin]
 
   onAddSubject: (subject)->
-    @props.permissionsList.add(subject: subject)
+    list = @props.permissionsList
+    return if f.includes(f.map(list.models, 'subject.uuid'), subject.uuid)
+    list.add(subject: subject)
 
   render: ()->
     {type, title, icon, permissionsList, SubjectDeco, subjectName,
@@ -169,6 +172,9 @@ PermissionsBySubjectType = React.createClass
                 <AutoComplete
                   className='block'
                   name={"add_#{type}"} resourceType={type}
+                  valueFilter={({uuid}) ->
+                    f.includes(f.map(permissionsList.models, 'subject.uuid'), uuid)
+                  }
                   onSelect={@onAddSubject} searchParams={searchParams} />
               }
             </div>
