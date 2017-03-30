@@ -5,18 +5,18 @@ module Modules
 
       private
 
-      def presenter_values(params)
+      def presenter_values(params, policy_scope)
         return_to = params.require(:return_to)
 
-        auth_authorize MediaEntry, :logged_in?
+        auth_authorize User, :logged_in?
 
         resource_ids = params.require(:resource_id)
 
         media_entry_ids = resource_ids_to_uuids(resource_ids, 'MediaEntry')
         collection_ids = resource_ids_to_uuids(resource_ids, 'Collection')
 
-        authorize_media_entries(media_entry_ids)
-        authorize_collections(collection_ids)
+        authorize_media_entries(media_entry_ids, policy_scope)
+        authorize_collections(collection_ids, policy_scope)
 
         {
           user: current_user,
@@ -25,14 +25,14 @@ module Modules
         }
       end
 
-      def read_media_entries(resource_ids)
+      def read_media_entries(resource_ids, policy_scope)
         media_entry_ids = resource_ids_to_uuids(resource_ids, 'MediaEntry')
-        authorize_media_entries(media_entry_ids)
+        authorize_media_entries(media_entry_ids, policy_scope)
       end
 
-      def read_collections(resource_ids)
+      def read_collections(resource_ids, policy_scope)
         collection_ids = resource_ids_to_uuids(resource_ids, 'Collection')
-        authorize_collections(collection_ids)
+        authorize_collections(collection_ids, policy_scope)
       end
 
       def read_parent_collection(
@@ -49,18 +49,19 @@ module Modules
         parent_collection
       end
 
-      def action_values(
+      def authorize_and_read_batch_resources(
         params,
         parent_collection_id,
+        policy_scope,
         skip_parent_authorization: false)
 
-        auth_authorize MediaEntry, :logged_in?
+        auth_authorize User, :logged_in?
 
         resource_ids = params.require(:resource_id)
 
         {
-          media_entries: read_media_entries(resource_ids),
-          collections: read_collections(resource_ids),
+          media_entries: read_media_entries(resource_ids, policy_scope),
+          collections: read_collections(resource_ids, policy_scope),
           parent_collection: read_parent_collection(
             parent_collection_id,
             skip_parent_authorization)
@@ -75,21 +76,21 @@ module Modules
         end
       end
 
-      def authorize_media_entries(media_entry_ids)
+      def authorize_media_entries(media_entry_ids, policy_scope)
         if media_entry_ids.empty?
           return []
         end
         media_entries = MediaEntry.unscoped.where(id: media_entry_ids)
-        authorize_media_entries_for_view!(current_user, media_entries)
+        authorize_media_entries_scope!(current_user, media_entries, policy_scope)
         media_entries
       end
 
-      def authorize_collections(collection_ids)
+      def authorize_collections(collection_ids, policy_scope)
         if collection_ids.empty?
           return []
         end
         collections = Collection.unscoped.where(id: collection_ids)
-        authorize_collections_for_view!(current_user, collections)
+        authorize_collections_scope!(current_user, collections, policy_scope)
         collections
       end
 

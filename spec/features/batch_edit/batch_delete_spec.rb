@@ -13,7 +13,7 @@ feature 'batch delete' do
     media_entry_1 = create_media_entry('Media Entry 1', user1)
     media_entry_2 = create_media_entry('Media Entry 2', user1)
     media_entry_3 = create_media_entry('Media Entry 3', user1)
-    media_entry_4 = create_media_entry('Media Entry 3', user2)
+    media_entry_4 = create_media_entry('Media Entry 4', user2)
     unpublish_media_entry(media_entry_2)
     give_all_permissions(media_entry_4, user1)
 
@@ -50,12 +50,12 @@ feature 'batch delete' do
     )
     click_batch_action(:resources_destroy)
 
-    check_delete_question(3, 2)
+    check_delete_question(2, 1)
     click_delete_question_ok
     check_delete_success_message
 
-    expect(parent.collections.count).to eq(0)
-    expect(parent.media_entries.with_unpublished.count).to eq(1)
+    expect(parent.collections.count).to eq(1)
+    expect(parent.media_entries.with_unpublished.count).to eq(2)
   end
 
   private

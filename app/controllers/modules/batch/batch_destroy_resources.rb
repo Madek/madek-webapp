@@ -7,13 +7,14 @@ module Modules
       include Modules::Batch::BatchShared
 
       def batch_destroy_resources
-        action_values = action_values(
+        batch_resources = authorize_and_read_batch_resources(
           params,
-          nil)
+          nil,
+          MediaResourcePolicy::DestroyableScope)
 
         destroy_transaction(
-          action_values[:media_entries],
-          action_values[:collections])
+          batch_resources[:media_entries],
+          batch_resources[:collections])
 
         json_respond(I18n.t('batch_destroy_resources_success'), 'success')
       end

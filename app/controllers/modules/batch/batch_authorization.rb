@@ -3,12 +3,20 @@ module Modules
     module BatchAuthorization
       extend ActiveSupport::Concern
 
-      def authorize_media_entries_for_view!(user, media_entries)
-        authorize_batch_scope('view all resources', user, media_entries)
+      def authorize_media_entries_scope!(user, media_entries, policy_scope)
+        authorize_batch_scope(
+          policy_scope_readable(policy_scope),
+          user,
+          media_entries,
+          policy_scope)
       end
 
-      def authorize_collections_for_view!(user, collections)
-        authorize_batch_scope('view all resources', user, collections)
+      def authorize_collections_scope!(user, collections, policy_scope)
+        authorize_batch_scope(
+          policy_scope_readable(policy_scope),
+          user,
+          collections,
+          policy_scope)
       end
 
       def authorize_resources_for_permissions_batch_edit!(user, resources)
@@ -26,6 +34,9 @@ module Modules
         end
       end
 
+      def policy_scope_readable(policy_scope)
+        policy_scope.name.demodulize.titleize.downcase
+      end
     end
   end
 end

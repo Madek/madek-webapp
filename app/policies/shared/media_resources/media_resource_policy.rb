@@ -23,6 +23,12 @@ module Shared
         end
       end
 
+      class DestroyableScope < Scope
+        def resolve
+          scope.where(responsible_user: user)
+        end
+      end
+
       class ResponsibilityTransferableScope < Scope
         def resolve
           scope.where(responsible_user: user)

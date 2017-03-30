@@ -40,7 +40,7 @@ describe BatchController do
       expect(response.status).to be == 200
     end
 
-    pending 'does not delete when not allowed (but shared)' do
+    it 'does not delete when not allowed (but shared)' do
       expect { batch_delete_resources_as(@bob, @alice_contents) }
       .to change { MediaEntry.count }
       .by(0)
@@ -48,7 +48,7 @@ describe BatchController do
         raise_error Errors::ForbiddenError, 'Not allowed to destroyable scope!'
     end
 
-    pending 'does not delete when not allowed' do
+    it 'does not delete when not allowed' do
       chuck_entry = create(:media_entry, creator: @chuck, responsible_user: @chuck)
       expect { batch_delete_resources_as(@chuck, [chuck_entry, @alice_contents]) }
       .to change { MediaEntry.count }

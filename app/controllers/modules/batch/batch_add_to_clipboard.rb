@@ -31,15 +31,16 @@ module Modules
 
       def do_batch_add_resources_to_clipboard(user, parameters)
         ensure_clipboard_collection(user)
-        action_values = action_values(
+        batch_resources = authorize_and_read_batch_resources(
           parameters,
           clipboard_collection(user).id,
+          MediaResourcePolicy::ViewableScope,
           skip_parent_authorization: true)
 
         add_transaction(
-          action_values[:parent_collection],
-          action_values[:media_entries],
-          action_values[:collections])
+          batch_resources[:parent_collection],
+          batch_resources[:media_entries],
+          batch_resources[:collections])
       end
 
       def do_batch_remove_resources_from_clipboard(user, parameters)
@@ -47,15 +48,16 @@ module Modules
         if clipboard_collection(user)
 
           clipboard = clipboard_collection(user)
-          action_values = action_values(
+          batch_resources = authorize_and_read_batch_resources(
             parameters,
             clipboard.id,
+            MediaResourcePolicy::ViewableScope,
             skip_parent_authorization: true)
 
           remove_transaction(
-            action_values[:parent_collection],
-            action_values[:media_entries],
-            action_values[:collections])
+            batch_resources[:parent_collection],
+            batch_resources[:media_entries],
+            batch_resources[:collections])
 
           clipboard.reload
           if (clipboard.media_entries.count == 0 &&

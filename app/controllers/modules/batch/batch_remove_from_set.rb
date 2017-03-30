@@ -7,7 +7,8 @@ module Modules
       include Modules::Batch::BatchShared
 
       def batch_ask_remove_from_set
-        presenter_values = presenter_values(params)
+        presenter_values = presenter_values(
+          params, MediaResourcePolicy::ViewableScope)
 
         parent_collection_id = params.require(:parent_collection_id)
         presenter_values[:parent_collection_id] = parent_collection_id
@@ -19,15 +20,16 @@ module Modules
       def batch_remove_from_set
         return_to = params.require(:return_to)
 
-        action_values = action_values(
+        batch_resources = authorize_and_read_batch_resources(
           params,
-          params.require(:parent_collection_id))
+          params.require(:parent_collection_id),
+          MediaResourcePolicy::ViewableScope)
 
         ActiveRecord::Base.transaction do
           remove_transaction(
-            action_values[:parent_collection],
-            action_values[:media_entries],
-            action_values[:collections])
+            batch_resources[:parent_collection],
+            batch_resources[:media_entries],
+            batch_resources[:collections])
         end
 
         redirect_to(return_to)

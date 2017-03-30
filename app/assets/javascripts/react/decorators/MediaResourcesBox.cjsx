@@ -341,12 +341,21 @@ module.exports = React.createClass
     @_sharedOnBatch(resources, event, '/sets/batch_edit_meta_data_by_context')
 
   _onBatchDeleteResources: (resources, event) ->
+    debugger
     event.preventDefault()
-    @setState(batchDestroyResourcesModal: true, batchDestroyResourcesError: false)
+    @setState(
+      batchDestroyResourcesModal: true,
+      batchDestroyResourcesError: false,
+      batchDestroyResourceIdsWithTypes: resources.map (model) ->
+        {
+          uuid: model.uuid
+          type: model.type
+        }
+      )
     return false
 
   _onExecuteBatchDeleteResources: () ->
-    resourceIds = @_selectedResourceIdsWithTypes()
+    resourceIds = @state.batchDestroyResourceIdsWithTypes
     url = setUrlParams('/batch_destroy_resources', {})
     railsFormPut.byData({resource_id: resourceIds}, url, (result) =>
       if result.result == 'error'
@@ -934,11 +943,11 @@ module.exports = React.createClass
                 </div>
 
                 <div style={{fontWeight: 'bold'}}>
-                  {f.size(f.filter(@_selectedResourceIdsWithTypes(), {type: 'MediaEntry'}))}
+                  {f.size(f.filter(@state.batchDestroyResourceIdsWithTypes, {type: 'MediaEntry'}))}
                   {t('batch_destroy_resources_ask_2')}
                 </div>
                 <div style={{fontWeight: 'bold'}}>
-                  {f.size(f.filter(@_selectedResourceIdsWithTypes(), {type: 'Collection'}))}
+                  {f.size(f.filter(@state.batchDestroyResourceIdsWithTypes, {type: 'Collection'}))}
                   {t('batch_destroy_resources_ask_3')}
                 </div>
                 <div>

@@ -8,7 +8,8 @@ module Modules
       include Modules::Collections::Store
 
       def batch_select_add_to_set
-        presenter_values = presenter_values(params)
+        presenter_values = presenter_values(
+          params, MediaResourcePolicy::ViewableScope)
 
         search_term = params[:clear] ? '' : params[:search_term]
         presenter_values[:search_term] = search_term
@@ -22,13 +23,16 @@ module Modules
 
         parent_collection_id = prepare_parent_collection(params)
 
-        action_values = action_values(params, parent_collection_id)
+        batch_resources = authorize_and_read_batch_resources(
+          params,
+          parent_collection_id,
+          MediaResourcePolicy::ViewableScope)
 
         ActiveRecord::Base.transaction do
           add_transaction(
-            action_values[:parent_collection],
-            action_values[:media_entries],
-            action_values[:collections])
+            batch_resources[:parent_collection],
+            batch_resources[:media_entries],
+            batch_resources[:collections])
         end
 
         redirect_to(return_to)
