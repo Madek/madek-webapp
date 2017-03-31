@@ -3,7 +3,7 @@ ReactDOM = require('react-dom')
 f = require('active-lodash')
 classnames = require('classnames')
 CatalogThumbnailShifted = require('./partials/CatalogThumbnailShifted.cjsx')
-LoginDialog = require('./LoginDialog.cjsx')
+LoginMenu = require('../_layouts/LoginMenu.js').default
 ResourcesSection = require('./partials/ResourcesSection.cjsx')
 
 module.exports = React.createClass
@@ -11,13 +11,32 @@ module.exports = React.createClass
 
   getInitialState: () -> { active: false }
 
-  render: ({authToken, get} = @props) ->
+  render: ({get, authToken} = @props) ->
+    welcomeMessage = get.welcome_message
 
     sectionsElements =
       f.map get.sections, (section, m) ->
         <ResourcesSection key={'section_' + m} label={section.data.title} id={section.id}
           hrefUrl={section.data.url} showAllLink={section.show_all_link} section={section}
           showThumbDesc={true} />
+
+    homeClaimPitchHero = <div className='ui-home-claim ui-container'>
+      <div className='col2of3'>
+        <div className='pitch-claim'>
+          <h1 className='title-xxl'>
+            {welcomeMessage.title}
+          </h1>
+          <div className='ptm' dangerouslySetInnerHTML={welcomeMessage.text} />
+        </div>
+      </div>
+      <div className='col1of3'>
+        <LoginMenu
+          className='pitch-login'
+          authToken={authToken}
+        />
+      </div>
+    </div>
+
 
     <div>
       <div className="ui-collage crooked ui-container overlaid" id="teaser-set">
@@ -30,7 +49,7 @@ module.exports = React.createClass
           </div>
         }
 
-        <LoginDialog welcomeMessage={get.welcome_message} authToken={authToken}/>
+        {homeClaimPitchHero}
 
       </div>
 
