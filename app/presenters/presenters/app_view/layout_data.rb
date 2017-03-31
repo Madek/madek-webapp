@@ -52,27 +52,41 @@ module Presenters
       end
 
       def login_providers
-        # TODO: build dynamically
-        [
-          {
-            id: 'zhdk',
-            title: I18n.t(:login_provider_zhdk_title),
-            description: I18n.t(:login_provider_zhdk_hint),
-            href: '/login/zhdk'
-          },
-          # TODO: intergrate AAI support
-          # {
-          #   id: 'aai',
-          #   title: 'Switch AAI',
-          #   description: '…',
-          #   button_text: 'Anmelden',
-          #   button_url: 'https://example.com/auth'
-          # },
-          {
-            id: 'system',
-            title: I18n.t(:login_box_internal)
-          }
-        ]
+        return @_login_providers if @_login_providers.is_a?(Array) # memo
+        logins = []
+
+        zhdk_agw = Settings.zhdk_integration && Settings.zhdk_agw_api_url.present?
+        switch_aai = Settings.shibboleth_sign_in_enabled == true
+        fail 'too many logins!' if zhdk_agw and switch_aai
+
+        if zhdk_agw then logins.push(
+          id: 'zhdk',
+          title: I18n.t(:login_provider_zhdk_title),
+          description: I18n.t(:login_provider_zhdk_hint),
+          href: '/login/zhdk')
+        end
+
+        # # TODO: integrate AAI support
+        # if Settings.aai_enabled ??? then logins.push(
+        #   id: 'aai',
+        #   title: 'Switch AAI',
+        #   description: '…',
+        #   buttonTxt: 'Swooosh!',
+        #   href: '/login/aai')
+        # end
+
+        # NOTE: DB login is always enabled,
+        #       can have a different title if its the only login method
+        logins.push(
+          id: 'system',
+          title: (if logins.empty?
+                    I18n.t(:login_box_internal_only)
+                  else
+                    I18n.t(:login_box_internal)
+                  end)
+        )
+
+        @_login_providers = logins
       end
 
       private

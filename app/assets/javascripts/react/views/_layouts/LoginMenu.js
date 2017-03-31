@@ -13,7 +13,7 @@ class LoginMenu extends React.Component {
     return (
       <div className={cx(className, 'pitch-login')} {...restProps}>
         <Tab.Container
-          defaultActiveKey='zhdk'
+          defaultActiveKey={loginProviders[0].id}
           id='login_menu'
           animation={false}
         >

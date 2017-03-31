@@ -91,7 +91,7 @@ def sign_in_as(login, password = nil)
   end
 
   # if there isn't already a login form, force it:
-  visit '/my/used_keywords' unless page.has_selector?('form#login_form')
+  visit '/my/used_keywords' unless page.has_selector?('#login_menu form')
 
   # if ldap login is ON, first switch to correct form tab
   if db_user_tab = first('a#tab-internal_login')
