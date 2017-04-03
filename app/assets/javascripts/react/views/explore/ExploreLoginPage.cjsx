@@ -11,7 +11,7 @@ module.exports = React.createClass
 
   getInitialState: () -> { active: false }
 
-  render: ({get, authToken} = @props) ->
+  render: ({get, loginProviders, authToken} = @props) ->
     welcomeMessage = get.welcome_message
 
     sectionsElements =
@@ -31,7 +31,7 @@ module.exports = React.createClass
       </div>
       <div className='col1of3'>
         <LoginMenu
-          className='pitch-login'
+          loginProviders={loginProviders}
           authToken={authToken}
         />
       </div>

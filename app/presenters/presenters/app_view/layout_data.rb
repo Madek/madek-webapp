@@ -16,7 +16,6 @@ module Presenters
         @user = user
       end
 
-      # TMP: just collect all the needed data for layout…
       def user_menu
         return unless @user.present?
 
@@ -50,6 +49,30 @@ module Presenters
           admin: admin_menu,
           sign_out_action: { url: sign_out_path, method: 'POST' }
         }
+      end
+
+      def login_providers
+        # TODO: build dynamically
+        [
+          {
+            id: 'zhdk',
+            title: I18n.t(:login_provider_zhdk_title),
+            description: I18n.t(:login_provider_zhdk_hint),
+            href: '/login'
+          },
+          # TODO: intergrate AAI support
+          # {
+          #   id: 'aai',
+          #   title: 'Switch AAI',
+          #   description: '…',
+          #   button_text: 'Anmelden',
+          #   button_url: 'https://example.com/auth'
+          # },
+          {
+            id: 'system',
+            title: I18n.t(:login_box_internal)
+          }
+        ]
       end
 
       private
