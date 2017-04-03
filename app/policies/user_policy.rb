@@ -4,4 +4,8 @@ class UserPolicy < DefaultPolicy
     user.admin?
   end
 
+  def set_list_config?
+    logged_in?
+  end
+
 end

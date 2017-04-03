@@ -7,6 +7,8 @@ module Concerns
 
     included do
 
+      include Concerns::UserListParams
+
       private
 
       def resource_list_params(parameters = params,
@@ -21,6 +23,16 @@ module Concerns
         # NOTE: can be `nil` if base is a string (like `?list=some_string`)
         list_params = parameters.permit(base => allowed).fetch(base, {}) || {}
 
+        list_params = process_list_params(
+          list_params, coerced_types, allowed_filter_params)
+
+        # side effect: persist list config to session
+        persist_list_config_to_session(list_params)
+
+        list_params
+      end
+
+      def process_list_params(list_params, coerced_types, allowed_filter_params)
         list_params
           .deep_symbolize_keys
           .map { |key, val| _coerce_types(coerced_types, key, val) }
@@ -28,8 +40,9 @@ module Concerns
             check_allowed_filter_params! parameters, allowed_filter_params
           end
           .to_h
-          .merge( # context of current request (for building new links):
-            for_url: {
+          .merge(user: session[:list_config]) # config from session
+          .merge(
+            for_url: { # context of current request (for building new links):
               pathname: url_for(only_path: true),
               query: request.query_parameters.deep_symbolize_keys })
       end

@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   include Concerns::JSONSearch
   include Concerns::RedirectBackOr
+  include Concerns::UserListParams
 
   def index
     get_and_respond_with_json
@@ -31,6 +32,16 @@ class UsersController < ApplicationController
       session[:uberadmin_mode] = false
       redirect_back_or my_dashboard_path, success: 'Admin-Modus deaktiviert!'
     end
+  end
+
+  # ajax-only. needed when config changes async, for sync its automatically set
+  # TODO: extract setter (incl. whitelist) and use as shared helper
+  def set_list_config
+    skip_authorization # session only, no policy
+    config = params.require(:list_config)
+      .permit(*Madek::Constants::Webapp::USER_LIST_CONFIG_KEYS).deep_symbolize_keys
+    persist_list_config_to_session(config)
+    respond_with(nil)
   end
 
   private

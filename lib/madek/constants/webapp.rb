@@ -42,6 +42,8 @@ module Madek
       ENABLE_OPENGRAPH = webapp_embeds[:enable_opengraph]
       TWITTER_CARDS_SITE = webapp_embeds[:twitter_cards_site]
 
+      USER_LIST_CONFIG_KEYS = [:layout, :order, :show_filter]
+
       VERIFY_AUTH_SKIP_CONTROLLERS = \
         [ConfigurationManagementBackdoorController,
          ErrorsController,

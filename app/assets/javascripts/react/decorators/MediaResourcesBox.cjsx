@@ -8,8 +8,10 @@ t = ui.t('de')
 setUrlParams = require('../../lib/set-params-for-url.coffee')
 parseUrl = require('url').parse
 stringifyUrl = require('url').format
+parseQuery = require('qs').parse
 Selection = require('../../lib/selection.coffee')
 resourceListParams = require('../../shared/resource_list_params.coffee')
+appRequest = require('../../lib/app-request.coffee')
 
 Waypoint = require('react-waypoint')
 RailsForm = require('../lib/forms/rails-form.cjsx')
@@ -30,7 +32,6 @@ CollectionChildren = require('../../models/collection-children.coffee')
 
 # interactive stuff, should be moved to controller
 router = null # client-side only
-qs = require('qs')
 xhr = require('xhr')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 BatchAddToSetModal = require('./BatchAddToSetModal.cjsx')
@@ -80,7 +81,7 @@ filterConfigProps = React.PropTypes.shape
     value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.bool])
 
 # view Config - bound to the URL (params)!
-viewConfigProps = React.PropTypes.shape
+viewConfigProps =
   show_filter: React.PropTypes.bool
   filter: filterConfigProps
   layout: React.PropTypes.oneOf(['tiles', 'miniature', 'grid', 'list'])
@@ -111,7 +112,7 @@ boxSetUrlParams = (url, params...) ->
 module.exports = React.createClass
   displayName: 'MediaResourcesBox'
   propTypes:
-    initial: viewConfigProps
+    initial: React.PropTypes.shape(viewConfigProps)
     withBox: React.PropTypes.bool # toggles simple grid or full box
     fetchRelations: React.PropTypes.bool
     fallback: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.node])
@@ -126,7 +127,9 @@ module.exports = React.createClass
         'MediaEntries', 'Collections', 'FilterSets', 'MediaResources'])
       with_actions: React.PropTypes.bool # toggles actions, hover, flyout
       can_filter: React.PropTypes.bool # if true, get.resources can be filtered
-      config: viewConfigProps # <- config that is part of the URL!
+      config: React.PropTypes.shape(viewConfigProps) # <- config that is part of the URL!
+      user_config: React.PropTypes.shape( # <- subset that is *also* stored per session
+        f.pick(viewConfigProps, 'layout', 'order', 'show_filter'))
       dynamic_filters: React.PropTypes.array
 
   getDefaultProps: ()->
@@ -252,7 +255,9 @@ module.exports = React.createClass
   _handleChangeInternally: (event) ->
     handleLinkIfLocal(
       event,
-      (href) ->
+      (href) =>
+        cfg = f.pick(parseQuery(parseUrl(href).query).list, ['layout', 'order', 'show_filter'])
+        if cfg then @_persistListConfig(list_config: cfg) # async, but fire-and-forget
         router.goTo(href)
     )
 
@@ -333,6 +338,12 @@ module.exports = React.createClass
     selected = f.map(resources, 'uuid')
     batchEditUrl = setUrlParams(path, {id: selected, return_to: @_currentUrl()})
     window.location = batchEditUrl # SYNC!
+
+  _persistListConfig: (config) ->
+    req = appRequest(
+      { method: 'PATCH', url: '/session/list_config', json: config }
+      , (err, res) -> if err then console.error(err))
+    @doOnUnmount.push ()-> req.abort() if req && req.abort
 
   _onBatchEdit: (resources, event) ->
     @_sharedOnBatch(resources, event, '/entries/batch_edit_meta_data_by_context')
@@ -450,9 +461,16 @@ module.exports = React.createClass
       {config: state.config},  # - client-side state
       props.get,                      # - presenter & config (from params)
       {config: props.initial},        # - per-view initial default config
+      config:                   # - config saved for set
+        layout: state.savedLayout
+        order: state.savedOrder
+      ,
+      if props.withBox                # - user session config
+        {config: props.get.config.user}
+      ,
       config:                   # - default config
-        layout: state.savedLayout || 'grid'
-        order: state.savedOrder || 'created_at DESC'
+        layout: 'grid'
+        order: 'last_change'
         show_filter: false
 
 
@@ -506,7 +524,7 @@ module.exports = React.createClass
       'ui-resources')
 
     currentQuery = f.merge(
-      {list: f.merge f.omit(config, 'for_url')},
+      {list: f.merge f.omit(config, 'for_url', 'user')},
       {
         list: filter: config.filter,
         accordion: config.accordion
