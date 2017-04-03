@@ -25,7 +25,7 @@ batch_remove_from_collection_title,Medieinträge/Sets aus Set entfernen,Remove m
 batch_destroy_resources_ask_1,Möchten Sie folgende Inhalte löschen:,Möchten Sie folgende Inhalte löschen:,
 batch_destroy_resources_ask_2, Einträge, Einträge,
 batch_destroy_resources_ask_3, Sets, Sets,
-batch_destroy_resources_ask_4,(Einträge in Sets werden nicht automatisch mit dem Set gelöscht),(Einträge in Sets werden nicht automatisch mit dem Set gelöscht),
+batch_destroy_resources_ask_4,(Die Inhalte von Sets werden nicht automatisch mit dem Set gelöscht.),(Die Inhalte von Sets werden nicht automatisch mit dem Set gelöscht.),
 batch_destroy_resources_ok,Ok,Ok,
 batch_destroy_resources_cancel,Abbrechen,Abbrechen,
 batch_destroy_resources_success,Inhalte wurden erfolgreich gelöscht.,Inhalte wurden erfolgreich gelöscht.,
