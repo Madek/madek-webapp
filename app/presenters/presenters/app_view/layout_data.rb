@@ -58,7 +58,7 @@ module Presenters
             id: 'zhdk',
             title: I18n.t(:login_provider_zhdk_title),
             description: I18n.t(:login_provider_zhdk_hint),
-            href: '/login'
+            href: '/login/zhdk'
           },
           # TODO: intergrate AAI support
           # {
