@@ -8,8 +8,8 @@ MenuItem = Dropdown.MenuItem
 
 createActionsDropdown = (totalCount, withActions, selection, saveable, disablePermissionsEdit, isClient, collectionData, config, isClipboard, callbacks) ->
   showActions = if not withActions then {} else {
-    addToClipboard: true if !isClipboard
-    removeFromClipboard: true if isClipboard
+    addToClipboard: true if !isClipboard && selection
+    removeFromClipboard: true if isClipboard && selection
     addToSet: true if selection
     edit: true if selection
     editSets: true if selection

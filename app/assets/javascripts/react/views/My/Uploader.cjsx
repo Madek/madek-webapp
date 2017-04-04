@@ -70,7 +70,7 @@ module.exports = React.createClass
 
     boxGet =
       resources: props.appCollection,
-      with_actions: true
+      with_actions: false
       config:
         for_url: window.location.toString()
 
