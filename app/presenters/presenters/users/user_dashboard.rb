@@ -110,7 +110,7 @@ module Presenters
         end
 
         Pojo.new(
-          empty?: !(groups[:internal].any? or groups[:external].any?),
+          empty?: groups.values.flatten.empty?,
           internal: groups[:internal],
           authentication: groups[:authentication],
           external: groups[:external]

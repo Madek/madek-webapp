@@ -20,6 +20,11 @@ module Concerns
         secure: (Rails.env == 'production' && !MADEK_DISABLE_HTTPS)
       }
       user.update_attributes! last_signed_in_at: Time.zone.now
+      users_group = AuthenticationGroup.find_or_initialize_by \
+        id: Madek::Constants::SIGNED_IN_USERS_GROUP_ID
+      users_group.name ||= 'Signed-in Users'
+      users_group.save! unless users_group.persisted?
+      users_group.users << user unless users_group.users.include?(user)
     end
 
     def destroy_madek_session

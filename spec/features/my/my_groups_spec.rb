@@ -8,6 +8,19 @@ include BasicDataHelper
 feature 'Resource: Group; in User Dashboard ("My Groups")' do
 
   describe 'Action: show' do
+
+    scenario 'Shows default AuthenticationGroup that every User is a member of' do
+      user = create(:user)
+      visit_groups
+
+      # check the DB also
+      expect { sign_in_as user }.to change { user.groups.count }.by(1)
+
+      within '.app-body .ui-resources-holder' do
+        expect(page).to have_content AuthenticationGroup.first.name
+      end
+    end
+
     scenario 'Showing a group, has correct name' do
       prepare_data
       login
@@ -31,7 +44,7 @@ feature 'Resource: Group; in User Dashboard ("My Groups")' do
 
       fill_in_and_submit_new_group 'NEW_GROUP'
 
-      within '.ui-workgroups' do
+      within '.app-body .ui-resources-holder' do
         expect(page).to have_content 'NEW_GROUP'
       end
     end
@@ -65,7 +78,7 @@ feature 'Resource: Group; in User Dashboard ("My Groups")' do
       set_name_in_form('NEW NAME')
       submit_form
 
-      within '.ui-workgroups' do
+      within '.app-body .ui-resources-holder' do
         expect(page).not_to have_content @group.name
         expect(page).to have_content 'NEW NAME'
       end
