@@ -1,0 +1,72 @@
+# NOTE: SERVER NEEDS TO BE RESTARTED WHEN CHANGING THIS!
+
+zencoder_enabled: True
+zencoder_api_key: 9c564289629f5be18f4227b3bd0b0aae
+zencoder_test_mode: True
+zencoder_video_output_formats:
+  webm: {format: 'webm', quality: 4, speed: 2, width: 620, thumbnails: true}
+  mp4: {format: 'mp4', video_codec: 'h264', width: 620}
+zencoder_video_thumbnails_defaults: {interval: 60, width: 620, format: "jpg"}
+zencoder_audio_output_formats:
+  mp3: {audio_codec: 'mp3', skip_video: true}
+
+
+# if using ZHdK login locally:
+zhdk_integration: yes
+zhdk_agw_api_url: https://intern.zhdk.ch/?auth/madek
+zhdk_agw_api_key: 'ZpQmkO7ouwhtTYbE5ah0vhXDfNrdPg3NS69JVBPLp3U='
+zhdk_admin_ids: []
+
+# custom filemounts:
+#
+# # prod via test via mountainduck
+# setup_storage_directories: no
+# default_storage_dir: '/Users/ma/Library/Group Containers/G69SCX94XU.duck/Library/Application Support/duck/Volumes/Madek_PROD_FILES_READONLY'
+# file_storage_dir: '/Users/ma/Library/Group Containers/G69SCX94XU.duck/Library/Application Support/duck/Volumes/Madek_PROD_FILES_READONLY/attachments'
+# thumbnail_storage_dir: '/Users/ma/Library/Group Containers/G69SCX94XU.duck/Library/Application Support/duck/Volumes/Madek_PROD_FILES_READONLY/attachments'
+# tmp_dir: 'tmp/tmp_files'
+
+# OFFLINE FILE SELECTION
+# setup_storage_directories: no
+# default_storage_dir: '/Users/ma/MADEK_PROD_DATA_SPARSE'
+# file_storage_dir: '/Users/ma/MADEK_PROD_DATA_SPARSE/attachments'
+# thumbnail_storage_dir: '/Users/ma/MADEK_PROD_DATA_SPARSE/attachments'
+# tmp_dir: 'tmp/tmp_files'
+
+# # test_media like in CI for certain tests
+# default_storage_dir: 'spec/_support/test_media/file_storage'
+# file_storage_dir: 'spec/_support/test_media/file_storage/originals'
+# thumbnail_storage_dir: 'spec/_support/test_media/file_storage/thumbnails'
+
+# # custom filemount in VM:
+# setup_storage_directories: no
+# default_storage_dir: '/mnt/madekdata'
+# file_storage_dir: '/mnt/madekdata/attachments'
+# thumbnail_storage_dir: '/mnt/madekdata/attachments'
+# tmp_dir: 'tmp/tmp_files'
+
+# decoration:
+webapp_html_extra_content:
+  head_start: |
+    <!--
+         __       __                  __            __
+    /  \     /  |                /  |          /  |
+    $$  \   /$$ |  ______    ____$$ |  ______  $$ |   __
+    $$$  \ /$$$ | /      \  /    $$ | /      \ $$ |  /  |
+    $$$$  /$$$$ | $$$$$$  |/$$$$$$$ |/$$$$$$  |$$ |_/$$/
+    $$ $$ $$/$$ | /    $$ |$$ |  $$ |$$    $$ |$$   $$<
+    $$ |$$$/ $$ |/$$$$$$$ |$$ \__$$ |$$$$$$$$/ $$$$$$  \
+    $$ | $/  $$ |$$    $$ |$$    $$ |$$       |$$ | $$  |
+    $$/      $$/  $$$$$$$/  $$$$$$$/  $$$$$$$/ $$/   $$/
+
+      ▄▄▄█████▓▓█████   ██████ ▄▄▄█████▓
+    ▓  ██▒ ▓▒▓█   ▀ ▒██    ▒ ▓  ██▒ ▓▒
+    ▒ ▓██░ ▒░▒███   ░ ▓██▄   ▒ ▓██░ ▒░
+    ░ ▓██▓ ░ ▒▓█  ▄   ▒   ██▒░ ▓██▓ ░
+      ▒██▒ ░ ░▒████▒▒██████▒▒  ▒██▒ ░
+      ▒ ░░   ░░ ▒░ ░▒ ▒▓▒ ▒ ░  ▒ ░░
+        ░     ░ ░  ░░ ░▒  ░ ░    ░
+      ░         ░   ░  ░  ░    ░
+                ░  ░      ░
+
+    -->
