@@ -95,36 +95,28 @@ module Modules
       end
 
       def add_transaction(parent_collection, media_entries, collections)
-        existing = parent_collection.media_entries
-          .rewhere(is_published: [true, false]).reload
         media_entries.each do |media_entry|
           # Do not add if already in the collection.
-          next if existing.include? media_entry
-          parent_collection.media_entries << media_entry
+          Arcs::CollectionMediaEntryArc.find_or_create_by(
+            collection: parent_collection, media_entry: media_entry)
         end
-        existing = parent_collection.collections.reload
         collections.each do |collection|
-          # Do not add if already in the collection.
-          next if existing.include? collection
           # Do not add to itself.
           next if parent_collection.id == collection.id
-          parent_collection.collections << collection
+          # Do not add if already in the collection.
+          Arcs::CollectionCollectionArc.find_or_create_by(
+            parent: parent_collection, child: collection)
         end
       end
 
       def remove_transaction(parent_collection, media_entries, collections)
-        to_remove_media_entries = media_entries.select do |media_entry|
-          parent_collection.media_entries.with_unpublished.include? media_entry
+        media_entries.each do |media_entry|
+          Arcs::CollectionMediaEntryArc.where(
+            collection: parent_collection, media_entry: media_entry).delete_all
         end
-        to_remove_media_entries.each do |media_entry|
-          parent_collection.media_entries.delete(media_entry)
-        end
-
-        to_remove_collections = collections.select do |collection|
-          parent_collection.collections.include? collection
-        end
-        to_remove_collections.each do |collection|
-          parent_collection.collections.delete(collection)
+        collections.each do |collection|
+          Arcs::CollectionCollectionArc.where(
+            parent: parent_collection, child: collection).delete_all
         end
       end
     end
