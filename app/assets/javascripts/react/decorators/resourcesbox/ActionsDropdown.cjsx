@@ -140,7 +140,7 @@ createActionsDropdown = (totalCount, withActions, selection, saveable, disablePe
               'add_all_to_clipboard',
               undefined,
               'move',
-              t('resources_box_batch_actions_addalltoclipboard'))
+              t('resources_box_batch_actions_addalltoclipboard_1') + totalCount + t('resources_box_batch_actions_addalltoclipboard_2'))
           else
             createHoverActionItem(
               if !selection.empty() then f.curry(callbacks.onBatchAddSelectedToClipboard)(selection.selection),
@@ -156,7 +156,7 @@ createActionsDropdown = (totalCount, withActions, selection, saveable, disablePe
               'remove_all_from_clipboard',
               undefined,
               'move',
-              t('resources_box_batch_actions_removeallfromclipboard'))
+              t('resources_box_batch_actions_removeallfromclipboard_1') + totalCount + t('resources_box_batch_actions_removeallfromclipboard_2'))
           else
             createHoverActionItem(
               if !selection.empty() then f.curry(callbacks.onBatchRemoveFromClipboard)(selection.selection),

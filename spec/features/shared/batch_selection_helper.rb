@@ -1,10 +1,12 @@
 module BatchSelectionHelper
 
-  def click_batch_action(key, clipboard_all: false)
+  def click_batch_action(key, all: false, all_count: - 1)
     text =
       if key == :add_to_clipboard
-        if clipboard_all
-          I18n.t(:resources_box_batch_actions_addalltoclipboard)
+        if all
+          I18n.t(:resources_box_batch_actions_addalltoclipboard_1) \
+          + all_count.to_s \
+          + I18n.t(:resources_box_batch_actions_addalltoclipboard_2)
         else
           I18n.t(:resources_box_batch_actions_addselectedtoclipboard)
         end
@@ -50,7 +52,9 @@ module BatchSelectionHelper
     if key == :add_to_clipboard
       if menu_config[:all]
         count = nil
-        text = I18n.t(:resources_box_batch_actions_addalltoclipboard)
+        text = I18n.t(:resources_box_batch_actions_addalltoclipboard_1) \
+          + menu_config[:count].to_s \
+          + I18n.t(:resources_box_batch_actions_addalltoclipboard_2)
       else
         count = menu_config[:count]
         text = I18n.t(:resources_box_batch_actions_addselectedtoclipboard)

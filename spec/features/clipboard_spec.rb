@@ -36,7 +36,7 @@ feature 'clipboard' do
     )
     open_dropdown
     check_full_dropdown(
-      add_to_clipboard: { all: true },
+      add_to_clipboard: { count: 4, all: true },
       add_to_set: { count: 0, active: false },
       remove_from_set: { count: 0, active: false },
       media_entries_metadata: { count: 0, active: false },
@@ -47,13 +47,13 @@ feature 'clipboard' do
       media_entries_transfer_responsibility: { count: 0, active: false },
       collections_transfer_responsibility: { count: 0, active: false }
     )
-    click_batch_action(:add_to_clipboard, clipboard_all: true)
+    click_batch_action(:add_to_clipboard, all: true, all_count: 4)
     click_dialog_ok
     check_add_success_message
 
     open_drafts
     open_dropdown
-    click_batch_action(:add_to_clipboard, clipboard_all: true)
+    click_batch_action(:add_to_clipboard, all: true, all_count: 1)
     click_dialog_ok
     check_add_success_message
 
@@ -84,13 +84,13 @@ feature 'clipboard' do
       media_entries_transfer_responsibility: { count: 1 },
       collections_transfer_responsibility: { count: 1 }
     )
-    click_batch_action(:add_to_clipboard, clipboard_all: false)
+    click_batch_action(:add_to_clipboard, all: false)
     check_add_success_message
 
     open_drafts
     toggle_select_all
     open_dropdown
-    click_batch_action(:add_to_clipboard, clipboard_all: false)
+    click_batch_action(:add_to_clipboard, all: false)
     check_add_success_message
 
     open_clipboard
