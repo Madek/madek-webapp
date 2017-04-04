@@ -31,6 +31,3 @@ module.exports = # only subtypes are exported
 
   Keywords: MetaDatum.extend
     type: 'MetaDatumKeywords'
-
-  Licenses: MetaDatum.extend
-    type: 'MetaDatumLicenses'

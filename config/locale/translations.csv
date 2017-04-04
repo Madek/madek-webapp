@@ -486,6 +486,9 @@ vocabulary_permissions_hint1,"Für dieses Vokabular sind die Berechtigungen "Bet
 vocabulary_permissions_hint2,"Weitere Berechtigungen für Personen, Arbeitsgruppen, API-Applikationen oder die Öffentlichkeit werden durch den Administrator vergeben – bitte wenden Sie sich an den Support.","Weitere Berechtigungen für Personen, Arbeitsgruppen, API-Applikationen oder die Öffentlichkeit werden durch den Administrator vergeben – bitte wenden Sie sich an den Support.",
 vocabularies_tabs_vocabulary,Vokabular,Vocabulary,
 vocabulary_term_info_term,Term,Term
+vocabulary_term_info_rdfclass,Typ,Type
+vocabulary_term_info_description,Beschreibung,Description
+vocabulary_term_info_url,URL,URL
 vocabulary_term_info_contents,Inhalte,Contents
 workgroup_link_to_contents_text,Inhalte,Contents,
 workgroup_link_to_contents_title,Inhalte dieser Arbeitsgruppe anzeigen,View contents of this work group,

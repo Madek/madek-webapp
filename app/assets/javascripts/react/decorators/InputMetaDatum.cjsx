@@ -19,8 +19,6 @@ module.exports = React.createClass
     'TextDate': InputTextDate
     'People': InputPeople
     'Keywords': InputKeywords
-    # DEPRECATE_LICENSES act like/copied from keywords
-    'Licenses': InputKeywords
   }
 
   render: ({get, id, name} = @props, state = @state)->

@@ -28,13 +28,6 @@ DecoratorsByType =
   Keywords: ({values, tagMods} = @props)->
     <UI.TagCloud mod='label' mods='small' list={labelize(values)}/>
 
-  Licenses: ({values} = @props)->
-    <ul className='inline'>
-      {values.map (license)->
-        <li key={license.uuid}>
-          <UI.Link href={license.url}>{license.label}</UI.Link></li>}</ul>
-
-
 module.exports = React.createClass
   displayName: 'Deco.MetaDatumValues'
   propTypes:

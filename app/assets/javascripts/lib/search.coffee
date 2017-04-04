@@ -8,7 +8,6 @@ resourcesConfig = # JSON API Endpoints:
   Groups: { url: '/my/groups', key: 'detailed_name', params: ['scope'] }
   ApiClients: { url: '/api_clients', key: 'login' }
   People: { url: '/people', params: ['meta_key_id'] }
-  Licenses: { url: '/licenses', key: 'label'  }
   Keywords: { url: '/keywords', key: 'label', params: ['meta_key_id'] }
 
 module.exports = (resourceType, parameters = null, localData)->

@@ -36,10 +36,11 @@ describe MetaDataController do
       delete_and_assert_success(meta_datum)
     end
 
-    it 'MetaDatum::Licenses' do
-      meta_key = FactoryGirl.create(:meta_key_licenses)
+    it 'MetaDatum::Keywords with RdfClass=License' do
+      meta_key = FactoryGirl.create(:meta_key_keywords_license)
       create_vocabulary_permissions(meta_key.vocabulary)
-      meta_datum = create(:meta_datum_licenses,
+      meta_datum = create(:meta_datum_keywords,
+                          keywords: [create(:keyword, :license)],
                           meta_key: meta_key,
                           media_entry: @media_entry)
       delete_and_assert_success(meta_datum)

@@ -2,10 +2,10 @@ f = require('active-lodash')
 
 decorators =
   Person: (o)-> o.name || buildPersonName(o)
-  Keyword: (o)-> o.label
-  License: (o)-> o.label
   InstitutionalGroup: (o)-> o.detailed_name
   Group: (o)-> o.name
+  # TODO: label by rdf class
+  Keyword: (o)-> o.label
 
 module.exports = (o)->
   unless f.isObject(o) and f.isFunction(decorate = decorators[o.type])

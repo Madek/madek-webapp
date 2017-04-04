@@ -26,18 +26,6 @@ module Presenters
             end
           end
         end
-
-        # FIXME: DEPRECATE_LICENSES act like keywords:
-        if meta_key.meta_datum_object_type.ends_with?('Licenses')
-          define_singleton_method :show_checkboxes do
-            License.all.count < 16
-          end
-          define_singleton_method :keywords do
-            License.all.limit(100).map do |l|
-              Presenters::Licenses::LicenseIndex.new(l)
-            end
-          end
-        end
       end
 
       def url

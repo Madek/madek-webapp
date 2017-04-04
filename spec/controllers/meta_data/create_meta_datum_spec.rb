@@ -37,22 +37,22 @@ describe MetaDataController do
       expect(Set.new md.people.map(&:id)).to be == Set.new(ids)
     end
 
-    it 'MetaDatum::Licenses' do
-      meta_key = FactoryGirl.create(:meta_key_licenses)
+    it 'MetaDatum::Keywords with RdfClass=License' do
+      meta_key = FactoryGirl.create(:meta_key_keywords_license)
       create_vocabulary_permissions(meta_key.vocabulary)
-      2.times { FactoryGirl.create :license }
-      ids = License.take(2).map(&:id)
+      2.times { FactoryGirl.create :keyword, :license, meta_key: meta_key }
+      ids = Keyword.where(rdf_class: 'License').take(2).map(&:id)
       post :create,
            { media_entry_id: @media_entry.id,
              meta_key: meta_key.id,
-             type: 'MetaDatum::Licenses',
+             type: 'MetaDatum::Keywords',
              values: ids },
            user_id: @user.id
 
       assert_response :created
       md = @media_entry.meta_data.find_by_meta_key_id(meta_key.id)
       expect(md).to be
-      expect(Set.new md.licenses.map(&:id)).to be == Set.new(ids)
+      expect(Set.new md.keywords.map(&:id)).to be == Set.new(ids)
     end
 
     it 'MetaDatum::Keywords' do

@@ -29,6 +29,7 @@ feature 'Vocabulary Pages' do
           page: {
             info_table: [
               ['Term', keyword.term],
+              ['Typ', 'Keyword'],
               ['Inhalte', keyword.usage_count.to_s],
               ['Metakey', "#{meta_key.label} (#{meta_key.id})"],
               ['Vokabular', meta_key.vocabulary.label]

@@ -1,8 +1,5 @@
 import React from 'react'
-// import chunk from 'lodash/chunk'
-// import sortBy from 'lodash/sortBy'
 import isEmpty from 'lodash/isEmpty'
-// import MadekPropTypes from '../../lib/madek-prop-types.coffee'
 import ui from '../../lib/ui.coffee'
 const t = ui.t('de')
 import PageHeader from '../../ui-components/PageHeader.js'
@@ -12,6 +9,12 @@ const link = (c, h) => <a href={h}>{c}</a>
 
 const infotable = (v, mk, kw, contentsPath) => [
   [ t('vocabulary_term_info_term'), link(kw.label, kw.url) ],
+  [ t('vocabulary_term_info_rdfclass'), kw.rdf_class ],
+  [ t('vocabulary_term_info_description'), kw.description ],
+  [
+    t('vocabulary_term_info_url'),
+    !kw.external_uri ? '' : link(kw.external_uri, kw.external_uri)
+  ],
   [ t('vocabulary_term_info_contents'), link(kw.usage_count, contentsPath) ],
   [
     t('sitemap_metakey'),

@@ -20,13 +20,7 @@ feature 'Resource: MediaEntry' do
       end
       expect(current_path).to eq new_media_entry_path
 
-      # select file and submit
-      within('.app-body') do
-        image_path = Madek::Constants::DATALAYER_ROOT_DIR \
-          .join('spec', 'data', 'images', 'grumpy_cat.jpg')
-        attach_file('media_entry_media_file', File.absolute_path(image_path))
-        submit_form
-      end
+      select_file_and_submit('images', 'grumpy_cat_new.jpg')
 
       expect(page).to have_content 'Media entry wurde erstellt.'
 
@@ -51,8 +45,28 @@ feature 'Resource: MediaEntry' do
 
     end
 
+    scenario 'Default License and Usage are applied on upload as configured',
+             browser: false do
+      settings = AppSettings.first
+
+      visit new_media_entry_path
+      select_file_and_submit('images', 'grumpy_cat_new.jpg')
+      media_entry = @user.unpublished_media_entries.first
+
+      md_license = media_entry.meta_data
+        .find_by_meta_key_id(settings.media_entry_default_license_meta_key)
+
+      md_usage = media_entry.meta_data
+        .find_by_meta_key_id(settings.media_entry_default_license_usage_meta_key)
+
+      expect(md_usage.string).to eq settings.media_entry_default_license_usage_text
+
+      expect(md_license.keywords.first.id)
+        .to eq settings.media_entry_default_license_id
+    end
+
     scenario 'File metadata is extracted and mapped via IoMappings to MetaData',
-             browser: false do # FIXME: run in browser
+             browser: false do
 
       unless MetaKey.where(id: 'madek_core:title').exists?
         FactoryGirl.create(:meta_key_text, id: 'madek_core:title')
@@ -61,39 +75,12 @@ feature 'Resource: MediaEntry' do
       IoMapping.create(io_interface_id: 'default',
                        meta_key_id: 'madek_core:title',
                        key_map: 'XMP-dc:Title')
-      FactoryGirl.create(:meta_key,
-                         id: 'upload:licenses',
-                         meta_datum_object_type: 'MetaDatum::Licenses')
-      FactoryGirl.create(:license)
-      IoMapping.create(io_interface_id: 'default',
-                       meta_key_id: 'upload:licenses',
-                       key_map: 'XMP-xmpRights:WebStatement')
       IoMapping.create(io_interface_id: 'default',
                        meta_key_id: 'media_object:creator',
                        key_map: 'XMP-dc:Creator')
 
-      # go to dashboard and import button
-      visit my_dashboard_path
-      within('.ui-body-title-actions') do
-        find('a', text: I18n.t('dashboard_create_media_entry_btn')).click
-      end
-      expect(current_path).to eq new_media_entry_path
-
-      # select file and submit
-      within('.app-body') do
-        image_path = Madek::Constants::DATALAYER_ROOT_DIR \
-          .join('spec', 'data', 'images', 'grumpy_cat_new.jpg')
-        attach_file('media_entry_media_file', File.absolute_path(image_path))
-        submit_form
-      end
-
-      # # unpublished entry was created
-      # within('#app') do
-      #   alert = find('.ui-alert.warning')
-      #   expect(alert)
-      #     .to have_content I18n.t(:media_entry_not_published_warning_msg)
-      # end
-
+      visit new_media_entry_path
+      select_file_and_submit('images', 'grumpy_cat_new.jpg')
       media_entry = @user.unpublished_media_entries.first
 
       # media file #############################################################
@@ -124,12 +111,22 @@ feature 'Resource: MediaEntry' do
       expect(media_file.previews.size).to be == Madek::Constants::THUMBNAILS.size
 
       # meta data for media entry ##############################################
-      ['madek_core:title', 'upload:licenses', 'media_object:creator']
+      ['madek_core:title', 'media_object:creator']
         .each do |mk_id|
         meta_datum = media_entry.meta_data.find_by_meta_key_id(mk_id)
         expect(meta_datum).to be
       end
     end
 
+  end
+end
+
+private
+
+def select_file_and_submit(*path)
+  files = Madek::Constants::DATALAYER_ROOT_DIR.join('spec', 'data')
+  within('.app-body') do
+    attach_file('media_entry_media_file', File.absolute_path(files.join(*path)))
+    submit_form
   end
 end

@@ -76,7 +76,7 @@ module Modules
       end
 
       def add_default_license(media_entry)
-        license = License.find_by(id: settings.media_entry_default_license_id)
+        license = Keyword.find_by(id: settings.media_entry_default_license_id)
         license_meta_key = MetaKey.find_by(
           id: settings.media_entry_default_license_meta_key)
 
