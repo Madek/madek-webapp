@@ -7,10 +7,13 @@ module Concerns
       params.require(:id)
     end
 
+    def filtered_index_path(filter)
+      media_entries_path(
+        list: { show_filter: true, filter: JSON.generate(filter) })
+    end
+
     def redirect_to_filtered_index(filter)
-      redirect_to(
-        media_entries_path(
-          list: { show_filter: true, filter: JSON.generate(filter) }))
+      redirect_to(filtered_index_path(filter))
     end
 
     def get_authorized_resource(resource = nil)

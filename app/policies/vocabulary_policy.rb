@@ -15,6 +15,10 @@ class VocabularyPolicy < DefaultPolicy
     end
   end
 
+  def keyword_term?
+    show?
+  end
+
   # 'show' page tabs:
 
   def keywords?

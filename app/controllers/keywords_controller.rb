@@ -1,5 +1,6 @@
 class KeywordsController < ApplicationController
   include Concerns::JSONSearch
+  include Concerns::KeywordTermRoutingHelper
   include Modules::Keywords::SortByMatchRelevance
 
   def index
@@ -9,13 +10,8 @@ class KeywordsController < ApplicationController
   end
 
   def show
-    # NOTE: Rails' routing normalizes paths, which may include the term,
-    # e.g. double slashes in terms are lost in `params.require(:term)`!
-    term = CGI.unescape(
-      request.original_fullpath.sub("/vocabulary/#{meta_key_id_param}/terms/", ''))
-
     keyword = get_authorized_resource(
-      Keyword.find_by!(term: term, meta_key_id: meta_key_id_param))
+      Keyword.find_by!(term: keyword_term_param, meta_key_id: meta_key_id_param))
     redirect_to_filtered_index(
       meta_data: [{
         key: keyword.meta_key_id,
