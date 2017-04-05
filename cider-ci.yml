@@ -50,7 +50,19 @@ jobs:
     priority: 999 # "empty" job = high priority
     context:
       task: "echo '✔︎ All dependencies have passed' ; exit 0"
-    run_when: *DEFAULT_TRIGGERS
+    run_when:
+      'rspec-tests passed':
+        type: job
+        job_key: rspec-tests
+        states: [passed]
+      'lint passed':
+        type: job
+        job_key: lint
+        states: [passed]
+      'precompilation-checks':
+        type: job
+        job_key: precompilation-checks
+        states: [passed]
     depends_on:
       lint: {job_key: lint, type: job, states: [passed]}
       rspec-tests: {job_key: rspec-tests, type: job, states: [passed]}
