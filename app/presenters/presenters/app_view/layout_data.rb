@@ -66,14 +66,14 @@ module Presenters
           href: '/login/zhdk')
         end
 
-        # # TODO: integrate AAI support
-        # if Settings.aai_enabled ??? then logins.push(
-        #   id: 'aai',
-        #   title: 'Switch AAI',
-        #   description: '…',
-        #   buttonTxt: 'Swooosh!',
-        #   href: '/login/aai')
-        # end
+        if (Settings.shibboleth_sign_in_enabled and
+            Settings.shibboleth_sign_in_url.present?)
+          logins.push(
+            id: 'aai',
+            title: I18n.t(:login_provider_aai_hint),
+            description: I18n.t(:login_provider_aai_hint),
+            href: Settings.shibboleth_sign_in_url)
+        end
 
         # NOTE: DB login is always enabled,
         #       can have a different title if its the only login method
