@@ -24,7 +24,7 @@ module Modules
 
         # optional steps, errors are ignored but logged:
         begin
-          hack_add_default_license(media_entry)
+          add_default_license(media_entry)
           extract_and_store_metadata(media_entry)
           add_to_collection(media_entry, collection_id_param)
         rescue => e
@@ -75,19 +75,22 @@ module Modules
         process_with_zencoder(media_file) if media_file.previews_zencoder?
       end
 
-      def hack_add_default_license(media_entry)
-        # TEMPORARY FIX so that data is set like in v2 till it is cleaned up
+      def add_default_license(media_entry)
+        license = License.find_by(id: settings.media_entry_default_license_id)
+        license_meta_key = MetaKey.find_by(
+          id: settings.media_entry_default_license_meta_key)
 
-        meta_key_license = MetaKey.find_by(id: 'copyright:license') \
-          || MetaKey.where(meta_datum_object_type: 'MetaDatum::Licenses').first
-        return unless meta_key_license.present?
-        meta_key_usage = MetaKey.find_by(id: 'copyright:copyright_usage')
+        if license_meta_key && license
+          create_meta_datum!(media_entry, license_meta_key.id, license.id)
+        end
 
-        license = License.where(is_default: true).first
+        usage_text = settings.media_entry_default_license_usage_text.presence
+        usage_meta_key = MetaKey.find_by(
+          id: settings.media_entry_default_license_usage_meta_key,
+          meta_datum_object_type: 'MetaDatum::Text')
 
-        create_meta_datum!(media_entry, meta_key_license.id, license.id)
-        if meta_key_usage
-          create_meta_datum!(media_entry, meta_key_usage.id, license.usage)
+        if usage_meta_key && usage_text
+          create_meta_datum!(media_entry, usage_meta_key.id, usage_text)
         end
       end
 
