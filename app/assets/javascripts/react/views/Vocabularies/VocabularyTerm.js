@@ -8,7 +8,6 @@ import PageContent from '../PageContent.cjsx'
 const link = (c, h) => <a href={h}>{c}</a>
 
 const infotable = (v, mk, kw, contentsPath) => [
-  [ t('vocabulary_term_info_term'), link(kw.label, kw.url) ],
   [ t('vocabulary_term_info_rdfclass'), kw.rdf_class ],
   [ t('vocabulary_term_info_description'), kw.description ],
   [
@@ -20,6 +19,7 @@ const infotable = (v, mk, kw, contentsPath) => [
     t('sitemap_metakey'),
     link(<span>{mk.label} <small>({mk.uuid})</small></span>, mk.url)
   ],
+  [ t('vocabulary_term_info_term'), link(kw.label, kw.url) ],
   [ t('sitemap_vocabulary'), link(v.label, v.url) ]
 ]
 

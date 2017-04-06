@@ -485,7 +485,7 @@ vocabularies_tabs_permissions,Berechtigungen,Permissions,
 vocabulary_permissions_hint1,"Für dieses Vokabular sind die Berechtigungen "Betrachten" und "Anwenden" vergeben. Wenn Sie Mitglied einer berechtigten Arbeitsgruppe sind, können Sie Personen zu dieser hinzufügen.","Für dieses Vokabular sind die Berechtigungen "Betrachten" und "Anwenden" vergeben. Wenn Sie Mitglied einer berechtigten Arbeitsgruppe sind, können Sie Personen zu dieser hinzufügen.",
 vocabulary_permissions_hint2,"Weitere Berechtigungen für Personen, Arbeitsgruppen, API-Applikationen oder die Öffentlichkeit werden durch den Administrator vergeben – bitte wenden Sie sich an den Support.","Weitere Berechtigungen für Personen, Arbeitsgruppen, API-Applikationen oder die Öffentlichkeit werden durch den Administrator vergeben – bitte wenden Sie sich an den Support.",
 vocabularies_tabs_vocabulary,Vokabular,Vocabulary,
-vocabulary_term_info_term,Term,Term
+vocabulary_term_info_term,Begriff,Term
 vocabulary_term_info_rdfclass,Typ,Type
 vocabulary_term_info_description,Beschreibung,Description
 vocabulary_term_info_url,URL,URL

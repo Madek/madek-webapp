@@ -39,7 +39,7 @@ class VocabulariesController < ApplicationController
       }])
 
     respond_with(@get = Presenters::Vocabularies::VocabularyTerm.new(
-      vocabulary, keyword, contents_path))
+      vocabulary, keyword, contents_path, current_user))
   end
 
   def contents

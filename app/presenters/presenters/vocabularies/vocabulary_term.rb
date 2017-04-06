@@ -2,16 +2,17 @@ module Presenters
   module Vocabularies
     class VocabularyTerm < Presenter
 
-      def initialize(vocabulary, keyword, contents_path)
+      def initialize(vocabulary, keyword, contents_path, user)
         @vocabulary = vocabulary
         @keyword = keyword
         @contents_path = contents_path
+        @user = user
       end
 
       attr_accessor :contents_path
 
       def vocabulary
-        Presenters::Vocabularies::VocabularyCommon.new(@vocabulary)
+        Presenters::Vocabularies::VocabularyIndex.new(@vocabulary, user: @user)
       end
 
       def meta_key
