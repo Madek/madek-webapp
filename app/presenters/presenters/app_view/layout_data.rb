@@ -56,7 +56,8 @@ module Presenters
         logins = []
 
         zhdk_agw = Settings.zhdk_integration && Settings.zhdk_agw_api_url.present?
-        switch_aai = Settings.shibboleth_sign_in_enabled == true
+        switch_aai = Settings.shibboleth_sign_in_enabled == true \
+          && Settings.shibboleth_sign_in_url.present?
         fail 'too many logins!' if zhdk_agw and switch_aai
 
         if zhdk_agw then logins.push(
@@ -66,13 +67,11 @@ module Presenters
           href: '/login/zhdk')
         end
 
-        if (Settings.shibboleth_sign_in_enabled and
-            Settings.shibboleth_sign_in_url.present?)
-          logins.push(
-            id: 'aai',
-            title: I18n.t(:login_provider_aai_hint),
-            description: I18n.t(:login_provider_aai_hint),
-            href: Settings.shibboleth_sign_in_url)
+        if switch_aai then logins.push(
+          id: 'aai',
+          title: I18n.t(:login_provider_aai_title),
+          description: I18n.t(:login_provider_aai_hint),
+          href: Settings.shibboleth_sign_in_url)
         end
 
         # NOTE: DB login is always enabled,
