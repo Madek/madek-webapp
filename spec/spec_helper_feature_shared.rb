@@ -35,6 +35,10 @@ def find_exact_text(locator, text:)
   page.find(locator, text: Regexp.new("^#{text}$"))
 end
 
+def click_select_all_on_first_page
+  find('.ui-resources-page').find('.ui-pager').find('.icon-checkbox').click
+end
+
 # firefox only! - needs browser driver to support it
 def move_mouse_over(element)
   page.driver.browser.action.move_to(element.native).perform

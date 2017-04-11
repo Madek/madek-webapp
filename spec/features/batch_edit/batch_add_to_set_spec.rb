@@ -57,7 +57,7 @@ feature 'batch edit' do
       login
 
       visit @unpublished_entries_path
-      select_all_box.click
+      click_select_all_on_first_page
 
       select_set_button.click
       check_default_initial_content(true)
@@ -80,7 +80,7 @@ feature 'batch edit' do
     login
 
     visit @unpublished_entries_path
-    select_all_box.click
+    click_select_all_on_first_page
     select_set_button.click
     check_default_initial_content(true)
     check_path(@unpublished_entries_path)
@@ -138,12 +138,6 @@ feature 'batch edit' do
 
   def open_batch_select_add_to_set
     visit initial_url
-  end
-
-  def select_all_box
-    within('.app-body-content') do
-      find('.ui-filterbar').find('.icon-checkbox')
-    end
   end
 
   def select_set_button

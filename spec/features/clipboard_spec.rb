@@ -34,7 +34,7 @@ feature 'clipboard' do
     check_resources_in_box(
       data[:all_resources]
     )
-    open_dropdown
+    click_dropdown
     check_full_dropdown(
       add_to_clipboard: { count: 4, all: true },
       add_to_set: { count: 0, active: false },
@@ -65,7 +65,7 @@ feature 'clipboard' do
       data[:all_resources]
     )
     select_mixed([data[:media_entry_2], data[:collection_1]])
-    open_dropdown
+    click_dropdown
     check_full_dropdown(
       add_to_clipboard: { count: 2, all: false },
       add_to_set: { count: 2 },

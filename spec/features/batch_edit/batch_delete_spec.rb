@@ -32,8 +32,8 @@ feature 'batch delete' do
     check_resources_in_box(
       all_resources
     )
-    toggle_select_all
-    open_dropdown
+    click_select_all_on_first_page
+    click_dropdown
     check_full_dropdown(
       add_to_clipboard: { count: 5, all: false },
       add_to_set: { count: 5 },

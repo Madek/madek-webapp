@@ -19,7 +19,7 @@ feature 'Batch dropdown' do
     login
     visit collection_path(@parent_collection)
 
-    open_dropdown
+    click_dropdown
     check_full_dropdown(
       add_to_clipboard: { count: 6, all: true },
       add_to_set: { count: 0, active: false },
@@ -33,9 +33,10 @@ feature 'Batch dropdown' do
       collections_transfer_responsibility: { count: 0, active: false }
     )
 
-    toggle_select_all
+    click_dropdown
+    click_select_all_on_first_page
 
-    open_dropdown
+    click_dropdown
     check_full_dropdown(
       add_to_clipboard: { count: 6, all: false },
       add_to_set: { count: 6, highlights: all_resources },
@@ -49,10 +50,11 @@ feature 'Batch dropdown' do
       collections_transfer_responsibility: { count: 3 }
     )
 
-    toggle_select_all
+    click_dropdown
+    click_select_all_on_first_page
     select_media_entries(media_entries_1_3)
 
-    open_dropdown
+    click_dropdown
     check_full_dropdown(
       add_to_clipboard: { count: 2, all: false },
       add_to_set: { count: 2, highlights: media_entries_1_3 },
@@ -68,10 +70,11 @@ feature 'Batch dropdown' do
         count: 0, active: false, highlights: [] }
     )
 
-    toggle_select_all
+    click_dropdown
+    click_select_all_on_first_page
     select_collections(collections_1_3)
 
-    open_dropdown
+    click_dropdown
     check_full_dropdown(
       add_to_clipboard: { count: 2, all: false },
       add_to_set: { count: 2, highlights: collections_1_3 },

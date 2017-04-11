@@ -74,8 +74,8 @@ feature 'transfer responsibility media entry' do
 
     login_user(user1)
     open_resource(parent)
-    toggle_select_all
-    open_dropdown
+    click_select_all_on_first_page
+    click_dropdown
     check_partial_dropdown(
       collections_transfer_responsibility: {
         count: 2,
@@ -88,8 +88,8 @@ feature 'transfer responsibility media entry' do
     wait_until_form_disappeared
 
     open_resource(parent)
-    toggle_select_all
-    open_dropdown
+    click_select_all_on_first_page
+    click_dropdown
     check_partial_dropdown(
       collections_transfer_responsibility: { count: 0, active: false }
     )

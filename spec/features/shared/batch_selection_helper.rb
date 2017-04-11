@@ -186,7 +186,7 @@ module BatchSelectionHelper
     end
   end
 
-  def open_dropdown
+  def click_dropdown
     within '[data-test-id=resources_box_dropdown]' do
       find('.dropdown-toggle').click
     end

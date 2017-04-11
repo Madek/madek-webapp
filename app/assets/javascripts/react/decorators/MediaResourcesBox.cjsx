@@ -480,6 +480,8 @@ module.exports = React.createClass
       fetchRelations, saveable, authToken, children
     } = @props
 
+    disableSelectToggle = true
+
     get = @_mergeGet(@props, @state)
 
     # FIXME: always get from state!
@@ -665,8 +667,7 @@ module.exports = React.createClass
           onHoverMenu: @_onHoverMenu
         })
 
-
-      selectToggle = if selection && withActions
+      selectToggle = if selection && withActions && !disableSelectToggle
         selector =
           active: 'Alle abwählen',
           inactive: 'Alle auswählen'
@@ -835,7 +836,7 @@ module.exports = React.createClass
                   <li className='ui-resources-page' key={i}>
 
                     {if withBox and (pagination = f.presence(page.pagination))
-                      if (pagination.totalPages > 1)
+                      if (pagination.totalPages > 1 || disableSelectToggle)
 
                         onSelectPage = null
                         checkboxMods = cx({'active': false, 'mid': false})

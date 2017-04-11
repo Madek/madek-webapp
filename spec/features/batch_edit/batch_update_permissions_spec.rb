@@ -141,9 +141,9 @@ def edit_permission_form_cases(_resource_class)
 end
 
 def select_all_in_box_and_choose_from_menu(text)
+  click_select_all_on_first_page
   within(page.find('.ui-polybox')) do
     within('.ui-filterbar') do
-      find('.ui-filterbar-select').find('.icon-checkbox').click
       find('.dropdown-toggle, .ui-drop-toggle', text: 'Aktionen').click
       find('.dropdown-menu a', text: text).click
     end

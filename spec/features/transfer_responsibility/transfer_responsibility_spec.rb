@@ -116,7 +116,7 @@ feature 'transfer responsibility shared' do
     login_user(user1)
     open_resource(parent)
 
-    open_dropdown
+    click_dropdown
     check_full_dropdown(
       add_to_clipboard: { count: 6, all: true },
       add_to_set: { count: 0, active: false },
@@ -129,9 +129,11 @@ feature 'transfer responsibility shared' do
       media_entries_transfer_responsibility: { count: 0, active: false },
       collections_transfer_responsibility: { count: 0, active: false }
     )
-    toggle_select_all
+    click_dropdown
 
-    open_dropdown
+    click_select_all_on_first_page
+
+    click_dropdown
     check_full_dropdown(
       add_to_clipboard: {
         count: 6,

@@ -100,7 +100,7 @@ feature 'Batch linking' do
   end
 
   def select_menu_by_key(key)
-    open_dropdown
+    click_dropdown
     text_keys[key]
     within '[data-test-id=resources_box_dropdown]' do
       find('.ui-drop-item', text: I18n.t(text_keys[key])).click

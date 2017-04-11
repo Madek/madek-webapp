@@ -50,7 +50,7 @@ feature 'batch edit' do
 
       visit parent_path
 
-      select_all_box.click
+      click_select_all_on_first_page
       select_delete_from_set_button.click
       check_default_initial_content
       check_path(parent_path)
@@ -58,7 +58,7 @@ feature 'batch edit' do
       check_path(parent_path)
       check_no_dialog
 
-      select_all_box.click
+      click_select_all_on_first_page
       select_delete_from_set_button.click
       check_default_initial_content
       check_path(parent_path)
@@ -74,7 +74,7 @@ feature 'batch edit' do
 
     visit parent_path
 
-    select_all_box.click
+    click_select_all_on_first_page
     select_delete_from_set_button.click
     check_default_initial_content
     check_path(parent_path)
