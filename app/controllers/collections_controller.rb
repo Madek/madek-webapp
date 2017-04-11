@@ -6,7 +6,7 @@ class CollectionsController < ApplicationController
   include Concerns::UserScopes::MediaResources
   include Concerns::CollectionHighlights
   include Concerns::ControllerFavoritable
-  include Concerns::CollectionCollectionSelection
+  include Concerns::CollectionSelection
   include Modules::Collections::PermissionsUpdate
   include Modules::Collections::MetaDataUpdate
   include Modules::Collections::Create
@@ -164,6 +164,14 @@ class CollectionsController < ApplicationController
 
   def batch_update_transfer_responsibility
     batch_resource_update_transfer_responsibility(current_user, Collection)
+  end
+
+  def select_collection
+    shared_select_collection
+  end
+
+  def add_remove_collection
+    shared_add_remove_collection('collection_select_collection_flash_result')
   end
 
   private

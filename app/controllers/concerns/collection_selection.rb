@@ -10,12 +10,14 @@ module Concerns
 
     include Concerns::Clipboard
 
-    def select_collection
+    def shared_select_collection
       resource = get_authorized_resource
 
       search_term = params[:clear] ? '' : params[:search_term]
 
       @get = show_presenter_by_resource(resource, search_term)
+      template_path =
+        "#{resource.class.name.underscore.pluralize}/select_collection"
       respond_with(@get, template: template_path)
     end
 
@@ -37,7 +39,7 @@ module Concerns
         search_term: search_term)
     end
 
-    def add_remove_collection
+    def shared_add_remove_collection(success_message_key)
       resource = get_authorized_resource
 
       add_to_clipboard(resource) if params[:add_to_clipboard] == 'on'
@@ -54,7 +56,7 @@ module Concerns
         added_count: added_count)
 
       redirect_to(
-        redirect_to_resource_path(resource),
+        self.send("#{resource.class.name.underscore}_path", resource),
         flash: { success: message })
     end
 
@@ -72,6 +74,16 @@ module Concerns
       end
     end
 
+    def child_resources_for_resource(resource, collection)
+      if resource.class == MediaEntry
+        collection.media_entries
+      elsif resource.class == Collection
+        collection.collections
+      else
+        throw 'No child resources for class: ' + resource.class.name
+      end
+    end
+
     def save_existing_collections(resource)
       added_count = 0
       removed_count = 0
@@ -81,10 +93,10 @@ module Concerns
 
         exists_already = exists_already_in_collection(resource, collection)
         if checked and not exists_already
-          child_resources(collection) << resource
+          child_resources_for_resource(resource, collection) << resource
           added_count += 1
         elsif not checked and exists_already
-          child_resources(collection).delete(resource)
+          child_resources_for_resource(resource, collection).delete(resource)
           removed_count += 1
         end
       end
@@ -104,7 +116,7 @@ module Concerns
         name = info[:name]
         collection = store_collection(name)
         unless exists_already_in_collection(resource, collection)
-          child_resources(collection) << resource
+          child_resources_for_resource(resource, collection) << resource
           added_count += 1
         end
       end
@@ -113,9 +125,9 @@ module Concerns
 
     def exists_already_in_collection(resource, collection)
       if resource.class == Collection
-        child_resources(collection).include?(resource)
+        child_resources_for_resource(resource, collection).include?(resource)
       elsif resource.class == MediaEntry
-        child_resources(collection).rewhere(
+        child_resources_for_resource(resource, collection).rewhere(
           is_published: [true, false]).include?(resource)
       else
         raise 'not implemented'

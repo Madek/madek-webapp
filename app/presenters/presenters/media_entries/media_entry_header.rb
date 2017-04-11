@@ -7,32 +7,15 @@ module Presenters
       def initialize(
         app_resource,
         user,
-        show_collection_selection: false,
         search_term: ''
       )
 
         super(app_resource)
         @user = user
-        @show_collection_selection = show_collection_selection
         @search_term = search_term
       end
 
       delegate_to_app_resource :title
-
-      def collection_selection
-        if @show_collection_selection
-          template =
-            'Presenters::' +
-            @app_resource.class.name.pluralize +
-            '::' +
-            @app_resource.class.name + 'SelectCollection'
-
-          template.constantize.new(
-            @user,
-            @app_resource,
-            @search_term)
-        end
-      end
 
       def url
         media_entry_path(@app_resource)

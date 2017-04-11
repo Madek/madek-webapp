@@ -5,7 +5,7 @@ class MediaEntriesController < ApplicationController
   include Concerns::ResourceListParams
   include Concerns::UserScopes::MediaResources
   include Concerns::ControllerFavoritable
-  include Concerns::MediaEntryCollectionSelection
+  include Concerns::CollectionSelection
   include Modules::FileStorage
   include Modules::MediaEntries::Upload
   include Modules::MediaEntries::MetaDataUpdate
@@ -99,6 +99,14 @@ class MediaEntriesController < ApplicationController
     batch_resource_update_transfer_responsibility(current_user, MediaEntry)
   end
 
+  def select_collection
+    shared_select_collection
+  end
+
+  def add_remove_collection
+    shared_add_remove_collection('media_entry_select_collection_flash_result')
+  end
+
   def initialize_presenter(name, template)
     # TODO: Merge with the same method in collections_controller
 
@@ -108,7 +116,7 @@ class MediaEntriesController < ApplicationController
     @get = name.constantize.new(
       current_user,
       media_entry,
-      user_scopes_for_resource(media_entry),
+      user_scopes_for_media_resource(media_entry),
       resource_list_params)
 
     respond_with(@get, template: template)

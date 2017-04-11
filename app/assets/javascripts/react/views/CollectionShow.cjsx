@@ -14,6 +14,8 @@ PageContent = require('./PageContent.cjsx')
 TabContent = require('./TabContent.cjsx')
 CollectionDetailOverview = require('./Collection/DetailOverview.cjsx')
 CollectionDetailAdditional = require('./Collection/DetailAdditional.cjsx')
+AsyncModal = require('./Collection/AsyncModal.cjsx')
+SelectCollection = require('./Collection/SelectCollection.cjsx')
 HighlightedContents = require('./Collection/HighlightedContents.cjsx')
 MediaEntryHeader = require('./MediaEntryHeader.cjsx')
 MetaDataByListing = require('../decorators/MetaDataByListing.cjsx')
@@ -51,6 +53,7 @@ module.exports = React.createClass
   getInitialState: () -> {
     isMounted: false
     urlState: parseUrlState(@props.for_url)
+    selectCollectionModal: false or @props.showModal
   }
 
   componentDidMount: () ->
@@ -60,11 +63,42 @@ module.exports = React.createClass
     return if nextProps.for_url is @props.for_url
     @setState(urlState: parseUrlState(@props.for_url))
 
+  _onClick: (asyncAction) ->
+    if asyncAction == 'select_collection'
+      @setState(selectCollectionModal: true)
+
+
   render: ({authToken, get} = @props, {isMounted, urlState} = @state) ->
 
     <PageContent>
-      <MediaEntryHeader authToken={authToken} get={get.header} showModal={@props.showModal}
-        async={isMounted} modalAction={'select_collection'}/>
+
+      {
+        if @state.selectCollectionModal
+
+          onClose = () =>
+            @setState(selectCollectionModal: false)
+
+          contentForGet = (get) =>
+            <SelectCollection
+              get={get} async={true}
+              authToken={@props.authToken} onClose={onClose} />
+
+          extractGet = (json) =>
+            json.collection_selection
+
+
+
+          getUrl = get.header.url + '/select_collection?___sparse={collection_selection":{}}'
+          <AsyncModal get={get.collection_selection} getUrl={getUrl}
+              contentForGet={contentForGet} extractGet={extractGet} />
+
+
+      }
+
+
+      <MediaEntryHeader authToken={authToken} get={get.header}
+        async={isMounted}
+        onClick={@_onClick}/>
 
       <Tabs>
         {f.map get.tabs, (tab) ->

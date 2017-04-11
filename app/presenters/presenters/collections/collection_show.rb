@@ -49,6 +49,16 @@ module Presenters
 
       # <mainTab>
 
+      def collection_selection
+        if @show_collection_selection
+          Presenters::Collections::CollectionSelectCollection.new(
+            @user,
+            @app_resource,
+            @search_term
+          )
+        end
+      end
+
       def layout
         # NOTE: only needed for main tab bc layout is for the children
         return unless @active_tab == 'show'
@@ -151,7 +161,6 @@ module Presenters
         Presenters::Collections::CollectionHeader.new(
           @app_resource,
           @user,
-          show_collection_selection: @show_collection_selection,
           search_term: @search_term)
       end
 

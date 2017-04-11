@@ -1,3 +1,3 @@
-- content_for(:header) { react('Views.MediaEntryHeader', { get: @get.header, showModal: true, async: false, modalAction: 'select_collection' }) }
+- content_for(:header) { react('Views.MediaEntryHeaderWithModal', { get: @get, showModal: true }) }
 
 = render template: 'media_entries/show'

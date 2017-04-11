@@ -9,14 +9,14 @@ module.exports = React.createClass
 
   _onClick: (event) ->
     event.preventDefault()
-    if @props.onAction
-      @props.onAction(@props.asyncAction)
+    if @props.onClick
+      @props.onClick(event)
     return false
 
   render: ({authToken, href, method, icon, title, name} = @props) ->
     method = 'post' if not method
     icon = 'icon-' + icon
-    onClick = if @props.onAction and @props.asyncAction then @_onClick else null
+    onClick = @_onClick if @props.onClick
     <RailsForm className='button_to' name='' method={method} action={href} authToken={authToken}>
       <button className="button" type="submit" title={title} onClick={onClick}>
         <i className={icon}></i>

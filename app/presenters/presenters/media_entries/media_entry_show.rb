@@ -32,6 +32,16 @@ module Presenters
         @action = action
       end
 
+      def collection_selection
+        if @show_collection_selection
+          Presenters::MediaEntries::MediaEntrySelectCollection.new(
+            @user,
+            @app_resource,
+            @search_term
+          )
+        end
+      end
+
       def tabs # list of all 'show' action sub-tabs
         tabs_config.select do |tab|
           tab[:action] ? policy_for(@user).send("#{tab[:action]}?".to_sym) : true
@@ -92,7 +102,6 @@ module Presenters
         Presenters::MediaEntries::MediaEntryHeader.new(
           @app_resource,
           @user,
-          show_collection_selection: @show_collection_selection,
           search_term: @search_term)
       end
 

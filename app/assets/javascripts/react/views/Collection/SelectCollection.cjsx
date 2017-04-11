@@ -60,7 +60,7 @@ module.exports = React.createClass
           (result, json) =>
             return unless @isMounted()
             if result == 'success'
-              @setState({get: json.header.collection_selection, searching: false})
+              @setState({get: json.collection_selection, searching: false})
         )
       ,
       500
