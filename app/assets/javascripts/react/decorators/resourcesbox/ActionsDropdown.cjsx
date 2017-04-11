@@ -6,20 +6,20 @@ SelectionScope = require('../../../lib/selection-scope.coffee')
 { Icon, Dropdown } = require('../../ui-components/index.coffee')
 MenuItem = Dropdown.MenuItem
 
-createActionsDropdown = (totalCount, withActions, selection, saveable, disablePermissionsEdit, isClient, collectionData, config, isClipboard, callbacks) ->
+createActionsDropdown = (totalCount, withActions, selection, saveable, draftsView, isClient, collectionData, config, isClipboard, callbacks) ->
   showActions = if not withActions then {} else {
-    addToClipboard: true if !isClipboard && selection
-    removeFromClipboard: true if isClipboard && selection
-    addToSet: true if selection
+    addToClipboard: true if !isClipboard && selection && !draftsView
+    removeFromClipboard: true if isClipboard && selection && !draftsView
+    addToSet: true if selection && !draftsView
     edit: true if selection
     editSets: true if selection
     deleteResources: true if selection
-    managePermissions: true if !disablePermissionsEdit && selection
-    managePermissionsSets: true if !disablePermissionsEdit && selection
+    managePermissions: true if !draftsView && selection
+    managePermissionsSets: true if !draftsView && selection
     save: true if isClient and saveable
-    removeFromSet: true if selection && f.present(collectionData)
-    transferResponsibility: true if !disablePermissionsEdit && selection
-    transferResponsibilitySets: true if !disablePermissionsEdit && selection
+    removeFromSet: true if selection && f.present(collectionData) && !draftsView
+    transferResponsibility: true if !draftsView && selection
+    transferResponsibilitySets: true if !draftsView && selection
   }
 
   return unless f.any(f.values(showActions))

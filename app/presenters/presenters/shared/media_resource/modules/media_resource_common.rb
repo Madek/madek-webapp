@@ -36,6 +36,9 @@ module Presenters
             false
           end
 
+          def collection_manageable
+            false
+          end
         end
       end
     end

@@ -18,7 +18,7 @@ module Presenters
       class MediaResources < Presenter
         include Presenters::Shared::MediaResource::Modules::IndexPresenterByClass
 
-        attr_reader :resources, :pagination, :with_actions, :can_filter
+        attr_reader :resources, :pagination, :with_actions, :can_filter, :type
 
         def initialize(
             scope, user, list_conf: nil, item_type: nil,
@@ -39,14 +39,6 @@ module Presenters
           @with_count = with_count
           @load_meta_data = load_meta_data
           init_resources_and_pagination(@scope, @conf)
-        end
-
-        def type
-          if @type == 'MediaResourceWithUnpublisheds'
-            return 'MediaResources'
-          else
-            @type
-          end
         end
 
         def config

@@ -119,7 +119,7 @@ module.exports = React.createClass
     heading: React.PropTypes.node
     toolBarMiddle: React.PropTypes.node
     authToken: React.PropTypes.string.isRequired
-    disablePermissionsEdit: React.PropTypes.bool
+    draftsView: React.PropTypes.bool
     disableListMode: React.PropTypes.bool
     get: React.PropTypes.shape
       # resources: React.PropTypes.array # TODO: array of ampersandCollection
@@ -645,7 +645,7 @@ module.exports = React.createClass
 
       actionsDropdown = ActionsDropdown.createActionsDropdown(
         @props.get.pagination.total_count if @props.get.pagination,
-        withActions, selection, saveable, @props.disablePermissionsEdit,
+        withActions, selection, saveable, @props.draftsView,
         @state.isClient, @props.collectionData, config, if @props.initial then @props.initial.is_clipboard else false,
         {
           onBatchAddAllToClipboard: @_onBatchAddAllToClipboard

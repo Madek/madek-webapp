@@ -12,17 +12,15 @@ feature 'batch delete' do
 
     media_entry_1 = create_media_entry('Media Entry 1', user1)
     media_entry_2 = create_media_entry('Media Entry 2', user1)
-    media_entry_3 = create_media_entry('Media Entry 3', user1)
-    media_entry_4 = create_media_entry('Media Entry 4', user2)
-    unpublish_media_entry(media_entry_2)
-    give_all_permissions(media_entry_4, user1)
+    media_entry_3 = create_media_entry('Media Entry 3', user2)
+    give_all_permissions(media_entry_3, user1)
 
     collection_1 = create_collection('Collection 1', user1)
     collection_2 = create_collection('Collection 2', user2)
     give_all_permissions(collection_2, user1)
 
     all_media_entries =
-      [media_entry_1, media_entry_2, media_entry_3, media_entry_4]
+      [media_entry_1, media_entry_2, media_entry_3]
     all_collections = [collection_1, collection_2]
     all_resources = all_media_entries.concat(all_collections)
 
@@ -32,7 +30,7 @@ feature 'batch delete' do
     login(user1)
     visit_resource(parent)
     check_resources_in_box(
-      all_resources - [media_entry_2]
+      all_resources
     )
     toggle_select_all
     open_dropdown
@@ -55,7 +53,7 @@ feature 'batch delete' do
     check_delete_success_message
 
     expect(parent.collections.count).to eq(1)
-    expect(parent.media_entries.with_unpublished.count).to eq(2)
+    expect(parent.media_entries.count).to eq(1)
   end
 
   private

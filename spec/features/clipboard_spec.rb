@@ -32,7 +32,7 @@ feature 'clipboard' do
 
     visit_resource(data[:parent])
     check_resources_in_box(
-      data[:all_resources] - [data[:media_entry_2]]
+      data[:all_resources]
     )
     open_dropdown
     check_full_dropdown(
@@ -51,12 +51,6 @@ feature 'clipboard' do
     click_dialog_ok
     check_add_success_message
 
-    open_drafts
-    open_dropdown
-    click_batch_action(:add_to_clipboard, all: true, all_count: 1)
-    click_dialog_ok
-    check_add_success_message
-
     open_clipboard
     check_resources_in_box(data[:all_resources])
   end
@@ -68,9 +62,9 @@ feature 'clipboard' do
 
     visit_resource(data[:parent])
     check_resources_in_box(
-      data[:all_resources] - [data[:media_entry_2]]
+      data[:all_resources]
     )
-    select_mixed([data[:media_entry_3], data[:collection_1]])
+    select_mixed([data[:media_entry_2], data[:collection_1]])
     open_dropdown
     check_full_dropdown(
       add_to_clipboard: { count: 2, all: false },
@@ -87,15 +81,9 @@ feature 'clipboard' do
     click_batch_action(:add_to_clipboard, all: false)
     check_add_success_message
 
-    open_drafts
-    toggle_select_all
-    open_dropdown
-    click_batch_action(:add_to_clipboard, all: false)
-    check_add_success_message
-
     open_clipboard
     check_resources_in_box(
-      [data[:media_entry_3], data[:collection_1], data[:media_entry_2]])
+      [data[:media_entry_2], data[:collection_1]])
   end
 
   private
@@ -105,12 +93,10 @@ feature 'clipboard' do
     user = create_user
     media_entry_1 = create_media_entry('Media Entry 1', user)
     media_entry_2 = create_media_entry('Media Entry 2', user)
-    media_entry_3 = create_media_entry('Media Entry 3', user)
-    unpublish_media_entry(media_entry_2)
     collection_1 = create_collection('Collection 1', user)
     collection_2 = create_collection('Collection 2', user)
 
-    all_media_entries = [media_entry_1, media_entry_2, media_entry_3]
+    all_media_entries = [media_entry_1, media_entry_2]
     all_collections = [collection_1, collection_2]
     all_resources = all_media_entries.concat(all_collections)
 
@@ -121,7 +107,6 @@ feature 'clipboard' do
       user: user,
       media_entry_1: media_entry_1,
       media_entry_2: media_entry_2,
-      media_entry_3: media_entry_3,
       collection_1: collection_1,
       collection_2: collection_2,
       all_media_entries: all_media_entries,

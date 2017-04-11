@@ -18,7 +18,7 @@ if !render_async
       withBox: with_box,
       fallback: fallback,
       initial: { show_filter: false, is_clipboard: section[:id] == :clipboard },
-      disablePermissionsEdit: section[:id] == :unpublished_entries)
+      draftsView: section[:id] == :unpublished_entries)
 
 else
   react(

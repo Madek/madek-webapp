@@ -26,7 +26,7 @@ module Presenters
           clipboard = clipboard_collection(@user)
           return unless clipboard
           if @app_resource.class == MediaEntry
-            clipboard.media_entries.with_unpublished.include?(@app_resource)
+            clipboard.media_entries.include?(@app_resource)
           elsif @app_resource.class == Collection
             clipboard.collections.include?(@app_resource)
           end

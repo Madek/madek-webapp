@@ -30,5 +30,4 @@ toExport =
     f.filter selection.selection, (r) =>
       @batchDestroyResource(r) && f.includes(types, r.type)
 
-
 module.exports = toExport

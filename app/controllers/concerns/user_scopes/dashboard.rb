@@ -40,7 +40,7 @@ module Concerns
 
         if user and clipboard_collection(user)
           hash[:clipboard] = clipboard_collection(user)
-            .child_media_resources_with_unpublished
+            .child_media_resources
         end
 
         hash

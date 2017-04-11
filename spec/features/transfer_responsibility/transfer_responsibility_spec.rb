@@ -100,26 +100,23 @@ feature 'transfer responsibility shared' do
     user2 = create_user
     media_entry1 = create_media_entry(user1, 'Media Entry 1')
     media_entry2 = create_media_entry(user2, 'Media Entry 2')
-    media_entry3 = create_media_entry(user1, 'Media Entry 3')
-    media_entry4 = create_media_entry(user2, 'Media Entry 4')
+    media_entry3 = create_media_entry(user2, 'Media Entry 3')
     collection1 = create_collection(user1, 'Collection 1')
     collection2 = create_collection(user2, 'Collection 2')
     collection3 = create_collection(user2, 'Collection 3')
     parent = create_collection(user1)
 
-    all_media_entries = [media_entry1, media_entry2, media_entry3, media_entry4]
+    all_media_entries = [media_entry1, media_entry2, media_entry3]
     all_collections = [collection1, collection2, collection3]
     all_resources = all_media_entries.concat all_collections
 
-    unpublish(media_entry3)
-    give_all_permissions(media_entry4, user1)
+    give_all_permissions(media_entry3, user1)
     add_all_to_parent(all_resources, parent)
 
     login_user(user1)
     open_resource(parent)
 
     open_dropdown
-    # check_all_items_inactive
     check_full_dropdown(
       add_to_clipboard: { count: 6, all: true },
       add_to_set: { count: 0, active: false },
@@ -148,7 +145,7 @@ feature 'transfer responsibility shared' do
         highlights: all_media_entries },
       media_entries_metadata: {
         count: 2,
-        highlights: [media_entry1, media_entry4] },
+        highlights: [media_entry1, media_entry3] },
       collections_metadata: {
         count: 1,
         highlights: [collection1] },
@@ -157,7 +154,7 @@ feature 'transfer responsibility shared' do
         highlights: [media_entry1, collection1] },
       media_entries_permissions: {
         count: 2,
-        highlights: [media_entry1, media_entry4] },
+        highlights: [media_entry1, media_entry3] },
       collections_permissions: {
         count: 1,
         highlights: [collection1] },

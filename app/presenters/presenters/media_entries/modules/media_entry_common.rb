@@ -31,11 +31,15 @@ module Presenters
         end
 
         def permissions_editable
-          policy_for(@user).permissions_edit? && @app_resource.is_published
+          policy_for(@user).permissions_edit?
         end
 
         def responsibility_transferable
           policy_for(@user).edit_transfer_responsibility?
+        end
+
+        def collection_manageable
+          policy_for(@user).add_remove_collection?
         end
 
         def invalid_meta_data

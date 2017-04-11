@@ -24,7 +24,11 @@ class CollectionPolicy < Shared::MediaResources::MediaResourcePolicy
   end
 
   def add_remove_collection?
-    edit?
+    update?
+  end
+
+  def select_collection?
+    update?
   end
 
   alias_method :batch_add_to_clipboard?, :update?
@@ -45,9 +49,6 @@ class CollectionPolicy < Shared::MediaResources::MediaResourcePolicy
   alias_method :edit_meta_data_by_context?, :update?
   alias_method :edit_meta_data_by_vocabularies?, :update?
   alias_method :meta_data_update?, :update?
-
-  alias_method :add_remove_collection?, :update?
-  alias_method :select_collection?, :update?
 
   alias_method :batch_add_to_set?, :update?
   alias_method :batch_remove_from_set?, :update?

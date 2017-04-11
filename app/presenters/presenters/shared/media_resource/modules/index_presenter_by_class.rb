@@ -12,7 +12,7 @@ module Presenters
             when 'MediaEntry' then Presenters::MediaEntries::MediaEntryIndex
             when 'Collection' then Presenters::Collections::CollectionIndex
             when 'FilterSet' then Presenters::FilterSets::FilterSetIndex
-            when 'MediaResource', 'MediaResourceWithUnpublished' then nil
+            when 'MediaResource' then nil
             else
               raise 'Unknown resource type!'
             end
