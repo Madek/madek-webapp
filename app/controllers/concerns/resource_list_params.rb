@@ -40,7 +40,10 @@ module Concerns
             check_allowed_filter_params! parameters, allowed_filter_params
           end
           .to_h
-          .merge(user: session[:list_config]) # config from session
+          .merge(
+            # config from session
+            user: (current_user ? current_user.settings : {})
+          )
           .merge(
             for_url: { # context of current request (for building new links):
               pathname: url_for(only_path: true),
