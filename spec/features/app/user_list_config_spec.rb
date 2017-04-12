@@ -93,16 +93,15 @@ feature 'App: User List Config (layout, order, …)' do
     expect_box_layout(:tiles)
   end
 
-  example 'not logged in, from search results' do
+  example 'not logged in, config does not follow you' do
     visit media_entries_path
     expect_box_layout(:grid)
     box_toggle_layout(:tiles)
-
     visit collections_path
-    expect_box_layout(:tiles)
-
+    expect_box_layout(:grid)
+    box_toggle_layout(:tiles)
     visit vocabulary_contents_path(:madek_core)
-    expect_box_layout(:tiles)
+    expect_box_layout(:grid)
   end
 
 end
