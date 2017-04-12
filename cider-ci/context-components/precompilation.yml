@@ -32,7 +32,7 @@ contexts:
     tasks:
       main:
         name: 'Docs: Render Overview from rspec feature specs'
-        traits: { Ruby: on, nodejs 4: on }
+        traits: { Ruby: on, nodejs: on }
         tree_attachments:
           feature-specs:
             content_type: text/html
