@@ -52,7 +52,7 @@ module.exports = React.createClass
     return false
 
   _addSelected: () ->
-    @setState(step: 'adding')
+    @setState(step: 'adding-selected')
     resourceIds = @_selectedResourceIdsWithTypes()
     url = setUrlParams('/batch_add_to_clipboard', {})
     railsFormPut.byData({resource_id: resourceIds}, url, (result) =>
@@ -68,19 +68,65 @@ module.exports = React.createClass
     event.preventDefault()
     @props.onClose() if @props.onClose
 
+  _processChunks: () ->
+
+    if @state.step != 'adding-all'
+      return
+
+
+
+    chunks = @state.chunks
+
+    chunk = f.first(f.filter(chunks, {state: 'pending'}))
+
+    if chunk
+      chunk.state = 'loading'
+      @setState(chunks: chunks)
+
+      url = setUrlParams('/batch_add_to_clipboard', {})
+      railsFormPut.byData({resource_id: chunk.ids}, url, (result) =>
+        chunk.state = 'loaded'
+        @setState(chunks: chunks)
+        if result.result == 'error'
+          window.scrollTo(0, 0)
+          @setState(step: 'adding-all-error', error: result.message)
+        else
+          @_processChunks()
+      )
+
+
+    else
+      @setState(step: @state.step)
+      setTimeout(
+        () -> location.reload(),
+        100
+      )
+
+
+
   _okBatchAddToClipboard: (event) ->
     event.preventDefault()
     resourceIds = @state.fetchedResources
-    @setState(step: 'adding')
+    @setState(step: 'adding-all')
 
-    url = setUrlParams('/batch_add_to_clipboard', {})
-    railsFormPut.byData({resource_id: resourceIds}, url, (result) =>
-      if result.result == 'error'
-        window.scrollTo(0, 0)
-        @setState(step: 'adding-error', error: result.message)
-      else
-        location.reload()
+    chunks = f.map(
+      f.chunk(resourceIds, 1000),
+      (ids) ->
+        {
+          state: 'pending'
+          ids: ids
+        }
+
     )
+
+    @setState(chunks: chunks, () =>
+      @_processChunks()
+    )
+
+  _cancelAddingAll: () ->
+    window.scrollTo(0, 0)
+    @setState(step: 'adding-all-cancelled')
+    
 
   _fetchForRemoveAll: () ->
     @setState(step: 'removing')
@@ -169,9 +215,45 @@ module.exports = React.createClass
           {@_okCloseAction()}
         </Modal>
 
-      when 'adding'
+      when 'adding-selected'
         <Modal widthInPixel={400}>
           {@_infoText(t('clipboard_adding_resources'))}
+        </Modal>
+
+      when 'adding-all'
+
+        chunks = @state.chunks
+        pending = f.filter(
+          chunks,
+          (chunk) ->
+            chunk.state != 'loaded'
+        )
+        done = f.filter(chunks, {state: 'loaded'})
+
+        pendingCount = f.reduce(
+          pending,
+          (sum, chunk) -> sum + f.size(chunk.ids),
+          0
+        )
+        doneCount = f.reduce(
+          done,
+          (sum, chunk) -> sum + f.size(chunk.ids),
+          0
+        )
+
+        counter = if f.size(chunks) > 1
+          doneCount + ' / ' + (pendingCount + doneCount)
+        else
+          ''
+
+
+        <Modal widthInPixel={400}>
+          {@_infoText(t('clipboard_adding_resources') + ' ' + counter)}
+          <div style={{margin: '20px', marginBottom: '20px', textAlign: 'center'}}>
+            <div className="ui-actions">
+              <a onClick={@_cancelAddingAll} className="link weak">{t('clipboard_ask_add_all_cancel')}</a>
+            </div>
+          </div>
         </Modal>
 
       when 'adding-error'
@@ -179,6 +261,24 @@ module.exports = React.createClass
           {@_errorBox(@state.error)}
           {@_infoText(t('clipboard_adding_resources'))}
           {@_okCloseAction()}
+        </Modal>
+
+      when 'adding-all-cancelled'
+        <Modal widthInPixel={400}>
+          {@_infoText(t('clipboard_adding_all_resources_cancelled'))}
+          {@_okCloseAction()}
+        </Modal>
+
+      when 'adding-all-error'
+        <Modal widthInPixel={400}>
+          {@_errorBox(@state.error)}
+          {@_infoText(t('clipboard_adding_all_resources_error'))}
+          <div className="ui-actions" style={{padding: '10px'}}>
+            <a onClick={@_cancelBatchAddToClipboard} className="link weak">{t('clipboard_ask_add_all_cancel')}</a>
+            <button className="primary-button" type="submit" onClick={@_okBatchAddToClipboard}>
+              {t('clipboard_adding_all_resources_retry')}
+            </button>
+          </div>
         </Modal>
 
       when 'removing'
