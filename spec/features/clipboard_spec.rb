@@ -6,7 +6,7 @@ include BatchSelectionHelper
 
 feature 'clipboard' do
 
-  scenario 'do not show clipboard in menu if it does not exist' do
+  scenario 'show "empty" clipboard in menu if it does not exist' do
     user = create_user
     login(user)
     visit_dashboard
@@ -181,14 +181,12 @@ feature 'clipboard' do
     ).find('a').click
   end
 
-  def check_menu_entry(visible)
-    expect(
-      find('.ui-side-navigation')
-    ).to have_selector(
-      '.ui-side-navigation-item',
-      text: I18n.t('sitemap_clipboard'),
-      count: visible ? 1 : 0
-    )
+  def check_menu_entry(exists)
+    menu_item = find(
+      '.ui-side-navigation .ui-side-navigation-item',
+      text: I18n.t('sitemap_clipboard'))
+
+    expect(menu_item).send(exists ? :not_to : :to, have_selector('.weak'))
   end
 
   def open_set_manager_and_add_to_clipboard

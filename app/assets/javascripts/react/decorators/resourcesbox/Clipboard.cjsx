@@ -126,7 +126,7 @@ module.exports = React.createClass
   _cancelAddingAll: () ->
     window.scrollTo(0, 0)
     @setState(step: 'adding-all-cancelled')
-    
+
 
   _fetchForRemoveAll: () ->
     @setState(step: 'removing')
@@ -150,8 +150,6 @@ module.exports = React.createClass
             if result.result == 'error'
               window.scrollTo(0, 0)
               @setState(step: 'removing-error', error: result.message)
-            else if result.type == 'data' && result.data.result == 'clipboard_deleted'
-              location.href = '/my'
             else
               location.reload()
           )

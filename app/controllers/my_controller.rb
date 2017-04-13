@@ -38,7 +38,7 @@ class MyController < ApplicationController
   # - no `partial` but `href` renders an entry in the sidebar only
 
   # rubocop:disable Metrics/MethodLength
-  def sections_definition(user)
+  def sections_definition
     {
       activity_stream: {
         title: 'Aktivitäten',
@@ -46,15 +46,13 @@ class MyController < ApplicationController
         partial: :activity_stream,
         hide_from_index: true
       },
-      clipboard: (\
-        if (user && clipboard_collection(user))
-          {
-            title: I18n.t(:sitemap_clipboard),
-            icon: 'icon-privacy-group',
-            partial: :media_resources,
-            is_beta: true
-          }
-        end),
+      clipboard: {
+        title: I18n.t(:sitemap_clipboard),
+        icon: 'icon-privacy-group',
+        partial: :media_resources,
+        is_beta: true,
+        hide_from_index: true
+      },
       unpublished_entries: {
         title: I18n.t(:sitemap_my_unpublished),
         icon: 'icon-privacy-private',
@@ -169,7 +167,7 @@ class MyController < ApplicationController
     # any possible user-given (filter, …)-config!
     # TODO: port this logic to dashboard presenter, build table of contents there
     @sections = set_async_below_fold order_sections_according_to_counts(
-      sections_definition(current_user),
+      sections_definition,
       Presenters::Users::UserDashboard.new(current_user,
                                            user_scopes_for_dashboard(current_user),
                                            nil,
@@ -191,9 +189,8 @@ class MyController < ApplicationController
   end
 
   def order_sections_according_to_counts(sections, presenter)
-    sections = \
-      put_empty_sections_last_and_set_is_empty_key_true(
-        sections_definition(current_user), presenter)
+    sections = put_empty_sections_last_and_set_is_empty_key_true(
+      sections_definition, presenter)
 
     sections = (sections[false].presence || [])
       .concat(
@@ -204,11 +201,12 @@ class MyController < ApplicationController
     remove_the_presenter_so_it_is_not_accidently_used_in_view(sections)
   end
 
-  def put_empty_sections_last_and_set_is_empty_key_true(sections, presenter)
-    sections.map do |id, section|
-      [id, prepare_section_with_count(id, sections, presenter)]
+  def put_empty_sections_last_and_set_is_empty_key_true(s, presenter)
+    s.map { |id, v| [id, prepare_section_with_count(id, s, presenter)] }
+    .group_by do |id, sec|
+      if id == :clipboard then next sec[:presenter].nil? end
+      sec[:presenter].try(:empty?) ? true : false
     end
-    .group_by { |sec| (sec[1][:presenter].try(:empty?) ? true : false) }
   end
 
   def remove_the_presenter_so_it_is_not_accidently_used_in_view(sections)

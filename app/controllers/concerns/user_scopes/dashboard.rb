@@ -7,7 +7,7 @@ module Concerns
 
       # rubocop:disable Metrics/MethodLength
       def build_hash(user)
-        hash = {
+        {
           unpublished_media_entries: \
             user.unpublished_media_entries,
           content_media_entries: \
@@ -35,15 +35,10 @@ module Concerns
           used_keywords: \
             user
             .used_keywords
-            .where(meta_data: { meta_key_id: 'madek_core:keywords' })
+            .where(meta_data: { meta_key_id: 'madek_core:keywords' }),
+
+          clipboard: clipboard_collection(user).try(:child_media_resources)
         }
-
-        if user and clipboard_collection(user)
-          hash[:clipboard] = clipboard_collection(user)
-            .child_media_resources
-        end
-
-        hash
       end
       # rubocop:enable Metrics/MethodLength
 
@@ -54,7 +49,7 @@ module Concerns
       end
 
       def apply_policy_scope_on_hash(user, hash)
-        Hash[hash.map { |k, v| [k, auth_policy_scope(user, v)] }]
+        Hash[hash.map { |k, v| [k, v && auth_policy_scope(user, v)] }]
       end
     end
   end
