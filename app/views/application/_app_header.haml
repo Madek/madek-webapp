@@ -39,7 +39,9 @@
             link_active?(filter_sets_path, deep: true))
         },
 
-        help: { text: t(:sitemap_help), href: settings.support_url }
+        help: !settings.support_url.present? ? nil : {
+          text: t(:sitemap_help), href: settings.support_url
+        }
 
       }
     ),
