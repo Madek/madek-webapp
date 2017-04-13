@@ -42,9 +42,9 @@ feature 'Resource: MediaEntry' do
     expect(@entry.api_client_permissions.first[other_perm]).to be false
   end
 
-  example(
-    'edit permissions as entrusted user (full perms for user, group, client)'
-  ) do
+  example \
+    'edit permissions as entrusted user (full perms for user, group, client)' \
+  do
     @another_user = User.find_by(login: 'adam')
     create(
       :media_entry_user_permission,
