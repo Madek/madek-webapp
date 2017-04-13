@@ -30,9 +30,10 @@ contexts:
   'Docs/Specs':
     include: cider-ci/context-components/rails-setup.yml
     tasks:
-      main:
+      spec-docs:
         name: 'Docs: Render Overview from rspec feature specs'
         traits: { Ruby: on, nodejs: on }
+        git_options: { submodules: { include_match: ^datalayer|node_modules$ } }
         tree_attachments:
           feature-specs:
             content_type: text/html
@@ -43,6 +44,6 @@ contexts:
               #!/usr/bin/env bash
               set -eux
               export PATH=~/.rubies/$RUBY/bin:$PATH
-              cider-ci/bin/render-specs spec/features > tmp/feature_specs.html
-              # NOTE: new version below, but old version stays till its ready
               node_modules/.bin/rspec-to-docs spec/features > ./tmp/features.html
+              # sanity check as long as the cli does not correctly exit:
+              grep -q "$CIDER_CI_TREE_ID" tmp/features.html
