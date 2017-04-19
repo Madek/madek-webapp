@@ -7,9 +7,6 @@
 
 .app-body-ui-container
 
-  - unless @get.published?
-    = render('media_entries/_show/unpublished_header')
-
   = react('Views.MediaEntryHeaderWithModal', { get: @get })
 
   = react('Views.MediaEntryTabs', { get: @get })
