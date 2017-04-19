@@ -40,7 +40,7 @@
     "coffee-script": "1.12.3",
     "font-awesome": "4.6.3",
     "fs-extra": "0.30.0",
-    "global": "4.3.0",
+    "global": "4.3.2",
     "hashblot": "0.4.5",
     "history": "2.1.2",
     "jquery": "2.2.4",
