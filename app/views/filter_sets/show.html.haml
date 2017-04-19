@@ -1,11 +1,11 @@
 :ruby
-  content_for(:header) do
+  content_for(:filter_sets_header) do
     component('page-header',
         icon: component('icon.filter-set'),
         text: @get.title)
   end
 
-  content_for(:overview) do
+  content_for(:filter_sets_overview) do
     type = t(:sitemap_media_entries) # TODO: from model/presenter
     combo('metadata-box',
       mods: 'ui-summary-table.ui-set-summary.compact',
@@ -16,9 +16,9 @@
 
   end
 
-  content_for(:more_info) do
+  content_for(:filter_sets_more_info) do
     react('Deco.MediaResourcesBox',
       get: @get.resources, withBox: true, initial: { show_filter: false })
   end
 
-= render template: 'layouts/app_resource'
+= render template: 'filter_sets/filter_sets_app_resource'

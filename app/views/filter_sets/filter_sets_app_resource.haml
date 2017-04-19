@@ -1,10 +1,9 @@
 :ruby
-  top_notice = content_for(:top_notice)
-  tabs = content_for(:tabs)
-  overview = content_for(:overview)
-  more_info = content_for(:more_info)
+  header = content_for(:filter_sets_header)
+  overview = content_for(:filter_sets_overview)
+  more_info = content_for(:filter_sets_more_info)
 
-  throw 'ui: invalid data' unless overview
+  throw 'ui: invalid data' unless overview && header
 
   top_box_mods = ['rounded-top-right']
   top_box_mods << 'rounded-bottom' unless more_info
@@ -12,12 +11,7 @@
 
 .app-body-ui-container
 
-  - if top_notice.present?
-    = top_notice
-
-  = react('Views.MediaEntryHeaderWithModal', { get: @get })
-
-  = tabs
+  = header
 
   -# complete box (under the title):
   .ui-container.tab-content.bordered.rounded-right.rounded-bottom.mbh
