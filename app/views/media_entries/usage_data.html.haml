@@ -1,13 +1,1 @@
-- tag_mods = ['small','ellipsed']
-- content_for(:overview) do
-
-  = react('Deco.UsageData', get: @get)
-
-  .col2of3
-    %h3.title-l.separated.mbm
-      = t(:media_entry_file_information_title)
-    = combo('metadata-box',
-        mods: 'ui-summary-table', list: @get.more_data.file_information)
-
-
 = render template: 'media_entries/_show/_base'

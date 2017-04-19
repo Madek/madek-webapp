@@ -1,10 +1,1 @@
-- tag_mods = ['small','ellipsed']
-- content_for(:overview) do
-
-  .ui-container
-    %h3.title-l.mbl
-      = t(:media_entry_all_metadata_title)
-    = react('Deco.MetaDataByListing', list: @get.meta_data.by_vocabulary, hideSeparator: true)
-
-
 = render template: 'media_entries/_show/_base'

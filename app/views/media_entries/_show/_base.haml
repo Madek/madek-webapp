@@ -5,4 +5,53 @@
     content_for(:top_notice) { render('media_entries/_show/unpublished_header') }
   end
 
-= render template: 'layouts/app_resource'
+
+
+  top_notice = content_for(:top_notice)
+
+
+  more_info = content_for(:more_info)
+
+
+  top_box_mods = ['rounded-top-right']
+  top_box_mods << 'rounded-bottom' unless more_info
+
+
+.app-body-ui-container
+
+  - if top_notice.present?
+    = top_notice
+
+  = react('Views.MediaEntryHeaderWithModal', { get: @get })
+
+  = react('Views.MediaEntryTabs', { get: @get })
+
+  -# complete box (under the title):
+  .ui-container.tab-content.bordered.rounded-right.rounded-bottom.mbh
+
+    -# top part of the box:
+    .ui-container.bright.pal{class: top_box_mods}
+
+
+      - if action_name == 'more_data'
+        .ui-container
+          %h3.title-l.mbl
+            = t(:media_entry_all_metadata_title)
+          = react('Deco.MetaDataByListing', list: @get.meta_data.by_vocabulary, hideSeparator: true)
+      - elsif ['permissions', 'permissions_edit'].include?(action_name)
+        = react('Views.MediaEntry.MediaEntryPermissions', { get: @get.permissions })
+      - elsif action_name == 'usage_data'
+
+        = react('Deco.UsageData', get: @get)
+
+        .col2of3
+          %h3.title-l.separated.mbm
+            = t(:media_entry_file_information_title)
+          = combo('metadata-box',
+              mods: 'ui-summary-table', list: @get.more_data.file_information)
+
+
+    -# optional bottom part of the box:
+    - if more_info
+      .ui-container.rounded-bottom
+        = more_info
