@@ -1,4 +1,4 @@
 :ruby
   render('media_entries/_show/head_meta_tags')
 
-= render template: 'media_entries/_show/_base'
+= react('Views.Base', { get: @get, action_name: action_name })

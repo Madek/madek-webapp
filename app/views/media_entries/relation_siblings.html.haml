@@ -3,4 +3,4 @@
 
 - content_for(:title_head) { @get.title }
 
-= render template: 'media_entries/_show/_base_tmp_react'
+= react('Views.BaseTmpReact', { get: @get, action_name: action_name })
