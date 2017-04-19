@@ -1,26 +1,14 @@
 :ruby
   render('media_entries/_show/head_meta_tags')
 
-  unless @get.published?
-    content_for(:top_notice) { render('media_entries/_show/unpublished_header') }
-  end
-
-
-
-  top_notice = content_for(:top_notice)
-
-
-  more_info = content_for(:more_info)
-
-
   top_box_mods = ['rounded-top-right']
-  top_box_mods << 'rounded-bottom' unless more_info
+  top_box_mods << 'rounded-bottom'
 
 
 .app-body-ui-container
 
-  - if top_notice.present?
-    = top_notice
+  - unless @get.published?
+    = render('media_entries/_show/unpublished_header')
 
   = react('Views.MediaEntryHeaderWithModal', { get: @get })
 
@@ -49,9 +37,3 @@
             = t(:media_entry_file_information_title)
           = combo('metadata-box',
               mods: 'ui-summary-table', list: @get.more_data.file_information)
-
-
-    -# optional bottom part of the box:
-    - if more_info
-      .ui-container.rounded-bottom
-        = more_info

@@ -1,12 +1,6 @@
 :ruby
   render('media_entries/_show/head_meta_tags')
 
-  unless @get.published?
-    content_for(:top_notice) { render('media_entries/_show/unpublished_header') }
-  end
-
-  top_notice = content_for(:top_notice)
-
   main =
     if action_name == 'relation_parents'
       react('Views.Collection.RelationResources', get: @get, scope: 'parents')
@@ -20,8 +14,8 @@
 
 .app-body-ui-container
 
-  - if top_notice.present?
-    = top_notice
+  - unless @get.published?
+    = render('media_entries/_show/unpublished_header')
 
   = react('Views.MediaEntryHeaderWithModal', { get: @get })
 
