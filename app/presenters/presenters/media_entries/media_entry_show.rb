@@ -123,7 +123,7 @@ module Presenters
       def tabs_config
         [
           {
-            id: 'main',
+            id: 'show',
             action: nil,
             title: I18n.t(:media_entry_tab_main)
           },
