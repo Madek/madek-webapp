@@ -8,8 +8,17 @@
   end
 
   top_notice = content_for(:top_notice)
-  main = content_for(:main)
 
+  main =
+    if action_name == 'relation_parents'
+      react('Views.Collection.RelationResources', get: @get, scope: 'parents')
+    elsif action_name == 'relation_siblings'
+      react('Views.Collection.RelationResources', get: @get, scope: 'siblings')
+    elsif action_name == 'relations'
+      react('Views.Collection.Relations', get: @get)
+    elsif action_name == 'show'
+      react('Views.MediaEntryShow', get: @get)
+    end
 
 .app-body-ui-container
 
