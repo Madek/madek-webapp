@@ -1,5 +1,4 @@
 :ruby
-  top_notice = content_for(:top_notice)
   header = content_for(:header)
   tabs = content_for(:tabs)
   overview = content_for(:overview)
@@ -10,11 +9,7 @@
   top_box_mods = ['rounded-top-right']
   top_box_mods << 'rounded-bottom' unless more_info
 
-
 .app-body-ui-container
-
-  - if top_notice.present?
-    = top_notice
 
   = header
 
