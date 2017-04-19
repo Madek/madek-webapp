@@ -6,11 +6,11 @@
   end
 
   unless content_for?(:header)
-    content_for(:header) { render('media_entries/_show/resource_header') }
+    content_for(:header) { react('Views.MediaEntryHeaderWithModal', { get: @get }) }
   end
 
   unless content_for(:tabs)
-    content_for(:tabs) { render('media_entries/_show/tab_nav') }
+    content_for(:tabs) { react('Views.MediaEntryTabs', { get: @get }) }
   end
 
 = render template: 'layouts/app_resource'
