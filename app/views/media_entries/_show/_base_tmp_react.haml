@@ -1,6 +1,4 @@
 :ruby
-  render('media_entries/_show/head_meta_tags')
-
   main =
     if action_name == 'relation_parents'
       react('Views.Collection.RelationResources', get: @get, scope: 'parents')
