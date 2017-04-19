@@ -11,17 +11,28 @@
     menu: settings.sitemap
   }
 
+  modal =
+    if action_name == 'ask_delete' && (controller_name == 'media_entries' || controller_name == 'collections')
+      react('Views.Collection.AskDelete', { get: @get })
+    elsif action_name == 'edit_cover' && controller_name == 'collections'
+      react('Views.Collection.ResourceSelection', { get: @get, type: 'radio' })
+    elsif action_name == 'edit_highlights'  && controller_name == 'collections'
+      react('Views.Collection.ResourceSelection', { get: @get, type: 'checkbox' })
+    elsif action_name == 'export' && controller_name == 'media_entries'
+      react('Views.MediaEntry.Export', { get: @get })
+    elsif action_name == 'select_collection' && (controller_name == 'media_entries' || controller_name == 'collections')
+      react('Views.SelectCollectionModal', { get: @get.collection_selection })
+    end
 
 - content_for(:body) do
 
-  - if content_for?(:modal)
-    = content_for(:modal)
+  = modal
 
   #app.app{data: { view: request[:controller], action: request[:action] }}
 
     = render('application/app_header')
 
-    - if not content_for?(:modal)
+    - if not modal
       = render('application/app_alerts')
 
     .app-body

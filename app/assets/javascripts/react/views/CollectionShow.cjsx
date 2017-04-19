@@ -53,7 +53,7 @@ module.exports = React.createClass
   getInitialState: () -> {
     isMounted: false
     urlState: parseUrlState(@props.for_url)
-    selectCollectionModal: false or @props.showModal
+    selectCollectionModal: false
   }
 
   componentDidMount: () ->

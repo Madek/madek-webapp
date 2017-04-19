@@ -29,7 +29,7 @@ module.exports = React.createClass
   displayName: 'MediaEntryHeaderWithModal'
 
   getInitialState: () -> {
-    selectCollectionModal: false or @props.showModal
+    selectCollectionModal: false
   }
 
   _onClick: (asyncAction) ->
