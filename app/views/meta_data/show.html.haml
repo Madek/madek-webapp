@@ -1,5 +1,5 @@
 :ruby
-  content_for(:header) do
+  content_for(:meta_data_header) do
     component('page-header', icon: '▲', text: t(:meta_data_header_text))
   end
 
@@ -21,7 +21,7 @@
     ])
 
 
-- content_for(:overview) do
+- content_for(:meta_data_overview) do
   .ui-container.table
     .app-body-sidebar.ui-container.table-cell.table-side
       .ui-resources.grid
@@ -42,4 +42,4 @@
 
       = actions
 
-= render template: 'layouts/app_resource'
+= render template: 'meta_data/meta_data_app_resource'

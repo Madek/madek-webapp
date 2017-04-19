@@ -1,0 +1,21 @@
+:ruby
+  header = content_for(:meta_data_header)
+  overview = content_for(:meta_data_overview)
+
+  throw 'ui: invalid data' unless overview && header
+
+  top_box_mods = ['rounded-top-right']
+  top_box_mods << 'rounded-bottom'
+
+
+.app-body-ui-container
+
+  = header
+
+  -# complete box (under the title):
+  .ui-container.tab-content.bordered.rounded-right.rounded-bottom.mbh
+
+    -# top part of the box:
+    .ui-container.bright.pal{class: top_box_mods}
+
+      = overview
