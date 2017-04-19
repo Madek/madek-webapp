@@ -1,6 +1,5 @@
 :ruby
   top_notice = content_for(:top_notice)
-  tabs = content_for(:tabs)
   overview = content_for(:overview)
   more_info = content_for(:more_info)
 
@@ -17,7 +16,7 @@
 
   = react('Views.MediaEntryHeaderWithModal', { get: @get })
 
-  = tabs
+  = react('Views.MediaEntryTabs', { get: @get })
 
   -# complete box (under the title):
   .ui-container.tab-content.bordered.rounded-right.rounded-bottom.mbh

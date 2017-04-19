@@ -7,12 +7,7 @@
     content_for(:top_notice) { render('media_entries/_show/unpublished_header') }
   end
 
-  unless content_for(:tabs)
-    content_for(:tabs) { react('Views.MediaEntryTabs', { get: @get }) }
-  end
-
   top_notice = content_for(:top_notice)
-  tabs = content_for(:tabs)
   main = content_for(:main)
 
 
@@ -23,6 +18,6 @@
 
   = react('Views.MediaEntryHeaderWithModal', { get: @get })
 
-  = tabs
+  = react('Views.MediaEntryTabs', { get: @get })
 
   = main
