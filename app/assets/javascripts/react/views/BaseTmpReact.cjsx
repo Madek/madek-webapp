@@ -23,6 +23,8 @@ module.exports = React.createClass
         <Relations get={get} for_url={for_url} authToken={authToken} />
       else if action_name == 'show'
         <MediaEntryShow get={get} for_url={for_url} authToken={authToken} />
+      else if f.includes(['export', 'ask_delete', 'select_collection'], action_name)
+        <MediaEntryShow get={get} for_url={for_url} authToken={authToken} />
 
     <div className='app-body-ui-container'>
       <MediaEntryHeaderWithModal get={get} for_url={for_url} authToken={authToken} />
