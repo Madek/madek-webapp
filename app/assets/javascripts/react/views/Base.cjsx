@@ -18,7 +18,7 @@ UsageData = require('../decorators/UsageData.cjsx')
 
 module.exports = React.createClass
   displayName: 'Base'
-  render: ({get, action_name, for_url} = @props) ->
+  render: ({get, action_name, for_url, authToken} = @props) ->
 
     main =
       if action_name == 'more_data'
@@ -26,18 +26,18 @@ module.exports = React.createClass
           <h3 className='title-l mbl'>
             {t('media_entry_all_metadata_title')}
           </h3>
-          <MetaDataByListing list={get.meta_data.by_vocabulary} hideSeparator={true} />
+          <MetaDataByListing list={get.meta_data.by_vocabulary} hideSeparator={true} authToken={authToken} />
         </div>
 
 
       else if f.includes(['permissions', 'permissions_edit'], action_name)
-        <MediaEntryPermissions get={get.permissions} for_url={for_url} />
+        <MediaEntryPermissions get={get.permissions} for_url={for_url} authToken={authToken} />
 
       else if action_name == 'usage_data'
         list = get.more_data.file_information
 
         [
-          <UsageData key='usage_data' get={get} for_url={for_url} />
+          <UsageData key='usage_data' get={get} for_url={for_url} authToken={authToken} />
           ,
           <div key='file_information' className='col2of3'>
             <h3 className='title-l separated mbm'>
@@ -74,8 +74,8 @@ module.exports = React.createClass
 
 
     <div className='app-body-ui-container'>
-      <MediaEntryHeaderWithModal get={get} for_url={for_url} />
-      <MediaEntryTabs get={get} for_url={for_url} />
+      <MediaEntryHeaderWithModal get={get} for_url={for_url} authToken={authToken} />
+      <MediaEntryTabs get={get} for_url={for_url} authToken={authToken} />
       <div className='ui-container tab-content bordered rounded-right rounded-bottom mbh'>
         <div className='ui-container bright pal rounded-top-right rounded-bottom'>
           {main}

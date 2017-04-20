@@ -352,7 +352,6 @@ module.exports = React.createClass
     @_sharedOnBatch(resources, event, '/sets/batch_edit_meta_data_by_context')
 
   _onBatchDeleteResources: (resources, event) ->
-    debugger
     event.preventDefault()
     @setState(
       batchDestroyResourcesModal: true,
