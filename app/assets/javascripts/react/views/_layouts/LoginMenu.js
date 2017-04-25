@@ -23,33 +23,24 @@ class LoginMenu extends React.Component {
                 <NavItem className='ui-tabs-item left' eventKey={id} key={id}>
                   {title}
                 </NavItem>
-                ))}
+              ))}
             </Nav>
             <Tab.Content animation={false} className='ui-tab-content'>
-              {loginProviders.map(
-                  ({ id, title, href, description, buttonTxt }) =>
-                    id === 'system'
-                      ? systemLoginPane({ title, authToken })
-                      : <Tab.Pane eventKey={id} key={id}>
-                        <div className='form-body'>
-                          <div className='ui-form-group rowed'>
-                            <p className='mbm'>
-                              {
-                                description
-                                  .split('\n')
-                                  .map(line => <span>{line}<br /></span>)
-                              }
-                            </p>
-                            <a
-                              className='primary-button block large'
-                              href={href}
-                            >
-                              {buttonTxt || t('login_box_login_btn')}
-                            </a>
-                          </div>
-                        </div>
-                      </Tab.Pane>
-                )}
+              {loginProviders.map(({ id, ...loginProps }) => {
+                if (id === 'system') {
+                  return (
+                    <Tab.Pane eventKey='system'>
+                      {systemLogin({ authToken })}
+                    </Tab.Pane>
+                  )
+                } else {
+                  return (
+                    <Tab.Pane eventKey={id} key={id}>
+                      {providerLogin({ ...loginProps, authToken })}
+                    </Tab.Pane>
+                  )
+                }
+              })}
             </Tab.Content>
           </div>
         </Tab.Container>
@@ -60,47 +51,58 @@ class LoginMenu extends React.Component {
 
 export default LoginMenu
 
-const systemLoginPane = ({ title, authToken }) => (
-  <Tab.Pane eventKey='system'>
-    <RailsForm action='/session/sign_in' authToken={authToken}>
-      <div className='form-body'>
-        <div className='ui-form-group rowed compact'>
+const providerLogin = ({ title, description, href, buttonTxt, authToken }) => (
+  <div className='form-body'>
+    <div className='ui-form-group rowed'>
+      <p className='mbm'>
+        {description.split('\n').map(line => <span>{line}<br /></span>)}
+      </p>
+      <a className='primary-button block large' href={href}>
+        {buttonTxt || t('login_box_login_btn')}
+      </a>
+    </div>
+  </div>
+)
+
+const systemLogin = ({ authToken }) => (
+  <RailsForm action='/session/sign_in' authToken={authToken}>
+    <div className='form-body'>
+      <div className='ui-form-group rowed compact'>
+        <input
+          autofocus='false'
+          className='block large'
+          name='login'
+          placeholder={t('login_box_username')}
+          type='text'
+        />
+      </div>
+      <div className='ui-form-group rowed compact'>
+        <input
+          className='block large'
+          name='password'
+          placeholder={t('login_box_password')}
+          type='password'
+        />
+      </div>
+      <div className='ui-form-group rowed compact by-left'>
+        <div className='form-item'>
           <input
-            autofocus='false'
-            className='block large'
-            name='login'
-            placeholder={t('login_box_username')}
-            type='text'
+            type='checkbox'
+            name='remember_me'
+            id='remember_me'
+            value='remember me'
+            defaultChecked='checked'
           />
-        </div>
-        <div className='ui-form-group rowed compact'>
-          <input
-            className='block large'
-            name='password'
-            placeholder={t('login_box_password')}
-            type='password'
-          />
-        </div>
-        <div className='ui-form-group rowed compact by-left'>
-          <div className='form-item'>
-            <input
-              type='checkbox'
-              name='remember_me'
-              id='remember_me'
-              value='remember me'
-              defaultChecked='checked'
-            />
-            <label for='remember_me'>
-              {t('login_box_rememberme')}
-            </label>
-          </div>
-        </div>
-        <div className='ui-form-group rowed compact'>
-          <button className='primary-button block large' type='submit'>
-            {t('login_box_login_btn')}
-          </button>
+          <label for='remember_me'>
+            {t('login_box_rememberme')}
+          </label>
         </div>
       </div>
-    </RailsForm>
-  </Tab.Pane>
+      <div className='ui-form-group rowed compact'>
+        <button className='primary-button block large' type='submit'>
+          {t('login_box_login_btn')}
+        </button>
+      </div>
+    </div>
+  </RailsForm>
 )
