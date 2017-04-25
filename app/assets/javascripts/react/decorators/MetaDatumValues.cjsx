@@ -12,7 +12,7 @@ UI = require('../ui-components/index.coffee')
 DecoratorsByType =
   Text: ({values} = @props)->
     # NOTE: the wrapping seems useless but is currently needed for styling
-    <ul className='inline measure'>
+    <ul className='inline measure-double'>
       {values.map (string)->
         <li key={string} dangerouslySetInnerHTML={linkifyInnerHtml(string)}/>}</ul>
 
