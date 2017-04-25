@@ -16,14 +16,14 @@ module.exports = React.createClass
 
   render: ({list, vocabLinks, hideSeparator} = @props)->
 
-    onlyListsWithContent = f.filter(
-      list,
-      (contextOrVocab) ->
-        not listingHelper._isEmptyContextOrVocab(contextOrVocab)
-    )
+    # Wenn es  Werte in 1 oder 2 Kontexten gibt, dann ist die Darstellung 2-spaltig.(Bei nur 1 Kontext bleibt die zweite Spalte leer.)
+    # Wenn es Werte in 3 Kontexten gibt, ist die Darstellung 3-spaltig.
+    # Wenn es Werte in 4 und mehr Kontexten gibt, ist die Darstellung 4-spaltig. (Der 5+n. Kontexte rutscht in die zweite Zeile.)
 
-    # build the boxes with meta_data lists, 4 per row, skip empty
-    colums = f.chunk(onlyListsWithContent, 4)
+    onlyListsWithContent = f.reject(list, (i)-> listingHelper._isEmptyContextOrVocab(i))
+    numVocabs = onlyListsWithContent.length
+    numColumns = f.max([2, f.min([4, numVocabs])])
+    colums = f.chunk(onlyListsWithContent, numColumns)
 
     <div className='meta-data-summary mbl'>
 
@@ -32,7 +32,7 @@ module.exports = React.createClass
           <div className='ui-container media-entry-metadata' key={f(row).map('context.uuid').join()}>
             {row.map((data)->
               key = (data.context or data.vocabulary).uuid
-              <div className='col1of4' key={key}>
+              <div className={"col1of#{numColumns}"} key={key}>
                 <MetaDataList mods='prl' list={data} vocabUuid={(key if data.vocabulary)}/>
               </div>)}
           </div>),
