@@ -98,7 +98,7 @@ def sign_in_as(login, password = nil)
   visit '/my/used_keywords' unless page.has_selector?('#login_menu form')
 
   # if ldap login is ON, first switch to correct form tab
-  if db_user_tab = first('a#tab-internal_login')
+  if db_user_tab = all('a#tab-internal_login').first
     db_user_tab.click
   end
   fill_in 'login', with: login

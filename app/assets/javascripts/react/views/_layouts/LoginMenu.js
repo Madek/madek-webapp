@@ -9,6 +9,14 @@ import RailsForm from '../../lib/forms/rails-form.cjsx'
 
 class LoginMenu extends React.Component {
   render ({ authToken, loginProviders, className, ...restProps } = this.props) {
+    if (!loginProviders) { return false }
+
+    if (loginProviders.length === 1 && loginProviders[0].id === 'system') {
+      return <div id='login_menu' className='ui-container mts pam bright bordered rounded'>
+        {systemLogin({ authToken })}
+      </div>
+    }
+
     // NOTE: can't use Tabs-Component directly because of style issues
     return (
       <div className={cx(className, 'pitch-login')} {...restProps}>

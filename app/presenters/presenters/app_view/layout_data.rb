@@ -78,11 +78,7 @@ module Presenters
         #       can have a different title if its the only login method
         logins.push(
           id: 'system',
-          title: (if logins.empty?
-                    I18n.t(:login_box_internal_only)
-                  else
-                    I18n.t(:login_box_internal)
-                  end)
+          title: I18n.t(:login_box_internal)
         )
 
         @_login_providers = logins
