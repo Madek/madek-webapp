@@ -19,6 +19,7 @@ LoadXhr = require('../../lib/load-xhr.coffee')
 Preloader = require('../ui-components/Preloader.cjsx')
 Thumbnail = require('../ui-components/Thumbnail.cjsx')
 MetaDataTable = require('./MetaDataTable.cjsx')
+MetaDataDefinitionList = require('./MetaDataDefinitionList.cjsx')
 
 module.exports = React.createClass
   displayName: 'ListThumbnail'
@@ -46,7 +47,7 @@ module.exports = React.createClass
 
     usageData = {
       key: 'usage_data'
-      className: 'ui-resource-extension',
+      className: 'ui-resource-extension ui-metadata-box',
       list: [
         {
           key: 'responsible',
@@ -182,7 +183,7 @@ module.exports = React.createClass
     classes = {'ui-resource': true, 'ui-selected': true if (selectProps and selectProps.isSelected)}
 
     <li className={c(classes)} style={@props.style}>
-      <div className="ui-resource-head">
+      <div className="ui-resource-head" style={{marginLeft: '168px'}}>
         {actions}
         <h3 className="ui-resource-title">{title}</h3>
       </div>
@@ -207,16 +208,18 @@ module.exports = React.createClass
           if metaData
             f.map(listsWithClasses, (item, index) =>
               <div className={item.className} key={item.key}>
-                <MetaDataList showTitle={false} mods='ui-resource-meta' listMods='block' type='table'
+                <MetaDataList showTitle={false} mods='ui-resource-meta' listMods='block' type='list'
                   list={item.list} listClasses='borderless block'
                   keyClasses='ui-resource-meta-label' valueClasses='ui-resource-meta-content' />
               </div>
             ).concat(
               <div className={usageData.className} key={usageData.key}>
-                <MetaDataTable labelValuePairs={usageData.list} listClasses='borderless block'
-                  keyClasses='ui-resource-meta-label' valueClasses='ui-resource-meta-content' />
+                <MetaDataDefinitionList labelValuePairs={usageData.list}
+                  fallbackMsg={null} tagMods={null} />
               </div>
             )
+          else
+            <Preloader />
         }
 
       </div>
