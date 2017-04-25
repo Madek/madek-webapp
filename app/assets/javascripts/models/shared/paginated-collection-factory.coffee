@@ -72,10 +72,16 @@ module.exports = (collectionClass, {jsonPath})->
 
     # instance methods:
 
+    clearPages: (url) ->
+      @resources.set([])
+      @set({currentPage: 0})
+      @set({url: url})
+
     # fetches the next page of `resources`
     fetchNext: (fetchListData, callback)->
       throw new Error('Callback missing!') if (!f.isFunction(callback))
-      return callback(null) unless @currentPage
+      return callback(null) if (not @currentPage) && @currentPage != 0
+
 
       path = @url.pathname
       if path.indexOf('/relations/children') > 0 or path.indexOf('/relations/siblings') > 0 or path.indexOf('/relations/parents') > 0

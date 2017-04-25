@@ -29,26 +29,6 @@ module.exports = React.createClass
 
   componentWillUnmount: ()-> @unlistenRouter && @unlistenRouter()
 
-  _loadChildMediaResources: (itemKey, callback) ->
-
-    get = @props.get
-
-    sparseParam = {___sparse: { child_media_resources: {} }}
-    listParam = {
-      type: get.child_media_resources.config.for_url.query.type
-      list: {order: itemKey}
-    }
-
-    url = setUrlParams(get.url + '.json', sparseParam, listParam)
-
-    LoadXhr({
-      method: 'GET',
-      url: url
-    },
-    (result, json) ->
-      callback(json.child_media_resources)
-    )
-
   render: ({get, authToken} = @props) ->
     resourceTypeSwitcher = () =>
       listConfig = get.child_media_resources.config
@@ -76,6 +56,7 @@ module.exports = React.createClass
         router={@router}
         initial={ { show_filter: true } } mods={ [ {bordered: false}, 'rounded-bottom' ] }
         collectionData={{uuid: get.uuid, layout: get.layout, editable: get.editable, order: get.sorting}}
-        loadChildMediaResources={@_loadChildMediaResources}
-        toolBarMiddle={resourceTypeSwitcher()} />
+        toolBarMiddle={resourceTypeSwitcher()}
+        enableOrdering={true} enableOrderByTitle={true}
+        />
     </div>
