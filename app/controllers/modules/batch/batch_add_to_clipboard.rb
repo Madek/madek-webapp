@@ -10,6 +10,8 @@ module Modules
       private
 
       def batch_add_resources_to_clipboard(user, parameters)
+        auth_authorize User
+
         ActiveRecord::Base.transaction do
           do_batch_add_resources_to_clipboard(user, parameters)
         end
@@ -18,6 +20,8 @@ module Modules
       end
 
       def batch_remove_resources_from_clipboard(user, parameters)
+        auth_authorize User
+
         clipboard_deleted = false
         ActiveRecord::Base.transaction do
           clipboard_deleted = do_batch_remove_resources_from_clipboard(
@@ -27,6 +31,30 @@ module Modules
         json_respond(
           I18n.t('clipboard_batch_remove_success'),
           clipboard_deleted ? 'clipboard_deleted' : 'success')
+      end
+
+      def batch_remove_all_resources_from_clipboard(user)
+        auth_authorize User
+
+        ActiveRecord::Base.transaction do
+          do_batch_remove_all_resources_to_clipboard(user)
+        end
+
+        json_respond(
+          I18n.t('clipboard_batch_remove_success'),
+          'success'
+        )
+      end
+
+      def do_batch_remove_all_resources_to_clipboard(user)
+        clipboard_collection = clipboard_collection(user)
+
+        Arcs::CollectionMediaEntryArc.where(
+          collection: clipboard_collection).delete_all
+        Arcs::CollectionCollectionArc.where(
+          parent: clipboard_collection).delete_all
+
+        Collection.unscoped.delete(clipboard_collection.id)
       end
 
       def do_batch_add_resources_to_clipboard(user, parameters)

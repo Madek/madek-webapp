@@ -17,4 +17,9 @@ class BatchController < ApplicationController
   def batch_remove_from_clipboard
     batch_remove_resources_from_clipboard(current_user, params)
   end
+
+  def batch_remove_all_from_clipboard
+    batch_remove_all_resources_from_clipboard(current_user)
+  end
+
 end

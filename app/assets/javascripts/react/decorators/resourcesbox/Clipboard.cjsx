@@ -19,7 +19,7 @@ module.exports = React.createClass
     switch @props.type
       when 'add_all' then @_fetchForAddAll()
       when 'add_selected' then @_addSelected()
-      when 'remove_all' then @_fetchForRemoveAll()
+      when 'remove_all' then @_removeAll()
       when 'remove_selected' then @_removeSelected()
       else throw 'Unexpected type: ' + @props.type
 
@@ -128,32 +128,19 @@ module.exports = React.createClass
     @setState(step: 'adding-all-cancelled')
 
 
-  _fetchForRemoveAll: () ->
+  _removeAll: () ->
     @setState(step: 'removing')
 
-    @props.resources.fetchAllResourceIds(
-      (result) =>
-        if result.result == 'error'
-          window.scrollTo(0, 0)
-          @setState(step: 'removing-error', error: 'There was an error. Please try again.')
-        else
 
-          resourceIds = f.map(result.data, (entry) ->
-            {
-              uuid: entry.uuid,
-              type: entry.type
-            }
-          )
-
-          url = setUrlParams('/batch_remove_from_clipboard', {})
-          railsFormPut.byData({resource_id: resourceIds}, url, (result) =>
-            if result.result == 'error'
-              window.scrollTo(0, 0)
-              @setState(step: 'removing-error', error: result.message)
-            else
-              location.reload()
-          )
+    url = setUrlParams('/batch_remove_all_from_clipboard', {})
+    railsFormPut.byData({}, url, (result) =>
+      if result.result == 'error'
+        window.scrollTo(0, 0)
+        @setState(step: 'removing-error', error: result.message)
+      else
+        location.reload()
     )
+
     return false
 
   _removeSelected: ()->
@@ -165,7 +152,8 @@ module.exports = React.createClass
         window.scrollTo(0, 0)
         @setState(step: 'removing-error', error: result.message)
       else if result.type == 'data' && result.data.result == 'clipboard_deleted'
-        location.href = '/my'
+        # location.href = '/my'
+        location.reload()
       else
         location.reload()
     )
