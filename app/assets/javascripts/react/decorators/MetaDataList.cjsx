@@ -7,7 +7,6 @@ parseMods = require('../lib/ui.coffee').parseMods
 t = require('../../lib/string-translation')('de')
 
 MadekPropTypes = require('../lib/madek-prop-types.coffee')
-MetaDatumValues = require('./MetaDatumValues.cjsx')
 
 Icon = require('../ui-components/Icon.cjsx')
 

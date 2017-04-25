@@ -11,11 +11,12 @@ UI = require('../ui-components/index.coffee')
 # the main/exported component just selects the right one.
 DecoratorsByType =
   Text: ({values} = @props)->
-    <ul className='inline'>
+    # NOTE: the wrapping seems useless but is currently needed for styling
+    <ul className='inline measure'>
       {values.map (string)->
         <li key={string} dangerouslySetInnerHTML={linkifyInnerHtml(string)}/>}</ul>
 
-  TextDate:  ({values} = @props)->
+  TextDate: ({values} = @props)->
     <ul className='inline'>
       {values.map (string)-> <li key={string}>{string}</li>}</ul>
 
