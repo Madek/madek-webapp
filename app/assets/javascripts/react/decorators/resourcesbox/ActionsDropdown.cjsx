@@ -6,7 +6,12 @@ SelectionScope = require('../../../lib/selection-scope.coffee')
 { Icon, Dropdown } = require('../../ui-components/index.coffee')
 MenuItem = Dropdown.MenuItem
 
-createActionsDropdown = (totalCount, withActions, selection, saveable, draftsView, isClient, collectionData, config, isClipboard, callbacks) ->
+
+
+showActionsConfig = (parameters) ->
+  {totalCount, withActions, selection, saveable, draftsView, isClient, collectionData, config, isClipboard} = parameters
+
+
   showActions = if not withActions then {} else {
     addToClipboard: true if !isClipboard && selection && !draftsView
     removeFromClipboard: true if isClipboard && selection && !draftsView
@@ -21,8 +26,18 @@ createActionsDropdown = (totalCount, withActions, selection, saveable, draftsVie
     transferResponsibility: true if !draftsView && selection
     transferResponsibilitySets: true if !draftsView && selection
   }
+  showActions
+
+
+createActionsDropdown = (parameters, callbacks) ->
+
+
+  showActions = showActionsConfig(parameters)
 
   return unless f.any(f.values(showActions))
+
+  {totalCount, withActions, selection, saveable, draftsView, isClient, collectionData, config, isClipboard} = parameters
+
 
   createHoverActionItem = (enableEntryByOnClick, hoverId, count, icon, text) ->
     <MenuItem onClick={enableEntryByOnClick}
@@ -265,6 +280,7 @@ isResourceNotInScope = (item, isSelected, hoverMenuId) ->
 ActionsDropdown = {
   createActionsDropdown: createActionsDropdown
   isResourceNotInScope: isResourceNotInScope
+  showActionsConfig: showActionsConfig
 }
 
 

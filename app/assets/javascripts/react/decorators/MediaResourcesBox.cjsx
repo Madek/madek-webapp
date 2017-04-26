@@ -638,16 +638,29 @@ module.exports = React.createClass
         dropdownItems={dropdownItems}
         selectedSort={order} />
 
+
+    actionsDropdownParameters = {
+      totalCount: @props.get.pagination.total_count if @props.get.pagination
+      withActions: withActions
+      selection: f.presence(@state.selectedResources) or false
+      saveable: saveable
+      draftsView: @props.draftsView
+      isClient: @state.isClient
+      collectionData: @props.collectionData
+      config: config
+      isClipboard: if @props.initial then @props.initial.is_clipboard else false
+    }
+
+
     boxToolBar = () =>
       # NOTE: don't show the bar if not in a box!
       return false if !withBox
 
       selection = f.presence(@state.selectedResources) or false
 
+
       actionsDropdown = ActionsDropdown.createActionsDropdown(
-        @props.get.pagination.total_count if @props.get.pagination,
-        withActions, selection, saveable, @props.draftsView,
-        @state.isClient, @props.collectionData, config, if @props.initial then @props.initial.is_clipboard else false,
+        actionsDropdownParameters,
         {
           onBatchAddAllToClipboard: @_onBatchAddAllToClipboard
           onBatchAddSelectedToClipboard: @_onBatchAddSelectedToClipboard
@@ -888,7 +901,8 @@ module.exports = React.createClass
                           if withBox
                             selection = @state.selectedResources
                             # selection defined means selection is enabled
-                            if @state.isClient && selection
+                            showActions = ActionsDropdown.showActionsConfig(actionsDropdownParameters)
+                            if @state.isClient && selection && f.any(f.values(showActions))
                               isSelected = @state.selectedResources.contains(item.serialize())
                               onSelect = f.curry(@_onSelectResource)(item)
                               # if in selection mode, intercept clicks as 'select toggle'
