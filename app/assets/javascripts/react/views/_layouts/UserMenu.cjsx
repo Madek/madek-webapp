@@ -43,6 +43,10 @@ module.exports = React.createClass
         url: props.my.drafts_url
       },
       {
+        title: t('sitemap_my_clipboard'), icon: 'set',
+        url: props.my.clipboard_url
+      },
+      {
         title: t('sitemap_my_content_media_entries'), icon: 'user',
         url: props.my.entries_url
       },

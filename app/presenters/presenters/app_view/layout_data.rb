@@ -39,6 +39,7 @@ module Presenters
           import_url: new_media_entry_path,
           my: {
             drafts_url: my_dashboard_section_path(:unpublished_entries),
+            clipboard_url: my_dashboard_section_path(:clipboard),
             entries_url: my_dashboard_section_path(:content_media_entries),
             sets_url: my_dashboard_section_path(:content_collections),
             favorite_entries_url: \

@@ -23,6 +23,7 @@ feature 'App: UserMenu' do
       expect(links).to eq [
         '/my/upload',
         '/my/unpublished_entries',
+        '/my/clipboard',
         '/my/content_media_entries',
         '/my/content_collections',
         '/my/favorite_media_entries',
