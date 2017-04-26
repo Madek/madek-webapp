@@ -20,7 +20,11 @@ if !render_async
       mods: mods,
       withBox: with_box,
       fallback: fallback,
-      initial: { show_filter: false, is_clipboard: is_clipboard },
+      initial: {
+        show_filter: false,
+        is_clipboard: is_clipboard
+      },
+      enableOrdering: true,
       draftsView: section[:id] == :unpublished_entries)
 
 else
@@ -37,7 +41,11 @@ else
       mods: mods,
       withBox: with_box,
       fallback: fallback,
-      initial: { show_filter: false, is_clipboard: is_clipboard }})
+      enableOrdering: true,
+      initial: {
+        show_filter: false,
+        is_clipboard: is_clipboard
+      }})
 end
 
   %>

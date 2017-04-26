@@ -557,16 +557,18 @@ module.exports = React.createClass
 
       onSortItemClick = (event, itemKey) =>
         @_handleChangeInternally(event)
-        @state.resources.clear()
-        if @props.loadChildMediaResources
-          @setState(modelReloading: true)
-          @props.loadChildMediaResources(itemKey, (child_media_resources) =>
-            resources = @_createResourcesModel(child_media_resources, @props.withBox)
-            @state.selectedResources.clear()
-            @setState(resources: resources, modelReloading: false)
-          )
+        @fetchNextPage.cancel()
+        url = parseUrl(@_currentUrl())
+        @state.resources.clearPages({
+          pathname: url.pathname,
+          query: url.query
+        })
+        @setState(loadingNextPage: true)
+        @fetchNextPage (err, newUrl) =>
+          if err then console.error(err)
+          @setState(loadingNextPage: false) if @isMounted()
 
-      dropdownItems = [
+      dropdownItems = f.compact([
         {
           label: t('collection_sorting_created_at_asc')
           key: 'created_at ASC'
@@ -581,13 +583,13 @@ module.exports = React.createClass
           label: t('collection_sorting_title_asc')
           key: 'title ASC'
           href: boxSetUrlParams(currentUrl, list: order: 'title ASC')
-        },
+        } if @props.enableOrderByTitle,
         {
           label: t('collection_sorting_last_change')
           key: 'last_change'
           href: boxSetUrlParams(currentUrl, list: order: 'last_change')
         }
-      ]
+      ])
 
 
 
@@ -633,10 +635,10 @@ module.exports = React.createClass
         mods={toolbarClasses}
         layouts={layouts}
         centerActions={centerActions}
-        showSort={true if @props.loadChildMediaResources}
         onSortItemClick={onSortItemClick}
         dropdownItems={dropdownItems}
-        selectedSort={order} />
+        selectedSort={order}
+        enableOrdering={@props.enableOrdering} />
 
 
     actionsDropdownParameters = {
@@ -829,7 +831,7 @@ module.exports = React.createClass
           {# main list:}
           <div className='ui-container table-cell table-substance'>
             {children}
-            {if @state.modelReloading
+            {if resources.currentPage == 0
               <Preloader />
             else if not f.present(resources) or resources.length == 0 then do ()->
               return null if !fallback
@@ -1028,7 +1030,7 @@ SideFilterFallback = ({filter} = @props)->
     </RailsForm>
   </div>
 
-BoxTitleBar = ({heading, centerActions, layouts, mods, showSort, onSortItemClick, dropdownItems, selectedSort} = @props)->
+BoxTitleBar = ({heading, centerActions, layouts, mods, onSortItemClick, dropdownItems, selectedSort, enableOrdering} = @props)->
 
   style = {minHeight: '1px'} # Make sure col2of6 fills its space (min height ensures that following float left are blocked)
 
@@ -1058,7 +1060,7 @@ BoxTitleBar = ({heading, centerActions, layouts, mods, showSort, onSortItemClick
         }
       </ButtonGroup>
       {
-        if showSort
+        if enableOrdering
           <SortDropdown items={dropdownItems} selectedKey={selectedSort}
             onItemClick={onSortItemClick} />
       }

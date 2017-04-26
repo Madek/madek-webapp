@@ -25,6 +25,7 @@ module.exports = (collectionClass, {jsonPath})->
       currentPage: ['number']
       totalCount: ['number']
       jobQueue: ['array']
+      requestId: ['number']
 
     derived:
       # make it behave more like a normal collection (for controllers)
@@ -64,6 +65,7 @@ module.exports = (collectionClass, {jsonPath})->
         currentPage: getOrThrow(data, 'config.page'),
         totalCount: getOrThrow(data, 'pagination.total_count'),
         totalPages: getOrThrow(data, 'pagination.total_pages'),
+        requestId: Math.random()
         jobQueue: []
       })
       # listen to child collections
@@ -72,10 +74,19 @@ module.exports = (collectionClass, {jsonPath})->
 
     # instance methods:
 
+    clearPages: (url) ->
+      @set({
+        currentPage: 0,
+        url: url,
+        requestId: Math.random()
+      })
+      @resources.set([])
+
     # fetches the next page of `resources`
     fetchNext: (fetchListData, callback)->
       throw new Error('Callback missing!') if (!f.isFunction(callback))
-      return callback(null) unless @currentPage
+      return callback(null) if (not @currentPage) && @currentPage != 0
+
 
       path = @url.pathname
       if path.indexOf('/relations/children') > 0 or path.indexOf('/relations/siblings') > 0 or path.indexOf('/relations/parents') > 0
@@ -90,9 +101,18 @@ module.exports = (collectionClass, {jsonPath})->
         {list: {page: nextPage}},
         {___sparse: JSON.stringify(f.set({}, jsonPath, {}))})
 
+      # We compare the request id when sending started
+      # with the request id when the answer arrives and
+      # only process the answer when its still the same id.
+      localRequestId = @requestId
+
       return xhr.get(
         {url: nextUrl, json: true },
         (err, res, body) => (
+
+          if @requestId != localRequestId
+            return
+
           if err || res.statusCode > 400
             return callback(err || body)
 
