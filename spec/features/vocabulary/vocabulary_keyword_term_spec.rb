@@ -18,7 +18,7 @@ feature 'Vocabulary Pages' do
       random_keywords_to_check.each do |keyword|
         # NOTE: no link in UI yet, go there directly:
         visit(
-          vocabulary_meta_key_term_show_path(
+          vocabulary_meta_key_term_path(
             term: keyword.term, meta_key_id: meta_key.id))
 
         expect(get_displayed_ui).to eq(
@@ -28,10 +28,10 @@ feature 'Vocabulary Pages' do
           },
           page: {
             info_table: [
-              ['Term', keyword.term],
               ['Typ', 'Keyword'],
               ['Inhalte', keyword.usage_count.to_s],
               ['Metakey', "#{meta_key.label} (#{meta_key.id})"],
+              ['Begriff', keyword.term],
               ['Vokabular', meta_key.vocabulary.label]
             ]
           }

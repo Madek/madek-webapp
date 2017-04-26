@@ -151,12 +151,8 @@ Madek::Application.routes.draw do
   get 'vocabulary', to: 'vocabularies#index', as: 'vocabularies'
 
   # routes for terms! careful, we want to support ANY STRING as last route part
-  # - search
   get 'vocabulary/:meta_key_id/terms/*term', constraints: { meta_key_id: /.*:[^:\/]*/ },
     to: 'keywords#show', as: 'vocabulary_meta_key_term', format: false
-  # - show
-  get 'vocabulary/:meta_key_id/termz/*term', constraints: { meta_key_id: /.*:[^:\/]*/ },
-    to: 'vocabularies#keyword_term', as: 'vocabulary_meta_key_term_show', format: false
 
   # redirect /vocabulary/{meta_key} to their anchor in the vocabulary metakeys list:
   get 'vocabulary/:meta_key_id', as: 'vocabulary_meta_key',

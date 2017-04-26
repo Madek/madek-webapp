@@ -26,22 +26,6 @@ class VocabulariesController < ApplicationController
     respond_with(@get)
   end
 
-  def keyword_term
-    # NOTE: only need to authorize the vocab (happens in the finder):
-    vocab_id = meta_key_id_param.try(:split, ':').try(:first)
-    vocabulary = find_by_vocab_id_param(vocab_id)
-    keyword = Keyword.find_by!(
-      term: keyword_term_param(action: 'term'), meta_key_id: meta_key_id_param)
-
-    contents_path = filtered_index_path(
-      meta_data: [{
-        key: keyword.meta_key_id, value: keyword.id, type: 'MetaDatum::Keywords'
-      }])
-
-    respond_with(@get = Presenters::Vocabularies::VocabularyTerm.new(
-      vocabulary, keyword, contents_path, current_user))
-  end
-
   def contents
     vocabulary = find_by_vocab_id_param
     resources_type = params.permit(:type).fetch(:type, nil)

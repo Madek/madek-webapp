@@ -10,10 +10,10 @@ describe KeywordsController do
 
   context 'Resource: Keywords' do
     example \
-      'Action: show *by `meta_key` and `term`* – redirects to filtered index' do
+      'action show works if user is authorized' do
       keyword = FactoryGirl.create :keyword, meta_key: meta_key
       get :show, { term: keyword.term, meta_key_id: meta_key }, user_id: user.id
-      expect(response).to redirect_to(filter_by_keyword_path(keyword))
+      assert_response :success
     end
 
     it 'action show responds with 403 if user not authorized' do
