@@ -868,9 +868,10 @@ module.exports = React.createClass
                         onSelectPage = null
                         checkboxMods = cx({'active': false, 'mid': false})
 
-                        if @state.isClient
+                        showActions = ActionsDropdown.showActionsConfig(actionsDropdownParameters)
+                        selection = @state.selectedResources
+                        if @state.isClient && selection && f.any(f.values(showActions))
 
-                          selection = @state.selectedResources
                           selectionCountOnPage =
                             if selection
                               f.size(
@@ -1025,10 +1026,13 @@ PageCounter = ({href, page, total, onSelectPage, checkboxMods} = @props)->
   #      SOLUTION: disable the link-click so it is not clicked accidentally
   <div className='ui-resources-page-counter ui-pager small'>
     <div style={{display: 'inline-block'}}>Seite {page} von {total}</div>
-    <div style={{float: 'right', position: 'relative'}} onClick={onSelectPage}>
-      <span style={{marginRight: '20px'}}>Seite auswählen</span>
-      <Icon style={{position: 'absolute', right: '0px', top: '0px'}} mods={checkboxMods} i='checkbox' />
-    </div>
+    {
+      if onSelectPage
+        <div style={{float: 'right', position: 'relative'}} onClick={onSelectPage}>
+          <span style={{marginRight: '20px'}}>Seite auswählen</span>
+          <Icon style={{position: 'absolute', right: '0px', top: '0px'}} mods={checkboxMods} i='checkbox' />
+        </div>
+    }
   </div>
 
 SideFilterFallback = ({filter} = @props)->
