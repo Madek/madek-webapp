@@ -5,6 +5,14 @@ parseQuery = require('qs').parse
 
 setUrlParams = require('./set-params-for-url.coffee')
 
+
+replaceWithSet = (currentUrl, currentType, newType) ->
+  currentType
+  setUrlParams(
+    currentUrl.pathname.replace(RegExp("\/#{currentType}$"), "\/#{newType}"),
+    f.omit(currentParams, 'list'), {list: listParams})
+
+
 module.exports = (url) ->
 
   # The fallback url is used for search results if there are no
@@ -19,12 +27,13 @@ module.exports = (url) ->
   currentUrl = parseUrl(url)
   currentParams = parseQuery(currentUrl.query)
 
-  filter = JSON.parse(currentParams.list.filter)
+    # If we have filters other than search we do not use the fallback.
+  if currentParams.list and currentParams.list.filter
+    filter = JSON.parse(currentParams.list.filter)
+    return if f.size(filter) > 1
+    searchTerm = filter.search
+    return if f.size(filter) == 1 && not searchTerm
 
-  # If we have filters other than search we do not use the fallback.
-  return if f.size(filter) > 1
-  searchTerm = filter.search
-  return if f.size(filter) == 1 && not searchTerm
 
   # HACK: build link to 'sets', but remove filter (only 'search' is implemented!)
   resetlistParams = { page: 1, accordion: null }
