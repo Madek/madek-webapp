@@ -48,6 +48,8 @@ Clipboard = require('./resourcesbox/Clipboard.cjsx')
 
 railsFormPut = require('../../lib/form-put-with-errors.coffee')
 
+setsFallbackUrl = require('../../lib/sets-fallback-url.coffee')
+
 # Props/Config overview:
 # - props.get.with_actions = should the UI offer any interaction
 # - props.fetchRelations = should relations be fetched (async, only grid layout)
@@ -833,13 +835,24 @@ module.exports = React.createClass
             {children}
             {if resources.currentPage == 0
               <Preloader />
-            else if not f.present(resources) or resources.length == 0 then do ()->
+            else if not f.present(resources) or resources.length == 0 then do () =>
               return null if !fallback
               if !f.isBoolean(fallback)
                 fallback # we are given a fallback message, use it
               else       # otherwise, build default fallback message:
                 <FallBackMsg>
-                  {'Keine Inhalte verfügbar'}
+                  {
+                    if get.try_collections and (setsUrl = setsFallbackUrl(@_currentUrl()))
+                      <div>
+                        {t('resources_box_no_content_but_sets_1')}
+                        <a href={setsUrl}>
+                          {t('resources_box_no_content_but_sets_2')}
+                        </a>
+                        {t('resources_box_no_content_but_sets_3')}
+                      </div>
+                    else
+                      t('resources_box_no_content')
+                  }
                   {if resetFilterLink
                     <br/>}
                   {resetFilterLink}

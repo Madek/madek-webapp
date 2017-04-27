@@ -19,6 +19,22 @@ class MediaEntriesController < ApplicationController
   # used in Concerns::ResourceListParams
   ALLOWED_FILTER_PARAMS = [:search, :meta_data, :media_files, :permissions].freeze
 
+  def index
+    resources = auth_policy_scope(current_user, model_klass)
+    @get = presenterify(resources, nil)
+
+    if @get.resources.empty?
+      collections = auth_policy_scope(current_user, Collection)
+      collections_get = presenterify(
+        collections, Presenters::Collections::Collections)
+      unless collections_get.resources.empty?
+        @get.try_collections = true
+      end
+    end
+
+    respond_with @get
+  end
+
   def show
     # TODO: handle in MediaResources::CrudActions
     media_entry = get_authorized_resource

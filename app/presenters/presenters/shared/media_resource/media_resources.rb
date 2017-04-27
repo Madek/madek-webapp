@@ -20,6 +20,8 @@ module Presenters
 
         attr_reader :resources, :pagination, :with_actions, :can_filter, :type
 
+        attr_accessor :try_collections
+
         def initialize(
             scope, user, list_conf: nil, item_type: nil,
             can_filter: true, with_actions: true,
@@ -38,6 +40,7 @@ module Presenters
           @conf = build_config(list_conf)
           @with_count = with_count
           @load_meta_data = load_meta_data
+          @try_collections = false
           init_resources_and_pagination(@scope, @conf)
         end
 
