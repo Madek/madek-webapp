@@ -14,9 +14,10 @@ class KeywordsController < ApplicationController
     vocabulary = Vocabulary.find(meta_key_id_param.try(:split, ':').try(:first))
     auth_authorize(vocabulary)
     keyword = Keyword.find_by!(
-      term: keyword_term_param(action: 'terms'), meta_key_id: meta_key_id_param)
+      term: keyword_term_param(action: 'term'), meta_key_id: meta_key_id_param)
 
-    redirect_to vocabulary_meta_key_term_show_path(keyword.id)
+    redirect_to vocabulary_meta_key_term_path(
+      keyword_id: keyword.id, meta_key_id: meta_key_id_param)
   end
 
   def show

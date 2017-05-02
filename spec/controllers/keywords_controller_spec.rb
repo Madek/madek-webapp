@@ -19,13 +19,15 @@ describe KeywordsController do
       )
       assert_response 302
       expect(URI(response.redirect_url).path).to eq(
-        vocabulary_meta_key_term_show_path(keyword.id))
+        vocabulary_meta_key_term_path(
+          keyword_id: keyword.id, meta_key_id: meta_key.id))
     end
 
     example \
       'action show works if user is authorized' do
       keyword = FactoryGirl.create :keyword, meta_key: meta_key
-      get :show, { keyword_id: keyword.id }, user_id: user.id
+      get :show,
+          { keyword_id: keyword.id, meta_key_id: meta_key }, user_id: user.id
       assert_response 200
     end
 
@@ -42,7 +44,8 @@ describe KeywordsController do
       keyword = meta_datum_keywords.keywords.first
 
       expect do
-        get :show, { keyword_id: keyword.id }, user_id: user.id
+        get :show,
+            { keyword_id: keyword.id, meta_key_id: meta_key }, user_id: user.id
       end.to raise_error Errors::ForbiddenError
     end
   end
