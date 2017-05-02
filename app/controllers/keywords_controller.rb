@@ -9,20 +9,38 @@ class KeywordsController < ApplicationController
     respond_with get
   end
 
-  def show
+  def redirect_by_term
     # NOTE: only need to authorize the vocab, no more granualar permissions!
     vocabulary = Vocabulary.find(meta_key_id_param.try(:split, ':').try(:first))
     auth_authorize(vocabulary)
     keyword = Keyword.find_by!(
       term: keyword_term_param(action: 'terms'), meta_key_id: meta_key_id_param)
 
+    redirect_to vocabulary_meta_key_term_show_path(keyword.id)
+  end
+
+  def show
+    keyword = Keyword.find(params.require(:keyword_id))
+    vocabulary = keyword.meta_key.vocabulary
+    # NOTE: only need to authorize the vocab, no more granualar permissions!
+    auth_authorize(vocabulary)
+
     contents_path = filtered_index_path(
       meta_data: [{
         key: keyword.meta_key_id, value: keyword.id, type: 'MetaDatum::Keywords'
       }])
 
-    respond_with(@get = Presenters::Vocabularies::VocabularyTerm.new(
-      vocabulary, keyword, contents_path, current_user))
+    resources_type = params.permit(:type).fetch(:type, nil)
+
+    respond_with(
+      @get = Presenters::Vocabularies::VocabularyTerm.new(
+        vocabulary,
+        keyword,
+        contents_path,
+        current_user,
+        resources_type,
+        resource_list_params)
+    )
   end
 
   private

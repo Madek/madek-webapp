@@ -2,7 +2,6 @@
   keywords = get.used_keywords.map do |keyword|
     { text: keyword.label, link: keyword.url, count: keyword.usage_count }
   end
-
 - keywords_content = if keywords.empty? then t(:no_keywords_fallback) else combo('tag-cloud.label', list: keywords) end
 
 - if get.action == 'dashboard_section'

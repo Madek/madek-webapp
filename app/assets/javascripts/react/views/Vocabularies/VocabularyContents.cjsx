@@ -11,13 +11,9 @@ TabContent = require('../TabContent.cjsx')
 parseUrl = require('url').parse
 VocabularyPage = require('./VocabularyPage.cjsx')
 MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
-
-Button = require('../../ui-components/Button.cjsx')
-ButtonGroup = require('../../ui-components/ButtonGroup.cjsx')
 libUrl = require('url')
-qs = require('qs')
+resourceTypeSwitcher = require('../../lib/resource-type-switcher.cjsx')
 
-setUrlParams = require('../../../lib/set-params-for-url.coffee')
 
 module.exports = React.createClass
   displayName: 'VocabularyContents'
@@ -36,23 +32,7 @@ module.exports = React.createClass
 
   render: ({get, authToken, for_url} = @props) ->
 
-    resourceTypeSwitcher = () =>
-      listConfig = get.resources.config
-      currentType = qs.parse(libUrl.parse(@state.forUrl).query).type
-      typeBbtns = f.compact([
-        {key: 'entries', name: t('sitemap_entries')},
-        {key: 'collections', name: t('sitemap_collections')}])
-
-      return (<ButtonGroup>{typeBbtns.map (btn) =>
-        isActive = currentType == btn.key || !currentType && btn.key == 'entries'
-        btnUrl = setUrlParams(@state.forUrl, {type: btn.key})
-
-        <Button {...btn}
-          href={btnUrl}
-          mods={if isActive then 'active'}>
-          {btn.name}
-        </Button>}
-      </ButtonGroup>)
+    switcher = resourceTypeSwitcher(get.resources, @state.forUrl, false, null)
 
     <VocabularyPage page={get.page} for_url={for_url}>
       <div className='ui-container pal'>
@@ -64,6 +44,6 @@ module.exports = React.createClass
         for_url={for_url} withBox={true}
         get={get.resources} authToken={authToken}
         mods={[ {bordered: false}, 'rounded-bottom' ]}
-        toolBarMiddle={resourceTypeSwitcher()}
+        toolBarMiddle={switcher}
       />
     </VocabularyPage>

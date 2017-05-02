@@ -56,8 +56,8 @@ module.exports = React.createClass
         return null unless f.include(types, btn.key) # only show mentioned types
         isActive = btn.key is currentType # set active is current type
         <Button {...btn}
-            href={urlByType(state.url, currentType, btn.key)}
-            mods={if isActive then 'active'}>
+          href={urlByType(state.url, currentType, btn.key)}
+          mods={if isActive then 'active'}>
           {btn.name}
         </Button>}
       </ButtonGroup>)

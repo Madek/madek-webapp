@@ -10,10 +10,23 @@ describe KeywordsController do
 
   context 'Resource: Keywords' do
     example \
+      'action redirect_by_term works if user is authorized' do
+      keyword = FactoryGirl.create :keyword, meta_key: meta_key
+      get(
+        :redirect_by_term,
+        { term: keyword.term, meta_key_id: meta_key },
+        user_id: user.id
+      )
+      assert_response 302
+      expect(URI(response.redirect_url).path).to eq(
+        vocabulary_meta_key_term_show_path(keyword.id))
+    end
+
+    example \
       'action show works if user is authorized' do
       keyword = FactoryGirl.create :keyword, meta_key: meta_key
-      get :show, { term: keyword.term, meta_key_id: meta_key }, user_id: user.id
-      assert_response :success
+      get :show, { keyword_id: keyword.id }, user_id: user.id
+      assert_response 200
     end
 
     it 'action show responds with 403 if user not authorized' do
@@ -29,9 +42,7 @@ describe KeywordsController do
       keyword = meta_datum_keywords.keywords.first
 
       expect do
-        get :show,
-            { term: keyword.term, meta_key_id: meta_key_keywords },
-            user_id: user.id
+        get :show, { keyword_id: keyword.id }, user_id: user.id
       end.to raise_error Errors::ForbiddenError
     end
   end

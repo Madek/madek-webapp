@@ -19,6 +19,10 @@ class VocabularyPolicy < DefaultPolicy
     show?
   end
 
+  def redirect_by_term?
+    show?
+  end
+
   # 'show' page tabs:
 
   def keywords?

@@ -19,7 +19,7 @@ describe 'Resource: Keywords', type: :feature do
       visit vocabulary_keywords_path(meta_key.vocabulary)
       click_on term
       expect(page).to have_current_path \
-        vocabulary_meta_key_term_path(term: keyword.term, meta_key_id: meta_key.id)
+        vocabulary_meta_key_term_show_path keyword.id
     end
   end
 
