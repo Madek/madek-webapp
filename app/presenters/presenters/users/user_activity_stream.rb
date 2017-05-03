@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 module Presenters
   module Users
     class UserActivityStream < Presenter
@@ -150,9 +151,20 @@ module Presenters
         unless date.is_a?(ActiveSupport::TimeWithZone)
           raise ArgumentError, '`date`!'
         end
+
+        object_p = presenterify_by_class(object, @user)
+        # NOTE: for performance, cherry-pick minimal props:
+        props_per_type = {
+          MediaEntry => { title: {}, url: {}, type: {} },
+          Collection => { title: {}, url: {}, type: {} }
+        }
+        if (props_per_type[object.class])
+          object_p = object_p.dump(sparse_spec: props_per_type[object.class])
+        end
+
         {
           type: type,
-          object: presenterify_by_class(object, @user),
+          object: object_p,
           subject: subject ? presenterify_by_class(subject) : nil,
           details: details,
           date: date
