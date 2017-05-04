@@ -3,10 +3,10 @@ require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
 def open_view_and_check_loading_on_scroll(path, login: true)
-  visit path
   sign_in_as user if login
+  visit path
 
-  box = find('.ui-resources')
+  box = find('.ui-polybox')
   last_visible_page_n = page_number(last_page(box))
 
   scroll_to_end_of_last_page
