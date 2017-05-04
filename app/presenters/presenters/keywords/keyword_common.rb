@@ -7,9 +7,7 @@ module Presenters
       end
 
       def url(keyword = @app_resource)
-        prepend_url_context(
-          vocabulary_meta_key_term_path(
-            term: keyword.term, meta_key_id: keyword.meta_key_id))
+        prepend_url_context(vocabulary_meta_key_term_show_path(keyword.id))
       end
     end
   end
