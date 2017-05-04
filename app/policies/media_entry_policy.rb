@@ -42,6 +42,7 @@ class MediaEntryPolicy < Shared::MediaResources::MediaResourcePolicy
 
   alias_method :more_data?, :show?
   alias_method :relations?, :show?
+  alias_method :browse?, :show?
 
   alias_method :export?, :show?
   alias_method :embedded?, :show?

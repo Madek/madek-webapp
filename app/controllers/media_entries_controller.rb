@@ -58,6 +58,14 @@ class MediaEntriesController < ApplicationController
     show
   end
 
+  def browse
+    auth_authorize(current_user, :beta_test_new_browse?)
+    media_entry = get_authorized_resource
+    @get = Presenters::MediaEntries::MediaEntryBrowse.new(
+      media_entry, current_user)
+    respond_with(@get)
+  end
+
   def destroy
     media_entry = MediaEntry.unscoped.find(id_param)
     auth_authorize media_entry

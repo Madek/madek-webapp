@@ -52,6 +52,11 @@ module Presenters
         end
       end
 
+      def browse_url
+        return unless auth_policy(@user, :user).beta_test_new_browse?
+        prepend_url_context(browse_media_entry_path(@app_resource))
+      end
+
       def relation_resources
         return unless @active_tab == 'relations'
 
