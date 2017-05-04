@@ -97,7 +97,8 @@ VocabulariesShow = React.createClass
           for_url={@props.for_url} withBox={true}
           get={get.keyword.resources} authToken={@props.authToken}
           mods={[ {bordered: false}, 'rounded-bottom' ]}
-          toolBarMiddle={switcher} />
+          toolBarMiddle={switcher}
+          enableOrdering={true} />
       </div>
     </PageContent>
 

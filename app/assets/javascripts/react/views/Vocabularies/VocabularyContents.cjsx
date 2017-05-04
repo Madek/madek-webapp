@@ -45,5 +45,6 @@ module.exports = React.createClass
         get={get.resources} authToken={authToken}
         mods={[ {bordered: false}, 'rounded-bottom' ]}
         toolBarMiddle={switcher}
+        enableOrdering={true}
       />
     </VocabularyPage>
