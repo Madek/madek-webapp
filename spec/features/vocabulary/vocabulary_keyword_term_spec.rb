@@ -16,8 +16,10 @@ feature 'Vocabulary Pages' do
       random_keywords_to_check = meta_key.keywords.sample(8)
 
       random_keywords_to_check.each do |keyword|
-        visit(vocabulary_keywords_path(meta_key.vocabulary.id))
-        click_on keyword.term
+        # NOTE: no link in UI yet, go there directly:
+        visit(
+          vocabulary_meta_key_term_path(
+            term: keyword.term, meta_key_id: meta_key.id))
 
         expect(get_displayed_ui).to eq(
           title: {
