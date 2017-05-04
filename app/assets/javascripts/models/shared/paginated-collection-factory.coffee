@@ -95,6 +95,9 @@ module.exports = (collectionClass, {jsonPath})->
       if path.indexOf('/vocabulary') == 0 and path.indexOf('/contents') > 0
         jsonPath = 'resources.resources'
 
+      if path.indexOf('/vocabulary/keyword') == 0
+        jsonPath = 'keyword.resources.resources'
+
       nextPage = (@currentPage + 1)
       nextUrl = setUrlParams(
         @url,
@@ -131,6 +134,9 @@ module.exports = (collectionClass, {jsonPath})->
 
       if path.indexOf('/vocabulary') == 0 and path.indexOf('/contents') > 0
         jsonPath = 'resources.resources'
+
+      if path.indexOf('/vocabulary/keyword') == 0
+        jsonPath = 'keyword.resources.resources'
 
       nextUrl = setUrlParams(
         @url,

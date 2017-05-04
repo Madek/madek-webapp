@@ -16,8 +16,8 @@ link = (c, h) ->
 infotable = (v, mk, kw, contentsPath) ->
   [
     [
-      t('vocabulary_term_info_rdfclass'),
-      kw.rdf_class
+      t('vocabulary_term_info_term'),
+      link(kw.label, kw.url)
     ],
     [
       t('vocabulary_term_info_description'),
@@ -35,8 +35,8 @@ infotable = (v, mk, kw, contentsPath) ->
       )
     ],
     [
-      t('vocabulary_term_info_term'),
-      link(kw.label, kw.url)
+      t('vocabulary_term_info_rdfclass'),
+      kw.rdf_class
     ],
     [
       t('sitemap_vocabulary'),

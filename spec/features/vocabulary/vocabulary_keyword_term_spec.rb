@@ -28,9 +28,9 @@ feature 'Vocabulary Pages' do
           },
           page: {
             info_table: [
-              ['Typ', 'Keyword'],
-              ['Metakey', "#{meta_key.label} (#{meta_key.id})"],
               ['Begriff', keyword.term],
+              ['Metakey', "#{meta_key.label} (#{meta_key.id})"],
+              ['Typ', 'Keyword'],
               ['Vokabular', meta_key.vocabulary.label]
             ]
           }
