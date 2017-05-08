@@ -94,7 +94,7 @@ module.exports = (collectionClass, {jsonPath})->
       if path.indexOf('/vocabulary') == 0 and path.indexOf('/contents') > 0
         jsonPath = 'resources.resources'
 
-      if path.indexOf('/group') == 0
+      if path.indexOf('/my/groups') == 0
         jsonPath = 'resources.resources'
 
       if path.indexOf('/vocabulary/keyword') == 0
@@ -137,7 +137,7 @@ module.exports = (collectionClass, {jsonPath})->
       if path.indexOf('/vocabulary') == 0 and path.indexOf('/contents') > 0
         jsonPath = 'resources.resources'
 
-      if path.indexOf('/group') == 0
+      if path.indexOf('/my/groups') == 0
         jsonPath = 'resources.resources'
 
       if path.indexOf('/vocabulary/keyword') == 0

@@ -55,14 +55,8 @@ GroupShow = React.createClass
 
     switcher = resourceTypeSwitcher(get.resources, @state.forUrl, false, null)
 
-    url =
-    editUrl = setUrlParams(
-      parseUrl(@state.forUrl).pathname + '/edit',
-      parseQuery(parseUrl(@state.forUrl).query)
-    )
-
-    headerActions =
-      <a href={editUrl} className='primary-button'>
+    headerActions = if get.group.edit_url
+      <a href={get.group.edit_url} className='primary-button'>
         {t('group_show_edit_button')}
       </a>
 
