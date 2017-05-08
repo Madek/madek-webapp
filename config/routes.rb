@@ -214,10 +214,13 @@ Madek::Application.routes.draw do
 
     root to: 'dashboard#dashboard', as: 'dashboard'
     # scope some resources here. order is important, they override 'plain' sections
-    resources :groups
+    resources :groups, except: ['show']
     # non-resourceful sections are just plain views:
     get ':section', to: 'dashboard#dashboard_section', as: 'dashboard_section'
   end
+
+  get 'my/groups/:id', controller: 'groups', to: 'groups#show', as: 'group'
+
 
   post '/session/sign_in', to: 'sessions#sign_in', as: 'sign_in'
   post '/session/sign_out', to: 'sessions#sign_out', as: 'sign_out'

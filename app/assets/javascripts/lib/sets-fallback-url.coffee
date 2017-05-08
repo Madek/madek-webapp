@@ -45,7 +45,7 @@ module.exports = (url, config) ->
     listParams = f.assign(listParams, { filter: JSON.stringify({search: searchTerm}) })
 
 
-  if f.startsWith(currentUrl.pathname, '/vocabulary/keyword')
+  if f.startsWith(currentUrl.pathname, '/vocabulary/keyword') or f.startsWith(currentUrl.pathname, '/groups')
     setUrlParams(
       parseUrl(url),
       f.omit(currentParams, 'list'),

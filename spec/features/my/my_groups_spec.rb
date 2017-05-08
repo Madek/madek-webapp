@@ -174,7 +174,7 @@ def member_field_name
 end
 
 def check_group_path
-  expect(current_path).to eq my_group_path(@group)
+  expect(current_path).to eq group_path(@group)
 end
 
 def check_groups_path

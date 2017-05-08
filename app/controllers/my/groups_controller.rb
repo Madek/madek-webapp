@@ -15,7 +15,17 @@ class My::GroupsController < MyController
   end
 
   def show
-    represent(find_group_and_authorize, Presenters::Groups::GroupShow)
+    group = find_group_and_authorize
+
+    resources_type = params.permit(:type).fetch(:type, nil)
+
+    respond_with(
+      @get = Presenters::Groups::GroupShow.new(
+        group,
+        current_user,
+        resources_type,
+        resource_list_params)
+    )
   end
 
   def new

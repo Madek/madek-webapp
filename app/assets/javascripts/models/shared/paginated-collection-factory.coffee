@@ -87,12 +87,14 @@ module.exports = (collectionClass, {jsonPath})->
       throw new Error('Callback missing!') if (!f.isFunction(callback))
       return callback(null) if (not @currentPage) && @currentPage != 0
 
-
       path = @url.pathname
       if path.indexOf('/relations/children') > 0 or path.indexOf('/relations/siblings') > 0 or path.indexOf('/relations/parents') > 0
         jsonPath = 'relation_resources.resources'
 
       if path.indexOf('/vocabulary') == 0 and path.indexOf('/contents') > 0
+        jsonPath = 'resources.resources'
+
+      if path.indexOf('/group') == 0
         jsonPath = 'resources.resources'
 
       if path.indexOf('/vocabulary/keyword') == 0
@@ -133,6 +135,9 @@ module.exports = (collectionClass, {jsonPath})->
         jsonPath = 'relation_resources.resources'
 
       if path.indexOf('/vocabulary') == 0 and path.indexOf('/contents') > 0
+        jsonPath = 'resources.resources'
+
+      if path.indexOf('/group') == 0
         jsonPath = 'resources.resources'
 
       if path.indexOf('/vocabulary/keyword') == 0

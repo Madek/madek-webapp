@@ -13,13 +13,10 @@ describe Presenters::Groups::GroupShow do
     create :media_entry_group_permission, perms.merge(media_entry: entry)
     create :collection_group_permission, perms.merge(collection: set)
 
-    get = described_class.new(group, user, list_conf: {})
+    get = described_class.new(group, user, 'entries', list_conf: {})
 
-    expect(get.entrusted_media_resources.media_entries.resources.first.uuid)
+    expect(get.resources.resources.first.uuid)
       .to eq entry.id
-
-    expect(get.entrusted_media_resources.collections.resources.first.uuid)
-      .to eq set.id
 
   end
 
@@ -27,6 +24,6 @@ describe Presenters::Groups::GroupShow do
     user = FactoryGirl.create(:user)
     group = FactoryGirl.create(:group)
     3.times { group.users << FactoryGirl.create(:user) }
-    let(:presenter) { described_class.new(group, user, list_conf: {}) }
+    let(:presenter) { described_class.new(group, user, 'entries', list_conf: {}) }
   end
 end
