@@ -13,5 +13,5 @@ module.exports = React.createClass
     return (
       <ResourcesBoxWithSwitch withBox saveable
         switches={currentType: 'entries', otherTypes: ['sets']}
-        {...props} enableOrdering={true} />
+        {...props} enableOrdering={true} enableOrderByTitle={true} />
     )

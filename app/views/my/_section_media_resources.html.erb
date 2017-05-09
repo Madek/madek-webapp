@@ -25,6 +25,7 @@ if !render_async
         is_clipboard: is_clipboard
       },
       enableOrdering: true,
+      enableOrderByTitle: true,
       draftsView: section[:id] == :unpublished_entries)
 
 else
@@ -42,6 +43,7 @@ else
       withBox: with_box,
       fallback: fallback,
       enableOrdering: true,
+      enableOrderByTitle: true,
       initial: {
         show_filter: false,
         is_clipboard: is_clipboard
