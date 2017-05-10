@@ -95,7 +95,6 @@ jobs:
     name: "⟨⟨⟨WIP⟩⟩⟩ RSpec Tests"
     description: |
       Run RSpec Tests in "Work-in-Progress" mode (i.e. compile assets on the fly).
-      Commits passing this test can't be merged as-is, but the JavaScripts seems fine.
     priority: -1337
     run_when:
       is on a WIP branch:
