@@ -1,4 +1,5 @@
 # Madek
+
 This is the main component of [Madek](https://github.com/madek). See the
 super project [Madek/madek](https://github.com/Madek/madek) for more
 information.
@@ -33,6 +34,7 @@ The [Database: Entities and Relations][] diagram is notable.
 </a>
 
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Madek/madek-webapp.svg)](https://greenkeeper.io/)
 
 
 # Contributors
