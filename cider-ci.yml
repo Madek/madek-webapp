@@ -6,7 +6,7 @@ jobs:
       the branch does not match no-ci or _wip_:
         type: branch
         include_match: &default_branch_match    ^.+$
-        exclude_match: &default_branch_exclude  ^(.*no-ci.*)|([a-z]*_wip_.*)$
+        exclude_match: &default_branch_exclude  ^(.*no-ci.*)|(greenkeeper\/.*)|([a-z]*(_|\/)wip_.*)$
     context:
       include: cider-ci/context-components/rspec-tests.yml
 
@@ -92,22 +92,24 @@ jobs:
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
   wip-rspec-tests:
-    name: "\uD83D\uDEA7 ⟨WIP⟩ RSpec Tests"
+    name: "⟨⟨⟨WIP⟩⟩⟩ RSpec Tests"
     description: |
-      Run RSpec Tests in "Work-in-Progress" mode (i.e. compile assets on the fly)
+      Run RSpec Tests in "Work-in-Progress" mode (i.e. compile assets on the fly).
+      Commits passing this test can't be merged as-is, but the JavaScripts seems fine.
     priority: -1337
     run_when:
-      the branch matches _wip_:
+      is on a WIP branch:
         type: branch
-        include_match: ^[a-z]*_wip_.*$
+        include_match: ^(greenkeeper\/.*)|([a-z]*(_|\/)wip_.*)$
     context:
       include: cider-ci/context-components/rspec-tests.yml
       task_defaults:
-        max_trials: 2
+        max_trials: 5
         environment_variables:
-          MADEK_WIP_BRANCH: ✔︎ # we set this because from inside a task the branch is not known
+          MADEK_WIP_BRANCH: ✔︎
         scripts:
           precompile-assets:
+            timeout: '5 minutes'
             exclusive_executor_resource: 'Madek-webapp-precompile-assets'
             body: |
               export PATH=~/.rubies/$RUBY/bin:$PATH
