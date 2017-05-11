@@ -68,7 +68,8 @@ tasks:
   spec/features/meta_data/naughty_strings/naughty_strings_3_spec.rb: {priority: 2}
   spec/features/my/my_groups_spec.rb: {priority: 2}
   spec/features/search_spec.rb: {priority: 2}
-  spec/features/side_filter/side_filter_spec.rb: {priority: 3}
+  # this 1 is really flacky:
+  spec/features/side_filter/side_filter_spec.rb: {priority: 3, max_trials: 5}
 
   spec/features/styleguide_spec.rb:
     priority: 2
