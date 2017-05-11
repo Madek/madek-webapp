@@ -37,7 +37,6 @@
     "bulk-require": "0.2.1",
     "check-dependencies": "0.11.0",
     "classnames": "2.2.3",
-    "coffee-script": "1.12.3",
     "font-awesome": "4.6.3",
     "fs-extra": "0.30.0",
     "global": "4.3.0",
@@ -80,7 +79,7 @@
     "coffee-reactify": "^5.1.0",
     "coffee-script": "^1.12.3",
     "coffeelint": "^1.16.0",
-    "standard": "^8.6.0",
+    "standard": "^10.0.2",
     "watchify": "^3.7.0"
   },
   "browserify": {
