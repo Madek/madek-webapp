@@ -2,6 +2,7 @@ class MyController < ApplicationController
   include Concerns::ResourceListParams
   include Concerns::UserScopes::Dashboard
   include Concerns::NewCollectionModal
+  include Concerns::ActivityStream
 
   include Concerns::Clipboard
 
@@ -146,6 +147,7 @@ class MyController < ApplicationController
       Presenters::Users::DashboardHeader.new(nil),
       with_count: (params[:action] != 'dashboard'),
       list_conf: { order: 'created_at DESC' }.merge(list_conf_by_dashboard_action),
+      activity_stream_conf: activity_stream_params,
       action: params[:action])
   end
 

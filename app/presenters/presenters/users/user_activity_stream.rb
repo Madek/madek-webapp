@@ -4,12 +4,21 @@ module Presenters
     class UserActivityStream < Presenter
       LIMIT = 100
 
-      def initialize(user, start_date:, end_date:)
+      def initialize(user, start_date:, end_date:, paginated:)
         fail 'TypeError!' unless user.is_a?(User)
         fail ArgumentError, 'end must be before start' if end_date > start_date
         @user = user
         @start_date = start_date
         @end_date = end_date
+        @paginated = paginated
+      end
+
+      def config
+        {
+          start_date: @start_date,
+          end_date: @end_date,
+          paginated: @paginated
+        }
       end
 
       def current_user

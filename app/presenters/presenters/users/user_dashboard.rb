@@ -27,19 +27,18 @@ module Presenters
       attr_reader :action
 
       def activity_stream
-        default_date_range = 1.day
-        conf = @activity_stream_conf
+        default_date_range = 3.days
+        conf = @activity_stream_conf || {}
         user = @user
-        # user = User.find_by(login: 'susanneschumacher')
 
-        if conf.nil? # no config, like when initial sync rendering:
-          start_date = DateTime.current
-          date_range = default_date_range
-        else # serve with requested parameters:
-          start_date = conf[:from]
-          date_range = conf[:range]
+        start_date = if conf[:from].is_a?(ActiveSupport::TimeWithZone)
+          conf[:from] # serve with requested parameters
+        else
+          DateTime.current # no config, like when initial sync rendering
         end
+        date_range = conf[:range].try(:>, 0) ? conf[:range] : default_date_range
 
+        # PERF: we "rewind" the start date to the earlist one that has a result!
         # NOTE: this is a slight but efficient hack, see comment in presenter
         stream_start_date = Presenters::Users::UserActivityStream
           .latest_activity_date(user, start_date) || start_date
@@ -47,7 +46,9 @@ module Presenters
         stream_end_date = (stream_start_date - date_range)
 
         Presenters::Users::UserActivityStream.new(
-          user, start_date: stream_start_date, end_date: stream_end_date)
+          user,
+          start_date: stream_start_date, end_date: stream_end_date,
+          paginated: conf.try(:[], :paginated) == true)
       end
 
       def unpublished_entries
