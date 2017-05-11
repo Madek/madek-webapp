@@ -1,5 +1,8 @@
 # Delivery Tests
 
+task_defaults:
+  traits: { g2016: yes } # only compile on fastest machines
+
 contexts:
   'Assets':
     include: cider-ci/context-components/rails-setup.yml

@@ -107,6 +107,7 @@ jobs:
         max_trials: 5
         environment_variables:
           MADEK_WIP_BRANCH: ✔︎
+        traits: { g2016: yes } # only compile on fastest machines
         scripts:
           precompile-assets:
             timeout: '5 minutes'
