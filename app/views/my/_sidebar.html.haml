@@ -1,21 +1,16 @@
 %ul.ui-side-navigation
-  - @sections.group_by {|s| s[1][:is_empty?] }.each do |is_empty, sections|
-    - sections = sections.to_h
-    - if is_empty
-      %li.separator
+  -# each section: make a menu entry and set it active it is.
+  - @sections.each do |section_id, section|
+    - link = section[:href].presence || my_dashboard_section_path(section_id)
 
-    -# each section: make a menu entry and set it active it is.
-    - sections.each do |section_id, section|
-      - link = section[:href].presence || my_dashboard_section_path(section_id)
+    %li.ui-side-navigation-item{class: link_active?(link) ? 'active' : nil}
 
-      %li.ui-side-navigation-item{class: link_active?(link) ? 'active' : nil}
+      %a.strong{href: link}
+        - if section[:is_beta]
+          %em{style: 'font-style: italic; font-weight: normal;'}
+            = 'Beta:'
 
-        %a{href: link, class: section[:is_empty?] ? 'weak' : 'strong'}
-          - if section[:is_beta]
-            %em{style: 'font-style: italic; font-weight: normal;'}
-              = 'Beta:'
+        = section[:title]
 
-          = section[:title]
-
-      - unless (section_id == sections.keys.last)
-        %li.separator.mini
+    - unless (section_id == @sections.keys.last)
+      %li.separator.mini

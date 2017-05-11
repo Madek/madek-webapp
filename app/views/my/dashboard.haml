@@ -3,21 +3,14 @@
   = t(:dashboard_title_head)
 
 - content_for(:page_header) do
-  - if @feature_toggle_debug_dashboard
-    = 'TODO: fix DashboardHeader'
-  - else
-    = react('Views.DashboardHeader', { get: @get.dashboard_header })
+  = react('Views.DashboardHeader', { get: @get.dashboard_header })
 
-
--# - content_for(:page_sidebar) do
--#   = render partial: 'sidebar'
--#
 - content_for(:page_content) do
   - dashboard_content = capture_haml do
     -# each section: build a title and render the partial
     - @sections.each do |section_id, section|
-      -# sections that are empty or marked are skipped on the "index"
-      - next if section[:is_empty?] || (section[:hide_from_index] ===  true)
+      -# don't show sections on dashboard root if configured
+      - next if section[:hide_from_index] === true
 
       %div{id: section_id}
         = combo('resources-header', title: section[:title],

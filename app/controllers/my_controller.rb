@@ -1,5 +1,3 @@
-# NOTE: will be refactored wholesome anyway, so disable this cop here
-# rubocop:disable Metrics/ClassLength
 class MyController < ApplicationController
   include Concerns::ResourceListParams
   include Concerns::UserScopes::Dashboard
@@ -10,11 +8,6 @@ class MyController < ApplicationController
   layout 'my'
 
   after_action :verify_policy_scoped
-
-  # TMP
-  before_action do
-    @feature_toggle_debug_dashboard = params.permit(:debug_dashboard).present?
-  end
 
   def session_token
     unless current_user
@@ -144,15 +137,25 @@ class MyController < ApplicationController
 
   private
 
-  def current_section
-    @current_section ||= \
-      begin
-        section_name = params[:section].try(:to_sym)
-        @sections[section_name]
-      end
+  def init_for_view
+    @sections = _set_async_below_fold \
+      sections_definition.map { |id, s| [id, s.merge(id: id)] }.to_h
+    @get = Presenters::Users::UserDashboard.new(
+      current_user,
+      user_scopes_for_dashboard(current_user),
+      Presenters::Users::DashboardHeader.new(nil),
+      with_count: (params[:action] != 'dashboard'),
+      list_conf: { order: 'created_at DESC' }.merge(list_conf_by_dashboard_action),
+      action: params[:action])
   end
 
-  def list_config
+  def current_section
+    section_name = params.permit(:section).try(:[], :section).try(:to_sym)
+    return unless section_name
+    @current_section ||= @sections.try(:[], section_name)
+  end
+
+  def list_conf_by_dashboard_action
     if (params[:action] == 'dashboard')
       resource_list_params.merge(per_page: 6, page: 1)
     else
@@ -162,77 +165,11 @@ class MyController < ApplicationController
     end
   end
 
-  def init_for_view
-    # NOTE: uses as separate presenter, for counting regardless of
-    # any possible user-given (filter, …)-config!
-    # TODO: port this logic to dashboard presenter, build table of contents there
-    @sections = set_async_below_fold order_sections_according_to_counts(
-      sections_definition,
-      Presenters::Users::UserDashboard.new(current_user,
-                                           user_scopes_for_dashboard(current_user),
-                                           nil,
-                                           with_count: false,
-                                           list_conf: { page: 1, per_page: 1 },
-                                           action: params[:action]))
-
-    @get = get_for_init_for_view
-  end
-
-  def get_for_init_for_view
-    Presenters::Users::UserDashboard.new(
-      current_user,
-      user_scopes_for_dashboard(current_user),
-      Presenters::Users::DashboardHeader.new(nil),
-      with_count: (params[:action] != 'dashboard'),
-      list_conf: { order: 'created_at DESC' }.merge(list_config),
-      action: params[:action])
-  end
-
-  def order_sections_according_to_counts(sections, presenter)
-    sections = put_empty_sections_last_and_set_is_empty_key_true(
-      sections_definition, presenter)
-
-    sections = (sections[false].presence || [])
-      .concat(
-        (sections[true].presence || [])
-          .map { |s| [s[0], s[1].merge(is_empty?: true)] })
-      .to_h
-
-    remove_the_presenter_so_it_is_not_accidently_used_in_view(sections)
-  end
-
-  def put_empty_sections_last_and_set_is_empty_key_true(s, presenter)
-    s.map { |id, v| [id, prepare_section_with_count(id, s, presenter)] }
-    .group_by do |id, sec|
-      if id == :clipboard then next sec[:presenter].nil? end
-      sec[:presenter].try(:empty?) ? true : false
-    end
-  end
-
-  def remove_the_presenter_so_it_is_not_accidently_used_in_view(sections)
-    sections.map { |id, section| [id, section.except(:presenter)] }.to_h
-  end
-
-  def prepare_section_with_count(id, sections, presenter)
-    section = sections[id]
-    section[:id] = id
-    section[:presenter] = \
-      case section[:partial]
-      when :media_resources, :groups, :keywords
-        presenter.send(id)
-      end
-    section
+  def _set_async_below_fold(sections)
+    conf_prerender_sections_nr = 3 # just the drafts, if there are some.
+    sections.map.with_index do |a, i|
+      [a[0], a[1].merge(render_async?: ((i + 1) > conf_prerender_sections_nr))]
+    end.to_h
   end
 
 end
-
-# HACK: set async render if section is "below the fold"
-def set_async_below_fold(sections)
-  return sections if @feature_toggle_debug_dashboard
-
-  conf_prerender_sections_nr = 2 # just the drafts, if there are some.
-  sections.map.with_index do |a, i|
-    [a[0], a[1].merge(render_async?: ((i + 1) > conf_prerender_sections_nr))]
-  end.to_h
-end
-# rubocop:enable Metrics/ClassLength

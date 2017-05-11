@@ -6,11 +6,12 @@ include BatchSelectionHelper
 
 feature 'clipboard' do
 
-  scenario 'show "empty" clipboard in menu if it does not exist' do
+  scenario 'show "empty message" on clipboard if it does not exist' do
     user = create_user
     login(user)
     visit_dashboard
-    check_menu_entry(false)
+    click_menu_entry
+    expect(page).to have_content(I18n.t(:clipboard_empty_message))
   end
 
   scenario 'add single media entry and show clipboard' do
@@ -151,7 +152,6 @@ feature 'clipboard' do
     visit_resource(resource)
     open_set_manager_and_add_to_clipboard
     visit_dashboard
-    check_menu_entry(true)
     click_menu_entry
     check_on_clipboard
     check_resources_in_box([resource])
@@ -179,14 +179,6 @@ feature 'clipboard' do
       '.ui-side-navigation-item',
       text: I18n.t('sitemap_clipboard')
     ).find('a').click
-  end
-
-  def check_menu_entry(exists)
-    menu_item = find(
-      '.ui-side-navigation .ui-side-navigation-item',
-      text: I18n.t('sitemap_clipboard'))
-
-    expect(menu_item).send(exists ? :not_to : :to, have_selector('.weak'))
   end
 
   def open_set_manager_and_add_to_clipboard
