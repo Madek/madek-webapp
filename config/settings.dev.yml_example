@@ -1,0 +1,19 @@
+# ZHdK dev settings
+
+zhdk_integration: True # turns on AGW support + custom ldap groups handling
+zhdk_agw_api_url: 'https://intern.zhdk.ch/?auth/madek'
+zhdk_agw_api_key: 'xxx'
+
+zhdk_zencoder_api_key: 'xxx'
+
+madek_master_secret: 'xxx'
+
+webapp_embeds:
+  enable_opengraph: true
+  twitter_cards_site: false
+
+# this is only relevant for zhdk instances, it is defined here for local development:
+ui_bundle_context_keys:
+- { group: 'media_content:portrayed_object_location', prefix: 'media_content:portrayed_object_' }
+- { group: 'media_object:creator', prefix: 'media_object:creator_'}
+- { group: 'madek_core:copyright_notice', prefix: 'madek_core:copyright_'}
