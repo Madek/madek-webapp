@@ -7,7 +7,7 @@ React = require('react')
 PropTypes = React.PropTypes
 ReactDOM = require('react-dom')
 f = require('active-lodash')
-xhr = require('xhr')
+appRequest = require('../../lib/app-request.coffee')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 
 # HACK: get components by name. only 1 is supported for now.
@@ -50,7 +50,7 @@ module.exports = React.createClass
       @_fetchProps()
 
   _getPropsAsync: (callback)->
-    @_runningRequest = xhr({url: @props.url, json: true}, (err, res, data)=>
+    @_runningRequest = appRequest({url: @props.url, retries: 5}, (err, res, data) =>
       if err or res.statusCode >= 400
         return callback(err or data)
       # this mirros what the react ui_helper does in Rails:
