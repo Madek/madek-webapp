@@ -1088,7 +1088,7 @@ PaginationNavFallback = ({current, next, prev} = @props)->
   <ButtonGroup mods='mbm'>
     <Button {...prev} mods='mhn' disabled={not prev}>{t('pagination_nav_prevpage')}</Button>
     <Button {...current} mods='mhn'>{t('pagination_nav_thispage')}</Button>
-    <Button {...next} mods='mhn' disabled={not next}>{t('pagination_nav_prevpage')}</Button>
+    <Button {...next} mods='mhn' disabled={not next}>{t('pagination_nav_nextpage')}</Button>
   </ButtonGroup>
 
 FallBackMsg = ({children} = @props)->
