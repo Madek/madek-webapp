@@ -10,8 +10,7 @@ f = require('lodash')
 resourceTypeSwitcher = require('../../lib/resource-type-switcher.cjsx')
 
 
-link = (c, h) ->
-  <a href={h}>{c}</a>
+link = (c, h) -> <a href={h}>{c}</a>
 
 infotable = (v, mk, kw, contentsPath) ->
   [
@@ -25,7 +24,7 @@ infotable = (v, mk, kw, contentsPath) ->
     ],
     [
       t('vocabulary_term_info_url'),
-      !kw.external_uri ? '' : link(kw.external_uri, kw.external_uri)
+      if !kw.external_uri then false else link(kw.external_uri, kw.external_uri)
     ],
     [
       t('sitemap_metakey'),

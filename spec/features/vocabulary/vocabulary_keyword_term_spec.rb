@@ -12,11 +12,15 @@ feature 'Vocabulary Pages' do
   describe 'Keyword Term Show' do
 
     it 'is displayed correctly' do
-      meta_key = MetaKey.find('madek_core:keywords')
-      random_keywords_to_check = meta_key.keywords.sample(8)
+      # test 16 keywords, 8 existing + 8 custom ones
+      random_keywords_to_check = [
+        MetaKey.find('madek_core:keywords').keywords.sample(8),
+        8.times.map { create(:keyword, :license) }
+      ].flatten.shuffle
 
       random_keywords_to_check.each do |keyword|
-        visit(vocabulary_keywords_path(meta_key.vocabulary.id))
+        meta_key = keyword.meta_key
+        visit(vocabulary_keywords_path(keyword.meta_key.vocabulary.id))
         click_on keyword.term
 
         expect(page).to have_current_path \
@@ -30,10 +34,12 @@ feature 'Vocabulary Pages' do
           page: {
             info_table: [
               ['Begriff', keyword.term],
+              (['Beschreibung', keyword.description] if keyword.description),
+              (['URL', keyword.external_uri] if keyword.external_uri),
               ['Metakey', "#{meta_key.label} (#{meta_key.id})"],
-              ['Typ', 'Keyword'],
+              ['Typ', keyword.rdf_class],
               ['Vokabular', meta_key.vocabulary.label]
-            ]
+            ].compact
           }
         )
       end
