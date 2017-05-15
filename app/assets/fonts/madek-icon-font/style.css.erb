@@ -10,7 +10,8 @@
 }
 
 [class^="icon-"], [class*=" icon-"] {
-	font-family: 'madek-icon-font';
+	/* use !important to prevent issues with browser extensions that change fonts */
+	font-family: 'madek-icon-font' !important;
 	speak: none;
 	font-style: normal;
 	font-weight: normal;
@@ -151,6 +152,9 @@
 }
 .icon-checkbox-active:before {
 	content: "\e62e";
+}
+.icon-checkbox-mixed:before {
+	content: "\e900";
 }
 .icon-bang:before {
 	content: "\e616";
