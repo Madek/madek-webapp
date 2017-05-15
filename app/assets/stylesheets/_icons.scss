@@ -1,0 +1,10 @@
+// icons
+@import "../fonts/madek-icon-font/style";
+
+// class shortcuts/variants
+.icon-nofavorite:before {
+  content: "\2606";
+}
+.icon-favorite:before {
+  content: "\2605";
+}
