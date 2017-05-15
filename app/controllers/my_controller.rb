@@ -1,9 +1,9 @@
-# rubocop:disable Metrics/ClassLength
 class MyController < ApplicationController
   include Concerns::ResourceListParams
   include Concerns::UserScopes::Dashboard
   include Concerns::NewCollectionModal
   include Concerns::ActivityStream
+  include Concerns::UserApiTokens
 
   include Concerns::Clipboard
   include Concerns::My::DashboardSections
@@ -73,4 +73,3 @@ class MyController < ApplicationController
   end
 
 end
-# rubocop:enable Metrics/ClassLength

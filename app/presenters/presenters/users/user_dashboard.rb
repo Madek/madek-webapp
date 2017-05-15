@@ -125,6 +125,10 @@ module Presenters
           { |k| Presenters::Keywords::KeywordIndexWithUsageCount.new(k) }
       end
 
+      def tokens
+        Presenters::Users::UserApiTokens.new(@user)
+      end
+
       private
 
       def presenterify(resources)

@@ -7,6 +7,10 @@ ajax_form_unexpected_error,There was an unexpected server error.,There was an un
 ajax_form_validation_error_unparsable,Validation error with unparsable errors.,Validation error with unparsable errors.,
 ajax_form_validation_error_without_any_data,Validation error without any data.,Validation error without any data.,
 ajax_form_validation_error_without_error_data,Validation error without error data.,Validation error without error data.,
+api_tokens_created_title,Neuer Token erstellt!,Neuer Token erstellt!
+api_tokens_created_notice,"Dieser Token wird nur einmalig angezeigt, bitte speichern Sie ihn jetzt!","Dieser Token wird nur einmalig angezeigt, bitte speichern Sie ihn jetzt!"
+api_tokens_created_back_btn,Zurück zu allen Tokens,Zurück zu allen Tokens
+api_tokens_list_revoked_title,Zurückgezogene Tokens,Zurückgezogene Tokens
 app_autocomplete_no_results,"Keine Ergebnisse.","No Results."
 app_confirm_form_leave_msg,"Diese Seite bittet Sie zu bestätigen, dass Sie die Seite verlassen möchten – Daten, die Sie eingegeben haben, werden unter Umständen nicht gespeichert.",Please confirm that you want to leave this page – entered data might not be saved!,NOTE: German version copied from Firefox default message
 app_notice_logged_out,Sie haben sich abgemeldet.,You have logged out.,

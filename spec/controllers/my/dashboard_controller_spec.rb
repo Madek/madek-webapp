@@ -196,6 +196,7 @@ describe My::DashboardController do
         :used_keywords,
         :action,
         :clipboard,
+        :tokens,
         :_presenter].sort
   end
 

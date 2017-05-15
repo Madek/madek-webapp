@@ -207,14 +207,21 @@ Madek::Application.routes.draw do
   get 'my/upload', controller: :media_entries, action: :new, as: :new_media_entry
 
   namespace :my do
-    get 'session-token', to: '/my#session_token'
+    get 'session-token', action: 'session_token'
 
     get 'new_collection', action: 'new_collection', as: 'new_collection'
     post 'create_collection', action: 'create_collection', as: 'create_collection'
 
     root to: 'dashboard#dashboard', as: 'dashboard'
+
     # scope some resources here. order is important, they override 'plain' sections
     resources :groups, except: ['show']
+
+    # tokens (get index is one of the 'sections' below)
+    get 'tokens/new', controller: '/my', action: 'new_api_token', as: 'new_api_token'
+    post 'tokens', action: 'create_api_token', as: 'create_api_token'
+    patch 'tokens/:id', action: 'update_api_token', as: 'update_api_token'
+
     # non-resourceful sections are just plain views:
     get ':section', to: 'dashboard#dashboard_section', as: 'dashboard_section'
   end

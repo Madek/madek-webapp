@@ -9,6 +9,16 @@
 table.block
   width: 100%
 
+table.block.aligned
+  text-align: center
+  tr td:first-child
+    text-align: left
+  tr td:last-child
+    text-align: right
+  td
+    padding-left: $space-s
+    padding-right: $space-s
+
 thead td, thead th
   border-bottom: 1px solid $mono-bright
   font-size: $font-xs

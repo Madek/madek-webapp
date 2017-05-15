@@ -107,6 +107,12 @@ module Concerns
             icon: 'icon-privacy-group',
             partial: :groups
           },
+          tokens: {
+            title: 'Meine Tokens',
+            partial: :tokens,
+            is_beta: true,
+            hide_from_index: true
+          },
           vocabularies: {
             title: I18n.t(:sitemap_vocabularies),
             icon: 'icon-privacy-group',
