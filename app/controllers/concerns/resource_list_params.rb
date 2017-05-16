@@ -11,6 +11,40 @@ module Concerns
 
       private
 
+      BOTH_ALLOWED_FILTER_PARAMS =
+        [:search].freeze
+      COLLECTIONS_ALLOWED_FILTER_PARAMS =
+        [:search, :meta_data, :permissions].freeze
+      ENTRIES_ALLOWED_FILTER_PARAMS =
+        [:search, :meta_data, :media_files, :permissions].freeze
+
+      def both_list_params
+        resource_list_params(params, BOTH_ALLOWED_FILTER_PARAMS)
+      end
+
+      def entries_list_params
+        resource_list_params(params, ENTRIES_ALLOWED_FILTER_PARAMS)
+      end
+
+      def collections_list_params
+        # if params[:list] and params[:list][:filter]
+        #   filter = JSON.parse(params[:list][:filter]).deep_symbolize_keys
+        #   params[:list][:filter] = filter.except!(:media_files).to_json
+        # end
+        #
+        resource_list_params(params, COLLECTIONS_ALLOWED_FILTER_PARAMS)
+      end
+
+      def resource_list_by_type_param
+        if (not params[:type]) || params[:type] == 'entries'
+          entries_list_params
+        elsif params[:type] == 'collections'
+          collections_list_params
+        else
+          both_list_params
+        end
+      end
+
       def resource_list_params(parameters = params,
                                allowed_filter_params = nil)
         # TODO: only permit supported layout modes…
@@ -36,8 +70,8 @@ module Concerns
         list_params
           .deep_symbolize_keys
           .map { |key, val| _coerce_types(coerced_types, key, val) }
-          .tap do |parameters|
-            check_allowed_filter_params! parameters, allowed_filter_params
+          .tap do |p|
+            check_allowed_filter_params! p, allowed_filter_params
           end
           .to_h
           .merge(

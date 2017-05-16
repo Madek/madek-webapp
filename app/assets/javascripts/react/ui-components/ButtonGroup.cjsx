@@ -28,6 +28,6 @@ module.exports = React.createClass
 
     return unless children
 
-    <div className={classes}>
+    <div className={classes} data-test-id={@props['data-test-id']}>
       {children}
     </div>

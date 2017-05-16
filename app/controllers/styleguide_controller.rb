@@ -13,7 +13,7 @@ class StyleguideController < ApplicationController
   end
 
   def show
-    @resource_list_params = resource_list_params
+    @resource_list_params = resource_list_by_type_param
     @section = find_section_by_param(@sections, :section)
   end
 

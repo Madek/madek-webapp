@@ -11,7 +11,7 @@ module Concerns
         Presenters::Users::DashboardHeader.new(
           Presenters::Collections::CollectionNew.new(error)
         ),
-        list_conf: resource_list_params,
+        list_conf: resource_list_by_type_param,
         action: params[:action])
 
       flash.clear

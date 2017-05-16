@@ -39,32 +39,32 @@ feature 'Page: Search' do
       search_for_text_and_check_results_pages('')
     end
 
-    it 'switching works after filtering' do
-      sign_in_as 'normin'
-      search_term = 'design'
-      search_for_text(search_term)
-
-      # set a filter
-      within('.filter-panel') do
-        find('a', text: 'Credits').click
-        find('a', text: 'Copyright-Status').click
-        async_nav do
-          find('a', text: 'Urheberrechtlich geschützt').click
-        end
-      end
-
-      # switching still works
-      go_to_sets
-      expect(current_path_with_query).to eq(
-        '/sets?list%5Bfilter%5D=%7B%22search%22%3A%22design%22%7D' \
-        '&list%5Bshow_filter%5D=true&list%5Bpage%5D=1')
-
-      # layout toggle still works
-      async_nav do
-        find('.ui-polybox .ui-toolbar-controls .icon-vis-pins').click
-      end
-      expect(find('.ui-polybox .ui-resources.tiles .ui-tile.ui-tile--set')).to be
-    end
+    # it 'switching works after filtering' do
+    #   sign_in_as 'normin'
+    #   search_term = 'design'
+    #   search_for_text(search_term)
+    #
+    #   # set a filter
+    #   within('.filter-panel') do
+    #     find('a', text: 'Credits').click
+    #     find('a', text: 'Copyright-Status').click
+    #     async_nav do
+    #       find('a', text: 'Urheberrechtlich geschützt').click
+    #     end
+    #   end
+    #
+    #   # switching still works
+    #   go_to_sets
+    #   expect(current_path_with_query).to eq(
+    #     '/sets?list%5Bfilter%5D=%7B%22search%22%3A%22design%22%7D' \
+    #     '&list%5Bshow_filter%5D=true&list%5Bpage%5D=1')
+    #
+    #   # layout toggle still works
+    #   async_nav do
+    #     find('.ui-polybox .ui-toolbar-controls .icon-vis-pins').click
+    #   end
+    #   expect(find('.ui-polybox .ui-resources.tiles .ui-tile.ui-tile--set')).to be
+    # end
   end
 
 end

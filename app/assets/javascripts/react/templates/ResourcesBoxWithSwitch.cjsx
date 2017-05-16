@@ -52,7 +52,7 @@ module.exports = React.createClass
         {key: 'entries', name: t('sitemap_entries')},
         {key: 'sets', name: t('sitemap_collections')}])
 
-      return (<ButtonGroup>{typeBbtns.map (btn) =>
+      return (<ButtonGroup data-test-id='resource-type-switcher'>{typeBbtns.map (btn) =>
         return null unless f.include(types, btn.key) # only show mentioned types
         isActive = btn.key is currentType # set active is current type
         <Button {...btn}
@@ -67,22 +67,29 @@ module.exports = React.createClass
         toolBarMiddle={resourceTypeSwitcher()}/>
     )
 
-urlByType = (url, currentType, type)->
-  if currentType is type then return url
+urlByType = (url, currentType, newType) ->
+
+  if currentType is newType then return url
 
   currentUrl = parseUrl(url)
   currentParams = parseQuery(currentUrl.query)
 
-  # NOTE: resetting all other 'list' params (pagination etc)
-  resetlistParams = { page: 1, accordion: null }
+  newParams = f.cloneDeep(currentParams)
+  if newParams.list
 
-  # HACK: build link to 'sets', but remove filter (only 'search' is implemented!)
-  searchTerm = (try JSON.parse(currentParams.list.filter).search)
+    if newParams.list.accordion
+      newParams.list.accordion = {}
 
-  listParams = f.assign(currentParams.list, resetlistParams)
-  if type is 'sets'
-    listParams = f.assign(listParams, { filter: JSON.stringify({search: searchTerm}) })
+    if newParams.list.filter
+      parsed = (try JSON.parse(newParams.list.filter))
+      if parsed
+        newParams.list.filter = JSON.stringify({search: parsed.search})
+      else
+        newParams.list.filter = JSON.stringify({})
+
+    newParams.list.page = 1
+
 
   boxSetUrlParams(
-    currentUrl.pathname.replace(RegExp("\/#{currentType}$"), "\/#{type}"),
-    f.omit(currentParams, 'list'), {list: listParams})
+    currentUrl.pathname.replace(RegExp("\/#{currentType}$"), "\/#{newType}"),
+    {list: newParams.list})

@@ -95,7 +95,7 @@ module.exports = React.createClass
 
     filters = initializeFilterTreeFromProps(dynamic, current)
 
-    <ul className={baseClass}>
+    <ul className={baseClass} data-test-id='side-filter'>
       {f.map filters, (filter) =>
         @renderSection(current, filter)
       }

@@ -2,8 +2,8 @@ module Presenters
   module Collections
     class CollectionAskDelete < Presenters::Collections::CollectionShow
 
-      def initialize(user, collection, user_scopes, resource_list_params)
-        super(collection, user, user_scopes, list_conf: resource_list_params)
+      def initialize(user, collection, user_scopes, list_params)
+        super(collection, user, user_scopes, list_conf: list_params)
       end
 
       def submit_url

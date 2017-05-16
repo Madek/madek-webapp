@@ -7,7 +7,7 @@ module Presenters
         Presenters::Shared::MediaResource::MediaResources.new(
           @user_scopes[:child_collections],
           @user,
-          can_filter: false,
+          can_filter: true,
           list_conf: @list_conf,
           load_meta_data: @load_meta_data)
       end

@@ -75,14 +75,7 @@ module Presenters
       def relation_resources
         return unless @active_tab == 'relations'
 
-        case @action
-        when 'relation_siblings' then _relations.sibling_collections
-        when 'relation_children' then _relations.child_collections
-        when 'relation_parents' then _relations.parent_collections
-        when 'relations' then nil
-        else
-          fail 'logic error!'
-        end
+        _relations_resources(@action)
       end
 
       def child_media_resources
@@ -103,9 +96,11 @@ module Presenters
           @user,
           # NOTE: should have class of db view even if using a faster scope:
           item_type: 'MediaResources',
-          can_filter: false,
+          can_filter: true,
           list_conf: @children_list_conf,
-          load_meta_data: @load_meta_data)
+          load_meta_data: @load_meta_data,
+          only_filter_search: !['entries', 'collections'].include?(@type_filter)
+        )
       end
 
       def highlighted_media_resources
@@ -129,7 +124,7 @@ module Presenters
         is_relations = ('relations' == @active_tab && @action == 'relations')
         is_usage_data = ('usage_data' == @active_tab)
         return unless (is_relations || is_usage_data)
-        _relations
+        _relations_overview
       end
 
       def permissions
@@ -189,13 +184,33 @@ module Presenters
         Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
       end
 
-      # NOTE: used by tab helper, because tab should not be shown if no relations
-      def _relations
-        @_relations ||= Presenters::Collections::CollectionRelations.new(
+      def _relations_resources(action)
+        all_three = Presenters::Collections::CollectionRelations.new(
           @app_resource,
           @user,
           @user_scopes,
           list_conf: @list_conf,
+          load_meta_data: @load_meta_data)
+
+        case action
+        when 'relation_siblings' then all_three.sibling_collections
+        when 'relation_children' then all_three.child_collections
+        when 'relation_parents' then all_three.parent_collections
+        when 'relations' then nil
+        else
+          fail 'logic error!'
+        end
+      end
+
+      # NOTE: used by tab helper, because tab should not be shown if no relations
+      def _relations_overview
+        @_relations_overview ||= Presenters::Collections::CollectionRelations.new(
+          @app_resource,
+          @user,
+          @user_scopes,
+          # NOTE: Do not reuse list_conf, otherwise the filters for the set
+          # are applied to the relations overview.
+          list_conf: { for_url: @list_conf[:for_url] },
           load_meta_data: @load_meta_data)
       end
 
@@ -204,9 +219,9 @@ module Presenters
           policy_for(@user).send("#{tab[:id]}?")
         end.reject do |tab|
           tab[:id] == 'relations' \
-            && _relations.child_collections.empty? \
-            && _relations.parent_collections.empty? \
-            && _relations.sibling_collections.empty?
+            && _relations_overview.child_collections.empty? \
+            && _relations_overview.parent_collections.empty? \
+            && _relations_overview.sibling_collections.empty?
         end
       end
 

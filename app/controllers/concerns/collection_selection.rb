@@ -34,7 +34,7 @@ module Concerns
         resource,
         current_user,
         scopes,
-        list_conf: resource_list_params,
+        list_conf: resource_list_by_type_param,
         show_collection_selection: true,
         search_term: search_term)
     end

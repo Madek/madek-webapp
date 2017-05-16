@@ -35,7 +35,7 @@ module Concerns
     def presenterify(resource, presenter = nil, **args)
       presenter ||= presenter_by_class(action_name)
       presenter.new(
-        resource, current_user, list_conf: resource_list_params, **args)
+        resource, current_user, list_conf: resource_list_by_type_param, **args)
     end
 
     def presenter_by_class(action)

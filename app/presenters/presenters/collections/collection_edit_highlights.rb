@@ -6,8 +6,8 @@ module Presenters
 
       attr_reader :child_presenters
 
-      def initialize(user, collection, user_scopes, resource_list_params)
-        super(collection, user, user_scopes, list_conf: resource_list_params)
+      def initialize(user, collection, user_scopes, list_params)
+        super(collection, user, user_scopes, list_conf: list_params)
 
         child_presenters = scoped_child_resources
           .custom_order_by('created_at DESC')

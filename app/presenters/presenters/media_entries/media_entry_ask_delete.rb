@@ -2,8 +2,8 @@ module Presenters
   module MediaEntries
     class MediaEntryAskDelete < Presenters::MediaEntries::MediaEntryShow
 
-      def initialize(user, media_entry, user_scopes, resource_list_params)
-        super(media_entry, user, user_scopes, list_conf: resource_list_params)
+      def initialize(user, media_entry, user_scopes, list_conf: nil)
+        super(media_entry, user, user_scopes, list_conf: list_conf)
       end
 
       def submit_url

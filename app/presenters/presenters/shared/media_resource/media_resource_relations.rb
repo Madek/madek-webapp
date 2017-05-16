@@ -24,7 +24,7 @@ module Presenters
           Presenters::Shared::MediaResource::MediaResources.new(
             @user_scopes[:parent_collections],
             @user,
-            can_filter: false,
+            can_filter: true,
             list_conf: @list_conf)
         end
 
@@ -35,7 +35,7 @@ module Presenters
             @user_scopes[:sibling_collections]
               .where.not(collections: { id: @app_resource.id }),
             @user,
-            can_filter: false,
+            can_filter: true,
             list_conf: @list_conf)
         end
       end

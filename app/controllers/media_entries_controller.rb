@@ -141,7 +141,7 @@ class MediaEntriesController < ApplicationController
       current_user,
       media_entry,
       user_scopes_for_media_resource(media_entry),
-      resource_list_params)
+      list_conf: resource_list_params)
 
     respond_with(@get, template: template)
   end

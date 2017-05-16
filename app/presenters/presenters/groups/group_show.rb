@@ -27,7 +27,7 @@ module Presenters
         user_scope = group_scope(@app_resource, clazz)
 
         resources = Presenters::Shared::MediaResource::MediaResources.new(
-          user_scope, @user, can_filter: false, list_conf: @list_conf
+          user_scope, @user, can_filter: true, list_conf: @list_conf
         )
 
         check_for_try_collection(resources, clazz)
@@ -40,7 +40,7 @@ module Presenters
         if resources.empty? && clazz == MediaEntry
           try_scope = group_scope(@app_resource, Collection)
           try_resources = Presenters::Shared::MediaResource::MediaResources.new(
-            try_scope, @user, can_filter: false, list_conf: @list_conf
+            try_scope, @user, can_filter: true, list_conf: @list_conf
           )
           if try_resources.any?
             resources.try_collections = true

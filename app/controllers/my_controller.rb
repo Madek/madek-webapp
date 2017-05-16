@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class MyController < ApplicationController
   include Concerns::ResourceListParams
   include Concerns::UserScopes::Dashboard
@@ -51,19 +52,22 @@ class MyController < ApplicationController
         title: I18n.t(:sitemap_my_unpublished),
         icon: 'icon-privacy-private',
         partial: :media_resources,
-        allowed_filter_params: MediaEntriesController::ALLOWED_FILTER_PARAMS
+        allowed_filter_params:
+          Concerns::ResourceListParams::ENTRIES_ALLOWED_FILTER_PARAMS
       },
       content_media_entries: {
         title: I18n.t(:sitemap_my_content_media_entries),
         icon: 'icon-privacy-private',
         partial: :media_resources,
-        allowed_filter_params: MediaEntriesController::ALLOWED_FILTER_PARAMS
+        allowed_filter_params:
+          Concerns::ResourceListParams::ENTRIES_ALLOWED_FILTER_PARAMS
       },
       content_collections: {
         title: I18n.t(:sitemap_my_content_collections),
         icon: 'icon-privacy-private',
         partial: :media_resources,
-        allowed_filter_params: CollectionsController::ALLOWED_FILTER_PARAMS
+        allowed_filter_params:
+          Concerns::ResourceListParams::COLLECTIONS_ALLOWED_FILTER_PARAMS
       },
       # content_filter_sets: {
       #   title: I18n.t(:sitemap_my_content_filter_sets),
@@ -74,19 +78,22 @@ class MyController < ApplicationController
         title: I18n.t(:sitemap_my_latest_imports),
         icon: 'icon-privacy-private',
         partial: :media_resources,
-        allowed_filter_params: MediaEntriesController::ALLOWED_FILTER_PARAMS
+        allowed_filter_params:
+          Concerns::ResourceListParams::ENTRIES_ALLOWED_FILTER_PARAMS
       },
       favorite_media_entries: {
         title: I18n.t(:sitemap_my_favorite_media_entries),
         icon: 'icon-privacy-private',
         partial: :media_resources,
-        allowed_filter_params: MediaEntriesController::ALLOWED_FILTER_PARAMS
+        allowed_filter_params:
+          Concerns::ResourceListParams::ENTRIES_ALLOWED_FILTER_PARAMS
       },
       favorite_collections: {
         title: I18n.t(:sitemap_my_favorite_collections),
         icon: 'icon-privacy-private',
         partial: :media_resources,
-        allowed_filter_params: CollectionsController::ALLOWED_FILTER_PARAMS
+        allowed_filter_params:
+          Concerns::ResourceListParams::COLLECTIONS_ALLOWED_FILTER_PARAMS
       },
       # favorite_filter_sets: {
       #   title: I18n.t(:sitemap_my_favorite_filter_sets),
@@ -102,13 +109,15 @@ class MyController < ApplicationController
         title: I18n.t(:sitemap_my_entrusted_media_entries),
         icon: 'icon-privacy-group',
         partial: :media_resources,
-        allowed_filter_params: MediaEntriesController::ALLOWED_FILTER_PARAMS
+        allowed_filter_params:
+          Concerns::ResourceListParams::ENTRIES_ALLOWED_FILTER_PARAMS
       },
       entrusted_collections: {
         title: I18n.t(:sitemap_my_entrusted_collections),
         icon: 'icon-privacy-group',
         partial: :media_resources,
-        allowed_filter_params: CollectionsController::ALLOWED_FILTER_PARAMS
+        allowed_filter_params:
+          Concerns::ResourceListParams::COLLECTIONS_ALLOWED_FILTER_PARAMS
       },
       # entrusted_filter_sets: {
       #   title: I18n.t(:sitemap_my_entrusted_filter_sets),
@@ -175,3 +184,4 @@ class MyController < ApplicationController
   end
 
 end
+# rubocop:enable Metrics/ClassLength

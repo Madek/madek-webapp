@@ -87,7 +87,8 @@ GroupShow = React.createClass
           get={get.resources} authToken={@props.authToken}
           mods={[ {bordered: false}, 'rounded-bottom' ]}
           toolBarMiddle={switcher}
-          enableOrdering={true} />
+          enableOrdering={true}
+          enableOrderByTitle={true} />
       </div>
     </PageContent>
 

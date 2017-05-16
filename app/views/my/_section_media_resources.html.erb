@@ -3,6 +3,7 @@
 mods = []
 is_main = (true if params[:action] != 'dashboard_section')
 is_clipboard = section[:id] == :clipboard
+is_unpublished_entries = section[:id] == :unpublished_entries
 ui_component = !is_clipboard ? 'Deco.MediaResourcesBox' : 'Views.My.ClipboardBox'
 
 # HACK: toggle box via prop…
@@ -25,7 +26,7 @@ if !render_async
         is_clipboard: is_clipboard
       },
       enableOrdering: true,
-      enableOrderByTitle: true,
+      enableOrderByTitle: !is_unpublished_entries,
       draftsView: section[:id] == :unpublished_entries)
 
 else

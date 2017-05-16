@@ -14,8 +14,6 @@ class CollectionsController < ApplicationController
   include Modules::Resources::ResourceTransferResponsibility
   include Modules::Resources::BatchResourceTransferResponsibility
 
-  ALLOWED_FILTER_PARAMS = [:search].freeze
-
   ALLOWED_SORTING = [
     'created_at ASC',
     'created_at DESC',
@@ -28,7 +26,7 @@ class CollectionsController < ApplicationController
       auth_policy_scope(current_user, Collection),
       current_user,
       can_filter: true,
-      list_conf: resource_list_params))
+      list_conf: collections_list_params))
   end
 
   def context
@@ -54,7 +52,7 @@ class CollectionsController < ApplicationController
         user_scopes_for_collection(collection),
         action: action_name,
         type_filter: type_param,
-        list_conf: resource_list_params,
+        list_conf: resource_list_by_type_param,
         children_list_conf: children_list_conf,
         context_id: (params[:context_id] if action_name == 'context'),
         load_meta_data: false
@@ -177,7 +175,7 @@ class CollectionsController < ApplicationController
   private
 
   def determine_list_conf(collection)
-    list_conf = resource_list_params
+    list_conf = resource_list_by_type_param
     unless list_conf[:order]
       list_conf[:order] =
         if ALLOWED_SORTING.include? collection.sorting
@@ -197,7 +195,7 @@ class CollectionsController < ApplicationController
       current_user,
       collection,
       user_scopes_for_collection(collection),
-      resource_list_params)
+      resource_list_by_type_param)
 
     respond_with(@get, template: template)
   end

@@ -42,8 +42,9 @@ module.exports = React.createClass
 
       <MediaResourcesBox withBox={true}
         get={get.relation_resources} authToken={authToken}
+        initial={ { show_filter: true } }
         mods={[ {bordered: false}, 'rounded-bottom' ]}
-        enableOrdering={true}
+        enableOrdering={true} enableOrderByTitle={true}
       />
 
     </div>

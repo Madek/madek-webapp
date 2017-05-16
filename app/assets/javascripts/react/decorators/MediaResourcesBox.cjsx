@@ -49,6 +49,9 @@ Clipboard = require('./resourcesbox/Clipboard.cjsx')
 railsFormPut = require('../../lib/form-put-with-errors.coffee')
 
 setsFallbackUrl = require('../../lib/sets-fallback-url.coffee')
+libUrl = require('url')
+qs = require('qs')
+
 
 # Props/Config overview:
 # - props.get.with_actions = should the UI offer any interaction
@@ -543,6 +546,8 @@ module.exports = React.createClass
         <Link mods='mlx weak' href={resetFilterHref}>
           <Icon i='undo'/> {'Filter zurücksetzen'}</Link>
 
+    currentType = qs.parse(get.config.for_url.query).type
+
     boxTitleBar = () =>
       {filter, layout, for_url, order} = config
       totalCount = f.get(get, 'pagination.total_count')
@@ -707,11 +712,12 @@ module.exports = React.createClass
       filterToggleLink = boxSetUrlParams(
         currentUrl, {list: {show_filter: (not config.show_filter)}})
 
+      not_is_clipboard = !@props.initial || !@props.initial.is_clipboard
       filterBarProps =
-        left: if get.can_filter then do =>
+        left: if get.can_filter && not_is_clipboard then do =>
           name = 'Filtern'
           <div>
-            <Button name={name} mods={'active': config.show_filter}
+            <Button data-test-id='filter-button' name={name} mods={'active': config.show_filter}
               href={filterToggleLink} onClick={@_onFilterToggle}>
               <Icon i='filter' mods='small'/> {name}
             </Button>
@@ -798,7 +804,7 @@ module.exports = React.createClass
         </div>
 
     # component:
-    <div className={boxClasses}>
+    <div data-test-id='resources-box' className={boxClasses}>
       {
         if @state.showBatchTransferResponsibility
 
@@ -842,7 +848,7 @@ module.exports = React.createClass
               else       # otherwise, build default fallback message:
                 <FallBackMsg>
                   {
-                    if get.try_collections and (setsUrl = setsFallbackUrl(@_currentUrl()))
+                    if get.try_collections and (setsUrl = setsFallbackUrl(@_currentUrl(), @props.usePathUrlReplacement))
                       <div>
                         {t('resources_box_no_content_but_sets_1')}
                         <a href={setsUrl}>

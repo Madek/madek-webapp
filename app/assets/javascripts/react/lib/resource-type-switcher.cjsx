@@ -19,7 +19,7 @@ module.exports = (resources, forUrl, showAll, onClick) ->
     {key: 'entries', name: t('sitemap_entries')},
     {key: 'collections', name: t('sitemap_collections')}])
 
-  return (<ButtonGroup>{typeBbtns.map (btn) =>
+  return (<ButtonGroup data-test-id='resource-type-switcher'>{typeBbtns.map (btn) =>
     isCurrent = currentType == btn.key
     isDefault = if !currentType
       if showAll
@@ -28,7 +28,7 @@ module.exports = (resources, forUrl, showAll, onClick) ->
         btn.key == 'entries'
     isActive = isCurrent || isDefault
 
-    btnUrl = setUrlParams(forUrl, {type: btn.key})
+    btnUrl = urlByType(forUrl, currentType, btn.key)
 
     <Button {...btn}
       onClick={onClick}
@@ -37,3 +37,33 @@ module.exports = (resources, forUrl, showAll, onClick) ->
       {btn.name}
     </Button>}
   </ButtonGroup>)
+
+
+urlByType = (url, currentType, newType) ->
+
+  if currentType is newType then return url
+
+  currentUrl = parseUrl(url)
+  currentParams = parseQuery(currentUrl.query)
+
+  newParams = f.cloneDeep(currentParams)
+  if newParams.list
+
+    if newParams.list.accordion
+      newParams.list.accordion = {}
+
+    if newParams.list.filter
+      parsed = (try JSON.parse(newParams.list.filter))
+      if parsed
+        newParams.list.filter = JSON.stringify({search: parsed.search})
+      else
+        newParams.list.filter = JSON.stringify({})
+
+    newParams.list.page = 1
+    
+
+  setUrlParams(
+    currentUrl,
+    {list: newParams.list},
+    {type: newType}
+  )

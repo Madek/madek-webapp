@@ -19,7 +19,11 @@ module Presenters
         user_scope = keyword_scope(@app_resource, clazz)
 
         resources = Presenters::Shared::MediaResource::MediaResources.new(
-          user_scope, @user, can_filter: false, list_conf: @list_conf
+          user_scope,
+          @user,
+          can_filter: true,
+          list_conf: @list_conf,
+          join_meta_data_for_order: false
         )
 
         check_for_try_collection(resources, clazz)
@@ -56,7 +60,7 @@ module Presenters
         singular = classname.underscore
         plural = singular.pluralize
 
-        scope = clazz.select("#{plural}.*").joins(
+        scope = clazz.joins(
           <<-SQL
             INNER JOIN meta_data
             ON #{plural}.id = meta_data.#{singular}_id

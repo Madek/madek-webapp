@@ -6,15 +6,7 @@ parseQuery = require('qs').parse
 setUrlParams = require('./set-params-for-url.coffee')
 
 
-replaceWithSet = (currentUrl, currentType, newType) ->
-  currentType
-  setUrlParams(
-    currentUrl.pathname.replace(RegExp("\/#{currentType}$"), "\/#{newType}"),
-    f.omit(currentParams, 'list'), {list: listParams})
-
-
-module.exports = (url, config) ->
-
+module.exports = (url, usePathUrlReplacement) ->
 
   # The fallback url is used for search results if there are no
   # entries found but potentially sets.
@@ -25,36 +17,35 @@ module.exports = (url, config) ->
   # other than search, because the filters for sets are not yet
   # implemented. In this case we simply return nothing.
 
-  currentType = 'entries'
-  type = 'sets'
-
   currentUrl = parseUrl(url)
   currentParams = parseQuery(currentUrl.query)
 
-  # If we have filters other than search we do not use the fallback.
-  if currentParams.list and currentParams.list.filter
-    filter = JSON.parse(currentParams.list.filter)
-    return if f.size(filter) > 1
-    searchTerm = filter.search
-    return if f.size(filter) == 1 && not searchTerm
+  newParams = f.cloneDeep(currentParams)
+  if newParams.list
 
-  # HACK: build link to 'sets', but remove filter (only 'search' is implemented!)
-  resetlistParams = { page: 1, accordion: null }
-  listParams = f.assign(currentParams.list, resetlistParams)
-  if searchTerm
-    listParams = f.assign(listParams, { filter: JSON.stringify({search: searchTerm}) })
+    if newParams.list.accordion
+      newParams.list.accordion = {}
+
+    if newParams.list.filter
+      parsed = (try JSON.parse(newParams.list.filter))
+      if parsed
+        newParams.list.filter = JSON.stringify({search: parsed.search})
+      else
+        newParams.list.filter = JSON.stringify({})
+
+    newParams.list.page = 1
 
 
-  if f.startsWith(currentUrl.pathname, '/vocabulary/keyword') or f.startsWith(currentUrl.pathname, '/my/groups')
+  if usePathUrlReplacement
+    currentPath = 'entries'
+    newPath = 'sets'
     setUrlParams(
-      parseUrl(url),
-      f.omit(currentParams, 'list'),
-      {list: listParams},
-      {type: 'collections'}
+      currentUrl.pathname.replace(RegExp("\/#{currentPath}$"), "\/#{newPath}"),
+      {list: newParams.list}
     )
   else
     setUrlParams(
-      currentUrl.pathname.replace(RegExp("\/#{currentType}$"), "\/#{type}"),
-      f.omit(currentParams, 'list'),
-      {list: listParams}
+      currentUrl,
+      {list: newParams.list},
+      {type: 'collections'}
     )

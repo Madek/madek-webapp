@@ -11,7 +11,7 @@ class GroupsController < ApplicationController
         group,
         current_user,
         resources_type,
-        resource_list_params)
+        resource_list_by_type_param)
     )
   end
 

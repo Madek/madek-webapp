@@ -36,5 +36,6 @@ module.exports = React.createClass
         collectionData={{uuid: get.uuid, layout: get.layout, editable: get.editable, order: get.sorting}}
         toolBarMiddle={switcher}
         enableOrdering={true} enableOrderByTitle={true}
+        showAllButton={true}
         />
     </div>

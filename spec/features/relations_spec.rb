@@ -128,7 +128,7 @@ feature 'relations' do
   def check_show_all_box(expected_titles)
     within('.tab-content') do
       within('.ui-polybox') do
-        expect(page).to have_no_selector('.ui-filterbar', text: 'Filtern')
+        expect(page).to have_selector('.ui-filterbar', text: 'Filtern')
         within('ul.ui-resources-page-items') do
           resource_elements = all('.ui-resource')
           expect(resource_elements.length).to eq(expected_titles.length)

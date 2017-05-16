@@ -15,15 +15,15 @@ module Presenters
         @tree = tree || {}
         @resource_type = scope.model or fail 'TypeError! (Expected AR Scope)'
         # TMP:
-        unless @resource_type == MediaEntry
-          fail 'TypeError! (Expected Entry scope)'
-        end
+        # unless @resource_type == MediaEntry
+        #   fail 'TypeError! (Expected Entry scope)'
+        # end
       end
 
       def list
         [
           # TMP disabled:
-          media_files(@scope, @tree),
+          (media_files(@scope, @tree) if @resource_type == MediaEntry),
           # permissions(@scope, @tree),
           meta_data(@scope, @tree)
         ].flatten.compact
@@ -49,7 +49,8 @@ module Presenters
         ui_context_list = _contexts_for_dynamic_filters # from VocabularyConfig
         return unless ui_context_list.present?
         ui_context_list_ids = ui_context_list.map(&:id)
-        values = FilterBarQuery.get_metadata_unsafe(scope, ui_context_list)
+        values = FilterBarQuery.get_metadata_unsafe(
+          @resource_type, scope, ui_context_list, @user)
         values
           .group_by { |v| v['context_id'] }
           .sort_by { |bundle| ui_context_list_ids.index(bundle[0]) }

@@ -46,5 +46,6 @@ module.exports = React.createClass
         mods={[ {bordered: false}, 'rounded-bottom' ]}
         toolBarMiddle={switcher}
         enableOrdering={true}
+        enableOrderByTitle={true}
       />
     </VocabularyPage>

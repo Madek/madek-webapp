@@ -19,13 +19,14 @@ module Presenters
         include Presenters::Shared::MediaResource::Modules::IndexPresenterByClass
 
         attr_reader :resources, :pagination, :with_actions, :can_filter, :type
-
         attr_accessor :try_collections
 
         def initialize(
             scope, user, list_conf: nil, item_type: nil,
             can_filter: true, with_actions: true,
-            with_count: true, load_meta_data: false)
+            with_count: true, load_meta_data: false,
+            join_meta_data_for_order: true,
+            only_filter_search: false)
           fail 'missing config!' unless list_conf or list_conf[:for_url].present?
           @user = user
           @scope = scope
@@ -33,14 +34,13 @@ module Presenters
           # enable interaction if user logged in and not explictly turned of
           @with_actions = true if (with_actions != false) && @user.present?
           # can the given scope be filtered? (`#filter_by`)
-          # TODO: remove the type check when implemented for all Resources
-          @can_filter = if ['MediaEntries', 'Collections'].include?(@type)
-            (can_filter ? true : false)
-          end
+          @can_filter = can_filter
           @conf = build_config(list_conf)
           @with_count = with_count
           @load_meta_data = load_meta_data
           @try_collections = false
+          @join_meta_data_for_order = join_meta_data_for_order
+          @only_filter_search = only_filter_search
           init_resources_and_pagination(@scope, @conf)
         end
 
@@ -59,7 +59,8 @@ module Presenters
         end
 
         def dynamic_filters
-          return unless @conf[:show_filter] and @type == 'MediaEntries'
+          return if @only_filter_search
+          return unless @conf[:show_filter] # and @type == 'MediaEntries'
           # NOTE: scope is pre-filtered, but not paginated!
           scope = \
             @conf[:filter] ? @scope.filter_by(@user, @conf[:filter]) : @scope
@@ -87,7 +88,8 @@ module Presenters
           total_count = _total_count if @with_count
 
           # apply pagination, but select "1 extra" (for building cheap pagination)
-          ordered_resources = @selected_resources.custom_order_by(config[:order])
+          ordered_resources = @selected_resources.custom_order_by(
+            config[:order], join_meta_data_for_order: @join_meta_data_for_order)
           resources_page_and_next = ordered_resources
             .limit(config[:per_page] + 1)
             .offset((config[:page] - 1) * config[:per_page])

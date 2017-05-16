@@ -34,7 +34,11 @@ module Presenters
           end
 
         Presenters::Shared::MediaResource::MediaResources.new(
-          user_scope, @user, can_filter: false, list_conf: @list_conf
+          user_scope,
+          @user,
+          can_filter: true,
+          list_conf: @list_conf,
+          join_meta_data_for_order: false
         )
       end
 
