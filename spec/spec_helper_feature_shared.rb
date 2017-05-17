@@ -36,7 +36,19 @@ def find_exact_text(locator, text:)
 end
 
 def click_select_all_on_first_page
-  find('.ui-resources-page').find('.ui-pager').find('.icon-checkbox').click
+  pager = find('.ui-resources-page').find('.ui-pager')
+  if pager.all('.icon-checkbox-active').first
+    pager.all('.icon-checkbox-active').first.click
+  elsif pager.all('.icon-checkbox-mixed').first
+    pager.all('.icon-checkbox-mixed').first.click
+  else
+    pager.all('.icon-checkbox').first.click
+  end
+end
+
+def click_deselect_all_on_first_page
+  find('.ui-resources-page').find('.ui-pager').find(
+    '.icon-checkbox-active').click
 end
 
 # firefox only! - needs browser driver to support it

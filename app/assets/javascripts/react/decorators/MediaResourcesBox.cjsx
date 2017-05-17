@@ -872,7 +872,7 @@ module.exports = React.createClass
                       if (pagination.totalPages > 1 || disableSelectToggle)
 
                         onSelectPage = null
-                        checkboxMods = cx({'active': false, 'mid': false})
+                        checkState = 'unchecked'
 
                         showActions = ActionsDropdown.showActionsConfig(actionsDropdownParameters)
                         selection = @state.selectedResources
@@ -896,7 +896,10 @@ module.exports = React.createClass
                             else
                               resources.perPage
 
-                          checkboxMods = cx({'active': selectionCountOnPage > 0, 'mid': selectionCountOnPage < fullPageCount})
+                          if selectionCountOnPage > 0
+                            checkState = 'checked'
+                            if selectionCountOnPage < fullPageCount
+                              checkState = 'partial'
 
                           onSelectPage = (event) ->
                             event.preventDefault()
@@ -912,7 +915,7 @@ module.exports = React.createClass
                           page={pagination.page}
                           total={(pagination.totalPages)}
                           onSelectPage={onSelectPage}
-                          checkboxMods={checkboxMods}
+                          checkState={checkState}
                           />}
 
                     <ul className='ui-resources-page-items'>
@@ -1024,19 +1027,29 @@ module.exports = React.createClass
 module.exports.boxSetUrlParams = boxSetUrlParams
 # Partials and UI-Components only used here:
 
-PageCounter = ({href, page, total, onSelectPage, checkboxMods} = @props)->
+PageCounter = ({href, page, total, onSelectPage, checkState} = @props)->
   # TMP: this link causes to view to start loading at page Nr. X
   #      it's ONLY needed for some edge cases (viewing page N + 1),
   #      where N = number of pages the browser can handle (memory etc)
   #      BUT the UI is unfinished in this case (no way to scroll "backwards")
   #      SOLUTION: disable the link-click so it is not clicked accidentally
+  checkBoxStyle = {position: 'absolute', right: '0px', top: '0px'}
   <div className='ui-resources-page-counter ui-pager small'>
     <div style={{display: 'inline-block'}}>Seite {page} von {total}</div>
     {
       if onSelectPage
         <div style={{float: 'right', position: 'relative'}} onClick={onSelectPage}>
           <span style={{marginRight: '20px'}}>Seite auswählen</span>
-          <Icon style={{position: 'absolute', right: '0px', top: '0px'}} mods={checkboxMods} i='checkbox' />
+          {
+            if checkState == 'checked'
+              <Icon style={checkBoxStyle} i='checkbox-active' />
+            else if checkState == 'partial'
+              <Icon style={checkBoxStyle} i='checkbox-mixed' />
+            else
+              <Icon style={checkBoxStyle} i='checkbox' />
+          }
+
+
         </div>
     }
   </div>
