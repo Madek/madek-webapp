@@ -91,6 +91,16 @@ module.exports = React.createClass
     {optionals} = @props
     {model, editing, saving} = @state
 
+    GroupIndex = ({subject}) ->
+      <span className='text mrs'>
+        {
+          if subject.can_show
+            <a href={subject.url}>{subject.detailed_name}</a>
+          else
+            subject.detailed_name
+        }
+      </span>
+
     <div>
       {
         if @state.transferModal
@@ -108,10 +118,10 @@ module.exports = React.createClass
           </Modal>
       }
 
-
       <ResourcePermissionsForm
         get={model} editing={editing} saving={saving} optionals={optionals}
-        onEdit={@_onStartEdit} onSubmit={@_onSubmitForm} onCancel={@_onCancelEdit}>
+        onEdit={@_onStartEdit} onSubmit={@_onSubmitForm} onCancel={@_onCancelEdit}
+        decos={{Groups: GroupIndex}}>
 
         <PermissionsOverview get={model}
           openTransferModal={(event) => @_showTransferModal(true, event)} />
