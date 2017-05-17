@@ -16,7 +16,7 @@ setUrlParams = require('../../lib/set-params-for-url.coffee')
 link = (c, h) ->
   <a href={h}>{c}</a>
 
-infotable = (group) ->
+infotable = (group, members, vocabulary_permissions) ->
   f.compact([
     [
       t('group_meta_data_name'),
@@ -26,6 +26,31 @@ infotable = (group) ->
       t('group_meta_data_institutional_group_name'),
       group.institutional_group_name
     ] if group.institutional_group_name,
+    [
+      t('group_show_members'),
+      f.map(members, (member) ->
+          member.label
+      ).join(', ')
+    ] if members,
+    [
+      t('group_show_vocabulary_permissions'),
+      f.map(vocabulary_permissions, (permissions) ->
+        url = permissions.vocabulary.url
+        label = permissions.vocabulary.label
+        rights = if permissions.use && permissions.view
+          t('group_show_permissions_view_use')
+        else if permissions.view
+          t('group_show_permissions_view')
+        else if permissions.user
+          t('group_show_permissions_use')
+        <div>
+          <a href={url}>
+            {label}
+          </a>
+          {' ' + rights}
+        </div>
+      )
+    ] if vocabulary_permissions
   ])
 
 GroupShow = React.createClass
@@ -35,6 +60,7 @@ GroupShow = React.createClass
   getInitialState: ()-> {
     forUrl: libUrl.format(@props.get.resources.config.for_url)
   }
+
   componentDidMount: ()->
     @router =  require('../../lib/router.coffee')
     @unlistenRouter = @router.listen((location) =>
@@ -68,7 +94,7 @@ GroupShow = React.createClass
             <tbody>
               {
                 f.map(
-                  infotable(group),
+                  infotable(group, get.members, get.vocabulary_permissions),
                   ([label, value], i) ->
                     if isEmpty(value)
                       null

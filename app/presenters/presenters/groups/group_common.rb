@@ -32,6 +32,10 @@ module Presenters
         can_edit && the_edit_url
       end
 
+      def can_show
+        (auth_policy(@user, @app_resource).show? if @user)
+      end
+
       def url
         prepend_url_context my_group_path(@app_resource)
       end

@@ -15,11 +15,15 @@ module.exports = React.createClass
 
     hints = [t('vocabulary_permissions_hint1'), t('vocabulary_permissions_hint2')]
 
-    GroupIndex = ({subject})-> <span>
-      <span className='text mrs'>{subject.detailed_name} </span>
-      {!!subject.edit_url &&
-        <a className='button small' href={subject.edit_url}>{t('group_edit_btn')}</a>}
-    </span>
+    GroupIndex = ({subject}) ->
+      <span className='text mrs'>
+        {
+          if subject.can_show
+            <a href={subject.url}>{subject.detailed_name}</a>
+          else
+            subject.detailed_name
+        }
+      </span>
 
     <VocabularyPage page={get.page} for_url={for_url}>
       <div className='ui-container pal'>

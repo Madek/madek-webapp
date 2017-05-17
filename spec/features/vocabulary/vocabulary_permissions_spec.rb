@@ -80,9 +80,16 @@ feature 'Resource: Vocabulary' do
               { 'Betrachten' => p.view, 'Anwenden' => p.use } }
           end,
           'Gruppen' => v.group_permissions.map do |p|
-            member = p.group.users.exists?(user.id)
-            { (p.group.name + (member ? ' Bearbeiten' : '')) =>
-              { 'Betrachten' => p.view, 'Anwenden' => p.use } }
+            member = true if p.group.users.exists?(user.id)
+            { p.group.name =>
+              { 'Betrachten' => p.view, 'Anwenden' => p.use }.merge(
+                if member
+                  { isLink: true }
+                else
+                  {}
+                end
+              )
+            }
           end,
           'API-Applikationen' => v.api_client_permissions.map do |p|
             { p.api_client.login => { 'Betrachten' => p.view, 'Anwenden' => nil } }
@@ -101,6 +108,7 @@ end
 
 private
 
+# rubocop:disable Metrics/MethodLength
 def displayed_permissions
   rows = all('form > div.ui-rights-management > div')
   titles = rows.first.all('td.ui-rights-check-title').map(&:text)
@@ -118,9 +126,16 @@ def displayed_permissions
               false
             end
             [titles[i], state]
-          end.to_h
+          end.to_h.merge(
+            if row.find('td.ui-rights-user').all('a').empty?
+              {}
+            else
+              { isLink: true }
+            end
+          )
         }
       end
     ]
   end.to_h
 end
+# rubocop:enable Metrics/MethodLength

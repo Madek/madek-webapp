@@ -34,6 +34,28 @@ module Presenters
         resources
       end
 
+      def members
+        return if @app_resource.type != 'Group'
+        @app_resource.users.map do |user|
+          Presenters::Users::UserIndex.new(user)
+        end
+      end
+
+      def vocabulary_permissions
+        return if @app_resource.type != 'Group'
+
+        vocabularies = Vocabulary.joins(:group_permissions).where(
+          vocabulary_group_permissions: { group_id: @app_resource.id })
+
+        vocabularies.map do |vocabulary|
+          permissions = vocabulary.group_permissions.where(
+            group_id: @app_resource.id).first
+          next unless permissions
+          Presenters::Groups::Permissions::VocabularyGroupPermissions.new(
+            permissions, @user)
+        end.compact
+      end
+
       private
 
       def check_for_try_collection(resources, clazz)
