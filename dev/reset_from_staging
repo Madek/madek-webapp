@@ -16,5 +16,4 @@ if [[ ! -e "$DUMPFILE" ]]; then
 fi
 
 bundle exec rake db:pg:terminate_connections db:drop || true # ignore error if not exists yet
-bundle exec rake db:create
-time bundle exec rake db:pg:structure_and_data:restore FILE="$DUMPFILE"
+time bundle exec rake db:create db:pg:structure_and_data:restore FILE="$DUMPFILE" db:migrate
