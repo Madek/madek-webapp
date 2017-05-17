@@ -32,13 +32,13 @@ class TokensPage extends React.Component {
                 <UI.Button
                   href={newAction.url}
                   className='primary-button'
-                      >
-                        Neuen Token erstellen
-                      </UI.Button>
+                >
+                  {t('api_tokens_list_new_button')}
+                </UI.Button>
               </div>
-                  )}
+            )}
           </div>
-          ))}
+        ))}
       </div>
     )
   }
@@ -47,10 +47,11 @@ class TokensPage extends React.Component {
 const TokensList = ({ tokens, authToken }) => {
   const revokedTokens = f.filter(tokens, 'revoked')
   const activeTokens = f.difference(tokens, revokedTokens)
-  const allTokes = [
+  const allTokes = f.compact([
     [ activeTokens ],
-    [ revokedTokens, t('api_tokens_list_revoked_title') ]
-  ]
+    !f.isEmpty(revokedTokens) &&
+      [ revokedTokens, t('api_tokens_list_revoked_title') ]
+  ])
 
   return (
     <div>
@@ -60,10 +61,10 @@ const TokensList = ({ tokens, authToken }) => {
           <table className='ui-workgroups bordered block aligned'>
             <tbody>
               {
-                  f.map(tokens, token => (
-                    <TokenRow {...token} authToken={authToken} />
-                  ))
-                }
+                f.map(tokens, token => (
+                  <TokenRow {...token} authToken={authToken} />
+                ))
+              }
             </tbody>
           </table>
         </div>
@@ -77,18 +78,24 @@ export const TokenRow = ({ authToken, ...token }) => {
   let creationDate, creationDateTitle, expirationDate, expirationDateTitle
   if (token.created_at) {
     creationDate = Moment(new Date(token.created_at)).calendar()
-    creationDateTitle = `Erstellt: ${token.created_at}`
+    creationDateTitle = t('api_tokens_list_created_hint_pre') + token.created_at
   }
   if (token.expires_at) {
     expirationDate = Moment(new Date(token.expires_at)).fromNow()
-    expirationDateTitle = `Ablaufdatum: ${token.expires_at}`
+    expirationDateTitle = t('api_tokens_list_expires_hint_pre') + token.expires_at
   }
   const revokeAction = f.get(token, 'actions.update')
-  const perms = [ [ 'read', 'Lesen' ], [ 'write', 'Schreiben' ] ]
+  const perms = [
+    [ 'read', t('api_tokens_list_scope_read') ],
+    [ 'write', t('api_tokens_list_scope_write') ]
+  ]
   const permissionsList = f.compact(
-    perms.map(
-      ([ key, label ]) => `${label}: ${f.includes(scopes, key) ? 'Ja' : 'Nein'}`
-    )
+    perms.map(([ key, label ]) => {
+      const stateLabel = f.includes(scopes, key)
+        ? t('api_tokens_list_scope_on')
+        : t('api_tokens_list_scope_off')
+      return `${label}: ${stateLabel}`
+    })
   )
 
   const trStyle = !revoked ? {} : { opacity: 0.67 }
@@ -98,49 +105,60 @@ export const TokenRow = ({ authToken, ...token }) => {
       <td>
         {label}
       </td><td>
-        <p className='measure-narrow'>
-          {description || '(Keine Beschreibung)'}
-        </p>
+        <pre className='measure-narrow'>
+          {!f.isEmpty(description)
+            ? description
+            : t('api_tokens_list_no_description')}
+        </pre>
       </td>
       <td>
         {!!creationDate && (
-        <UI.Tooltipped text={creationDateTitle} id={`dtc.${uuid}`}>
-          <span>seit {creationDate}</span>
-        </UI.Tooltipped>
-            )}
+          <UI.Tooltipped text={creationDateTitle} id={`dtc.${uuid}`}>
+            <span>
+              {t('api_tokens_list_created_pre')}
+              {creationDate}
+            </span>
+          </UI.Tooltipped>
+        )}
       </td>
       <td>
         {!!expirationDate && (
-        <UI.Tooltipped text={expirationDateTitle} id={`dtc.${uuid}`}>
-          <span>bis {expirationDate}</span>
-        </UI.Tooltipped>
-            )}
+          <UI.Tooltipped text={expirationDateTitle} id={`dtc.${uuid}`}>
+            <span>
+              {t('api_tokens_list_expires_pre')}
+              {expirationDate}
+            </span>
+          </UI.Tooltipped>
+        )}
       </td>
       <td>
-        Zugriff: {permissionsList.join(', ')}.
+        {t('api_tokens_list_scopes_pre')}
+        {permissionsList.join(', ')}
+        {t('api_tokens_list_scopes_post')}
       </td>
       <td className='ui-workgroup-actions'>
         {!!revokeAction && (
-        <RailsForm
-          authToken={authToken}
-          method={revokeAction.method}
-          action={revokeAction.url}
+          <RailsForm
+            name={'api_token'}
+            authToken={authToken}
+            method={revokeAction.method}
+            action={revokeAction.url}
+          >
+            <input name='api_token[revoked]' value='true' type='hidden' />
+            <UI.Tooltipped
+              text={t('api_tokens_list_revoke_btn_hint')}
+              id={`btnrv.${uuid}`}
+            >
+              <button
+                className='button'
+                type='submit'
+                data-confirm={t('api_tokens_list_revoke_confirm')}
               >
-          <input name='api_token[revoked]' value='true' type='hidden' />
-          <UI.Tooltipped
-            text={'Token zur\xFCckziehen'}
-            id={`btnrv.${uuid}`}
-                >
-            <button
-              className='button'
-              type='submit'
-              data-confirm='Sind Sie sicher, dass Sie diesen Token zurückziehen wollen?'
-                  >
-              <i className='fa fa-ban' />
-            </button>
-          </UI.Tooltipped>
-        </RailsForm>
-            )}
+                <i className='fa fa-ban' />
+              </button>
+            </UI.Tooltipped>
+          </RailsForm>
+        )}
       </td>
     </tr>
   )

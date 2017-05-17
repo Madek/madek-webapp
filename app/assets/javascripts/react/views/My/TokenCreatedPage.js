@@ -42,11 +42,11 @@ class TokenCreatedPage extends React.Component {
             </tbody>
           </table>
           {!!indexAction && (
-          <div className='ui-actions mtm'>
-            <UI.Button href={indexAction} className='button'>
-              {t('api_tokens_created_back_btn')}
-            </UI.Button>
-          </div>
+            <div className='ui-actions mtm'>
+              <UI.Button href={indexAction} className='button'>
+                {t('api_tokens_created_back_btn')}
+              </UI.Button>
+            </div>
           )}
         </div>
       </div>
