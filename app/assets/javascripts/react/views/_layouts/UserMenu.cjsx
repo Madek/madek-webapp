@@ -47,23 +47,23 @@ module.exports = React.createClass
         url: props.my.clipboard_url
       },
       {
-        title: t('sitemap_my_content_media_entries'), icon: 'user',
+        title: t('user_menu_my_content_media_entries'), icon: 'user',
         url: props.my.entries_url
       },
       {
-        title: t('sitemap_my_content_collections'), icon: 'user',
+        title: t('user_menu_my_content_collections'), icon: 'user',
         url: props.my.sets_url
       },
       {
-        title: t('sitemap_my_favorite_media_entries'), icon: 'star',
+        title: t('user_menu_my_favorite_media_entries'), icon: 'star',
         url: props.my.favorite_entries_url
       },
       {
-        title: t('sitemap_my_favorite_collections'), icon: 'star',
+        title: t('user_menu_my_favorite_collections'), icon: 'star',
         url: props.my.favorite_sets_url
       },
       {
-        title: t('sitemap_my_groups'), icon: 'privacy-group',
+        title: t('user_menu_my_groups'), icon: 'privacy-group',
         url: props.my.groups
       }
     ]
