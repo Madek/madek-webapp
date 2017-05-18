@@ -20,13 +20,15 @@ module Presenters
 
         attr_reader :resources, :pagination, :with_actions, :can_filter, :type
         attr_accessor :try_collections
+        attr_accessor :disable_file_search
 
         def initialize(
             scope, user, list_conf: nil, item_type: nil,
             can_filter: true, with_actions: true,
             with_count: true, load_meta_data: false,
             join_meta_data_for_order: true,
-            only_filter_search: false)
+            only_filter_search: false,
+            disable_file_search: false)
           fail 'missing config!' unless list_conf or list_conf[:for_url].present?
           @user = user
           @scope = scope
@@ -41,6 +43,7 @@ module Presenters
           @try_collections = false
           @join_meta_data_for_order = join_meta_data_for_order
           @only_filter_search = only_filter_search
+          @disable_file_search = disable_file_search
           init_resources_and_pagination(@scope, @conf)
         end
 

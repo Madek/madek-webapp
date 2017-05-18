@@ -99,6 +99,7 @@ module Presenters
           can_filter: true,
           list_conf: @children_list_conf,
           load_meta_data: @load_meta_data,
+          disable_file_search: @type_filter != 'entries',
           only_filter_search: !['entries', 'collections'].include?(@type_filter)
         )
       end

@@ -293,10 +293,43 @@ module.exports = React.createClass
     return undefined
 
   _onSearch: (event)->
+
+    refs = @refs
+
+    searchFilter = () =>
+      if !@_supportsFilesearch() || refs.searchTypeFulltext.checked
+        {
+          search: refs.filterSearch.value
+        }
+      else
+        {
+          search: ''
+        }
+
+    filenameFilter = () =>
+      if @_supportsFilesearch() && refs.searchTypeFilename.checked
+        {
+          media_files: [
+            {
+              key: 'filename',
+              value: refs.filterSearch.value
+            }
+          ]
+        }
+      else
+        {}
+
+
+    buildFilter = () ->
+      f.merge(
+        searchFilter(),
+        filenameFilter()
+      )
+
     @_onFilterChange(event,
       {
         list: {
-          filter: {search: @refs.filterSearch.value}
+          filter: buildFilter()
           accordion: {}
         }
       }
@@ -476,6 +509,12 @@ module.exports = React.createClass
         layout: 'grid'
         order: 'last_change'
         show_filter: false
+
+  _supportsFilesearch: () ->
+    get = @props.get
+    !get.disable_file_search && !(
+      get.config && get.config.for_url && get.config.for_url.query.type == 'collections'
+    )
 
 
   render: ()->
@@ -734,6 +773,26 @@ module.exports = React.createClass
     sidebar = do ({config, dynamic_filters} = get, {isClient} = @state)=>
       return null if not config.show_filter
 
+
+      has_filename_filter = () ->
+        (config.filter &&
+          config.filter.media_files &&
+          !f.isEmpty(f.filter(config.filter.media_files, (entry) ->
+            entry.key == 'filename'
+          ))
+        )
+
+      filename_filter_string = () ->
+        f.first(f.filter(config.filter.media_files, (entry) ->
+          entry.key == 'filename'
+        )).value
+
+      fulltext_filter_string = () ->
+        if config.filter
+          config.filter.search
+        else
+          ''
+
       <div className='filter-panel ui-side-filter'>
         {if not isClient
           <div><div className='no-js'>
@@ -745,6 +804,13 @@ module.exports = React.createClass
             {FilterPreloader}
           </div></div>
         else
+
+          searchValue = () ->
+            if has_filename_filter()
+              filename_filter_string()
+            else
+              fulltext_filter_string()
+
           <div className='js-only'>
             <div className='ui-side-filter-search filter-search'>
               <form name='filter_search_form' onSubmit={@_onSearch}>
@@ -752,7 +818,18 @@ module.exports = React.createClass
                   value='Eingrenzen mit Suchwort'/>
                 <input type='text' className='ui-filter-search-input block'
                   ref='filterSearch'
-                  defaultValue={f.get(config, ['filter', 'search'])}/>
+                  defaultValue={searchValue()}/>
+                {
+                  if @_supportsFilesearch()
+                    <div style={{marginTop: '2px'}}>
+                      <input ref='searchTypeFulltext' type='radio' name='search_type'
+                        value='fulltext' defaultChecked={(!has_filename_filter())} />
+                      {' Volltext '}
+                      <input ref='searchTypeFilename' type='radio' name='search_type'
+                        value='filename' defaultChecked={has_filename_filter()} />
+                      {' Filename'}
+                    </div>
+                }
               </form>
             </div>
             {if (f.isArray(dynamic_filters) and f.present(f.isArray(dynamic_filters)))

@@ -26,6 +26,7 @@ class CollectionsController < ApplicationController
       auth_policy_scope(current_user, Collection),
       current_user,
       can_filter: true,
+      disable_file_search: true,
       list_conf: collections_list_params))
   end
 

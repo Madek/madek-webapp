@@ -1,16 +1,1 @@
-
-= component('page-header', icon: component('icon.lens'), text: t(:sitemap_search))
-
-.app-body-ui-container
-  .bordered.ui-container.midtone.rounded-right.rounded-bottom.table
-    .ui-search-form
-
-      = form_tag result_search_path, method: 'GET' do
-        .ui-search.large.mts
-          = text_field_tag :search, nil, type: 'text', autofocus: true, class: 'block ui-search-input'
-          = button_tag type: 'submit', class: 'primary-button ui-search-button' do
-            = t(:search_btn_search)
-
-
-
--# = render template: 'layouts/application'
+= react('Views.Search', get: @get)
