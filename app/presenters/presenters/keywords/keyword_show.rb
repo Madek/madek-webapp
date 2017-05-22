@@ -22,8 +22,7 @@ module Presenters
           user_scope,
           @user,
           can_filter: true,
-          list_conf: @list_conf,
-          join_meta_data_for_order: false
+          list_conf: @list_conf
         )
 
         check_for_try_collection(resources, clazz)

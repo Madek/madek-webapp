@@ -26,7 +26,6 @@ module Presenters
             scope, user, list_conf: nil, item_type: nil,
             can_filter: true, with_actions: true,
             with_count: true, load_meta_data: false,
-            join_meta_data_for_order: true,
             only_filter_search: false,
             disable_file_search: false)
           fail 'missing config!' unless list_conf or list_conf[:for_url].present?
@@ -41,7 +40,6 @@ module Presenters
           @with_count = with_count
           @load_meta_data = load_meta_data
           @try_collections = false
-          @join_meta_data_for_order = join_meta_data_for_order
           @only_filter_search = only_filter_search
           @disable_file_search = disable_file_search
           init_resources_and_pagination(@scope, @conf)
@@ -92,7 +90,7 @@ module Presenters
 
           # apply pagination, but select "1 extra" (for building cheap pagination)
           ordered_resources = @selected_resources.custom_order_by(
-            config[:order], join_meta_data_for_order: @join_meta_data_for_order)
+            config[:order])
           resources_page_and_next = ordered_resources
             .limit(config[:per_page] + 1)
             .offset((config[:page] - 1) * config[:per_page])
