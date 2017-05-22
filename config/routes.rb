@@ -207,7 +207,6 @@ Madek::Application.routes.draw do
   get 'my/upload', controller: :media_entries, action: :new, as: :new_media_entry
 
   namespace :my do
-    get 'session-token', action: 'session_token'
 
     get 'new_collection', action: 'new_collection', as: 'new_collection'
     post 'create_collection', action: 'create_collection', as: 'create_collection'

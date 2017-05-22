@@ -12,22 +12,6 @@ class MyController < ApplicationController
 
   after_action :verify_policy_scoped
 
-  def session_token
-    unless current_user
-      raise '403'
-    else
-      duration = if params[:duration].present?
-        ChronicDuration.parse(params[:duration]) || raise('Parser error!')
-      else
-        60 * 60 * 24
-      end
-      unless duration <= 60 * 60 * 24
-        raise 'Duration may not be longer than 24 hours!'
-      end
-      render text: build_session_value(current_user, max_duration_secs: duration)
-    end
-  end
-
   before_action do
     auth_authorize :dashboard, :logged_in?
     # needed for the sidebar nav, also in controllers that inherit from us:
