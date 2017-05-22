@@ -108,7 +108,7 @@ module Concerns
             partial: :groups
           },
           tokens: {
-            title: 'Meine Tokens',
+            title: 'Tokens',
             partial: :tokens,
             is_beta: true,
             hide_from_index: true
