@@ -60,7 +60,8 @@ module Presenters
       end
 
       def content_collections
-        presenterify @user_scopes[:content_collections]
+        presenterify(
+          @user_scopes[:content_collections], disable_file_search: true)
       end
 
       def content_filter_sets
@@ -76,7 +77,8 @@ module Presenters
       end
 
       def favorite_collections
-        presenterify @user_scopes[:favorite_collections]
+        presenterify(
+          @user_scopes[:favorite_collections], disable_file_search: true)
       end
 
       def favorite_filter_sets
@@ -88,7 +90,8 @@ module Presenters
       end
 
       def entrusted_collections
-        presenterify @user_scopes[:entrusted_collections]
+        presenterify(
+          @user_scopes[:entrusted_collections], disable_file_search: true)
       end
 
       def entrusted_filter_sets
@@ -131,13 +134,14 @@ module Presenters
 
       private
 
-      def presenterify(resources)
+      def presenterify(resources, disable_file_search: false)
         return if resources.nil?
         Presenters::Shared::MediaResource::MediaResources.new(
           resources,
           @user,
           list_conf: @config,
-          with_count: @with_count)
+          with_count: @with_count,
+          disable_file_search: disable_file_search)
       end
 
       def unpaged_groups(type)
