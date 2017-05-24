@@ -9,6 +9,7 @@ MadekPropTypes = require('../../lib/madek-prop-types.coffee')
 
 Icon = require('../Icon.cjsx')
 Link = require('../Link.cjsx')
+UserFilter = require('./UserFilter.cjsx')
 
 module.exports = React.createClass
   displayName: 'SideFilter'
@@ -133,24 +134,56 @@ module.exports = React.createClass
     togglebodyClass = css('ui-accordion-body', 'ui-side-filter-lvl3', open: isOpen)
     <li className={keyClass} key={child.uuid}>
       {@createToggleSubSection(filterType, parent, child, isOpen)}
-      {@createMultiSelectBox(child, current, filterType)}
-      <ul className={togglebodyClass}>
-        {
-          if isOpen then f.map(child.children, (item)=>
-            @renderItem(current, child, item, filterType)
-          )
-        }
-      </ul>
+      {
+        @createMultiSelectBox(child, current, filterType,
+          !(parent.uuid == 'permissions'))
+      }
+
+      {
+        if parent.uuid == 'permissions' && (child.uuid == 'responsible_user' || child.uuid == 'entrusted_to_user' || child.uuid == 'entrusted_to_group')
+          if isOpen
+            @renderResponsibleUser(child, parent.uuid, current, child, filterType, togglebodyClass)
+          else
+            <ul className={togglebodyClass}></ul>
+
+        else
+          <ul className={togglebodyClass}>
+            {
+              if isOpen
+                f.map(child.children, (item)=>
+                  @renderItem(parent.uuid, current, child, item, filterType)
+                )
+            }
+          </ul>
+      }
     </li>
 
-  renderItem: (current, parent, item, filterType) ->
+  renderResponsibleUser: (node, parentUuid, current, parent, filterType, togglebodyClass) ->
+
+    userChanged = (user, action) =>
+      onChange = @props.onChange
+      if user.selected
+        @removeItemFilter(onChange, current, parent, user, filterType)
+      else
+        @addItemFilter(onChange, current, parent, user, filterType)
+
+    placeholders = {
+      responsible_user: 'Suche nach User...',
+      entrusted_to_user: 'Suche nach User...',
+      entrusted_to_group: 'Suche nach Gruppe...',
+    }
+
+    placeholder = placeholders[parent.uuid]
+
+    <UserFilter node={node} userChanged={userChanged} placeholder={placeholder} togglebodyClass={togglebodyClass} />
+
+  renderItem: (parentUuid, current, parent, item, filterType) ->
 
     onChange = @props.onChange
     addRemoveClick = () =>
-
       if item.selected then @removeItemFilter(onChange, current, parent, item, filterType) else @addItemFilter(onChange, current, parent, item, filterType)
 
-    <FilterItem {...item} key={item.uuid} onClick={addRemoveClick}/>
+    <FilterItem parentUuid={parentUuid} {...item} key={item.uuid} onClick={addRemoveClick}/>
 
   createToggleSubSection: (filterType, parent, child, isOpen) ->
 
@@ -168,7 +201,7 @@ module.exports = React.createClass
       {child.label}
     </a>
 
-  createMultiSelectBox: (child, current, filterType) ->
+  createMultiSelectBox: (child, current, filterType, allowSelectAll) ->
 
     showRemoveAll = f.any(child.children, 'selected')
     showSelectAll = child.multi and not showRemoveAll
@@ -186,7 +219,7 @@ module.exports = React.createClass
         <Icon i={icon}/>
       </Link>
 
-    if showSelectAll
+    if showSelectAll && allowSelectAll
       title = 'Jegliche Werte'
       icon = 'checkbox'
       iclass = 'active' if child.selected
@@ -273,7 +306,7 @@ module.exports = React.createClass
       accordion: @state.accordion
     }) if onChange
 
-FilterItem = ({label, uuid, selected, href, count, onClick} = @props) ->
+FilterItem = ({parentUuid, label, uuid, selected, href, count, onClick} = @props) ->
   label = f.presence(label or uuid) or (
     console.error('empty FilterItem label!') and '(empty)')
   <li className={css('ui-side-filter-lvl3-item', active: selected)}>
@@ -342,7 +375,7 @@ initializeItems = (filters) ->
   items = []
   for i, filter of filters
     item = {
-      label: filter.label
+      label: (if filter.detailed_name then filter.detailed_name else filter.label)
       uuid: filter.uuid
       count: filter.count
       selected: false

@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 module Presenters
   module Shared
     # Provides configuration for Filters in UI
@@ -9,29 +10,23 @@ module Presenters
     class DynamicFilters < Presenter
       include Presenters::Shared::Modules::VocabularyConfig
 
-      def initialize(user, scope, tree)
+      def initialize(user, scope, tree, existing_filters)
         @user = user
         @scope = scope
         @tree = tree || {}
         @resource_type = scope.model or fail 'TypeError! (Expected AR Scope)'
-        # TMP:
-        # unless @resource_type == MediaEntry
-        #   fail 'TypeError! (Expected Entry scope)'
-        # end
+        @existing_filters = existing_filters
       end
 
       def list
         [
-          # TMP disabled:
           (media_files(@scope, @tree) if @resource_type == MediaEntry),
-          # permissions(@scope, @tree),
+          permissions(@scope),
           meta_data(@scope, @tree)
         ].flatten.compact
       end
 
       private
-
-      # "top-level" sections (just for readabilty):
 
       def media_files(scope, tree)
         if @resource_type == MediaEntry
@@ -39,10 +34,129 @@ module Presenters
         end
       end
 
-      # def permissions(scope, tree)
-      #   children = get_key(tree, :permissions)
-      #   permissions_filter(scope, children)
-      # end
+      def permissions(scope)
+        children = [
+          permissions_visibility(scope),
+          permissions_responsible_user(scope),
+          permissions_entrusted_to_user(scope),
+          permissions_entrusted_to_group(scope)
+        ].compact
+
+        unless children.empty?
+          {
+            label: 'Berechtigung',
+            uuid: 'permissions',
+            position: 2,
+            children: children
+          }
+        end
+      end
+
+      def permissions_visibility(scope)
+        filters = [
+          (
+            { label: 'Öffentlich', uuid: 'public' } if (
+              scope.filter_by_visibility_public.count > 0
+            )
+          ),
+          (
+            { label: 'Geteilt', uuid: 'shared' } if (
+              scope.filter_by_visibility_shared.count > 0
+            )
+          ),
+          (
+            { label: 'Privat', uuid: 'private' } if (
+              scope.filter_by_visibility_private.count > 0
+            )
+          )
+        ].compact
+
+        unless filters.empty?
+          {
+            label: 'Sichtbarkeit',
+            uuid: 'visibility',
+            children: filters
+          }
+        end
+      end
+
+      def permissions_responsible_user(scope)
+        responsible_user_ids = scope.reorder(:responsible_user_id).select(
+          @resource_type.select('responsible_user_id').arel.projections).uniq
+        users_scope = User.where("users.id IN (#{responsible_user_ids.to_sql})")
+
+        users = users_scope
+          .map { |u| Presenters::Users::UserIndex.new(u) }
+
+        if users.count > 0
+          {
+            label: 'Verantwortliche Person',
+            uuid: 'responsible_user',
+            children: users
+          }
+        end
+      end
+
+      def permissions_entrusted_to_user(scope)
+        users = entrusted_groups_or_users_for_scope(scope, User)
+          .map { |u| Presenters::Users::UserIndex.new(u) }
+
+        if users.count > 0
+          {
+            label: 'Sichtbar für Person',
+            uuid: 'entrusted_to_user',
+            children: users
+          }
+        end
+      end
+
+      def permissions_entrusted_to_group(scope)
+        groups = entrusted_groups_or_users_for_scope(scope, Group)
+          .map { |u| Presenters::Groups::GroupIndex.new(u) }
+
+        if groups.count > 0
+          {
+            label: 'Sichtbar für Gruppe',
+            uuid: 'entrusted_to_group',
+            children: groups
+          }
+        end
+      end
+
+      def entrusted_groups_or_users_for_scope(scope, group_or_user)
+        singular = group_or_user.name.underscore
+        plural = singular.pluralize
+        group_or_user.where(
+          "#{plural}.id IN (#{project_entity_id(scope, group_or_user).to_sql})")
+      end
+
+      def project_entity_id(scope, group_or_user)
+        singular = group_or_user.name.underscore
+        permissions_scope(scope, group_or_user).select(
+          @resource_type.select("#{singular}_id").arel.projections).uniq
+      end
+
+      def permissions_scope(scope, group_or_user)
+        name = group_or_user.name
+        singular = name.underscore
+        resource_underscore = @resource_type.name.underscore
+        "Permissions::#{@resource_type.name}#{name}Permission".constantize.where(
+          <<-SQL
+            #{resource_underscore}_#{singular}_permissions.#{resource_underscore}_id
+            IN (#{project_resource_id(scope).to_sql})
+          SQL
+        ).where(
+          <<-SQL
+            #{resource_underscore}_#{singular}_permissions.get_metadata_and_previews = true
+          SQL
+        )
+      end
+
+      def project_resource_id(scope)
+        scope.reorder(:id).select(
+          @resource_type.select('id').arel.projections
+        ).uniq
+      end
 
       def meta_data(scope, _tree)
         # TODO: ui_context_list = contexts_for_dynamic_filters (when in Admin UI)
@@ -63,9 +177,6 @@ module Presenters
           end
       end
 
-      # helpers
-
-      # TMP disabled
       def media_files_filters(scope, _children)
         media_types = FilterBarQuery.get_media_types_unsafe(scope)
         extensions = FilterBarQuery.get_extensions_unsafe(scope)
@@ -97,81 +208,10 @@ module Presenters
           children: children }
       end
 
-      # TMP disabled
-      # def permissions_filter(scope, children)
-      #   { label: 'Berechtigung',
-      #     uuid: 'permissions',
-      #     position: 2,
-      #     children: children.present? ? nil : [
-      #       permissions_filter_responsible_users(scope, children),
-      #       permissions_filter_entrusted_to_user(scope, children),
-      #       permissions_filter_entrusted_to_group(scope, children),
-      #       permissions_filter_public(scope, children)] }
-      # end
-      #
-      # def permissions_filter_responsible_users(scope, children)
-      #   users = if get_key(children, :responsible_user)
-      #             scope.map(&:responsible_user)
-      #               .uniq
-      #               .map { |u| Presenters::Users::UserIndex.new(u) }
-      #           end
-      #   { label: 'Verantwortliche Person',
-      #     uuid: 'responsible_user',
-      #     children: users }
-      # end
-      #
-      # def permissions_filter_entrusted_to_user(scope, children)
-      #   users = if get_key(children, :entrusted_to_user)
-      #             permission_subjects(scope, :user, :get_metadata_and_previews)
-      #           end
-      #   { label: 'Sichtbar für Person',
-      #     uuid: 'entrusted_to_user',
-      #     multi: true,
-      #     children: users }
-      # end
-      #
-      # def permissions_filter_entrusted_to_group(scope, children)
-      #   groups = if get_key(children, :entrusted_to_group)
-      #              permission_subjects(scope, :group, :get_metadata_and_previews)
-      #            end
-      #   { label: 'Sichtbar für Gruppe',
-      #     multi: true,
-      #     uuid: 'entrusted_to_group',
-      #     children: groups }
-      # end
-      #
-      # def permissions_filter_public(_scope, children)
-      #   # FIXME: use scope, children; do usage count…
-      #   bools = if get_key(children, :public)
-      #             [
-      #               { label: 'Öffentlich', uuid: true },
-      #               { label: 'Nicht öffentlich', uuid: false }]
-      #           end
-      #   { label: 'Öffentlicher Zugriff',
-      #     uuid: 'public',
-      #     children: bools }
-      # end
-      #
-      # def permission_subjects(scope, type, action)
-      #   # TODO: usage count
-      #   klass = type.to_s.capitalize
-      #   permision = "Permissions::MediaEntry#{klass}Permission".constantize
-      #   presenter = "Presenters::#{klass.pluralize}::#{klass}Index".constantize
-      #   scope
-      #     .map { |e| permision.where(action => true).where(media_entry: e) }
-      #     .flatten.compact
-      #     .map(&type)
-      #     .uniq
-      #     .map { |s| presenter.new(s) }
-      # end
-      #
-      # def items_from_strings(list)
-      #   list.map { |str| { uuid: str } }
-      # end
-      #
       def get_key(children, key)
         children.try(:fetch, key, false)
       end
     end
   end
 end
+# rubocop:enable Metrics/ClassLength

@@ -23,7 +23,7 @@ class MediaEntriesController < ApplicationController
     resources = auth_policy_scope(current_user, model_klass)
     @get = presenterify(resources, nil)
 
-    if !filename_filter? && @get.resources.empty?
+    if !media_files_filter? && @get.resources.empty?
       collections = auth_policy_scope(current_user, Collection)
       collections_get = presenterify(
         collections, Presenters::Collections::Collections)
@@ -150,10 +150,8 @@ class MediaEntriesController < ApplicationController
 
   private
 
-  def filename_filter?
-    media_files_filter = resource_list_params[:filter].try(:[], :media_files)
-    return false unless media_files_filter
-    !media_files_filter.select { |entry| entry[:key] == 'filename' }.empty?
+  def media_files_filter?
+    return true if resource_list_params[:filter].try(:[], :media_files)
   end
 
   def find_resource

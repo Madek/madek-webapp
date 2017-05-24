@@ -66,7 +66,8 @@ module Presenters
           scope = \
             @conf[:filter] ? @scope.filter_by(@user, @conf[:filter]) : @scope
           tree = @conf[:dyn_filter]
-          Presenters::Shared::DynamicFilters.new(@user, scope, tree).list
+          Presenters::Shared::DynamicFilters.new(
+            @user, scope, tree, @conf[:filter]).list
         end
 
         private
