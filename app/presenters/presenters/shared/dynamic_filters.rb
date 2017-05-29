@@ -98,7 +98,7 @@ module Presenters
       end
 
       def permissions_entrusted_to_user(scope)
-        users = entrusted_groups_or_users_for_scope(scope, User)
+        users = entrusted_users_for_scope(scope)
           .map { |u| Presenters::Users::UserIndex.new(u) }
 
         if users.count > 0
@@ -111,7 +111,7 @@ module Presenters
       end
 
       def permissions_entrusted_to_group(scope)
-        groups = entrusted_groups_or_users_for_scope(scope, Group)
+        groups = entrusted_groups_for_scope(scope)
           .map { |u| Presenters::Groups::GroupIndex.new(u) }
 
         if groups.count > 0
@@ -123,33 +123,59 @@ module Presenters
         end
       end
 
-      def entrusted_groups_or_users_for_scope(scope, group_or_user)
-        singular = group_or_user.name.underscore
-        plural = singular.pluralize
-        group_or_user.where(
-          "#{plural}.id IN (#{project_entity_id(scope, group_or_user).to_sql})")
+      def entrusted_users_for_scope(scope)
+        resource_ids = project_resource_id(scope)
+        user_ids_sql = permissions_scope_user(resource_ids)
+        User.where(
+          "users.id IN (#{user_ids_sql})")
       end
 
-      def project_entity_id(scope, group_or_user)
-        singular = group_or_user.name.underscore
-        permissions_scope(scope, group_or_user).select(
-          @resource_type.select("#{singular}_id").arel.projections).uniq
+      def entrusted_groups_for_scope(scope)
+        resource_ids = project_resource_id(scope)
+        group_ids_sql = permissions_scope_group(resource_ids)
+        Group.where(
+          "groups.id IN (#{group_ids_sql})")
       end
 
-      def permissions_scope(scope, group_or_user)
-        name = group_or_user.name
-        singular = name.underscore
-        resource_underscore = @resource_type.name.underscore
-        "Permissions::#{@resource_type.name}#{name}Permission".constantize.where(
-          <<-SQL
-            #{resource_underscore}_#{singular}_permissions.#{resource_underscore}_id
-            IN (#{project_resource_id(scope).to_sql})
-          SQL
-        ).where(
-          <<-SQL
-            #{resource_underscore}_#{singular}_permissions.get_metadata_and_previews = true
-          SQL
-        )
+      def permissions_scope_user(projected)
+        singular = @resource_type.name.underscore
+        <<-SQL
+          select distinct
+            user_id
+          from (
+            select distinct
+              user_id
+            from
+                #{singular}_user_permissions
+            where
+                #{singular}_user_permissions.  #{singular}_id in (#{projected.to_sql})
+              and   #{singular}_user_permissions.get_metadata_and_previews = true
+
+            union
+
+            select distinct
+              user_id
+            from
+                #{singular}_group_permissions, groups_users
+            where
+                #{singular}_group_permissions.  #{singular}_id in (#{projected.to_sql})
+              and   #{singular}_group_permissions.get_metadata_and_previews = true
+              and groups_users.group_id =   #{singular}_group_permissions.group_id
+          ) as user_ids
+        SQL
+      end
+
+      def permissions_scope_group(projected)
+        singular = @resource_type.name.underscore
+        <<-SQL
+          select distinct
+        		group_id
+        	from
+        		  #{singular}_group_permissions
+        	where
+        		  #{singular}_group_permissions.  #{singular}_id in (#{projected.to_sql})
+        		and   #{singular}_group_permissions.get_metadata_and_previews = true
+        SQL
       end
 
       def project_resource_id(scope)
