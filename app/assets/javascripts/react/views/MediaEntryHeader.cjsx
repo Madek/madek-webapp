@@ -31,7 +31,7 @@ module.exports = React.createClass
           onClick = (event) => @_onClick(button.async_action)
         <HeaderButton key={button.action}
           onClick={onClick}
-          icon={button.icon} title={button.title} name={button.action}
+          icon={button.icon} fa={button.fa} title={button.title} name={button.action}
           href={button.action} method={button.method} authToken={authToken}/>
       }
     </PageContentHeader>

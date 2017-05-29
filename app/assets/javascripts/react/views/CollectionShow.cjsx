@@ -22,6 +22,7 @@ MetaDataByListing = require('../decorators/MetaDataByListing.cjsx')
 TagCloud = require('../ui-components/TagCloud.cjsx')
 resourceName = require('../lib/decorate-resource-names.coffee')
 UsageData = require('../decorators/UsageData.cjsx')
+Share = require('./Shared/Share.cjsx')
 
 
 parseUrlState = (location) ->
@@ -54,6 +55,7 @@ module.exports = React.createClass
     isMounted: false
     urlState: parseUrlState(@props.for_url)
     selectCollectionModal: false
+    shareModal: false
   }
 
   componentDidMount: () ->
@@ -66,6 +68,8 @@ module.exports = React.createClass
   _onClick: (asyncAction) ->
     if asyncAction == 'select_collection'
       @setState(selectCollectionModal: true)
+    else if asyncAction == 'share'
+      @setState(shareModal: true)
 
 
   render: ({authToken, get} = @props, {isMounted, urlState} = @state) ->
@@ -86,15 +90,33 @@ module.exports = React.createClass
           extractGet = (json) =>
             json.collection_selection
 
-
-
           getUrl = get.header.url + '/select_collection?___sparse={collection_selection":{}}'
           <AsyncModal get={get.collection_selection} getUrl={getUrl}
               contentForGet={contentForGet} extractGet={extractGet} />
 
-
       }
 
+
+      {
+        if @state.shareModal
+
+          onClose = () =>
+            @setState(shareModal: false)
+
+          contentForGet = (get) =>
+            <Share
+              fullPage={false}
+              get={get} async={true}
+              authToken={@props.authToken} onClose={onClose} />
+
+          extractGet = (json) =>
+            json
+
+          getUrl = get.header.url + '/share'
+          <AsyncModal widthInPixel={800} get={null} getUrl={getUrl}
+              contentForGet={contentForGet} extractGet={extractGet} />
+
+      }
 
       <MediaEntryHeader authToken={authToken} get={get.header}
         async={isMounted}

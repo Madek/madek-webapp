@@ -59,8 +59,8 @@ module.exports = React.createClass
     # TODO: Should this first be rendered with loading false in initial state?
     # if @state.loading or (@props.async and not @state.mounted)
     if not @state.get
-      <Modal loading={true} />
+      <Modal loading={true} widthInPixel={@props.widthInPixel} />
     else
-      <Modal loading={false}>
+      <Modal loading={false} widthInPixel={@props.widthInPixel}>
         {@state.children}
       </Modal>

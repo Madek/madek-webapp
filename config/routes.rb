@@ -23,6 +23,8 @@ Madek::Application.routes.draw do
       get 'usage_data'
       get 'list_meta_data'
 
+      get 'share'
+
       patch 'favor', to: 'media_entries#favor'
       patch 'disfavor', to: 'media_entries#disfavor'
 
@@ -89,6 +91,8 @@ Madek::Application.routes.draw do
       patch 'favor', to: 'collections#favor'
       patch 'disfavor', to: 'collections#disfavor'
       get 'ask_delete', action: :ask_delete, as: 'ask_delete'
+
+      get 'share'
 
       put 'transfer_responsibility', action: :update_transfer_responsibility, as: 'update_transfer_responsibility'
 

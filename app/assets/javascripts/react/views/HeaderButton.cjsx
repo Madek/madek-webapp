@@ -13,13 +13,18 @@ module.exports = React.createClass
       @props.onClick(event)
     return false
 
-  render: ({authToken, href, method, icon, title, name} = @props) ->
+  render: ({authToken, href, method, icon, fa, title, name} = @props) ->
     method = 'post' if not method
-    icon = 'icon-' + icon
     onClick = @_onClick if @props.onClick
     <RailsForm className='button_to' name='' method={method} action={href} authToken={authToken}>
       <button className="button" type="submit" title={title} onClick={onClick}>
-        <i className={icon}></i>
+        {
+          if icon
+            icon = 'icon-' + icon
+            <i className={icon}></i>
+          else if fa
+            <span className={fa}></span>
+        }
       </button>
       {@props.children}
     </RailsForm>

@@ -15,6 +15,7 @@ class MediaEntriesController < ApplicationController
   include Modules::Resources::ResourceCustomUrls
   include Modules::Resources::ResourceTransferResponsibility
   include Modules::Resources::BatchResourceTransferResponsibility
+  include Modules::Resources::Share
 
   # used in Concerns::ResourceListParams
   ALLOWED_FILTER_PARAMS = [:search, :meta_data, :media_files, :permissions].freeze

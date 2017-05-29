@@ -13,6 +13,7 @@ class CollectionsController < ApplicationController
   include Modules::Resources::ResourceCustomUrls
   include Modules::Resources::ResourceTransferResponsibility
   include Modules::Resources::BatchResourceTransferResponsibility
+  include Modules::Resources::Share
 
   ALLOWED_SORTING = [
     'created_at ASC',
