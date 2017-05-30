@@ -135,7 +135,6 @@ module.exports = React.createClass
       config: React.PropTypes.shape(viewConfigProps) # <- config that is part of the URL!
       user_config: React.PropTypes.shape( # <- subset that is *also* stored per session
         f.pick(viewConfigProps, 'layout', 'order', 'show_filter'))
-      dynamic_filters: React.PropTypes.array
 
   getDefaultProps: ()->
     fallback: true
@@ -284,13 +283,6 @@ module.exports = React.createClass
     # make sure that the new result starts on page 1
     newLocation = boxSetUrlParams(@_currentUrl(), newParams, {list: {page: 1}})
     window.location = newLocation # SYNC!
-
-  _onFilterToggle: (event)->
-    # NOTE: if dynfilters are loaded, just open/close sidebar in client
-    if f.present(f.get(@props, ['get', 'dynamic_filters']))
-      event.preventDefault()
-      @_handleChangeInternally(event)
-    return undefined
 
   _onSearch: (event)->
 
@@ -757,7 +749,7 @@ module.exports = React.createClass
           name = 'Filtern'
           <div>
             <Button data-test-id='filter-button' name={name} mods={'active': config.show_filter}
-              href={filterToggleLink} onClick={@_onFilterToggle}>
+              href={filterToggleLink}>
               <Icon i='filter' mods='small'/> {name}
             </Button>
             {if f.present(config.filter) then resetFilterLink}
@@ -832,13 +824,14 @@ module.exports = React.createClass
                 }
               </form>
             </div>
-            {if (f.isArray(dynamic_filters) and f.present(f.isArray(dynamic_filters)))
-              <SideFilter
-                for_url={@props.for_url}
-                dynamic={dynamic_filters}
-                current={config.filter or {}}
-                accordion={config.accordion or {}}
-                onChange={@_onSideFilterChange}/>
+            {
+              unless get.only_filter_search
+                <SideFilter
+                  for_url={@props.get.config.for_url}
+                  jsonPath={@state.resources.getJsonPath()}
+                  current={config.filter or {}}
+                  accordion={config.accordion or {}}
+                  onChange={@_onSideFilterChange}/>
             }
           </div>
         }

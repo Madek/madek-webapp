@@ -21,6 +21,7 @@ module Presenters
         attr_reader :resources, :pagination, :with_actions, :can_filter, :type
         attr_accessor :try_collections
         attr_accessor :disable_file_search
+        attr_reader :only_filter_search
 
         def initialize(
             scope, user, list_conf: nil, item_type: nil,
@@ -60,6 +61,7 @@ module Presenters
         end
 
         def dynamic_filters
+          return unless @conf[:sparse_filter]
           return if @only_filter_search
           return unless @conf[:show_filter] # and @type == 'MediaEntries'
           # NOTE: scope is pre-filtered, but not paginated!
@@ -67,8 +69,8 @@ module Presenters
             @conf[:filter] ? @scope.filter_by(@user, @conf[:filter]) : @scope
           tree = @conf[:dyn_filter]
           Presenters::Shared::DynamicFilters.new(
-            @user, scope, tree, @conf[:filter], @conf[:sparse_filter]
-          ).list
+            @user, scope, tree, @conf[:filter]
+          )
         end
 
         private

@@ -10,27 +10,29 @@ module Presenters
     class DynamicFilters < Presenter
       include Presenters::Shared::Modules::VocabularyConfig
 
-      def initialize(user, scope, tree, existing_filters, sparse_filter)
+      def initialize(user, scope, tree, existing_filters)
         @user = user
         @scope = scope
         @tree = tree || {}
         @resource_type = scope.model or fail 'TypeError! (Expected AR Scope)'
         @existing_filters = existing_filters
-        @sparse_filter = sparse_filter
       end
 
-      def list
-        [
-          (media_files(@scope, @tree) if @resource_type == MediaEntry),
-          permissions(@scope),
-          meta_data(@scope, @tree)
-        ].flatten.compact
+      def section_media_files
+        media_files(@scope, @tree)
+      end
+
+      def section_meta_data
+        meta_data(@scope, @tree)
+      end
+
+      def section_permissions
+        permissions(@scope)
       end
 
       private
 
       def media_files(scope, tree)
-        return if @sparse_filter
         if @resource_type == MediaEntry
           media_files_filters(scope, get_key(tree, :media_files))
         end
@@ -57,7 +59,6 @@ module Presenters
       end
 
       def permissions_visibility(scope)
-        return if @sparse_filter
         filters = [
           (
             { label: 'Öffentlich', uuid: 'public' } if (
@@ -86,14 +87,6 @@ module Presenters
       end
 
       def permissions_responsible_user(scope)
-        unless @sparse_filter == 'responsible_user'
-          return {
-            label: 'Verantwortliche Person',
-            uuid: 'responsible_user',
-            children: []
-          }
-        end
-
         users = responsible_users_for_scope(scope)
           .map { |u| Presenters::Users::UserIndex.new(u) }
 
@@ -105,14 +98,6 @@ module Presenters
       end
 
       def permissions_entrusted_to_user(scope)
-        unless @sparse_filter == 'entrusted_to_user'
-          return {
-            label: 'Sichtbar für Person',
-            uuid: 'entrusted_to_user',
-            children: []
-          }
-        end
-
         users = entrusted_users_for_scope(scope)
           .map { |u| Presenters::Users::UserIndex.new(u) }
 
@@ -124,14 +109,6 @@ module Presenters
       end
 
       def permissions_entrusted_to_group(scope)
-        unless @sparse_filter == 'entrusted_to_group'
-          return {
-            label: 'Sichtbar für Gruppe',
-            uuid: 'entrusted_to_group',
-            children: []
-          }
-        end
-
         groups = entrusted_groups_for_scope(scope)
           .map { |u| Presenters::Groups::GroupIndex.new(u) }
 
@@ -235,7 +212,6 @@ module Presenters
       end
 
       def meta_data(scope, _tree)
-        return if @sparse_filter
         # TODO: ui_context_list = contexts_for_dynamic_filters (when in Admin UI)
         ui_context_list = _contexts_for_dynamic_filters # from VocabularyConfig
         return unless ui_context_list.present?

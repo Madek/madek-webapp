@@ -11,10 +11,20 @@ Icon = require('../Icon.cjsx')
 Link = require('../Link.cjsx')
 UserFilter = require('./UserFilter.cjsx')
 
+Preloader = require('../Preloader.cjsx')
+
+parseUrl = require('url').parse
+parseQuery = require('qs').parse
+setUrlParams = require('../../../lib/set-params-for-url.coffee')
+libUrl = require('url')
+qs = require('qs')
+
+loadXhr = require('../../../lib/load-xhr.coffee')
+
 module.exports = React.createClass
   displayName: 'SideFilter'
   propTypes:
-    dynamic: React.PropTypes.array.isRequired
+    dynamic: React.PropTypes.array
     accordion: React.PropTypes.objectOf(React.PropTypes.object).isRequired
     current: MadekPropTypes.resourceFilter.isRequired
     onChange: React.PropTypes.func
@@ -64,29 +74,103 @@ module.exports = React.createClass
   getInitialState: () ->
     javascript: false
     accordion: @props.accordion or {}
+    dynamic: []
+    loaded: []
 
   componentDidMount: () ->
     @setState(javascript: true)
 
-  componentWillMount: () ->
-    f.each(@props.current.meta_data, (meta_datum) =>
-      f.each(@props.dynamic, (section) =>
-        f.each(section.children, (subSection) =>
-          f.each(subSection.children, (filter) =>
-            if filter.uuid == meta_datum.value
-              @getAccordionSection(section.filter_type + '-' + section.uuid).isOpen = true
-              @getAccordionSubSection(section.filter_type + '-' + section.uuid, subSection.uuid).isOpen = true
-          )
+    @_loadData()
+
+  # _updateAccordion: () ->
+  #   f.each(@props.current.meta_data, (meta_datum) =>
+  #     f.each(@state.dynamic, (section) =>
+  #       f.each(section.children, (subSection) =>
+  #         f.each(subSection.children, (filter) =>
+  #           if filter.uuid == meta_datum.value
+  #             @getAccordionSection(section.filter_type + '-' + section.uuid).isOpen = true
+  #             @getAccordionSubSection(section.filter_type + '-' + section.uuid, subSection.uuid).isOpen = true
+  #         )
+  #       )
+  #     )
+  #   )
+  #   @setState(accordion: @state.accordion)
+
+
+  _loadData: () ->
+    currentUrl = @props.for_url
+    currentParams = parseQuery(currentUrl.query)
+    newParams = f.cloneDeep(currentParams)
+
+    unless newParams.list
+      newParams.list = {}
+
+    newParams.list.sparse_filter = true
+
+
+    f.each(
+      ['section_media_files', 'section_meta_data', 'section_permissions'],
+      (key) =>
+
+
+        jsonPath = @props.jsonPath
+        jsonPath = jsonPath.substring(0, jsonPath.length - 'resources'.length)
+        jsonPath += 'dynamic_filters.' + key
+
+        loadXhr(
+          {
+            method: 'GET'
+            url: setUrlParams(currentUrl, newParams, {
+              ___sparse: JSON.stringify(f.set({}, jsonPath, {}))
+            })
+          },
+          (result, json) =>
+            return unless @isMounted()
+            if result == 'success'
+
+              new_loaded = f.clone(@state.loaded)
+              new_loaded.push(key)
+
+              new_dynamic = f.clone(@state.dynamic)
+
+              element = f.get(json, jsonPath)
+              if element
+
+
+                if key == 'section_media_files'
+                  new_dynamic.splice(0, 0, element)
+
+                else if key == 'section_permissions'
+                  if f.includes(@state.loaded, 'section_media_files')
+                    new_dynamic.splice(1, 0, element)
+                  else
+                    new_dynamic.splice(0, 0, element)
+
+                else
+                  new_dynamic = new_dynamic.concat(element)
+
+                new_dynamic = f.flatten(new_dynamic)
+
+              @setState(dynamic: new_dynamic, loaded: new_loaded)
+
+              # @_updateAccordion()
+            else
+              console.log('Could not load side filter data.')
         )
       )
-    )
-    @setState(accordion: @state.accordion)
 
 
-  render: ({dynamic, current, accordion} = @props)->
-    # TMP: ignore invalid dynamicFilters
-    if !(f.isArray(dynamic) and f.present(f.isArray(dynamic)))
-      return null
+  render: ({current, accordion} = @props)->
+    # # TMP: ignore invalid dynamicFilters
+    # if !(f.isArray(dynamic) and f.present(f.isArray(dynamic)))
+    #   return null
+
+
+    dynamic = @state.dynamic
+
+    unless dynamic
+      return <Preloader mods='small' />
+
 
     # Clone the current filters, so as we can manipulate them
     # to give the result back to the parent component.
@@ -99,6 +183,10 @@ module.exports = React.createClass
     <ul className={baseClass} data-test-id='side-filter'>
       {f.map filters, (filter) =>
         @renderSection(current, filter)
+      }
+      {
+        if @state.loaded.length < 3
+          <Preloader mods='small' />
       }
     </ul>
 
@@ -175,7 +263,7 @@ module.exports = React.createClass
 
     placeholder = placeholders[parent.uuid]
 
-    <UserFilter currentFilters={@props.current} for_url={@props.for_url} parentUuid={parentUuid} node={node} userChanged={userChanged} placeholder={placeholder} togglebodyClass={togglebodyClass} />
+    <UserFilter node={node} userChanged={userChanged} placeholder={placeholder} togglebodyClass={togglebodyClass} />
 
   renderItem: (parentUuid, current, parent, item, filterType) ->
 

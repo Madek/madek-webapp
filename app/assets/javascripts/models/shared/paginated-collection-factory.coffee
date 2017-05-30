@@ -87,24 +87,11 @@ module.exports = (collectionClass, {jsonPath})->
       throw new Error('Callback missing!') if (!f.isFunction(callback))
       return callback(null) if (not @currentPage) && @currentPage != 0
 
-      path = @url.pathname
-      if path.indexOf('/relations/children') > 0 or path.indexOf('/relations/siblings') > 0 or path.indexOf('/relations/parents') > 0
-        jsonPath = 'relation_resources.resources'
-
-      if path.indexOf('/vocabulary') == 0 and path.indexOf('/contents') > 0
-        jsonPath = 'resources.resources'
-
-      if path.indexOf('/my/groups') == 0
-        jsonPath = 'resources.resources'
-
-      if path.indexOf('/vocabulary/keyword') == 0
-        jsonPath = 'keyword.resources.resources'
-
       nextPage = (@currentPage + 1)
       nextUrl = setUrlParams(
         @url,
         {list: {page: nextPage}},
-        {___sparse: JSON.stringify(f.set({}, jsonPath, {}))})
+        {___sparse: JSON.stringify(f.set({}, @getJsonPath(), {}))})
 
       # We compare the request id when sending started
       # with the request id when the answer arrives and
@@ -121,42 +108,46 @@ module.exports = (collectionClass, {jsonPath})->
           if err || res.statusCode > 400
             return callback(err || body)
 
-          @resources.add(f.get(body, jsonPath))
+          @resources.add(f.get(body, @getJsonPath()))
           @set({currentPage: nextPage})
           @fetchListData() if fetchListData
           callback(null)
       ))
 
-    fetchAllResourceIds: (callback)->
-      throw new Error('Callback missing!') if (!f.isFunction(callback))
+    getJsonPath: () ->
 
       path = @url.pathname
       if path.indexOf('/relations/children') > 0 or path.indexOf('/relations/siblings') > 0 or path.indexOf('/relations/parents') > 0
-        jsonPath = 'relation_resources.resources'
+        return 'relation_resources.resources'
 
       if path.indexOf('/vocabulary') == 0 and path.indexOf('/contents') > 0
-        jsonPath = 'resources.resources'
+        return 'resources.resources'
 
       if path.indexOf('/my/groups') == 0
-        jsonPath = 'resources.resources'
+        return 'resources.resources'
 
       if path.indexOf('/vocabulary/keyword') == 0
-        jsonPath = 'keyword.resources.resources'
+        return 'keyword.resources.resources'
+
+      jsonPath
+
+    fetchAllResourceIds: (callback)->
+      throw new Error('Callback missing!') if (!f.isFunction(callback))
 
       nextUrl = setUrlParams(
         @url,
         {list: {page: 1, per_page: @totalCount}},
-        {___sparse: JSON.stringify(f.set({}, jsonPath, [{uuid: {}, type: {}}]))})
+        {___sparse: JSON.stringify(f.set({}, @getJsonPath(), [{uuid: {}, type: {}}]))})
 
       return xhr.get(
         {url: nextUrl, json: true },
-        (err, res, body) -> (
+        (err, res, body) => (
           if err || res.statusCode > 400
             return callback({result: 'error'})
 
           callback({
             result: 'success',
-            data: f.get(body, jsonPath)
+            data: f.get(body, @getJsonPath())
           })
       ))
 
