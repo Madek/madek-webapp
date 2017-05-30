@@ -30,6 +30,7 @@ module Presenters
       private
 
       def media_files(scope, tree)
+        return if @sparse_filter
         if @resource_type == MediaEntry
           media_files_filters(scope, get_key(tree, :media_files))
         end
@@ -56,6 +57,7 @@ module Presenters
       end
 
       def permissions_visibility(scope)
+        return if @sparse_filter
         filters = [
           (
             { label: 'Öffentlich', uuid: 'public' } if (
@@ -233,6 +235,7 @@ module Presenters
       end
 
       def meta_data(scope, _tree)
+        return if @sparse_filter
         # TODO: ui_context_list = contexts_for_dynamic_filters (when in Admin UI)
         ui_context_list = _contexts_for_dynamic_filters # from VocabularyConfig
         return unless ui_context_list.present?
