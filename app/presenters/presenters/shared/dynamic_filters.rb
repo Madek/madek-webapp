@@ -92,11 +92,7 @@ module Presenters
           }
         end
 
-        responsible_user_ids = scope.reorder(:responsible_user_id).select(
-          @resource_type.select('responsible_user_id').arel.projections).uniq
-        users_scope = User.where("users.id IN (#{responsible_user_ids.to_sql})")
-
-        users = users_scope
+        users = responsible_users_for_scope(scope)
           .map { |u| Presenters::Users::UserIndex.new(u) }
 
         {
@@ -144,51 +140,80 @@ module Presenters
         }
       end
 
+      def responsible_users_for_scope(scope)
+        user_ids_sql = responsible_user_ids(scope)
+        User.where(
+          "users.id IN (#{user_ids_sql})")
+      end
+
       def entrusted_users_for_scope(scope)
-        user_ids_sql = permissions_scope_user(scope)
+        user_ids_sql = entrusted_user_ids(scope)
         User.where(
           "users.id IN (#{user_ids_sql})")
       end
 
       def entrusted_groups_for_scope(scope)
-        group_ids_sql = permissions_scope_group(scope)
+        group_ids_sql = entrusted_group_ids(scope)
         Group.where(
           "groups.id IN (#{group_ids_sql})")
       end
 
-      def permissions_scope_user(scope)
-        singular = @resource_type.name.underscore
+      def responsible_user_ids(scope)
         <<-SQL
 
-          with resource_ids as (
-            select scope.id from (#{scope.to_sql}) as scope
-          )
+          with
+            resources as (
+              #{scope.to_sql}
+            )
 
           select distinct
-            users.id
+            resources.responsible_user_id
           from
-            users
-          where exists(
+          	resources
 
-            select * from #{singular}_user_permissions, resource_ids
-            where
-              #{singular}_user_permissions.user_id = users.id
-              and #{singular}_user_permissions.get_metadata_and_previews = true
-              and #{singular}_user_permissions.#{singular}_id = resource_ids.id
-          )
-          or exists(
-
-            select *
-            from groups_users, #{singular}_group_permissions, resource_ids
-            where groups_users.user_id = users.id
-            and groups_users.group_id = #{singular}_group_permissions.group_id
-            and #{singular}_group_permissions.get_metadata_and_previews = true
-            and #{singular}_group_permissions.#{singular}_id = resource_ids.id
-          )
         SQL
       end
 
-      def permissions_scope_group(scope)
+      def entrusted_user_ids(scope)
+        singular = @resource_type.name.underscore
+        <<-SQL
+
+          with
+            resource_ids as (
+              select scope.id from (#{scope.to_sql}) as scope
+            ),
+            group_ids as (
+              select distinct
+              	group_id as id
+              from
+              	#{singular}_group_permissions, resource_ids
+              where
+              	#{singular}_group_permissions.get_metadata_and_previews = true
+              	and #{singular}_group_permissions.#{singular}_id = resource_ids.id
+
+            )
+
+          select distinct
+          	groups_users.user_id
+          from
+          	groups_users, group_ids
+          where
+          	groups_users.group_id = group_ids.id
+
+          union
+
+          select distinct
+          	#{singular}_user_permissions.user_id
+          from
+          	resource_ids, #{singular}_user_permissions
+          where
+            #{singular}_user_permissions.get_metadata_and_previews = true
+            and #{singular}_user_permissions.#{singular}_id = resource_ids.id
+
+        SQL
+      end
+
+      def entrusted_group_ids(scope)
         singular = @resource_type.name.underscore
         <<-SQL
 
@@ -199,18 +224,12 @@ module Presenters
           select distinct
         		#{singular}_group_permissions.group_id
         	from
-            #{singular}_group_permissions,
-            resource_ids
+            resource_ids, #{singular}_group_permissions
           where
-            #{singular}_group_permissions.#{singular}_id = resource_ids.id
-            and #{singular}_group_permissions.get_metadata_and_previews = true
-        SQL
-      end
+            #{singular}_group_permissions.get_metadata_and_previews = true
+            and #{singular}_group_permissions.#{singular}_id = resource_ids.id
 
-      def project_resource_id(scope)
-        scope.reorder(:id).select(
-          @resource_type.select('id').arel.projections
-        ).uniq
+        SQL
       end
 
       def meta_data(scope, _tree)
