@@ -85,7 +85,7 @@ module.exports = React.createClass
         <h2 className='title-l ui-info-box-title mbs'>
           {t('share_uuid_url_subtitle')}
         </h2>
-        {t('share_uuid_url_hint')}
+        {t('share_uuid_url_hint_' + @_typeUnderscore())}
         <div>
           <input className='mtm' type='text'
             value={@_uuidUrl()}
@@ -97,7 +97,7 @@ module.exports = React.createClass
         <h2 className='title-l ui-info-box-title mbs'>
           {t('share_custom_url_subtitle')}
         </h2>
-        {t('share_custom_url_hint')}
+        {t('share_custom_url_hint_' + @_typeUnderscore())}
         {
           if get.primary_custom_url
             <div>

@@ -27,9 +27,9 @@ module Presenters
           destroy_button,
           favor_button,
           select_collection_button,
+          share_button,
           export_button,
-          custom_urls_button,
-          share_button
+          custom_urls_button
         ]
         buttons.select do |tab|
           tab[:allowed] == true
@@ -109,7 +109,7 @@ module Presenters
           async_action: 'share',
           method: 'get',
           fa: 'fa fa-share',
-          title: I18n.t(:resource_action_share, raise: false),
+          title: I18n.t(:resource_action_share_media_entry, raise: false),
           action: share_media_entry_path(@app_resource),
           allowed: policy_for(@user).share?
         }
