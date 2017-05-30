@@ -10,12 +10,13 @@ module Presenters
     class DynamicFilters < Presenter
       include Presenters::Shared::Modules::VocabularyConfig
 
-      def initialize(user, scope, tree, existing_filters)
+      def initialize(user, scope, tree, existing_filters, sparse_filter)
         @user = user
         @scope = scope
         @tree = tree || {}
         @resource_type = scope.model or fail 'TypeError! (Expected AR Scope)'
         @existing_filters = existing_filters
+        @sparse_filter = sparse_filter
       end
 
       def list
@@ -35,6 +36,8 @@ module Presenters
       end
 
       def permissions(scope)
+        return nil if scope.count == 0
+
         children = [
           permissions_visibility(scope),
           permissions_responsible_user(scope),
@@ -81,6 +84,14 @@ module Presenters
       end
 
       def permissions_responsible_user(scope)
+        unless @sparse_filter == 'responsible_user'
+          return {
+            label: 'Verantwortliche Person',
+            uuid: 'responsible_user',
+            children: []
+          }
+        end
+
         responsible_user_ids = scope.reorder(:responsible_user_id).select(
           @resource_type.select('responsible_user_id').arel.projections).uniq
         users_scope = User.where("users.id IN (#{responsible_user_ids.to_sql})")
@@ -88,93 +99,111 @@ module Presenters
         users = users_scope
           .map { |u| Presenters::Users::UserIndex.new(u) }
 
-        if users.count > 0
-          {
-            label: 'Verantwortliche Person',
-            uuid: 'responsible_user',
-            children: users
-          }
-        end
+        {
+          label: 'Verantwortliche Person',
+          uuid: 'responsible_user',
+          children: users
+        }
       end
 
       def permissions_entrusted_to_user(scope)
+        unless @sparse_filter == 'entrusted_to_user'
+          return {
+            label: 'Sichtbar für Person',
+            uuid: 'entrusted_to_user',
+            children: []
+          }
+        end
+
         users = entrusted_users_for_scope(scope)
           .map { |u| Presenters::Users::UserIndex.new(u) }
 
-        if users.count > 0
-          {
-            label: 'Sichtbar für Person',
-            uuid: 'entrusted_to_user',
-            children: users
-          }
-        end
+        {
+          label: 'Sichtbar für Person',
+          uuid: 'entrusted_to_user',
+          children: users
+        }
       end
 
       def permissions_entrusted_to_group(scope)
+        unless @sparse_filter == 'entrusted_to_group'
+          return {
+            label: 'Sichtbar für Gruppe',
+            uuid: 'entrusted_to_group',
+            children: []
+          }
+        end
+
         groups = entrusted_groups_for_scope(scope)
           .map { |u| Presenters::Groups::GroupIndex.new(u) }
 
-        if groups.count > 0
-          {
-            label: 'Sichtbar für Gruppe',
-            uuid: 'entrusted_to_group',
-            children: groups
-          }
-        end
+        {
+          label: 'Sichtbar für Gruppe',
+          uuid: 'entrusted_to_group',
+          children: groups
+        }
       end
 
       def entrusted_users_for_scope(scope)
-        resource_ids = project_resource_id(scope)
-        user_ids_sql = permissions_scope_user(resource_ids)
+        user_ids_sql = permissions_scope_user(scope)
         User.where(
           "users.id IN (#{user_ids_sql})")
       end
 
       def entrusted_groups_for_scope(scope)
-        resource_ids = project_resource_id(scope)
-        group_ids_sql = permissions_scope_group(resource_ids)
+        group_ids_sql = permissions_scope_group(scope)
         Group.where(
           "groups.id IN (#{group_ids_sql})")
       end
 
-      def permissions_scope_user(projected)
+      def permissions_scope_user(scope)
         singular = @resource_type.name.underscore
         <<-SQL
+
+          with resource_ids as (
+            select scope.id from (#{scope.to_sql}) as scope
+          )
+
           select distinct
-            user_id
-          from (
-            select distinct
-              user_id
-            from
-                #{singular}_user_permissions
-            where
-                #{singular}_user_permissions.  #{singular}_id in (#{projected.to_sql})
-              and   #{singular}_user_permissions.get_metadata_and_previews = true
+            users.id
+          from
+            users
+          where exists(
 
-            union
-
-            select distinct
-              user_id
-            from
-                #{singular}_group_permissions, groups_users
+            select * from #{singular}_user_permissions, resource_ids
             where
-                #{singular}_group_permissions.  #{singular}_id in (#{projected.to_sql})
-              and   #{singular}_group_permissions.get_metadata_and_previews = true
-              and groups_users.group_id =   #{singular}_group_permissions.group_id
-          ) as user_ids
+              #{singular}_user_permissions.user_id = users.id
+              and #{singular}_user_permissions.get_metadata_and_previews = true
+              and #{singular}_user_permissions.#{singular}_id = resource_ids.id
+          )
+          or exists(
+
+            select *
+            from groups_users, #{singular}_group_permissions, resource_ids
+            where groups_users.user_id = users.id
+            and groups_users.group_id = #{singular}_group_permissions.group_id
+            and #{singular}_group_permissions.get_metadata_and_previews = true
+            and #{singular}_group_permissions.#{singular}_id = resource_ids.id
+          )
         SQL
       end
 
-      def permissions_scope_group(projected)
+      def permissions_scope_group(scope)
         singular = @resource_type.name.underscore
         <<-SQL
+
+          with resource_ids as (
+            select scope.id from (#{scope.to_sql}) as scope
+          )
+
           select distinct
-        		group_id
+        		#{singular}_group_permissions.group_id
         	from
-        		  #{singular}_group_permissions
-        	where
-        		  #{singular}_group_permissions.  #{singular}_id in (#{projected.to_sql})
-        		and   #{singular}_group_permissions.get_metadata_and_previews = true
+            #{singular}_group_permissions,
+            resource_ids
+          where
+            #{singular}_group_permissions.#{singular}_id = resource_ids.id
+            and #{singular}_group_permissions.get_metadata_and_previews = true
         SQL
       end
 

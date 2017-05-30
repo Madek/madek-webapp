@@ -834,6 +834,7 @@ module.exports = React.createClass
             </div>
             {if (f.isArray(dynamic_filters) and f.present(f.isArray(dynamic_filters)))
               <SideFilter
+                for_url={@props.for_url}
                 dynamic={dynamic_filters}
                 current={config.filter or {}}
                 accordion={config.accordion or {}}

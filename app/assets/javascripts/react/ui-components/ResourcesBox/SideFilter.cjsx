@@ -175,7 +175,7 @@ module.exports = React.createClass
 
     placeholder = placeholders[parent.uuid]
 
-    <UserFilter node={node} userChanged={userChanged} placeholder={placeholder} togglebodyClass={togglebodyClass} />
+    <UserFilter currentFilters={@props.current} for_url={@props.for_url} parentUuid={parentUuid} node={node} userChanged={userChanged} placeholder={placeholder} togglebodyClass={togglebodyClass} />
 
   renderItem: (parentUuid, current, parent, item, filterType) ->
 

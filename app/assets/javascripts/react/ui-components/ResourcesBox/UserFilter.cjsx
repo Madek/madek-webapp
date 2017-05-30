@@ -5,8 +5,17 @@ css = require('classnames')
 ui = require('../../lib/ui.coffee')
 MadekPropTypes = require('../../lib/madek-prop-types.coffee')
 
+loadXhr = require('../../../lib/load-xhr.coffee')
+
 Icon = require('../Icon.cjsx')
 Link = require('../Link.cjsx')
+Preloader = require('../Preloader.cjsx')
+
+parseUrl = require('url').parse
+parseQuery = require('qs').parse
+setUrlParams = require('../../../lib/set-params-for-url.coffee')
+libUrl = require('url')
+qs = require('qs')
 
 jQuery = null
 
@@ -14,14 +23,15 @@ module.exports = React.createClass
   displayName: 'UserFilter'
 
   getInitialState: () ->
-    {}
+    {
+      pending: true
+      node: @props.node
+    }
 
   componentDidMount: () ->
 
     jQuery = require('jquery')
     require('@eins78/typeahead.js/dist/typeahead.jquery.js')
-
-    node = @props.node
 
     domNode = ReactDOM.findDOMNode(@refs.testInput)
     jNode = jQuery(domNode)
@@ -45,20 +55,20 @@ module.exports = React.createClass
           '<div class="ui-autocomplete-override-sidebar">' + value.label + '</div>'
       },
       limit: Number.MAX_SAFE_INTEGER,
-      source: (term, callback) ->
+      source: (term, callback) =>
 
         result = if term.length > 0
 
           termLower = term.toLowerCase()
 
           f.sortBy(
-            f.filter(node.children, (user) ->
+            f.filter(@state.node.children, (user) ->
               !user.selected && user.label.toLowerCase().indexOf(termLower) >= 0
             )
           )
         else
           f.sortBy(
-            f.filter(node.children, (user) ->
+            f.filter(@state.node.children, (user) ->
               !user.selected
             ),
             'label'
@@ -78,11 +88,80 @@ module.exports = React.createClass
       onSelect(item)
 
 
-  render: ({node, placeholder} = @props)->
+    @_loadData()
 
-    selection = f.filter(node.children, 'selected')
 
-    hasMore = f.size(selection) < f.size(node.children)
+
+  _loadData: () ->
+
+    currentUrl = parseUrl(@props.for_url)
+    currentParams = parseQuery(currentUrl.query)
+    newParams = f.cloneDeep(currentParams)
+
+    unless newParams.list
+      newParams.list = {}
+
+    newParams.list.sparse_filter = @props.node.uuid
+
+    loadXhr(
+      {
+        method: 'GET'
+        url: setUrlParams(currentUrl, newParams)
+      },
+      (result, json) =>
+        return unless @isMounted()
+        if result == 'success'
+          section = f.first(f.filter(
+            json.dynamic_filters,
+            (dynamic_filter) =>
+              dynamic_filter.uuid == @props.parentUuid
+          ))
+
+          subSection = f.first(f.filter(
+            section.children,
+            (child) =>
+              child.uuid == @props.node.uuid
+          ))
+
+
+          sectionFilters = @props.currentFilters[@props.parentUuid]
+
+          items = f.map(
+            subSection.children,
+            (item) =>
+              {
+                label: (if item.detailed_name then item.detailed_name else item.label)
+                uuid: item.uuid
+                selected: !f.isEmpty(
+                  f.filter(
+                    sectionFilters,
+                    (sectionFilter) =>
+                      sectionFilter.key == @props.node.uuid && sectionFilter.value == item.uuid
+                  )
+                )
+              }
+
+          )
+
+
+
+          @setState(node: f.assign(@state.node, {children: items}))
+
+          @setState(pending: false)
+
+        else
+          @setState(pending: false)
+          console.error('Cannot load dialog: ' + JSON.stringify(json))
+    )
+
+
+
+
+  render: ({placeholder} = @props)->
+
+    selection = f.filter(@state.node.children, 'selected')
+
+    hasMore = f.size(selection) < f.size(@state.node.children)
 
     clear = (selected, event) =>
       event.preventDefault()
@@ -91,9 +170,17 @@ module.exports = React.createClass
 
 
 
+
+
     <ul className={@props.togglebodyClass}>
 
-      <li className={css('ui-side-filter-lvl3-item')}>
+
+      <li key='preloader'>
+        <Preloader mods='small' style={{display: (if @state.pending then 'block' else 'none')}} />
+      </li>
+
+
+      <li key='input' className={css('ui-side-filter-lvl3-item')}>
         <div style={{position: 'relative'}}>
           <input ref='testInput' type='text' placeholder={placeholder}
             className='typeahead block'
@@ -104,9 +191,8 @@ module.exports = React.createClass
 
       {
         f.map(selection, (selected) ->
-
-          <li className={css('ui-side-filter-lvl3-item', {active: true})}>
-            <a className='link weak ui-link' onClick={clear.bind(selected)}>
+          <li key={'uuid_' + selected.uuid} className={css('ui-side-filter-lvl3-item', {active: true})}>
+            <a className='link weak ui-link' onClick={(event) -> clear(selected, event)}>
               {selected.label}
             </a>
           </li>

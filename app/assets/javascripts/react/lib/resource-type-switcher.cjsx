@@ -60,7 +60,7 @@ urlByType = (url, currentType, newType) ->
         newParams.list.filter = JSON.stringify({})
 
     newParams.list.page = 1
-    
+
 
   setUrlParams(
     currentUrl,

@@ -52,7 +52,8 @@ module Presenters
       end
 
       def unpublished_entries
-        presenterify @user_scopes[:unpublished_media_entries]
+        presenterify(
+          @user_scopes[:unpublished_media_entries], only_filter_search: true)
       end
 
       def content_media_entries
@@ -134,14 +135,19 @@ module Presenters
 
       private
 
-      def presenterify(resources, disable_file_search: false)
+      def presenterify(
+        resources,
+        disable_file_search: false,
+        only_filter_search: false)
+
         return if resources.nil?
         Presenters::Shared::MediaResource::MediaResources.new(
           resources,
           @user,
           list_conf: @config,
           with_count: @with_count,
-          disable_file_search: disable_file_search)
+          disable_file_search: disable_file_search,
+          only_filter_search: only_filter_search)
       end
 
       def unpaged_groups(type)
