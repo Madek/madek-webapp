@@ -18,24 +18,24 @@ module Presenters
         @existing_filters = existing_filters
       end
 
-      def section_media_files
+      def section_group_media_files
         media_files(@scope, @tree)
       end
 
-      def section_meta_data
+      def section_group_meta_data
         meta_data(@scope, @tree)
       end
 
-      def section_permissions
+      def section_group_permissions
         permissions(@scope)
       end
 
       private
 
       def media_files(scope, tree)
-        if @resource_type == MediaEntry
-          media_files_filters(scope, get_key(tree, :media_files))
-        end
+        return nil if @resource_type != MediaEntry
+
+        media_files_filters(scope, get_key(tree, :media_files))
       end
 
       def permissions(scope)
@@ -49,12 +49,14 @@ module Presenters
         ].compact
 
         unless children.empty?
-          {
-            label: 'Berechtigung',
-            uuid: 'permissions',
-            position: 2,
-            children: children
-          }
+          [
+            {
+              label: 'Berechtigung',
+              uuid: 'permissions',
+              position: 2,
+              children: children
+            }
+          ]
         end
       end
 
@@ -254,11 +256,15 @@ module Presenters
               multi: false }
         end
 
-        { label: 'Datei',
-          filter_type: 'media_files',
-          uuid: 'file',
-          position: 1,
-          children: children }
+        [
+          {
+            label: 'Datei',
+            filter_type: 'media_files',
+            uuid: 'file',
+            position: 1,
+            children: children
+          }
+        ]
       end
 
       def get_key(children, key)

@@ -74,31 +74,37 @@ module.exports = React.createClass
   getInitialState: () ->
     javascript: false
     accordion: @props.accordion or {}
-    dynamic: []
-    loaded: []
+    sectionGroups: [
+      {
+        key: 'section_group_media_files',
+        loaded: false,
+        dynamic: null
+      },
+      {
+        key: 'section_group_permissions',
+        loaded: false,
+        dynamic: null
+      },
+      {
+        key: 'section_group_meta_data',
+        loaded: false,
+        dynamic: null
+      }
+    ]
+
+
+  componentWillUnmount: () -> @unlistenRouter && @unlistenRouter()
 
   componentDidMount: () ->
     @setState(javascript: true)
 
     @_loadData()
 
-  # _updateAccordion: () ->
-  #   f.each(@props.current.meta_data, (meta_datum) =>
-  #     f.each(@state.dynamic, (section) =>
-  #       f.each(section.children, (subSection) =>
-  #         f.each(subSection.children, (filter) =>
-  #           if filter.uuid == meta_datum.value
-  #             @getAccordionSection(section.filter_type + '-' + section.uuid).isOpen = true
-  #             @getAccordionSubSection(section.filter_type + '-' + section.uuid, subSection.uuid).isOpen = true
-  #         )
-  #       )
-  #     )
-  #   )
-  #   @setState(accordion: @state.accordion)
-
 
   _loadData: () ->
-    currentUrl = @props.for_url
+
+    currentUrl = @props.forUrl
+
     currentParams = parseQuery(currentUrl.query)
     newParams = f.cloneDeep(currentParams)
 
@@ -109,9 +115,9 @@ module.exports = React.createClass
 
 
     f.each(
-      ['section_media_files', 'section_meta_data', 'section_permissions'],
-      (key) =>
-
+      @state.sectionGroups,
+      (group) =>
+        key = group.key
 
         jsonPath = @props.jsonPath
         jsonPath = jsonPath.substring(0, jsonPath.length - 'resources'.length)
@@ -128,36 +134,37 @@ module.exports = React.createClass
             return unless @isMounted()
             if result == 'success'
 
-              new_loaded = f.clone(@state.loaded)
-              new_loaded.push(key)
-
-              new_dynamic = f.clone(@state.dynamic)
-
+              newSectionGroups = f.clone(@state.sectionGroups)
               element = f.get(json, jsonPath)
-              if element
 
+              sectionGroup = f.find(newSectionGroups, {key: key})
+              sectionGroup.dynamic = element
+              sectionGroup.loaded = true
 
-                if key == 'section_media_files'
-                  new_dynamic.splice(0, 0, element)
+              @setState(sectionGroups: newSectionGroups)
 
-                else if key == 'section_permissions'
-                  if f.includes(@state.loaded, 'section_media_files')
-                    new_dynamic.splice(1, 0, element)
-                  else
-                    new_dynamic.splice(0, 0, element)
-
-                else
-                  new_dynamic = new_dynamic.concat(element)
-
-                new_dynamic = f.flatten(new_dynamic)
-
-              @setState(dynamic: new_dynamic, loaded: new_loaded)
-
-              # @_updateAccordion()
+              @_updateAccordion(
+                f.flatten(f.compact(f.map(newSectionGroups, (sectionGroup) -> sectionGroup.dynamic)))
+              )
             else
               console.log('Could not load side filter data.')
         )
       )
+
+  _updateAccordion: (dynamic) ->
+    f.each(@props.current.meta_data, (meta_datum) =>
+      f.each(dynamic, (section) =>
+        f.each(section.children, (subSection) =>
+          f.each(subSection.children, (filter) =>
+            if filter.uuid == meta_datum.value
+              @getAccordionSection(section.filter_type + '-' + section.uuid).isOpen = true
+              @getAccordionSubSection(section.filter_type + '-' + section.uuid, subSection.uuid).isOpen = true
+          )
+        )
+      )
+    )
+    @setState(accordion: @state.accordion)
+
 
 
   render: ({current, accordion} = @props)->
@@ -166,9 +173,9 @@ module.exports = React.createClass
     #   return null
 
 
-    dynamic = @state.dynamic
+    dynamic = f.flatten(f.compact(f.map(@state.sectionGroups, (sectionGroup) -> sectionGroup.dynamic)))
 
-    unless dynamic
+    if f.isEmpty(dynamic)
       return <Preloader mods='small' />
 
 
@@ -178,15 +185,23 @@ module.exports = React.createClass
 
     baseClass = ui.cx(ui.parseMods(@props), 'ui-side-filter-list')
 
-    filters = initializeFilterTreeFromProps(dynamic, current)
-
     <ul className={baseClass} data-test-id='side-filter'>
-      {f.map filters, (filter) =>
-        @renderSection(current, filter)
-      }
       {
-        if @state.loaded.length < 3
-          <Preloader mods='small' />
+        f.flatten(f.compact(
+          f.map(
+            @state.sectionGroups,
+            (sectionGroup) =>
+              if !sectionGroup.loaded
+                <Preloader key={'preloader_' + sectionGroup.key} mods='small' />
+              else unless sectionGroup.dynamic
+                null
+              else
+                filters = initializeFilterTreeFromProps(sectionGroup.dynamic, current)
+                f.map filters, (filter) =>
+                  @renderSection(current, filter)
+
+          )
+        ))
       }
     </ul>
 

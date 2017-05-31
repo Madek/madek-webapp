@@ -284,6 +284,11 @@ module.exports = React.createClass
     newLocation = boxSetUrlParams(@_currentUrl(), newParams, {list: {page: 1}})
     window.location = newLocation # SYNC!
 
+  _onFilterToggle: (event)->
+    event.preventDefault()
+    @_handleChangeInternally(event)
+    return undefined
+
   _onSearch: (event)->
 
     refs = @refs
@@ -749,7 +754,7 @@ module.exports = React.createClass
           name = 'Filtern'
           <div>
             <Button data-test-id='filter-button' name={name} mods={'active': config.show_filter}
-              href={filterToggleLink}>
+              href={filterToggleLink} onClick={@_onFilterToggle}>
               <Icon i='filter' mods='small'/> {name}
             </Button>
             {if f.present(config.filter) then resetFilterLink}
@@ -827,7 +832,7 @@ module.exports = React.createClass
             {
               unless get.only_filter_search
                 <SideFilter
-                  for_url={@props.get.config.for_url}
+                  forUrl={@state.config.for_url}
                   jsonPath={@state.resources.getJsonPath()}
                   current={config.filter or {}}
                   accordion={config.accordion or {}}

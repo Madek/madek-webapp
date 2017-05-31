@@ -20,7 +20,13 @@ feature 'Side Filter' do
       open_filterbar
 
       context_key_authors = ContextKey.find_by_meta_key_id(@meta_key_authors.id)
+      context_key_authors.position = 2
+      context_key_authors.save
+      context_key_authors = context_key_authors.reload
       context_key_keywords = ContextKey.find_by_meta_key_id(@meta_key_keywords.id)
+      context_key_keywords.position = 3
+      context_key_keywords.save
+      context_key_keywords = context_key_keywords.reload
       expect(context_key_authors.position)
         .not_to be == context_key_keywords.position
 
