@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.2
--- Dumped by pg_dump version 9.6.2
+-- Dumped from database version 9.6.3
+-- Dumped by pg_dump version 9.6.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -408,7 +408,8 @@ CREATE TABLE inventory_pools (
     automatic_suspension boolean DEFAULT false NOT NULL,
     automatic_suspension_reason text,
     automatic_access boolean,
-    required_purpose boolean DEFAULT true
+    required_purpose boolean DEFAULT true,
+    is_active boolean DEFAULT true NOT NULL
 );
 
 
@@ -2518,6 +2519,8 @@ INSERT INTO schema_migrations (version) VALUES ('105');
 INSERT INTO schema_migrations (version) VALUES ('106');
 
 INSERT INTO schema_migrations (version) VALUES ('107');
+
+INSERT INTO schema_migrations (version) VALUES ('108');
 
 INSERT INTO schema_migrations (version) VALUES ('11');
 
