@@ -176,7 +176,12 @@ module.exports = React.createClass
     dynamic = f.flatten(f.compact(f.map(@state.sectionGroups, (sectionGroup) -> sectionGroup.dynamic)))
 
     if f.isEmpty(dynamic)
-      return <Preloader mods='small' />
+      if !f.isEmpty(f.filter(@state.sectionGroups, {loaded: false}))
+        return <Preloader mods='small' />
+      else
+        return null
+
+
 
 
     # Clone the current filters, so as we can manipulate them
