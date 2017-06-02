@@ -1,9 +1,9 @@
 require_relative '../resources_box_helper_spec'
 include ResourcesBoxHelper
 
-feature 'keyword sorting' do
+feature 'keyword async loading' do
 
-  scenario 'sorting' do
+  scenario 'async loading' do
     config = create_data(create_config)
     login_new(config)
 

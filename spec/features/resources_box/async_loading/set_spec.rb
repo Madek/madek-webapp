@@ -1,9 +1,9 @@
 require_relative '../resources_box_helper_spec'
 include ResourcesBoxHelper
 
-feature 'set sorting' do
+feature 'set async loading' do
 
-  scenario 'collection with children 5' do
+  scenario 'async loading' do
     config = create_data(create_config)
     login_new(config)
 

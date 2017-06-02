@@ -3,7 +3,7 @@ include ResourcesBoxHelper
 
 feature 'set show box' do
 
-  scenario 'empty collection' do
+  scenario 'empty collection all' do
     config = create_data(create_empty_config)
     user = default_user(config)
     parent = resource_by_id(config, :parent)
@@ -16,30 +16,53 @@ feature 'set show box' do
     check_switcher_triple(:all, parent)
     check_filter_button(:active)
     check_side_filter(false)
+  end
 
-    click_switcher(:entries)
+  scenario 'empty collection entries' do
+    config = create_data(create_empty_config)
+    user = default_user(config)
+    parent = resource_by_id(config, :parent)
+
+    login(user)
+
+    visit_resource(parent, type: 'entries')
 
     check_empty_box(false)
     check_switcher_triple(:entries, parent)
     check_filter_button(:active)
     check_side_filter(false)
+  end
 
-    click_switcher(:collections)
+  scenario 'empty collection collections' do
+    config = create_data(create_empty_config)
+    user = default_user(config)
+    parent = resource_by_id(config, :parent)
+
+    login(user)
+
+    visit_resource(parent, type: 'collections')
 
     check_empty_box(false)
     check_switcher_triple(:collections, parent)
     check_filter_button(:active)
     check_side_filter(false)
+  end
 
-    click_switcher(:entries)
-    click_filter_button
+  scenario 'empty collection entries with filter' do
+    config = create_data(create_empty_config)
+    user = default_user(config)
+    parent = resource_by_id(config, :parent)
+
+    login(user)
+
+    visit_resource(parent, type: 'entries', list: { show_filter: 'true' })
 
     check_filter_button(:inactive)
     check_side_search(true)
     check_side_filter(false)
   end
 
-  scenario 'collection with children 1' do
+  scenario 'collection with children all' do
     config = create_data(create_config)
     user = default_user(config)
     parent = resource_by_id(config, :parent)
@@ -57,7 +80,7 @@ feature 'set show box' do
     check_side_filter(false)
   end
 
-  scenario 'collection with children 2' do
+  scenario 'collection with children entries' do
     config = create_data(create_config)
     user = default_user(config)
     parent = resource_by_id(config, :parent)
@@ -75,7 +98,7 @@ feature 'set show box' do
     check_side_filter(false)
   end
 
-  scenario 'collection with children 3' do
+  scenario 'collection with children entries search and keyword filter' do
     config = create_data(create_config)
     user = default_user(config)
     parent = resource_by_id(config, :parent)
@@ -106,7 +129,7 @@ feature 'set show box' do
     check_side_filter(true)
   end
 
-  scenario 'collection with children 4' do
+  scenario 'collection with children collections search filter' do
     config = create_data(create_config)
     user = default_user(config)
     parent = resource_by_id(config, :parent)

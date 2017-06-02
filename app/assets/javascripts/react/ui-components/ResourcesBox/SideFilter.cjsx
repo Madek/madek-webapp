@@ -177,11 +177,13 @@ module.exports = React.createClass
 
     if f.isEmpty(dynamic)
       if !f.isEmpty(f.filter(@state.sectionGroups, {loaded: false}))
-        return <Preloader mods='small' />
+        return (
+          <ul className={baseClass} data-test-id='side-filter'>
+            <Preloader mods='small' />
+          </ul>
+        )
       else
         return null
-
-
 
 
     # Clone the current filters, so as we can manipulate them

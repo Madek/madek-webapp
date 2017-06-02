@@ -149,6 +149,7 @@ module ResourcesBoxHelper
     create_keywords(config)
     create_resources(config)
     create_meta_data(config)
+    add_to_clipboard(config)
   end
 
   def create_users(config)
@@ -157,6 +158,37 @@ module ResourcesBoxHelper
     .each do |entry|
       entry[:resource] = create_user
     end
+  end
+
+  def create_clipboard_collection_lazy(user)
+    clipboard = Collection.unscoped.where(clipboard_user_id: user.id).first
+    unless clipboard
+      clipboard = Collection.create!(
+        get_metadata_and_previews: false,
+        responsible_user: user,
+        creator: user,
+        clipboard_user_id: user.id)
+    end
+    clipboard
+  end
+
+  def add_to_clipboard(config)
+    user = default_user(config)
+    clipboard = create_clipboard_collection_lazy(user)
+
+    media_entries = config
+      .select { |entry| entry[:clipboard] && entry[:type] == MediaEntry }
+      .map { |entry| entry[:resource] }
+
+    collections = config
+      .select { |entry| entry[:clipboard] && entry[:type] == Collection }
+      .map { |entry| entry[:resource] }
+
+    clipboard.media_entries << media_entries
+    clipboard.collections << collections
+
+    clipboard.save
+    clipboard.reload
   end
 
   def create_resources(config)
