@@ -94,7 +94,27 @@ feature 'Resource: MetaDatum' do
     example 'show autocomplete 50 prefilled if not extensible and n > 50' do
       meta_key = create_meta_key_keywords(is_extensible_list: false)
       70.times.map { FactoryGirl.create(:keyword, meta_key: meta_key) }
+      in_the_edit_field(meta_key.label) do
+        expect(page).to have_selector('.ui-autocomplete-holder', count: 1)
+        find('input').click
+        expect(page).to have_selector('.tt-selectable', count: 50)
+      end
+    end
 
+    pending 'show autocomplete n prefilled if extensible and n > 16' do
+      meta_key = create_meta_key_keywords(is_extensible_list: true)
+      24.times.map { FactoryGirl.create(:keyword, meta_key: meta_key) }
+
+      in_the_edit_field(meta_key.label) do
+        expect(page).to have_selector('.ui-autocomplete-holder', count: 1)
+        find('input').click
+        expect(page).to have_selector('.tt-selectable', count: 24)
+      end
+    end
+
+    pending 'show autocomplete 50 prefilled if extensible and n > 50' do
+      meta_key = create_meta_key_keywords(is_extensible_list: true)
+      70.times.map { FactoryGirl.create(:keyword, meta_key: meta_key) }
       in_the_edit_field(meta_key.label) do
         expect(page).to have_selector('.ui-autocomplete-holder', count: 1)
         find('input').click
