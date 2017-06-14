@@ -168,7 +168,7 @@ feature 'Page: Explore' do
         it 'shows random thumbnail (preview \'image\') from the latest entries' do
           # NOTE: check 12 results + should have more than 1 uniq results
           thumbs = 12.times.map do
-            visit catalog_key_item_thumb_path(@keyword, :medium)
+            visit catalog_key_item_thumb_path(:keywords, @keyword, :medium)
             current_path
           end
 
@@ -178,6 +178,87 @@ feature 'Page: Explore' do
               .to include @keyword
           end
           expect(thumbs.uniq.length).to be >= 2
+        end
+      end
+    end
+
+    describe 'dealing with context keys of type MetaDatum::People' do
+      before do
+        @meta_key_people = \
+          MetaKey.find_by_id('test:people') || create(:meta_key_people)
+        @context_key = create(:context_key, meta_key: @meta_key_people)
+        @person = create(:people_instgroup)
+        app_setting = AppSetting.first
+        app_setting.update_attributes!(
+          catalog_context_keys: [@context_key.id],
+          catalog_title: 'Catalog Title'
+        )
+        media_entry_with_image = create(:media_entry_with_image_media_file,
+                                        get_metadata_and_previews: true)
+        media_entry_with_image.meta_data << \
+          create(:meta_datum_people,
+                 meta_key: @context_key.meta_key,
+                 people: [@person])
+
+        media_entry_with_image_2 = create(:media_entry_with_image_media_file,
+                                          get_metadata_and_previews: true)
+        media_entry_with_image_2.meta_data << \
+          create(:meta_datum_people,
+                 meta_key: @context_key.meta_key,
+                 people: [@person])
+      end
+
+      context 'for catalog context key (1st level)' do
+        it 'it counts entries' do
+          visit explore_path
+          label = @context_key.label || @context_key.meta_key.label
+          within('.media-catalog', text: label) do
+            expect(find('.ui-thumbnail-meta-extension').text).to be == '2'
+          end
+        end
+
+        it 'shows random thumbnail (preview \'image\') from the entry' do
+          # NOTE: check 12 results + should have 2 uniq results
+          thumbs = 12.times.map do
+            visit catalog_key_thumb_path(@context_key, :medium, limit: 24)
+            current_path
+          end
+
+          thumbs.each do |url|
+            me = media_entry_from_preview_path_url(url)
+            meta_key = me.meta_data.find_by!(
+              meta_key: @person.meta_data.first.meta_key
+            )
+            expect(meta_key).to be
+          end
+          expect(thumbs.uniq.length).to be == 2
+        end
+      end
+
+      context 'for catalog context key entries (2nd level)' do
+        it 'it counts entries' do
+          visit explore_catalog_category_path(@context_key)
+          within('.media-catalog', text: @person.last_name) do
+            expect(find('.ui-thumbnail-meta-extension').text).to be == '2'
+          end
+        end
+
+        it 'shows random thumbnail (preview \'image\') from the entry' do
+          # NOTE: check 12 results + should have 2 uniq results
+          thumbs = 12.times.map do
+            visit catalog_key_item_thumb_path(:people, @person, :medium)
+            current_path
+          end
+
+          thumbs.each do |url|
+            me = media_entry_from_preview_path_url(url)
+            meta_key = me.meta_data.find_by!(
+              meta_key: @person.meta_data.first.meta_key
+            )
+            expect(meta_key.people)
+              .to include @person
+          end
+          expect(thumbs.uniq.length).to be == 2
         end
       end
     end

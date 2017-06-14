@@ -194,7 +194,7 @@ Madek::Application.routes.draw do
   get 'explore/catalog/:category', controller: :explore, action: :catalog_category, as: :explore_catalog_category
   get 'explore/featured_set', controller: :explore, action: :featured_set, as: :explore_featured_set
   get 'explore/keywords', controller: :explore, action: :keywords, as: :explore_keywords
-  get 'explore/keywords/:keyword_id/previews/:preview_size',
+  get 'explore/:object_type/:object_id/previews/:preview_size',
       controller: :explore,
       action: :catalog_key_item_thumb,
       as: :catalog_key_item_thumb

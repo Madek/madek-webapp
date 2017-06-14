@@ -1,6 +1,6 @@
 module Presenters
-  module Keywords
-    class KeywordIndexForExplore < KeywordIndexWithUsageCount
+  module People
+    class PersonIndexForExplore < PersonIndexWithUsageCount
 
       def initialize(app_resource, user)
         super(app_resource)
@@ -8,7 +8,7 @@ module Presenters
       end
 
       def image_url
-        prepend_url_context catalog_key_item_thumb_path(:keywords,
+        prepend_url_context catalog_key_item_thumb_path(:people,
                                                         @app_resource,
                                                         :medium)
       end

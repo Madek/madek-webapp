@@ -45,9 +45,14 @@ class ExploreController < ApplicationController
   def catalog_key_item_thumb
     skip_authorization # only redirect, no auth needed here
 
-    media_entry = \
-      newest_media_entry_with_image_file_for_keyword_and_user(keyword_id_param,
-                                                              current_user)
+    args = [object_id_param, current_user]
+    media_entry =
+      case object_type_param.to_sym
+      when :keywords
+        newest_media_entry_with_image_file_for_keyword_and_user(*args)
+      when :people
+        newest_media_entry_with_image_file_for_person_and_user(*args)
+      end
 
     if media_entry
       redirect_to_preview(media_entry, size_param) and return
@@ -62,21 +67,41 @@ class ExploreController < ApplicationController
   def catalog_key_thumb
     skip_authorization # only does redirection
     ck = ContextKey.find(category_param)
+    meta_key = ck.meta_key
 
-    keyword = \
-      Keyword.with_usage_count
-      .for_meta_key_and_used_in_visible_entries_with_previews(ck.meta_key,
-                                                              current_user,
-                                                              limit_param)
-      .sample
+    case meta_key.meta_datum_object_type
+    when 'MetaDatum::Keywords'
+      keyword = catalog_key_thumb_keyword(meta_key)
 
-    media_entry = newest_media_entry_with_image_file_for_keyword_and_user(
-      keyword.id, current_user)
+      media_entry = newest_media_entry_with_image_file_for_keyword_and_user(
+        keyword.id, current_user)
+    when 'MetaDatum::People'
+      person = catalog_key_thumb_person(meta_key)
+
+      media_entry = newest_media_entry_with_image_file_for_person_and_user(
+        person.id, current_user)
+    end
 
     if media_entry
       redirect_to_preview(media_entry, size_param) and return
     end
     fail 'Searched image for Keyword that has none, this should not happen!'
+  end
+
+  def catalog_key_thumb_keyword(meta_key)
+    Keyword
+      .for_meta_key_and_used_in_visible_entries_with_previews(meta_key,
+                                                              current_user,
+                                                              limit_param)
+      .sample
+  end
+
+  def catalog_key_thumb_person(meta_key)
+    Person
+      .for_meta_key_and_used_in_visible_entries_with_previews(meta_key,
+                                                              current_user,
+                                                              limit_param)
+      .sample
   end
 
   private
@@ -95,15 +120,25 @@ class ExploreController < ApplicationController
     .sample
   end
 
+  def newest_media_entry_with_image_file_for_person_and_user(person_id, user)
+    auth_policy_scope(user, MediaEntry)
+    .joins(:media_file)
+    .joins('INNER JOIN previews ON previews.media_file_id = media_files.id')
+    .joins(:meta_data)
+    .joins('INNER JOIN meta_data_people ' \
+           'ON meta_data.id = meta_data_people.meta_datum_id')
+    .where(meta_data_people: { person_id: person_id })
+    .where(previews: { media_type: 'image' })
+    .reorder('media_entries.meta_data_updated_at DESC')
+    .limit(24)
+    .sample
+  end
+
   def redirect_to_preview(media_entry, size)
     imgs = Presenters::MediaFiles::MediaFile.new(media_entry, current_user)
       .try(:previews).try(:[], :images)
     img = imgs.try(:fetch, size, nil) || imgs.try(:values).try(:first)
     redirect_to(img.url)
-  end
-
-  def keyword_id_param
-    params.require(:keyword_id)
   end
 
   def keyword_ids_param
@@ -113,6 +148,14 @@ class ExploreController < ApplicationController
               'keyword_ids can not be blank!'
       end
     end
+  end
+
+  def object_type_param
+    params.require(:object_type)
+  end
+
+  def object_id_param
+    params.require(:object_id)
   end
 
   def size_param

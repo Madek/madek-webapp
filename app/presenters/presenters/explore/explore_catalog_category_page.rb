@@ -19,12 +19,15 @@ module Presenters
       end
 
       def sections
-        [catalog_categories_section].compact
+        [
+          catalog_categories_keywords_section,
+          catalog_categories_people_section
+        ].compact
       end
 
       private
 
-      def catalog_categories_section
+      def catalog_categories_keywords_section
         unless keywords_for_meta_key_and_visible_entries(@meta_key).blank?
           { type: 'catalog_category',
             data: catalog_categories_overview,
@@ -41,18 +44,52 @@ module Presenters
         }
       end
 
+      def catalog_categories_people_section
+        unless people_for_meta_key_and_visible_entries(@meta_key).blank?
+          {
+            type: 'catalog_category',
+            data: catalog_categories_people_overview,
+            show_all_link: false
+          }
+        end
+      end
+
+      def catalog_categories_people_overview
+        {
+          title: @catalog_category_title,
+          list: people_for_meta_key_and_visible_entries(@meta_key).map do |person|
+            Presenters::People::PersonIndexForExplore.new(person, @user)
+          end
+        }
+      end
+
+      def people_for_meta_key_and_visible_entries(meta_key)
+        @people_for_meta_key ||=
+          Person.with_usage_count
+            .joins(meta_data: :meta_key)
+            .where(meta_keys: { id: meta_key.id })
+            .where(
+              meta_data: {
+                media_entry_id: \
+                  auth_policy_scope(@user, MediaEntry).joins(:media_file)
+              }
+            )
+            .limit(catalog_category_limit)
+      end
+
       def keywords_for_meta_key_and_visible_entries(meta_key)
-        Keyword.with_usage_count
-          .where(meta_key: meta_key)
-          .joins('INNER JOIN meta_data ' \
-                 'ON meta_data.id = meta_data_keywords.meta_datum_id')
-          .where(
-            meta_data: {
-              media_entry_id: \
-                auth_policy_scope(@user, MediaEntry).joins(:media_file)
-            }
-          )
-          .limit(catalog_category_limit)
+        @keywords_for_meta_key ||=
+          Keyword.with_usage_count
+            .where(meta_key: meta_key)
+            .joins('INNER JOIN meta_data ' \
+                   'ON meta_data.id = meta_data_keywords.meta_datum_id')
+            .where(
+              meta_data: {
+                media_entry_id: \
+                  auth_policy_scope(@user, MediaEntry).joins(:media_file)
+              }
+            )
+            .limit(catalog_category_limit)
       end
     end
   end
