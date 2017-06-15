@@ -46,7 +46,7 @@ module Presenters
       def _by_vocabulary(meta_data)
         meta_data
           .group_by(&:vocabulary)
-          .sort_by { |v, d| v.id }
+          .sort_by { |v, d| v.position }
           .map(&method(:presenterify_vocabulary_and_meta_data))
       end
 

@@ -70,6 +70,22 @@ describe 'Action: show' do
       end
     end
 
+    scenario "Tab: 'More Data'. Vocabularies shown in configured order" do
+      ['copyright:source', 'media_content:patron'].each do |mkid|
+        create(:meta_datum_text, media_entry: @entry, meta_key_id: mkid)
+      end
+
+      visit media_entry_path(@entry)
+      click_on_tab I18n.t(:media_entry_tab_more_data)
+
+      within('.media-entry-metadata') do
+        shown_voc_titles = all('.ui-metadata-box .title-l').map(&:text)
+        ordered_voc_titles = @entry.meta_data.map(&:vocabulary).uniq
+          .sort_by(&:position).map(&:label)
+        expect(shown_voc_titles).to eq ordered_voc_titles
+      end
+    end
+
     scenario "Tab: 'Permissions'. \
     Has 'privacy status' icon; shows permission summary for logged in user." do
       # - privacy_status icon:
