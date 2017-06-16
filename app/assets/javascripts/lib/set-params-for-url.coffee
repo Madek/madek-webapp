@@ -19,10 +19,11 @@ formatQuery = (obj)->
 # >>> '/foo?foo=1&bar[baz]=3'
 module.exports = setUrlParams = (currentUrl = '', params...)->
   url = urlFromStringOrObject(currentUrl)
-  formatUrl({
-    pathname: url.pathname,
+  formatUrl(merge(url, {
+    path: null,
+    pathname: url.pathname || url.path,
     search: formatQuery(
-      merge(parseQuery(url.query), reduce(params, (a, b)-> merge(a, b))))})
+      merge(parseQuery(url.query), reduce(params, (a, b)-> merge(a, b))))}))
 
 urlFromStringOrObject = (url)->
   # NOTE: `path` must only be used if no `pathname` is given!
