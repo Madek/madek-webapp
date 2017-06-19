@@ -3,12 +3,17 @@ import f from 'lodash'
 import { TokenRow } from './Tokens'
 import ui from '../../lib/ui.coffee'
 import UI from '../../ui-components/index.coffee'
+import setUrlParams from '../../../lib/set-params-for-url.coffee'
 const t = ui.t
 
 class TokenCreatedPage extends React.Component {
   render (props = this.props) {
     const { get } = props
     const indexAction = f.get(get, 'actions.index.url')
+    const callbackAction = f.get(get, 'actions.callback.url')
+    const callbackLink = setUrlParams(callbackAction, {
+      madek_api_token: get.secret
+    })
 
     return (
       <div
@@ -22,61 +27,54 @@ class TokenCreatedPage extends React.Component {
           <h3 className='title-l mas'>
             {t('api_tokens_created_title')}
           </h3>
-          <div className='ui-alerts'>
-            <div className='confirmation ui-alert'>
-              {t('api_tokens_created_notice')}
+          {!callbackAction && (
+            <div>
+              <div className='ui-alert confirmation'>
+                {t('api_tokens_created_notice')}
+              </div>
+              <p
+                className='ui-container bordered rounded mam pas'
+                style={{ display: 'inline-block' }}
+              >
+                <samp className='title-m code b'>{get.secret}</samp>
+              </p>
             </div>
-          </div>
-          <p
-            className='ui-container bordered rounded mam pas'
-            style={{ display: 'inline-block' }}
-          >
-            <samp className='title-m code b'>
-              {get.secret}
-            </samp>
-          </p>
+          )}
+          {callbackAction && (
+            <div>
+              <div className='ui-container pal'>
+                <UI.Button
+                  href={callbackLink}
+                  className='primary-button large'
+                >
+                  {t('api_tokens_created_callback_btn')}
+                </UI.Button>
+              </div>
+              <p className='mbm'>
+                {t('api_tokens_created_callback_description')}
+                {' '}
+                <samp
+                  className='f5 code ui-container bordered rounded phs'
+                  style={{ display: 'inline-block' }}
+                >
+                  {get.secret}
+                </samp>
+              </p>
+            </div>
+          )}
           <table className='block aligned'>
-            <thead>
-              <tr>
-                <td>
-                  <span className='ui-resources-table-cell-content'>
-                    {t('api_tokens_head_id')}
-                  </span>
-                </td>
-                <td>
-                  <span className='ui-resources-table-cell-content'>
-                    {t('api_tokens_head_name')}
-                  </span>
-                </td>
-                <td>
-                  <span className='ui-resources-table-cell-content'>
-                    {t('api_tokens_head_valid_since')}
-                  </span>
-                </td>
-                <td>
-                  <span className='ui-resources-table-cell-content'>
-                    {t('api_tokens_head_valid_until')}
-                  </span>
-                </td>
-                <td>
-                  <span className='ui-resources-table-cell-content'>
-                    {t('api_tokens_head_permissions')}
-                  </span>
-                </td>
-                <td>
-                </td>
-              </tr>
-            </thead>
             <tbody>
+              <tr><td /><td /><td /></tr>
               <TokenRow {...get} />
             </tbody>
           </table>
-          {!!indexAction &&
+          {!!indexAction && (
             <div className='ui-actions mtm'>
               <UI.Button href={indexAction} className='button'>
                 {t('api_tokens_created_back_btn')}
               </UI.Button>
-            </div>}
+            </div>
+          )}
         </div>
       </div>
     )

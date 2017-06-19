@@ -43,6 +43,50 @@ feature 'User API-Tokens' do
     end
   end
 
+  context 'create token with external application flow' do
+
+    example 'works, giving description and callback_url' do
+      description = Faker::Hacker.say_something_smart
+      app_url = 'https://madek-app.example.com/postauth'
+      sign_in_as user
+
+      visit my_new_api_token_path(description: description, callback_url: app_url)
+
+      within('form[name="api_token"]') do
+        info = find('.ui-alert.confirmation')
+        description_field = find('textarea[name="api_token[description]"]')
+        expect(description_field.text).to eq description
+        expect(info.text).to have_content app_url
+        expect(info.text).to have_content I18n.t(:api_tokens_callback_description)
+
+        submit_form
+      end
+
+      within('.app-body') do
+        callback_link = find('.primary-button')[:href]
+        url = URI.parse(callback_link)
+        token = Rack::Utils.parse_query(url.query)['madek_api_token']
+        token_callback_link = app_url + '?' + { madek_api_token: token }.to_query
+        shown_token = find('samp.code').text
+
+        expect(token.length).to be_between(31, 32)
+        expect(callback_link).to eq token_callback_link
+        expect(shown_token).to eq token
+      end
+    end
+
+    example 'does not support insecure/http URLs' do
+      description = Faker::Hacker.say_something_smart
+      app_url = 'http://insecure.example.com/firesheep'
+
+      sign_in_as user
+      visit my_new_api_token_path(description: description, callback_url: app_url)
+      expect(page).to have_content \
+        'Insecure URL `http://insecure.example.com/firesheep`!'
+    end
+
+  end
+
 end
 
 private

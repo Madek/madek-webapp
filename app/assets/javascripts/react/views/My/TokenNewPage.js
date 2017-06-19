@@ -10,7 +10,9 @@ class TokenNewPage extends React.Component {
     const action = f.get(props, 'get.actions.create')
     if (!action) return false
 
-    const descriptionTxt = ''
+    const descriptionTxt = f.get(props, 'get.given_props.description') || ''
+    const callbackUrl = f.get(props, 'get.given_props.callback_url')
+
     const textAreaStyle = {
       minHeight: 'initial',
       resize: 'vertical',
@@ -23,19 +25,30 @@ class TokenNewPage extends React.Component {
         style={{ marginLeft: 'auto', marginRight: 'auto' }}
       >
         <div
-          className='ui-container bright bordered rounded mal phl pbs'
-          style={{ display: 'inline-block' }}
+          className='ui-container bright bordered rounded mal phm pbm'
+          style={{ display: 'inline-block', minWidth: '420px' }}
         >
           <RailsForm
+            name='api_token'
             method={action.method}
             action={action.url}
             authToken={props.authToken}
           >
-            <div className='ui-form-group rowed prn'>
-              <h3 className='title-l'>
-                {t('api_tokens_create_title')}
-              </h3>
+            <div className='ui-form-group rowed prn pbs'>
+              <h3 className='title-l'>{t('api_tokens_create_title')}</h3>
             </div>
+            {callbackUrl && (
+              <div className='ui-alert confirmation normal mbs'>
+                {t('api_tokens_callback_description')}
+                <br />
+                <samp className='f5 code'>URL: {callbackUrl}</samp>
+                <input
+                  type='hidden'
+                  name='callback_url'
+                  value={callbackUrl}
+                />
+              </div>
+            )}
             <div className='ui-form-group rowed pan mbs'>
               <label className='form-label'>
                 {t('api_tokens_create_description')}
@@ -44,7 +57,7 @@ class TokenNewPage extends React.Component {
                   style={textAreaStyle}
                   name={'api_token[description]'}
                   defaultValue={descriptionTxt}
-                  rows={descriptionTxt.split('\n').length}
+                  rows={descriptionTxt.split('\n').length + 1}
                 />
               </label>
             </div>

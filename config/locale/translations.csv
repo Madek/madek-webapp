@@ -23,6 +23,9 @@ api_tokens_list_scope_off,Nein,Nein
 api_tokens_list_new_button,Neuen Token erstellen,Neuen Token erstellen
 api_tokens_create_description,Beschreibung,Description,
 api_tokens_create_title,Neuen Token hinzufügen,Neuen Token hinzufügen
+api_tokens_callback_description,Token wird für eine externe Applikation erstellt!,Token is created for an external application!,
+api_tokens_created_callback_btn,Weiter zur Applikation,Continue to Applikation,
+api_tokens_created_callback_description,"Falls die Weiterleitung nicht funktioniert, kann der Token auch manuell kopiert werden:","If the redirect does not work, the token can also be copied manually:",
 api_tokens_create_submit,Token anlegen,Token anlegen
 api_tokens_create_cancel,Abbrechen,Abbrechen
 api_tokens_head_id,ID,ID

@@ -2,6 +2,13 @@ module Presenters
   module ApiTokens
     class ApiTokenNew < Presenters::ApiTokens::ApiTokenCommon
 
+      def initialize(token, user, given_props)
+        super(token, user)
+        @given_props = given_props
+      end
+
+      attr_accessor :given_props
+
       def actions
         {
           create: {
