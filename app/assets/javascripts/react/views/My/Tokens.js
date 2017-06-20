@@ -9,7 +9,7 @@ const UI = require('../../ui-components/index.coffee')
 const RailsForm = require('../../lib/forms/rails-form.cjsx')
 
 // config
-const SECTIONS = [ { key: 'api_tokens', name: 'API Tokens' } ]
+const SECTIONS = [{ key: 'api_tokens', name: 'API Tokens' }]
 
 class TokensPage extends React.Component {
   render (props = this.props) {
@@ -19,7 +19,7 @@ class TokensPage extends React.Component {
 
     return (
       <div className='ui-resources-holder pal'>
-        {SECTIONS.map(({ key, name }) => (
+        {SECTIONS.map(({ key, name }) =>
           <div className='ui-container pbl' key={key}>
             <div className='ui-resources-header'>
               <h2 className='title-l ui-resources-title'>
@@ -27,18 +27,14 @@ class TokensPage extends React.Component {
               </h2>
             </div>
             <TokensList tokens={get[key]} authToken={authToken} />
-            {!!newAction && (
+            {!!newAction &&
               <div className='mtl'>
-                <UI.Button
-                  href={newAction.url}
-                  className='primary-button'
-                >
+                <UI.Button href={newAction.url} className='primary-button'>
                   {t('api_tokens_list_new_button')}
                 </UI.Button>
-              </div>
-            )}
+              </div>}
           </div>
-        ))}
+        )}
       </div>
     )
   }
@@ -48,27 +44,30 @@ const TokensList = ({ tokens, authToken }) => {
   const revokedTokens = f.filter(tokens, 'revoked')
   const activeTokens = f.difference(tokens, revokedTokens)
   const allTokes = f.compact([
-    [ activeTokens ],
-    !f.isEmpty(revokedTokens) &&
-      [ revokedTokens, t('api_tokens_list_revoked_title') ]
+    [activeTokens],
+    !f.isEmpty(revokedTokens) && [
+      revokedTokens,
+      t('api_tokens_list_revoked_title')
+    ]
   ])
 
   return (
     <div>
-      {allTokes.map(([ tokens, label ]) => (
+      {allTokes.map(([tokens, label]) =>
         <div>
-          {!!label && <h4 className='title-s mtl mbm'>{label}</h4>}
+          {!!label &&
+            <h4 className='title-s mtl mbm'>
+              {label}
+            </h4>}
           <table className='ui-workgroups bordered block aligned'>
             <tbody>
-              {
-                f.map(tokens, token => (
-                  <TokenRow {...token} authToken={authToken} />
-                ))
-              }
+              {f.map(tokens, token =>
+                <TokenRow {...token} authToken={authToken} />
+              )}
             </tbody>
           </table>
         </div>
-        ))}
+      )}
     </div>
   )
 }
@@ -82,15 +81,16 @@ export const TokenRow = ({ authToken, ...token }) => {
   }
   if (token.expires_at) {
     expirationDate = Moment(new Date(token.expires_at)).fromNow()
-    expirationDateTitle = t('api_tokens_list_expires_hint_pre') + token.expires_at
+    expirationDateTitle =
+      t('api_tokens_list_expires_hint_pre') + token.expires_at
   }
   const revokeAction = f.get(token, 'actions.update')
   const perms = [
-    [ 'read', t('api_tokens_list_scope_read') ],
-    [ 'write', t('api_tokens_list_scope_write') ]
+    ['read', t('api_tokens_list_scope_read')],
+    ['write', t('api_tokens_list_scope_write')]
   ]
   const permissionsList = f.compact(
-    perms.map(([ key, label ]) => {
+    perms.map(([key, label]) => {
       const stateLabel = f.includes(scopes, key)
         ? t('api_tokens_list_scope_on')
         : t('api_tokens_list_scope_off')
@@ -104,7 +104,8 @@ export const TokenRow = ({ authToken, ...token }) => {
     <tr key={uuid} style={trStyle}>
       <td>
         {label}
-      </td><td>
+      </td>
+      <td>
         <pre className='measure-narrow'>
           {!f.isEmpty(description)
             ? description
@@ -112,24 +113,22 @@ export const TokenRow = ({ authToken, ...token }) => {
         </pre>
       </td>
       <td>
-        {!!creationDate && (
+        {!!creationDate &&
           <UI.Tooltipped text={creationDateTitle} id={`dtc.${uuid}`}>
             <span>
               {t('api_tokens_list_created_pre')}
               {creationDate}
             </span>
-          </UI.Tooltipped>
-        )}
+          </UI.Tooltipped>}
       </td>
       <td>
-        {!!expirationDate && (
+        {!!expirationDate &&
           <UI.Tooltipped text={expirationDateTitle} id={`dtc.${uuid}`}>
             <span>
               {t('api_tokens_list_expires_pre')}
               {expirationDate}
             </span>
-          </UI.Tooltipped>
-        )}
+          </UI.Tooltipped>}
       </td>
       <td>
         {t('api_tokens_list_scopes_pre')}
@@ -137,7 +136,7 @@ export const TokenRow = ({ authToken, ...token }) => {
         {t('api_tokens_list_scopes_post')}
       </td>
       <td className='ui-workgroup-actions'>
-        {!!revokeAction && (
+        {!!revokeAction &&
           <RailsForm
             name={'api_token'}
             authToken={authToken}
@@ -157,8 +156,7 @@ export const TokenRow = ({ authToken, ...token }) => {
                 <i className='fa fa-ban' />
               </button>
             </UI.Tooltipped>
-          </RailsForm>
-        )}
+          </RailsForm>}
       </td>
     </tr>
   )

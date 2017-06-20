@@ -9,12 +9,19 @@ import RailsForm from '../../lib/forms/rails-form.cjsx'
 
 class LoginMenu extends React.Component {
   render ({ authToken, loginProviders, className, ...restProps } = this.props) {
-    if (!loginProviders) { return false }
+    if (!loginProviders) {
+      return false
+    }
 
     if (loginProviders.length === 1 && loginProviders[0].id === 'system') {
-      return <div id='login_menu' className='ui-container mts pam bright bordered rounded'>
-        {systemLogin({ authToken })}
-      </div>
+      return (
+        <div
+          id='login_menu'
+          className='ui-container mts pam bright bordered rounded'
+        >
+          {systemLogin({ authToken })}
+        </div>
+      )
     }
 
     // NOTE: can't use Tabs-Component directly because of style issues
@@ -27,11 +34,11 @@ class LoginMenu extends React.Component {
         >
           <div>
             <Nav className='ui-tabs ui-container'>
-              {loginProviders.map(({ id, title }) => (
+              {loginProviders.map(({ id, title }) =>
                 <NavItem className='ui-tabs-item left' eventKey={id} key={id}>
                   {title}
                 </NavItem>
-              ))}
+              )}
             </Nav>
             <Tab.Content animation={false} className='ui-tab-content'>
               {loginProviders.map(({ id, ...loginProps }) => {
@@ -59,20 +66,24 @@ class LoginMenu extends React.Component {
 
 export default LoginMenu
 
-const providerLogin = ({ title, description, href, buttonTxt, authToken }) => (
+const providerLogin = ({ title, description, href, buttonTxt, authToken }) =>
   <div className='form-body'>
     <div className='ui-form-group rowed'>
       <p className='mbm'>
-        {description.split('\n').map(line => <span>{line}<br /></span>)}
+        {description.split('\n').map(line =>
+          <span>
+            {line}
+            <br />
+          </span>
+        )}
       </p>
       <a className='primary-button block large' href={href}>
         {buttonTxt || t('login_box_login_btn')}
       </a>
     </div>
   </div>
-)
 
-const systemLogin = ({ authToken }) => (
+const systemLogin = ({ authToken }) =>
   <RailsForm action='/session/sign_in' authToken={authToken}>
     <div className='form-body'>
       <div className='ui-form-group rowed compact'>
@@ -113,4 +124,3 @@ const systemLogin = ({ authToken }) => (
       </div>
     </div>
   </RailsForm>
-)

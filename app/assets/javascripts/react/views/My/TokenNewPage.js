@@ -34,7 +34,9 @@ class TokenNewPage extends React.Component {
             authToken={props.authToken}
           >
             <div className='ui-form-group rowed prn'>
-              <h3 className='title-l'>{t('api_tokens_create_title')}</h3>
+              <h3 className='title-l'>
+                {t('api_tokens_create_title')}
+              </h3>
             </div>
             <div className='ui-form-group rowed pan mbs'>
               <label className='form-label'>

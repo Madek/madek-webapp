@@ -12,7 +12,7 @@ import ActivityStream from '../../decorators/UserActivityStream'
 Moment.locale('de')
 
 // ui config
-const SECTIONS = [ 'created_contents', 'edited_contents', 'shared_contents' ]
+const SECTIONS = ['created_contents', 'edited_contents', 'shared_contents']
 const CLUSTER_INTERVAL_MINUTES = 60
 
 // fetching config
@@ -44,32 +44,36 @@ class MyTimeline extends React.Component {
     }
 
     // start fetching loop into the past
-    this.state.shouldFetchPast && asyncWhile(() =>
-        this.state.shouldFetchPast && !this.state.endOfStream, loopCallback => {
-      this.setState({ fetchingPast: true })
-      this._fetchActivityStreamPast(this.props.get.url, (err, res) => {
-        if (err) return loopCallback(err)
+    this.state.shouldFetchPast &&
+      asyncWhile(
+        () => this.state.shouldFetchPast && !this.state.endOfStream,
+        loopCallback => {
+          this.setState({ fetchingPast: true })
+          this._fetchActivityStreamPast(this.props.get.url, (err, res) => {
+            if (err) return loopCallback(err)
 
-        const streamInfo = parseStreamInfo(res)
-          // if there are no more events, we reached the end
-        if (streamInfo.stream.length < 1) {
-          this.setState({ fetchingPast: false, endOfStream: true })
-            // otherwise, update timestamps and add new items:
-        } else {
-          const totalStream = this.state.stream.concat(streamInfo.stream)
-          this.setState({
-            fetchingPast: false,
-            shouldFetchPast: totalStream.length < MAX_ITEMS,
-            ...streamInfo,
-            stream: totalStream
+            const streamInfo = parseStreamInfo(res)
+            // if there are no more events, we reached the end
+            if (streamInfo.stream.length < 1) {
+              this.setState({ fetchingPast: false, endOfStream: true })
+              // otherwise, update timestamps and add new items:
+            } else {
+              const totalStream = this.state.stream.concat(streamInfo.stream)
+              this.setState({
+                fetchingPast: false,
+                shouldFetchPast: totalStream.length < MAX_ITEMS,
+                ...streamInfo,
+                stream: totalStream
+              })
+            }
+            this._fetchPastLoop = setTimeout(() => loopCallback(), LOOP_TIME)
           })
+        },
+        err => {
+          console.debug('Fetch past Loop Ended', err)
+          this.setState({ fetchingPast: false, shouldFetchPast: false })
         }
-        this._fetchPastLoop = setTimeout(() => loopCallback(), LOOP_TIME)
-      })
-    }, err => {
-      console.debug('Fetch past Loop Ended', err)
-      this.setState({ fetchingPast: false, shouldFetchPast: false })
-    })
+      )
   }
 
   _fetchActivityStreamPast (baseUrl, callback) {
@@ -83,9 +87,7 @@ class MyTimeline extends React.Component {
 
   componentWillUnmount () {
     this._fetchPastLoop && clearTimeout(this._fetchPastLoop)
-    this._fetchPastReq &&
-      this._fetchPastReq.abort &&
-      this._fetchPastReq.abort()
+    this._fetchPastReq && this._fetchPastReq.abort && this._fetchPastReq.abort()
   }
 
   render (
@@ -96,7 +98,7 @@ class MyTimeline extends React.Component {
     const events = combineActivityItems(stream)
     const endDate = streamEnd || new Date(props.get.config.end_date || 0)
     const nextLink = setUrlParams(props.for_url, {
-      stream: { from: endDate.getTime() / 1000 | 0 }
+      stream: { from: (endDate.getTime() / 1000) | 0 }
     })
 
     return (
@@ -127,15 +129,16 @@ const parseStreamInfo = get => {
 }
 
 // extract items from sections and sort by moment
-const combineActivityLists = obj => f
-  .chain(SECTIONS)
-  .map(s => obj[s])
-  .flattenDeep()
-  .compact()
-  .map(i => ({ ...i, date: Moment(new Date(i.date)) }))
-  .sortBy('date')
-  .reverse()
-  .value()
+const combineActivityLists = obj =>
+  f
+    .chain(SECTIONS)
+    .map(s => obj[s])
+    .flattenDeep()
+    .compact()
+    .map(i => ({ ...i, date: Moment(new Date(i.date)) }))
+    .sortBy('date')
+    .reverse()
+    .value()
 
 // group several items if the "belong together"
 const combineActivityItems = list => {
@@ -145,39 +148,37 @@ const combineActivityItems = list => {
       const prevGroup = result.slice(-1)[0]
       const prevResults = result.slice(0, -1)
 
-      const prevType = f.get(prevGroup, [ 0, 'type' ])
+      const prevType = f.get(prevGroup, [0, 'type'])
       const isSameType = !!prevType && prevType === f.get(item, 'type')
 
       // NOTE: for object two empties are not considered equal, but are for subject
-      const prevObject = f.get(prevGroup, [ 0, 'object' ])
-      const isSameObject = !!prevObject &&
-        prevObject.url === f.get(item, [ 'object', 'url' ])
-      const isSameObjectType = !!prevObject &&
-        prevObject.type === f.get(item, [ 'object', 'type' ])
+      const prevObject = f.get(prevGroup, [0, 'object'])
+      const isSameObject =
+        !!prevObject && prevObject.url === f.get(item, ['object', 'url'])
+      const isSameObjectType =
+        !!prevObject && prevObject.type === f.get(item, ['object', 'type'])
 
-      const prevSubjectUrl = f.get(prevGroup, [ 0, 'subject', 'url' ])
-      const isSameSubject = prevSubjectUrl ===
-        f.get(item, [ 'subject', 'url' ])
+      const prevSubjectUrl = f.get(prevGroup, [0, 'subject', 'url'])
+      const isSameSubject = prevSubjectUrl === f.get(item, ['subject', 'url'])
 
       // same type and object: only add moreDates to existing item
       if (isSameType && isSameObject) {
         const moreDates = prevGroup[0].moreDates || []
         return prevResults.concat([
-          [ { ...prevGroup[0], moreDates: moreDates.concat(item.date) } ]
+          [{ ...prevGroup[0], moreDates: moreDates.concat(item.date) }]
         ])
       }
 
       // same type: group IF close in times, AND same subject, AND same object type
       if (isSameType && isSameSubject && isSameObjectType) {
-        const earliestDate = f.last(prevGroup[0].moreDates) ||
-          prevGroup[0].date
+        const earliestDate = f.last(prevGroup[0].moreDates) || prevGroup[0].date
         if (isCloseInterval({ from: item.date, to: earliestDate })) {
-          return prevResults.concat([ prevGroup.concat(item) ])
+          return prevResults.concat([prevGroup.concat(item)])
         }
       }
 
       // default: new group with item
-      return f.concat(result, [ [ item ] ])
+      return f.concat(result, [[item]])
     },
     []
   )

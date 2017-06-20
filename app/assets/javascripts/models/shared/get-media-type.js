@@ -18,7 +18,8 @@ module.exports = function mediaTypeFromContentType (contentType) {
   if (/^text/.test(contentType)) {
     return 'document'
   }
-  if (/^application/.test(contentType)) { // FIXME: shouldn't this only match PDF?
+  if (/^application/.test(contentType)) {
+    // FIXME: shouldn't this only match PDF?
     return 'document'
   }
   // fallback

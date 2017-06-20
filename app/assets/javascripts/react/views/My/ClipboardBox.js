@@ -7,7 +7,9 @@ const MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
 const fallbackMessage = (
   <div className='pvh mth mbl'>
     <div className='by-center'>
-      <p className='title-l mbm'>{t('clipboard_empty_message')}</p>
+      <p className='title-l mbm'>
+        {t('clipboard_empty_message')}
+      </p>
     </div>
   </div>
 )

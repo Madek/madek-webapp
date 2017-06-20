@@ -30,7 +30,7 @@ const DEFAULT_OPTIONS = {
   }
 }
 
-const sourceLabel = ({ profile }) => endsWith(profile, '_HD') ? 'HD' : 'SD'
+const sourceLabel = ({ profile }) => (endsWith(profile, '_HD') ? 'HD' : 'SD')
 
 class VideoJS extends React.Component {
   componentDidMount () {
@@ -68,15 +68,13 @@ class VideoJS extends React.Component {
 
     return (
       <video ref='video' {...videoProps} className={classes}>
-        {
-          sources.map(source => (
-            <source
-              src={source.url}
-              type={source.content_type}
-              key={`${source.url}${source.content_type}`}
-            />
-          ))
-        }
+        {sources.map(source =>
+          <source
+            src={source.url}
+            type={source.content_type}
+            key={`${source.url}${source.content_type}`}
+          />
+        )}
       </video>
     )
   }

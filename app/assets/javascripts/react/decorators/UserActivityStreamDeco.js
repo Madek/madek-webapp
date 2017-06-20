@@ -5,22 +5,24 @@ import isString from 'lodash/isString'
 import trimString from 'lodash/trim'
 Moment.locale('de')
 
-export const UserCreatedItem = ({user}) => (
-  user && user.created_at && <div className='event event-item'>
+export const UserCreatedItem = ({ user }) =>
+  user &&
+  user.created_at &&
+  <div className='event event-item'>
     <div className='label'>
       <i className='icon icon-user' />
     </div>
     <div className='content'>
-      <div className='date title-xs-alt'>{Moment(user.created_at).calendar()}</div>
+      <div className='date title-xs-alt'>
+        {Moment(user.created_at).calendar()}
+      </div>
       <div className='summary'>
         <h2 className='title-l'>
           {`Sie haben sich angemeldet.`}
         </h2>
       </div>
-
     </div>
   </div>
-)
 
 export const activityGroup = ({ group }) => {
   // for an ActivityGroup, types, subjects, and object.types are always the same,
@@ -34,32 +36,28 @@ export const activityGroup = ({ group }) => {
     case 'create':
       return [
         <i className='icon icon-plus' />,
-        (<span>
+        <span>
           {`Sie haben ${count} `}
-          <ResourceLabelPlural {...object} />{' '}
-          {'erstellt.'}
-        </span>)
+          <ResourceLabelPlural {...object} /> {'erstellt.'}
+        </span>
       ]
 
     case 'edit':
       return [
         <i className='icon icon-pen' />,
-        (<span>
+        <span>
           {`Sie haben ${count} `}
-          <ResourceLabelPlural {...object} />{' '}
-          {'bearbeitet.'}
-        </span>)
+          <ResourceLabelPlural {...object} /> {'bearbeitet.'}
+        </span>
       ]
 
     case 'share':
       return [
         <i className='icon icon-privacy-private-alt' />,
-        (<span>
-          {sub}{' '}
-          {`hat ${count} `}
-          <ResourceLabelPlural {...object} />{' '}
-          {'mit ihnen geteilt.'}
-        </span>)
+        <span>
+          {sub} {`hat ${count} `}
+          <ResourceLabelPlural {...object} /> {'mit ihnen geteilt.'}
+        </span>
       ]
 
     default:
@@ -73,32 +71,28 @@ export const activityItemByType = ({ type, subject, object }) => {
     case 'create':
       return [
         <i className='icon icon-plus' />,
-        (<span>
+        <span>
           {'Sie haben '}
-          <ResourceLabel {...object} />{' '}
-          {' erstellt.'}
-        </span>)
+          <ResourceLabel {...object} /> {' erstellt.'}
+        </span>
       ]
 
     case 'edit':
       return [
         <i className='icon icon-pen' />,
-        (<span>
+        <span>
           {'Sie haben '}
-          <ResourceLabel {...object} />{' '}
-          {'bearbeitet.'}
-        </span>)
+          <ResourceLabel {...object} /> {'bearbeitet.'}
+        </span>
       ]
 
     case 'share':
       return [
         <i className='icon icon-privacy-private-alt' />,
-        (<span>
-          {sub}{' '}
-          {'hat '}
-          <ResourceLabel {...object} />{' '}
-          {'mit ihnen geteilt.'}
-        </span>)
+        <span>
+          {sub} {'hat '}
+          <ResourceLabel {...object} /> {'mit ihnen geteilt.'}
+        </span>
       ]
 
     default:
@@ -129,22 +123,22 @@ export const resourceInfo = ({ activityType, item }) => {
 
 export const ResourceLink = ({ url, title = '(Unbekannt)' }) => {
   return (
-    <a href={url} title={title}>{truncateMiddle(title, { length: 100 })}</a>
+    <a href={url} title={title}>
+      {truncateMiddle(title, { length: 100 })}
+    </a>
   )
 }
 
-const ResourceLabel = resource => (
+const ResourceLabel = resource =>
   <span>
     {resource.type === 'MediaEntry' ? 'den Eintrag' : 'das Set'}{' '}
     <ResourceLink {...resource} />
   </span>
-)
 
-const ResourceLabelPlural = ({ type }) => (
+const ResourceLabelPlural = ({ type }) =>
   <span>
     {type === 'MediaEntry' ? 'Eintr\xE4ge' : 'Sets'}
   </span>
-)
 
 // string helper, truncates long strings in the middle (better for visual comparisons)
 function truncateMiddle (
@@ -158,7 +152,7 @@ function truncateMiddle (
   if (symbols.length <= length) return symbols.join('')
 
   const maxLength = length - omission.length
-  let [ start, end ] = [ Math.ceil(maxLength / 2), Math.floor(maxLength / 2) ]
+  let [start, end] = [Math.ceil(maxLength / 2), Math.floor(maxLength / 2)]
 
   const result = [
     symbols.slice(0, start).join(''),

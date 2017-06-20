@@ -33,21 +33,26 @@ class TokenCreatedPage extends React.Component {
             className='ui-container bordered rounded mam pas'
             style={{ display: 'inline-block' }}
           >
-            <samp className='title-m code b'>{get.secret}</samp>
+            <samp className='title-m code b'>
+              {get.secret}
+            </samp>
           </p>
           <table className='block aligned'>
             <tbody>
-              <tr><td /><td /><td /></tr>
+              <tr>
+                <td />
+                <td />
+                <td />
+              </tr>
               <TokenRow {...get} />
             </tbody>
           </table>
-          {!!indexAction && (
+          {!!indexAction &&
             <div className='ui-actions mtm'>
               <UI.Button href={indexAction} className='button'>
                 {t('api_tokens_created_back_btn')}
               </UI.Button>
-            </div>
-          )}
+            </div>}
         </div>
       </div>
     )
