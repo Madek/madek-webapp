@@ -14,6 +14,7 @@
     "build:integration": "NODE_ENV=production browserify app/assets/javascripts/integration-testbed.coffee -v -o public/assets/bundles/bundle-integration-testbed.js",
     "test": "npm run -s lint",
     "lint": "bash -c 'npm run -s coffeelint -- --quiet app/assets/javascripts/**/*.coffee app/assets/javascripts/react/**/*.cjsx && npm run -s standardlint -- {.,**}/*.js'",
+    "format": "prettier-standard 'app/assets/javascripts/**/*.js'",
     "devtools": "NODE_ENV=development npm run -s build-devtools && coffee --nodejs \"-r ./tmp/devtools.js\"",
     "devtools-js": "NODE_ENV=development npm run -s build-devtools && node -r ./tmp/devtools.js",
     "build-devtools": "NODE_ENV=production npm run -s browserify -- app/assets/javascripts/developer-tools.coffee > tmp/devtools.js",
@@ -80,6 +81,7 @@
     "coffee-script": "^1.12.3",
     "coffeelint": "^1.16.0",
     "i18n-iso-countries": "^1.11.0",
+    "prettier-standard": "^6.0.0",
     "standard": "^10.0.2",
     "watchify": "^3.7.0"
   },
