@@ -8,6 +8,11 @@ zhdk_zencoder_api_key: 'xxx'
 
 madek_master_secret: 'xxx'
 
+# prod file mount (read-only), using mountainduck.io
+storage_dir: '/Users/ma/Library/Group Containers/G69SCX94XU.duck/Library/Application Support/duck/Volumes/Madek_PROD_FILES_READONLY'
+file_storage_dir: '/Users/ma/Library/Group Containers/G69SCX94XU.duck/Library/Application Support/duck/Volumes/Madek_PROD_FILES_READONLY/attachments'
+thumbnail_storage_dir: '/Users/ma/Library/Group Containers/G69SCX94XU.duck/Library/Application Support/duck/Volumes/Madek_PROD_FILES_READONLY/attachments'
+
 webapp_embeds:
   enable_opengraph: true
   twitter_cards_site: false
