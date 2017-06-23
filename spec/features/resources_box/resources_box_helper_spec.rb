@@ -145,11 +145,14 @@ module ResourcesBoxHelper
 
   def create_resources_ordered(config)
     create_users(config)
+    create_groups(config)
     create_vocabularies(config)
     create_keywords(config)
     create_resources(config)
     create_meta_data(config)
     add_to_clipboard(config)
+    add_users_to_groups(config)
+    add_resources_to_groups(config)
   end
 
   def create_users(config)
@@ -157,6 +160,14 @@ module ResourcesBoxHelper
     .select { |entry| entry[:type] == User }
     .each do |entry|
       entry[:resource] = create_user
+    end
+  end
+
+  def create_groups(config)
+    config
+    .select { |entry| entry[:type] == Group }
+    .each do |entry|
+      entry[:resource] = create_group
     end
   end
 
@@ -328,6 +339,42 @@ module ResourcesBoxHelper
     end
   end
 
+  def add_users_to_groups(config)
+    config
+    .select { |entry| entry[:type] == User }
+    .each do |entry|
+      next unless entry[:groups]
+
+      user = entry[:resource]
+      entry[:groups].each do |group_sym|
+        group = resource_by_id(config, group_sym)
+        group.users << user
+        group.save!
+        group.reload
+      end
+    end
+  end
+
+  def add_resources_to_groups(config)
+    config
+    .select { |entry| [MediaEntry, Collection].include?(entry[:type]) }
+    .each do |entry|
+      next unless entry[:groups]
+
+      resource = entry[:resource]
+      entry[:groups].each do |group_sym|
+        group = resource_by_id(config, group_sym)
+
+        underscore = resource.class.name.underscore
+        FactoryGirl.create(
+          "#{underscore}_group_permission".to_sym,
+          get_metadata_and_previews: true,
+          group: group,
+          underscore => resource)
+      end
+    end
+  end
+
   def force_meta_data_updated_ordered(config)
     config
     .select { |entry| [MediaEntry, Collection].include?(entry[:type]) }
@@ -429,13 +476,17 @@ module ResourcesBoxHelper
     end
   end
 
-  def check_empty_box(show_set_fallback)
-    if show_set_fallback
-      throw 'not implemented'
-    else
-      find_resources_box.find(
-        'div.title-l', text: I18n.t(:resources_box_no_content))
-    end
+  def check_set_fallback
+    fallback_text = I18n.t(:resources_box_no_content_but_sets_1) \
+      + I18n.t(:resources_box_no_content_but_sets_2) \
+      + I18n.t(:resources_box_no_content_but_sets_3)
+    find_resources_box.find(
+      'div.title-l', text: fallback_text)
+  end
+
+  def check_empty_box
+    find_resources_box.find(
+      'div.title-l', text: I18n.t(:resources_box_no_content))
   end
 
   def find_resources_box
@@ -508,6 +559,13 @@ module ResourcesBoxHelper
 
   def find_switcher
     find_resources_box.find('div[data-test-id=resource-type-switcher]')
+  end
+
+  def check_switcher_link(switcher_sym, parameters)
+    href = find_switcher.find('a', text: switcher_texts[switcher_sym])[:href]
+    uri = URI(href)
+    actual = Rack::Utils.parse_nested_query(uri.query)
+    expect(actual.deep_symbolize_keys).to eq(parameters.deep_symbolize_keys)
   end
 
   def check_switcher_generic(buttons, active, resource)
@@ -590,6 +648,10 @@ module ResourcesBoxHelper
       :user,
       person: person
     )
+  end
+
+  def create_group
+    FactoryGirl.create(:group)
   end
 
   def create_collection(title, user)

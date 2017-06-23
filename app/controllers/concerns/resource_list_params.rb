@@ -36,12 +36,15 @@ module Concerns
       end
 
       def resource_list_by_type_param
-        if (not params[:type]) || params[:type] == 'entries'
+        type = params[:type]
+        if (not type) || type == 'entries'
           entries_list_params
-        elsif params[:type] == 'collections'
+        elsif type == 'collections'
           collections_list_params
-        else
+        elsif type == 'all'
           both_list_params
+        else
+          throw 'Unexpected type: ' + type.to_s
         end
       end
 

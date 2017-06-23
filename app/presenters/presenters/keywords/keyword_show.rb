@@ -42,8 +42,12 @@ module Presenters
         end
       end
 
+      def media_files_filter?
+        return true if @list_conf[:filter].try(:[], :media_files)
+      end
+
       def check_for_try_collection(resources, clazz)
-        if resources.empty? && clazz == MediaEntry
+        if !media_files_filter? && resources.empty? && clazz == MediaEntry
           try_scope = keyword_scope(@app_resource, Collection)
           try_resources = Presenters::Shared::MediaResource::MediaResources.new(
             try_scope, @user, can_filter: false, list_conf: @list_conf

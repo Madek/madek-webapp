@@ -12,7 +12,7 @@ feature 'set show box' do
 
     visit_resource(parent, {})
 
-    check_empty_box(false)
+    check_empty_box
     check_switcher_triple(:all, parent)
     check_filter_button(:active)
     check_side_filter(false)
@@ -27,7 +27,7 @@ feature 'set show box' do
 
     visit_resource(parent, type: 'entries')
 
-    check_empty_box(false)
+    check_empty_box
     check_switcher_triple(:entries, parent)
     check_filter_button(:active)
     check_side_filter(false)
@@ -42,7 +42,7 @@ feature 'set show box' do
 
     visit_resource(parent, type: 'collections')
 
-    check_empty_box(false)
+    check_empty_box
     check_switcher_triple(:collections, parent)
     check_filter_button(:active)
     check_side_filter(false)
