@@ -16,9 +16,13 @@ module Presenters
             keywords.count <= 16
           end
 
+          # Overrides the subseqiemt logic which says that only
+          # non-extensible are preloaded.
+          always_preload = true
+
           # for non-extensible keywords, include the "first" 50 keywords,
           # used as immediate suggestions (without typing)
-          if self.show_checkboxes or !meta_key.is_extensible_list
+          if self.show_checkboxes or !meta_key.is_extensible_list or always_preload
             define_singleton_method :keywords do
               keywords.limit(50).map do |kw|
                 Presenters::Keywords::KeywordIndex.new(kw)

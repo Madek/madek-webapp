@@ -58,7 +58,7 @@ def move_mouse_over(element)
   # element.hover
 end
 
-def autocomplete_and_choose_first(node, text)
+def autocomplete_and_choose_first(node, text, press_escape: false)
   unless Capybara.javascript_driver == :selenium
     throw 'Autocomplete is only supported in Selenium!'
   end
@@ -74,6 +74,14 @@ def autocomplete_and_choose_first(node, text)
   # select first entry with keyboard navigation
   input.native.send_keys(:arrow_down)
   input.native.send_keys(:enter)
+  # Since for the keywords we prefill n entries in the dropdown as soon as
+  # the focus is in the input field, the dropdown is not closed after selection
+  # because of the focus is still in the input field. In this case we
+  # close the dropdown pressing escape, otherwise it will cover other
+  # elements which are covered by the dropdown.
+  if press_escape
+    input.native.send_keys(:escape)
+  end
 end
 
 def dropdown_menu_and_get(toggle_text, menu_item_text)

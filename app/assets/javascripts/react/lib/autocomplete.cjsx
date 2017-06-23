@@ -78,11 +78,24 @@ initTypeahead = (domNode, resourceType, params, conf, existingValues, valueFilte
         if f.isFunction(onAdd)
           onAdd(value)
           $input.typeahead('val', '') # reset input field text
+
+    if event.keyCode is 27 # on ESCAPE key
+      # If you do not remove the focus explicitly, then only the
+      # dropdown disappears, but the focus stays. If you click then
+      # on the input again, the focus is already there and the
+      # dropdown will not open, since the focus does not change.
+      $input.blur()
+
     return null # otherwise we will get stupid warning
 
   typeahead.on 'typeahead:select typeahead:autocomplete', (event, item)->
     event.preventDefault()
-    $input.typeahead('val', '') # reset input field text
+    # Hack: We want the newly selected value to be greyed out, which needs a redraw.
+    # To trigger a redraw, we simulate entering something in the text input.
+    # If we would just set it to '' then if the field already was '' there would be
+    # no redraw. So we first have to set it to a different value ' '.
+    $input.typeahead('val', ' ')
+    $input.typeahead('val', '')
     onSelect(item)
 
 module.exports = React.createClass

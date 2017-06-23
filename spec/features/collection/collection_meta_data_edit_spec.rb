@@ -67,7 +67,8 @@ feature 'Resource: Collection' do
           autocomplete_and_choose_first(
             find_context_meta_key_form_by_id('media_content',
                                              'madek_core:keywords'),
-            @keyword.term)
+            @keyword.term,
+            press_escape: true)
         end,
         lambda do
           expect(find_datum(@resource, 'madek_core:title').string)
