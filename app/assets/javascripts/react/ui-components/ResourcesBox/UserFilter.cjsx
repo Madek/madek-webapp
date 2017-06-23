@@ -108,6 +108,10 @@ module.exports = React.createClass
           <li key={'uuid_' + selected.uuid} className={css('ui-side-filter-lvl3-item', {active: true})}>
             <a className='link weak ui-link' onClick={(event) -> clear(selected, event)}>
               {selected.label}
+              {
+                if selected.label
+                  <span className='ui-lvl3-item-count'>{selected.count}</span>
+              }
             </a>
           </li>
 

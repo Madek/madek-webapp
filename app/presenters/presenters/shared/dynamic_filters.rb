@@ -62,21 +62,10 @@ module Presenters
 
       def permissions_visibility(scope)
         filters = [
-          (
-            { label: 'Öffentlich', uuid: 'public' } if (
-              scope.filter_by_visibility_public.count > 0
-            )
-          ),
-          (
-            { label: 'Geteilt', uuid: 'shared' } if (
-              scope.filter_by_visibility_shared.count > 0
-            )
-          ),
-          (
-            { label: 'Privat', uuid: 'private' } if (
-              scope.filter_by_visibility_private.count > 0
-            )
-          )
+          permissions_visibility_private(scope),
+          permissions_visibility_user_or_group(scope),
+          permissions_visibility_api(scope),
+          permissions_visibility_public(scope)
         ].compact
 
         unless filters.empty?
@@ -86,6 +75,42 @@ module Presenters
             children: filters
           }
         end
+      end
+
+      def permissions_visibility_private(scope)
+        private_count = scope.filter_by_visibility_private.count
+        {
+          label: 'Nur für mich',
+          uuid: 'private',
+          count: private_count
+        } if private_count > 0
+      end
+
+      def permissions_visibility_user_or_group(scope)
+        user_or_group_count = scope.filter_by_visibility_user_or_group.count
+        {
+          label: 'Geteilt mit Personen und Arbeitsgruppen',
+          uuid: 'user_or_group',
+          count: user_or_group_count
+        } if user_or_group_count > 0
+      end
+
+      def permissions_visibility_api(scope)
+        api_count = scope.filter_by_visibility_api.count
+        {
+          label: 'API-Applikationen',
+          uuid: 'api',
+          count: api_count
+        } if api_count > 0
+      end
+
+      def permissions_visibility_public(scope)
+        public_count = scope.filter_by_visibility_public.count
+        {
+          label: 'Öffentlich',
+          uuid: 'public',
+          count: public_count
+        } if public_count > 0
       end
 
       def permissions_responsible_user(scope)
@@ -104,7 +129,7 @@ module Presenters
           .map { |u| Presenters::Users::UserIndex.new(u) }
 
         {
-          label: 'Sichtbar für Person',
+          label: 'Sichtbar für Personen',
           uuid: 'entrusted_to_user',
           children: users
         }
@@ -115,7 +140,7 @@ module Presenters
           .map { |u| Presenters::Groups::GroupIndex.new(u) }
 
         {
-          label: 'Sichtbar für Gruppe',
+          label: 'Sichtbar für Arbeitsgruppen',
           uuid: 'entrusted_to_group',
           children: groups
         }
