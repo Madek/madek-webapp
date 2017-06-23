@@ -154,6 +154,7 @@ module.exports = React.createClass
     showBatchTransferResponsibility: false
     batchTransferResponsibilityResources: []
     batchDestroyResourcesModal: false
+    showSelectionLimit: false
   }
 
   _allowedLayoutModes: () ->
@@ -338,9 +339,22 @@ module.exports = React.createClass
         filter: event.current
         accordion: event.accordion}})
 
+  _selectionLimit: () ->
+    50
+
   _onSelectResource: (resource, event)-> # toggles selection item
     event.preventDefault()
-    @state.selectedResources.toggle(resource.serialize())
+    selection = @state.selectedResources
+    if !selection.contains(resource.serialize()) && selection.length() > @_selectionLimit() - 1
+      @_showSelectionLimit('single-selection')
+    else
+      selection.toggle(resource.serialize())
+
+  _showSelectionLimit: (version) ->
+    @setState(showSelectionLimit: version)
+
+  _closeSelectionLimit: () ->
+    @setState(showSelectionLimit: false)
 
 
   _onSelectionAllToggle: (event)-> # toggles selection
@@ -905,6 +919,27 @@ module.exports = React.createClass
           </Modal>
       }
 
+      {
+        if @state.showSelectionLimit
+          <Modal widthInPixel={400}>
+            <div style={{margin: '20px', marginBottom: '20px', textAlign: 'center'}}>
+              {
+                if @state.showSelectionLimit == 'page-selection'
+                  t('resources_box_selection_limit_page_1') + @_selectionLimit() + t('resources_box_selection_limit_page_2')
+                else if @state.showSelectionLimit == 'single-selection'
+                  t('resources_box_selection_limit_single_1') + @_selectionLimit() + t('resources_box_selection_limit_single_2')
+                else
+                  throw new Error('Unexpected show selection limit: ' + @state.showSelectionLimit)
+              }
+            </div>
+            <div style={{margin: '20px', marginBottom: '20px', textAlign: 'center'}}>
+              <div className="ui-actions">
+                <a onClick={@_closeSelectionLimit} className="primary-button">{t('resources_box_selection_limit_ok')}</a>
+              </div>
+            </div>
+          </Modal>
+      }
+
       {if withBox then boxTitleBar()}
       {if withBox then boxToolBar()}
 
@@ -977,14 +1012,17 @@ module.exports = React.createClass
                             if selectionCountOnPage < fullPageCount
                               checkState = 'partial'
 
-                          onSelectPage = (event) ->
+                          onSelectPage = (event) =>
                             event.preventDefault()
                             if selectionCountOnPage > 0
                               page.resources.forEach (item) ->
                                 selection.remove(item.serialize())
                             else
-                              page.resources.forEach (item) ->
-                                selection.add(item.serialize())
+                              if selection.length() > @_selectionLimit() - page.resources.length
+                                @_showSelectionLimit('page-selection')
+                              else
+                                page.resources.forEach (item) ->
+                                  selection.add(item.serialize())
 
                         <PageCounter
                           href={page.url}
