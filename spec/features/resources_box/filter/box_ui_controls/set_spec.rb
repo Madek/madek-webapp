@@ -1,4 +1,4 @@
-require_relative '../resources_box_helper_spec'
+require_relative '../../resources_box_helper_spec'
 include ResourcesBoxHelper
 
 feature 'set show box' do
@@ -15,7 +15,7 @@ feature 'set show box' do
     check_empty_box
     check_switcher_triple(:all, parent)
     check_filter_button(:active)
-    check_side_filter(false)
+    check_side_filter(:invisible)
   end
 
   scenario 'empty collection entries' do
@@ -30,7 +30,7 @@ feature 'set show box' do
     check_empty_box
     check_switcher_triple(:entries, parent)
     check_filter_button(:active)
-    check_side_filter(false)
+    check_side_filter(:invisible)
   end
 
   scenario 'empty collection collections' do
@@ -45,7 +45,7 @@ feature 'set show box' do
     check_empty_box
     check_switcher_triple(:collections, parent)
     check_filter_button(:active)
-    check_side_filter(false)
+    check_side_filter(:invisible)
   end
 
   scenario 'empty collection entries with filter' do
@@ -59,7 +59,7 @@ feature 'set show box' do
 
     check_filter_button(:inactive)
     check_side_search(true)
-    check_side_filter(false)
+    check_side_filter(:only_search)
   end
 
   scenario 'collection with children all' do
@@ -77,7 +77,7 @@ feature 'set show box' do
       all_resource_ids(config) - [:parent])
     check_switcher_triple(:all, parent)
     check_filter_button(:active)
-    check_side_filter(false)
+    check_side_filter(:invisible)
   end
 
   scenario 'collection with children entries' do
@@ -95,7 +95,7 @@ feature 'set show box' do
       media_entry_ids(config))
     check_switcher_triple(:entries, parent)
     check_filter_button(:active)
-    check_side_filter(false)
+    check_side_filter(:invisible)
   end
 
   scenario 'collection with children entries search and keyword filter' do
@@ -126,7 +126,7 @@ feature 'set show box' do
     check_content(['Media Entry 1'])
     check_switcher_triple(:entries, parent)
     check_filter_button(:inactive)
-    check_side_filter(true)
+    check_side_filter(:full)
   end
 
   scenario 'collection with children collections search filter' do
@@ -148,7 +148,7 @@ feature 'set show box' do
     )
 
     check_filter_button(:inactive)
-    check_side_filter(false)
+    check_side_filter(:only_search)
     check_search_input('Media Entry 1')
   end
 

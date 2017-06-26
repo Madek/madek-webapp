@@ -146,6 +146,7 @@ module ResourcesBoxHelper
   def create_resources_ordered(config)
     create_users(config)
     create_groups(config)
+    create_apis(config)
     create_vocabularies(config)
     create_keywords(config)
     create_resources(config)
@@ -153,6 +154,8 @@ module ResourcesBoxHelper
     add_to_clipboard(config)
     add_users_to_groups(config)
     add_resources_to_groups(config)
+    add_resources_to_apis(config)
+    add_resources_to_users(config)
   end
 
   def create_users(config)
@@ -171,6 +174,14 @@ module ResourcesBoxHelper
     end
   end
 
+  def create_apis(config)
+    config
+    .select { |entry| entry[:type] == ApiClient }
+    .each do |entry|
+      entry[:resource] = create_api
+    end
+  end
+
   def create_clipboard_collection_lazy(user)
     clipboard = Collection.unscoped.where(clipboard_user_id: user.id).first
     unless clipboard
@@ -184,9 +195,6 @@ module ResourcesBoxHelper
   end
 
   def add_to_clipboard(config)
-    user = default_user(config)
-    clipboard = create_clipboard_collection_lazy(user)
-
     media_entries = config
       .select { |entry| entry[:clipboard] && entry[:type] == MediaEntry }
       .map { |entry| entry[:resource] }
@@ -194,6 +202,11 @@ module ResourcesBoxHelper
     collections = config
       .select { |entry| entry[:clipboard] && entry[:type] == Collection }
       .map { |entry| entry[:resource] }
+
+    return if media_entries.empty? && collections.empty?
+
+    user = default_user(config)
+    clipboard = create_clipboard_collection_lazy(user)
 
     clipboard.media_entries << media_entries
     clipboard.collections << collections
@@ -210,12 +223,18 @@ module ResourcesBoxHelper
 
       user =
         if entry[:user]
-          throw 'Give specific user for creation to be implemented.'
+          resource_by_id(config, entry[:user])
         else
           default_user(config)
         end
 
-      resource = send("create_#{underscore}", 'Initial ' + entry[:title], user)
+      get_metadata_and_previews = (entry[:visibility] != :private)
+
+      resource = send(
+        "create_#{underscore}",
+        'Initial ' + entry[:title],
+        user,
+        get_metadata_and_previews)
       entry[:resource] = resource.reload
       sleep 0.01
     end
@@ -356,23 +375,65 @@ module ResourcesBoxHelper
   end
 
   def add_resources_to_groups(config)
+    add_resources_permission(config, :groups)
+  end
+
+  def add_resources_to_apis(config)
+    add_resources_permission(config, :apis)
+  end
+
+  def add_resources_to_users(config)
+    add_resources_permission(config, :users)
+  end
+
+  def add_resources_permission(config, permission_type)
     config
     .select { |entry| [MediaEntry, Collection].include?(entry[:type]) }
     .each do |entry|
-      next unless entry[:groups]
+      next unless entry[permission_type]
 
       resource = entry[:resource]
-      entry[:groups].each do |group_sym|
-        group = resource_by_id(config, group_sym)
+      entry[permission_type].each do |group_sym|
+        permission_target = resource_by_id(config, group_sym)
 
-        underscore = resource.class.name.underscore
-        FactoryGirl.create(
-          "#{underscore}_group_permission".to_sym,
-          get_metadata_and_previews: true,
-          group: group,
-          underscore => resource)
+        if permission_type == :groups
+          add_group_permission(resource, permission_target)
+        elsif permission_type == :apis
+          add_api_client_permission(resource, permission_target)
+        elsif permission_type == :users
+          add_user_permission(resource, permission_target)
+        else
+          throw 'Unexpected permission: ' + permission_type.to_s
+        end
       end
     end
+  end
+
+  def add_group_permission(resource, group)
+    underscore = resource.class.name.underscore
+    FactoryGirl.create(
+      "#{underscore}_group_permission".to_sym,
+      get_metadata_and_previews: true,
+      group: group,
+      underscore => resource)
+  end
+
+  def add_api_client_permission(resource, api_client)
+    underscore = resource.class.name.underscore
+    FactoryGirl.create(
+      "#{underscore}_api_client_permission".to_sym,
+      get_metadata_and_previews: true,
+      api_client: api_client,
+      underscore => resource)
+  end
+
+  def add_user_permission(resource, user)
+    underscore = resource.class.name.underscore
+    FactoryGirl.create(
+      "#{underscore}_user_permission".to_sym,
+      get_metadata_and_previews: true,
+      user: user,
+      underscore => resource)
   end
 
   def force_meta_data_updated_ordered(config)
@@ -433,6 +494,41 @@ module ResourcesBoxHelper
   def check_search_input(term)
     input = find('input.ui-filter-search-input')
     expect(input.value).to eq(term)
+  end
+
+  def find_section(name)
+    find_resources_box.find('.ui-side-filter-list').find(
+      :xpath,
+      ".//li[contains(@class, 'ui-side-filter-lvl1-item')]" \
+      "[.//a[contains(., '#{name}')]]")
+  end
+
+  def find_sub_section(section_el, name)
+    section_el.find(
+      :xpath,
+      ".//li[contains(@class, 'ui-side-filter-lvl2-item')]" \
+      "[.//a[contains(., '#{name}')]]")
+  end
+
+  def find_filter(sub_section_el, name)
+    sub_section_el.find(
+      :xpath,
+      ".//li[contains(@class, 'ui-side-filter-lvl3-item')]" \
+      "[.//a[contains(., '#{name}')]]")
+  end
+
+  def open_dynamic_filter(section, sub_section)
+    section_el = find_section(section)
+    section_el.click
+    sub_section_el = find_sub_section(section_el, sub_section)
+    sub_section_el.click
+  end
+
+  def check_dynamic_filter(section, sub_section, filter, count)
+    section_el = find_section(section)
+    sub_section_el = find_sub_section(section_el, sub_section)
+    filter_el = find_filter(sub_section_el, filter)
+    filter_el.find('.ui-lvl3-item-count', text: count.to_s)
   end
 
   def check_content_by_ids(config, order, ids)
@@ -507,13 +603,21 @@ module ResourcesBoxHelper
     end
   end
 
-  def check_side_filter(visible)
-    if visible
-      expect(find_resources_box).to have_selector(
-        'ul[data-test-id=side-filter]')
-    else
+  def check_side_filter(state)
+    if state == :invisible
       expect(find_resources_box).to have_no_selector(
-        'ul[data-test-id=side-filter]')
+        'div.ui-side-filter')
+    elsif state == :only_search || state == :full
+      side_filter = find_resources_box.find('div.ui-side-filter')
+      expect(side_filter).to have_selector('div.ui-side-filter-search')
+      if state == :full
+        side_filter.find('ul.ui-side-filter-list')
+      else
+        expect(side_filter).to have_no_selector(
+          'ul.ui-side-filter-list')
+      end
+    else
+      throw 'Unexpected state: ' + state.to_s
     end
   end
 
@@ -654,9 +758,13 @@ module ResourcesBoxHelper
     FactoryGirl.create(:group)
   end
 
-  def create_collection(title, user)
+  def create_api
+    FactoryGirl.create(:api_client)
+  end
+
+  def create_collection(title, user, get_metadata_and_previews)
     collection = Collection.create!(
-      get_metadata_and_previews: true,
+      get_metadata_and_previews: get_metadata_and_previews,
       responsible_user: user,
       creator: user)
     MetaDatum::Text.create!(
@@ -667,10 +775,10 @@ module ResourcesBoxHelper
     collection
   end
 
-  def create_media_entry(title, user)
+  def create_media_entry(title, user, get_metadata_and_previews)
     media_entry = FactoryGirl.create(
       :media_entry,
-      get_metadata_and_previews: true,
+      get_metadata_and_previews: get_metadata_and_previews,
       responsible_user: user,
       creator: user)
     FactoryGirl.create(

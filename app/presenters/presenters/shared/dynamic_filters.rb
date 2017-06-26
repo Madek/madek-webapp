@@ -53,6 +53,7 @@ module Presenters
             {
               label: 'Berechtigung',
               uuid: 'permissions',
+              filter_type: 'permissions',
               position: 2,
               children: children
             }

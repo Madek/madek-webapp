@@ -152,16 +152,25 @@ module.exports = React.createClass
       )
 
   _updateAccordion: (dynamic) ->
-    f.each(@props.current.meta_data, (meta_datum) =>
-      f.each(dynamic, (section) =>
-        f.each(section.children, (subSection) =>
-          f.each(subSection.children, (filter) =>
-            if filter.uuid == meta_datum.value
-              @getAccordionSection(section.filter_type + '-' + section.uuid).isOpen = true
-              @getAccordionSubSection(section.filter_type + '-' + section.uuid, subSection.uuid).isOpen = true
+    f.each(
+      [
+        @props.current.media_files,
+        @props.current.meta_data,
+        @props.current.permissions
+      ],
+      (array) =>
+        f.each(array, (media_file_or_meta_datum_or_permission) =>
+          f.each(dynamic, (section) =>
+            f.each(section.children, (subSection) =>
+              f.each(subSection.children, (filter) =>
+                if filter.uuid == media_file_or_meta_datum_or_permission.value
+                  prefix = section.filter_type || filter.uuid
+                  @getAccordionSection(prefix + '-' + section.uuid).isOpen = true
+                  @getAccordionSubSection(prefix + '-' + section.uuid, subSection.uuid).isOpen = true
+              )
+            )
           )
         )
-      )
     )
     @setState(accordion: @state.accordion)
 
