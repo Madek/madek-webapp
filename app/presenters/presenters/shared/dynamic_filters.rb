@@ -118,6 +118,8 @@ module Presenters
         users = responsible_users_for_scope(scope)
           .map { |u| Presenters::Users::UserIndex.new(u) }
 
+        return if users.count == 0
+
         {
           label: 'Verantwortliche Person',
           uuid: 'responsible_user',
@@ -129,6 +131,8 @@ module Presenters
         users = entrusted_users_for_scope(scope)
           .map { |u| Presenters::Users::UserIndex.new(u) }
 
+        return if users.count == 0
+
         {
           label: 'Sichtbar für Personen',
           uuid: 'entrusted_to_user',
@@ -139,6 +143,8 @@ module Presenters
       def permissions_entrusted_to_group(scope)
         groups = entrusted_groups_for_scope(scope)
           .map { |u| Presenters::Groups::GroupIndex.new(u) }
+
+        return if groups.count == 0
 
         {
           label: 'Sichtbar für Arbeitsgruppen',
