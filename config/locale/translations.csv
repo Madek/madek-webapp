@@ -247,7 +247,7 @@ media_entry_conversion_status_submitted,Die Konvertierung läuft. Bitte versuche
 media_entry_delete_success,Der Medieneintrag wurde gelöscht.,Media entry deleted.,
 media_entry_export_close,Schliessen,Close,
 media_entry_export_download,Download,Download,
-media_entry_export_has_no_original,Sie verfügen nicht über die nötigen Berechtigung für den Download der Originaldatei.,You are not allowed to download the original file.,
+media_entry_export_has_no_original,Sie verfügen nicht über die nötige Berechtigung für den Download der Originaldatei.,You are not allowed to download the original file.,
 media_entry_export_no_content,Sie haben keine Zugriffsrechte für die Originaldatei und es steht keine Vorschau zur Verfügung.,You have no access to the original file and there is no preview available.,
 media_entry_export_original_hint,Originaldatei herunterladen.,Download original file as it was uploaded.,
 media_entry_export_original,Original,Original,
