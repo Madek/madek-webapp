@@ -14,13 +14,7 @@ class CollectionsController < ApplicationController
   include Modules::Resources::ResourceTransferResponsibility
   include Modules::Resources::BatchResourceTransferResponsibility
   include Modules::Resources::Share
-
-  ALLOWED_SORTING = [
-    'created_at ASC',
-    'created_at DESC',
-    'title ASC',
-    'title DESC',
-    'last_change'].freeze
+  include Concerns::AllowedSorting
 
   def index
     respond_with(@get = Presenters::Collections::Collections.new(
@@ -179,12 +173,7 @@ class CollectionsController < ApplicationController
   def determine_list_conf(collection)
     list_conf = resource_list_by_type_param
     unless list_conf[:order]
-      list_conf[:order] =
-        if ALLOWED_SORTING.include? collection.sorting
-          collection.sorting
-        else
-          'created_at DESC'
-        end
+      list_conf[:order] = allowed_sorting(collection)
     end
     list_conf
   end

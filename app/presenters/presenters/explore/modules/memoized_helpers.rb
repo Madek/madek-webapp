@@ -3,6 +3,7 @@ module Presenters
     module Modules
       module MemoizedHelpers
         include AuthorizationSetup
+        include Concerns::AllowedSorting
 
         private
 
@@ -43,7 +44,10 @@ module Presenters
                 return
               end
 
+              order = allowed_sorting(set)
+
               auth_policy_scope(@user, set.child_media_resources)
+              .custom_order_by(order)
               .limit(@limit_featured_set)
             end
         end
