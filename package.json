@@ -47,7 +47,7 @@
     "local-links": "1.4.1",
     "lodash": "4.17.4",
     "moment": "2.18.1",
-    "qs": "6.4.0",
+    "qs": "6.5.0",
     "react": "15.6.1",
     "react-bootstrap": "0.31.0",
     "react-day-picker": "4.0.0",
