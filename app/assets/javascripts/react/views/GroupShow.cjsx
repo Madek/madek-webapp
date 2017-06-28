@@ -77,7 +77,7 @@ GroupShow = React.createClass
 
     group = get.group
 
-    title = '"' + group.name + '"'
+    title = group.name
 
     switcher = resourceTypeSwitcher(get.resources, @state.forUrl, false, null)
 
