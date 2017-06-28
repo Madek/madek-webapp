@@ -39,9 +39,13 @@ feature 'Resource: Collection' do
     expect(Collection.exists?(@collection.id)).to eq(false)
   end
 
+  def find_dropdown
+    find('.ui-body-title-actions').find('.ui-dropdown')
+  end
+
   def open_dialog
-    title = I18n.t(:resource_action_destroy, raise: false)
-    find('.ui-body-title-actions').find('.button[title="' + title + '"]').click
+    find_dropdown.click
+    find_dropdown.find('.icon-trash').click
     expect(current_path).to eq ask_delete_collection_path(@collection)
     within('.modal') do
       expect(page).to have_content 'Set löschen'

@@ -457,8 +457,13 @@ def check_disabled_action_button
   end
 end
 
+def find_dropdown
+  find('.ui-body-title-actions').find('.ui-dropdown')
+end
+
 def click_action_button
-  find('.ui-body-title-actions').find('.icon-vis-graph').click
+  find_dropdown.click
+  find_dropdown.find('.icon-vis-graph').click
 end
 
 def concat_k1_v1(k1, v1)

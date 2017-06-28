@@ -91,9 +91,14 @@ feature 'Collection: Edit Cover' do
     expect(is_checked).to eq(expected)
   end
 
+  def find_dropdown
+    find('.ui-body-title-actions').find('.ui-dropdown')
+  end
+
   def open_dialog(has_content)
     visit collection_path(@collection)
-    find('i.icon-cover').find(:xpath, './..').click
+    find_dropdown.click
+    find_dropdown.find('i.icon-cover').find(:xpath, './..').click
     check_on_dialog(has_content)
   end
 

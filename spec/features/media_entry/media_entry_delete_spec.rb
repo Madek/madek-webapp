@@ -17,9 +17,9 @@ feature 'Resource: MediaEntry' do
                creator: @user, responsible_user: @user
 
       # main actions has a delete button with a confirmation:
-      within '.ui-body-title-actions' do
-        find('.icon-trash').click
-      end
+      dropdown = find('.ui-body-title-actions').find('.ui-dropdown')
+      dropdown.click
+      dropdown.find('.icon-trash').click
 
       within '.modal' do
         find('button', text: I18n.t(:resource_ask_delete_ok)).click

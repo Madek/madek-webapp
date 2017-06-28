@@ -217,8 +217,13 @@ feature 'Collection: Edit Highlights' do
     visit collection_path(@collection)
   end
 
+  def find_dropdown
+    find('.ui-body-title-actions').find('.ui-dropdown')
+  end
+
   def open_dialog(has_content)
-    find('i.icon-highlight').find(:xpath, './..').click
+    find_dropdown.click
+    find_dropdown.find('i.icon-highlight').find(:xpath, './..').click
     check_on_dialog(has_content)
   end
 

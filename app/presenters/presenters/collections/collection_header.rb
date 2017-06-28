@@ -3,6 +3,7 @@ module Presenters
     class CollectionHeader < Presenters::Shared::AppResource
 
       include Presenters::Shared::Modules::Favoritable
+      include Presenters::Shared::Modules::SharedHeader
 
       def initialize(
         app_resource,
@@ -37,32 +38,28 @@ module Presenters
         end
       end
 
+      def dropdown_actions
+        [
+          :cover_button,
+          :highlight_button,
+          :custom_urls_button,
+          :destroy_button
+        ]
+      end
+
+      private
+
       def edit_button
-        {
-          async_action: nil,
-          method: 'get',
-          icon: 'pen',
-          title: I18n.t(:resource_action_edit, raise: false),
-          action: edit_meta_data_by_context_collection_path(@app_resource),
-          allowed: policy_for(@user).meta_data_update?
-        }
+        shared_edit_button(Collection, @app_resource, @user)
       end
 
       def favor_button
-        {
-          async_action: nil,
-          method: 'patch',
-          icon: favored ? 'favorite' : 'nofavorite',
-          title: I18n.t(
-            "resource_action_#{favored ? 'disfavor' : 'favor'}", raise: false),
-          action: self.send(
-            "#{favored ? 'disfavor' : 'favor'}_collection_path", @app_resource),
-          allowed: favored ? policy_for(@user).disfavor? : policy_for(@user).favor?
-        }
+        shared_favor_button(Collection, @app_resource, @user)
       end
 
       def cover_button
         {
+          id: :cover_button,
           async_action: nil,
           method: 'get',
           icon: 'cover',
@@ -73,7 +70,9 @@ module Presenters
       end
 
       def destroy_button
+        shared_destroy_button(Collection, @app_resource, @user)
         {
+          id: :destroy_button,
           async_action: nil,
           method: 'get',
           icon: 'trash',
@@ -85,6 +84,7 @@ module Presenters
 
       def select_collection_button
         {
+          id: :select_collection_button,
           async_action: 'select_collection',
           method: 'get',
           icon: 'move',
@@ -96,6 +96,7 @@ module Presenters
 
       def highlight_button
         {
+          id: :highlight_button,
           async_action: nil,
           method: 'get',
           icon: 'highlight',
@@ -107,6 +108,7 @@ module Presenters
 
       def custom_urls_button
         {
+          id: :custom_urls_button,
           async_action: nil,
           method: 'get',
           icon: 'vis-graph',
@@ -118,6 +120,7 @@ module Presenters
 
       def share_button
         {
+          id: :share_button,
           async_action: 'share',
           method: 'get',
           fa: 'fa fa-share',
