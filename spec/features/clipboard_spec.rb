@@ -182,8 +182,7 @@ feature 'clipboard' do
   end
 
   def open_set_manager_and_add_to_clipboard
-    button = find('.ui-body-title-actions').find(
-      'button[title="' + I18n.t(:resource_action_manage_collections) + '"]')
+    button = find('.ui-body-title-actions').find('.icon-move')
     button.click
 
     find('h3', text: I18n.t(:resource_select_collection_title))

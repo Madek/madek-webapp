@@ -65,7 +65,9 @@ module Presenters
           async_action: 'select_collection',
           method: 'get',
           icon: 'move',
-          title: I18n.t(:resource_action_manage_collections, raise: false),
+          title: I18n.t(
+            :resource_action_media_entry_select_collection,
+            raise: false),
           action: select_collection_media_entry_path(@app_resource),
           allowed: policy_for(@user).add_remove_collection?
         }
@@ -77,7 +79,9 @@ module Presenters
           async_action: nil,
           method: 'get',
           icon: 'dload',
-          title: I18n.t(:resource_action_export, raise: false),
+          title: I18n.t(
+            :resource_action_media_entry_export,
+            raise: false),
           action: export_media_entry_path(@app_resource),
           allowed: policy_for(@user).export?
         }
@@ -89,7 +93,9 @@ module Presenters
           async_action: nil,
           method: 'get',
           icon: 'vis-graph',
-          title: I18n.t(:resource_action_edit_custom_urls, raise: false),
+          title: I18n.t(
+            :resource_action_media_entry_edit_custom_urls,
+            raise: false),
           action: custom_urls_media_entry_path(@app_resource),
           allowed: policy_for(@user).update_custom_urls?
         }
@@ -101,7 +107,9 @@ module Presenters
           async_action: 'share',
           method: 'get',
           fa: 'fa fa-share',
-          title: I18n.t(:resource_action_share_media_entry, raise: false),
+          title: I18n.t(
+            :resource_action_media_entry_share,
+            raise: false),
           action: share_media_entry_path(@app_resource),
           allowed: policy_for(@user).share?
         }

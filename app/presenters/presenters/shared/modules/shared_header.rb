@@ -15,8 +15,10 @@ module Presenters
         private
 
         def shared_edit_button(type, app_resource, user)
+          underscore = type.name.underscore
+
           action = self.send(
-            "edit_meta_data_by_context_#{type.name.underscore}_path",
+            "edit_meta_data_by_context_#{underscore}_path",
             app_resource)
 
           {
@@ -24,13 +26,17 @@ module Presenters
             async_action: nil,
             method: 'get',
             icon: 'pen',
-            title: I18n.t(:resource_action_edit, raise: false),
+            title: I18n.t(
+              "resource_action_#{underscore}_edit_metadata".to_sym,
+              raise: false),
             action: action,
             allowed: policy_for(user).meta_data_update?
           }
         end
 
         def shared_destroy_button(type, app_resource, user)
+          underscore = type.name.underscore
+
           action = self.send(
             "ask_delete_#{type.name.underscore}_path",
             app_resource)
@@ -40,7 +46,9 @@ module Presenters
             async_action: nil,
             method: 'get',
             icon: 'trash',
-            title: I18n.t(:resource_action_destroy, raise: false),
+            title: I18n.t(
+              "resource_action_#{underscore}_destroy".to_sym,
+              raise: false),
             action: action,
             allowed: policy_for(user).destroy?
           }
@@ -50,7 +58,7 @@ module Presenters
           underscore = type.name.underscore
 
           title = I18n.t(
-            "resource_action_#{favored ? 'disfavor' : 'favor'}",
+            "resource_action_#{underscore}_#{favored ? 'disfavor' : 'favor'}",
             raise: false
           )
 

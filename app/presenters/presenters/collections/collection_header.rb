@@ -63,7 +63,9 @@ module Presenters
           async_action: nil,
           method: 'get',
           icon: 'cover',
-          title: I18n.t(:resource_action_edit_cover, raise: false),
+          title: I18n.t(
+            :resource_action_collection_edit_cover,
+            raise: false),
           action: cover_edit_collection_path(@app_resource),
           allowed: policy_for(@user).update_cover?
         }
@@ -76,7 +78,9 @@ module Presenters
           async_action: nil,
           method: 'get',
           icon: 'trash',
-          title: I18n.t(:resource_action_destroy, raise: false),
+          title: I18n.t(
+            :resource_action_collection_destroy,
+            raise: false),
           action: ask_delete_collection_path(@app_resource),
           allowed: policy_for(@user).destroy?
         }
@@ -88,7 +92,9 @@ module Presenters
           async_action: 'select_collection',
           method: 'get',
           icon: 'move',
-          title: I18n.t(:resource_action_manage_collections, raise: false),
+          title: I18n.t(
+            :resource_action_collection_select_collection,
+            raise: false),
           action: select_collection_collection_path(@app_resource),
           allowed: policy_for(@user).add_remove_collection?
         }
@@ -100,7 +106,9 @@ module Presenters
           async_action: nil,
           method: 'get',
           icon: 'highlight',
-          title: I18n.t(:resource_action_edit_highlights, raise: false),
+          title: I18n.t(
+            :resource_action_collection_edit_highlight,
+            raise: false),
           action: highlights_edit_collection_path(@app_resource),
           allowed: policy_for(@user).update_highlights?
         }
@@ -112,7 +120,9 @@ module Presenters
           async_action: nil,
           method: 'get',
           icon: 'vis-graph',
-          title: I18n.t(:resource_action_edit_custom_urls, raise: false),
+          title: I18n.t(
+            :resource_action_collection_edit_custom_urls,
+            raise: false),
           action: custom_urls_collection_path(@app_resource),
           allowed: policy_for(@user).update_custom_urls?
         }
@@ -124,7 +134,9 @@ module Presenters
           async_action: 'share',
           method: 'get',
           fa: 'fa fa-share',
-          title: I18n.t(:resource_action_share_collection, raise: false),
+          title: I18n.t(
+            :resource_action_collection_share,
+            raise: false),
           action: share_collection_path(@app_resource),
           allowed: policy_for(@user).share?
         }

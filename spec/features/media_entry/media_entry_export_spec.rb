@@ -221,8 +221,9 @@ feature 'Resource: MediaEntry' do
 
   def open_export
     visit media_entry_path(@media_entry)
+    find('.ui-body-title').find('h1').click
     dropdown = find('.ui-body-title-actions').find('.ui-dropdown')
-    dropdown.click
+    dropdown.find('.icon-arrow-down').click
     dropdown.find('.icon-dload').click
     expect(current_path).to eq(export_media_entry_path(@media_entry))
   end
