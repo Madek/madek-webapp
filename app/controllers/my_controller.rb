@@ -21,8 +21,9 @@ class MyController < ApplicationController
   private
 
   def init_for_view
-    @sections = _set_async_below_fold \
-      sections_definition.map { |id, s| [id, s.merge(id: id)] }.to_h
+    @sections = sections_definition.map do |id, s|
+      [id, s.merge(id: id)]
+    end.to_h
     @get = Presenters::Users::UserDashboard.new(
       current_user,
       user_scopes_for_dashboard(current_user),
@@ -48,12 +49,4 @@ class MyController < ApplicationController
                                                          :allowed_filter_params))
     end
   end
-
-  def _set_async_below_fold(sections)
-    conf_prerender_sections_nr = 3 # just the drafts, if there are some.
-    sections.map.with_index do |a, i|
-      [a[0], a[1].merge(render_async?: ((i + 1) > conf_prerender_sections_nr))]
-    end.to_h
-  end
-
 end

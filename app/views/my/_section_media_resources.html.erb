@@ -1,54 +1,31 @@
 <%=
 
-mods = []
-is_main = (true if params[:action] != 'dashboard_section')
 is_clipboard = section[:id] == :clipboard
 is_unpublished_entries = section[:id] == :unpublished_entries
 ui_component = !is_clipboard ? 'Deco.MediaResourcesBox' : 'Views.My.ClipboardBox'
 
-# HACK: toggle box via prop…
-with_box = (true if !is_main)
-mods << ['rounded-right', { bordered: false }] if !is_main
-mods << 'unpaginated' if (local_assigns[:show_pagination_nav] == false)
+with_box = false
+mods = ['unpaginated']
 fallback = section[:is_empty?] ? true : false
 
-# HACK: do async render if set AND if on main dashboard
-render_async = (is_main && section[:render_async?]) or false
-
-if !render_async
-  react(ui_component,
-      get: @get.send(section[:id]),
-      mods: mods,
-      withBox: with_box,
-      fallback: fallback,
-      initial: {
-        show_filter: false,
-        is_clipboard: is_clipboard
-      },
-      enableOrdering: true,
-      enableOrderByTitle: !is_unpublished_entries,
-      draftsView: section[:id] == :unpublished_entries)
-
-else
-  react(
-    'AsyncDashboardSection',
-    component: ui_component,
-    # NOTE: we don't want to fetch the actual subsection, which has diff. content.
-    #       instead, we use the 'sparse request', to just fetch what we need.
-    url: my_dashboard_path(section[:id], format: :json) +
-          '?___sparse={"' + section[:id].to_s + '":{}}',
-    json_path: section[:id].to_s,
-    fallback_url: my_dashboard_section_path(section[:id]),
-    initial_props: {
-      mods: mods,
-      withBox: with_box,
-      fallback: fallback,
-      enableOrdering: true,
-      enableOrderByTitle: true,
-      initial: {
-        show_filter: false,
-        is_clipboard: is_clipboard
-      }})
-end
+react(
+  'AsyncDashboardSection',
+  component: ui_component,
+  # NOTE: we don't want to fetch the actual subsection, which has diff. content.
+  #       instead, we use the 'sparse request', to just fetch what we need.
+  url: my_dashboard_path(section[:id], format: :json) +
+        '?___sparse={"' + section[:id].to_s + '":{}}',
+  json_path: section[:id].to_s,
+  fallback_url: my_dashboard_section_path(section[:id]),
+  initial_props: {
+    mods: mods,
+    withBox: with_box,
+    fallback: fallback,
+    enableOrdering: true,
+    enableOrderByTitle: true,
+    initial: {
+      show_filter: false,
+      is_clipboard: is_clipboard
+    }})
 
   %>

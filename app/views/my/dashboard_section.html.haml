@@ -6,4 +6,7 @@
 
 - content_for(:page_content) do
   -                                                         # proxy locals:
-  = render partial: "section_#{section[:partial]}", locals: local_assigns
+  - if section[:partial] == :media_resources
+    = render partial: "section_media_resources_sync", locals: local_assigns
+  - else
+    = render partial: "section_#{section[:partial]}", locals: local_assigns
