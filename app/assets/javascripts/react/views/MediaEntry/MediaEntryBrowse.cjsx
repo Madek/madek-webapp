@@ -1,9 +1,10 @@
 React = require('react')
-
+t = require('../../../lib/string-translation')('de')
 PageHeader = require('../../ui-components/PageHeader')
 MetaDataList = require('../../decorators/MetaDataList.cjsx')
 ResourceThumbnail = require('../../decorators//ResourceThumbnail.cjsx')
 BrowseEntriesList = require('./BrowseEntriesList.cjsx')
+
 
 module.exports = React.createClass({
   displayName: 'MediaEntryBrowse',
@@ -12,7 +13,7 @@ module.exports = React.createClass({
     {get, authToken} = props
     <div>
 
-      <PageHeader icon='eye' title='Nach ähnlichen Inhalten stöbern' />
+      <PageHeader icon='eye' title={t('browse_entries_title')} />
 
       <div className='bordered ui-container midtone rounded-right rounded-bottom table'>
         <div className='app-body-sidebar table-cell bright ui-container bordered-right rounded-bottom-left table-side'>
@@ -23,7 +24,7 @@ module.exports = React.createClass({
         </div>
 
         <div className='app-body-content table-cell table-substance ui-container'>
-          <div className='ui-container mbh pam'>
+          <div className='ui-container pal'>
             <BrowseEntriesList browse={get.browse_resources} authToken={authToken}/>
           </div>
         </div>

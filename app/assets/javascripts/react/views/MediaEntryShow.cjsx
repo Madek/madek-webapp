@@ -94,16 +94,26 @@ module.exports = React.createClass
       </div>
 
       {if get.browse_url
+        browseHeader = <h3 className='title-l pbl'>
+          {t('browse_entries_title')}{' '}
+          <a href={get.browse_url} style={{textDecoration: 'none'}}>
+            <UI.Icon i='link' />
+          </a>
+        </h3>
+
         <div>
           <div className='no-js'>
-            <a href={get.browse_url}><UI.Icon i='eye'/> Stöbern…</a>
+            <a href={get.browse_url}>
+              <UI.Icon i='eye'/> {t('browse_entries_title')}
+            </a>
           </div>
           <div className='js-only'>
-            <div className='ui-container midtone-darker bordered rounded mbh pam'>
+            <div className='ui-container midtone bordered rounded mbh pam'>
+
               <BrowseEntriesList
                 isLoading={!state.fetchedBrowseEntries}
                 browse={state.fetchedBrowseEntries}
-                titleLink={get.browse_url}
+                header={browseHeader}
                 authToken={authToken}
               />
             </div>

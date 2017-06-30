@@ -560,3 +560,6 @@ workgroup_link_to_contents_title,Inhalte dieser Arbeitsgruppe anzeigen,View cont
 workgroup_members_table_is_member,Mitglied?,Member?,
 workgroup_members_table_login,Login,Login,
 workgroup_members_table_title,Mitglieder,Members,
+browse_entries_title,"Nach ähnlichen Inhalten stöbern","Browse similar entries",
+browse_entries_filter_link,"Weiter filtern →","Filter this →",
+browse_entries_browse_link_title,"In diese Richtung weiterstöbern","Browse in this direction",

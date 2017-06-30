@@ -60,7 +60,6 @@ class MediaEntriesController < ApplicationController
   end
 
   def browse
-    auth_authorize(current_user, :beta_test_new_browse?)
     media_entry = get_authorized_resource
     @get = Presenters::MediaEntries::MediaEntryBrowse.new(
       media_entry, current_user)
