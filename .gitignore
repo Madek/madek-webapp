@@ -59,3 +59,4 @@ tmp/
 vendor/bundle/
 /locale/
 config/settings.dev.yml
+/package-lock.json
