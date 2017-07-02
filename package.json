@@ -74,7 +74,7 @@
     "browserify": "^14.0.0",
     "browserify-incremental": "^3.1.1",
     "bulkify": "^1.4.2",
-    "cheerio": "^0.22.0",
+    "cheerio": "^1.0.0-rc.2",
     "coffee-react": "^5.0.1",
     "coffee-react-transform": "^5.0.0",
     "coffee-reactify": "^5.1.0",
