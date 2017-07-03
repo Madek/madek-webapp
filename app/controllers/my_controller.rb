@@ -26,7 +26,7 @@ class MyController < ApplicationController
     @get = Presenters::Users::UserDashboard.new(
       current_user,
       user_scopes_for_dashboard(current_user),
-      Presenters::Users::DashboardHeader.new(nil),
+      Presenters::Users::DashboardHeader.new,
       with_count: (params[:action] != 'dashboard'),
       list_conf: { order: 'created_at DESC' }.merge(list_conf_by_dashboard_action),
       activity_stream_conf: activity_stream_params,

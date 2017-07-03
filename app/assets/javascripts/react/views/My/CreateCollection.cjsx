@@ -19,34 +19,9 @@ module.exports = React.createClass
 
   getInitialState: () -> {
     mounted: false
-    loading: false
     saving: false
     errors: null
-    get: null
   }
-
-  componentWillMount: () ->
-    @setState({get: @props.get})
-
-  componentDidMount: () ->
-    @setState({mounted: true})
-
-    if not @state.get
-      @setState({loading: true})
-
-      loadXhr(
-        {
-          method: 'GET'
-          url: '/my/new_collection?___sparse={"dashboard_header":{"new_collection":{}}}'
-        },
-        (result, json) =>
-          return unless @isMounted()
-          if result == 'success'
-            @setState(loading: false, get: json.dashboard_header.new_collection)
-          else
-            console.error('Cannot load dialog: ' + JSON.stringify(json))
-            @setState({loading: false})
-      )
 
   _onCancel: (event) ->
     event.preventDefault()
@@ -86,11 +61,8 @@ module.exports = React.createClass
 
   render: ({authToken, get, onClose} = @props) ->
 
-    if not @state.get
-      return <Modal loading={true}/>
 
-    error = @state.error or @state.get.error
-    get = @state.get if @state.get
+    error = @state.error or get.error
 
 
     alerts = if error
@@ -98,57 +70,48 @@ module.exports = React.createClass
         <p className="ui-alert error">{error}</p>
       </div>
 
-    if @state.loading or (@props.async and not @state.mounted)
-      <Modal loading={true}>
 
-      </Modal>
-    else
+    <RailsForm ref='form' name='resource_meta_data' action={get.submit_url}
+          method='post' authToken={authToken}>
 
-      <Modal loading={false}>
+      <div className='ui-modal-head'>
+        <ToggableLink active={not @state.saving or not @state.mounted} href={get.cancel_url} aria-hidden='true'
+          className='ui-modal-close' data-dismiss='modal'
+          title='Close' type='button'
+          style={{position: 'static', float: 'right', paddingTop: '5px'}}
+          onClick={@_onCancel}>
+          <i className='icon-close'></i>
+        </ToggableLink>
+        <h3 className='title-l'>{t('collection_new_dialog_title')}</h3>
+      </div>
 
-        <RailsForm ref='form' name='resource_meta_data' action={get.submit_url}
-              method='post' authToken={authToken}>
-
-          <div className='ui-modal-head'>
-            <ToggableLink active={not @state.saving or not @state.mounted} href={get.cancel_url} aria-hidden='true'
-              className='ui-modal-close' data-dismiss='modal'
-              title='Close' type='button'
-              style={{position: 'static', float: 'right', paddingTop: '5px'}}
-              onClick={@_onCancel}>
-              <i className='icon-close'></i>
-            </ToggableLink>
-            <h3 className='title-l'>{t('collection_new_dialog_title')}</h3>
-          </div>
-
-          <div className='ui-modal-body' style={{maxHeight: 'none'}}>
-            {
-              if @state.saving
-                <Preloader/>
-              else
-                [
-                  alerts
-                  ,
-                  <div className="form-body" key='form-body'>
-                    <div className="ui-form-group rowed compact">
-                      <label className="form-label">{t('collection_new_label_title')}</label>
-                      <div className="form-item">
-                        <InputFieldText autocomplete='off' autofocus='autofocus' name='collection_title' value='' />
-                      </div>
-                    </div>
+      <div className='ui-modal-body' style={{maxHeight: 'none'}}>
+        {
+          if @state.saving
+            <Preloader/>
+          else
+            [
+              alerts
+              ,
+              <div className="form-body" key='form-body'>
+                <div className="ui-form-group rowed compact">
+                  <label className="form-label">{t('collection_new_label_title')}</label>
+                  <div className="form-item">
+                    <InputFieldText autocomplete='off' autofocus='autofocus' name='collection_title' value='' />
                   </div>
-                ]
-            }
-          </div>
+                </div>
+              </div>
+            ]
+        }
+      </div>
 
-          <div className="ui-modal-footer">
-            <div className="ui-actions">
-              <ToggableLink active={not @state.saving or not @state.mounted} href={get.cancel_url}
-                aria-hidden="true" className="link weak"
-                data-dismiss="modal" onClick={@_onCancel}>{t('collection_new_cancel')}</ToggableLink>
-              <FormButton onClick={@_onOk} disabled={@state.saving} text={t('collection_new_create_set')} />
-            </div>
-          </div>
+      <div className="ui-modal-footer">
+        <div className="ui-actions">
+          <ToggableLink active={not @state.saving or not @state.mounted} href={get.cancel_url}
+            aria-hidden="true" className="link weak"
+            data-dismiss="modal" onClick={@_onCancel}>{t('collection_new_cancel')}</ToggableLink>
+          <FormButton onClick={@_onOk} disabled={@state.saving} text={t('collection_new_create_set')} />
+        </div>
+      </div>
 
-        </RailsForm>
-
-      </Modal>
+    </RailsForm>

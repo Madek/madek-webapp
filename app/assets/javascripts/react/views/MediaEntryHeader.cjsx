@@ -20,7 +20,6 @@ module.exports = React.createClass
   }
 
   _onClick: (asyncAction) ->
-    debugger
     if @props.onClick
       @props.onClick(asyncAction)
 

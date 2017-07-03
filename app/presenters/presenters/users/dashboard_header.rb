@@ -2,12 +2,6 @@ module Presenters
   module Users
     class DashboardHeader < Presenter
 
-      attr_reader :new_collection
-
-      def initialize(new_collection)
-        @new_collection = new_collection
-      end
-
       def new_media_entry_url
         new_media_entry_path
       end

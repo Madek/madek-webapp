@@ -3,7 +3,7 @@ ReactDOM = require('react-dom')
 PageContentHeader = require('./PageContentHeader.cjsx')
 HeaderPrimaryButton = require('./HeaderPrimaryButton.cjsx')
 t = require('../../lib/string-translation.js')('de')
-CreateCollection = require('./My/CreateCollection.cjsx')
+CreateCollectionModal = require('./My/CreateCollectionModal.cjsx')
 
 module.exports = React.createClass
   displayName: 'DashboardHeader'
@@ -13,9 +13,6 @@ module.exports = React.createClass
     showModal: false
     mounted: false
   }
-
-  componentWillMount: () ->
-    @setState({showModal: @props.get.new_collection != null})
 
   componentDidMount: () ->
     @setState({mounted: true})
@@ -44,7 +41,7 @@ module.exports = React.createClass
       </PageContentHeader>
       {
         if @state.showModal
-          <CreateCollection get={get.new_collection} async={@state.mounted} authToken={authToken} onClose={@_onClose} />
+          <CreateCollectionModal get={get.new_collection} async={@state.mounted} authToken={authToken} onClose={@_onClose} />
 
       }
     </div>

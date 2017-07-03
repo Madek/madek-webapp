@@ -11,7 +11,6 @@ MediaEntryPreview = require('../decorators/MediaEntryPreview.cjsx')
 MetaDataByListing = require('../decorators/MetaDataByListing.cjsx')
 ResourceShowOverview = require('../templates/ResourceShowOverview.cjsx')
 BrowseEntriesList = require('./MediaEntry/BrowseEntriesList.cjsx')
-Share = require('./Shared/Share.cjsx')
 
 module.exports = React.createClass
   displayName: 'Views.MediaEntryShow'

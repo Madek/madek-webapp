@@ -16,7 +16,7 @@ class My::DashboardController < MyController
       Presenters::Users::UserDashboard.new(
         current_user,
         user_scopes_for_dashboard(current_user),
-        Presenters::Users::DashboardHeader.new(nil),
+        Presenters::Users::DashboardHeader.new,
         list_conf: resource_list_params(
           params, current_section[:allowed_filter_params]
         ),
