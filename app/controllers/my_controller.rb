@@ -8,7 +8,7 @@ class MyController < ApplicationController
   include Concerns::Clipboard
   include Concerns::My::DashboardSections
 
-  layout 'my'
+  layout 'app_with_sidebar'
 
   after_action :verify_policy_scoped
 

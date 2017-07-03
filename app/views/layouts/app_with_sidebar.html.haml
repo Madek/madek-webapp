@@ -1,7 +1,6 @@
 -# App Layout for Content with left sidebar (e.g. MyDashboard)
 
 :ruby
-  throw 'layout: missing page sidebar!' unless content_for?(:page_sidebar)
   throw 'layout: missing page content!' unless content_for?(:page_content)
 
 - content_for(:app_body) do
@@ -11,7 +10,7 @@
 
     .ui-container.app-body-sidebar.table-cell.bright.bordered-right.rounded-bottom-left.table-side
       .ui-container.rounded-bottom-left.phm.pvl
-        = content_for(:page_sidebar)
+        = react('Views.Sidebar', { sections: @sections })
 
     .ui-container.app-body-content.table-cell.table-substance
       = content_for(:page_content)
