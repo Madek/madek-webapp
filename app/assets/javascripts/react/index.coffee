@@ -21,7 +21,3 @@ module.exports =
   App:
     UserMenu: require('../react/views/_layouts/UserMenu.cjsx')
     LoginMenu: require('../react/views/_layouts/LoginMenu.js').default
-
-
-  # extra stuff
-  AsyncDashboardSection: require('./lib/AsyncDashboardSection.cjsx')

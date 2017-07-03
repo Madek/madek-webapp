@@ -39,9 +39,16 @@ module.exports = React.createClass
       @setState(fetching: false)
       if err
         console.error('Error while fetching data!\n\n', err)
-        @setState(fetchError: err)
+        if @props.callback
+          @props.callback('error')
       else
-        @setState(fetchedProps: props))
+        @setState(fetchedProps: props)
+        if @props.callback
+          if props.get.resources.length > 0
+            @props.callback('resources')
+          else
+            @props.callback('empty')
+    )
 
   _retryFetchProps: (event)->
     @_retryCount = (@_retryCount || 0) + 1
@@ -67,6 +74,9 @@ module.exports = React.createClass
 
     unless (UIComponent = f.get(UILibrary, component))
       throw new Error('Invalid UI Component! ' + component)
+
+    if @props.renderEmpty
+      return <div></div>
 
     <div className='ui_async-view'>
       {if !@state.isClient or @state.fetching
