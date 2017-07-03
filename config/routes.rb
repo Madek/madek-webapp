@@ -215,21 +215,24 @@ Madek::Application.routes.draw do
     get 'new_collection', action: 'new_collection', as: 'new_collection'
     post 'create_collection', action: 'create_collection', as: 'create_collection'
 
-    root to: 'dashboard#dashboard', as: 'dashboard'
+    root action: 'dashboard', as: 'dashboard'
 
     # scope some resources here. order is important, they override 'plain' sections
     resources :groups, except: ['show']
 
     # tokens (get index is one of the 'sections' below)
-    get 'tokens/new', controller: '/my', action: 'new_api_token', as: 'new_api_token'
-    post 'tokens', action: 'create_api_token', as: 'create_api_token'
-    patch 'tokens/:id', action: 'update_api_token', as: 'update_api_token'
+    get 'tokens/new', controller: '/api_tokens', action: 'new_api_token', as: 'new_api_token'
+    post 'tokens', controller: '/api_tokens', action: 'create_api_token', as: 'create_api_token'
+    patch 'tokens/:id', controller: '/api_tokens', action: 'update_api_token', as: 'update_api_token'
 
     # non-resourceful sections are just plain views:
-    get ':section', to: 'dashboard#dashboard_section', as: 'dashboard_section'
+    get ':section', action: 'dashboard_section', as: 'dashboard_section'
   end
 
   get 'my/groups/:id', controller: 'groups', to: 'groups#show', as: 'group'
+
+
+  resources :groups
 
 
   post '/session/sign_in', to: 'sessions#sign_in', as: 'sign_in'

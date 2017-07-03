@@ -26,6 +26,7 @@ module.exports = (collectionClass, {jsonPath})->
       totalCount: ['number']
       jobQueue: ['array']
       requestId: ['number']
+      jsonPath: ['string']
 
     derived:
       # make it behave more like a normal collection (for controllers)
@@ -59,13 +60,14 @@ module.exports = (collectionClass, {jsonPath})->
     initialize: (data)->
       # TODO: cleanup pagination backend, only those props are needed:
       @set({
-        url: getOrThrow(data, 'config.for_url')
+        url: getOrThrow(data, 'config.for_url'),
         perPage: getOrThrow(data, 'config.per_page'),
         firstPage: getOrThrow(data, 'config.page'),
         currentPage: getOrThrow(data, 'config.page'),
         totalCount: getOrThrow(data, 'pagination.total_count'),
         totalPages: getOrThrow(data, 'pagination.total_pages'),
-        requestId: Math.random()
+        jsonPath: f.get(data, 'json_path'),
+        requestId: Math.random(),
         jobQueue: []
       })
       # listen to child collections
@@ -115,6 +117,9 @@ module.exports = (collectionClass, {jsonPath})->
       ))
 
     getJsonPath: () ->
+
+      if @jsonPath
+        return @jsonPath
 
       path = @url.pathname
       if path.indexOf('/relations/children') > 0 or path.indexOf('/relations/siblings') > 0 or path.indexOf('/relations/parents') > 0

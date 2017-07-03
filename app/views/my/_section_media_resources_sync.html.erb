@@ -1,5 +1,7 @@
 <%=
 
+section = @get.section
+
 is_clipboard = section[:id] == :clipboard
 is_unpublished_entries = section[:id] == :unpublished_entries
 ui_component = !is_clipboard ? 'Deco.MediaResourcesBox' : 'Views.My.ClipboardBox'
@@ -9,7 +11,7 @@ mods = ['rounded-right', { bordered: false }]
 fallback = section[:is_empty?] ? true : false
 
 react(ui_component,
-    get: @get.send(section[:id]),
+    get: @get.section_resources,
     mods: mods,
     withBox: with_box,
     fallback: fallback,

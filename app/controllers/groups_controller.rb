@@ -1,5 +1,10 @@
 class GroupsController < ApplicationController
   include Concerns::ResourceListParams
+  include Concerns::JSONSearch
+
+  def index
+    get_and_respond_with_json
+  end
 
   def show
     group = find_group_and_authorize

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MyController do
+describe ApiTokensController do
   context 'ApiTokens' do
 
     let(:user) { FactoryGirl.create :user }

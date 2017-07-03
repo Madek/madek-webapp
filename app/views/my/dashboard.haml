@@ -1,34 +1,4 @@
-:ruby
-  visible_sections = @sections.reject do |section_id, section|
-    section[:hide_from_index] === true
-  end
-
-
--# template for the main dashboard (#index-ish)
 - content_for(:title_head) do
   = t(:dashboard_title_head)
 
-- content_for(:page_header) do
-  = react('Views.DashboardHeader', { get: @get.dashboard_header })
-
-- content_for(:page_content) do
-  - dashboard_content = capture_haml do
-    -# each section: build a title and render the partial
-    - visible_sections.each_with_index do |(section_id, section), index|
-
-      %div{id: section_id}
-        = combo('resources-header', title: section[:title],
-                  link: { text: t(:resources_header_show_all),
-                          href: my_dashboard_section_path(section[:id])})
-        - if section[:partial].present?
-          = render partial: "my/section_#{section[:partial]}",
-                   locals: { get: @get, section: section, show_pagination_nav: false }
-
-      - if index < visible_sections.length - 1
-        %hr.separator.mbm
-
-  .ui-container.pal
-    - if dashboard_content
-      = dashboard_content
-    - else
-      = t(:dashboard_welcome_msg)
+= react('Views.Dashboard', { get: @get })

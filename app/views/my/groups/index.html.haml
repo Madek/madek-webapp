@@ -6,7 +6,7 @@
   content_for(:page_header) do
     component('page-header',
               icon: component('icon.privacy-group'),
-              text: @sections[:groups][:title],
+              text: @get.sections[:groups][:title],
               actions: [
                 component('button.primary', link: new_my_group_path,
                                             text: t(:group_new_group_btn))
@@ -15,7 +15,7 @@
 
 - content_for(:page_content) do
   .ui-resources-holder.pal
-    - if @get.groups.empty?
+    - if @get.section_resources.empty?
       = t(:no_groups_fallback)
       - next
 
@@ -23,15 +23,15 @@
       my_groups = {
         my_internal_groups: {
           title: t(:internal_groups),
-          list: @get.groups.internal
+          list: @get.section_resources.internal
         },
         my_authentication_groups: {
           title: t(:authentication_groups),
-          list: @get.groups.authentication
+          list: @get.section_resources.authentication
         },
         my_external_groups: {
           title: t(:external_groups),
-          list: @get.groups.external
+          list: @get.section_resources.external
         }
       }.map do |group_type, group|
         group[:list] = group[:list].map do |group|

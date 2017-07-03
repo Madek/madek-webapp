@@ -10,7 +10,7 @@
 
     .ui-container.app-body-sidebar.table-cell.bright.bordered-right.rounded-bottom-left.table-side
       .ui-container.rounded-bottom-left.phm.pvl
-        = react('Views.Sidebar', { sections: @sections })
+        = react('Views.Sidebar', { sections: @get.sections })
 
     .ui-container.app-body-content.table-cell.table-substance
       = content_for(:page_content)

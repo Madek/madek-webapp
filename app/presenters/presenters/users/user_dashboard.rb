@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 module Presenters
   module Users
     class UserDashboard < Presenter
@@ -10,7 +11,9 @@ module Presenters
             list_conf: nil,
             activity_stream_conf: nil,
             with_count: true,
-            action: nil
+            action: nil,
+            is_async_attribute: false,
+            json_path: nil
       )
         fail 'TypeError!' unless user.is_a?(User)
         @user = user
@@ -21,12 +24,16 @@ module Presenters
         # FIXME: remove this config when Dashboard is built in Presenter…
         @with_count = with_count
         @action = action
+        @is_async_attribute = is_async_attribute
+        @json_path = json_path
       end
 
       attr_reader :dashboard_header
       attr_reader :action
 
       def activity_stream
+        return unless @is_async_attribute
+
         default_date_range = 3.days
         conf = @activity_stream_conf || {}
         user = @user
@@ -52,54 +59,66 @@ module Presenters
       end
 
       def unpublished_entries
+        return unless @is_async_attribute
         presenterify(
           @user_scopes[:unpublished_media_entries], only_filter_search: true)
       end
 
       def content_media_entries
+        return unless @is_async_attribute
         presenterify @user_scopes[:content_media_entries]
       end
 
       def content_collections
+        return unless @is_async_attribute
         presenterify(
           @user_scopes[:content_collections], disable_file_search: true)
       end
 
       def content_filter_sets
+        return unless @is_async_attribute
         presenterify @user_scopes[:content_filter_sets]
       end
 
       def latest_imports
+        return unless @is_async_attribute
         presenterify @user_scopes[:latest_imports]
       end
 
       def favorite_media_entries
+        return unless @is_async_attribute
         presenterify @user_scopes[:favorite_media_entries]
       end
 
       def favorite_collections
+        return unless @is_async_attribute
         presenterify(
           @user_scopes[:favorite_collections], disable_file_search: true)
       end
 
       def favorite_filter_sets
+        return unless @is_async_attribute
         presenterify @user_scopes[:favorite_filter_sets]
       end
 
       def entrusted_media_entries
+        return unless @is_async_attribute
         presenterify @user_scopes[:entrusted_media_entries]
       end
 
       def entrusted_collections
+        return unless @is_async_attribute
         presenterify(
           @user_scopes[:entrusted_collections], disable_file_search: true)
       end
 
       def entrusted_filter_sets
+        return unless @is_async_attribute
         presenterify @user_scopes[:entrusted_filter_sets]
       end
 
       def clipboard
+        return unless @is_async_attribute
         if @user and clipboard_collection(@user)
           presenterify @user_scopes[:clipboard]
         end
@@ -147,7 +166,9 @@ module Presenters
           list_conf: @config,
           with_count: @with_count,
           disable_file_search: disable_file_search,
-          only_filter_search: only_filter_search)
+          only_filter_search: only_filter_search,
+          json_path: @json_path
+        )
       end
 
       def unpaged_groups(type)
@@ -172,3 +193,4 @@ module Presenters
     end
   end
 end
+# rubocop:enable Metrics/ClassLength

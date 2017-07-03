@@ -3,6 +3,8 @@ module Concerns
     extend ActiveSupport::Concern
 
     def new_collection
+      auth_authorize :dashboard, :logged_in?
+
       error = flash[:error]
 
       @get = Presenters::Collections::CollectionNew.new(error)
