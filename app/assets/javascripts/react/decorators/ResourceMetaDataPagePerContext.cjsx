@@ -363,7 +363,7 @@ module.exports = React.createClass
                   {
                     if !currentTab.byVocabularies
                       currentContextId = currentTab.byContext
-                      Renderer._renderByContext(currentContextId, get.meta_data, get.meta_meta_data, published, name,
+                      Renderer._renderByContext(currentContextId, get.meta_meta_data, published, name,
                         @props.batch, @state.models, @state.errors, @_batchConflictByContextKey, @_onChangeForm, @state.bundleState, @_toggleBundle)
 
                     else
@@ -375,7 +375,7 @@ module.exports = React.createClass
                     if !currentTab.byVocabularies
                       currentContext = get.meta_meta_data.contexts_by_context_id[currentContextId]
                       Renderer._renderHiddenKeysByContext(
-                        @props.get.meta_meta_data, currentContext.uuid, @props.get.meta_data,
+                        @props.get.meta_meta_data, currentContext.uuid,
                         @props.batch, @state.models, name)
                   }
                 </div>

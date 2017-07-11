@@ -17,26 +17,21 @@ grouping = require('../../../lib/metadata-edit-grouping.coffee')
 
 module.exports = {
 
-  _renderValueByContext: (meta_key_id, onChange, datum, name, subForms, metaKey, contextKey, batch, model) ->
+  _renderValueByContext: (onChange, name, subForms, metaKey, batch, model) ->
+
+    meta_key_id = metaKey.uuid
 
     if batch
       name += "[#{meta_key_id}][values][]"
     else
       name += "[#{meta_key_id}][]"
 
-    newget = f.mapValues datum, (value) ->
-      value
-    newget.values = model.values
-
     <InputMetaDatum id={meta_key_id}
-      name={name} get={newget} onChange={onChange}
+      model={model}
+      name={name} onChange={onChange}
       subForms={subForms}
       metaKey={metaKey}
-      contextKey={contextKey}
     />
-
-  _renderValueByVocabularies: (meta_key_id, onChange, datum, name, subForms, metaKey, batch, model) ->
-    @_renderValueByContext(meta_key_id, onChange, datum, name, subForms, metaKey, null, batch, model)
 
 
   _renderLabelByContext: (meta_meta_data, context_key_id) ->
@@ -59,13 +54,12 @@ module.exports = {
       contextKey={null}
       mandatory={mandatory} />
 
-  _renderItemByContext: (meta_data, meta_meta_data, published, name, context_key_id, subForms, rowed, batch, models, batchConflict, errors, _onChangeForm) ->
+
+  _renderItemByContext2: (meta_meta_data, published, name, context_key_id, subForms, rowed, batch, model, batchConflict, errors, _onChangeForm) ->
 
     contextKey = meta_meta_data.context_key_by_context_key_id[context_key_id]
     meta_key_id = contextKey.meta_key_id
     metaKey = meta_meta_data.meta_key_by_meta_key_id[meta_key_id]
-    datum = meta_data.meta_datum_by_meta_key_id[meta_key_id]
-    model = models[meta_key_id]
     mandatory = meta_meta_data.mandatory_by_meta_key_id[meta_key_id]
     error = errors[meta_key_id]
     validErr = published and mandatory and (not metadataEditValidation._validModel(model)) and (not batch)
@@ -81,15 +75,13 @@ module.exports = {
         </div>
       }
       {@_renderLabelByContext(meta_meta_data, context_key_id)}
-      {@_renderValueByContext(meta_key_id, ((values) -> _onChangeForm(meta_key_id, values)), datum, name, subForms, metaKey, contextKey, batch, model)}
+      {@_renderValueByContext(((values) -> _onChangeForm(meta_key_id, values)), name, subForms, metaKey, batch, model)}
     </fieldset>
 
 
-  _renderItemByVocabularies: (meta_data, meta_meta_data, published, name, meta_key_id, subForms, rowed, batch, models, batchConflict, errors, _onChangeForm) ->
+  _renderItemByVocabularies2: (meta_meta_data, published, name, meta_key_id, subForms, rowed, batch, model, batchConflict, errors, _onChangeForm) ->
 
-    datum = meta_data.meta_datum_by_meta_key_id[meta_key_id]
     metaKey = meta_meta_data.meta_key_by_meta_key_id[meta_key_id]
-    model = models[meta_key_id]
     mandatory = meta_meta_data.mandatory_by_meta_key_id[meta_key_id]
     error = errors[meta_key_id]
     validErr = published and mandatory and not metadataEditValidation._validModel(model)
@@ -105,11 +97,11 @@ module.exports = {
         </div>
       }
       {@_renderLabelByVocabularies(meta_meta_data, meta_key_id)}
-      {@_renderValueByVocabularies(meta_key_id, ((values) -> _onChangeForm(meta_key_id, values)), datum, name, subForms, metaKey, batch, model)}
+      {@_renderValueByContext(((values) -> _onChangeForm(meta_key_id, values)), name, subForms, metaKey, batch, model)}
     </fieldset>
 
 
-  _renderHiddenKeysByContext: (meta_meta_data, currentContextId, meta_data, batch, models, name) ->
+  _renderHiddenKeysByContext: (meta_meta_data, currentContextId, batch, models, name) ->
     meta_key_ids_in_current_context =
       f.map meta_meta_data.context_key_ids_by_context_id[currentContextId], (context_key_id) ->
         meta_key_id = meta_meta_data.meta_key_id_by_context_key_id[context_key_id]
@@ -121,13 +113,11 @@ module.exports = {
     )
 
     f.map hidden_meta_key_ids, (meta_key_id) =>
-      datum = meta_data.meta_datum_by_meta_key_id[meta_key_id]
       model = models[meta_key_id]
       metaKey = meta_meta_data.meta_key_by_meta_key_id[meta_key_id]
-      if datum
-        <div style={{display: 'none'}} key={meta_key_id}>
-          {@_renderValueByContext(meta_key_id, (() -> ), datum, name, null, metaKey, null, batch, model)}
-        </div>
+      <div style={{display: 'none'}} key={meta_key_id}>
+        {@_renderValueByContext((() -> ), name, null, metaKey, batch, model)}
+      </div>
 
 
   _bundleHasOnlyOneKey: (bundle) ->
@@ -165,14 +155,17 @@ module.exports = {
       meta_meta_data.context_key_by_context_key_id[context_key_id]
 
 
-  _renderByContext: (context_id, meta_data, meta_meta_data, published, name,
+  _renderByContext: (context_id, meta_meta_data, published, name,
     batch, models, errors, _batchConflictByContextKey, _onChangeForm, bundleState, _toggleBundle) ->
 
     bundled_context_keys = grouping._group_context_keys(@_context_keys(meta_meta_data, context_id))
 
     _renderItemByContextKeyId = (context_key_id, subForms, rowed, batchConflict) =>
-      @_renderItemByContext(meta_data, meta_meta_data, published, name, context_key_id, subForms, rowed,
-        batch, models, _batchConflictByContextKey(context_key_id), errors, _onChangeForm)
+
+      contextKey = meta_meta_data.context_key_by_context_key_id[context_key_id]
+
+      @_renderItemByContext2(meta_meta_data, published, name, context_key_id, subForms, rowed,
+        batch, models[contextKey.meta_key_id], _batchConflictByContextKey(context_key_id), errors, _onChangeForm)
 
 
     f.map(
@@ -210,8 +203,8 @@ module.exports = {
         bundled_meta_data = grouping._group_meta_data(vocabMetaData)
 
         _renderItemByMetaKeyId = (meta_key_id, subForms, rowed) =>
-          @_renderItemByVocabularies(meta_data, meta_meta_data, published, name, meta_key_id, subForms, rowed,
-            batch, models, _batchConflictByMetaKey(meta_key_id), errors, _onChangeForm)
+          @_renderItemByVocabularies2(meta_meta_data, published, name, meta_key_id, subForms, rowed,
+            batch, models[meta_key_id], _batchConflictByMetaKey(meta_key_id), errors, _onChangeForm)
 
 
         <div className='mbl' key={vocabularyDetails.uuid}>
@@ -267,12 +260,12 @@ module.exports = {
               vocabularyDetails = vocabularyInfo.vocabulary
 
               [
-                <span className='title-l' key={vocabularyDetails.uuid} style={{fontWeight: 'normal'}}>
+                <span className='title-l' key={'href_' + vocabularyDetails.uuid} style={{fontWeight: 'normal'}}>
                   <a href={'#' + vocabularyDetails.uuid}>{vocabularyDetails.label}</a>
                 </span>
                 ,
                 if index != vocabularies.length - 1
-                  <span className='title-l' style={{paddingRight: '10px', paddingLeft: '10px', fontWeight: 'normal'}}>|</span>
+                  <span className='title-l' key={'separator_' + vocabularyDetails.uuid} style={{paddingRight: '10px', paddingLeft: '10px', fontWeight: 'normal'}}>|</span>
               ]
 
           )

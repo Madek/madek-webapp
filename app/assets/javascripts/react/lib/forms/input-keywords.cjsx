@@ -8,11 +8,9 @@ module.exports = React.createClass
   propTypes:
     name: React.PropTypes.string.isRequired
     values: React.PropTypes.array.isRequired
-    get: React.PropTypes.shape(
-      meta_key: MadekPropTypes.metaKey.isRequired
-      show_checkboxes: React.PropTypes.bool.isRequired
-      keywords: React.PropTypes.arrayOf(MadekPropTypes.keyword)
-    ).isRequired
+    meta_key: MadekPropTypes.metaKey.isRequired
+    show_checkboxes: React.PropTypes.bool.isRequired
+    keywords: React.PropTypes.arrayOf(MadekPropTypes.keyword)
 
   _onChange: (event) ->
     if @props.onChange
@@ -28,8 +26,7 @@ module.exports = React.createClass
 
       @props.onChange(values)
 
-  render: ({name, values, get} = @props)->
-    {meta_key, keywords, show_checkboxes} = get
+  render: ({name, values, meta_key, keywords, show_checkboxes} = @props)->
     # - "keywords" might be given as possible values
     # - for fixed selections show checkboxes (with possible values)
     #   otherwise the show autocompleter (prefilled with pos. values if given)

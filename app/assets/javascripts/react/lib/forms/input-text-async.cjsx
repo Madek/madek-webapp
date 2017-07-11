@@ -23,7 +23,7 @@ module.exports = React.createClass
     if @props.onChange
       @props.onChange(newValues)
 
-  render: ({get, name, values} = @props) ->
+  render: ({metaKey, name, values} = @props) ->
 
     <div className='form-item'>
       <div className='form-item-values'>
@@ -32,8 +32,8 @@ module.exports = React.createClass
             value = ''
           else
             value = @state.values[0]
-          <InputFieldText onChange={@_onChange} name={name} value={value} key={get.meta_key_id}
-            metaKey={@props.metaKey} />
+          <InputFieldText onChange={@_onChange} name={name} value={value} key={metaKey.uuid}
+            metaKey={metaKey} />
         }
       </div>
       {@props.subForms}

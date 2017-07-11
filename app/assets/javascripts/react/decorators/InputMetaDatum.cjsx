@@ -12,7 +12,6 @@ module.exports = React.createClass
   propTypes:
     id: React.PropTypes.string.isRequired
     name: React.PropTypes.string.isRequired
-    get: MadekPropTypes.metaDatum.isRequired
 
   _inputByTypeMap: {
     'Text': Text
@@ -21,24 +20,52 @@ module.exports = React.createClass
     'Keywords': InputKeywords
   }
 
-  render: ({get, id, name} = @props, state = @state)->
+  render: ({id, name, model} = @props)->
 
-    resourceType = f.last(get.type.split('::'))
+    resourceType = f.last(@props.metaKey.value_type.split('::'))
 
     multiple = not (f.includes(['Text', 'TextDate'], resourceType))
 
-    InputElement = @_inputByTypeMap[resourceType]
-
-    values = f.map get.values, (value) ->
+    values = f.map model.values, (value) ->
       value
 
-    <InputElement
-      onChange={@props.onChange}
-      get={get}
-      id={id}
-      name={name}
-      multiple={multiple}
-      values={values}
-      metaKey={@props.metaKey}
-      contextKey={@props.contextKey}
-      subForms={@props.subForms}/>
+    if resourceType == 'Text'
+      <Text
+        metaKey={@props.metaKey}
+        name={name}
+        values={values}
+        onChange={@props.onChange}
+        subForms={@props.subForms} />
+
+    else if resourceType == 'TextDate'
+      <InputTextDate
+        onChange={@props.onChange}
+        id={id}
+        name={name}
+        values={values}
+        subForms={@props.subForms}/>
+
+    else if resourceType == 'People'
+
+      <InputPeople
+        metaKey={@props.metaKey}
+        onChange={@props.onChange}
+        name={name}
+        multiple={multiple}
+        values={values}
+        subForms={@props.subForms}/>
+
+    else if resourceType == 'Keywords'
+
+      <InputKeywords
+        meta_key={@props.metaKey}
+        keywords={@props.metaKey.keywords}
+        show_checkboxes={@props.metaKey.show_checkboxes}
+        onChange={@props.onChange}
+        id={id}
+        name={name}
+        multiple={multiple}
+        values={values}
+        metaKey={@props.metaKey}
+        contextKey={@props.contextKey}
+        subForms={@props.subForms}/>

@@ -57,7 +57,7 @@ module Presenters
         @meta_key_by_meta_key_id ||=
           Hash[
             relevant_meta_keys.map do |key|
-              [key.id, Presenters::MetaKeys::MetaKeyCommon.new(key)]
+              [key.id, Presenters::MetaKeys::MetaKeyEdit.new(key)]
             end
           ]
       end
