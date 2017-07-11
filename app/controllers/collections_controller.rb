@@ -153,11 +153,11 @@ class CollectionsController < ApplicationController
   end
 
   def update_transfer_responsibility
-    resource_update_transfer_responsibility(current_user, Collection, id_param)
+    resource_update_transfer_responsibility(Collection, id_param)
   end
 
   def batch_update_transfer_responsibility
-    batch_resource_update_transfer_responsibility(current_user, Collection)
+    batch_resource_update_transfer_responsibility(Collection)
   end
 
   def select_collection

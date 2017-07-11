@@ -17,6 +17,9 @@ module Presenters
                id: @app_resource
         end
 
+        def can_transfer
+          auth_policy(@user, @app_resource).edit_transfer_responsibility?
+        end
       end
     end
   end

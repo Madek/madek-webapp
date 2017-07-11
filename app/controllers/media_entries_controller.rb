@@ -116,11 +116,11 @@ class MediaEntriesController < ApplicationController
   end
 
   def update_transfer_responsibility
-    resource_update_transfer_responsibility(current_user, MediaEntry, id_param)
+    resource_update_transfer_responsibility(MediaEntry, id_param)
   end
 
   def batch_update_transfer_responsibility
-    batch_resource_update_transfer_responsibility(current_user, MediaEntry)
+    batch_resource_update_transfer_responsibility(MediaEntry)
   end
 
   def select_collection

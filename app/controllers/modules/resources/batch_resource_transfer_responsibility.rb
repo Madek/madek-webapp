@@ -7,7 +7,7 @@ module Modules
 
       private
 
-      def batch_resource_update_transfer_responsibility(user, type)
+      def batch_resource_update_transfer_responsibility(type)
         auth_authorize type, :logged_in?
         resources = type.unscoped.where(id: resources_ids_param)
         authorize_resources_for_batch_transfer_responsibility!(resources)
@@ -17,7 +17,7 @@ module Modules
 
         ActiveRecord::Base.transaction do
           resources.each do |resource|
-            update_permissions_resource(user, new_user, resource)
+            update_permissions_resource(new_user, resource)
           end
         end
 

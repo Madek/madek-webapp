@@ -5,12 +5,11 @@ module Modules
 
       private
 
-      def update_permissions_resource(user, new_user, resource)
+      def update_permissions_resource(new_user, resource)
         remove_existing_permissions_for_new_user(resource, new_user)
 
         send(
           "update_permissions_#{resource.class.name.underscore}",
-          user,
           resource)
 
         resource.responsible_user = new_user
@@ -21,7 +20,7 @@ module Modules
         resource.user_permissions.where(user: new_user).destroy_all
       end
 
-      def update_permissions_media_entry(user, resource)
+      def update_permissions_media_entry(resource)
         view = read_permission(:view)
         download = read_permission(:download)
         edit = read_permission(:edit)
@@ -30,12 +29,13 @@ module Modules
         return if !view && !download && !edit && !manage
 
         do_update_permissions_media_entry(
-          user, resource, view, download, edit, manage)
+          resource, view, download, edit, manage)
       end
 
       def do_update_permissions_media_entry(
-          user, resource, view, download, edit, manage)
-        existing_permissions = resource.user_permissions.where(user: user).first
+          resource, view, download, edit, manage)
+        existing_permissions = resource.user_permissions.where(
+          user: resource.responsible_user).first
         if existing_permissions
           existing_permissions.get_metadata_and_previews = view
           existing_permissions.get_full_size = download
@@ -54,18 +54,19 @@ module Modules
         end
       end
 
-      def update_permissions_collection(user, resource)
+      def update_permissions_collection(resource)
         view = read_permission(:view)
         edit = read_permission(:edit)
         manage = read_permission(:manage)
 
         return if !view && !edit && !manage
 
-        do_update_permissions_collection(user, resource, view, edit, manage)
+        do_update_permissions_collection(resource, view, edit, manage)
       end
 
-      def do_update_permissions_collection(user, resource, view, edit, manage)
-        existing_permissions = resource.user_permissions.where(user: user).first
+      def do_update_permissions_collection(resource, view, edit, manage)
+        existing_permissions = resource.user_permissions.where(
+          user: resource.responsible_user).first
         if existing_permissions
           existing_permissions.get_metadata_and_previews = view
           existing_permissions.edit_metadata_and_relations = edit

@@ -101,6 +101,11 @@ module.exports = React.createClass
         }
       </span>
 
+
+    if @props.get.can_transfer
+      transferClick = (event) => @_showTransferModal(true, event)
+
+
     <div>
       {
         if @state.transferModal
@@ -124,7 +129,7 @@ module.exports = React.createClass
         decos={{Groups: GroupIndex}}>
 
         <PermissionsOverview get={model}
-          openTransferModal={(event) => @_showTransferModal(true, event)} />
+          openTransferModal={transferClick} />
 
         <hr className='separator light mvl'/>
 
@@ -161,7 +166,7 @@ PermissionsOverview = React.createClass
           </ul>
 
           {
-            if get.responsible.uuid == get.current_user.uuid
+            if @props.openTransferModal
               <ul className='inline mts'>
                 <a className='button' onClick={@props.openTransferModal}>
                   {t('permissions_transfer_responsibility_link')}
