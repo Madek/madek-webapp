@@ -191,14 +191,53 @@ module.exports = {
     )
 
 
+
+  _sortedVocabularies: (meta_meta_data) ->
+    f.sortBy(
+      f.values(
+        meta_meta_data.vocabularies_by_vocabulary_id
+      ),
+      (vocabulary) ->
+        if vocabulary.uuid == 'madek_core'
+          - 1
+        else
+          vocabulary.position
+    )
+
+  _sortedMetadata: (meta_meta_data, meta_data, vocabulary) ->
+    meta_key_ids = meta_meta_data.meta_key_ids_by_vocabulary_id[vocabulary.uuid]
+
+    meta_keys = f.map(
+      meta_key_ids,
+      (meta_key_id) ->
+        meta_meta_data.meta_key_by_meta_key_id[meta_key_id]
+    )
+
+    sorted = f.sortBy(meta_keys, 'position')
+
+    f.map(
+      sorted,
+      (meta_key) ->
+        meta_data.meta_datum_by_meta_key_id[meta_key.uuid]
+    )
+
+
+
+
+
   _renderByVocabularies: (meta_data, meta_meta_data, published, name,
     batch, models, errors, _batchConflictByMetaKey, _onChangeForm, bundleState, _toggleBundle) ->
 
+
+    sorted_vocabs = @_sortedVocabularies(meta_meta_data)
+
     f.map(
-      f.sortBy(meta_data.by_vocabulary, (voc) -> if voc.vocabulary.uuid == 'madek_core' then - 1 else voc.vocabulary.position),
-      (vocabularyInfo) =>
-        vocabMetaData = f.sortBy(vocabularyInfo.meta_data, 'meta_key.position')
-        vocabularyDetails = vocabularyInfo.vocabulary
+
+      sorted_vocabs,
+
+      (vocabulary) =>
+
+        vocabMetaData = @_sortedMetadata(meta_meta_data, meta_data, vocabulary)
 
         bundled_meta_data = grouping._group_meta_data(vocabMetaData)
 
@@ -207,10 +246,10 @@ module.exports = {
             batch, models[meta_key_id], _batchConflictByMetaKey(meta_key_id), errors, _onChangeForm)
 
 
-        <div className='mbl' key={vocabularyDetails.uuid}>
+        <div className='mbl' key={vocabulary.uuid}>
           <div className='ui-container pas'>
-            <VocabTitleLink id={vocabularyDetails.uuid} text={vocabularyDetails.label}
-              separated={true} href={'/vocabulary/' + vocabularyDetails.uuid} />
+            <VocabTitleLink id={vocabulary.uuid} text={vocabulary.label}
+              separated={true} href={'/vocabulary/' + vocabulary.uuid} />
           </div>
           {
             f.map(
@@ -248,24 +287,20 @@ module.exports = {
     <div className='ui-container pas'>
       <div style={{paddingBottom: '30px'}}>
         {
-          vocabularies = f.sortBy(
-            meta_data.by_vocabulary,
-            (voc) -> if voc.vocabulary.uuid == 'madek_core' then - 1 else voc.vocabulary.position
-          )
+          vocabularies = @_sortedVocabularies(meta_meta_data)
           f.flatten f.map(
             vocabularies
             ,
-            (vocabularyInfo, index) ->
-              vocabMetaData = f.sortBy(vocabularyInfo.meta_data, 'meta_key.position')
-              vocabularyDetails = vocabularyInfo.vocabulary
+            (vocabulary, index) =>
+              vocabMetaData = @_sortedMetadata(meta_meta_data, meta_data, vocabulary)
 
               [
-                <span className='title-l' key={'href_' + vocabularyDetails.uuid} style={{fontWeight: 'normal'}}>
-                  <a href={'#' + vocabularyDetails.uuid}>{vocabularyDetails.label}</a>
+                <span className='title-l' key={'href_' + vocabulary.uuid} style={{fontWeight: 'normal'}}>
+                  <a href={'#' + vocabulary.uuid}>{vocabulary.label}</a>
                 </span>
                 ,
                 if index != vocabularies.length - 1
-                  <span className='title-l' key={'separator_' + vocabularyDetails.uuid} style={{paddingRight: '10px', paddingLeft: '10px', fontWeight: 'normal'}}>|</span>
+                  <span className='title-l' key={'separator_' + vocabulary.uuid} style={{paddingRight: '10px', paddingLeft: '10px', fontWeight: 'normal'}}>|</span>
               ]
 
           )

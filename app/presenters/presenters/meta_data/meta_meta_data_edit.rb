@@ -1,6 +1,5 @@
 module Presenters
   module MetaData
-
     class MetaMetaDataEdit < Presenter
 
       include AuthorizationSetup
@@ -42,6 +41,24 @@ module Presenters
 
       def meta_data_edit_context_ids
         configured_contexts.map &:id
+      end
+
+      def vocabularies_by_vocabulary_id
+        vocabularies_for_resource_type.map do |vocabulary|
+          [
+            vocabulary.id,
+            Presenters::Vocabularies::VocabularyCommon.new(vocabulary)
+          ]
+        end.to_h
+      end
+
+      def meta_key_ids_by_vocabulary_id
+        vocabularies_for_resource_type.map do |vocabulary|
+          [
+            vocabulary.id,
+            vocabulary.meta_keys.map(&:id)
+          ]
+        end.to_h
       end
 
       def contexts_by_context_id
@@ -103,6 +120,15 @@ module Presenters
       end
 
       private
+
+      def vocabularies_for_resource_type
+        plural = @resource_class.name.underscore.pluralize
+        auth_policy_scope(@user, Vocabulary.all, VocabularyPolicy::UsableScope)
+        .joins(:meta_keys)
+        .where(
+          "meta_keys.is_enabled_for_#{plural}" => true
+        ).distinct
+      end
 
       def context_key_usable(context_key)
         parent_resource_type = @resource_class.name.underscore

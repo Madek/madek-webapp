@@ -1,12 +1,7 @@
 module Presenters
   module MetaData
-
-    class MetaDataEdit < Presenters::MetaData::ResourceMetaData
-
-      def by_vocabulary
-        @by_vocabulary ||=
-          _by_vocabulary(fetch_usable_meta_data)
-      end
+    class MetaDataEdit < Presenters::Shared::AppResourceWithUser
+      include Presenters::Shared::Modules::VocabularyConfig
 
       def meta_datum_by_meta_key_id
         @meta_datum_by_meta_key_id ||=
