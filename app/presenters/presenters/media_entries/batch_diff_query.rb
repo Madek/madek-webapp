@@ -39,7 +39,7 @@ module Presenters
             collection_media_entry_arcs
           where
             media_entries.id = collection_media_entry_arcs.media_entry_id
-            and collection_media_entry_arcs.media_entry_id = '#{collection_id}'
+            and collection_media_entry_arcs.collection_id = '#{collection_id}'
         SQL
       end
 
