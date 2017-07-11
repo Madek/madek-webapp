@@ -2,12 +2,13 @@ module Presenters
   module Users
     class DashboardSection < Presenter
 
-      attr_reader :section_resources, :sections, :section
+      attr_reader :section_content, :sections, :section, :clipboard_id
 
-      def initialize(section_resources, sections, section)
-        @section_resources = section_resources
+      def initialize(section_content, sections, section, clipboard_id: nil)
+        @section_content = section_content
         @sections = sections
         @section = section
+        @clipboard_id = clipboard_id
       end
     end
   end

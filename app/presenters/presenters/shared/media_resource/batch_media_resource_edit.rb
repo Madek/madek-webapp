@@ -1,19 +1,12 @@
 module Presenters
   module Shared
     module MediaResource
-      class BatchMediaResourceEdit < Presenters::Shared::AppResource
-
-        def initialize(app_resource, user, usable_meta_keys_map)
-          super(app_resource)
-          @user = user
-          @usable_meta_keys_map = usable_meta_keys_map
-        end
+      class BatchMediaResourceEdit < Presenters::Shared::AppResourceWithUser
 
         def meta_data
-          Presenters::MetaData::BatchMetaDataEdit.new(
+          Presenters::MetaData::MetaDataEdit.new(
             @app_resource,
-            @user,
-            @usable_meta_keys_map
+            @user
           )
         end
 
@@ -24,7 +17,6 @@ module Presenters
             true
           end
         end
-
       end
     end
   end

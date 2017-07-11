@@ -9,19 +9,6 @@ module Presenters
 
           private
 
-          def visible_vocabularies_for_user
-            @visible_vocabularies_for_user ||=
-              auth_policy_scope(@user, Vocabulary.all)
-                .sort_by
-          end
-
-          def usable_vocabularies_for_user
-            @usable_vocabularies_for_user ||=
-              auth_policy_scope(
-                @user, Vocabulary.all, VocabularyPolicy::UsableScope)
-                .sort_by
-          end
-
           def _entry_summary_context
             @_entry_summary_context ||=
               _get_app_settings_contexts([:context_for_entry_summary])
@@ -43,7 +30,6 @@ module Presenters
           end
 
           def _contexts_for_collection_extra
-            # TODO: Use :contexts_for_collection_extra
             @_contexts_for_collection_extra ||=
               _get_app_settings_contexts([:contexts_for_collection_extra])
           end

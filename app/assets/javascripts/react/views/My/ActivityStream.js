@@ -52,7 +52,7 @@ class MyTimeline extends React.Component {
           this._fetchActivityStreamPast(this.props.get.url, (err, res) => {
             if (err) return loopCallback(err)
 
-            const streamInfo = parseStreamInfo(res.section_resources)
+            const streamInfo = parseStreamInfo(res.section_content)
             // if there are no more events, we reached the end
             if (streamInfo.stream.length < 1) {
               this.setState({ fetchingPast: false, endOfStream: true })

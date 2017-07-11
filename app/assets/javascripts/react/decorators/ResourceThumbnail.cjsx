@@ -224,7 +224,6 @@ module.exports = React.createClass
         selectProps={selectProps}
         textProps={textProps}
         style={@props.style}
-        showDraftBadge={@props.showDraftBadge}
         />
 
 

@@ -1,7 +1,6 @@
 module Presenters
   module MetaData
     class MetaDataEdit < Presenters::Shared::AppResourceWithUser
-      include Presenters::Shared::Modules::VocabularyConfig
 
       def meta_datum_by_meta_key_id
         @meta_datum_by_meta_key_id ||=
@@ -15,68 +14,32 @@ module Presenters
           ]
       end
 
-      def existing_meta_data_by_meta_key_id
-        @existing_meta_data_by_meta_key_id ||=
-          begin
-            datums = usable_meta_keys.map do |key|
-              @app_resource.meta_data.where(meta_key_id: key.id).first
-            end
-
-            datums = datums.select do |hash|
-              hash
-            end
-
-            Hash[
-              datums.map do |meta_datum|
-                next unless meta_datum.id
-                [
-                  meta_datum.meta_key_id,
-                  Presenters::MetaData::MetaDatumCommon.new(meta_datum, @user)
-                ]
-              end
-            ]
-        end
-      end
-
       private
 
-      def usable_meta_keys
-        @usable_meta_keys ||=
-          begin
-            parent_resource_type = @app_resource.class.name.underscore
-            MetaKey
-              .where("is_enabled_for_#{parent_resource_type.pluralize}" => true)
-              .joins(:vocabulary)
-              .where(vocabularies: { id: usable_vocabularies_for_user.map(&:id) })
-          end
+      def usable_vocabularies_for_user
+        auth_policy_scope(
+          @user, Vocabulary.all, VocabularyPolicy::UsableScope)
+          .sort_by
       end
 
       def fetch_usable_meta_data
-        @fetch_usable_meta_data ||=
-          begin
-            parent_resource_type = @app_resource.class.name.underscore
-            MetaKey
-              .where("is_enabled_for_#{parent_resource_type.pluralize}" => true)
-              .joins(:vocabulary)
-              .where(vocabularies: { id: usable_vocabularies_for_user.map(&:id) })
-              .map do |key|
-                existing_datum = @app_resource.meta_data.where(meta_key: key).first
-                if existing_datum.present?
-                  existing_datum
-                else # prepare a new, blank instance to "fill out":
-                  md_klass = key.meta_datum_object_type.constantize
-                  md_klass.new(
-                    meta_key: key,
-                    parent_resource_type => @app_resource)
-                end
-              end
+        parent_resource_type = @app_resource.class.name.underscore
+        MetaKey
+          .where("is_enabled_for_#{parent_resource_type.pluralize}" => true)
+          .joins(:vocabulary)
+          .where(vocabularies: { id: usable_vocabularies_for_user.map(&:id) })
+          .map do |key|
+            existing_datum = @app_resource.meta_data.where(meta_key: key).first
+            if existing_datum.present?
+              existing_datum
+            else # prepare a new, blank instance to "fill out":
+              md_klass = key.meta_datum_object_type.constantize
+              md_klass.new(
+                meta_key: key,
+                parent_resource_type => @app_resource)
+            end
           end
       end
-
-      def presenterify_vocabulary_and_meta_data(bundle, _presenter = nil)
-        super(bundle, Presenters::MetaData::MetaDatumEdit)
-      end
-
     end
   end
 end

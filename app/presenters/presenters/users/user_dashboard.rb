@@ -13,7 +13,8 @@ module Presenters
             with_count: true,
             action: nil,
             is_async_attribute: false,
-            json_path: nil
+            json_path: nil,
+            type_filter: nil
       )
         fail 'TypeError!' unless user.is_a?(User)
         @user = user
@@ -26,6 +27,7 @@ module Presenters
         @action = action
         @is_async_attribute = is_async_attribute
         @json_path = json_path
+        @type_filter = type_filter
       end
 
       attr_reader :dashboard_header
@@ -117,12 +119,12 @@ module Presenters
         presenterify @user_scopes[:entrusted_filter_sets]
       end
 
-      def clipboard
-        return unless @is_async_attribute
-        if @user and clipboard_collection(@user)
-          presenterify @user_scopes[:clipboard]
-        end
-      end
+      # def clipboard
+      #   return unless @is_async_attribute
+      #   if @user and clipboard_collection(@user)
+      #     presenterify_clipboard
+      #   end
+      # end
 
       def groups
         groups = {

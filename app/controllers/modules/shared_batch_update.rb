@@ -7,42 +7,68 @@ module Modules
     private
 
     def shared_batch_edit_meta_data_by_context(type)
-      auth_authorize type, :logged_in?
-      entries = type.unscoped.where(id: entries_ids_param)
-      authorize_resources_for_batch_edit!(entries)
-
-      @get = Presenters::MediaEntries::BatchEditContextMetaData.new(
-        type,
-        entries,
-        current_user,
-        context_id: params[:context_id],
-        by_vocabularies: false,
-        return_to: return_to_param)
+      shared_batch_edit_meta_data(type, params[:context_id], false)
     end
 
     def shared_batch_edit_meta_data_by_vocabularies(type)
+      shared_batch_edit_meta_data(type, nil, true)
+    end
+
+    def shared_batch_edit_meta_data(type, context_id, by_vocabularies)
       auth_authorize type, :logged_in?
       entries = type.unscoped.where(id: entries_ids_param)
       authorize_resources_for_batch_edit!(entries)
 
       @get = Presenters::MediaEntries::BatchEditContextMetaData.new(
         type,
-        entries,
         current_user,
-        context_id: nil,
-        by_vocabularies: true,
-        return_to: return_to_param)
+        context_id: context_id,
+        by_vocabularies: by_vocabularies,
+        return_to: return_to_param,
+        entries: entries)
+    end
+
+    def determine_entries_to_update(type)
+      collection_id = params[:collection_id]
+      params_type = params[:type]
+      if collection_id
+        if params_type == 'media_entry'
+          Collection.unscoped.find(collection_id).media_entries
+        elsif params_type == 'collection'
+          Collection.unscoped.find(collection_id).collections
+        else
+          throw 'Unexpected type: ' + params_type
+        end
+      else
+        entries_ids = entries_ids_param(
+          params.require(:batch_resource_meta_data))
+        type.unscoped.where(id: entries_ids)
+      end
+    end
+
+    def determine_meta_data_from_params
+      if params[:collection_id]
+        case params[:type]
+        when 'media_entry' then params.require(:media_entry).require(:meta_data)
+        when 'collection' then params.require(:collection).require(:meta_data)
+        else throw 'Unxpected type: ' + params[:type]
+        end
+      else
+        meta_data_params
+      end
     end
 
     def shared_batch_meta_data_update(type)
       auth_authorize type, :logged_in?
       return_to = return_to_param
-      entries_ids = entries_ids_param(params.require(:batch_resource_meta_data))
 
-      entries = type.unscoped.where(id: entries_ids)
+      entries = determine_entries_to_update(type)
+
       authorize_resources_for_batch_edit!(entries)
 
-      errors = batch_update_transaction!(entries, meta_data_params)
+      data_params = determine_meta_data_from_params
+
+      errors = batch_update_transaction!(entries, data_params)
 
       if errors.empty?
 

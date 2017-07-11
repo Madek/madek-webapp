@@ -104,6 +104,9 @@ Madek::Application.routes.draw do
       get 'meta_data/edit/by_context(/:context_id)', action: :edit_meta_data_by_context, as: 'edit_meta_data_by_context'
       get 'meta_data/edit/by_vocabularies', action: :edit_meta_data_by_vocabularies, as: 'edit_meta_data_by_vocabularies'
       put 'meta_data', action: :meta_data_update
+      put 'batch_update_all', action: :batch_update_all, as: 'batch_update_all'
+
+      get 'batch_edit_all', action: :batch_edit_all, as: 'batch_edit_all'
 
       get 'list_meta_data'
       get 'more_data'

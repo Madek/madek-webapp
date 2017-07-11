@@ -24,11 +24,45 @@ class MyController < ApplicationController
     respond_with @get, layout: 'application'
   end
 
-  def dashboard_section
-    auth_authorize :dashboard, :logged_in?
+  def scope_by_type(clipboard, type_filter)
+    case type_filter
+    when 'entries' then clipboard.media_entries
+    when 'collections' then clipboard.collections
+    else clipboard.child_media_resources
+    end
+  end
 
-    current_section = determine_current_section
+  def content_by_type(type_filter)
+    case type_filter
+    when 'entries' then MediaEntry
+    when 'collections' then Collection
+    end
+  end
 
+  def presenterify_clipboard_resources
+    clipboard = clipboard_collection(current_user)
+
+    type_filter = params.permit(:type).fetch(:type, nil)
+
+    mr_scope = scope_by_type(clipboard, type_filter)
+
+    content_type = content_by_type(type_filter)
+
+    Presenters::Collections::ChildMediaResources.new(
+      mr_scope,
+      current_user,
+      # NOTE: should have class of db view even if using a faster scope:
+      item_type: 'MediaResources',
+      can_filter: true,
+      list_conf: resource_list_by_type_param,
+      disable_file_search: type_filter != 'entries',
+      only_filter_search: !['entries', 'collections'].include?(type_filter),
+      content_type: content_type,
+      json_path: 'section_content.resources.resources'
+    )
+  end
+
+  def generic_section(current_section)
     user_dashboard = create_user_dashboard(
       list_conf: { order: 'created_at DESC' }.merge(
         { per_page: 12 }.merge(
@@ -39,14 +73,48 @@ class MyController < ApplicationController
         )
       ),
       is_async_attribute: true,
-      json_path: 'section_resources.resources'
+      json_path: 'section_content.resources'
     )
 
-    @get = Presenters::Users::DashboardSection.new(
+    Presenters::Users::DashboardSection.new(
       user_dashboard.send(current_section[:id]),
       create_sections,
       current_section
     )
+  end
+
+  def clipboard_section(current_section)
+    clipboard = clipboard_collection(current_user)
+    section_content = \
+      if clipboard
+        Pojo.new(
+          resources: presenterify_clipboard_resources,
+          clipboard_id: clipboard.id
+        )
+      else
+        Pojo.new(
+          resources: nil,
+          clipboard_id: nil
+        )
+      end
+
+    Presenters::Users::DashboardSection.new(
+      section_content,
+      create_sections,
+      current_section
+    )
+  end
+
+  def dashboard_section
+    auth_authorize :dashboard, :logged_in?
+
+    current_section = determine_current_section
+    @get = \
+      if current_section[:id] == :clipboard
+        clipboard_section(current_section)
+      else
+        generic_section(current_section)
+      end
 
     respond_with @get, layout: 'app_with_sidebar'
   end
@@ -89,7 +157,8 @@ class MyController < ApplicationController
       activity_stream_conf: activity_stream_params,
       action: params[:action],
       is_async_attribute: is_async_attribute,
-      json_path: json_path
+      json_path: json_path,
+      type_filter: params.permit(:type).fetch(:type, nil)
     )
   end
 end

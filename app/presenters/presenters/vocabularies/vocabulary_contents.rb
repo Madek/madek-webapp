@@ -37,11 +37,19 @@ module Presenters
           user_scope,
           @user,
           can_filter: true,
-          list_conf: @list_conf
+          list_conf: @list_conf,
+          content_type: content_type
         )
       end
 
       private
+
+      def content_type
+        case @resources_type
+        when 'entries' then MediaEntry
+        when 'collections' then Collection
+        end
+      end
 
       def entries_scope(meta_key_ids)
         scope = MediaEntry.joins(:meta_data).where(

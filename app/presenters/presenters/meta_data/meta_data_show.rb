@@ -18,6 +18,12 @@ module Presenters
           .joins(:vocabulary)
           .where(vocabularies: { id: visible_vocabularies_for_user.map(&:id) })
       end
+
+      def visible_vocabularies_for_user
+        @visible_vocabularies_for_user ||=
+          auth_policy_scope(@user, Vocabulary.all)
+            .sort_by
+      end
     end
   end
 end

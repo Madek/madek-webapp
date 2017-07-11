@@ -1,7 +1,6 @@
 module Presenters
   module MetaData
-    class EditContextMetaData \
-        < Presenters::Shared::MediaResource::MediaResourceEdit
+    class EditContextMetaData < Presenters::Shared::AppResourceWithUser
 
       include Presenters::Shared::MediaResource::Modules::IndexPresenterByClass
 
@@ -28,6 +27,17 @@ module Presenters
         Presenters::MetaData::MetaMetaDataEdit.new(@user, @app_resource.class)
       end
 
+      def meta_data
+        Presenters::MetaData::MetaDataEdit.new(@app_resource, @user)
+      end
+
+      def published
+        if @app_resource.class == MediaEntry
+          @app_resource.is_published
+        else
+          true
+        end
+      end
     end
   end
 end

@@ -9,7 +9,8 @@ module Presenters
           @user,
           can_filter: true,
           list_conf: @list_conf,
-          load_meta_data: @load_meta_data)
+          load_meta_data: @load_meta_data,
+          content_type: Collection)
       end
     end
   end

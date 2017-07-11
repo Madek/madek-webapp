@@ -22,7 +22,8 @@ module Presenters
           user_scope,
           @user,
           can_filter: true,
-          list_conf: @list_conf
+          list_conf: @list_conf,
+          content_type: content_type
         )
 
         check_for_try_collection(resources, clazz)
@@ -30,6 +31,13 @@ module Presenters
       end
 
       private
+
+      def content_type
+        case @resources_type
+        when 'entries' then MediaEntry
+        when 'collections' then Collection
+        end
+      end
 
       def resource_class_by_type_string(resource_type)
         case resource_type
@@ -50,7 +58,11 @@ module Presenters
         if !media_files_filter? && resources.empty? && clazz == MediaEntry
           try_scope = keyword_scope(@app_resource, Collection)
           try_resources = Presenters::Shared::MediaResource::MediaResources.new(
-            try_scope, @user, can_filter: false, list_conf: @list_conf
+            try_scope,
+            @user,
+            can_filter: false,
+            list_conf: @list_conf,
+            content_type: content_type
           )
           if try_resources.any?
             resources.try_collections = true

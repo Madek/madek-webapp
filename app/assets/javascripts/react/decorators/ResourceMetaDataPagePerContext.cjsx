@@ -65,18 +65,35 @@ module.exports = React.createClass
     else
       actionType = 'save'
 
+    if @props.get.collection_id
 
-    url = @props.get.url + '/meta_data'
+      path = '/sets/' + @props.get.collection_id + '/batch_update_all'
 
-    if @props.batch
-      actionType = 'save'
-      url = @props.get.submit_url
+      url = setUrlParams(
+        path,
+        {
+          return_to: @props.get.return_to
+          type: @props.get.resource_type
+          collection_id: @props.get.collection_id
+          actionType: actionType
+        }
 
-    url = url + '?actionType=' + actionType
+      )
 
-    # Note: Return to must be a hidden field to for the server-side case.
-    # Url parameters are ignored in the <form action=... field.
-    url = setUrlParams(url, {return_to: @props.get.return_to})
+    else
+
+
+      url = @props.get.url + '/meta_data'
+
+      if @props.batch
+        actionType = 'save'
+        url = @props.get.submit_url
+
+      url = url + '?actionType=' + actionType
+
+      # Note: Return to must be a hidden field to for the server-side case.
+      # Url parameters are ignored in the <form action=... field.
+      url = setUrlParams(url, {return_to: @props.get.return_to})
 
 
 
@@ -92,7 +109,7 @@ module.exports = React.createClass
     models = f.mapValues meta_meta_data.meta_key_by_meta_key_id, (meta_key) =>
       @_createModelForMetaKey(meta_key)
 
-    f.each meta_data.existing_meta_data_by_meta_key_id, (data, meta_key_id) ->
+    f.each meta_data.meta_datum_by_meta_key_id, (data, meta_key_id) ->
       models[meta_key_id].values = data.values
 
     f.each models, (model) ->
@@ -137,7 +154,32 @@ module.exports = React.createClass
     @setState({currentTab: currentTab})
 
     if @props.batch
-      diff = batchDiff(@props.get.meta_meta_data.meta_key_by_meta_key_id, @props.get.batch_entries)
+      if @props.get.batch_diff
+        diff = f.mapValues(
+          @props.get.meta_meta_data.meta_key_by_meta_key_id,
+          (meta_key) =>
+
+            diff = f.find(
+              @props.get.batch_diff,
+              {meta_key_id: meta_key.uuid}
+            )
+            if !diff
+              {
+                all_equal: true
+                all_empty: true
+              }
+            else
+              {
+                all_equal: diff.count == diff.max
+                all_empty: false
+              }
+
+        )
+
+      else
+        throw new Error('Not supported anymore.')
+        diff = batchDiff(@props.get.meta_meta_data.meta_key_by_meta_key_id, @props.get.batch_entries)
+
       @setState({batchDiff: diff})
 
     models = @_createaModelsForMetaKeys(@props.get.meta_meta_data, @props.get.meta_data, diff)
@@ -228,18 +270,18 @@ module.exports = React.createClass
     else
       false
 
-  _title: (batchType, get) ->
+  _title: (get) ->
     title = null
     if @props.batch
 
       pre_title = t('meta_data_batch_title_pre')
       post_title =
-        if batchType == 'MediaEntry'
+        if @props.get.resource_type == 'media_entry'
           t('meta_data_batch_title_post_media_entries')
         else
           t('meta_data_batch_title_post_collections')
 
-      title = pre_title + get.batch_entries.length + post_title
+      title = pre_title + get.batch_length + post_title
     else
       if get.resource.type == 'Collection'
         title = t('collection_meta_data_header_prefix') + get.resource.title
@@ -277,17 +319,14 @@ module.exports = React.createClass
       "#{f.snakeCase(resource.type)}[meta_data]"
 
 
-  _atLeastOnePublished: (single_published, batch, batch_entries) ->
+  _atLeastOnePublished: () ->
     if @props.batch
-      published = false
-      f.each batch_entries, (entry) ->
-        published = true if entry.published
+      @props.get.at_least_one_published
     else
-      published = single_published
-    return published
+      @props.get.published
 
 
-  render: ({get, authToken, batchType} = @props) ->
+  render: ({get, authToken} = @props) ->
 
     # First make sure that you do not get a system error page when you have no context configured.
     if get.meta_meta_data.meta_data_edit_context_ids.length == 0
@@ -297,21 +336,21 @@ module.exports = React.createClass
 
     name = @_namePrefix(get.resource, @props.batch, get.resource_type)
 
-    published = @_atLeastOnePublished(get.published, @props.batch, get.batch_entries)
+    published = @_atLeastOnePublished()
 
 
     <PageContent>
-      <PageContentHeader icon='pen' title={@_title(batchType, get)}>
+      <PageContentHeader icon='pen' title={@_title(get)}>
       </PageContentHeader>
 
       {if @props.batch
-        <ResourcesBatchBox resources={get.resources.resources} authToken={authToken} />
+        <ResourcesBatchBox total={@props.get.batch_length} resources={get.resources.resources} authToken={authToken} />
       }
 
 
       {
-        Renderer._renderTabs(@props.get.meta_meta_data, @props.batch, @props.get.batch_entries,
-          @props.get.return_to, @props.get.url, @_onTabClick, currentTab)
+        Renderer._renderTabs(@props.get.meta_meta_data, @props.batch, @props.get.batch_ids,
+          @props.get.return_to, @props.get.url, @_onTabClick, currentTab, get.collection_id, @props.get.resource_type)
       }
       <TabContent>
 
@@ -351,8 +390,9 @@ module.exports = React.createClass
 
                 <div className='form-body'>
                   {
-                    f.map get.batch_entries, (entry) ->
-                      <input key={entry.uuid} type='hidden' name='batch_resource_meta_data[id][]' value={entry.uuid} />
+                    if @props.batch && !get.collection_id
+                      f.map get.batch_ids, (id) ->
+                        <input key={id} type='hidden' name='batch_resource_meta_data[id][]' value={id} />
                   }
 
                   {

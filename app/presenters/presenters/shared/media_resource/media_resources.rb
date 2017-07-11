@@ -30,7 +30,8 @@ module Presenters
             with_count: true, load_meta_data: false,
             only_filter_search: false,
             disable_file_search: false,
-            json_path: nil)
+            json_path: nil,
+            content_type: nil)
           fail 'missing config!' unless list_conf or list_conf[:for_url].present?
           @user = user
           @scope = scope
@@ -46,6 +47,7 @@ module Presenters
           @only_filter_search = only_filter_search
           @disable_file_search = disable_file_search
           @json_path = json_path
+          @content_type = content_type
           init_resources_and_pagination(@scope, @conf)
         end
 
@@ -61,6 +63,11 @@ module Presenters
 
         def empty?
           not any?
+        end
+
+        def content_type
+          return unless @content_type
+          @content_type.name
         end
 
         def dynamic_filters

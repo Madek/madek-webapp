@@ -27,7 +27,11 @@ module Presenters
         user_scope = group_scope(@app_resource, clazz)
 
         resources = Presenters::Shared::MediaResource::MediaResources.new(
-          user_scope, @user, can_filter: true, list_conf: @list_conf
+          user_scope,
+          @user,
+          can_filter: true,
+          list_conf: @list_conf,
+          content_type: content_type
         )
 
         check_for_try_collection(resources, clazz)
@@ -62,11 +66,22 @@ module Presenters
         return true if @list_conf[:filter].try(:[], :media_files)
       end
 
+      def content_type
+        case @resources_type
+        when 'entries' then MediaEntry
+        when 'collections' then Collection
+        end
+      end
+
       def check_for_try_collection(resources, clazz)
         if !media_files_filter? && resources.empty? && clazz == MediaEntry
           try_scope = group_scope(@app_resource, Collection)
           try_resources = Presenters::Shared::MediaResource::MediaResources.new(
-            try_scope, @user, can_filter: true, list_conf: @list_conf
+            try_scope,
+            @user,
+            can_filter: true,
+            list_conf: @list_conf,
+            content_type: content_type
           )
           if try_resources.any?
             resources.try_collections = true

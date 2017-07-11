@@ -75,7 +75,7 @@ module.exports = React.createClass
 
     bubbles = []
 
-    if @props.draft # && @props.showDraftBadge
+    if @props.draft
       bubbles.push({
         key: 'draft'
         label: 'Entwurf'

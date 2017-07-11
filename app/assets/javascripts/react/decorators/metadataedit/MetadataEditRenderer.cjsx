@@ -380,16 +380,25 @@ module.exports = {
 
 
 
-  _renderTabs: (meta_meta_data, batch, batch_entries, return_to, url, onTabClick, currentTab) ->
+  _renderTabs: (meta_meta_data, batch, batch_ids, return_to, url, onTabClick, currentTab, collection_id, resource_type) ->
     <Tabs>
       {
         f.map meta_meta_data.meta_data_edit_context_ids, (context_id) ->
           context = meta_meta_data.contexts_by_context_id[context_id]
           tabUrl =
             if batch
-              setUrlParams('/entries/batch_edit_meta_data_by_context/' + context.uuid,
-                id: f.map(batch_entries, 'uuid'),
-                return_to: return_to)
+
+              if collection_id
+                setUrlParams('/sets/' + collection_id + '/batch_edit_all',
+                  type: resource_type,
+                  context_id: context.uuid
+                  by_vocabulary: false
+                  return_to: return_to)
+
+              else
+                setUrlParams('/entries/batch_edit_meta_data_by_context/' + context.uuid,
+                  id: batch_ids,
+                  return_to: return_to)
             else
               setUrlParams(url + '/meta_data/edit/by_context/' + context.uuid,
                 return_to: return_to)
@@ -414,9 +423,18 @@ module.exports = {
       {
         tabUrl =
           if batch
-            setUrlParams('/entries/batch_edit_meta_data_by_vocabularies',
-              id: f.map(batch_entries, 'uuid'),
-              return_to: return_to)
+
+            if collection_id
+                setUrlParams('/sets/' + collection_id + '/batch_edit_all',
+                  type: resource_type,
+                  context_id: null
+                  by_vocabulary: true
+                  return_to: return_to)
+
+            else
+              setUrlParams('/entries/batch_edit_meta_data_by_vocabularies',
+                id: batch_ids,
+                return_to: return_to)
           else
             setUrlParams(url + '/meta_data/edit/by_vocabularies',
               return_to: return_to)

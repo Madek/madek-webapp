@@ -388,14 +388,27 @@ module.exports = React.createClass
     batchEditUrl = setUrlParams(path, {id: selected, return_to: @_currentUrl()})
     window.location = batchEditUrl # SYNC!
 
+  _sharedOnBatchAll: (event, type) ->
+    event.preventDefault()
+    id = @props.collectionData.uuid
+    path = '/sets/' + id + '/batch_edit_all'
+    url = setUrlParams(path, {type: type, return_to: @_currentUrl()})
+    window.location = url
+
   _persistListConfig: (config) ->
     req = appRequest(
       { method: 'PATCH', url: '/session/list_config', json: config }
       , (err, res) -> if err then console.error(err))
     @doOnUnmount.push ()-> req.abort() if req && req.abort
 
+  _onBatchEditAll: (event) ->
+    @_sharedOnBatchAll(event, 'media_entry')
+
   _onBatchEdit: (resources, event) ->
     @_sharedOnBatch(resources, event, '/entries/batch_edit_meta_data_by_context')
+
+  _onBatchEditAllSets: (event) ->
+    @_sharedOnBatchAll(event, 'collection')
 
   _onBatchEditSets: (resources, event) ->
     @_sharedOnBatch(resources, event, '/sets/batch_edit_meta_data_by_context')
@@ -692,7 +705,7 @@ module.exports = React.createClass
         mods={toolbarClasses}
         layouts={layouts}
         centerActions={centerActions}
-        onSortItemClick={onSortItemClick}
+        onSortItemClick={onSortItemClick}ß
         dropdownItems={dropdownItems}
         selectedSort={order}
         enableOrdering={@props.enableOrdering} />
@@ -708,6 +721,7 @@ module.exports = React.createClass
       collectionData: @props.collectionData
       config: config
       isClipboard: if @props.initial then @props.initial.is_clipboard else false
+      content_type: @props.get.content_type
     }
 
 
@@ -727,7 +741,9 @@ module.exports = React.createClass
           onBatchRemoveFromClipboard: @_onBatchRemoveFromClipboard
           onBatchAddToSet: @_onBatchAddToSet
           onBatchRemoveFromSet: @_onBatchRemoveFromSet
+          onBatchEditAll: @_onBatchEditAll
           onBatchEdit: @_onBatchEdit
+          onBatchEditAllSets: @_onBatchEditAllSets
           onBatchEditSets: @_onBatchEditSets
           onBatchDeleteResources: @_onBatchDeleteResources
           onBatchPermissionsEdit: @_onBatchPermissionsEdit
@@ -762,7 +778,7 @@ module.exports = React.createClass
       filterToggleLink = boxSetUrlParams(
         currentUrl, {list: {show_filter: (not config.show_filter)}})
 
-      not_is_clipboard = !@props.initial || !@props.initial.is_clipboard
+      not_is_clipboard = true # !@props.initial || !@props.initial.is_clipboard
       filterBarProps =
         left: if get.can_filter && not_is_clipboard then do =>
           name = 'Filtern'
@@ -1063,7 +1079,6 @@ module.exports = React.createClass
                             authToken={authToken} key={key}
                             pinThumb={config.layout == 'tiles'}
                             listThumb={config.layout == 'list'}
-                            showDraftBadge={@props.initial and @props.initial.is_clipboard}
                           />
                       }
 

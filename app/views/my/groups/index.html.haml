@@ -15,7 +15,7 @@
 
 - content_for(:page_content) do
   .ui-resources-holder.pal
-    - if @get.section_resources.empty?
+    - if @get.section_content.empty?
       = t(:no_groups_fallback)
       - next
 
@@ -23,15 +23,15 @@
       my_groups = {
         my_internal_groups: {
           title: t(:internal_groups),
-          list: @get.section_resources.internal
+          list: @get.section_content.internal
         },
         my_authentication_groups: {
           title: t(:authentication_groups),
-          list: @get.section_resources.authentication
+          list: @get.section_content.authentication
         },
         my_external_groups: {
           title: t(:external_groups),
-          list: @get.section_resources.external
+          list: @get.section_content.external
         }
       }.map do |group_type, group|
         group[:list] = group[:list].map do |group|

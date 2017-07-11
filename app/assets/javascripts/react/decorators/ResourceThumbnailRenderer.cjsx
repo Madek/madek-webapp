@@ -100,8 +100,6 @@ module.exports = React.createClass
       actionsLeft: actionsLeft
       actionsRight: actionsRight
 
-      showDraftBadge: @props.showDraftBadge
-
       flyoutTop: if relationsProps and relationsProps.parent and (f.include ['MediaEntry', 'Collection'], resourceType)
         title: 'Übergeordnete Sets'
         children: if relationsProps.parent.ready then relationsProps.parent.thumbs else <Preloader mods='small'/>

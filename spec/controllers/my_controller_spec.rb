@@ -26,7 +26,6 @@ describe MyController do
         :groups,
         :used_keywords,
         :action,
-        :clipboard,
         :tokens,
         :_presenter].sort
   end

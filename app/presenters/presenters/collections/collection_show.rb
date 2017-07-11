@@ -91,6 +91,12 @@ module Presenters
           else @user_scopes[:child_media_resources]
           end
 
+        content_type = \
+          case @type_filter
+          when 'entries' then MediaEntry
+          when 'collections' then Collection
+          end
+
         Presenters::Collections::ChildMediaResources.new(
           mr_scope,
           @user,
@@ -100,7 +106,8 @@ module Presenters
           list_conf: @children_list_conf,
           load_meta_data: @load_meta_data,
           disable_file_search: @type_filter != 'entries',
-          only_filter_search: !['entries', 'collections'].include?(@type_filter)
+          only_filter_search: !['entries', 'collections'].include?(@type_filter),
+          content_type: content_type
         )
       end
 

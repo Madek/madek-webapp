@@ -25,7 +25,8 @@ module Presenters
             @user_scopes[:parent_collections],
             @user,
             can_filter: true,
-            list_conf: @list_conf)
+            list_conf: @list_conf,
+            content_type: Collection)
         end
 
         def sibling_collections
@@ -36,7 +37,8 @@ module Presenters
               .where.not(collections: { id: @app_resource.id }),
             @user,
             can_filter: true,
-            list_conf: @list_conf)
+            list_conf: @list_conf,
+            content_type: Collection)
         end
       end
     end

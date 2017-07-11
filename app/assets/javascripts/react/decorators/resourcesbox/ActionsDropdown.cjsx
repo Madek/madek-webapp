@@ -9,7 +9,7 @@ MenuItem = Dropdown.MenuItem
 
 
 showActionsConfig = (parameters) ->
-  {totalCount, withActions, selection, saveable, draftsView, isClient, collectionData, config, isClipboard} = parameters
+  {totalCount, withActions, selection, saveable, draftsView, isClient, collectionData, config, isClipboard, content_type} = parameters
 
 
   showActions = if not withActions then {} else {
@@ -36,7 +36,7 @@ createActionsDropdown = (parameters, callbacks) ->
 
   return unless f.any(f.values(showActions))
 
-  {totalCount, withActions, selection, saveable, draftsView, isClient, collectionData, config, isClipboard} = parameters
+  {totalCount, withActions, selection, saveable, draftsView, isClient, collectionData, config, isClipboard, content_type} = parameters
 
 
   createHoverActionItem = (enableEntryByOnClick, hoverId, count, icon, text) ->
@@ -78,24 +78,45 @@ createActionsDropdown = (parameters, callbacks) ->
             t('resources_box_batch_actions_removefromset'))}
 
         {if showActions.edit
-          # TODO if selection most likely not needed, should be already included in the if condition.
-          batchEditables = SelectionScope.batchMetaDataResources(selection, ['MediaEntry']) if selection
-          createHoverActionItem(
-            if f.present(batchEditables) then f.curry(callbacks.onBatchEdit)(batchEditables),
-            'media_entries_edit',
-            batchEditables.length,
-            'pen',
-            t('resources_box_batch_actions_edit'))}
+          if (collectionData || isClipboard) && ((not selection) || selection.empty()) && content_type == 'MediaEntry'
+            createHoverActionItem(
+              if totalCount > 0 then callbacks.onBatchEditAll,
+              'media_entries_edit_all',
+              undefined,
+              'pen',
+              t('resources_box_batch_actions_edit_all_media_entries_1') + totalCount + t('resources_box_batch_actions_edit_all_media_entries_2'))
+
+          else
+            # TODO if selection most likely not needed, should be already included in the if condition.
+            batchEditables = SelectionScope.batchMetaDataResources(selection, ['MediaEntry']) if selection
+            createHoverActionItem(
+              if f.present(batchEditables) then f.curry(callbacks.onBatchEdit)(batchEditables),
+              'media_entries_edit',
+              batchEditables.length,
+              'pen',
+              t('resources_box_batch_actions_edit'))}
+
+
 
         {if showActions.editSets
-          # TODO if selection most likely not needed, should be already included in the if condition.
-          batchSetEditables = SelectionScope.batchMetaDataResources(selection, ['Collection']) if selection
-          createHoverActionItem(
-            if f.present(batchSetEditables) then f.curry(callbacks.onBatchEditSets)(batchSetEditables),
-            'collections_edit',
-            batchSetEditables.length,
-            'pen',
-            t('resources_box_batch_actions_edit_sets'))}
+
+          if (collectionData || isClipboard) && ((not selection) || selection.empty()) && content_type == 'Collection'
+            createHoverActionItem(
+              if totalCount > 0 then callbacks.onBatchEditAllSets,
+              'collections_edit_all',
+              undefined,
+              'pen',
+              t('resources_box_batch_actions_edit_all_collections_1') + totalCount + t('resources_box_batch_actions_edit_all_collections_2'))
+
+          else
+            # TODO if selection most likely not needed, should be already included in the if condition.
+            batchSetEditables = SelectionScope.batchMetaDataResources(selection, ['Collection']) if selection
+            createHoverActionItem(
+              if f.present(batchSetEditables) then f.curry(callbacks.onBatchEditSets)(batchSetEditables),
+              'collections_edit',
+              batchSetEditables.length,
+              'pen',
+              t('resources_box_batch_actions_edit_sets'))}
 
         {if showActions.deleteResources
           # TODO if selection most likely not needed, should be already included in the if condition.
@@ -203,9 +224,19 @@ highlightingRules = (item, isSelected) ->
 
   highlighting_rules = [
     {
+      hoverMenuId: 'media_entries_edit_all'
+      rule: () ->
+        (item.type != 'MediaEntry')
+    }
+    {
       hoverMenuId: 'media_entries_edit'
       rule: () -> (!SelectionScope.batchMetaDataResource(item.serialize()) or
         item.type != 'MediaEntry' or (not isSelected))
+    }
+    {
+      hoverMenuId: 'collections_edit_all'
+      rule: () ->
+        (item.type != 'Collection')
     }
     {
       hoverMenuId: 'collections_edit'
