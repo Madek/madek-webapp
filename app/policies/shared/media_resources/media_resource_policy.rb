@@ -108,10 +108,6 @@ module Shared
         permissions_edit?
       end
 
-      def share?
-        show?
-      end
-
       private
 
       def visible?

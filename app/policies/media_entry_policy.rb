@@ -38,6 +38,10 @@ class MediaEntryPolicy < Shared::MediaResources::MediaResourcePolicy
     super && record.is_published
   end
 
+  def share?
+    show? and record.is_published
+  end
+
   alias_method :edit?, :update?
 
   alias_method :more_data?, :show?

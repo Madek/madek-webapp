@@ -31,6 +31,10 @@ class CollectionPolicy < Shared::MediaResources::MediaResourcePolicy
     update?
   end
 
+  def share?
+    show?
+  end
+
   alias_method :relations?, :show?
   alias_method :more_data?, :show?
   alias_method :context?, :show?
