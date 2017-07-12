@@ -31,5 +31,32 @@ describe UsersController do
       expect(result.size).to be == 1
       expect(result.first['login']).to be == user.login
     end
+
+    context 'when user is deactivated' do
+      before { user.update_column(:is_deactivated, true) }
+
+      specify 'filtering by login does not return the user' do
+        get :index,
+            search_term: user.login,
+            format: :json
+
+        expect(response).to be_success
+        expect(response.content_type).to eq 'application/json'
+        result = JSON.parse(response.body)
+        expect(result).to eq []
+      end
+
+      specify 'filtering by person\'s first name does not return the user' do
+        get :index,
+            search_term: user.person.first_name,
+            search_also_in_person: true,
+            format: :json
+
+        expect(response).to be_success
+        expect(response.content_type).to eq 'application/json'
+        result = JSON.parse(response.body)
+        expect(result).to eq []
+      end
+    end
   end
 end

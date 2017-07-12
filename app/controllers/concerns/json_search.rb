@@ -12,6 +12,7 @@ module Concerns
       unless search_params.blank?
         ar_collection = ar_collection.filter_by(*search_params)
       end
+      ar_collection = skip_deactivated_records(ar_collection)
       ar_collection = ar_collection.limit(params[:limit] || 100)
       ar_collection.map { |kt| presenter.new(kt).dump }
     end
@@ -30,6 +31,16 @@ module Concerns
     # to be overriden in controllers if required
     def search_params
       [params[:search_term]].compact
+    end
+
+    private
+
+    def skip_deactivated_records(collection)
+      if model_klass.columns_hash.key?('is_deactivated')
+        collection.where(is_deactivated: false)
+      else
+        collection
+      end
     end
   end
 end
