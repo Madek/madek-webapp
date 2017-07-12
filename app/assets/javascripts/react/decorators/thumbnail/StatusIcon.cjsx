@@ -23,13 +23,5 @@ module.exports = React.createClass
       iconName = "privacy-#{iconMapping[status]}"
       <Icon i={iconName} title={privacyStatus} className={iconClass} />
 
-    if resourceType isnt 'MediaEntry'
-      privacyIcon
-    else # for MediaEntries:
-      switch
-        when modelIsNew
-          <i className={c('fa fa-cloud-upload', iconClass)}/>
-        when not modelPublished
-          <i className={c('fa fa-cloud', iconClass)}/>
-        else
-          privacyIcon
+    privacyIcon
+    

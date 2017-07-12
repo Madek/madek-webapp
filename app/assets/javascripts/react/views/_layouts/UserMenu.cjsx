@@ -39,19 +39,19 @@ module.exports = React.createClass
   render: ({props, state} = this)->
     myContentItems = [
       {
-        title: t('sitemap_my_unpublished'), icon: 'cloud',
+        title: t('sitemap_my_unpublished'), icon: 'pen',
         url: props.my.drafts_url
       },
       {
-        title: t('sitemap_my_clipboard'), icon: 'set',
+        title: t('sitemap_my_clipboard'), icon: 'clipboard',
         url: props.my.clipboard_url
       },
       {
-        title: t('user_menu_my_content_media_entries'), icon: 'user',
+        title: t('user_menu_my_content_media_entries'), icon: 'media-entry',
         url: props.my.entries_url
       },
       {
-        title: t('user_menu_my_content_collections'), icon: 'user',
+        title: t('user_menu_my_content_collections'), icon: 'set',
         url: props.my.sets_url
       },
       {

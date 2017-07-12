@@ -1,11 +1,18 @@
 :ruby
   section = @get.section
+  title = section[:section_title] || section[:title]
+  icon = \
+    if section[:icon]
+      component('icon', section[:icon])
+    elsif section[:fa]
+      raw "<i class=\"fa fa-#{section[:fa]}\" aria-hidden=\"true\"></i>"
+    end
 
 -# template for a single dashboard sub-section (#show-ish)
 
 - content_for(:page_header) do
   = component('page-header',
-              icon: component('icon', section[:icon]), text: section[:title])
+              icon: icon, text: title)
 
 - content_for(:page_content) do
   -                                                         # proxy locals:

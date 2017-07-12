@@ -14,35 +14,37 @@ module Concerns
       def sections_definition
         {
           activity_stream: {
-            title: 'Aktivitäten',
+            title: I18n.t(:sitemap_activities),
             icon: 'icon-privacy-private',
             partial: :activity_stream,
             hide_from_index: true
           },
           clipboard: {
             title: I18n.t(:sitemap_clipboard),
-            icon: 'icon-privacy-group',
+            icon: 'icon-clipboard',
             partial: :media_resources,
             is_beta: true,
             hide_from_index: true
           },
           unpublished_entries: {
             title: I18n.t(:sitemap_my_unpublished),
-            icon: 'icon-privacy-private',
+            icon: 'icon-pen',
             partial: :media_resources,
             allowed_filter_params:
               Concerns::ResourceListParams::ENTRIES_ALLOWED_FILTER_PARAMS
           },
           content_media_entries: {
             title: I18n.t(:sitemap_my_content_media_entries),
-            icon: 'icon-privacy-private',
+            section_title: I18n.t(:section_title_media_entries),
+            icon: 'icon-media-entry',
             partial: :media_resources,
             allowed_filter_params:
               Concerns::ResourceListParams::ENTRIES_ALLOWED_FILTER_PARAMS
           },
           content_collections: {
             title: I18n.t(:sitemap_my_content_collections),
-            icon: 'icon-privacy-private',
+            section_title: I18n.t(:section_title_collections),
+            icon: 'icon-set',
             partial: :media_resources,
             allowed_filter_params:
               Concerns::ResourceListParams::COLLECTIONS_ALLOWED_FILTER_PARAMS
@@ -54,21 +56,21 @@ module Concerns
           # },
           latest_imports: {
             title: I18n.t(:sitemap_my_latest_imports),
-            icon: 'icon-privacy-private',
+            icon: 'icon-media-entry',
             partial: :media_resources,
             allowed_filter_params:
               Concerns::ResourceListParams::ENTRIES_ALLOWED_FILTER_PARAMS
           },
           favorite_media_entries: {
             title: I18n.t(:sitemap_my_favorite_media_entries),
-            icon: 'icon-privacy-private',
+            icon: 'icon-star',
             partial: :media_resources,
             allowed_filter_params:
               Concerns::ResourceListParams::ENTRIES_ALLOWED_FILTER_PARAMS
           },
           favorite_collections: {
             title: I18n.t(:sitemap_my_favorite_collections),
-            icon: 'icon-privacy-private',
+            icon: 'icon-star',
             partial: :media_resources,
             allowed_filter_params:
               Concerns::ResourceListParams::COLLECTIONS_ALLOWED_FILTER_PARAMS
@@ -80,19 +82,20 @@ module Concerns
           # },
           used_keywords: {
             title: I18n.t(:sitemap_my_used_keywords),
+            section_title: I18n.t(:section_title_keywords),
             icon: 'icon-tag',
             partial: :keywords
           },
           entrusted_media_entries: {
             title: I18n.t(:sitemap_my_entrusted_media_entries),
-            icon: 'icon-privacy-group',
+            icon: 'icon-media-entry',
             partial: :media_resources,
             allowed_filter_params:
               Concerns::ResourceListParams::ENTRIES_ALLOWED_FILTER_PARAMS
           },
           entrusted_collections: {
             title: I18n.t(:sitemap_my_entrusted_collections),
-            icon: 'icon-privacy-group',
+            icon: 'icon-set',
             partial: :media_resources,
             allowed_filter_params:
               Concerns::ResourceListParams::COLLECTIONS_ALLOWED_FILTER_PARAMS
@@ -108,7 +111,9 @@ module Concerns
             partial: :groups
           },
           tokens: {
-            title: 'Tokens',
+            title: I18n.t(:sitemap_tokens),
+            section_title: I18n.t(:section_title_tokens),
+            fa: 'key',
             partial: :tokens,
             is_beta: true,
             hide_from_index: true

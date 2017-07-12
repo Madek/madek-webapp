@@ -6,7 +6,7 @@
   content_for(:page_header) do
     component('page-header',
               icon: component('icon.privacy-group'),
-              text: @get.sections[:groups][:title],
+              text: I18n.t(:section_title_groups),
               actions: [
                 component('button.primary', link: new_my_group_path,
                                             text: t(:group_new_group_btn))
