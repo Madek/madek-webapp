@@ -14,18 +14,61 @@ module Modules
       shared_batch_edit_meta_data(type, nil, true)
     end
 
+    # rubocop:disable Metrics/MethodLength
+    def shared_handle_batch_edit_response(
+      type,
+      all_resources,
+      authorized_resources,
+      collection,
+      context_id,
+      by_vocabularies)
+
+      if !all_resources.any?
+        redirect_to(
+          return_to_param,
+          flash: {
+            warning: I18n.t("batch_warning_no_contents_#{type.name.underscore}")
+          }
+        )
+      elsif !authorized_resources.any?
+        redirect_to(
+          return_to_param,
+          flash: {
+            warning: I18n.t(
+              "batch_warning_no_authorized_contents_#{type.name.underscore}")
+          }
+        )
+      else
+        @get = Presenters::MediaEntries::BatchEditContextMetaData.new(
+          type,
+          current_user,
+          context_id: context_id,
+          by_vocabularies: by_vocabularies,
+          return_to: return_to_param,
+          all_resources: all_resources,
+          authorized_resources: authorized_resources,
+          collection: collection)
+      end
+    end
+    # rubocop:enable Metrics/MethodLength
+
     def shared_batch_edit_meta_data(type, context_id, by_vocabularies)
       auth_authorize type, :logged_in?
       entries = type.unscoped.where(id: entries_ids_param)
       authorize_resources_for_batch_edit!(entries)
 
-      @get = Presenters::MediaEntries::BatchEditContextMetaData.new(
+      all_resources = entries
+      authorized_resources = auth_policy_scope(
+        current_user, all_resources, MediaResourcePolicy::EditableScope)
+
+      shared_handle_batch_edit_response(
         type,
-        current_user,
-        context_id: context_id,
-        by_vocabularies: by_vocabularies,
-        return_to: return_to_param,
-        entries: entries)
+        all_resources,
+        authorized_resources,
+        nil,
+        context_id,
+        by_vocabularies
+      )
     end
 
     def determine_entries_to_update(type)

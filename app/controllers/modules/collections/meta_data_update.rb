@@ -16,25 +16,21 @@ module Modules
 
         collection = Collection.unscoped.find(collection_id)
 
-        scope = \
-          case type
-          when 'media_entry' then collection.media_entries
-          when 'collection' then collection.collections
-          else
-            throw 'Unexpected type: ' + type
-          end
-
+        scope = batch_scope_by_type(collection, type)
         authorize_resources_for_batch_edit!(scope)
 
-        return_to_param = params.require(:return_to)
+        all_resources = scope
+        authorized_resources = auth_policy_scope(
+          current_user, all_resources, MediaResourcePolicy::EditableScope)
 
-        @get = Presenters::MediaEntries::BatchEditContextMetaData.new(
+        shared_handle_batch_edit_response(
           type.camelize.constantize,
-          current_user,
-          context_id: params[:context_id],
-          by_vocabularies: params[:by_vocabulary],
-          return_to: return_to_param,
-          collection: collection)
+          all_resources,
+          authorized_resources,
+          collection,
+          params[:context_id],
+          params[:by_vocabulary]
+        )
       end
 
       def batch_update_all
@@ -51,6 +47,21 @@ module Modules
 
       def batch_meta_data_update
         shared_batch_meta_data_update(Collection)
+      end
+
+      private
+
+      def return_to_param
+        params.require(:return_to)
+      end
+
+      def batch_scope_by_type(collection, type)
+        case type
+        when 'media_entry' then collection.media_entries
+        when 'collection' then collection.collections
+        else
+          throw 'Unexpected type: ' + type
+        end
       end
     end
   end

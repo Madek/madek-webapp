@@ -11,16 +11,14 @@ module Presenters
         context_id: nil,
         by_vocabularies: false,
         return_to:,
-        entries: nil,
-        collection: nil)
+        all_resources:,
+        authorized_resources:,
+        collection:)
 
-        if collection && entries || !collection && !entries
-          throw "Unexpected parameters: #{collection}, #{entries}"
-        end
-
-        @resource_type = resource_type
-        @entries = entries
+        @all_resources = all_resources
+        @authorized_resources = authorized_resources
         @collection = collection
+        @resource_type = resource_type
         @user = user
         @context_id = context_id
         @by_vocabularies = by_vocabularies
@@ -38,11 +36,11 @@ module Presenters
 
       def resources
         Presenters::Shared::MediaResource::IndexResources.new(
-          @user, authorized_resources.limit(4))
+          @user, @authorized_resources.limit(4))
       end
 
       def batch_length
-        authorized_resources.count
+        @authorized_resources.count
       end
 
       def at_least_one_published
@@ -51,7 +49,7 @@ module Presenters
         elsif @resource_type == Collection
           return true
         else
-          @entries.exists?(is_published: true)
+          @authorized_resources.exists?(is_published: true)
         end
       end
 
@@ -59,23 +57,23 @@ module Presenters
         if @collection
           nil
         else
-          @entries.map(&:id)
+          @authorized_resources.map(&:id)
         end
       end
 
       def batch_diff
         Presenters::MediaEntries::BatchDiffQuery.diff(
-          @resource_type, authorized_resources)
+          @resource_type, @authorized_resources)
       end
 
       def meta_data
         Presenters::MetaData::MetaDataEdit.new(
-          authorized_resources[0], @user)
+          @authorized_resources[0], @user)
       end
 
       def meta_meta_data
         Presenters::MetaData::MetaMetaDataEdit.new(
-          @user, authorized_resources[0].class)
+          @user, @authorized_resources[0].class)
       end
 
       def submit_url
@@ -85,33 +83,9 @@ module Presenters
 
       def counts
         {
-          all_resources: all_resources.count,
-          authorized_resources: authorized_resources.count
+          all_resources: @all_resources.count,
+          authorized_resources: @authorized_resources.count
         }
-      end
-
-      private
-
-      def all_resources
-        @all_resources ||= begin
-          if @collection
-            if @resource_type == MediaEntry
-                @collection.media_entries
-            else
-                @collection.collections
-            end
-          else
-            @entries
-          end
-        end
-      end
-
-      def authorized_resources
-        @authorized_resources ||= begin
-          scope = all_resources
-          auth_policy_scope(
-            @user, scope, MediaResourcePolicy::EditableScope)
-        end
       end
     end
   end
