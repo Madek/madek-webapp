@@ -78,13 +78,14 @@ createActionsDropdown = (parameters, callbacks) ->
             t('resources_box_batch_actions_removefromset'))}
 
         {if showActions.edit
-          if (collectionData || isClipboard) && ((not selection) || selection.empty()) && content_type == 'MediaEntry'
+          if (collectionData || isClipboard) && ((not selection) || selection.empty()) && (content_type == 'MediaEntry' || content_type == 'MediaResource')
             createHoverActionItem(
               if totalCount > 0 then callbacks.onBatchEditAll,
               'media_entries_edit_all',
               undefined,
               'pen',
-              t('resources_box_batch_actions_edit_all_media_entries_1') + totalCount + t('resources_box_batch_actions_edit_all_media_entries_2'))
+              t('resources_box_batch_actions_edit_all_media_entries')
+            )
 
           else
             # TODO if selection most likely not needed, should be already included in the if condition.
@@ -100,13 +101,14 @@ createActionsDropdown = (parameters, callbacks) ->
 
         {if showActions.editSets
 
-          if (collectionData || isClipboard) && ((not selection) || selection.empty()) && content_type == 'Collection'
+          if (collectionData || isClipboard) && ((not selection) || selection.empty()) && (content_type == 'Collection' || content_type == 'MediaResource')
             createHoverActionItem(
               if totalCount > 0 then callbacks.onBatchEditAllSets,
               'collections_edit_all',
               undefined,
               'pen',
-              t('resources_box_batch_actions_edit_all_collections_1') + totalCount + t('resources_box_batch_actions_edit_all_collections_2'))
+              t('resources_box_batch_actions_edit_all_collections')
+            )
 
           else
             # TODO if selection most likely not needed, should be already included in the if condition.

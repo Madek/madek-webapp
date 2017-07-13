@@ -1,73 +1,15 @@
-# rubocop:disable Metrics/ClassLength
 module Presenters
   module MediaEntries
     class BatchDiffQuery < ActiveRecord::Base
 
-      def self.diff(clazz, collection_id: nil, resource_ids: nil)
-        run diff_query(
-          clazz,
-          collection_id: collection_id,
-          resource_ids: resource_ids
-        )
+      def self.diff(clazz, initial_scope)
+        run diff_query(clazz, initial_scope)
       end
 
       private_class_method
 
       def self.run(query)
         connection.exec_query(query).to_hash
-      end
-
-      def self.child_collections(collection_id)
-        <<-SQL
-          select
-            collections.id
-          from
-            collections,
-            collection_collection_arcs
-          where
-            collections.id = collection_collection_arcs.child_id
-            and collection_collection_arcs.parent_id = '#{collection_id}'
-        SQL
-      end
-
-      def self.child_media_entries(collection_id)
-        <<-SQL
-          select
-            media_entries.id
-          from
-            media_entries,
-            collection_media_entry_arcs
-          where
-            media_entries.id = collection_media_entry_arcs.media_entry_id
-            and collection_media_entry_arcs.collection_id = '#{collection_id}'
-        SQL
-      end
-
-      def self.explicit_resources(clazz, resource_ids)
-        plural = clazz.name.underscore.pluralize
-        ids_string_list = resource_ids.map { |id| "'#{id}'" }.join(', ')
-        <<-SQL
-          select
-            #{plural}.id
-          from
-            #{plural}
-          where
-            #{plural}.id in (
-              #{ids_string_list}
-            )
-        SQL
-      end
-
-      def self.base_scope(clazz, collection_id: nil, resource_ids: nil)
-        if collection_id
-          if clazz == MediaEntry
-            child_media_entries(collection_id)
-          else
-            child_collections(collection_id)
-          end
-        else
-          explicit_resources(clazz, resource_ids)
-        end
       end
 
       def self.final_query(clazz, base)
@@ -79,7 +21,7 @@ module Presenters
           sub1
           as
           (
-            #{base}
+            #{base.to_sql}
           )
           ,
           sub4
@@ -210,22 +152,9 @@ module Presenters
         SQL
       end
 
-      def self.diff_query(clazz, collection_id: nil, resource_ids: nil)
-        if collection_id && resource_ids || !collection_id && !resource_ids
-          throw "Unexpected parameters: #{collection_id}, #{resource_ids}"
-        end
-        if resource_ids && !resource_ids.any?
-          throw "Unexpected parameters: #{resource_ids}"
-        end
-
-        base = base_scope(
-          clazz,
-          collection_id: collection_id,
-          resource_ids: resource_ids)
-
-        final_query(clazz, base)
+      def self.diff_query(clazz, initial_scope)
+        final_query(clazz, initial_scope)
       end
     end
   end
 end
-# rubocop:enable Metrics/ClassLength

@@ -37,30 +37,12 @@ module Presenters
       end
 
       def resources
-        if @collection
-          if @resource_type == MediaEntry
-            Presenters::Shared::MediaResource::IndexResources.new(
-              @user, @collection.media_entries.limit(4))
-          else
-            Presenters::Shared::MediaResource::IndexResources.new(
-              @user, @collection.collections.limit(4))
-          end
-        else
-          Presenters::Shared::MediaResource::IndexResources.new(
-            @user, @entries.limit(4))
-        end
+        Presenters::Shared::MediaResource::IndexResources.new(
+          @user, authorized_resources.limit(4))
       end
 
       def batch_length
-        if @collection
-          if @resource_type == MediaEntry
-            @collection.media_entries.count
-          else
-            @collection.collections.count
-          end
-        else
-          @entries.count
-        end
+        authorized_resources.count
       end
 
       def at_least_one_published
@@ -82,48 +64,54 @@ module Presenters
       end
 
       def batch_diff
-        if @collection
-          Presenters::MediaEntries::BatchDiffQuery.diff(
-            @resource_type, collection_id: @collection.id)
-        else
-          Presenters::MediaEntries::BatchDiffQuery.diff(
-            @resource_type, resource_ids: @entries.map(&:id))
-        end
+        Presenters::MediaEntries::BatchDiffQuery.diff(
+          @resource_type, authorized_resources)
       end
 
       def meta_data
-        if @collection
-          if @resource_type == MediaEntry
-            Presenters::MetaData::MetaDataEdit.new(
-              @collection.media_entries[0], @user)
-          else
-            Presenters::MetaData::MetaDataEdit.new(
-              @collection.collections[0], @user)
-          end
-        else
-          Presenters::MetaData::MetaDataEdit.new(
-            @entries[0], @user)
-        end
+        Presenters::MetaData::MetaDataEdit.new(
+          authorized_resources[0], @user)
       end
 
       def meta_meta_data
-        if @collection
-          if @resource_type == MediaEntry
-            Presenters::MetaData::MetaMetaDataEdit.new(
-              @user, @collection.media_entries[0].class)
-          else
-            Presenters::MetaData::MetaMetaDataEdit.new(
-              @user, @collection.collections[0].class)
-          end
-        else
-          Presenters::MetaData::MetaMetaDataEdit.new(
-            @user, @entries[0].class)
-        end
+        Presenters::MetaData::MetaMetaDataEdit.new(
+          @user, authorized_resources[0].class)
       end
 
       def submit_url
         self.send('batch_meta_data_' +
           @resource_type.name.pluralize.underscore + '_path')
+      end
+
+      def counts
+        {
+          all_resources: all_resources.count,
+          authorized_resources: authorized_resources.count
+        }
+      end
+
+      private
+
+      def all_resources
+        @all_resources ||= begin
+          if @collection
+            if @resource_type == MediaEntry
+                @collection.media_entries
+            else
+                @collection.collections
+            end
+          else
+            @entries
+          end
+        end
+      end
+
+      def authorized_resources
+        @authorized_resources ||= begin
+          scope = all_resources
+          auth_policy_scope(
+            @user, scope, MediaResourcePolicy::EditableScope)
+        end
       end
     end
   end

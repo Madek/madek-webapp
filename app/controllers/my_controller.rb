@@ -36,6 +36,8 @@ class MyController < ApplicationController
     case type_filter
     when 'entries' then MediaEntry
     when 'collections' then Collection
+    else
+      MediaResource
     end
   end
 

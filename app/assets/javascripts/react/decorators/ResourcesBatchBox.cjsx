@@ -9,12 +9,21 @@ module.exports = React.createClass
     resources: React.PropTypes.array.isRequired
     authToken: React.PropTypes.string.isRequired
 
-  render: ({resources, authToken, total} = @props) ->
+  render: ({resources, authToken, batchCount, counts} = @props) ->
+
     <div className="bordered ui-container midtone rounded-right rounded-bottom mbm">
       <div className="ui-resources-selection">
         <div className="ui-toolbar inverted ui-container pvx phs rounded-top">
           <h2 className="ui-toolbar-header">
-            {total + ' ' + t('meta_data_batch_items_selected')}
+            {batchCount + ' ' + t('meta_data_batch_items_selected')}
+            {
+              if counts && counts.authorized_resources < counts.all_resources
+                <span style={{color: '#e5b100'}}>
+                  {' ' + t('meta_data_batch_some_ignored_1')}
+                  {(counts.all_resources - counts.authorized_resources)}
+                  {t('meta_data_batch_some_ignored_2')}
+                </span>
+            }
           </h2>
         </div>
         <div style={{overflow: 'hidden'}} className="ui-resources-media">
@@ -28,7 +37,7 @@ module.exports = React.createClass
               }
 
               {
-                if resources.length < total
+                if resources.length < batchCount
                   style = {
                     paddingTop: '50px',
                     paddingLeft: '20px',
@@ -37,10 +46,10 @@ module.exports = React.createClass
                     fontSize: '24px'
                   }
 
-                  text = '+' + (total - resources.length) + ' weitere'
+                  text = '+' + (batchCount - resources.length) + ' weitere'
 
                   <li style={style}>
-                    {'+' + (total - resources.length)}
+                    {'+' + (batchCount - resources.length)}
                     <br />
                     {'weitere'}
                   </li>

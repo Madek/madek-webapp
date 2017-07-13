@@ -344,7 +344,8 @@ module.exports = React.createClass
       </PageContentHeader>
 
       {if @props.batch
-        <ResourcesBatchBox total={@props.get.batch_length} resources={get.resources.resources} authToken={authToken} />
+        <ResourcesBatchBox batchCount={@props.get.batch_length} counts={@props.get.counts}
+          resources={get.resources.resources} authToken={authToken} />
       }
 
 

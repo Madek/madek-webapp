@@ -31,19 +31,22 @@ module Modules
     def determine_entries_to_update(type)
       collection_id = params[:collection_id]
       params_type = params[:type]
-      if collection_id
-        if params_type == 'media_entry'
-          Collection.unscoped.find(collection_id).media_entries
-        elsif params_type == 'collection'
-          Collection.unscoped.find(collection_id).collections
+      scope = \
+        if collection_id
+          if params_type == 'media_entry'
+            Collection.unscoped.find(collection_id).media_entries
+          elsif params_type == 'collection'
+            Collection.unscoped.find(collection_id).collections
+          else
+            throw 'Unexpected type: ' + params_type
+          end
         else
-          throw 'Unexpected type: ' + params_type
+          entries_ids = entries_ids_param(
+            params.require(:batch_resource_meta_data))
+          type.unscoped.where(id: entries_ids)
         end
-      else
-        entries_ids = entries_ids_param(
-          params.require(:batch_resource_meta_data))
-        type.unscoped.where(id: entries_ids)
-      end
+      auth_policy_scope(
+        current_user, scope, MediaResourcePolicy::EditableScope)
     end
 
     def determine_meta_data_from_params
@@ -64,7 +67,7 @@ module Modules
 
       entries = determine_entries_to_update(type)
 
-      authorize_resources_for_batch_edit!(entries)
+      authorize_resources_for_batch_update!(entries)
 
       data_params = determine_meta_data_from_params
 
@@ -153,6 +156,14 @@ module Modules
     end
 
     def authorize_resources_for_batch_edit!(resources)
+      authorized_resources = auth_policy_scope(
+        current_user, resources, MediaResourcePolicy::ViewableScope)
+      if resources.count != authorized_resources.count
+        raise Errors::ForbiddenError, 'Not allowed to edit all resources!'
+      end
+    end
+
+    def authorize_resources_for_batch_update!(resources)
       authorized_resources = auth_policy_scope(
         current_user, resources, MediaResourcePolicy::EditableScope)
       if resources.count != authorized_resources.count
