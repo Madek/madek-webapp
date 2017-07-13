@@ -138,7 +138,7 @@ feature 'collection sorting' do
   end
 
   def set_last_change(resource, year)
-    resource.meta_data_updated_at = Date.new(year, 1, 1)
+    resource.edit_session_updated_at = Date.new(year, 1, 1)
     resource.save
     resource.reload
   end

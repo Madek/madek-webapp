@@ -26,7 +26,7 @@ module ResourcesBoxHelper
       config.sort_by { |entry| entry[:resource].title }
     when :last_change
       config
-      .sort_by { |entry| entry[:resource].meta_data_updated_at }
+      .sort_by { |entry| entry[:resource].edit_session_updated_at }
       .reverse
     else
       throw 'Order unknown: ' + order.to_s
@@ -454,7 +454,7 @@ module ResourcesBoxHelper
   end
 
   def set_last_change(resource, year)
-    resource.meta_data_updated_at = Date.new(year, 1, 1)
+    resource.edit_session_updated_at = Date.new(year, 1, 1)
     resource.save
     resource.reload
   end
