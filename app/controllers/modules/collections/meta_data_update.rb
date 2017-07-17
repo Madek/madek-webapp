@@ -56,12 +56,15 @@ module Modules
       end
 
       def batch_scope_by_type(collection, type)
-        case type
-        when 'media_entry' then collection.media_entries
-        when 'collection' then collection.collections
-        else
-          throw 'Unexpected type: ' + type
-        end
+        children =
+          case type
+          when 'media_entry' then collection.media_entries
+          when 'collection' then collection.collections
+          else
+            throw 'Unexpected type: ' + type
+          end
+        auth_policy_scope(
+          current_user, children, MediaResourcePolicy::ViewableScope)
       end
     end
   end
