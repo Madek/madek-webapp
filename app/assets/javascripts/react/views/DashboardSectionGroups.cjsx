@@ -18,8 +18,8 @@ module.exports = React.createClass
 
     group_types = f.zipObject(f.map({
       internal: t('internal_groups')
-      external: t('external_groups')
       authentication: t('authentication_groups')
+      external: t('external_groups')
     }, (label, type) ->
       groups = f.map(sectionResources[type], (entry) ->
         {
@@ -51,11 +51,19 @@ module.exports = React.createClass
               <label className='ui-form-group columned phn'>
                 <div className='form-label'>
                   {groups.label}
+                </div>
 
-                </div>
-                <div className='form-item'>
-                  <TagCloud mod='label' list={groups.list} />
-                </div>
+                {
+                  if f.isEmpty(groups.list)
+                    <div className='form-item' style={{paddingTop: '5px'}}>
+                      {t('dashboard_none_exist')}
+                    </div>
+                  else
+                    <div className='form-item'>
+                      <TagCloud mod='label' list={groups.list} />
+                    </div>
+                }
+
               </label>
 
           )
