@@ -842,7 +842,7 @@ module.exports = React.createClass
             <div className='ui-side-filter-search filter-search'>
               <form name='filter_search_form' onSubmit={@_onSearch}>
                 <input type='submit' className='unstyled'
-                  value='Eingrenzen mit Suchwort'/>
+                  value={t('resources_box_new_search')} />
                 <input type='text' className='ui-filter-search-input block'
                   ref='filterSearch'
                   defaultValue={searchValue()}/>
