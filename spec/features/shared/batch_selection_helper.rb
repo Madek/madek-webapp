@@ -2,21 +2,10 @@
 module BatchSelectionHelper
 
   def click_batch_action(key, all: false, all_count: - 1)
-    text =
-      if key == :add_to_clipboard
-        if all
-          I18n.t(:resources_box_batch_actions_addalltoclipboard_1) \
-          + all_count.to_s \
-          + I18n.t(:resources_box_batch_actions_addalltoclipboard_2)
-        else
-          I18n.t(:resources_box_batch_actions_addselectedtoclipboard)
-        end
-      else
-        I18n.t(text_keys[key])
-      end
+    entry = expected_label_and_count(key, all: all, count: all_count)
 
     find('[data-test-id=resources_box_dropdown]')
-      .find('.ui-drop-item', text: text).click
+      .find('.ui-drop-item', text: entry[:text]).click
   end
 
   def check_partial_dropdown(expected_counts)
@@ -49,63 +38,61 @@ module BatchSelectionHelper
     end
   end
 
-  def expected_clipboard_label_and_count(menu_config)
-    if menu_config[:all]
-      count = nil
+  def expected_clipboard_label_and_count(count:, all:)
+    if all
+      rcount = nil
       text = I18n.t(:resources_box_batch_actions_addalltoclipboard_1) \
-        + menu_config[:count].to_s \
+        + count.to_s \
         + I18n.t(:resources_box_batch_actions_addalltoclipboard_2)
     else
-      count = menu_config[:count]
+      rcount = count
       text = I18n.t(:resources_box_batch_actions_addselectedtoclipboard)
     end
     {
-      count: count,
+      count: rcount,
       text: text
     }
   end
 
-  def expected_media_entries_label_and_count(menu_config)
-    if menu_config[:all]
-      count = nil
+  def expected_media_entries_label_and_count(count:, all:)
+    if all
+      rcount = nil
       text = I18n.t(:resources_box_batch_actions_edit_all_media_entries)
     else
-      count = menu_config[:count]
+      rcount = count
       text = I18n.t(:resources_box_batch_actions_edit)
     end
     {
-      count: count,
+      count: rcount,
       text: text
     }
   end
 
-  def expected_collections_label_and_count(menu_config)
-    if menu_config[:all]
-      count = nil
+  def expected_collections_label_and_count(count:, all:)
+    if all
+      rcount = nil
       text = I18n.t(:resources_box_batch_actions_edit_all_collections)
     else
-      count = menu_config[:count]
+      rcount = count
       text = I18n.t(:resources_box_batch_actions_edit_sets)
     end
     {
-      count: count,
+      count: rcount,
       text: text
     }
   end
 
-  def expected_label_and_count(key, menu_config)
+  def expected_label_and_count(key, count: nil, all: nil)
     if key == :add_to_clipboard
-      expected_clipboard_label_and_count(menu_config)
+      expected_clipboard_label_and_count(count: count, all: all)
     elsif key == :media_entries_metadata
-      expected_media_entries_label_and_count(menu_config)
+      expected_media_entries_label_and_count(count: count, all: all)
     elsif key == :collections_metadata
-      expected_collections_label_and_count(menu_config)
+      expected_collections_label_and_count(count: count, all: all)
     else
-      count = menu_config[:count].to_s
-      text = I18n.t(text_keys[key])
       {
-        count: count,
-        text: text
+        count: count.to_s,
+        text: I18n.t(text_keys[key])
       }
     end
   end
@@ -163,7 +150,8 @@ module BatchSelectionHelper
 
         check_menu_config(menu_config)
 
-        label_and_count = expected_label_and_count(key, menu_config)
+        label_and_count = expected_label_and_count(
+          key, count: menu_config[:count], all: menu_config[:all])
 
         check_label_and_count(
           key,

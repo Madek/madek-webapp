@@ -122,7 +122,11 @@ module ResourcesBoxHelper
   end
 
   def resource_by_id(config, id)
-    config.select { |entry| entry[:id] == id }.first[:resource]
+    entry_by_id(config, id)[:resource]
+  end
+
+  def entry_by_id(config, id)
+    config.select { |entry| entry[:id] == id }.first
   end
 
   def append_children(config)
