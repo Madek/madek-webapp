@@ -41,6 +41,8 @@ feature 'transfer responsibility media entry' do
     click_checkbox(:view)
     click_submit_button
     wait_until_form_disappeared
+    check_on_dashboard_after_loosing_view_rights
+    open_permissions(collection)
     check_responsible_and_link(user2, false)
     check_no_permissions(user1, collection)
   end

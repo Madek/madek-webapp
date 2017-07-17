@@ -71,6 +71,10 @@ module TransferResponsibilityShared
     end
   end
 
+  def check_on_dashboard_after_loosing_view_rights
+    expect(current_path).to eq('/my')
+  end
+
   def wait_until_form_disappeared
     wait_until do
       all('form[name="transfer_responsibility"]').empty?

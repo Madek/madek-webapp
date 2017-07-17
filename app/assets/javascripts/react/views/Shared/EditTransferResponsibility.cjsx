@@ -38,7 +38,10 @@ module.exports = React.createClass
         @setState(saving: false, errorMessage: result.message)
           # TODO if @isMounted()
       else
-        location.reload()
+        if !@props.batch && !result.data.viewable
+          location.href = '/my'
+        else
+          location.reload()
     )
 
 

@@ -118,8 +118,7 @@ module.exports = React.createClass
               batchResourceIds={null}
               responsibleUuid={@props.get.responsible_user_uuid}
               responsible={@props.get.responsible}
-              onClose={(event) => @_showTransferModal(false, event)}
-              onSaved={() -> location.reload()} />
+              onClose={(event) => @_showTransferModal(false, event)} />
           </Modal>
       }
 

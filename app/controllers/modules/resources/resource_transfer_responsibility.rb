@@ -23,11 +23,12 @@ module Modules
 
       def transfer_responsibility_respond(type)
         underscore = type.name.underscore
+        viewable = read_permission(:view)
         respond_to do |format|
           format.json do
             flash[:success] = I18n.t(
               "transfer_responsibility_success_#{underscore}")
-            render(json: { result: 'success' })
+            render(json: { result: 'success', viewable: viewable })
           end
         end
       end
