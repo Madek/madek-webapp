@@ -30,12 +30,16 @@ module.exports = React.createClass
 
     icon = if get.type == 'Collection' then 'set' else 'media-entry'
 
-    buttons = f.filter(get.buttons, (button) ->
-      f.includes(get.button_actions, button.id)
+    buttons = f.compact(
+      f.map(get.button_actions, (button_id) ->
+        f.find(get.buttons, {id: button_id})
+      )
     )
 
-    menuItems = f.filter(get.buttons, (button) ->
-      f.includes(get.dropdown_actions, button.id)
+    menuItems = f.compact(
+      f.map(get.dropdown_actions, (button_id) ->
+        f.find(get.buttons, {id: button_id})
+      )
     )
 
     <PageContentHeader icon={icon} title={get.title}>

@@ -30,7 +30,8 @@ module Presenters
           select_collection_button,
           share_button,
           export_button,
-          custom_urls_button
+          custom_urls_button,
+          browse_button
         ]
         buttons.select do |tab|
           tab[:allowed] == true
@@ -39,6 +40,7 @@ module Presenters
 
       def dropdown_actions
         [
+          :browse_button,
           :custom_urls_button,
           :export_button,
           :destroy_button
@@ -112,6 +114,20 @@ module Presenters
             raise: false),
           action: share_media_entry_path(@app_resource),
           allowed: policy_for(@user).share?
+        }
+      end
+
+      def browse_button
+        {
+          id: :browse_button,
+          async_action: nil,
+          method: 'get',
+          icon: 'eye',
+          title: I18n.t(
+            :browse_entries_title,
+            raise: false),
+          action: browse_media_entry_path(@app_resource),
+          allowed: policy_for(@user).browse?
         }
       end
     end
