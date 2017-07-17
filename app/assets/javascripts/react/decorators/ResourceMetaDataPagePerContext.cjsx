@@ -5,6 +5,7 @@ setUrlParams = require('../../lib/set-params-for-url.coffee')
 
 Button = require('../ui-components/Button.cjsx')
 Icon = require('../ui-components/Icon.cjsx')
+Modal = require('../ui-components/Modal.cjsx')
 ResourceIcon = require('../ui-components/ResourceIcon.cjsx')
 Picture = require('../ui-components/Picture.cjsx')
 BatchHintBox = require('./BatchHintBox.cjsx')
@@ -340,6 +341,17 @@ module.exports = React.createClass
 
 
     <PageContent>
+
+      {
+        if @state.saving
+          <Modal widthInPixel={400}>
+            <div style={{margin: '20px', marginBottom: '20px', textAlign: 'center'}}>
+              {t('meta_data_form_saving')}
+            </div>
+          </Modal>
+      }
+
+
       <PageContentHeader icon='pen' title={@_title(get)}>
       </PageContentHeader>
 
