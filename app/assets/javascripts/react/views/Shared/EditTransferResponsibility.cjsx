@@ -38,8 +38,11 @@ module.exports = React.createClass
         @setState(saving: false, errorMessage: result.message)
           # TODO if @isMounted()
       else
-        if !@props.batch && !result.data.viewable
-          location.href = '/my'
+        if !@props.batch
+          if !result.data.viewable
+            location.href = '/my'
+          else
+            location.href = @props.singleResourceUrl + '/permissions'
         else
           location.reload()
     )
