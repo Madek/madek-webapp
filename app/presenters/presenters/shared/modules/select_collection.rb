@@ -19,7 +19,7 @@ module Presenters
           collections = if search_term.presence
             search_collections(user)
           else
-            marked_collections(media_entry)
+            marked_collections(user, media_entry)
           end
 
           @collection_rows = collections.map do |collection|
@@ -65,8 +65,9 @@ module Presenters
           result
         end
 
-        def marked_collections(media_entry)
+        def marked_collections(user, media_entry)
           media_entry.parent_collections
+            .editable_by_user(user)
             .joins(:meta_data)
             .where(meta_data: { meta_key_id: 'madek_core:title' })
             .reorder('meta_data.string ASC')

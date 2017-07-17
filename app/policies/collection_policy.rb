@@ -28,7 +28,7 @@ class CollectionPolicy < Shared::MediaResources::MediaResourcePolicy
   end
 
   def select_collection?
-    update?
+    show?
   end
 
   def share?

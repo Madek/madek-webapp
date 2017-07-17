@@ -40,12 +40,17 @@ module Concerns
     end
 
     def shared_add_remove_collection(success_message_key)
-      resource = get_authorized_resource
+      resource ||= model_klass.unscoped.find(id_param)
+      auth_authorize resource, :select_collection?
 
-      add_to_clipboard(resource) if params[:add_to_clipboard] == 'on'
+      existing_counter = nil
+      new_counter = nil
+      ActiveRecord::Base.transaction do
+        add_to_clipboard(resource) if params[:add_to_clipboard] == 'on'
 
-      existing_counter = save_existing_collections(resource)
-      new_counter = save_new_collections(resource)
+        existing_counter = save_existing_collections(resource)
+        new_counter = save_new_collections(resource)
+      end
 
       added_count = existing_counter[:added_count] + new_counter
       removed_count = existing_counter[:removed_count]
@@ -63,15 +68,13 @@ module Concerns
     private
 
     def add_to_clipboard(resource)
-      ActiveRecord::Base.transaction do
-        ensure_clipboard_collection(current_user)
-        clipboard = clipboard_collection(current_user)
-        add_transaction(
-          clipboard,
-          resource.class == MediaEntry ? [resource] : [],
-          resource.class == Collection ? [resource] : []
-        )
-      end
+      ensure_clipboard_collection(current_user)
+      clipboard = clipboard_collection(current_user)
+      add_transaction(
+        clipboard,
+        resource.class == MediaEntry ? [resource] : [],
+        resource.class == Collection ? [resource] : []
+      )
     end
 
     def child_resources_for_resource(resource, collection)
@@ -90,6 +93,8 @@ module Concerns
       collection_selection = read_checkboxes(:selected_collections)
       collection_selection.each do |uuid, checked|
         collection = Collection.find(uuid)
+
+        auth_authorize(collection, :add_remove_collection?)
 
         exists_already = exists_already_in_collection(resource, collection)
         if checked and not exists_already
@@ -114,6 +119,7 @@ module Concerns
           next
         end
         name = info[:name]
+        # TODO: Perhaps check permission for new collections.
         collection = store_collection(name)
         unless exists_already_in_collection(resource, collection)
           child_resources_for_resource(resource, collection) << resource

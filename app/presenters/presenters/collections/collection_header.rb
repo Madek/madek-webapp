@@ -96,7 +96,7 @@ module Presenters
             :resource_action_collection_select_collection,
             raise: false),
           action: select_collection_collection_path(@app_resource),
-          allowed: policy_for(@user).add_remove_collection?
+          allowed: policy_for(@user).select_collection?
         }
       end
 

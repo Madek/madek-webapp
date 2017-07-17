@@ -69,7 +69,7 @@ module Presenters
             :resource_action_media_entry_select_collection,
             raise: false),
           action: select_collection_media_entry_path(@app_resource),
-          allowed: policy_for(@user).add_remove_collection?
+          allowed: policy_for(@user).select_collection?
         }
       end
 
