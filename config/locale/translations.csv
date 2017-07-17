@@ -172,6 +172,7 @@ share_title_media_entry,Medieneintrag teilen,Medieneintrag teilen,
 share_title_collection,Set teilen,Set teilen,
 share_uuid_url_subtitle,URL teilen,URL teilen,
 share_uuid_url_hint_media_entry,"Wenn Sie explizit diesen Medieneintrag teilen möchten, nutzen Sie folgende URL.","Wenn Sie explizit diesen Medieneintrag teilen möchten, nutzen Sie folgende URL."
+share_uuid_url_hint_exporter,"Auch für den Madek-Exporter kopieren Sie diese URL.","Auch für den Madek-Exporter kopieren Sie diese URL."
 share_uuid_url_hint_collection,"Wenn Sie explizit dieses Set teilen möchten, nutzen Sie folgende URL.","Wenn Sie explizit dieses Set teilen möchten, nutzen Sie folgende URL."
 share_custom_url_subtitle,Sprechende Adresse teilen,Sprechende Adresse teilen,
 share_custom_url_hint_media_entry,"Wenn Sie eine sprechende Adresse nutzen oder unter einem Link wechselnde Medieneinträge teilen möchten (z.B. .../roberts_neueste_arbeiten), dann verwenden Sie folgende URL.","Wenn Sie eine sprechende Adresse nutzen oder unter einem Link wechselnde Medieneinträge teilen möchten (z.B. .../roberts_neueste_arbeiten), dann verwenden Sie folgende URL.",

@@ -85,7 +85,12 @@ module.exports = React.createClass
         <h2 className='title-l ui-info-box-title mbs'>
           {t('share_uuid_url_subtitle')}
         </h2>
-        {t('share_uuid_url_hint_' + @_typeUnderscore())}
+        <div>
+          {t('share_uuid_url_hint_' + @_typeUnderscore())}
+        </div>
+        <div>
+          {t('share_uuid_url_hint_exporter')}
+        </div>
         <div>
           <input className='mtm' type='text'
             value={@_uuidUrl()}
