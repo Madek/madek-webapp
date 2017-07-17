@@ -38,12 +38,38 @@ class TokenCreatedPage extends React.Component {
             </samp>
           </p>
           <table className='block aligned'>
-            <tbody>
+            <thead>
               <tr>
-                <td />
-                <td />
-                <td />
+                <td>
+                  <span className='ui-resources-table-cell-content'>
+                    {t('api_tokens_head_id')}
+                  </span>
+                </td>
+                <td>
+                  <span className='ui-resources-table-cell-content'>
+                    {t('api_tokens_head_name')}
+                  </span>
+                </td>
+                <td>
+                  <span className='ui-resources-table-cell-content'>
+                    {t('api_tokens_head_valid_since')}
+                  </span>
+                </td>
+                <td>
+                  <span className='ui-resources-table-cell-content'>
+                    {t('api_tokens_head_valid_until')}
+                  </span>
+                </td>
+                <td>
+                  <span className='ui-resources-table-cell-content'>
+                    {t('api_tokens_head_permissions')}
+                  </span>
+                </td>
+                <td>
+                </td>
               </tr>
+            </thead>
+            <tbody>
               <TokenRow {...get} />
             </tbody>
           </table>

@@ -7,19 +7,15 @@ ajax_form_unexpected_error,There was an unexpected server error.,There was an un
 ajax_form_validation_error_unparsable,Validation error with unparsable errors.,Validation error with unparsable errors.,
 ajax_form_validation_error_without_any_data,Validation error without any data.,Validation error without any data.,
 ajax_form_validation_error_without_error_data,Validation error without error data.,Validation error without error data.,
-api_tokens_created_title,Neuer Token erstellt!,Neuer Token erstellt!
-api_tokens_created_notice,"Dieser Token wird nur einmalig angezeigt, bitte speichern Sie ihn jetzt!","Dieser Token wird nur einmalig angezeigt, bitte speichern Sie ihn jetzt!"
+api_tokens_created_title,Neuer Token erstellt,Neuer Token erstellt
+api_tokens_created_notice,"Dieser Token wird nur einmalig angezeigt, bitte speichern Sie ihn jetzt.","Dieser Token wird nur einmalig angezeigt, bitte speichern Sie ihn jetzt."
 api_tokens_created_back_btn,Zurück zu allen Tokens,Zurück zu allen Tokens
 api_tokens_list_revoke_btn_hint,Token zurückziehen,Token zurückziehen
 api_tokens_list_revoke_confirm,"Sind Sie sicher, dass Sie diesen Token zurückziehen wollen?","Sind Sie sicher, dass Sie diesen Token zurückziehen wollen?"
 api_tokens_list_no_description,(Keine Beschreibung),(Keine Beschreibung)
-api_tokens_list_created_pre,seit ,seit ,
 api_tokens_list_created_hint_pre,Erstellt: ,Erstellt: ,
-api_tokens_list_expires_pre,bis ,bis ,
 api_tokens_list_expires_hint_pre,Ablaufdatum: ,Ablaufdatum: ,
 api_tokens_list_revoked_title,Zurückgezogene Tokens,Zurückgezogene Tokens
-api_tokens_list_scopes_pre,Zugriff: ,Zugriff: ,
-api_tokens_list_scopes_post,.,.,
 api_tokens_list_scope_read,Lesen,Lesen
 api_tokens_list_scope_write,Schreiben,Schreiben
 api_tokens_list_scope_on,Ja,Ja
@@ -28,6 +24,11 @@ api_tokens_list_new_button,Neuen Token erstellen,Neuen Token erstellen
 api_tokens_create_title,Neuen Token hinzufügen,Neuen Token hinzufügen
 api_tokens_create_submit,Token anlegen,Token anlegen
 api_tokens_create_cancel,Abbrechen,Abbrechen
+api_tokens_head_id,ID,ID
+api_tokens_head_name,Name,Name
+api_tokens_head_valid_since,Gültig seit,Gültig seit
+api_tokens_head_valid_until,Gültig bis,Gültig bis
+api_tokens_head_permissions,Berechtigungen,Berechtigungen
 app_autocomplete_no_results,"Keine Ergebnisse.","No Results."
 app_confirm_form_leave_msg,"Diese Seite bittet Sie zu bestätigen, dass Sie die Seite verlassen möchten – Daten, die Sie eingegeben haben, werden unter Umständen nicht gespeichert.",Please confirm that you want to leave this page – entered data might not be saved!,NOTE: German version copied from Firefox default message
 app_notice_logged_out,Sie haben sich abgemeldet.,You have logged out.,

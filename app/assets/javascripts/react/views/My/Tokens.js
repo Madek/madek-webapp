@@ -60,6 +60,37 @@ const TokensList = ({ tokens, authToken }) => {
               {label}
             </h4>}
           <table className='ui-workgroups bordered block aligned'>
+            <thead>
+              <tr>
+                <td>
+                  <span className='ui-resources-table-cell-content'>
+                    {t('api_tokens_head_id')}
+                  </span>
+                </td>
+                <td>
+                  <span className='ui-resources-table-cell-content'>
+                    {t('api_tokens_head_name')}
+                  </span>
+                </td>
+                <td>
+                  <span className='ui-resources-table-cell-content'>
+                    {t('api_tokens_head_valid_since')}
+                  </span>
+                </td>
+                <td>
+                  <span className='ui-resources-table-cell-content'>
+                    {t('api_tokens_head_valid_until')}
+                  </span>
+                </td>
+                <td>
+                  <span className='ui-resources-table-cell-content'>
+                    {t('api_tokens_head_permissions')}
+                  </span>
+                </td>
+                <td>
+                </td>
+              </tr>
+            </thead>
             <tbody>
               {f.map(tokens, token =>
                 <TokenRow {...token} authToken={authToken} />
@@ -116,7 +147,6 @@ export const TokenRow = ({ authToken, ...token }) => {
         {!!creationDate &&
           <UI.Tooltipped text={creationDateTitle} id={`dtc.${uuid}`}>
             <span>
-              {t('api_tokens_list_created_pre')}
               {creationDate}
             </span>
           </UI.Tooltipped>}
@@ -125,15 +155,12 @@ export const TokenRow = ({ authToken, ...token }) => {
         {!!expirationDate &&
           <UI.Tooltipped text={expirationDateTitle} id={`dtc.${uuid}`}>
             <span>
-              {t('api_tokens_list_expires_pre')}
               {expirationDate}
             </span>
           </UI.Tooltipped>}
       </td>
       <td>
-        {t('api_tokens_list_scopes_pre')}
         {permissionsList.join(', ')}
-        {t('api_tokens_list_scopes_post')}
       </td>
       <td className='ui-workgroup-actions'>
         {!!revokeAction &&

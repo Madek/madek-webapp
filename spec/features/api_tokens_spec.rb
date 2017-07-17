@@ -12,8 +12,8 @@ feature 'User API-Tokens' do
       [
         t.token_part,
         t.description,
-        'bis in einem Jahr',
-        'Zugriff: Lesen: Ja, Schreiben: Nein.',
+        'in einem Jahr',
+        'Lesen: Ja, Schreiben: Nein',
         'icon: fa fa-ban'
       ]
     end
@@ -49,7 +49,7 @@ private
 
 def displayed_ui
   table = find('.ui-resources-holder table')
-  table.all('tr').map do |tr|
+  table.all('tr').drop(1).map do |tr|
     fields = tr.all('td')
     btn_icon = fields.last.find('button i')[:class]
     # NOTE: ignore the created timestamp, we cant know the UI text!
