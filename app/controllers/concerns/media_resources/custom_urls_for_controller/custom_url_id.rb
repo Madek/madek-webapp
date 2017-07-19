@@ -85,6 +85,15 @@ module Concerns
         end
 
         def check_and_redirect_with_custom_url
+          # Note: In Safari 10.1.1 when you redirect a 'put' the data
+          # gets lost. Thats why we only redirect for 'get'
+          # requests now. Since the find_by method is overridden to
+          # be able to handle both uuids and custom urls, you can
+          # use both kind of urls in the ajax calls for not-'get'
+          # requests. However, take care if you have custom queries,
+          # not using find_by.
+          return unless get_request?
+
           # skip if there isn't media_resource_id, otherwise:
           # 1) if media_resource_id is an UUID and there is other
           # primary custom URL defined, redirect to the custom one
@@ -114,6 +123,10 @@ module Concerns
         end
 
         private
+
+        def get_request?
+          request.method.casecmp('get') == 0
+        end
 
         def request_fullpath
           root = Madek::Application.config.action_controller.relative_url_root
