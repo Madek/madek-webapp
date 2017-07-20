@@ -1,8 +1,6 @@
-// NOTE: this is DEPRECATED! use ./i18n-translate.js
-
-// provides string translation functions.
+// provides string translation function.
 // usage
-// t = require('…')('de'); t('hello') // => 'Hallo'
+// t = require('…'); t('hello') // => 'Hallo'
 
 var f = require('active-lodash')
 var parseTranslationsFromCSV = require('./parse-translations-from-csv')
@@ -22,14 +20,13 @@ var translations = f.zipObject(
   })
 )
 
-module.exports = function tFactory (lang) {
-  if (!f.includes(f.keys(translations), lang)) {
-    throw new Error('Unknown language!')
+module.exports = function I18nTranslate (marker) {
+  // get language from (global) app config
+  var LANG = APP_CONFIG.userLanguage
+
+  if (!f.includes(f.keys(translations), LANG)) {
+    throw new Error(`Unknown language '${LANG}'!`)
   }
 
-  console.warn('This is DEPRECATED! use ./i18n-translate.js')
-
-  return function t (marker) {
-    return f.presence(f.get(translations, [lang, marker])) || '⟨' + marker + '⟩'
-  }
+  return f.presence(f.get(translations, [LANG, marker])) || '⟨' + marker + '⟩'
 }

@@ -8,10 +8,11 @@ class FrontendAppConfig
   end
 
   def self.app_config
-    @app_config_memo ||= {
+    {
       relativeUrlRoot: \
         Rails.application.config.action_controller.relative_url_root,
       assetsPath: Rails.application.config.assets.prefix,
+      userLanguage: I18n.locale,
       bundle_context_keys: Settings.ui_bundle_context_keys
     }
   end
