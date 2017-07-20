@@ -26,5 +26,6 @@ module LeihsDatabase
     config.active_record.schema_format = :sql
     config.active_record.timestamped_migrations = false
 
+    config.autoload_paths << Rails.root.join('lib')
   end
 end

@@ -87,6 +87,26 @@ CREATE TYPE reservation_status AS ENUM (
 
 
 --
+-- Name: check_general_building_id_for_general_room(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION check_general_building_id_for_general_room() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        IF (
+          OLD.general IS TRUE
+          AND OLD.building_id != NEW.building_id
+          )
+          THEN RAISE EXCEPTION
+            'Building ID cannot be changed for a general room';
+        END IF;
+        RETURN NEW;
+      END;
+      $$;
+
+
+--
 -- Name: delete_procurement_users_filters_after_procurement_accesses(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -135,6 +155,43 @@ $$;
 
 
 --
+-- Name: ensure_general_building_cannot_be_deleted(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION ensure_general_building_cannot_be_deleted() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        IF (OLD.id = 'abae04c5-d767-425e-acc2-7ce04df645d1')
+          THEN RAISE EXCEPTION
+            'Building with ID = abae04c5-d767-425e-acc2-7ce04df645d1 cannot be deleted.';
+        END IF;
+        RETURN NEW;
+      END;
+      $$;
+
+
+--
+-- Name: ensure_general_room_cannot_be_deleted(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION ensure_general_room_cannot_be_deleted() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        IF (
+          OLD.general IS TRUE
+          AND EXISTS (SELECT 1 FROM buildings WHERE id = OLD.building_id)
+          )
+          THEN RAISE EXCEPTION
+            'There must be a general room for every building.';
+        END IF;
+        RETURN NEW;
+      END;
+      $$;
+
+
+--
 -- Name: hex_to_int(character varying); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -168,7 +225,7 @@ CREATE TABLE access_rights (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     role character varying NOT NULL,
-    CONSTRAINT check_allowed_roles CHECK (((role)::text = ANY ((ARRAY['customer'::character varying, 'group_manager'::character varying, 'lending_manager'::character varying, 'inventory_manager'::character varying, 'admin'::character varying])::text[])))
+    CONSTRAINT check_allowed_roles CHECK (((role)::text = ANY (ARRAY[('customer'::character varying)::text, ('group_manager'::character varying)::text, ('lending_manager'::character varying)::text, ('inventory_manager'::character varying)::text, ('admin'::character varying)::text])))
 );
 
 
@@ -432,7 +489,6 @@ CREATE TABLE items (
     inventory_code character varying NOT NULL,
     serial_number character varying,
     model_id uuid NOT NULL,
-    location_id uuid,
     supplier_id uuid,
     owner_id uuid NOT NULL,
     inventory_pool_id uuid NOT NULL,
@@ -456,7 +512,9 @@ CREATE TABLE items (
     user_name character varying,
     properties text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    shelf text,
+    room_id uuid NOT NULL
 );
 
 
@@ -470,18 +528,6 @@ CREATE TABLE languages (
     locale_name character varying,
     "default" boolean,
     active boolean
-);
-
-
---
--- Name: locations; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE locations (
-    id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    room character varying,
-    shelf character varying,
-    building_id uuid
 );
 
 
@@ -743,7 +789,6 @@ CREATE TABLE procurement_requests (
     organization_id uuid,
     model_id uuid,
     supplier_id uuid,
-    location_id uuid,
     template_id uuid,
     article_name character varying NOT NULL,
     article_number character varying,
@@ -761,8 +806,9 @@ CREATE TABLE procurement_requests (
     inspection_comment character varying,
     created_at timestamp without time zone NOT NULL,
     inspector_priority character varying DEFAULT 'medium'::character varying NOT NULL,
-    CONSTRAINT check_allowed_priorities CHECK (((priority)::text = ANY ((ARRAY['normal'::character varying, 'high'::character varying])::text[]))),
-    CONSTRAINT check_inspector_priority CHECK (((inspector_priority)::text = ANY ((ARRAY['low'::character varying, 'medium'::character varying, 'high'::character varying, 'mandatory'::character varying])::text[])))
+    room_id uuid NOT NULL,
+    CONSTRAINT check_allowed_priorities CHECK (((priority)::text = ANY (ARRAY[('normal'::character varying)::text, ('high'::character varying)::text]))),
+    CONSTRAINT check_inspector_priority CHECK (((inspector_priority)::text = ANY (ARRAY[('low'::character varying)::text, ('medium'::character varying)::text, ('high'::character varying)::text, ('mandatory'::character varying)::text])))
 );
 
 
@@ -851,6 +897,20 @@ CREATE TABLE reservations (
     returned_to_user_id uuid,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: rooms; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE rooms (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    name character varying NOT NULL,
+    description text,
+    building_id uuid NOT NULL,
+    general boolean DEFAULT false NOT NULL,
+    CONSTRAINT check_non_empty_name CHECK (((name)::text !~ '^\s*$'::text))
 );
 
 
@@ -1093,14 +1153,6 @@ ALTER TABLE ONLY languages
 
 
 --
--- Name: locations locations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY locations
-    ADD CONSTRAINT locations_pkey PRIMARY KEY (id);
-
-
---
 -- Name: mail_templates mail_templates_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1298,6 +1350,14 @@ ALTER TABLE ONLY purposes
 
 ALTER TABLE ONLY reservations
     ADD CONSTRAINT reservations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: rooms rooms_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY rooms
+    ADD CONSTRAINT rooms_pkey PRIMARY KEY (id);
 
 
 --
@@ -1564,13 +1624,6 @@ CREATE INDEX index_items_on_is_incomplete ON items USING btree (is_incomplete);
 
 
 --
--- Name: index_items_on_location_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_items_on_location_id ON items USING btree (location_id);
-
-
---
 -- Name: index_items_on_model_id_and_retired_and_inventory_pool_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1610,13 +1663,6 @@ CREATE INDEX index_languages_on_active_and_default ON languages USING btree (act
 --
 
 CREATE UNIQUE INDEX index_languages_on_name ON languages USING btree (name);
-
-
---
--- Name: index_locations_on_building_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_locations_on_building_id ON locations USING btree (building_id);
 
 
 --
@@ -1865,6 +1911,20 @@ CREATE INDEX index_workdays_on_inventory_pool_id ON workdays USING btree (invent
 
 
 --
+-- Name: rooms_unique_building_id_general_true; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX rooms_unique_building_id_general_true ON rooms USING btree (building_id, general) WHERE (general IS TRUE);
+
+
+--
+-- Name: rooms_unique_name_and_building_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX rooms_unique_name_and_building_id ON rooms USING btree ((((lower((name)::text) || ' '::text) || building_id)));
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1879,6 +1939,13 @@ CREATE INDEX user_index ON audits USING btree (user_id, user_type);
 
 
 --
+-- Name: rooms trigger_check_general_building_id_for_general_room; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_check_general_building_id_for_general_room AFTER UPDATE ON rooms NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE check_general_building_id_for_general_room();
+
+
+--
 -- Name: procurement_accesses trigger_delete_procurement_users_filters_after_procurement_acce; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -1890,6 +1957,20 @@ CREATE CONSTRAINT TRIGGER trigger_delete_procurement_users_filters_after_procure
 --
 
 CREATE CONSTRAINT TRIGGER trigger_delete_procurement_users_filters_after_users AFTER DELETE ON users DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE delete_procurement_users_filters_after_users();
+
+
+--
+-- Name: buildings trigger_ensure_general_building_cannot_be_deleted; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_ensure_general_building_cannot_be_deleted AFTER DELETE ON buildings NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE ensure_general_building_cannot_be_deleted();
+
+
+--
+-- Name: rooms trigger_ensure_general_room_cannot_be_deleted; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_ensure_general_room_cannot_be_deleted AFTER DELETE ON rooms NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE ensure_general_room_cannot_be_deleted();
 
 
 --
@@ -2181,14 +2262,6 @@ ALTER TABLE ONLY attachments
 
 
 --
--- Name: procurement_requests fk_rails_8244a2f05f; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY procurement_requests
-    ADD CONSTRAINT fk_rails_8244a2f05f FOREIGN KEY (location_id) REFERENCES locations(id);
-
-
---
 -- Name: groups_users fk_rails_8546c71994; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2221,6 +2294,14 @@ ALTER TABLE ONLY reservations
 
 
 --
+-- Name: items fk_rails_9353db44a2; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY items
+    ADD CONSTRAINT fk_rails_9353db44a2 FOREIGN KEY (room_id) REFERENCES rooms(id);
+
+
+--
 -- Name: reservations fk_rails_943a884838; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2250,6 +2331,14 @@ ALTER TABLE ONLY model_links
 
 ALTER TABLE ONLY workdays
     ADD CONSTRAINT fk_rails_a18bc267df FOREIGN KEY (inventory_pool_id) REFERENCES inventory_pools(id) ON DELETE CASCADE;
+
+
+--
+-- Name: rooms fk_rails_a3957b23a8; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY rooms
+    ADD CONSTRAINT fk_rails_a3957b23a8 FOREIGN KEY (building_id) REFERENCES buildings(id) ON DELETE CASCADE;
 
 
 --
@@ -2314,14 +2403,6 @@ ALTER TABLE ONLY procurement_requests
 
 ALTER TABLE ONLY procurement_requests
     ADD CONSTRAINT fk_rails_b740f37e3d FOREIGN KEY (category_id) REFERENCES procurement_categories(id);
-
-
---
--- Name: locations fk_rails_b81dc66f92; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY locations
-    ADD CONSTRAINT fk_rails_b81dc66f92 FOREIGN KEY (building_id) REFERENCES buildings(id);
 
 
 --
@@ -2405,14 +2486,6 @@ ALTER TABLE ONLY procurement_templates
 
 
 --
--- Name: items fk_rails_e8ed83a2e6; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY items
-    ADD CONSTRAINT fk_rails_e8ed83a2e6 FOREIGN KEY (location_id) REFERENCES locations(id);
-
-
---
 -- Name: accessories_inventory_pools fk_rails_e9daa88f6c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2442,6 +2515,14 @@ ALTER TABLE ONLY items
 
 ALTER TABLE ONLY procurement_requests
     ADD CONSTRAINT fk_rails_f365098d3c FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: procurement_requests fk_rails_f60a954ec5; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY procurement_requests
+    ADD CONSTRAINT fk_rails_f60a954ec5 FOREIGN KEY (room_id) REFERENCES rooms(id);
 
 
 --
@@ -2521,6 +2602,8 @@ INSERT INTO schema_migrations (version) VALUES ('106');
 INSERT INTO schema_migrations (version) VALUES ('107');
 
 INSERT INTO schema_migrations (version) VALUES ('108');
+
+INSERT INTO schema_migrations (version) VALUES ('109');
 
 INSERT INTO schema_migrations (version) VALUES ('11');
 
