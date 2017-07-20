@@ -65,10 +65,10 @@ module Madek
     # load translations from assets (they are precompiled for Rails from CSV table)
     config.i18n.load_path += Dir[
       Rails.root.join('public/assets/_rails_locales', '*.yml').to_s]
-    # TODO: select locale selection
+
     config.i18n.default_locale = :de
-    # config.i18n.available_locales = [:de, :en]
-    # config.i18n.enforce_available_locales = true
+    config.i18n.available_locales = [:de, :en]
+    config.i18n.enforce_available_locales = true
 
     # translations are part of the assets (JS), so watch them for changes:
     config.watchable_files

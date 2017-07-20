@@ -29,8 +29,18 @@ class ApplicationController < ActionController::Base
   # CRSF protection with explicit Error raising, otherwise it looks like "no user"
   protect_from_forgery with: :exception
 
+  # i18n setup:
   # set language
-  I18n.locale = :de
+  before_action :set_locale
+  def set_locale
+    I18n.locale = params[:lang] || I18n.default_locale
+  end
+
+  # for all generated URLs, set language param if it's not the default
+  def default_url_options(options = {})
+    return options if I18n.locale == I18n.default_locale
+    { lang: I18n.locale }.merge(options)
+  end
 
   before_action do
     # TMP: data for application layout.
