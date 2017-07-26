@@ -49,10 +49,14 @@ module Presenters
       end
 
       def meta_key_ids_by_vocabulary_id
+        plural = @resource_class.name.underscore.pluralize
         vocabularies_for_resource_type.map do |vocabulary|
           [
             vocabulary.id,
-            vocabulary.meta_keys.map(&:id)
+            vocabulary
+            .meta_keys
+            .where("is_enabled_for_#{plural}" => true)
+            .map(&:id)
           ]
         end.to_h
       end
