@@ -10,3 +10,5 @@ gem 'paperclip', '~> 4.3'
 gem 'money-rails', '~>1.4'
 
 gem 'pry', group: [:development, :test]
+
+gem 'exiftool_vendored'

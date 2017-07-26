@@ -277,7 +277,8 @@ CREATE TABLE attachments (
     filename character varying,
     size integer,
     item_id uuid,
-    content text
+    content text,
+    metadata json
 );
 
 
@@ -439,7 +440,8 @@ CREATE TABLE images (
     size integer,
     parent_id uuid,
     content text,
-    thumbnail boolean DEFAULT false
+    thumbnail boolean DEFAULT false,
+    metadata json
 );
 
 
@@ -688,7 +690,8 @@ CREATE TABLE procurement_attachments (
     filename character varying,
     content_type character varying,
     size integer,
-    content text
+    content text,
+    metadata json
 );
 
 
@@ -751,7 +754,8 @@ CREATE TABLE procurement_images (
     content character varying NOT NULL,
     filename character varying NOT NULL,
     size integer,
-    parent_id uuid
+    parent_id uuid,
+    metadata json
 );
 
 
@@ -2606,6 +2610,8 @@ INSERT INTO schema_migrations (version) VALUES ('108');
 INSERT INTO schema_migrations (version) VALUES ('109');
 
 INSERT INTO schema_migrations (version) VALUES ('11');
+
+INSERT INTO schema_migrations (version) VALUES ('110');
 
 INSERT INTO schema_migrations (version) VALUES ('12');
 
