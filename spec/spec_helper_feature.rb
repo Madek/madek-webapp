@@ -31,8 +31,16 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = true
   config.order = 'random'
 
-  if ENV['FIREFOX_ESR_PATH'].present?
-    Selenium::WebDriver::Firefox.path = ENV['FIREFOX_ESR_PATH']
+  Capybara.register_driver :selenium do |app|
+    Capybara::Selenium::Driver.new(
+      app,
+      browser: :firefox,
+      desired_capabilities:
+        Selenium::WebDriver::Remote::Capabilities.firefox(marionette: false))
+  end
+
+  if ENV['FIREFOX_ESR_45_PATH'].present?
+    Selenium::WebDriver::Firefox.path = ENV['FIREFOX_ESR_45_PATH']
   end
 
   Capybara.register_driver :selenium_ff do |app|
