@@ -340,7 +340,7 @@ module.exports = React.createClass
         accordion: event.accordion}})
 
   _selectionLimit: () ->
-    50
+    36
 
   _onSelectResource: (resource, event)-> # toggles selection item
     event.preventDefault()
