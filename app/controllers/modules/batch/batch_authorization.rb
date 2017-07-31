@@ -3,6 +3,24 @@ module Modules
     module BatchAuthorization
       extend ActiveSupport::Concern
 
+      private
+
+      def authorize_resources_for_batch_edit!(user, resources)
+        authorized_resources = auth_policy_scope(
+          user, resources, MediaResourcePolicy::ViewableScope)
+        if resources.count != authorized_resources.count
+          raise Errors::ForbiddenError, 'Not allowed to edit all resources!'
+        end
+      end
+
+      def authorize_resources_for_batch_update!(user, resources)
+        authorized_resources = auth_policy_scope(
+          user, resources, MediaResourcePolicy::EditableScope)
+        if resources.count != authorized_resources.count
+          raise Errors::ForbiddenError, 'Not allowed to edit all resources!'
+        end
+      end
+
       def authorize_media_entries_scope!(user, media_entries, policy_scope)
         authorize_batch_scope(
           policy_scope_readable(policy_scope),
@@ -24,8 +42,6 @@ module Modules
           'edit permissions of all resources', user, resources,
           MediaResourcePolicy::ManageableScope)
       end
-
-      private
 
       def authorize_batch_scope(action_name, user, resources, scope = nil)
         authorized_resources = auth_policy_scope(user, resources, scope)

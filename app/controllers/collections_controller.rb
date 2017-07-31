@@ -8,13 +8,14 @@ class CollectionsController < ApplicationController
   include Concerns::ControllerFavoritable
   include Concerns::CollectionSelection
   include Modules::Collections::PermissionsUpdate
-  include Modules::Collections::MetaDataUpdate
   include Modules::Collections::Create
   include Modules::Resources::ResourceCustomUrls
   include Modules::Resources::ResourceTransferResponsibility
   include Modules::Resources::BatchResourceTransferResponsibility
   include Modules::Resources::Share
   include Concerns::AllowedSorting
+  include Modules::Resources::MetaDataUpdate
+  include Modules::SharedBatchUpdate
 
   def index
     respond_with(@get = Presenters::Collections::Collections.new(
@@ -168,6 +169,26 @@ class CollectionsController < ApplicationController
     shared_add_remove_collection('collection_select_collection_flash_result')
   end
 
+  def batch_update_all
+    shared_batch_meta_data_update(params[:type].camelize.constantize)
+  end
+
+  def batch_edit_meta_data_by_context
+    shared_batch_edit_meta_data_by_context(Collection)
+  end
+
+  def batch_edit_meta_data_by_vocabularies
+    shared_batch_edit_meta_data_by_vocabularies(Collection)
+  end
+
+  def batch_meta_data_update
+    shared_batch_meta_data_update(Collection)
+  end
+
+  def batch_edit_all
+    shared_batch_edit_all
+  end
+
   private
 
   def determine_list_conf(collection)
@@ -207,3 +228,4 @@ class CollectionsController < ApplicationController
     params.permit(:type).fetch(:type, nil)
   end
 end
+# rubocop:enable Metrics/ClassLength

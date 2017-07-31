@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class MediaEntriesController < ApplicationController
   include Concerns::MediaResources::CrudActions
   include Concerns::MediaResources::CustomUrlsForController
@@ -8,7 +9,6 @@ class MediaEntriesController < ApplicationController
   include Concerns::CollectionSelection
   include Modules::FileStorage
   include Modules::MediaEntries::Upload
-  include Modules::MediaEntries::MetaDataUpdate
   include Modules::MediaEntries::PermissionsUpdate
   include Modules::MediaEntries::Embedded
   include Modules::MetaDataStorage
@@ -16,6 +16,8 @@ class MediaEntriesController < ApplicationController
   include Modules::Resources::ResourceTransferResponsibility
   include Modules::Resources::BatchResourceTransferResponsibility
   include Modules::Resources::Share
+  include Modules::Resources::MetaDataUpdate
+  include Modules::SharedBatchUpdate
 
   # used in Concerns::ResourceListParams
   ALLOWED_FILTER_PARAMS = [:search, :meta_data, :media_files, :permissions].freeze
@@ -131,6 +133,20 @@ class MediaEntriesController < ApplicationController
     shared_add_remove_collection('media_entry_select_collection_flash_result')
   end
 
+  def batch_edit_meta_data_by_context
+    shared_batch_edit_meta_data_by_context(MediaEntry)
+  end
+
+  def batch_edit_meta_data_by_vocabularies
+    shared_batch_edit_meta_data_by_vocabularies(MediaEntry)
+  end
+
+  def batch_meta_data_update
+    shared_batch_meta_data_update(MediaEntry)
+  end
+
+  private
+
   def initialize_presenter(name, template)
     # TODO: Merge with the same method in collections_controller
 
@@ -145,10 +161,6 @@ class MediaEntriesController < ApplicationController
 
     respond_with(@get, template: template)
   end
-
-  ###############################################################
-
-  private
 
   def media_files_filter?
     return true if resource_list_params[:filter].try(:[], :media_files)
@@ -174,3 +186,4 @@ class MediaEntriesController < ApplicationController
     ZencoderRequester.new(media_file).process
   end
 end
+# rubocop:enable Metrics/ClassLength

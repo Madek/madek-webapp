@@ -5,6 +5,7 @@ module Modules
 
       include Modules::Batch::BatchAutoPublish
       include Concerns::MediaResources::LogIntoEditSessions
+      include Modules::SharedUpdate
 
       # TODO: extract more from {MediaEntries,Collections}MetaDataUpdate
 

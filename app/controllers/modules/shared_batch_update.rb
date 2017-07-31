@@ -3,6 +3,9 @@ module Modules
     extend ActiveSupport::Concern
 
     include Modules::Batch::BatchAutoPublish
+    include Modules::Batch::BatchLogIntoEditSessions
+    include Modules::SharedUpdate
+    include Modules::Batch::BatchAuthorization
 
     private
 
@@ -12,6 +15,31 @@ module Modules
 
     def shared_batch_edit_meta_data_by_vocabularies(type)
       shared_batch_edit_meta_data(type, nil, true)
+    end
+
+    def shared_batch_edit_all
+      auth_authorize :dashboard, :logged_in?
+
+      collection_id = params.require(:id)
+      type = params.require(:type)
+
+      collection = Collection.unscoped.find(collection_id)
+
+      scope = batch_scope_by_type(collection, type)
+      authorize_resources_for_batch_edit!(current_user, scope)
+
+      all_resources = scope
+      authorized_resources = auth_policy_scope(
+        current_user, all_resources, MediaResourcePolicy::EditableScope)
+
+      shared_handle_batch_edit_response(
+        type.camelize.constantize,
+        all_resources,
+        authorized_resources,
+        collection,
+        params[:context_id],
+        params[:by_vocabulary]
+      )
     end
 
     # rubocop:disable Metrics/MethodLength
@@ -55,7 +83,7 @@ module Modules
     def shared_batch_edit_meta_data(type, context_id, by_vocabularies)
       auth_authorize type, :logged_in?
       entries = type.unscoped.where(id: entries_ids_param)
-      authorize_resources_for_batch_edit!(entries)
+      authorize_resources_for_batch_edit!(current_user, entries)
 
       all_resources = entries
       authorized_resources = auth_policy_scope(
@@ -110,7 +138,7 @@ module Modules
 
       entries = determine_entries_to_update(type)
 
-      authorize_resources_for_batch_update!(entries)
+      authorize_resources_for_batch_update!(current_user, entries)
 
       data_params = determine_meta_data_from_params
 
@@ -146,6 +174,18 @@ module Modules
 
     def return_to_param(parameters = params)
       parameters.require(:return_to)
+    end
+
+    def batch_scope_by_type(collection, type)
+      children =
+        case type
+        when 'media_entry' then collection.media_entries
+        when 'collection' then collection.collections
+        else
+          throw 'Unexpected type: ' + type
+        end
+      auth_policy_scope(
+        current_user, children, MediaResourcePolicy::ViewableScope)
     end
 
     def batch_respond_success(type, flash_message, return_to)
@@ -195,22 +235,6 @@ module Modules
                                                                  meta_key_id,
                                                                  value)
         end
-      end
-    end
-
-    def authorize_resources_for_batch_edit!(resources)
-      authorized_resources = auth_policy_scope(
-        current_user, resources, MediaResourcePolicy::ViewableScope)
-      if resources.count != authorized_resources.count
-        raise Errors::ForbiddenError, 'Not allowed to edit all resources!'
-      end
-    end
-
-    def authorize_resources_for_batch_update!(resources)
-      authorized_resources = auth_policy_scope(
-        current_user, resources, MediaResourcePolicy::EditableScope)
-      if resources.count != authorized_resources.count
-        raise Errors::ForbiddenError, 'Not allowed to edit all resources!'
       end
     end
   end
