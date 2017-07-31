@@ -1,18 +1,25 @@
 module Presenters
   module Explore
     module Modules
-      module ExploreKeywordsSection
+      class ExploreKeywordsSection < Presenter
+
+        def empty?
+          keywords.blank?
+        end
+
+        def content
+          return if empty?
+          {
+            type: 'keyword',
+            id: 'keywords',
+            data: keywords_overview,
+            show_all_link: false,
+            show_all_text: 'Weitere anzeigen',
+            show_title: true
+          }
+        end
 
         private
-
-        def keywords_section
-          unless keywords.blank?
-            { type: 'keyword',
-              id: 'keywords',
-              data: keywords_overview,
-              show_all_link: @show_all_link }
-          end
-        end
 
         def keywords_overview
           {
@@ -27,6 +34,14 @@ module Presenters
               }
             end
           }
+        end
+
+        def keywords
+          @keywords ||= \
+            MetaKey
+            .find_by(id: 'madek_core:keywords')
+            .try(:keywords)
+            .try(:limit, 24)
         end
       end
     end

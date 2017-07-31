@@ -27,7 +27,7 @@
         explore: {
           text: t(:sitemap_explore),
           href: explore_path,
-          active: link_active?(explore_path)
+          active: link_active?(root_path, deep: true) || link_active?(explore_path)
         },
 
         search: {

@@ -15,45 +15,71 @@ module.exports = React.createClass
     welcomeMessage = get.welcome_message
 
     sectionsElements =
-      f.map get.sections, (section, m) ->
-        <ResourcesSection key={'section_' + m} label={section.data.title} id={section.id}
-          hrefUrl={section.data.url} showAllLink={section.show_all_link} section={section}
-          showThumbDesc={true} />
+      f.compact(
+        f.map get.sections, (section, m) ->
+          return if section['empty?']
+          <ResourcesSection key={'section_' + m} label={section.content.data.title} id={section.content.id}
+            hrefUrl={section.content.data.url} showAllLink={section.content.show_all_link} section={section.content} />
+      )
+    outerStyle = {
+      backgroundColor: '#fff'
+      boxShadow: 'inset 0 1px 10px rgba(0, 0, 0, 0.25)'
+      paddingBottom: '10px'
+    }
 
-    homeClaimPitchHero = <div className='ui-home-claim ui-container'>
-      <div className='col2of3'>
-        <div className='pitch-claim'>
-          <h1 className='title-xxl'>
-            {welcomeMessage.title}
-          </h1>
-          <div className='ptm' dangerouslySetInnerHTML={welcomeMessage.text} />
+    claimStyle = {
+      position: 'static'
+      margin: '0px'
+      padding: '20px'
+      marginLeft: 'auto'
+      marginRight: 'auto'
+      border: '0px'
+      boxShadow: 'none'
+      paddingTop: '40px'
+      width: '1000px'
+      paddingLeft: '0px'
+      paddingRight: '0px'
+      background: 'none'
+    }
+
+    pitchClaimStyle = {
+      paddingLeft: '0px'
+    }
+
+    homeClaimPitchHero = <div style={outerStyle}>
+      <div style={claimStyle} className='ui-home-claim ui-container'>
+        <div className='col2of3'>
+          <div style={pitchClaimStyle} className='pitch-claim'>
+            <h1 className='title-xxl'>
+              {welcomeMessage.title}
+            </h1>
+            <div className='ptm' dangerouslySetInnerHTML={welcomeMessage.text} />
+          </div>
         </div>
-      </div>
-      <div className='col1of3'>
-        <LoginMenu
-          loginProviders={loginProviders}
-          authToken={authToken}
-        />
+        <div className='col1of3'>
+          <LoginMenu
+            loginProviders={loginProviders}
+            authToken={authToken}
+          />
+        </div>
       </div>
     </div>
 
-
     <div>
-      <div className="ui-collage crooked ui-container overlaid" id="teaser-set">
-
-        {f.map f.chunk(f.slice(get.teaser_entries, 0, 20), 5), (chunk, row) ->
-          <div key={'row_' + row} className="ui-collage-row">
-            {f.map chunk, (resource, index) ->
-              <CatalogThumbnailShifted key={'item_' + row + '_' + index} count={index + 1} imageUrl={resource.image_url} />
-            }
-          </div>
-        }
-
-        {homeClaimPitchHero}
-
-      </div>
+      {
+        if get.show_login
+          homeClaimPitchHero
+      }
 
       <div className="app-body-ui-container pts context-home">
+
+
+        {
+          if !get.show_login
+            <h1 className='title-xl mtl mbm'>
+              {welcomeMessage.title}
+            </h1>
+        }
 
         {f.map sectionsElements, (section, index) ->
           list = [ ]

@@ -7,9 +7,6 @@ feature 'Resilience' do
     truncate_tables
 
     [explore_path,
-     explore_catalog_path,
-     explore_featured_set_path,
-     explore_keywords_path,
      search_path,
      my_dashboard_path]
     .each do |path|

@@ -2,21 +2,13 @@ module Presenters
   module Explore
     class ExploreLoginPage < Presenter
       include ApplicationHelper
-      include Presenters::Explore::Modules::MemoizedHelpers
 
-      include Presenters::Explore::Modules::ExploreTeaserEntries
-      include Presenters::Explore::Modules::ExploreCatalogSection
-      include Presenters::Explore::Modules::ExploreFeaturedContentSection
-
-      def initialize(user, settings)
+      def initialize(user, settings, show_login: false)
         @user = user
         @settings = settings
-        @limit_catalog_context_keys = 3
-        @limit_featured_set = 6
-        @limit_latest_entries = 12
         @catalog_title = settings.catalog_title
         @featured_set_title = settings.featured_set_title
-        @show_all_link = true
+        @show_login = show_login
       end
 
       def welcome_message
@@ -26,41 +18,23 @@ module Presenters
         }
       end
 
-      def teaser_entries
-        teaser_entries_with_presenter \
-          Presenters::MediaEntries::MediaEntryTeaserForLogin
-      end
-
       def sections
-        [catalog_section,
-         featured_set_section,
-         latest_media_entries_section].compact
+        [
+          Presenters::Explore::Modules::ExploreCatalogSection.new(
+            @settings),
+          Presenters::Explore::Modules::ExploreLatestSection.new(
+            @user, @settings),
+          Presenters::Explore::Modules::ExploreFeaturedContentSection.new(
+            @user, @settings),
+          Presenters::Explore::Modules::ExploreKeywordsSection.new,
+          Presenters::Explore::Modules::ExploreVocabulariesSection.new(
+            @user, @settings)
+        ].compact
       end
 
-      private
-
-      def latest_media_entries_section
-        if latest_media_entries.exists?
-          { type: 'thumbnail',
-            id: 'latest-media-entries',
-            data: \
-              { title: I18n.t(:home_page_new_contents),
-                url: media_entries_path(list_conf: { order: 'created_at DESC' }),
-                list: Presenters::Shared::MediaResource::IndexResources.new(
-                  @user,
-                  latest_media_entries
-                ) },
-            show_all_link: false }
-        end
+      def show_login
+        @show_login && !@user
       end
-
-      def latest_media_entries
-        @latest_media_entries ||= \
-          auth_policy_scope(nil, MediaEntry)
-          .reorder(created_at: :desc)
-          .limit(@limit_latest_entries)
-      end
-
     end
   end
 end

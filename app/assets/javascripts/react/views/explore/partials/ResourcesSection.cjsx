@@ -1,50 +1,71 @@
 React = require('react')
 f = require('active-lodash')
 Keyword = require('../../../ui-components/Keyword.cjsx')
-CatalogThumbnail = require('./CatalogThumbnail.cjsx')
+CatalogResource = require('./CatalogResource.cjsx')
 WorthThumbnail = require('./WorthThumbnail.cjsx')
 ResourceThumbnail = require('../../../decorators/ResourceThumbnail.cjsx')
 
 module.exports = React.createClass
   displayName: 'ResourcesSection'
-  render: ({label, hrefUrl, showAllLink, section, id, authToken} = @props)->
-    <div className="ui-resources-holder pal" id={id}>
-      <div className="ui-resources-header">
-        <h2 className="title-l ui-resource-title">
-          {label}
-          {if showAllLink
-            <a className="strong" href={hrefUrl}>
-              Alle anzeigen
-            </a>
-          }
-        </h2>
-      </div>
+  render: ({section, authToken} = @props)->
+    <div className='ui-resources-holder pal' id={section.id}>
+      {
+        if section.show_title
+          <div className='ui-resources-header'>
+            <h2 className='title-l ui-resource-title'>
+              {section.data.title}
+              {if section.show_all_link
+                <a className='strong' href={section.data.url}>
+                  {
+                    if section.show_all_text
+                      section.show_all_text
+                    else
+                      'Alle anzeigen'
+                  }
+                </a>
+              }
+            </h2>
+          </div>
+      }
         {
           if section.type == 'catalog' or section.type == 'catalog_category'
-            <ul className="grid ui-resources">
+            <ul className='grid ui-resources' style={{marginBottom: '40px', marginTop: '0px'}}>
             {
               f.map section.data.list, (resource, n) =>
-                <CatalogThumbnail key={'key_' + n} usageCount={resource.usage_count} label={resource.label}
-                  description={resource.description} imageUrl={resource.image_url} hrefUrl={resource.url}
-                  showThumbDesc={@props.showThumbDesc} />
+                <CatalogResource key={'key_' + n} resource={resource} />
             }
             </ul>
           else if section.type == 'thumbnail'
-            <ul className="grid ui-resources">
+            <ul className='grid ui-resources'>
             {
               f.map section.data.list.resources, (resource, n) ->
                 <ResourceThumbnail key={'key_' + n} elm='div' get={resource} authToken={authToken} />
             }
             </ul>
           else if section.type == 'keyword'
-            <ul className="ui-tag-cloud">
+            <ul className='ui-tag-cloud'>
             {
               f.map section.data.list, (resource, n) ->
                 <Keyword key={'key_' + n} label={resource.keyword.label}
                   hrefUrl={resource.keyword.url} count={resource.keyword.usage_count} />
             }
             </ul>
+          else if section.type == 'vocabularies'
+            <ul className='ui-tag-cloud'>
+            {
+              f.map section.data.list, (resource, n) ->
+                <span>
+                  {
+                    if n != 0
+                      ', '
+                  }
+                  <a href={resource.url} style={{color: '#4c4c4c', fontWeight: '600'}}>
+                    {resource.label}
+                  </a>
+                </span>
+            }
+            </ul>
           else
-            <ul className="grid ui-resources" />
+            <ul className='grid ui-resources' />
         }
     </div>

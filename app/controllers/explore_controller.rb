@@ -1,17 +1,14 @@
 class ExploreController < ApplicationController
 
+  include Presenters::Explore::Modules::NewestEntryWithImage
+
   before_action do
     skip_authorization
   end
 
   def index
-    @get = Presenters::Explore::ExploreMainPage.new(current_user, settings)
-    respond_with @get
-  end
-
-  def catalog
-    @get = Presenters::Explore::ExploreCatalogPage.new(current_user, settings)
-    respond_with @get
+    @get = Presenters::Explore::ExploreLoginPage.new(current_user, settings)
+    respond_with @get, template: 'application/root'
   end
 
   def catalog_category
@@ -20,21 +17,14 @@ class ExploreController < ApplicationController
             'Catalog category could not be found.'
     end
 
-    @get = Presenters::Explore::ExploreCatalogCategoryPage.new(current_user,
-                                                               settings,
-                                                               category_param)
-    respond_with @get
-  end
+    @get = Presenters::Explore::ExploreCatalogCategoryPage.new(
+      current_user,
+      settings,
+      category_param,
+      page_size: page_size_param,
+      start_index: start_index_param)
 
-  def featured_set
-    @get = Presenters::Explore::ExploreFeaturedContentPage.new(current_user,
-                                                               settings)
-    respond_with @get
-  end
-
-  def keywords
-    @get = Presenters::Explore::ExploreKeywordsPage.new(current_user, settings)
-    respond_with @get
+    respond_with @get, template: 'application/catalog'
   end
 
   # lazy-loading thumbnails: search and *redirect to* media files
@@ -49,9 +39,9 @@ class ExploreController < ApplicationController
     media_entry =
       case object_type_param.to_sym
       when :keywords
-        newest_media_entry_with_image_file_for_keyword_and_user(*args)
+        newest_media_entry_with_image_file_for_keyword_and_user(*args).sample
       when :people
-        newest_media_entry_with_image_file_for_person_and_user(*args)
+        newest_media_entry_with_image_file_for_person_and_user(*args).sample
       end
 
     if media_entry
@@ -74,12 +64,12 @@ class ExploreController < ApplicationController
       keyword = catalog_key_thumb_keyword(meta_key)
 
       media_entry = newest_media_entry_with_image_file_for_keyword_and_user(
-        keyword.id, current_user)
+        keyword.id, current_user).sample
     when 'MetaDatum::People'
       person = catalog_key_thumb_person(meta_key)
 
       media_entry = newest_media_entry_with_image_file_for_person_and_user(
-        person.id, current_user)
+        person.id, current_user).sample
     end
 
     if media_entry
@@ -105,34 +95,6 @@ class ExploreController < ApplicationController
   end
 
   private
-
-  def newest_media_entry_with_image_file_for_keyword_and_user(keyword_id, user)
-    auth_policy_scope(user, MediaEntry)
-    .joins(:media_file)
-    .joins('INNER JOIN previews ON previews.media_file_id = media_files.id')
-    .joins(:meta_data)
-    .joins('INNER JOIN meta_data_keywords ' \
-           'ON meta_data.id = meta_data_keywords.meta_datum_id')
-    .where(meta_data_keywords: { keyword_id: keyword_id })
-    .where(previews: { media_type: 'image' })
-    .reorder('media_entries.meta_data_updated_at DESC')
-    .limit(24)
-    .sample
-  end
-
-  def newest_media_entry_with_image_file_for_person_and_user(person_id, user)
-    auth_policy_scope(user, MediaEntry)
-    .joins(:media_file)
-    .joins('INNER JOIN previews ON previews.media_file_id = media_files.id')
-    .joins(:meta_data)
-    .joins('INNER JOIN meta_data_people ' \
-           'ON meta_data.id = meta_data_people.meta_datum_id')
-    .where(meta_data_people: { person_id: person_id })
-    .where(previews: { media_type: 'image' })
-    .reorder('media_entries.meta_data_updated_at DESC')
-    .limit(24)
-    .sample
-  end
 
   def redirect_to_preview(media_entry, size)
     imgs = Presenters::MediaFiles::MediaFile.new(media_entry, current_user)
@@ -170,4 +132,13 @@ class ExploreController < ApplicationController
     params.require(:limit)
   end
 
+  def start_index_param
+    return unless params[:start_index]
+    params[:start_index].to_i
+  end
+
+  def page_size_param
+    return unless params[:page_size]
+    params[:page_size].to_i
+  end
 end

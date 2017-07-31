@@ -48,11 +48,10 @@ feature 'Page: Explore' do
       end
 
       visit explore_path
-      within '.ui-side-navigation-item', text: 'Catalog' do
-        expect(all('.ui-side-navigation-lvl2 a').map(&:text)).to be == labels
-      end
-      within '.ui-resources-holder', text: 'Catalog' do
-        expect(all('.ui-thumbnail-meta-title').map(&:text)).to be == labels
+      within '.ui-resources-holder[id=catalog]' do
+        within '.grid' do
+          expect(all('h2').map(&:text)).to be == labels
+        end
       end
     end
 
@@ -137,8 +136,12 @@ feature 'Page: Explore' do
         it 'it counts entries having all different media_types' do
           visit explore_path
           label = @context_key.label || @context_key.meta_key.label
-          within('.media-catalog', text: label) do
-            expect(find('.ui-thumbnail-meta-extension').text).to be == '6'
+          within('[id=catalog]') do
+            within('.ui-resource', text: label) do
+              within('.media-catalog') do
+                expect(find('.ui-thumbnail-meta-extension').text).to be == '6'
+              end
+            end
           end
         end
 
@@ -158,13 +161,6 @@ feature 'Page: Explore' do
       end
 
       context 'for catalog context key entries (2nd level)' do
-        it 'it counts entries having all different media_types' do
-          visit explore_catalog_category_path(@context_key)
-          within('.media-catalog', text: @keyword.term) do
-            expect(find('.ui-thumbnail-meta-extension').text).to be == '6'
-          end
-        end
-
         it 'shows random thumbnail (preview \'image\') from the latest entries' do
           # NOTE: check 12 results + should have more than 1 uniq results
           thumbs = 12.times.map do
@@ -212,8 +208,12 @@ feature 'Page: Explore' do
         it 'it counts entries' do
           visit explore_path
           label = @context_key.label || @context_key.meta_key.label
-          within('.media-catalog', text: label) do
-            expect(find('.ui-thumbnail-meta-extension').text).to be == '2'
+          within('[id=catalog]') do
+            within('.ui-resource', text: label) do
+              within('.media-catalog') do
+                expect(find('.ui-thumbnail-meta-extension').text).to be == '2'
+              end
+            end
           end
         end
 
@@ -236,13 +236,6 @@ feature 'Page: Explore' do
       end
 
       context 'for catalog context key entries (2nd level)' do
-        it 'it counts entries' do
-          visit explore_catalog_category_path(@context_key)
-          within('.media-catalog', text: @person.last_name) do
-            expect(find('.ui-thumbnail-meta-extension').text).to be == '2'
-          end
-        end
-
         it 'shows random thumbnail (preview \'image\') from the entry' do
           # NOTE: check 12 results + should have 2 uniq results
           thumbs = 12.times.map do
@@ -266,17 +259,6 @@ feature 'Page: Explore' do
     pending 'shows simple lists of Entries, Collections and FilterSets' \
       'with links to their indexes'
 
-    specify 'Catalog section contains "show all" link' do
-      visit explore_path
-
-      within(
-        '.ui-resources-holder .ui-resources-header',
-        text: 'Catalog'
-      ) do
-        expect(page).to have_link 'Alle anzeigen'
-      end
-    end
-
     specify 'Featured Set section contains "show all" link' do
       visit explore_path
 
@@ -284,57 +266,7 @@ feature 'Page: Explore' do
         '.ui-resources-holder .ui-resources-header',
         text: 'Featured Content'
       ) do
-        expect(page).to have_link 'Alle anzeigen'
-      end
-    end
-
-    specify 'Keywords section contains "show all" link' do
-      visit explore_path
-
-      within(
-        '.ui-resources-holder .ui-resources-header',
-        text: 'Häufige Schlagworte'
-      ) do
-        expect(page).to have_link 'Alle anzeigen'
-      end
-    end
-  end
-
-  describe 'Action: catalog' do
-    specify 'Catalog section does not contain "show all" link' do
-      visit explore_catalog_path
-
-      within(
-        '.ui-resources-holder .ui-resources-header',
-        text: 'Browse the catalog'
-      ) do
-        expect(page).not_to have_link 'Alle anzeigen'
-      end
-    end
-  end
-
-  describe 'Action: featured_set' do
-    specify 'Featured Set section does not contain "show all" link' do
-      visit explore_featured_set_path
-
-      within(
-        '.ui-resources-holder .ui-resources-header',
-        text: 'Highlights from this Archive'
-      ) do
-        expect(page).not_to have_link 'Alle anzeigen'
-      end
-    end
-  end
-
-  describe 'Action: keywords' do
-    specify 'Keywords section does not contain "show all" link' do
-      visit explore_keywords_path
-
-      within(
-        '.ui-resources-holder .ui-resources-header',
-        text: 'Häufige Schlagworte'
-      ) do
-        expect(page).not_to have_link 'Alle anzeigen'
+        expect(page).to have_link 'Weitere anzeigen'
       end
     end
   end
@@ -358,17 +290,6 @@ feature 'Page: Explore' do
       end
     end
 
-    specify 'Catalog section contains "show all" link' do
-      visit root_path
-
-      within(
-        '.ui-resources-holder .ui-resources-header',
-        text: 'Catalog'
-      ) do
-        expect(page).to have_link 'Alle anzeigen'
-      end
-    end
-
     specify 'Featured Set section contains "show all" link' do
       visit root_path
 
@@ -376,7 +297,7 @@ feature 'Page: Explore' do
         '.ui-resources-holder .ui-resources-header',
         text: 'Featured Content'
       ) do
-        expect(page).to have_link 'Alle anzeigen'
+        expect(page).to have_link 'Weitere anzeigen'
       end
     end
 

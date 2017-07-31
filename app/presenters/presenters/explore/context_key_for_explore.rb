@@ -1,16 +1,19 @@
 module Presenters
-  module ContextKeys
+  module Explore
     class ContextKeyForExplore < Presenters::Shared::AppResource
 
-      def initialize(app_resource, user, limit)
+      def initialize(app_resource, user)
         super(app_resource)
         @meta_key = @app_resource.meta_key
         @user = user
-        @limit = limit
       end
 
       def label
         @app_resource.label.presence || @meta_key.label
+      end
+
+      def examples
+        Presenters::Explore::KeywordsForExplore.new(@user, @meta_key)
       end
 
       def usage_count
@@ -33,7 +36,7 @@ module Presenters
           catalog_key_thumb_path \
             category: @app_resource.id,
             preview_size: :medium,
-            limit: @limit
+            limit: 24
       end
     end
   end

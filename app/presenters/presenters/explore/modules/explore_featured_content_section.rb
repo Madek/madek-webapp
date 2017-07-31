@@ -1,29 +1,66 @@
 module Presenters
   module Explore
     module Modules
-      module ExploreFeaturedContentSection
+      class ExploreFeaturedContentSection < Presenter
+
+        include AuthorizationSetup
+        include Concerns::AllowedSorting
+
+        def initialize(user, settings)
+          @user = user
+          @settings = settings
+        end
+
+        def empty?
+          featured_set_content.blank?
+        end
+
+        def content
+          return if empty?
+          {
+            type: 'thumbnail',
+            id: 'featured-content',
+            data: featured_set_overview,
+            show_all_link: true,
+            show_all_text: 'Weitere anzeigen',
+            show_title: true
+          }
+        end
 
         private
 
-        def featured_set_section
-          unless featured_set_content.blank?
-            { type: 'thumbnail',
-              id: 'featured-content',
-              data: featured_set_overview,
-              show_all_link: @show_all_link }
-          end
-        end
-
         def featured_set_overview # list of Collections
           {
-            title: @featured_set_title,
-            url: '/explore/featured_set',
+            title: @settings.featured_set_title,
+            url: collection_path(featured_set),
             list: Presenters::Shared::MediaResource::IndexResources.new(
               @user,
               featured_set_content,
               async_cover: true
             )
           }
+        end
+
+        def featured_set
+          unless (feat = @settings.featured_set_id.presence)
+            return
+          end
+          Collection.find_by_id(feat)
+        end
+
+        def featured_set_content
+          @featured_set_content ||= \
+            begin
+              unless (set = featured_set)
+                return
+              end
+
+              order = allowed_sorting(set)
+
+              auth_policy_scope(@user, set.child_media_resources)
+              .custom_order_by(order)
+              .limit(6)
+            end
         end
       end
     end

@@ -43,7 +43,8 @@ class ApplicationController < ActionController::Base
     if authenticated?
       redirect_to(my_dashboard_path)
     else
-      @get = Presenters::Explore::ExploreLoginPage.new(current_user, settings)
+      @get = Presenters::Explore::ExploreLoginPage.new(
+        current_user, settings, show_login: true)
       respond_with @get
     end
   end

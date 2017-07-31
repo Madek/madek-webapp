@@ -1,6 +1,6 @@
 module Presenters
-  module Keywords
-    class KeywordIndexForExplore < KeywordIndexWithUsageCount
+  module Explore
+    class KeywordIndexForExplore < Presenters::Keywords::KeywordIndexWithUsageCount
 
       def initialize(app_resource, user)
         super(app_resource)
@@ -12,7 +12,6 @@ module Presenters
                                                         @app_resource,
                                                         :medium)
       end
-
     end
   end
 end
