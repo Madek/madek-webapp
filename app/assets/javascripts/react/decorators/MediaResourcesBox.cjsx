@@ -154,6 +154,7 @@ module.exports = React.createClass
     showBatchTransferResponsibility: false
     batchTransferResponsibilityResources: []
     batchDestroyResourcesModal: false
+    batchDestroyResourcesWaiting: false
     showSelectionLimit: false
   }
 
@@ -417,6 +418,7 @@ module.exports = React.createClass
     event.preventDefault()
     @setState(
       batchDestroyResourcesModal: true,
+      batchDestroyResourcesWaiting: false,
       batchDestroyResourcesError: false,
       batchDestroyResourceIdsWithTypes: resources.map (model) ->
         {
@@ -427,12 +429,16 @@ module.exports = React.createClass
     return false
 
   _onExecuteBatchDeleteResources: () ->
+    @setState(batchDestroyResourcesWaiting: true)
     resourceIds = @state.batchDestroyResourceIdsWithTypes
     url = setUrlParams('/batch_destroy_resources', {})
     railsFormPut.byData({resource_id: resourceIds}, url, (result) =>
       if result.result == 'error'
         window.scrollTo(0, 0)
-        @setState(batchDestroyResourcesError: result.message)
+        @setState(
+          batchDestroyResourcesError: result.message
+          batchDestroyResourcesWaiting: false
+        )
       else
         location.reload()
     )
@@ -1114,39 +1120,54 @@ module.exports = React.createClass
       {
         if @state.batchDestroyResourcesModal
           <Modal widthInPixel={400}>
-            <div style={{margin: '20px', marginBottom: '20px', textAlign: 'center'}}>
-              {
-                if @state.batchDestroyResourcesError
-                  <div className="ui-alerts" style={marginBottom: '10px'}>
-                    <div className="error ui-alert">
-                      {@state.batchDestroyResourcesError}
+
+            {
+              if @state.batchDestroyResourcesWaiting
+
+                <div style={{margin: '20px', marginBottom: '20px', textAlign: 'center'}}>
+                  <Preloader />
+                </div>
+              else
+
+                <div style={{margin: '20px', marginBottom: '20px', textAlign: 'center'}}>
+                  {
+                    if @state.batchDestroyResourcesError
+                      <div className="ui-alerts" style={marginBottom: '10px'}>
+                        <div className="error ui-alert">
+                          {@state.batchDestroyResourcesError}
+                        </div>
+                      </div>
+                  }
+                  <div style={{marginBottom: '20px'}}>
+                    <div>
+                      {t('batch_destroy_resources_ask_1')}
+                    </div>
+
+                    <div style={{fontWeight: 'bold'}}>
+                      {f.size(f.filter(@state.batchDestroyResourceIdsWithTypes, {type: 'MediaEntry'}))}
+                      {t('batch_destroy_resources_ask_2')}
+                    </div>
+                    <div style={{fontWeight: 'bold'}}>
+                      {f.size(f.filter(@state.batchDestroyResourceIdsWithTypes, {type: 'Collection'}))}
+                      {t('batch_destroy_resources_ask_3')}
+                    </div>
+                    <div>
+                      {t('batch_destroy_resources_ask_4')}
                     </div>
                   </div>
-              }
-              <div style={{marginBottom: '20px'}}>
-                <div>
-                  {t('batch_destroy_resources_ask_1')}
+                  <div className="ui-actions" style={{padding: '10px'}}>
+                    <a onClick={@_onCloseModal} className="link weak">{t('batch_destroy_resources_cancel')}</a>
+                    <button className="primary-button" type="submit" onClick={@_onExecuteBatchDeleteResources}>
+                      {t('batch_destroy_resources_ok')}
+                    </button>
+                  </div>
                 </div>
 
-                <div style={{fontWeight: 'bold'}}>
-                  {f.size(f.filter(@state.batchDestroyResourceIdsWithTypes, {type: 'MediaEntry'}))}
-                  {t('batch_destroy_resources_ask_2')}
-                </div>
-                <div style={{fontWeight: 'bold'}}>
-                  {f.size(f.filter(@state.batchDestroyResourceIdsWithTypes, {type: 'Collection'}))}
-                  {t('batch_destroy_resources_ask_3')}
-                </div>
-                <div>
-                  {t('batch_destroy_resources_ask_4')}
-                </div>
-              </div>
-              <div className="ui-actions" style={{padding: '10px'}}>
-                <a onClick={@_onCloseModal} className="link weak">{t('batch_destroy_resources_cancel')}</a>
-                <button className="primary-button" type="submit" onClick={@_onExecuteBatchDeleteResources}>
-                  {t('batch_destroy_resources_ok')}
-                </button>
-              </div>
-            </div>
+
+            }
+
+
+
           </Modal>
       }
 
