@@ -194,7 +194,7 @@ createActionsDropdown = (parameters, callbacks) ->
               'remove_all_from_clipboard',
               undefined,
               'close',
-              t('resources_box_batch_actions_removeallfromclipboard_1') + totalCount + t('resources_box_batch_actions_removeallfromclipboard_2'))
+              t('resources_box_batch_actions_clear_clipboard'))
           else
             createHoverActionItem(
               if !selection.empty() then f.curry(callbacks.onBatchRemoveFromClipboard)(selection.selection),
