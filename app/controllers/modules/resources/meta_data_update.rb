@@ -7,9 +7,7 @@ module Modules
       include Concerns::MediaResources::LogIntoEditSessions
       include Modules::SharedUpdate
 
-      # TODO: extract more from {MediaEntries,Collections}MetaDataUpdate
-
-      def edit_meta_data_by_context
+      def shared_edit_meta_data_by_context
         resource = find_resource
         @get = Presenters::MetaData::EditContextMetaData.new(
           resource,
@@ -19,7 +17,7 @@ module Modules
         respond_with @get
       end
 
-      def edit_meta_data_by_vocabularies
+      def shared_edit_meta_data_by_vocabularies
         resource = find_resource
         @get = Presenters::MetaData::EditContextMetaData.new(
           resource,
@@ -29,7 +27,7 @@ module Modules
         respond_with @get
       end
 
-      def meta_data_update
+      def shared_meta_data_update
         resource = get_authorized_resource
         errors = update_all_meta_data_transaction!(resource, meta_data_params)
 

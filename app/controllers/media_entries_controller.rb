@@ -145,6 +145,18 @@ class MediaEntriesController < ApplicationController
     shared_batch_meta_data_update(MediaEntry)
   end
 
+  def edit_meta_data_by_context
+    shared_edit_meta_data_by_context
+  end
+
+  def edit_meta_data_by_vocabularies
+    shared_edit_meta_data_by_vocabularies
+  end
+
+  def meta_data_update
+    shared_meta_data_update
+  end
+
   private
 
   def initialize_presenter(name, template)

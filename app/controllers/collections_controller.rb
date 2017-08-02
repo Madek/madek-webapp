@@ -189,6 +189,18 @@ class CollectionsController < ApplicationController
     shared_batch_edit_all
   end
 
+  def edit_meta_data_by_context
+    shared_edit_meta_data_by_context
+  end
+
+  def edit_meta_data_by_vocabularies
+    shared_edit_meta_data_by_vocabularies
+  end
+
+  def meta_data_update
+    shared_meta_data_update
+  end
+
   private
 
   def determine_list_conf(collection)
