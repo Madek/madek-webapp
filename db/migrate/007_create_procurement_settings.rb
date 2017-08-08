@@ -1,4 +1,4 @@
-class CreateProcurementSettings < ActiveRecord::Migration
+class CreateProcurementSettings < ActiveRecord::Migration[4.2]
   def change
     create_table :procurement_settings, id: :uuid do |t|
       t.string :key, null: false

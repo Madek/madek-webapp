@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.2
--- Dumped by pg_dump version 9.6.2
+-- Dumped from database version 9.6.3
+-- Dumped by pg_dump version 9.6.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -263,6 +263,18 @@ CREATE TABLE addresses (
     country_code character varying,
     latitude double precision,
     longitude double precision
+);
+
+
+--
+-- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE ar_internal_metadata (
+    key character varying NOT NULL,
+    value character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -1042,6 +1054,14 @@ ALTER TABLE ONLY accessories
 
 ALTER TABLE ONLY addresses
     ADD CONSTRAINT addresses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY ar_internal_metadata
+    ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
 
 
 --
@@ -2590,53 +2610,31 @@ ALTER TABLE ONLY users
 
 SET search_path TO "$user", public;
 
-INSERT INTO schema_migrations (version) VALUES ('0');
+INSERT INTO "schema_migrations" (version) VALUES
+('0'),
+('1'),
+('10'),
+('100'),
+('101'),
+('102'),
+('103'),
+('104'),
+('105'),
+('106'),
+('107'),
+('108'),
+('109'),
+('11'),
+('110'),
+('111'),
+('12'),
+('13'),
+('2'),
+('4'),
+('5'),
+('6'),
+('7'),
+('8'),
+('9');
 
-INSERT INTO schema_migrations (version) VALUES ('1');
-
-INSERT INTO schema_migrations (version) VALUES ('10');
-
-INSERT INTO schema_migrations (version) VALUES ('100');
-
-INSERT INTO schema_migrations (version) VALUES ('101');
-
-INSERT INTO schema_migrations (version) VALUES ('102');
-
-INSERT INTO schema_migrations (version) VALUES ('103');
-
-INSERT INTO schema_migrations (version) VALUES ('104');
-
-INSERT INTO schema_migrations (version) VALUES ('105');
-
-INSERT INTO schema_migrations (version) VALUES ('106');
-
-INSERT INTO schema_migrations (version) VALUES ('107');
-
-INSERT INTO schema_migrations (version) VALUES ('108');
-
-INSERT INTO schema_migrations (version) VALUES ('109');
-
-INSERT INTO schema_migrations (version) VALUES ('11');
-
-INSERT INTO schema_migrations (version) VALUES ('110');
-
-INSERT INTO schema_migrations (version) VALUES ('111');
-
-INSERT INTO schema_migrations (version) VALUES ('12');
-
-INSERT INTO schema_migrations (version) VALUES ('13');
-
-INSERT INTO schema_migrations (version) VALUES ('2');
-
-INSERT INTO schema_migrations (version) VALUES ('4');
-
-INSERT INTO schema_migrations (version) VALUES ('5');
-
-INSERT INTO schema_migrations (version) VALUES ('6');
-
-INSERT INTO schema_migrations (version) VALUES ('7');
-
-INSERT INTO schema_migrations (version) VALUES ('8');
-
-INSERT INTO schema_migrations (version) VALUES ('9');
 

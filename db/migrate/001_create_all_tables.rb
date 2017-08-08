@@ -1,4 +1,4 @@
-class CreateAllTables < ActiveRecord::Migration
+class CreateAllTables < ActiveRecord::Migration[4.2]
 
   # So we dropped all previous migrations and restarted from the schema.rb file
   def self.up

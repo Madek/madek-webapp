@@ -1,4 +1,4 @@
-class CreateProcurementImagesTable < ActiveRecord::Migration
+class CreateProcurementImagesTable < ActiveRecord::Migration[4.2]
 
   def change
     create_table :procurement_images, id: :uuid do |t|

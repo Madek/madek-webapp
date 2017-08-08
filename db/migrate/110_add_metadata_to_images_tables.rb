@@ -1,4 +1,4 @@
-class AddMetadataToImagesTables < ActiveRecord::Migration
+class AddMetadataToImagesTables < ActiveRecord::Migration[4.2]
   TABLES = [:images,
             :attachments,
             :procurement_images,

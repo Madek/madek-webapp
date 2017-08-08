@@ -1,4 +1,4 @@
-class HexToIntFunction < ActiveRecord::Migration
+class HexToIntFunction < ActiveRecord::Migration[4.2]
   def up
     execute <<-SQL
       CREATE OR REPLACE FUNCTION hex_to_int(hexval varchar) RETURNS bigint AS $$

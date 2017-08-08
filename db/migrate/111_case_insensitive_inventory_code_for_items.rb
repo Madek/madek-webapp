@@ -1,4 +1,4 @@
-class CaseInsensitiveInventoryCodeForItems < ActiveRecord::Migration
+class CaseInsensitiveInventoryCodeForItems < ActiveRecord::Migration[4.2]
   def up
     execute <<-SQL
       CREATE UNIQUE INDEX case_insensitive_inventory_code_for_items

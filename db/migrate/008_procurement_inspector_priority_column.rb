@@ -1,4 +1,4 @@
-class ProcurementInspectorPriorityColumn < ActiveRecord::Migration
+class ProcurementInspectorPriorityColumn < ActiveRecord::Migration[4.2]
   def up
     add_column :procurement_requests, :inspector_priority, :string, null: false, default: 'medium'
 

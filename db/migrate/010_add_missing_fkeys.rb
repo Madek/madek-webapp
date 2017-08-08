@@ -1,4 +1,4 @@
-class AddMissingFkeys < ActiveRecord::Migration
+class AddMissingFkeys < ActiveRecord::Migration[4.2]
   def change
     add_foreign_key :hidden_fields, :fields, on_delete: :cascade
     add_foreign_key :hidden_fields, :users, on_delete: :cascade

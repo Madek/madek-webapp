@@ -1,5 +1,5 @@
 
-class EnableExtensions < ActiveRecord::Migration
+class EnableExtensions < ActiveRecord::Migration[4.2]
 
   def change
     enable_extension 'pg_trgm'

@@ -1,4 +1,4 @@
-class CreateAndMigrateRooms < ActiveRecord::Migration
+class CreateAndMigrateRooms < ActiveRecord::Migration[4.2]
   class MigrationItem < ActiveRecord::Base
     self.table_name = 'items'
   end

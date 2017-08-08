@@ -1,4 +1,4 @@
-class RenameProcurementAttachmentsColumns < ActiveRecord::Migration
+class RenameProcurementAttachmentsColumns < ActiveRecord::Migration[4.2]
 
   def change
     rename_column :procurement_attachments, :file_file_name, :filename

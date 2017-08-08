@@ -1,4 +1,4 @@
-class DatabaseConstrains < ActiveRecord::Migration
+class DatabaseConstrains < ActiveRecord::Migration[4.2]
   def up
 
     begin

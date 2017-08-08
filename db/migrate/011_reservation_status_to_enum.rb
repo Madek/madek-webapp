@@ -1,4 +1,4 @@
-class ReservationStatusToEnum < ActiveRecord::Migration
+class ReservationStatusToEnum < ActiveRecord::Migration[4.2]
   def change
     add_column :partitions, :position, :int, default: 0, null: false
     execute <<-SQL.strip_heredoc

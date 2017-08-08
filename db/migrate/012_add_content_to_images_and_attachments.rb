@@ -1,4 +1,4 @@
-class AddContentToImagesAndAttachments < ActiveRecord::Migration
+class AddContentToImagesAndAttachments < ActiveRecord::Migration[4.2]
 
   TABLES = [:images, :attachments, :procurement_attachments]
 

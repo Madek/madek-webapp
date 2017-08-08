@@ -1,4 +1,4 @@
-class AddProcurementUsersFiltersTable < ActiveRecord::Migration
+class AddProcurementUsersFiltersTable < ActiveRecord::Migration[4.2]
   def change
     create_table :procurement_users_filters, id: :uuid do |t|
       t.uuid :user_id, foreign_key: true

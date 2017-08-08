@@ -1,4 +1,4 @@
-class ProcurementCategories < ActiveRecord::Migration
+class ProcurementCategories < ActiveRecord::Migration[4.2]
   def up
 
     remove_foreign_key(:procurement_templates, column: 'template_category_id')
