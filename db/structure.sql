@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.3
--- Dumped by pg_dump version 9.6.3
+-- Dumped from database version 9.6.2
+-- Dumped by pg_dump version 9.6.2
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1411,6 +1411,13 @@ CREATE INDEX auditable_index ON audits USING btree (auditable_id, auditable_type
 
 
 --
+-- Name: case_insensitive_inventory_code_for_items; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX case_insensitive_inventory_code_for_items ON items USING btree (lower((inventory_code)::text));
+
+
+--
 -- Name: idx_procurement_group_inspectors_uc; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2612,6 +2619,8 @@ INSERT INTO schema_migrations (version) VALUES ('109');
 INSERT INTO schema_migrations (version) VALUES ('11');
 
 INSERT INTO schema_migrations (version) VALUES ('110');
+
+INSERT INTO schema_migrations (version) VALUES ('111');
 
 INSERT INTO schema_migrations (version) VALUES ('12');
 
