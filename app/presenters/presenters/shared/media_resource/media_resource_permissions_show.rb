@@ -17,6 +17,20 @@ module Presenters
                id: @app_resource
         end
 
+        def permissions_url
+          send "permissions_#{@app_resource.model_name.singular}_path",
+               @app_resource
+        end
+
+        def fallback_url
+          my_dashboard_path
+        end
+
+        def edit_permissions_url
+          send "edit_permissions_#{@app_resource.model_name.singular}_path",
+               @app_resource
+        end
+
         def can_transfer
           auth_policy(@user, @app_resource).edit_transfer_responsibility?
         end

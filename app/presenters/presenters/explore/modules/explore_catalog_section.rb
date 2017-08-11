@@ -27,7 +27,7 @@ module Presenters
         def catalog_overview
           {
             title: @settings.catalog_title,
-            url: '/explore/catalog/',
+            url: explore_catalog_path,
             list: non_empty_catalog_context_keys_presenters
           }
         end

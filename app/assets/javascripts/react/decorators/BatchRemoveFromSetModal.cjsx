@@ -1,6 +1,6 @@
 React = require('react')
 f = require('active-lodash')
-t = require('../../lib/string-translation.js')('de')
+t = require('../../lib/i18n-translate.js')
 PageContent = require('../views/PageContent.cjsx')
 PageContentHeader = require('../views/PageContentHeader.cjsx')
 TabContent = require('../views/TabContent.cjsx')
@@ -30,8 +30,8 @@ module.exports = React.createClass
   _extractGet: (json) ->
     json
 
-  render: ({authToken, get} = @props) ->
-    getUrl = setUrlParams('/batch_ask_remove_from_set', {
+  render: ({authToken, get, removeFromSetUrl} = @props) ->
+    getUrl = setUrlParams(removeFromSetUrl, {
       parent_collection_id: @props.collectionUuid
       resource_id: @props.resourceIds
       return_to: @props.returnTo

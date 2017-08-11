@@ -1,6 +1,6 @@
 React = require('react')
 isEmpty = require('lodash/isEmpty')
-t = require('../../lib/string-translation.js')('de')
+t = require('../../lib/i18n-translate.js')
 PageHeader = require('../ui-components/PageHeader.js')
 PageContent = require('./PageContent.cjsx')
 MediaResourcesBox = require('../decorators/MediaResourcesBox.cjsx')

@@ -1,6 +1,6 @@
 React = require('react')
 f = require('active-lodash')
-t = require('../../lib/string-translation.js')('de')
+t = require('../../lib/i18n-translate.js')
 PageContent = require('../views/PageContent.cjsx')
 PageContentHeader = require('../views/PageContentHeader.cjsx')
 TabContent = require('../views/TabContent.cjsx')

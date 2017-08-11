@@ -2,7 +2,7 @@ React = require('react')
 ReactDOM = require('react-dom')
 PageContentHeader = require('./PageContentHeader.cjsx')
 HeaderPrimaryButton = require('./HeaderPrimaryButton.cjsx')
-t = require('../../lib/string-translation.js')('de')
+t = require('../../lib/i18n-translate.js')
 CreateCollectionModal = require('./My/CreateCollectionModal.cjsx')
 
 module.exports = React.createClass
@@ -41,7 +41,8 @@ module.exports = React.createClass
       </PageContentHeader>
       {
         if @state.showModal
-          <CreateCollectionModal get={get.new_collection} async={@state.mounted} authToken={authToken} onClose={@_onClose} />
+          <CreateCollectionModal get={get.new_collection} async={@state.mounted} authToken={authToken}
+            onClose={@_onClose} newCollectionUrl={get.new_collection_url} />
 
       }
     </div>

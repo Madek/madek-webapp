@@ -1,5 +1,5 @@
 React = require('react')
-t = require('../../../lib/string-translation')('de')
+t = require('../../../lib/i18n-translate.js')
 PageHeader = require('../../ui-components/PageHeader')
 MetaDataList = require('../../decorators/MetaDataList.cjsx')
 ResourceThumbnail = require('../../decorators//ResourceThumbnail.cjsx')

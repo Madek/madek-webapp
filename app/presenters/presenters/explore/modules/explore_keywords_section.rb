@@ -18,7 +18,7 @@ module Presenters
             id: 'keywords',
             data: keywords_overview,
             show_all_link: true,
-            show_all_text: 'Weitere anzeigen',
+            show_all_text: I18n.t(:explore_show_more),
             show_title: true
           }
         end
@@ -27,12 +27,14 @@ module Presenters
 
         def keywords_overview
           {
-            title: 'Häufige Schlagworte',
-            url: '/explore/keywords',
+            title: I18n.t(:explore_keywords_section_title),
+            url: explore_keywords_path,
 
             list: keywords.with_usage_count.map do |keyword|
               {
-                url: prepend_url_context('/explore/catalog/madek_core:keywords'),
+                url: prepend_url_context(
+                  explore_catalog_category_path('madek_core:keywords')
+                ),
                 keyword: \
                   Presenters::Keywords::KeywordIndexWithUsageCount.new(keyword)
               }

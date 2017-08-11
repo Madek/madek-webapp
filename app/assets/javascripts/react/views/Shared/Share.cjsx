@@ -4,7 +4,7 @@ PageContent = require('../PageContent.cjsx')
 TabContent = require('../TabContent.cjsx')
 PageHeader = require('../../ui-components/PageHeader.js')
 Modal = require('../../ui-components/Modal.cjsx')
-t = require('../../../lib/string-translation')('de')
+t = require('../../../lib/i18n-translate.js')
 
 module.exports = React.createClass
   displayName: 'Shared.Share'

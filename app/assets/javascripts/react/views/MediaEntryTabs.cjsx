@@ -48,7 +48,7 @@ module.exports = React.createClass
     tabs = f.fromPairs(f.map(
       get.tabs,
       (tab) ->
-        path = if tab.action then media_entry_path + '/' + tab.action else media_entry_path
+        path = if tab.href then tab.href else media_entry_path
 
         icon = if tab.icon_type == 'privacy_status_icon'
           <MediaEntryPrivacyStatusIcon get={get} />

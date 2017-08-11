@@ -17,11 +17,13 @@ module.exports = React.createClass
 
     <ul className='ui-side-navigation'>
 
-
       {
         f.flatten(f.map(f.keys(sections), (section_id) =>
           section = sections[section_id]
-          link = section.href || '/my/' + section_id
+          link = section.href
+
+          if !link
+            throw new Error('Missing href attribute for \'' + section_id + '\' section!')
 
           link_active = @_endsWith(libUrl.parse(for_url).pathname, section_id)
 
@@ -31,7 +33,7 @@ module.exports = React.createClass
           )
 
           f.compact([
-            <li className={classes}>
+            <li className={classes} key={section_id}>
               <a className='strong' href={link}>
                 {
                   if section.is_beta && show_beta

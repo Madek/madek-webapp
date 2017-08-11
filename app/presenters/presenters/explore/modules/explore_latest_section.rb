@@ -27,7 +27,7 @@ module Presenters
                 )
               },
             show_all_link: true,
-            show_all_text: 'Weitere anzeigen',
+            show_all_text: I18n.t(:explore_show_more),
             show_title: true
           }
         end

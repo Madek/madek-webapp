@@ -1,7 +1,7 @@
 # Display multiple Rows of MetaData Lists (by Context or by Vocabulary)
 React = require('react')
 f = require('active-lodash')
-t = require('../../lib/string-translation')('de')
+t = require('../../lib/i18n-translate.js')
 MadekPropTypes = require('../lib/madek-prop-types.coffee')
 MetaDataList = require('./MetaDataList.cjsx')
 listingHelper = require('../../lib/metadata-listing-helper.coffee')
@@ -32,8 +32,9 @@ module.exports = React.createClass
           <div className='ui-container media-entry-metadata' key={f(row).map('context.uuid').join()}>
             {row.map((data)->
               key = (data.context or data.vocabulary).uuid
+              vocabUrl = f.get(data, 'vocabulary.url', '')
               <div className={"col1of#{numColumns}"} key={key}>
-                <MetaDataList mods='prl' list={data} vocabUuid={(key if data.vocabulary)}/>
+                <MetaDataList mods='prl' list={data} vocabUrl={vocabUrl}/>
               </div>)}
           </div>),
           (

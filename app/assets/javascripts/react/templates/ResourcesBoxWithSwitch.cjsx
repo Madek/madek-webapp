@@ -3,7 +3,7 @@
 React = require('react')
 f = require('active-lodash')
 ui = require('../lib/ui.coffee')
-t = ui.t('de')
+t = ui.t
 parseUrl = require('url').parse
 stringifyUrl = require('url').format
 parseQuery = require('qs').parse
@@ -92,4 +92,4 @@ urlByType = (url, currentType, newType) ->
 
   boxSetUrlParams(
     currentUrl.pathname.replace(RegExp("\/#{currentType}$"), "\/#{newType}"),
-    {list: newParams.list})
+    newParams)

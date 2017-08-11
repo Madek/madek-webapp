@@ -6,6 +6,7 @@ Icon = require('./Icon.cjsx')
 Link = require('./Link.cjsx')
 Picture = require('../ui-components/Picture.cjsx')
 ResourceIcon = require('../ui-components/ResourceIcon.cjsx')
+t = require('../../lib/i18n-translate.js')
 
 flyoutProps = React.PropTypes.shape({
   title: React.PropTypes.string.isRequired,
@@ -78,17 +79,17 @@ module.exports = React.createClass
     if @props.draft
       bubbles.push({
         key: 'draft'
-        label: 'Entwurf'
+        label: t('bubble_draft_label')
         color: '#f99'
-        href: @props.href + '/meta_data/edit/by_context'
+        href: @props.editMetaDataByContextUrl
       })
 
     if @props.onClipboard
       bubbles.push({
         key: 'batch'
-        label: 'Stapel'
+        label: t('bubble_batch_label')
         color: '#99f'
-        href: '/my/clipboard'
+        href: @props.clipboardUrl
       })
 
 

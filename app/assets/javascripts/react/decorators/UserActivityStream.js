@@ -5,6 +5,8 @@ import first from 'lodash/first'
 import get from 'lodash/get'
 import last from 'lodash/last'
 import isEmpty from 'lodash/isEmpty'
+// import app from 'ampersand-app'
+import currentLocale from '../../lib/current-locale.js'
 
 import HeaderPrimaryButton from '../views/HeaderPrimaryButton.cjsx'
 import { ActionsBar, Button } from '../ui-components/index.coffee'
@@ -16,8 +18,7 @@ import {
   resourceInfo
 } from './UserActivityStreamDeco'
 
-Moment.locale('de')
-const t = ui.t('de')
+const t = ui.t
 
 const ActivityStream = ({
   events,
@@ -26,12 +27,14 @@ const ActivityStream = ({
   startDate,
   isEndOfStream,
   isPaginated,
-  user
+  user,
+  importUrl
 }) => {
+  Moment.locale(currentLocale())
   const firstDate = Moment(get(events, [0, 0, 'date']) || startDate).calendar()
 
   const content = isEmpty(events)
-    ? fallbackMessage({ isPaginated, firstDate })
+    ? fallbackMessage({ isPaginated, firstDate, importUrl })
     : events.map(
         (group, i) =>
           !!group && group.length > 1
@@ -55,6 +58,7 @@ const ActivityStream = ({
 export default ActivityStream
 
 const ActivityGroup = ({ group }) => {
+  Moment.locale(currentLocale())
   const [icon, summary] = activityGroup({ group })
   const firstDate = Moment(first(group).date).calendar()
   const lastDate = Moment(last(group).date).calendar()
@@ -101,6 +105,7 @@ const ActivityGroup = ({ group }) => {
 }
 
 const ActivityItem = item => {
+  Moment.locale(currentLocale())
   const [icon, summary] = activityItemByType(item)
   return (
     <div className='event event-item'>
@@ -128,7 +133,7 @@ const ActivityItem = item => {
   )
 }
 
-const fallbackMessage = ({ isPaginated }) => {
+const fallbackMessage = ({ isPaginated, importUrl }) => {
   const message = isPaginated
     ? 'Nichts gefunden f\xFCr diesen Zeitraum.'
     : 'Sie haben noch keine Aktivit\xE4ten durchgef\xFChrt.'
@@ -138,7 +143,7 @@ const fallbackMessage = ({ isPaginated }) => {
     : <HeaderPrimaryButton
         icon={'upload'}
         text={t('dashboard_create_media_entry_btn')}
-        href={'/my/upload'}
+        href={importUrl}
       />
 
   return (

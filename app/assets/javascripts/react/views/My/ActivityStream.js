@@ -6,10 +6,9 @@ import asyncWhile from 'async/whilst'
 import { parse as parseUrl } from 'url'
 import { parse as parseQuery } from 'qs'
 import Moment from 'moment'
+import currentLocale from '../../../lib/current-locale'
 
 import ActivityStream from '../../decorators/UserActivityStream'
-
-Moment.locale('de')
 
 // ui config
 const SECTIONS = ['created_contents', 'edited_contents', 'shared_contents']
@@ -26,6 +25,7 @@ const MAX_ITEMS = 300
 class MyTimeline extends React.Component {
   constructor (initialProps) {
     super()
+    Moment.locale(currentLocale())
     this.state = {
       isClient: false,
       endOfStream: false,
@@ -110,6 +110,7 @@ class MyTimeline extends React.Component {
         startDate={streamStart}
         nextLink={nextLink}
         user={props.get.current_user}
+        importUrl={props.get.current_user.import_url}
       />
     )
   }

@@ -2,7 +2,7 @@ React = require('react')
 f = require('active-lodash')
 c = require('classnames')
 parseMods = require('../../lib/ui.coffee').parseMods
-t = require('../../../lib/string-translation')('de')
+t = require('../../../lib/i18n-translate.js')
 Icon = require('../../ui-components/Icon.cjsx')
 
 module.exports = React.createClass

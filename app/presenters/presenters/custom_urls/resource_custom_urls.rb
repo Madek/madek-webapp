@@ -26,6 +26,11 @@ module Presenters
           Presenters::CustomUrls::CustomUrl.new(custom_url)
         end
       end
+
+      def edit_url
+        send "edit_custom_urls_#{@app_resource.model_name.singular}_path",
+             @app_resource
+      end
     end
   end
 end

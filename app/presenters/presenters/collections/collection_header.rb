@@ -22,6 +22,14 @@ module Presenters
         collection_path(@app_resource)
       end
 
+      def select_collection_url
+        select_collection_collection_path(@app_resource)
+      end
+
+      def share_url
+        share_collection_path(@app_resource)
+      end
+
       def buttons
         buttons = [
           edit_button,

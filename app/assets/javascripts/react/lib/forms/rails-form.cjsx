@@ -5,6 +5,7 @@ ReactDOM = require('react-dom')
 f = require('active-lodash')
 ui = require('../../lib/ui.coffee')
 $ = require('jquery') # TODO: serializeForm = http://npm.im/form-serialize
+parseUrl = require('url').parse
 
 checkForAuthToken = ({method, authToken}) ->
   restMethod = (method || 'post').toLowerCase()
@@ -34,6 +35,7 @@ module.exports = React.createClass
   render: ({name, method, authToken, children} = @props) ->
     ownProps = ['name', 'method', 'authToken', 'children']
     restProps = f.omit(@props, ownProps, 'mod', 'mods', 'className')
+    queryParams = parseUrl(f.get(restProps, 'action', ''), true).query
 
     # Rails conventions:
     # - default method='post'
@@ -53,6 +55,10 @@ module.exports = React.createClass
       acceptCharset='UTF-8'>
 
       <input name='utf8' type='hidden' value='✓'/>
+
+      {if f.has(queryParams, 'lang')
+        <input name='lang' type='hidden' value={queryParams['lang']}/>
+      }
 
       {if emulateHTTP
         <input name='_method' type='hidden' value={restMethod}/>}

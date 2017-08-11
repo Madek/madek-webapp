@@ -1,7 +1,7 @@
 React = require('react')
 ReactDOM = require('react-dom')
 f = require('active-lodash')
-t = require('../../../lib/string-translation.js')('de')
+t = require('../../../lib/i18n-translate.js')
 MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
 TabContent = require('../TabContent.cjsx')
 

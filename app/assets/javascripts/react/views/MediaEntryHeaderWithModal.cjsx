@@ -2,7 +2,8 @@ React = require('react')
 ReactDOM = require('react-dom')
 f = require('lodash')
 parseUrl = require('url').parse
-t = require('../../lib/string-translation.js')('de')
+buildUrl = require('url').format
+t = require('../../lib/i18n-translate.js')
 
 RightsManagement = require('../templates/ResourcePermissions.cjsx')
 CollectionRelations = require('./Collection/Relations.cjsx')
@@ -59,8 +60,13 @@ module.exports = React.createClass
           extractGet = (json) =>
             json.collection_selection
 
-          getUrl = get.header.url + '/select_collection?___sparse={collection_selection":{}}'
-          <AsyncModal get={get.collection_selection} getUrl={getUrl}
+          getUrl = () =>
+            parsedUrl = parseUrl(get.header.select_collection_url, true)
+            delete parsedUrl.search
+            parsedUrl.query['___sparse'] = '{collection_selection:{}}'
+            buildUrl(parsedUrl)
+
+          <AsyncModal get={get.collection_selection} getUrl={getUrl()}
               contentForGet={contentForGet} extractGet={extractGet} />
       }
 
@@ -79,7 +85,7 @@ module.exports = React.createClass
           extractGet = (json) =>
             json
 
-          getUrl = get.header.url + '/share'
+          getUrl = get.header.share_url
           <AsyncModal get={null} getUrl={getUrl} widthInPixel={800}
               contentForGet={contentForGet} extractGet={extractGet} />
 

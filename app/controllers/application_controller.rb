@@ -43,6 +43,14 @@ class ApplicationController < ActionController::Base
   end
 
   before_action do
+    # presenters need to know about set default_url_options from controller
+    Presenter.class_variable_set(:@@_default_url_options, default_url_options)
+    Presenter.instance_eval do
+      def default_url_options(options = {})
+        options.merge(class_variable_get(:@@_default_url_options))
+      end
+    end
+
     # TMP: data for application layout.
     #      it's already a presenter, but we can't `include` it everyhwere yet
     @app_layout_data = Presenters::AppView::LayoutData.new(user: current_user)

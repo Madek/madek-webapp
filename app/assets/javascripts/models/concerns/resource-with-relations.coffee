@@ -3,7 +3,6 @@
 f = require('active-lodash')
 parseUrl = require('url').parse
 buildUrl = require('url').format
-buildParams = require('qs').stringify
 
 module.exports =
   props:
@@ -30,8 +29,14 @@ module.exports =
 
     sparseSpec = JSON.stringify(f.set({}, jsonPath, {}))
 
-    relationsUrl = buildUrl(f.merge(parseUrl( @url + '/' + subPath),
-      {search: buildParams(list: { page: 1, per_page: 2 }, ___sparse: sparseSpec)}))
+    parsedUrl = parseUrl(@url, true)
+    delete parsedUrl.search
+    parsedUrl.pathname += '/' + subPath
+    parsedUrl.query['list[page]'] = 1
+    parsedUrl.query['list[per_page]'] = 2
+    parsedUrl.query['___sparse'] = sparseSpec
+
+    relationsUrl = buildUrl(parsedUrl)
 
     @_runRequest {
       url: relationsUrl

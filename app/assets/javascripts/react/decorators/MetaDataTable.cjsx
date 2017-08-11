@@ -1,6 +1,6 @@
 React = require('react')
 f = require('active-lodash')
-t = require('../../lib/string-translation')('de')
+t = require('../../lib/i18n-translate.js')
 MetaDatumValues = require('./MetaDatumValues.cjsx')
 
 module.exports = React.createClass

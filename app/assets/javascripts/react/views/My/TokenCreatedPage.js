@@ -1,11 +1,9 @@
 import React from 'react'
 import f from 'lodash'
-import Moment from 'moment'
 import { TokenRow } from './Tokens'
 import ui from '../../lib/ui.coffee'
 import UI from '../../ui-components/index.coffee'
-const t = ui.t('de')
-Moment.locale('de')
+const t = ui.t
 
 class TokenCreatedPage extends React.Component {
   render (props = this.props) {

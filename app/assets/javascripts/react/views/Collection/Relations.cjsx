@@ -1,8 +1,10 @@
 React = require('react')
 f = require('active-lodash')
 classnames = require('classnames')
-t = require('../../../lib/string-translation.js')('de')
+t = require('../../../lib/i18n-translate.js')
 ResourceThumbnail = require('../../decorators/ResourceThumbnail.cjsx')
+parseUrl = require('url').parse
+buildUrl = require('url').format
 
 
 module.exports = React.createClass
@@ -36,7 +38,7 @@ module.exports = React.createClass
               <span className="ui-counter">{'(' + parentCount + ')'}</span>
               {
                 if parentCount > 0
-                  <a className="strong" href={get.url + '/relations/parents'}>
+                  <a className="strong" href={get.relations_parents_url}>
                     {t('collection_relations_show_all')}
                   </a>
               }
@@ -96,7 +98,7 @@ module.exports = React.createClass
                 <span className="ui-counter">{'(' + siblingCount + ')'}</span>
                 {
                   if siblingCount > 0
-                    <a className="strong" href={get.url + '/relations/siblings'}>
+                    <a className="strong" href={get.relations_siblings_url}>
                       {t('collection_relations_show_all')}
                     </a>
                 }
@@ -126,6 +128,10 @@ module.exports = React.createClass
       {
         if get.type == 'Collection'
           childCount = get.relations.child_collections.pagination.total_count
+          childUrl = parseUrl(get.url, true)
+          delete childUrl.search
+          childUrl.query['type'] = 'collections'
+          childUrl = buildUrl(childUrl)
 
           <div className="ui-container midtone-darker relationships-wrapper bordered-top">
             <div className="ui-resources-holder" id="set-relations-children">
@@ -135,7 +141,7 @@ module.exports = React.createClass
                   <span className="ui-counter">{'(' + childCount + ')'}</span>
                 {
                   if childCount > 0
-                    <a className="strong" href={get.url + '?type=collections'}>
+                    <a className="strong" href={childUrl}>
                       {t('collection_relations_show_all')}
                     </a>
                 }

@@ -60,7 +60,25 @@ module Presenters
           end
 
           def url
-            prepend_url_context media_entry_path(@app_resource)
+            prepend_url_context media_entry_path(@app_resource.id)
+          end
+
+          def browse_url
+            prepend_url_context browse_media_entry_path(@app_resource)
+          end
+
+          def edit_meta_data_by_context_url
+            prepend_url_context(
+              edit_meta_data_by_context_media_entry_path(@app_resource)
+            )
+          end
+
+          def favor_url
+            prepend_url_context favor_media_entry_path(@app_resource)
+          end
+
+          def disfavor_url
+            prepend_url_context disfavor_media_entry_path(@app_resource)
           end
 
           def media_file

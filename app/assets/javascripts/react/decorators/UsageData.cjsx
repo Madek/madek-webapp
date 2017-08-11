@@ -2,7 +2,7 @@ React = require('react')
 ReactDOM = require('react-dom')
 f = require('lodash')
 parseUrl = require('url').parse
-t = require('../../lib/string-translation.js')('de')
+t = require('../../lib/i18n-translate.js')
 
 TagCloud = require('../ui-components/TagCloud.cjsx')
 Icon = require('../ui-components/Icon.cjsx')

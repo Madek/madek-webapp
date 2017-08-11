@@ -1,7 +1,7 @@
 React = require('react')
 f = require('active-lodash')
 ui = require('../../lib/ui.coffee')
-t = ui.t('de')
+t = ui.t
 decorateResource = require('../decorate-resource-names.coffee')
 Tabs = require('react-bootstrap/lib/Tabs')
 Tab = require('react-bootstrap/lib/Tab')

@@ -11,7 +11,7 @@ import React, { Component, PropTypes } from 'react'
 import compact from 'lodash/compact'
 import isString from 'lodash/isString'
 import ui from '../ui.coffee'
-const t = ui.t('de')
+const t = ui.t
 
 import DatePicker, { parseDate } from '../../ui-components/DatePicker'
 

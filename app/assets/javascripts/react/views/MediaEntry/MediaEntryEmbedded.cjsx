@@ -1,7 +1,7 @@
 React = require('react')
 f = require('active-lodash')
 cx = require('classnames')
-t = require('../../../lib/string-translation')('de')
+t = require('../../../lib/i18n-translate.js')
 
 MediaPlayer = require('../../ui-components/MediaPlayer.cjsx')
 MediaEntryPreview = require('../../decorators/MediaEntryPreview.cjsx')

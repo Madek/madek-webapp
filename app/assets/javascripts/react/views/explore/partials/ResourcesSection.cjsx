@@ -4,6 +4,7 @@ Keyword = require('../../../ui-components/Keyword.cjsx')
 CatalogResource = require('./CatalogResource.cjsx')
 WorthThumbnail = require('./WorthThumbnail.cjsx')
 ResourceThumbnail = require('../../../decorators/ResourceThumbnail.cjsx')
+t = require('../../../../lib/i18n-translate')
 
 module.exports = React.createClass
   displayName: 'ResourcesSection'
@@ -20,7 +21,7 @@ module.exports = React.createClass
                     if section.show_all_text
                       section.show_all_text
                     else
-                      'Alle anzeigen'
+                      t('resources_section_show_all')
                   }
                 </a>
               }

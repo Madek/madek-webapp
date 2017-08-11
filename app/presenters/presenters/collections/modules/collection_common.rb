@@ -35,7 +35,7 @@ module Presenters
 
         included do
           def url
-            prepend_url_context collection_path @app_resource
+            prepend_url_context collection_path @app_resource.id
           end
 
           # FIXME: remove this, only use images set from `cover` (see Col.Index)
@@ -47,6 +47,20 @@ module Presenters
             else
               CollectionThumbUrl.new(@app_resource, @user).get(size: :medium)
             end
+          end
+
+          def edit_meta_data_by_context_url
+            prepend_url_context(
+              edit_meta_data_by_context_collection_path(@app_resource)
+            )
+          end
+
+          def favor_url
+            prepend_url_context favor_collection_path(@app_resource)
+          end
+
+          def disfavor_url
+            prepend_url_context disfavor_collection_path(@app_resource)
           end
         end
       end

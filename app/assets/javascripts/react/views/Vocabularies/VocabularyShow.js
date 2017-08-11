@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import chunk from 'lodash/chunk'
 import sortBy from 'lodash/sortBy'
 import isEmpty from 'lodash/isEmpty'
+import t from '../../../lib/i18n-translate'
 
 import MadekPropTypes from '../../lib/madek-prop-types.coffee'
 import Icon from '../../ui-components/Icon.cjsx'
@@ -68,7 +69,7 @@ const VocabulariesShow = React.createClass({
             <VocabTitleLink text={label} href={url} />
 
             <p className='mtm'>
-              {description || '(Keine Beschreibung)'}
+              {description || t('vocabularies_no_description')}
             </p>
 
             <h3

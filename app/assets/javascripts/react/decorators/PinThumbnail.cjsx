@@ -2,7 +2,7 @@ React = require('react')
 async = require('async')
 f = require('active-lodash')
 c = require('classnames')
-t = require('../../lib/string-translation')('de')
+t = require('../../lib/i18n-translate.js')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 Models = require('../../models/index.coffee')
 Picture = require('../ui-components/Picture.cjsx')
@@ -17,7 +17,7 @@ module.exports = React.createClass
   displayName: 'PinThumbnail'
 
   render: ({resourceType, imageUrl, mediaType, title, subtitle, mediaUrl,
-    selectProps, favoriteProps, editable, destroyable, deleteProps, statusProps} = @props) ->
+    selectProps, favoriteProps, editable, editUrl, destroyable, deleteProps, statusProps} = @props) ->
 
     isCollection = resourceType == 'Collection'
 
@@ -33,22 +33,23 @@ module.exports = React.createClass
     if favoriteProps && favoriteProps.favoritePolicy
       favorButton =
         <FavoriteButton modelFavored={favoriteProps.modelFavored}
-            modelUrl={favoriteProps.modelUrl} favorOnClick={favoriteProps.favorOnClick}
-            pendingFavorite={favoriteProps.pendingFavorite} stateIsClient={favoriteProps.stateIsClient}
-            authToken={favoriteProps.authToken} buttonClass='ui-tile__action-link'/>
+            favorUrl={favoriteProps.favorUrl} disfavorUrl={favoriteProps.disfavorUrl}
+            favorOnClick={favoriteProps.favorOnClick} pendingFavorite={favoriteProps.pendingFavorite}
+            stateIsClient={favoriteProps.stateIsClient} authToken={favoriteProps.authToken}
+            buttonClass='ui-tile__action-link'/>
       actionsLeft.push(favorButton)
 
     if selectProps and selectProps.onSelect
       selectAction =
         <a onClick={selectProps.onSelect} className='ui-tile__action-link'
-          title={if selectProps.isSelected then 'Auswahl entfernen' else 'auswählen'}>
+          title={if selectProps.isSelected then t('resources_box_selection_remove_selection') else t('resources_box_selection_select')}>
           <i className={c('icon-checkbox', 'active': selectProps.isSelected)}></i>
         </a>
       actionsLeft.push(selectAction)
 
     if editable
       actionsRight.push(
-        <Button className='ui-tile__action-link' href={mediaUrl + '/meta_data/edit/by_context'}>
+        <Button className='ui-tile__action-link' href={editUrl}>
           <i className='icon-pen'></i>
         </Button>
       )

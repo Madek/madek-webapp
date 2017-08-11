@@ -18,6 +18,11 @@ module Presenters
       end
 
       attr_reader :confirmation
+
+      def custom_urls_url
+        send "custom_urls_#{@app_resource.model_name.singular}_path",
+             @app_resource
+      end
     end
   end
 end

@@ -8,7 +8,7 @@ global.ReactDOM = require('react-dom')
 global.App =
   UI: require('./react/index.coffee')
   Models: require('./models/index.coffee')
-  t: require('./lib/string-translation.js')('en')
+  t: require('./lib/i18n-translate.js')
 
 global.UI = App.UI
 global.Models = App.Models

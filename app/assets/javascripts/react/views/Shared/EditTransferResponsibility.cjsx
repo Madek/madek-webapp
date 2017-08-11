@@ -1,7 +1,7 @@
 React = require('react')
 ReactDOM = require('react-dom')
 f = require('active-lodash')
-t = require('../../../lib/string-translation.js')('de')
+t = require('../../../lib/i18n-translate.js')
 classnames = require('classnames')
 xhr = require('xhr')
 getRailsCSRFToken = require('../../../lib/rails-csrf-token.coffee')
@@ -40,9 +40,9 @@ module.exports = React.createClass
       else
         if !@props.batch
           if !result.data.viewable
-            location.href = '/my'
+            location.href = @props.singleResourceFallbackUrl
           else
-            location.href = @props.singleResourceUrl + '/permissions'
+            location.href = @props.singleResourcePermissionsUrl
         else
           location.reload()
     )
@@ -68,21 +68,15 @@ module.exports = React.createClass
       {display: 'none'}
 
 
-  render: ({authToken, batch, resourceType, singleResourceUrl, batchResourceIds} = @props) ->
+  render: ({authToken, batch, resourceType, singleResourceUrl, singleResourceActionUrl, batchResourceIds, batchActionUrls} = @props) ->
 
     actionUrl =
       if not batch
-        singleResourceUrl + '/transfer_responsibility'
+        singleResourceActionUrl
       else
-        path_base_map = {
-          MediaEntry: 'entries'
-          Collection: 'sets'
-        }
-        path_base = path_base_map[resourceType]
-        throw new Error('Path not available for batch type: ' + resourceType) if not path_base
-        path_action = 'batch_update_transfer_responsibility'
-        '/' + path_base + '/' + path_action
-
+        batchActionUrl = batchActionUrls[resourceType]
+        throw new Error('Action url not available for batch type: ' + resourceType) if not batchActionUrl
+        batchActionUrl
 
     <div className='bright ui-container pal rounded'>
 

@@ -8,6 +8,10 @@ module Presenters
       end
 
       define_permissions_api MediaEntry
+
+      def update_transfer_responsibility_url
+        update_transfer_responsibility_media_entry_path(@app_resource)
+      end
     end
   end
 end

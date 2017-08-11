@@ -3,7 +3,7 @@
 React = require('react')
 f = require('active-lodash')
 ui = require('../../lib/ui.coffee')
-t = ui.t('de')
+t = ui.t
 Icon = require('../../ui-components/Icon.cjsx')
 Dropdown = require('../../ui-components/Dropdown.cjsx')
 MenuItem = Dropdown.MenuItem
@@ -73,7 +73,7 @@ module.exports = React.createClass
 
       <Dropdown.Menu className='ui-drop-menu'>
 
-        <MenuItem href='/my/upload' className='strong ui-drop-item'>
+        <MenuItem href={props.import_url} className='strong ui-drop-item'>
           <Icon i='upload' mods='ui-drop-icon'/>
           {' ' + t('user_menu_upload')}
         </MenuItem>

@@ -1,7 +1,7 @@
 React = require('react')
 ReactDOM = require('react-dom')
 f = require('lodash')
-t = require('../../lib/string-translation.js')('de')
+t = require('../../lib/i18n-translate.js')
 RailsForm = require('../lib/forms/rails-form.cjsx')
 classnames = require('classnames')
 AutoComplete = null
@@ -70,14 +70,14 @@ module.exports = React.createClass
     loadXhr(
       {
         method: 'DELETE'
-        url: '/my/groups/' + @props.get.uuid
+        url: @props.get.url
         body: {
           authToken: @props.authToken
         }
       },
       (result, data) =>
         if result == 'success'
-          window.location = '/my/groups'
+          window.location = @props.get.success_url
         else
           @state.data.failure = data.headers[0]
           @setState(loading: false)
@@ -201,7 +201,7 @@ module.exports = React.createClass
         }
 
         <div className="ui-actions phl pbl mtl">
-          <a href='/my/groups' className="link weak">{t('group_edit_cancel')}</a>
+          <a href={get.cancel_url} className="link weak">{t('group_edit_cancel')}</a>
           <button type='submit' className="primary-button large">{t('group_edit_save')}</button>
         </div>
 

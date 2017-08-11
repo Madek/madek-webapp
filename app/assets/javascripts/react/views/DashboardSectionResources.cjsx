@@ -2,12 +2,13 @@ React = require('react')
 ReactDOM = require('react-dom')
 f = require('active-lodash')
 cx = require('classnames')
-libUrl = require('url')
+parseUrl = require('url').parse
+buildUrl = require('url').format
 qs = require('qs')
 PageContent = require('./PageContent.cjsx')
 PageContentHeader = require('./PageContentHeader.cjsx')
 DashboardHeader = require('./DashboardHeader.cjsx')
-t = require('../../lib/string-translation.js')('de')
+t = require('../../lib/i18n-translate.js')
 AsyncDashboardSection = require('../lib/AsyncDashboardSection.cjsx')
 Sidebar = require('./Sidebar.cjsx')
 TagCloud = require('../ui-components/TagCloud.cjsx')
@@ -24,7 +25,7 @@ module.exports = React.createClass
   _callback: (result) ->
     @setState(result: result)
 
-  render: ({section} = @props) ->
+  render: ({section, url} = @props) ->
 
     is_clipboard = section.id == 'clipboard'
     is_unpublished_entries = section.id == 'unpublished_entries'
@@ -46,6 +47,10 @@ module.exports = React.createClass
       }
     }
 
+    parsedUrl = parseUrl(url, true)
+    delete parsedUrl.search
+    parsedUrl.query['___sparse'] = '{"user_dashboard":{"' + section.id + '":{}}}'
+
     <div id={section.id}>
 
       <div className='ui-resources-header'>
@@ -66,7 +71,7 @@ module.exports = React.createClass
           else if @state.result == 'empty'
             <span style={{marginLeft: '10px'}}>{t('dashboard_none_exist')}</span>
           else
-            <a className='strong' href={'/my/' + section.id}>
+            <a className='strong' href={section.href}>
               {t('dashboard_show_all')}
             </a>
         }
@@ -75,9 +80,9 @@ module.exports = React.createClass
 
       <AsyncDashboardSection
         component={ui_component}
-        url={'/my?___sparse={"user_dashboard":{"' + section.id + '":{}}}'}
+        url={buildUrl(parsedUrl)}
         json_path={'user_dashboard.' + section.id}
-        fallback_url={'/my/' + section.id}
+        fallback_url={section.href}
         initial_props={initial_props}
         callback={@_callback}
         renderEmpty={@state.result == null}

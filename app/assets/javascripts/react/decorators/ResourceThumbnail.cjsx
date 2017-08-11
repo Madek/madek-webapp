@@ -3,7 +3,7 @@ async = require('async')
 f = require('active-lodash')
 cx = require('classnames')
 ampersandReactMixin = require('ampersand-react-mixin')
-t = require('../../lib/string-translation')('de')
+t = require('../../lib/i18n-translate.js')
 Models = require('../../models/index.coffee')
 { Link, Icon, Thumbnail, Button, Preloader, AskModal
 } = require('../ui-components/index.coffee')
@@ -73,7 +73,9 @@ module.exports = React.createClass
 
   _favorOnClick: () ->
     @setState(pendingFavorite: true)
-    action = if @state.model.favored then 'disfavor' else 'favor'
+    action = {}
+    action.name = if @state.model.favored then 'disfavor' else 'favor'
+    action.url = @state.model[action.name + '_url']
     @state.model.setFavoredStatus action, (err, res)=>
       @setState(pendingFavorite: false) if @isMounted()
 
@@ -97,7 +99,7 @@ module.exports = React.createClass
 
       if parentRelations
         parentsCount = parentRelations.pagination.total_count
-        parentsCountText = parentsCount + ' Sets'
+        parentsCountText = parentsCount + ' ' + t('resource_thumbnail_sets')
 
         if parentsCount > 0
           parentThumbs = f.get(parentRelations, 'resources').map (item) ->
@@ -112,7 +114,7 @@ module.exports = React.createClass
 
       if childRelations
         childrenCount = childRelations.pagination.total_count
-        childrenCountText = childrenCount + ' Inhalte'
+        childrenCountText = childrenCount + ' ' + t('resource_thumbnail_contents')
 
         if childrenCount > 0
           childThumbs = f.get(childRelations, 'resources').map (item) ->
@@ -144,7 +146,8 @@ module.exports = React.createClass
       pendingFavorite: @state.pendingFavorite
       favorOnClick: @_favorOnClick
       modelFavored: model.favored
-      modelUrl: model.url
+      favorUrl: get.favor_url
+      disfavorUrl: get.disfavor_url
       stateIsClient: state.isClient
       authToken: authToken
       favoritePolicy: get.favorite_policy
@@ -190,6 +193,7 @@ module.exports = React.createClass
         selectProps={selectProps}
         favoriteProps={favoriteProps}
         editable={get.editable}
+        editUrl={get.edit_meta_data_by_context_url}
         destroyable={get.destroyable}
         deleteProps={deleteProps}
         statusProps={statusProps}

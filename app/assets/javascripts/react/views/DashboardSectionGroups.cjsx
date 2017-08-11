@@ -7,7 +7,7 @@ qs = require('qs')
 PageContent = require('./PageContent.cjsx')
 PageContentHeader = require('./PageContentHeader.cjsx')
 DashboardHeader = require('./DashboardHeader.cjsx')
-t = require('../../lib/string-translation.js')('de')
+t = require('../../lib/i18n-translate.js')
 Sidebar = require('./Sidebar.cjsx')
 TagCloud = require('../ui-components/TagCloud.cjsx')
 
@@ -37,7 +37,7 @@ module.exports = React.createClass
           {section.title}
         </h2>
 
-        <a className='strong' href={'/my/' + section.id}>
+        <a className='strong' href={section.href}>
           {t('dashboard_show_all')}
         </a>
 

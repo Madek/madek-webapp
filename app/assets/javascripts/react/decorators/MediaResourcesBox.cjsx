@@ -4,7 +4,7 @@ fromPairs = require('lodash/fromPairs')
 ampersandReactMixin = require('ampersand-react-mixin')
 ui = require('../lib/ui.coffee')
 {parseMods, cx} = ui
-t = ui.t('de')
+t = ui.t
 setUrlParams = require('../../lib/set-params-for-url.coffee')
 parseUrl = require('url').parse
 stringifyUrl = require('url').format
@@ -160,14 +160,14 @@ module.exports = React.createClass
 
   _allowedLayoutModes: () ->
     [
-      {mode: 'tiles', title: 'Kachel-Ansicht', icon: 'vis-pins'}
-      {mode: 'grid', title: 'Raster-Ansicht', icon: 'vis-grid'}
+      {mode: 'tiles', title: t('layout_mode_tiles'), icon: 'vis-pins'}
+      {mode: 'grid', title: t('layout_mode_grid'), icon: 'vis-grid'}
     ].concat(
       if not @props.disableListMode then [
-        {mode: 'list', title: 'Listen-Ansicht', icon: 'vis-list'}
+        {mode: 'list', title: t('layout_mode_list'), icon: 'vis-list'}
       ] else []
     ).concat(
-      {mode: 'miniature', title: 'Miniatur-Ansicht', icon: 'vis-miniature'}
+      {mode: 'miniature', title: t('layout_mode_miniature'), icon: 'vis-miniature'}
     )
 
   doOnUnmount: [] # to be filled with functions to be called on unmount
@@ -186,7 +186,7 @@ module.exports = React.createClass
         if !collectionClass.Paginated then throw new Error('Collection has no Pagination!')
 
         # HACK
-        if get.config.for_url.pathname == '/my/clipboard'
+        if get.config.for_url.pathname == get.clipboard_url
           (new collectionClass.PaginatedClipboard(get))
         else
           (new collectionClass.Paginated(get))
@@ -225,7 +225,6 @@ module.exports = React.createClass
     @setState(resources: resources)
 
   componentDidMount: ()->
-
     if @state.resources.fetchListData && @_mergeGet(@props, @state).config.layout == 'list'
       @state.resources.fetchListData()
 
@@ -391,14 +390,13 @@ module.exports = React.createClass
 
   _sharedOnBatchAll: (event, type) ->
     event.preventDefault()
-    id = @props.collectionData.uuid
-    path = '/sets/' + id + '/batch_edit_all'
+    path = @props.collectionData.batchEditUrl
     url = setUrlParams(path, {type: type, return_to: @_currentUrl()})
     window.location = url
 
   _persistListConfig: (config) ->
     req = appRequest(
-      { method: 'PATCH', url: '/session/list_config', json: config }
+      { method: 'PATCH', url: @_routeUrl('session_list_config'), json: config }
       , (err, res) -> if err then console.error(err))
     @doOnUnmount.push ()-> req.abort() if req && req.abort
 
@@ -406,13 +404,13 @@ module.exports = React.createClass
     @_sharedOnBatchAll(event, 'media_entry')
 
   _onBatchEdit: (resources, event) ->
-    @_sharedOnBatch(resources, event, '/entries/batch_edit_meta_data_by_context')
+    @_sharedOnBatch(resources, event, @_routeUrl('batch_edit_meta_data_by_context_media_entries'))
 
   _onBatchEditAllSets: (event) ->
     @_sharedOnBatchAll(event, 'collection')
 
   _onBatchEditSets: (resources, event) ->
-    @_sharedOnBatch(resources, event, '/sets/batch_edit_meta_data_by_context')
+    @_sharedOnBatch(resources, event, @_routeUrl('batch_edit_meta_data_by_context_collections'))
 
   _onBatchDeleteResources: (resources, event) ->
     event.preventDefault()
@@ -431,7 +429,7 @@ module.exports = React.createClass
   _onExecuteBatchDeleteResources: () ->
     @setState(batchDestroyResourcesWaiting: true)
     resourceIds = @state.batchDestroyResourceIdsWithTypes
-    url = setUrlParams('/batch_destroy_resources', {})
+    url = setUrlParams(@_routeUrl('batch_destroy_resources'), {})
     railsFormPut.byData({resource_id: resourceIds}, url, (result) =>
       if result.result == 'error'
         window.scrollTo(0, 0)
@@ -448,10 +446,10 @@ module.exports = React.createClass
 
 
   _onBatchPermissionsEdit: (resources, event) ->
-    @_sharedOnBatch(resources, event, '/entries/batch_edit_permissions')
+    @_sharedOnBatch(resources, event, @_routeUrl('batch_edit_permissions_media_entries'))
 
   _onBatchPermissionsSetsEdit: (resources, event) ->
-    @_sharedOnBatch(resources, event, '/sets/batch_edit_permissions')
+    @_sharedOnBatch(resources, event, @_routeUrl('batch_edit_permissions_collections'))
 
   _onBatchTransferResponsibilityEdit: (resources, event) ->
     @_showBatchTransferResponsibility(resources, event)
@@ -506,7 +504,7 @@ module.exports = React.createClass
   _createFilterSetFromConfig: (config)->
     if f.present(name = window.prompt('Name?'))
       xhr
-        method: 'POST', url: '/filter_sets'
+        method: 'POST', url: @_routeUrl('filter_sets')
         headers: 'X-CSRF-Token': getRailsCSRFToken()
         json: filter_set: f.merge(config, title: name)
         , (err, res)->
@@ -546,6 +544,8 @@ module.exports = React.createClass
       get.config && get.config.for_url && get.config.for_url.query.type == 'collections'
     )
 
+  _routeUrl: (name) ->
+    @props.get.route_urls[name]
 
   render: ()->
     {
@@ -613,7 +613,7 @@ module.exports = React.createClass
     resetFilterLink = if resetFilterHref
       if f.present(config.filter) or f.present(config.accordion)
         <Link mods='mlx weak' href={resetFilterHref}>
-          <Icon i='undo'/> {'Filter zurücksetzen'}</Link>
+          <Icon i='undo'/> {t('resources_box_reset_filter')}</Link>
 
     currentType = qs.parse(get.config.for_url.query).type
 
@@ -675,7 +675,7 @@ module.exports = React.createClass
         simpleXhr(
           {
             method: 'PATCH',
-            url: '/sets/' + @props.collectionData.uuid,
+            url: @props.collectionData.url,
             body: 'collection[layout]=' + layout + '\&collection[sorting]=' + order
           },
           (error) =>
@@ -762,8 +762,8 @@ module.exports = React.createClass
 
       selectToggle = if selection && withActions && !disableSelectToggle
         selector =
-          active: 'Alle abwählen',
-          inactive: 'Alle auswählen'
+          active: t('resources_box_deselect_all'),
+          inactive: t('resources_box_select_all'),
           isActive: selection && !(selection.empty())
           isDirty: selection && resources && !(selection.length() == resources.totalCount)
           onClick: (if selection then @_onSelectionAllToggle)
@@ -787,7 +787,7 @@ module.exports = React.createClass
       not_is_clipboard = true # !@props.initial || !@props.initial.is_clipboard
       filterBarProps =
         left: if get.can_filter && not_is_clipboard then do =>
-          name = 'Filtern'
+          name = t('resources_box_filter')
           <div>
             <Button data-test-id='filter-button' name={name} mods={'active': config.show_filter}
               href={filterToggleLink} onClick={@_onFilterToggle}>
@@ -857,10 +857,10 @@ module.exports = React.createClass
                     <div style={{marginTop: '2px'}}>
                       <input ref='searchTypeFulltext' type='radio' name='search_type'
                         value='fulltext' defaultChecked={(!has_filename_filter())} />
-                      {' Volltext '}
+                      {' ' + t('search_full_text') + ' '}
                       <input ref='searchTypeFilename' type='radio' name='search_type'
                         value='filename' defaultChecked={has_filename_filter()} />
-                      {' Filename'}
+                      {' ' + t('search_filename')}
                     </div>
                 }
               </form>
@@ -927,6 +927,11 @@ module.exports = React.createClass
 
           batch_type = @state.selectedResources.first().type
 
+          actionUrls = {
+            MediaEntry: @_routeUrl('batch_update_transfer_responsibility_media_entries')
+            Collection: @_routeUrl('batch_update_transfer_responsibility_collections')
+          }
+
           <Modal widthInPixel={800}>
             <EditTransferResponsibility
               authToken={@props.authToken}
@@ -934,6 +939,7 @@ module.exports = React.createClass
               resourceType={batch_type}
               singleResource={null}
               batchResourceIds={resource_ids}
+              batchActionUrls={actionUrls}
               responsibleUuid={responsible_uuid}
               responsible={responsible}
               onClose={@_hideBatchTransferResponsibility}
@@ -1109,13 +1115,15 @@ module.exports = React.createClass
       {
         if @state.batchAddToSet
           <BatchAddToSetModal resourceIds={@_selectedResourceIdsWithTypes()} authToken={@props.authToken}
-            get={null} onClose={@_onCloseModal} returnTo={currentUrl}/>
+            get={null} onClose={@_onCloseModal} returnTo={currentUrl}
+            addToSetUrl={@props.collectionData.addToSetUrl}/>
       }
       {
         if @state.batchRemoveFromSet
           <BatchRemoveFromSetModal collectionUuid={@props.collectionData.uuid}
             resourceIds={@_selectedResourceIdsWithTypes()} authToken={@props.authToken}
-            get={null} onClose={@_onCloseModal} returnTo={currentUrl}/>
+            get={null} onClose={@_onCloseModal} returnTo={currentUrl}
+            removeFromSetUrl={@props.collectionData.removeFromSetUrl}/>
       }
       {
         if @state.batchDestroyResourcesModal

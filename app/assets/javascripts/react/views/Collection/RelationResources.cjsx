@@ -1,6 +1,6 @@
 React = require('react')
 f = require('active-lodash')
-t = require('../../../lib/string-translation.js')('de')
+t = require('../../../lib/i18n-translate.js')
 MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
 TabContent = require('../TabContent.cjsx')
 ResourceThumbnail = require('../../decorators/ResourceThumbnail.cjsx')
@@ -31,7 +31,7 @@ module.exports = React.createClass
         <h2 className="ui-resources-header title-l separated mbm">
           {t(titles[scope])} <span className="ui-counter" style={{fontWeight: 'normal'}}>
             ({get.relation_resources.pagination.total_count})</span>
-          <a className="strong" href="../relations">
+          <a className="strong" href={get.relations_url}>
             {t('collection_relations_show_all_relations')}
           </a>
         </h2>

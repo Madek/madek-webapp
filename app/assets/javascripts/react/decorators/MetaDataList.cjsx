@@ -4,7 +4,7 @@ React = require('react')
 f = require('active-lodash')
 classList = require('classnames/dedupe')
 parseMods = require('../lib/ui.coffee').parseMods
-t = require('../../lib/string-translation')('de')
+t = require('../../lib/i18n-translate.js')
 
 MadekPropTypes = require('../lib/madek-prop-types.coffee')
 
@@ -21,7 +21,7 @@ MetaDataDefinitionList = require('./MetaDataDefinitionList.cjsx')
 module.exports = React.createClass
   displayName: 'Deco.MetaDataList'
   propTypes:
-    vocabUuid: React.PropTypes.string
+    vocabUrl: React.PropTypes.string
     list: MadekPropTypes.metaDataByAny
     tagMods: React.PropTypes.any # TODO: mods
     type: React.PropTypes.oneOf(['list', 'table'])
@@ -82,9 +82,9 @@ module.exports = React.createClass
 
       <div className={wrapperClass}>
         {if showTitle
-          if @props.vocabUuid
+          if @props.vocabUrl
             # TODO: vocabulary description, privacy_status
-            <VocabTitleLink text={title} href={'/vocabulary/' + @props.vocabUuid} separated={true} />
+            <VocabTitleLink text={title} href={@props.vocabUrl} separated={true} />
           else
             <h3 className='title-l separated mbm'>
               {title}

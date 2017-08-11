@@ -2,7 +2,7 @@ React = require('react')
 ReactDOM = require('react-dom')
 f = require('active-lodash')
 classnames = require('classnames')
-t = require('../../../lib/string-translation.js')('de')
+t = require('../../../lib/i18n-translate.js')
 MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
 TabContent = require('../TabContent.cjsx')
 LoadXhr = require('../../../lib/load-xhr.coffee')
@@ -33,7 +33,7 @@ module.exports = React.createClass
         get={get.child_media_resources} authToken={authToken}
         router={@router}
         initial={ { show_filter: true } } mods={ [ {bordered: false}, 'rounded-bottom' ] }
-        collectionData={{uuid: get.uuid, layout: get.layout, editable: get.editable, order: get.sorting}}
+        collectionData={{uuid: get.uuid, layout: get.layout, editable: get.editable, order: get.sorting, url: get.url, batchEditUrl: get.batch_edit_url, addToSetUrl: get.add_to_set_url, removeFromSetUrl: get.remove_from_set_url}}
         toolBarMiddle={switcher}
         enableOrdering={true} enableOrderByTitle={true}
         showAllButton={true}

@@ -1,7 +1,9 @@
 React = require('react')
 f = require('active-lodash')
-t = require('../../lib/string-translation.js')('de')
+t = require('../../lib/i18n-translate.js')
 setUrlParams = require('../../lib/set-params-for-url.coffee')
+parseUrl = require('url').parse
+formatUrl = require('url').format
 
 Button = require('../ui-components/Button.cjsx')
 Icon = require('../ui-components/Icon.cjsx')
@@ -18,13 +20,9 @@ Tab = require('../views/Tab.cjsx')
 
 batchDiff = require('../../lib/batch-diff.coffee')
 
-React = require('react')
 PropTypes = React.PropTypes
-f = require('active-lodash')
 xhr = require('xhr')
 cx = require('classnames')
-t = require('../../lib/string-translation.js')('de')
-setUrlParams = require('../../lib/set-params-for-url.coffee')
 RailsForm = require('../lib/forms/rails-form.cjsx')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 MadekPropTypes = require('../lib/madek-prop-types.coffee')
@@ -68,7 +66,7 @@ module.exports = React.createClass
 
     if @props.get.collection_id
 
-      path = '/sets/' + @props.get.collection_id + '/batch_update_all'
+      path = @props.get.batch_update_all_collection_url
 
       url = setUrlParams(
         path,
@@ -82,15 +80,15 @@ module.exports = React.createClass
       )
 
     else
-
-
-      url = @props.get.url + '/meta_data'
+      parsedUrl = parseUrl(@props.get.submit_url, true)
 
       if @props.batch
         actionType = 'save'
-        url = @props.get.submit_url
 
-      url = url + '?actionType=' + actionType
+      delete parsedUrl.search
+      parsedUrl.query['actionType'] = actionType
+
+      url = formatUrl(parsedUrl)
 
       # Note: Return to must be a hidden field to for the server-side case.
       # Url parameters are ignored in the <form action=... field.
@@ -363,7 +361,11 @@ module.exports = React.createClass
 
       {
         Renderer._renderTabs(@props.get.meta_meta_data, @props.batch, @props.get.batch_ids,
-          @props.get.return_to, @props.get.url, @_onTabClick, currentTab, get.collection_id, @props.get.resource_type)
+          @props.get.return_to, @props.get.url, @_onTabClick, currentTab, get.collection_id,
+          @props.get.resource_type, get.edit_by_context_urls, get.edit_by_context_fallback_url,
+          get.batch_edit_by_context_urls, get.batch_edit_by_context_fallback_url,
+          get.edit_by_vocabularies_url, get.batch_edit_by_vocabularies_url,
+          get.batch_edit_all_collection_url)
       }
       <TabContent>
 

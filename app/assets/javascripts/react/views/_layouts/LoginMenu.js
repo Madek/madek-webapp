@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import t from '../../../lib/i18n-translate'
+import t from '../../../lib/i18n-translate.js'
 import Tab from 'react-bootstrap/lib/Tab'
 import Nav from 'react-bootstrap/lib/Nav'
 import NavItem from 'react-bootstrap/lib/NavItem'

@@ -1,6 +1,6 @@
 React = require('react')
 ui = require('../../lib/ui.coffee')
-t = ui.t('de')
+t = ui.t
 libUrl = require('url')
 
 MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')

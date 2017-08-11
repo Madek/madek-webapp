@@ -1,5 +1,5 @@
 React = require('react')
-t = require('../../lib/string-translation')('de')
+t = require('../../lib/i18n-translate.js')
 
 module.exports = React.createClass
   displayName: 'BatchHintBox'

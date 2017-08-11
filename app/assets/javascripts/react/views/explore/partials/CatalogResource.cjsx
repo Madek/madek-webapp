@@ -1,6 +1,7 @@
 React = require('react')
 f = require('lodash')
 CatalogThumbnail = require('./CatalogThumbnail.cjsx')
+t = require('../../../../lib/i18n-translate.js')
 
 module.exports = React.createClass
   displayName: 'CatalogResource'
@@ -15,7 +16,7 @@ module.exports = React.createClass
             {resource.label}
           </h2>
           <a className='strong' href={resource.url}>
-            {'Weitere anzeigen'}
+            {t('explore_show_more')}
           </a>
         </div>
         {

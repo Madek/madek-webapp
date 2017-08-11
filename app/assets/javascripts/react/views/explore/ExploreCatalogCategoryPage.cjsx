@@ -1,6 +1,6 @@
 React = require('react')
 ReactDOM = require('react-dom')
-t = require('../../../lib/string-translation')('de')
+t = require('../../../lib/i18n-translate.js')
 f = require('lodash')
 classnames = require('classnames')
 CatalogThumbnailShifted = require('./partials/CatalogThumbnailShifted.cjsx')
@@ -118,7 +118,6 @@ module.exports = React.createClass
 
   render: ({get, authToken} = @props) ->
     <div>
-
       <div className="app-body-ui-container pts context-home">
 
 
@@ -148,7 +147,7 @@ module.exports = React.createClass
                       {keyword.label}
                       <a className='strong' href={keyword.url}>
                         {
-                          'Weitere anzeigen'
+                          t('explore_show_more')
                         }
                       </a>
                     </h2>
@@ -179,8 +178,8 @@ MediaResourcesLine = ({keyword, asyncData} = props) ->
       <div className='ui-featured-entries small active'>
         <ul className='ui-featured-entries-list'>
           {
-            f.map(resources, ({uuid, url, image_url}) ->
-              <li  key={keyword.uuid + '_' + uuid} className='ui-featured-entries-item'>
+            f.map(resources, ({uuid, url, browse_url, image_url}) ->
+              <li key={keyword.uuid + '_' + uuid} className='ui-featured-entries-item'>
                 <a
                   className='ui-featured-entry'
                   href={url}
@@ -191,7 +190,7 @@ MediaResourcesLine = ({keyword, asyncData} = props) ->
                   <li className='ui-featured-entry-action'>
                     <a
                       className='block'
-                      href={url + '/browse'}
+                      href={browse_url}
                       title={t('browse_entries_browse_link_title')}
                     >
                       <UI.Icon i='eye' />

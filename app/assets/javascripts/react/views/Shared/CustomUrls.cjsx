@@ -1,7 +1,8 @@
 React = require('react')
 f = require('active-lodash')
-t = require('../../../lib/string-translation.js')('de')
+t = require('../../../lib/i18n-translate.js')
 Moment = require('moment')
+currentLocale = require('../../../lib/current-locale.js')
 
 PageHeader = require('../../ui-components/PageHeader.js')
 HeaderPrimaryButton = require('../HeaderPrimaryButton.cjsx')
@@ -13,8 +14,7 @@ module.exports = React.createClass
   displayName: 'Shared.CustomUrls'
 
 
-  _renderCustomUrlRow: (address_name, created_at_timestamp, creator_name, creator_login, is_primary, action_url, resource_type, auth_token) ->
-
+  _renderCustomUrlRow: (uuid, created_at_timestamp, creator_name, creator_login, is_primary, action_url, resource_type, auth_token, url) ->
     created_at = Moment(created_at_timestamp).calendar()
     creator = creator_name + ' [' + creator_login + ']'
     type = if is_primary then t('edit_custom_urls_state_primary') else t('edit_custom_urls_state_transfer')
@@ -26,15 +26,8 @@ module.exports = React.createClass
           <button className='button' type='submit'>{t('edit_custom_urls_set_primary')}</button>
         </RailsForm>
 
-    type_to_path = {
-      'Collection': 'sets'
-      'MediaEntry': 'entries'
-    }
-
-    link = '/' + type_to_path[resource_type] + '/' + address_name
-
-    <tr key={address_name}>
-      <td><a href={link}>{address_name}</a></td>
+    <tr key={uuid}>
+      <td><a href={url}>{uuid}</a></td>
       <td>{created_at}</td>
       <td>{creator}</td>
       <td>{type}</td>
@@ -49,9 +42,10 @@ module.exports = React.createClass
       custom_url.creator.name,
       custom_url.creator.login,
       custom_url['primary?'],
-      @props.get.resource.url + '/set_primary_custom_url/' + custom_url.uuid,
+      custom_url.set_primary_custom_url,
       @props.get.resource.type,
-      @props.authToken
+      @props.authToken,
+      custom_url.url
     )
 
   _renderUuidRow: (resource, creator, any_primary_address) ->
@@ -61,9 +55,10 @@ module.exports = React.createClass
       creator.name,
       creator.login,
       not any_primary_address,
-      resource.url + '/set_primary_custom_url/' + resource.uuid,
+      resource.set_primary_custom_url,
       resource.type,
-      @props.authToken
+      @props.authToken,
+      resource.url
     )
 
   _anyPrimaryAddress: (custom_urls) ->
@@ -71,6 +66,7 @@ module.exports = React.createClass
 
 
   render: ({get, title} = @props) ->
+    Moment.locale(currentLocale())
 
     resource = get.resource
 
@@ -78,7 +74,7 @@ module.exports = React.createClass
 
     headerButton = <HeaderPrimaryButton key={'new_custom_url'}
       icon={null} text={t('custom_urls_new')}
-      href={resource.url + '/custom_urls/edit'} />
+      href={get.edit_url} />
 
     backText = t('edit_custom_urls_back_to_' + f.kebabCase(@props.get.type).replace('-', '_'))
 

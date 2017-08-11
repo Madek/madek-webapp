@@ -34,9 +34,11 @@ module Presenters
           }
         end
 
+        user_index = Presenters::Users::UserIndex.new(@user)
+
         {
-          user_name: Presenters::Users::UserIndex.new(@user).name,
-          import_url: new_media_entry_path,
+          user_name: user_index.name,
+          import_url: user_index.import_url,
           my: {
             drafts_url: my_dashboard_section_path(:unpublished_entries),
             clipboard_url: my_dashboard_section_path(:clipboard),

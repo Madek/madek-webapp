@@ -2,8 +2,8 @@ import React from 'react'
 import f from 'lodash'
 import ui from '../../lib/ui.coffee'
 import Moment from 'moment'
-const t = ui.t('de')
-Moment.locale('de')
+import currentLocale from '../../../lib/current-locale'
+const t = ui.t
 
 const UI = require('../../ui-components/index.coffee')
 const RailsForm = require('../../lib/forms/rails-form.cjsx')
@@ -104,6 +104,7 @@ const TokensList = ({ tokens, authToken }) => {
 }
 
 export const TokenRow = ({ authToken, ...token }) => {
+  Moment.locale(currentLocale())
   const { uuid, label, description, revoked, scopes } = token
   let creationDate, creationDateTitle, expirationDate, expirationDateTitle
   if (token.created_at) {

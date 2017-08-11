@@ -3,7 +3,7 @@ async = require('async')
 f = require('active-lodash')
 cx = require('classnames')
 ampersandReactMixin = require('ampersand-react-mixin')
-t = require('../../lib/string-translation')('de')
+t = require('../../lib/i18n-translate.js')
 Models = require('../../models/index.coffee')
 { Link, Icon, Thumbnail, Button, Preloader, AskModal
 } = require('../ui-components/index.coffee')
@@ -24,7 +24,6 @@ module.exports = React.createClass
       statusProps,
       selectProps,
       textProps} = @props) ->
-
 
     if statusProps
       statusIcon = <StatusIcon privacyStatus={statusProps.privacyStatus}
@@ -53,9 +52,10 @@ module.exports = React.createClass
     # hover - action - fav
     if favoriteProps && favoriteProps.favoritePolicy
       favorButton = <FavoriteButton modelFavored={favoriteProps.modelFavored}
-        modelUrl={favoriteProps.modelUrl} favorOnClick={favoriteProps.favorOnClick}
-        pendingFavorite={favoriteProps.pendingFavorite} stateIsClient={favoriteProps.stateIsClient}
-        authToken={favoriteProps.authToken} buttonClass='ui-thumbnail-action-favorite' />
+        favorUrl={favoriteProps.favorUrl} disfavorUrl={favoriteProps.disfavorUrl}
+        favorOnClick={favoriteProps.favorOnClick} pendingFavorite={favoriteProps.pendingFavorite}
+        stateIsClient={favoriteProps.stateIsClient} authToken={favoriteProps.authToken}
+        buttonClass='ui-thumbnail-action-favorite' />
       actionsLeft.push(
         <li key='favorite' className='ui-thumbnail-action'>{favorButton}</li>)
 
@@ -63,7 +63,7 @@ module.exports = React.createClass
     if get.editable
       actionsRight.push(
         <li key='edit' className='ui-thumbnail-action'>
-          <Button className='ui-thumbnail-action-favorite' href={get.url + '/meta_data/edit/by_context'}>
+          <Button className='ui-thumbnail-action-favorite' href={get.edit_meta_data_by_context_url}>
             <i className='icon-pen'></i>
           </Button>
         </li>
@@ -83,6 +83,7 @@ module.exports = React.createClass
     thumbProps =
       draft: statusProps.modelPublished == false
       onClipboard: statusProps.onClipboard
+      clipboardUrl: get.clipboard_url
       type: get.type
       mods: (['video'] if mediaType is 'video')
       src: get.image_url
@@ -111,6 +112,7 @@ module.exports = React.createClass
         caption: if relationsProps.child.ready then relationsProps.child.count + ' Inhalte' else ''
 
       disableLink: get.disableLink
+      editMetaDataByContextUrl: get.edit_meta_data_by_context_url
 
     classes = {'ui-resource': true, 'ui-selected': true if (selectProps and selectProps.isSelected)}
 

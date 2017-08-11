@@ -5,7 +5,7 @@
 React = require('react')
 f = require('active-lodash')
 ui = require('../../lib/ui.coffee')
-t = ui.t('de')
+t = ui.t
 
 BatchMediaEntryPermissions = require('../../../models/batch/batch-media-entry-permissions.coffee')
 BatchCollectionPermissions = require('../../../models/batch/batch-collection-permissions.coffee')

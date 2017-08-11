@@ -16,8 +16,11 @@ module.exports =
       parseUrl(window.location.toString()).query
     )
 
+    parsedUrl = parseUrl(@list_meta_data_url, true)
+    delete parsedUrl.search
+
     url = setUrlParams(
-      @url + '/list_meta_data',
+      buildUrl(parsedUrl),
       currentQuery
     )
 

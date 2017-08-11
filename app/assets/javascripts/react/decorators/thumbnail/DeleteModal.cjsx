@@ -2,7 +2,7 @@ React = require('react')
 f = require('active-lodash')
 classList = require('classnames/dedupe')
 parseMods = require('../../lib/ui.coffee').parseMods
-t = require('../../../lib/string-translation')('de')
+t = require('../../../lib/i18n-translate.js')
 Button = require('../../ui-components/Button.cjsx')
 AskModal = require('../../ui-components/AskModal.cjsx')
 

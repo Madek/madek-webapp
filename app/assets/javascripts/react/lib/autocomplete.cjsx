@@ -16,16 +16,13 @@ React = require('react')
 ReactDOM = require('react-dom')
 PropTypes = React.PropTypes
 f = require('active-lodash')
-libUi = require('../lib/ui.coffee')
-cx = libUi.classnames
-t = libUi.t('de')
 
 jQuery = require('jquery')
 require('@eins78/typeahead.js/dist/typeahead.jquery.js')
 
 ui = require('../lib/ui.coffee')
 cx = ui.cx
-t = ui.t('de')
+t = ui.t
 searchResources = require('../../lib/search.coffee')
 
 initTypeahead = (domNode, resourceType, params, conf, existingValues, valueFilter, onSelect, onAdd, positionRelative)->

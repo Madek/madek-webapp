@@ -3,7 +3,7 @@
 React = require('react')
 ampersandReactMixin = require('ampersand-react-mixin')
 f = require('active-lodash')
-t = require('../../../lib/string-translation')('de')
+t = require('../../../lib/i18n-translate.js')
 RailsForm = require('../../lib/forms/rails-form.cjsx')
 FormButton = require('../../ui-components/FormButton.cjsx')
 Modal = require('../../ui-components/Modal.cjsx')

@@ -1,6 +1,6 @@
 url = require('url')
 f = require('active-lodash')
-t = require('./string-translation.js')('de')
+t = require('./i18n-translate.js')
 History = require('history/lib/createBrowserHistory')
 useBeforeUnload = require('history/lib/useBeforeUnload')
 

@@ -1,6 +1,6 @@
 React = require('react')
 f = require('active-lodash')
-t = require('../../../lib/string-translation.js')('de')
+t = require('../../../lib/i18n-translate.js')
 cx = require('classnames')
 InputMetaDatum = require('../InputMetaDatum.cjsx')
 MetaKeyFormLabel = require('../../lib/forms/form-label.cjsx')
@@ -249,7 +249,7 @@ module.exports = {
         <div className='mbl' key={vocabulary.uuid}>
           <div className='ui-container pas'>
             <VocabTitleLink id={vocabulary.uuid} text={vocabulary.label}
-              separated={true} href={'/vocabulary/' + vocabulary.uuid} />
+              separated={true} href={vocabulary.url} />
           </div>
           {
             f.map(
@@ -334,7 +334,7 @@ module.exports = {
         <li className="ui-resource mrl">
           <div className={className}>
             <div className="ui-thumbnail-privacy">
-              <i className="icon-privacy-private" title="Diese Inhalte sind nur für Sie zugänglich"></i>
+              <i className="icon-privacy-private" title={t('contents_privacy_private')}></i>
             </div>
             <div className="ui-thumbnail-image-wrapper">
               {
@@ -380,7 +380,9 @@ module.exports = {
 
 
 
-  _renderTabs: (meta_meta_data, batch, batch_ids, return_to, url, onTabClick, currentTab, collection_id, resource_type) ->
+  _renderTabs: (meta_meta_data, batch, batch_ids, return_to, url, onTabClick, currentTab, collection_id, resource_type,
+                edit_by_context_urls, edit_by_context_fallback_url, batch_edit_by_context_urls, batch_edit_by_context_fallback_url,
+                edit_by_vocabularies_url, batch_edit_by_vocabularies_url, batch_edit_all_collection_url) ->
     <Tabs>
       {
         f.map meta_meta_data.meta_data_edit_context_ids, (context_id) ->
@@ -389,18 +391,20 @@ module.exports = {
             if batch
 
               if collection_id
-                setUrlParams('/sets/' + collection_id + '/batch_edit_all',
+                setUrlParams(batch_edit_all_collection_url,
                   type: resource_type,
                   context_id: context.uuid
                   by_vocabulary: false
                   return_to: return_to)
 
               else
-                setUrlParams('/entries/batch_edit_meta_data_by_context/' + context.uuid,
+                url = f.get(batch_edit_by_context_urls, context.uuid, batch_edit_by_context_fallback_url)
+                setUrlParams(url,
                   id: batch_ids,
                   return_to: return_to)
             else
-              setUrlParams(url + '/meta_data/edit/by_context/' + context.uuid,
+              url = f.get(edit_by_context_urls, context.uuid, edit_by_context_fallback_url)
+              setUrlParams(url,
                 return_to: return_to)
 
           if not f.isEmpty(meta_meta_data.context_key_ids_by_context_id[context_id])
@@ -425,18 +429,18 @@ module.exports = {
           if batch
 
             if collection_id
-                setUrlParams('/sets/' + collection_id + '/batch_edit_all',
+                setUrlParams(batch_edit_all_collection_url,
                   type: resource_type,
                   context_id: null
                   by_vocabulary: true
                   return_to: return_to)
 
             else
-              setUrlParams('/entries/batch_edit_meta_data_by_vocabularies',
+              setUrlParams(batch_edit_by_vocabularies_url,
                 id: batch_ids,
                 return_to: return_to)
           else
-            setUrlParams(url + '/meta_data/edit/by_vocabularies',
+            setUrlParams(edit_by_vocabularies_url,
               return_to: return_to)
 
         nextCurrentTab = {

@@ -18,6 +18,13 @@ module Presenters
         (@app_resource.keywords || []).map(&:to_s).join(', ')
       end
 
+      def list_meta_data_url
+        list_meta_data_media_entry_path(@app_resource)
+      end
+
+      def set_primary_custom_url
+        set_primary_custom_url_media_entry_path(@app_resource.id, @app_resource.id)
+      end
     end
   end
 end

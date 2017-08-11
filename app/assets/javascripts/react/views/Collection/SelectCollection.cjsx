@@ -1,7 +1,7 @@
 React = require('react')
 ampersandReactMixin = require('ampersand-react-mixin')
 f = require('active-lodash')
-t = require('../../../lib/string-translation')('de')
+t = require('../../../lib/i18n-translate.js')
 RailsForm = require('../../lib/forms/rails-form.cjsx')
 FormButton = require('../../ui-components/FormButton.cjsx')
 ToggableLink = require('../../ui-components/ToggableLink.cjsx')
@@ -159,7 +159,7 @@ module.exports = React.createClass
                       value='true' checked={true} />
                     <span className='title'>{row}</span>
                     <span className='owner'>{get.current_user.label}</span>
-                    <span className='created-at'>{'New'}</span>
+                    <span className='created-at'>{t('resource_select_collection_new')}</span>
                   </label>
                 </li>
           }

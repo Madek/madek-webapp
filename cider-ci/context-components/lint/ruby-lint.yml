@@ -14,7 +14,8 @@
             bundle exec cider-ci_flog -m app/ \
             -e app/controllers/oembed_controller.rb \
             -e app/lib/embed_helper.rb \
-            -e app/presenters/presenters/meta_data/meta_datum_edit.rb
+            -e app/presenters/presenters/meta_data/meta_datum_edit.rb \
+            -e app/controllers/concerns/my/dashboard_sections.rb
             # NOTE: ↑ DEPRECATE_LICENSES
             # oembed: disabled because its a mini-embedded-api (special case)
             # embed helper: because the math has to go somewhere

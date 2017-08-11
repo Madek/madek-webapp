@@ -1,7 +1,7 @@
 React = require('react')
 classList = require('classnames')
 f = require('active-lodash')
-t = require('../../lib/string-translation')('de')
+t = require('../../lib/i18n-translate.js')
 appRequest = require('../../lib/app-request.coffee')
 
 UI = require('../ui-components/index.coffee')

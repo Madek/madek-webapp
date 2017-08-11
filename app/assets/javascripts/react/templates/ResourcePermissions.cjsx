@@ -3,7 +3,7 @@
 
 React = require('react')
 f = require('active-lodash')
-t = require('../../lib/string-translation')('de') # TODO: select correct locale!
+t = require('../../lib/i18n-translate.js') # TODO: select correct locale!
 url = require('url')
 ampersandReactMixin = require('ampersand-react-mixin')
 
@@ -46,7 +46,7 @@ module.exports = React.createClass
     AutoComplete = require('../lib/autocomplete.cjsx')
     router = require('../../lib/router.coffee')
 
-    editUrl = url.resolve(@props.get.url, 'permissions/edit')
+    editUrl = url.parse(@props.get.edit_permissions_url).pathname
 
     # setup router:
 
@@ -115,6 +115,9 @@ module.exports = React.createClass
               batch={false}
               resourceType={@props.get.type}
               singleResourceUrl={@props.get.resource_url}
+              singleResourceFallbackUrl={@props.get.fallback_url}
+              singleResourcePermissionsUrl={@props.get.permissions_url}
+              singleResourceActionUrl={@props.get.update_transfer_responsibility_url}
               batchResourceIds={null}
               responsibleUuid={@props.get.responsible_user_uuid}
               responsible={@props.get.responsible}
@@ -125,7 +128,7 @@ module.exports = React.createClass
       <ResourcePermissionsForm
         get={model} editing={editing} saving={saving} optionals={optionals}
         onEdit={@_onStartEdit} onSubmit={@_onSubmitForm} onCancel={@_onCancelEdit}
-        decos={{Groups: GroupIndex}}>
+        editUrl={@props.get.edit_permissions_url} decos={{Groups: GroupIndex}}>
 
         <PermissionsOverview get={model}
           openTransferModal={transferClick} />

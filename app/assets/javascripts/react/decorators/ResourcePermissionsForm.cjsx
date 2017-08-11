@@ -2,7 +2,7 @@
 
 React = require('react')
 f = require('active-lodash')
-t = require('../../lib/string-translation')('de') # TODO: select correct locale!
+t = require('../../lib/i18n-translate.js') # TODO: select correct locale!
 ampersandReactMixin = require('ampersand-react-mixin')
 
 # NOTE: used for static (server-side) rendering (state.editing = false)
@@ -111,7 +111,7 @@ module.exports = React.createClass
             {switch
               when editable and not editing
                 <div className='ui-actions'>
-                  <a href='permissions/edit'
+                  <a href={@props.editUrl}
                     onClick={onEdit}
                     className='primary-button large'>
                     {t('permissions_table_edit_btn')}</a></div>

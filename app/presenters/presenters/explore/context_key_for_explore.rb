@@ -24,7 +24,7 @@ module Presenters
       end
 
       def url
-        prepend_url_context "/explore/catalog/#{@app_resource.id}"
+        prepend_url_context explore_catalog_category_path(@app_resource.id)
       end
 
       def description

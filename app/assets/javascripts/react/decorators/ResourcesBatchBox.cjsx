@@ -1,6 +1,6 @@
 React = require('react')
 f = require('active-lodash')
-t = require('../../lib/string-translation.js')('de')
+t = require('../../lib/i18n-translate.js')
 ResourceThumbnail = require('../decorators/ResourceThumbnail.cjsx')
 
 module.exports = React.createClass
@@ -46,12 +46,12 @@ module.exports = React.createClass
                     fontSize: '24px'
                   }
 
-                  text = '+' + (batchCount - resources.length) + ' weitere'
+                  text = '+' + (batchCount - resources.length) + ' ' + t('meta_data_batch_more')
 
                   <li style={style}>
                     {'+' + (batchCount - resources.length)}
                     <br />
-                    {'weitere'}
+                    {t('meta_data_batch_more')}
                   </li>
 
               }

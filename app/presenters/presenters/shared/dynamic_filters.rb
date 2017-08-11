@@ -51,7 +51,7 @@ module Presenters
         unless children.empty?
           [
             {
-              label: 'Berechtigung',
+              label: I18n.t(:dynamic_filters_authorization),
               uuid: 'permissions',
               filter_type: 'permissions',
               position: 2,
@@ -71,7 +71,7 @@ module Presenters
 
         unless filters.empty?
           {
-            label: 'Sichtbarkeit',
+            label: I18n.t(:dynamic_filters_visibility),
             uuid: 'visibility',
             children: filters
           }
@@ -81,7 +81,7 @@ module Presenters
       def permissions_visibility_private(scope)
         private_count = scope.filter_by_visibility_private.count
         {
-          label: 'Nur für mich',
+          label: I18n.t(:dynamic_filters_visibility_private),
           uuid: 'private',
           count: private_count
         } if private_count > 0
@@ -90,7 +90,7 @@ module Presenters
       def permissions_visibility_user_or_group(scope)
         user_or_group_count = scope.filter_by_visibility_user_or_group.count
         {
-          label: 'Geteilt mit Personen und Arbeitsgruppen',
+          label: I18n.t(:dynamic_filters_visibility_user_or_group),
           uuid: 'user_or_group',
           count: user_or_group_count
         } if user_or_group_count > 0
@@ -99,7 +99,7 @@ module Presenters
       def permissions_visibility_api(scope)
         api_count = scope.filter_by_visibility_api.count
         {
-          label: 'API-Applikationen',
+          label: I18n.t(:permission_subject_title_apiapps),
           uuid: 'api',
           count: api_count
         } if api_count > 0
@@ -108,7 +108,7 @@ module Presenters
       def permissions_visibility_public(scope)
         public_count = scope.filter_by_visibility_public.count
         {
-          label: 'Öffentlich',
+          label: I18n.t(:permission_subject_title_public),
           uuid: 'public',
           count: public_count
         } if public_count > 0
@@ -121,7 +121,7 @@ module Presenters
         return if users.count == 0
 
         {
-          label: 'Verantwortliche Person',
+          label: I18n.t(:permissions_responsible_user_title),
           uuid: 'responsible_user',
           children: users
         }
@@ -134,7 +134,7 @@ module Presenters
         return if users.count == 0
 
         {
-          label: 'Sichtbar für Personen',
+          label: I18n.t(:permission_entrusted_to_user),
           uuid: 'entrusted_to_user',
           children: users
         }
@@ -147,7 +147,7 @@ module Presenters
         return if groups.count == 0
 
         {
-          label: 'Sichtbar für Arbeitsgruppen',
+          label: I18n.t(:permission_entrusted_to_group),
           uuid: 'entrusted_to_group',
           children: groups
         }
@@ -275,14 +275,14 @@ module Presenters
         children = []
         unless media_types.empty?
           children <<
-            { label: 'Medientyp',
+            { label: I18n.t(:resource_meta_data_resource_type),
               uuid: 'media_type',
               children: media_types,
               multi: false }
         end
         unless extensions.empty?
           children <<
-            { label: 'Dokumenttyp',
+            { label: I18n.t(:resource_meta_data_document_type),
               uuid: 'extension',
               children: extensions,
               multi: false }
@@ -290,7 +290,7 @@ module Presenters
 
         [
           {
-            label: 'Datei',
+            label: I18n.t(:media_entry_file_information_title),
             filter_type: 'media_files',
             uuid: 'file',
             position: 1,

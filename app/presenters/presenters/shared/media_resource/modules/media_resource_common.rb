@@ -39,6 +39,10 @@ module Presenters
           def collection_manageable
             false
           end
+
+          def clipboard_url
+            my_dashboard_section_path(:clipboard)
+          end
         end
       end
     end

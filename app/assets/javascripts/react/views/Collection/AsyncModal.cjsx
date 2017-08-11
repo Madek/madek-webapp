@@ -1,7 +1,7 @@
 React = require('react')
 ampersandReactMixin = require('ampersand-react-mixin')
 f = require('active-lodash')
-t = require('../../../lib/string-translation')('de')
+t = require('../../../lib/i18n-translate.js')
 FormButton = require('../../ui-components/FormButton.cjsx')
 ToggableLink = require('../../ui-components/ToggableLink.cjsx')
 Modal = require('../../ui-components/Modal.cjsx')

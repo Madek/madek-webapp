@@ -3,7 +3,7 @@ import Moment from 'moment'
 import isEmpty from 'lodash/isEmpty'
 import isString from 'lodash/isString'
 import trimString from 'lodash/trim'
-Moment.locale('de')
+import currentLocale from '../../lib/current-locale.js'
 
 export const UserCreatedItem = ({ user }) =>
   user &&

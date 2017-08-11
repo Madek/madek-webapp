@@ -2,7 +2,7 @@ React = require('react')
 async = require('async')
 f = require('active-lodash')
 c = require('classnames')
-t = require('../../lib/string-translation')('de')
+t = require('../../lib/i18n-translate.js')
 Picture = require('../ui-components/Picture.cjsx')
 Button = require('../ui-components/Button.cjsx')
 ResourceIcon = require('../ui-components/ResourceIcon.cjsx')
@@ -12,7 +12,6 @@ TagCloud = require('../ui-components/TagCloud.cjsx')
 FavoriteButton = require('./thumbnail/FavoriteButton.cjsx')
 StatusIcon = require('./thumbnail/StatusIcon.cjsx')
 DeleteModal = require('./thumbnail/DeleteModal.cjsx')
-ListThumbnail = require('./ListThumbnail.cjsx')
 MetaDataList = require('./MetaDataList.cjsx')
 LoadXhr = require('../../lib/load-xhr.coffee')
 Preloader = require('../ui-components/Preloader.cjsx')
@@ -126,7 +125,7 @@ module.exports = React.createClass
             <Link onClick={selectProps.onSelect}
               style={selectProps.selectStyle}
               className='ui-thumbnail-action-checkbox'
-              title={if selectProps.isSelected then 'Auswahl entfernen' else 'auswählen'}>
+              title={if selectProps.isSelected then t('resources_box_selection_remove_selection') else t('resources_box_selection_select')}>
               <Icon i='checkbox' mods={if selectProps.isSelected then 'active'}/>
             </Link>
           </span>
@@ -135,16 +134,17 @@ module.exports = React.createClass
 
     if favoriteProps && favoriteProps.favoritePolicy
       favorButton = <FavoriteButton modelFavored={favoriteProps.modelFavored}
-        modelUrl={favoriteProps.modelUrl} favorOnClick={favoriteProps.favorOnClick}
-        pendingFavorite={favoriteProps.pendingFavorite} stateIsClient={favoriteProps.stateIsClient}
-        authToken={favoriteProps.authToken} buttonClass='ui-thumbnail-action-favorite' />
+        favorUrl={favoriteProps.favorUrl} disfavorUrl={favoriteProps.disfavorUrl}
+        favorOnClick={favoriteProps.favorOnClick} pendingFavorite={favoriteProps.pendingFavorite}
+        stateIsClient={favoriteProps.stateIsClient} authToken={favoriteProps.authToken}
+        buttonClass='ui-thumbnail-action-favorite' />
       actionLis.push(
         <li key='favorite' className='ui-thumbnail-action' style={liStyle}>{favorButton}</li>)
 
     if get.editable
       actionLis.push(
         <li key='edit' className='ui-thumbnail-action' style={liStyle}>
-          <Button className='ui-thumbnail-action-favorite' href={get.url + '/meta_data/edit/by_context'}>
+          <Button className='ui-thumbnail-action-favorite' href={get.edit_meta_data_by_context_url}>
             <i className='icon-pen'></i>
           </Button>
         </li>

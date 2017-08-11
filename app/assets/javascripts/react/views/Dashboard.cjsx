@@ -7,7 +7,7 @@ qs = require('qs')
 PageContent = require('./PageContent.cjsx')
 PageContentHeader = require('./PageContentHeader.cjsx')
 DashboardHeader = require('./DashboardHeader.cjsx')
-t = require('../../lib/string-translation.js')('de')
+t = require('../../lib/i18n-translate.js')
 Sidebar = require('./Sidebar.cjsx')
 TagCloud = require('../ui-components/TagCloud.cjsx')
 DashboardSectionKeywords = require('./DashboardSectionKeywords.cjsx')
@@ -46,7 +46,7 @@ module.exports = React.createClass
 
                 f.compact([
                   if section.partial == 'media_resources'
-                    <DashboardSectionResources section={section} />
+                    <DashboardSectionResources section={section} url={@props.get.url} />
                   else if section.partial == 'groups'
                     <DashboardSectionGroups section={section} sectionResources={get.user_dashboard[section.id]} />
                   else if section.partial == 'keywords'

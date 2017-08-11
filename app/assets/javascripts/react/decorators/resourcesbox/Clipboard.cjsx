@@ -1,7 +1,7 @@
 React = require('react')
 f = require('active-lodash')
 ui = require('../../lib/ui.coffee')
-t = ui.t('de')
+t = ui.t
 Modal = require('../../ui-components/Modal.cjsx')
 setUrlParams = require('../../../lib/set-params-for-url.coffee')
 railsFormPut = require('../../../lib/form-put-with-errors.coffee')

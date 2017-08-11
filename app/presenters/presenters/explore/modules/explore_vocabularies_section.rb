@@ -21,7 +21,7 @@ module Presenters
             id: 'vocabularies',
             data: vocabularies_overview,
             show_all_link: true,
-            show_all_text: 'Details anzeigen',
+            show_all_text: I18n.t(:explore_vocabulary_section_show_details),
             show_title: true
           }
         end
@@ -30,8 +30,8 @@ module Presenters
 
         def vocabularies_overview
           {
-            title: 'Vokabulare',
-            url: '/vocabulary',
+            title: I18n.t(:explore_vovabulary_section_title),
+            url: vocabularies_path,
             list: vocabularies
           }
         end

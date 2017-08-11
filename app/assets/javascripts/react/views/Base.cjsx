@@ -3,7 +3,7 @@ ReactDOM = require('react-dom')
 cx = require('classnames')
 f = require('lodash')
 Icon = require('../ui-components/Icon.cjsx')
-t = require('../../lib/string-translation.js')('de')
+t = require('../../lib/i18n-translate.js')
 
 
 MediaEntryHeaderWithModal = require('./MediaEntryHeaderWithModal.cjsx')

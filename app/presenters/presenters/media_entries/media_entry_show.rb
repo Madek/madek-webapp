@@ -44,7 +44,7 @@ module Presenters
 
       def tabs # list of all 'show' action sub-tabs
         tabs_config.select do |tab|
-          tab[:action] ? policy_for(@user).send("#{tab[:action]}?".to_sym) : true
+          tab[:id] ? policy_for(@user).send("#{tab[:id]}?".to_sym) : true
         end.reject do |tab|
           tab[:id] == 'relations' \
             && _relations.parent_collections.empty? \
@@ -116,6 +116,18 @@ module Presenters
         img.url if img.present?
       end
 
+      def relations_url
+        relations_media_entry_path(@app_resource)
+      end
+
+      def relations_parents_url
+        relation_parents_media_entry_path(@app_resource)
+      end
+
+      def relations_siblings_url
+        relation_siblings_media_entry_path(@app_resource)
+      end
+
       private
 
       # NOTE: used by tab helper, because tab should not be shown if no relations
@@ -128,29 +140,28 @@ module Presenters
         [
           {
             id: 'show',
-            action: nil,
             title: I18n.t(:media_entry_tab_main)
           },
           {
             id: 'relations',
-            action: 'relations',
-            title: I18n.t(:media_entry_tab_relations)
+            title: I18n.t(:media_entry_tab_relations),
+            href: relations_media_entry_path(@app_resource)
           },
           {
             id: 'usage_data',
-            action: 'usage_data',
-            title: I18n.t(:media_entry_tab_usage_data)
+            title: I18n.t(:media_entry_tab_usage_data),
+            href: usage_data_media_entry_path(@app_resource)
           },
           {
             id: 'more_data',
-            action: 'more_data',
-            title: I18n.t(:media_entry_tab_more_data)
+            title: I18n.t(:media_entry_tab_more_data),
+            href: more_data_media_entry_path(@app_resource)
           },
           {
             id: 'permissions',
-            action: 'permissions',
             title: I18n.t(:media_entry_tab_permissions),
-            icon_type: :privacy_status_icon
+            icon_type: :privacy_status_icon,
+            href: permissions_media_entry_path(@app_resource)
           }
         ]
       end

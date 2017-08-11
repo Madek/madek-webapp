@@ -2,7 +2,7 @@ React = require('react')
 f = require('active-lodash')
 classList = require('classnames/dedupe')
 parseMods = require('../../lib/ui.coffee').parseMods
-t = require('../../../lib/string-translation')('de')
+t = require('../../../lib/i18n-translate.js')
 RailsForm = require('../../lib/forms/rails-form.cjsx')
 Button = require('../../ui-components/Button.cjsx')
 
@@ -10,9 +10,8 @@ module.exports = React.createClass
   displayName: 'FavoriteButton'
 
 
-  render: ({authToken, modelFavored, modelUrl, favorOnClick, pendingFavorite, stateIsClient, buttonClass} = @props) ->
-    favoriteAction = if modelFavored then 'disfavor' else 'favor'
-    favoriteUrl = modelUrl + '/' + favoriteAction
+  render: ({authToken, modelFavored, favorUrl, disfavorUrl, favorOnClick, pendingFavorite, stateIsClient, buttonClass} = @props) ->
+    actionUrl = if modelFavored then disfavorUrl else favorUrl
     starClass = if modelFavored then 'icon-star' else 'icon-star-empty'
     favoriteIcon = <i className={starClass}></i>
     favoriteOnClick = favorOnClick if not pendingFavorite
@@ -23,7 +22,7 @@ module.exports = React.createClass
           {favoriteIcon}
         </Button>
       else
-        <RailsForm name='resource_meta_data' action={favoriteUrl}
+        <RailsForm name='resource_meta_data' action={actionUrl}
           method='patch' authToken={authToken}>
           <button className={buttonClass} type='submit'>
             {favoriteIcon}

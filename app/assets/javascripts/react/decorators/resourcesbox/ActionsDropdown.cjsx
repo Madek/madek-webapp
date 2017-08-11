@@ -1,7 +1,7 @@
 React = require('react')
 f = require('active-lodash')
 ui = require('../../lib/ui.coffee')
-t = ui.t('de')
+t = ui.t
 SelectionScope = require('../../../lib/selection-scope.coffee')
 { Icon, Dropdown } = require('../../ui-components/index.coffee')
 MenuItem = Dropdown.MenuItem
@@ -57,7 +57,7 @@ createActionsDropdown = (parameters, callbacks) ->
 
   actionsDropdown = if f.any(f.values(showActions))
     <Dropdown mods='stick-right mlm' testId='resources_box_dropdown'
-      toggle={'Aktionen'} toggleProps={{className: 'button'}}>
+      toggle={t('resources_box_batch_actions_menu_title')} toggleProps={{className: 'button'}}>
 
       <Dropdown.Menu className='ui-drop-menu'>
 

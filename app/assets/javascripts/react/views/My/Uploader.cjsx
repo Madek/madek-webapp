@@ -3,7 +3,7 @@ ReactDOM = require('react-dom')
 ampersandReactMixin = require('ampersand-react-mixin')
 f = require('active-lodash')
 async = require('async')
-t = require('../../../lib/string-translation')('de')
+t = require('../../../lib/i18n-translate.js')
 {ActionsBar, Button} = require('../../ui-components/index.coffee')
 MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
 
@@ -100,7 +100,7 @@ module.exports = React.createClass
 
                 {# NOTE: wrapping in <label> means we can hide the unstylable input…}
                 <label className="primary-button" style={{fontSize: '16px', top: '-2px'}}>
-                  Medien auswählen
+                  {t('media_entry_media_import_select_media')}
                   <input
                     type='file' multiple
                     style={{'display': 'none'}}

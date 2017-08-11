@@ -30,6 +30,16 @@ module Presenters
         @collection.id
       end
 
+      def batch_edit_all_collection_url
+        return unless @collection
+        batch_edit_all_collection_path(@collection)
+      end
+
+      def batch_update_all_collection_url
+        return unless @collection
+        batch_update_all_collection_path(@collection)
+      end
+
       def resource_type
         @resource_type.name.underscore
       end

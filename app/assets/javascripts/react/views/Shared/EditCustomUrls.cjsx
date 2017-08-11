@@ -1,6 +1,6 @@
 React = require('react')
 f = require('active-lodash')
-t = require('../../../lib/string-translation.js')('de')
+t = require('../../../lib/i18n-translate.js')
 
 PageHeader = require('../../ui-components/PageHeader.js')
 RailsForm = require('../../lib/forms/rails-form.cjsx')
@@ -10,7 +10,7 @@ module.exports = React.createClass
 
   render: ({authToken, get, title} = @props) ->
 
-    custom_urls_url = @props.get.resource.url + '/custom_urls'
+    custom_urls_url = @props.get.custom_urls_url
 
     <div>
       <PageHeader icon={null} title={t('edit_custom_urls_create_or_transfer')} actions={[]} />

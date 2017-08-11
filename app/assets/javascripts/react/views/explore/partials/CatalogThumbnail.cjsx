@@ -1,5 +1,6 @@
 React = require('react')
 f = require('lodash')
+t = require('../../../../lib/i18n-translate')
 
 module.exports = React.createClass
   displayName: 'CatalogThumbnail'
@@ -7,7 +8,7 @@ module.exports = React.createClass
   render: ({imageUrl, hrefUrl, usageCount} = @props)->
     <div className="ui-thumbnail media-catalog" style={{display: 'table-cell'}}>
       <div className="ui-thumbnail-privacy">
-        <i className="icon-privacy-open" title="Diese Inhalte sind öffentlich zugänglich"></i>
+        <i className="icon-privacy-open" title={t('contents_privacy_public')}></i>
       </div>
       <a className="ui-thumbnail-image-wrapper" href={hrefUrl}>
         <div className="ui-thumbnail-image-holder">

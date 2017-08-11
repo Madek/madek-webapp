@@ -2,7 +2,7 @@ React = require('react')
 f = require('active-lodash')
 classList = require('classnames')
 
-t = require('../../../lib/string-translation')('de')
+t = require('../../../lib/i18n-translate.js')
 setUrlParams = require('../../../lib/set-params-for-url.coffee')
 UI = require('../../ui-components/index.coffee')
 MadekPropTypes = require('../../lib/madek-prop-types.coffee')
@@ -15,10 +15,11 @@ module.exports = React.createClass
   displayName: 'Views.MediaEntry.BrowseEntriesList'
 
   render: ({browse, isLoading, header, authToken} = @props)->
+    loadingError = t('browse_entries_loading_error')
     # fallback view
     if isLoading or !browse then return <div>
       {header}
-      {(!isLoading && !browse) ? 'Ladefehler!' : <UI.Preloader mods='mal'/>}
+      {(!isLoading && !browse) ? loadingError : <UI.Preloader mods='mal'/>}
     </div>
 
     # main view

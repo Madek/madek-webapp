@@ -1,7 +1,7 @@
 React = require('react')
 PropTypes = React.PropTypes
 f = require('active-lodash')
-t = require('../../lib/string-translation.js')('de')
+t = require('../../lib/i18n-translate.js')
 cx = require('classnames')
 
 Link = require('../ui-components/Link.cjsx')

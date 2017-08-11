@@ -1,11 +1,9 @@
 import React from 'react'
 import f from 'lodash'
-import Moment from 'moment'
 import ui from '../../lib/ui.coffee'
 import UI from '../../ui-components/index.coffee'
 import RailsForm from '../../lib/forms/rails-form.cjsx'
-const t = ui.t('de')
-Moment.locale('de')
+const t = ui.t
 
 class TokenNewPage extends React.Component {
   render (props = this.props) {
@@ -40,7 +38,7 @@ class TokenNewPage extends React.Component {
             </div>
             <div className='ui-form-group rowed pan mbs'>
               <label className='form-label'>
-                {'Beschreibung'}
+                {t('api_tokens_create_description')}
                 <textarea
                   className='form-item block'
                   style={textAreaStyle}
@@ -54,7 +52,7 @@ class TokenNewPage extends React.Component {
               <UI.Button type='submit' className='primary-button'>
                 {t('api_tokens_create_submit')}
               </UI.Button>
-              <UI.Button href='/my/tokens' className='button'>
+              <UI.Button href={action.url} className='button'>
                 {t('api_tokens_create_cancel')}
               </UI.Button>
             </div>

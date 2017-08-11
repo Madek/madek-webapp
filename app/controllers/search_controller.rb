@@ -3,6 +3,7 @@ class SearchController < ApplicationController
   # search form
   def show
     skip_authorization
+    @submit_url = result_search_path
     # render plain: 'index'
   end
 

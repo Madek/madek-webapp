@@ -185,6 +185,30 @@ module Presenters
         build_meta_data_context(@app_resource, @user, Context.find(@context_id))
       end
 
+      def batch_edit_url
+        batch_edit_all_collection_path(@app_resource)
+      end
+
+      def add_to_set_url
+        batch_select_add_to_set_path
+      end
+
+      def remove_from_set_url
+        batch_ask_remove_from_set_path
+      end
+
+      def relations_url
+        relations_collection_path(@app_resource)
+      end
+
+      def relations_parents_url
+        relation_parents_collection_path(@app_resource)
+      end
+
+      def relations_siblings_url
+        relation_siblings_collection_path(@app_resource)
+      end
+
       private
 
       # NOTE: this is only needed for fetching MetaData in Box ListView

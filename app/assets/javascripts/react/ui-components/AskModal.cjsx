@@ -1,6 +1,6 @@
 React = require('react')
 ReactDOM = require('react-dom')
-t = require('../../lib/string-translation')('de')
+t = require('../../lib/i18n-translate.js')
 FormButton = require('./FormButton.cjsx')
 Modal = require('./Modal.cjsx')
 Preloader = require('./Preloader.cjsx')

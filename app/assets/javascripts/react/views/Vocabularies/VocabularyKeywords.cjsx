@@ -1,7 +1,7 @@
 React = require('react')
 ReactDOM = require('react-dom')
 f = require('lodash')
-t = require('../../../lib/string-translation.js')('de')
+t = require('../../../lib/i18n-translate.js')
 Icon = require('../../ui-components/Icon.cjsx')
 PageContent = require('../PageContent.cjsx')
 PageHeader = require('../../ui-components/PageHeader.js')

@@ -1,10 +1,10 @@
 React = require('react')
 ReactDOM = require('react-dom')
 Moment = require('moment')
-Moment.locale('de')
+currentLocale = require('../../lib/current-locale.js')
 isEmpty = require('lodash/isEmpty')
 trim = require('lodash/trim')
-t = require('../../lib/string-translation.js')('de')
+t = require('../../lib/i18n-translate.js')
 
 module.exports = React.createClass
   displayName: 'ReleaseShow'
@@ -38,11 +38,12 @@ module.exports = React.createClass
 DevelopmentInfo = ({git_hash, git_url}) =>
   <div className='ui-container pbm'>
     <h2 className='title-s'>
-      Lokale Git Version: <a href={git_url}>{git_hash}</a>
+      {t('release_local_git_version')}: <a href={git_url}>{git_hash}</a>
     </h2>
   </div>
 
 DeploymentInfo = ({tree_id, commit_id, build_time, deployed, changes_since_release}) =>
+  Moment.locale(currentLocale())
   buildUrl = "https://ci.zhdk.ch/cider-ci/ui/workspace/trees/#{tree_id}"
   commitUrl = "https://github.com/Madek/Madek/commits/#{commit_id}"
 
@@ -58,8 +59,8 @@ DeploymentInfo = ({tree_id, commit_id, build_time, deployed, changes_since_relea
       <div className='mtm'>
         <h2 className='title-s'>
           <span>
-            <a href={commitUrl}>Entwicklungs-Version</a>{'! '}
-            Änderungen seit dem letzen Release:</span>
+            <a href={commitUrl}>{t('release_version')}</a>{'! '}
+            {t('release_changes_since_release')}:</span>
         </h2>
         <pre className='pls' style={{whiteSpace: 'pre'}}>
           {changes_since_release}
