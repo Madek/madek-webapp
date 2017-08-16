@@ -658,7 +658,7 @@ CREATE TABLE numerators (
 CREATE TABLE options (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     inventory_pool_id uuid NOT NULL,
-    inventory_code character varying,
+    inventory_code character varying DEFAULT (uuid_generate_v4())::text NOT NULL,
     manufacturer character varying,
     product character varying NOT NULL,
     version character varying,
