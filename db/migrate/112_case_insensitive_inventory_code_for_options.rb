@@ -15,9 +15,11 @@ class CaseInsensitiveInventoryCodeForOptions < ActiveRecord::Migration[4.2]
   def up
 
     MigrationInventoryPool.where(
-      name: [ 'Vertiefung CAST',
+      name: [ 'Fachrichtung Film',
+              'Vertiefung CAST',
               'zx_Ausleihe Florhofgasse',
-              'zx_AV-Ausleihe' ]
+              'zx_AV-Ausleihe',
+              'ZHdK-Inventar']
     ).each do |mp|
       mp.migration_options.each do |mo|
         mo.update_attributes! inventory_code: "#{mp.name} / #{mo.inventory_code}"
