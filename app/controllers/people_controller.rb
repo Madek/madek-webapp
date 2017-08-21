@@ -7,8 +7,16 @@ class PeopleController < ApplicationController
 
   def show
     person = get_authorized_resource
-    redirect_to_filtered_index(
-      meta_data: [{ key: 'any', value: person.id, type: 'MetaDatum::People' }])
+    resources_type = params.permit(:type).fetch(:type, nil)
+
+    respond_with(
+      @get = Presenters::People::PersonShow.new(
+        person,
+        current_user,
+        resources_type,
+        resource_list_by_type_param
+      )
+    )
   end
 
   private

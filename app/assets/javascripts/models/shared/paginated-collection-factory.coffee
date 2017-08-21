@@ -134,6 +134,9 @@ module.exports = (collectionClass, {jsonPath})->
       if path.indexOf('/vocabulary/keyword') == 0
         return 'keyword.resources.resources'
 
+      if path.indexOf('/people') == 0
+        return 'resources.resources'
+
       jsonPath
 
     fetchAllResourceIds: (callback)->
