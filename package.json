@@ -80,7 +80,7 @@
     "coffee-reactify": "^5.1.0",
     "coffee-script": "^1.12.3",
     "coffeelint": "^1.16.0",
-    "i18n-iso-countries": "^1.11.0",
+    "i18n-iso-countries": "^2.0.0",
     "prettier-standard": "^6.0.0",
     "standard": "^10.0.2",
     "watchify": "^3.7.0"
