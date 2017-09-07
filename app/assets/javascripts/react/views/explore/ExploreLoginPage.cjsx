@@ -22,10 +22,15 @@ module.exports = React.createClass
             hrefUrl={section.content.data.url} showAllLink={section.content.show_all_link} section={section.content} />
       )
     outerStyle = {
-      backgroundColor: '#fff'
-      boxShadow: 'inset 0 1px 10px rgba(0, 0, 0, 0.25)'
       paddingBottom: '10px'
     }
+
+    if !get.show_login
+      outerStyle.height = '180px'
+
+    if get.show_login
+      outerStyle.backgroundColor = '#fff'
+      outerStyle.boxShadow = 'inset 0 1px 10px rgba(0, 0, 0, 0.25)'
 
     claimStyle = {
       position: 'static'
@@ -46,40 +51,45 @@ module.exports = React.createClass
       paddingLeft: '0px'
     }
 
-    homeClaimPitchHero = <div style={outerStyle}>
-      <div style={claimStyle} className='ui-home-claim ui-container'>
-        <div className='col2of3'>
-          <div style={pitchClaimStyle} className='pitch-claim'>
-            <h1 className='title-xxl'>
-              {welcomeMessage.title}
-            </h1>
-            <div className='ptm' dangerouslySetInnerHTML={welcomeMessage.text} />
+    homeClaimPitchHero = if get.show_login
+        <div style={outerStyle}>
+          <div style={claimStyle} className='ui-home-claim ui-container'>
+            <div className='col2of3'>
+              <div style={pitchClaimStyle} className='pitch-claim'>
+                <h1 className='title-xxl'>
+                  {welcomeMessage.title}
+                </h1>
+                <div className='ptm' dangerouslySetInnerHTML={welcomeMessage.text} />
+              </div>
+            </div>
+            <div className='col1of3'>
+              <LoginMenu
+                loginProviders={loginProviders}
+                authToken={authToken}
+              />
+            </div>
           </div>
         </div>
-        <div className='col1of3'>
-          <LoginMenu
-            loginProviders={loginProviders}
-            authToken={authToken}
-          />
+      else
+        <div style={outerStyle}>
+          <div style={claimStyle} className='ui-home-claim ui-container'>
+            <div>
+              <div style={pitchClaimStyle} className='pitch-claim'>
+                <h1 className='title-xxl'>
+                  {welcomeMessage.title}
+                </h1>
+                <div className='ptm' dangerouslySetInnerHTML={welcomeMessage.text} />
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
 
     <div>
       {
-        if get.show_login
-          homeClaimPitchHero
+        homeClaimPitchHero
       }
 
       <div className="app-body-ui-container pts context-home">
-
-
-        {
-          if !get.show_login
-            <h1 className='title-xl mtl mbm'>
-              {welcomeMessage.title}
-            </h1>
-        }
 
         {f.map sectionsElements, (section, index) ->
           list = [ ]

@@ -43,7 +43,7 @@ module.exports = React.createClass
             }
             </ul>
           else if section.type == 'keyword'
-            <ul className='ui-tag-cloud'>
+            <ul className='ui-tag-cloud' style={{marginBottom: '40px'}}>
             {
               f.map section.data.list, (resource, n) ->
                 <Keyword key={'key_' + n} label={resource.keyword.label}
@@ -54,14 +54,15 @@ module.exports = React.createClass
             <ul className='ui-tag-cloud'>
             {
               f.map section.data.list, (resource, n) ->
+                comma = ''
+                if n < f.size(section.data.list) - 1
+                  comma = <span style={{marginRight: '5px'}}>,</span>
+
                 <span>
-                  {
-                    if n != 0
-                      ', '
-                  }
-                  <a href={resource.url} style={{color: '#4c4c4c', fontWeight: '600'}}>
+                  <a href={resource.url} style={{color: '#4c4c4c', fontSize: '14px'}}>
                     {resource.label}
                   </a>
+                  {comma}
                 </span>
             }
             </ul>

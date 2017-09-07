@@ -3,6 +3,10 @@ module Presenters
     module Modules
       class ExploreKeywordsSection < Presenter
 
+        def initialize(limit: 24)
+          @limit = limit
+        end
+
         def empty?
           keywords.blank?
         end
@@ -13,7 +17,7 @@ module Presenters
             type: 'keyword',
             id: 'keywords',
             data: keywords_overview,
-            show_all_link: false,
+            show_all_link: true,
             show_all_text: 'Weitere anzeigen',
             show_title: true
           }
@@ -41,7 +45,7 @@ module Presenters
             MetaKey
             .find_by(id: 'madek_core:keywords')
             .try(:keywords)
-            .try(:limit, 24)
+            .try(:limit, @limit)
         end
       end
     end

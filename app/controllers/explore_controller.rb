@@ -11,6 +11,11 @@ class ExploreController < ApplicationController
     respond_with @get, template: 'application/root'
   end
 
+  def keywords
+    @get = Presenters::Explore::Modules::ExploreKeywordsSection.new(limit: 300)
+    respond_with @get, template: 'application/keywords'
+  end
+
   def catalog_category
     unless AppSettings.first.catalog_context_keys.include? category_param
       raise ActionController::RoutingError.new(404),
