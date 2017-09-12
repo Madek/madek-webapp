@@ -22,14 +22,9 @@ module.exports = React.createClass
             hrefUrl={section.content.data.url} showAllLink={section.content.show_all_link} section={section.content} />
       )
     outerStyle = {
-      paddingBottom: '10px'
     }
 
-    if !get.show_login
-      outerStyle.height = '180px'
-
     claimStyle = {
-      position: 'static'
       margin: '0px'
       padding: '20px'
       marginLeft: 'auto'
@@ -49,7 +44,7 @@ module.exports = React.createClass
 
     homeClaimPitchHero = if get.show_login
         <div style={outerStyle}>
-          <div style={claimStyle} className='ui-home-claim ui-container'>
+          <div style={claimStyle}>
             <div className='col2of3'>
               <div style={pitchClaimStyle} className='pitch-claim'>
                 <h1 className='title-xxl'>
@@ -64,11 +59,12 @@ module.exports = React.createClass
                 authToken={authToken}
               />
             </div>
+            <div style={{clear: 'both'}} />
           </div>
         </div>
       else
         <div style={outerStyle}>
-          <div style={claimStyle} className='ui-home-claim ui-container'>
+          <div style={claimStyle}>
             <div>
               <div style={pitchClaimStyle} className='pitch-claim'>
                 <h1 className='title-xxl'>
@@ -77,6 +73,7 @@ module.exports = React.createClass
                 <div className='ptm' dangerouslySetInnerHTML={welcomeMessage.text} />
               </div>
             </div>
+            <div style={{clear: 'both'}} />
           </div>
         </div>
 
