@@ -28,10 +28,6 @@ module.exports = React.createClass
     if !get.show_login
       outerStyle.height = '180px'
 
-    if get.show_login
-      outerStyle.backgroundColor = '#fff'
-      outerStyle.boxShadow = 'inset 0 1px 10px rgba(0, 0, 0, 0.25)'
-
     claimStyle = {
       position: 'static'
       margin: '0px'
@@ -90,6 +86,8 @@ module.exports = React.createClass
       }
 
       <div className="app-body-ui-container pts context-home">
+
+        <hr className='separator' />
 
         {f.map sectionsElements, (section, index) ->
           list = [ ]
