@@ -840,6 +840,7 @@ CREATE TABLE procurement_settings (
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
     contact_url character varying,
+    inspection_comments jsonb DEFAULT '[]'::jsonb,
     CONSTRAINT oneandonly CHECK ((id = 0))
 );
 
@@ -2638,6 +2639,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('115'),
 ('116'),
 ('117'),
+('118'),
 ('12'),
 ('13'),
 ('2'),
