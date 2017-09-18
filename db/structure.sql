@@ -836,9 +836,11 @@ CREATE TABLE procurement_requests (
 --
 
 CREATE TABLE procurement_settings (
-    id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    key character varying NOT NULL,
-    value character varying NOT NULL
+    id integer DEFAULT 0 NOT NULL,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp without time zone DEFAULT now() NOT NULL,
+    contact_url character varying,
+    CONSTRAINT oneandonly CHECK ((id = 0))
 );
 
 
@@ -1847,13 +1849,6 @@ CREATE UNIQUE INDEX index_procurement_main_categories_on_name ON procurement_mai
 
 
 --
--- Name: index_procurement_settings_on_key; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_procurement_settings_on_key ON procurement_settings USING btree (key);
-
-
---
 -- Name: index_procurement_users_filters_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2642,6 +2637,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('114'),
 ('115'),
 ('116'),
+('117'),
 ('12'),
 ('13'),
 ('2'),
