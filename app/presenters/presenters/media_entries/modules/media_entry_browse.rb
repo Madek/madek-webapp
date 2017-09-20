@@ -69,11 +69,9 @@ module Presenters
 
         private
 
-        # HACK! (should be app_settings/vocabulary_config)
         def ignored_keywords
           return @_ignored_keywords if @_ignored_keywords
-          configs = AppSetting.first.ignored_keyword_keys_for_browsing || ''
-          mks = configs.split(',').map { |mk_id| MetaKey.find_by(id: mk_id) }
+          mks = AppSetting.first.ignored_keyword_keys_for_browsing || []
           @_ignored_keywords = Keyword.where(meta_key: mks).map(&:id) if mks.any?
         end
 
