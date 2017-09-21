@@ -742,7 +742,9 @@ CREATE TABLE procurement_budget_periods (
 CREATE TABLE procurement_categories (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     name character varying,
-    main_category_id uuid
+    main_category_id uuid,
+    general_ledger_account character varying,
+    cost_center character varying
 );
 
 
@@ -826,8 +828,12 @@ CREATE TABLE procurement_requests (
     inspector_priority character varying DEFAULT 'medium'::character varying NOT NULL,
     room_id uuid NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
+    accounting_type character varying DEFAULT 'aquisition'::character varying NOT NULL,
+    internal_order_number character varying,
     CONSTRAINT check_allowed_priorities CHECK (((priority)::text = ANY (ARRAY[('normal'::character varying)::text, ('high'::character varying)::text]))),
-    CONSTRAINT check_inspector_priority CHECK (((inspector_priority)::text = ANY (ARRAY[('low'::character varying)::text, ('medium'::character varying)::text, ('high'::character varying)::text, ('mandatory'::character varying)::text])))
+    CONSTRAINT check_inspector_priority CHECK (((inspector_priority)::text = ANY (ARRAY[('low'::character varying)::text, ('medium'::character varying)::text, ('high'::character varying)::text, ('mandatory'::character varying)::text]))),
+    CONSTRAINT check_internal_order_number_if_type_investment CHECK ((NOT (((accounting_type)::text = 'investment'::text) AND (internal_order_number IS NULL)))),
+    CONSTRAINT check_valid_accounting_type CHECK (((accounting_type)::text = ANY ((ARRAY['aquisition'::character varying, 'investment'::character varying])::text[])))
 );
 
 
@@ -2640,6 +2646,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('116'),
 ('117'),
 ('118'),
+('119'),
 ('12'),
 ('13'),
 ('2'),
