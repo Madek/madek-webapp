@@ -390,7 +390,8 @@ module.exports = React.createClass
 
   _sharedOnBatchAll: (event, type) ->
     event.preventDefault()
-    path = @props.collectionData.batchEditUrl
+    id = @props.collectionData.uuid
+    path = '/sets/' + id + '/batch_edit_all'
     url = setUrlParams(path, {type: type, return_to: @_currentUrl()})
     window.location = url
 
