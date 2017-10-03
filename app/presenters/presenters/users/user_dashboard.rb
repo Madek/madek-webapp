@@ -177,7 +177,7 @@ module Presenters
         @user_scopes[:user_groups]
           .where(type: type)
           .order(
-            (type == :InstitutionalGroup) ? :institutional_group_name : :name
+            (type == :InstitutionalGroup) ? :institutional_name : :name
           )
       end
 

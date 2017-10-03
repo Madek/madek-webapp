@@ -2,34 +2,31 @@
   {
     "describe": "simple, normalized data",
     "data": [
-      {
-        "institutional_group_id": 1234,
-        "institutional_group_name": "LOL.alle",
         "name": "lol group"
       },
       {
-        "institutional_group_id": 1337,
-        "institutional_group_name": "LOL_OMG.alle",
+        "institutional_id": 1337,
+        "institutional_name": "LOL_OMG.alle",
         "name": "lol - omg group"
       },
       {
-        "institutional_group_id": 2342,
-        "institutional_group_name": "LOL_OMG_WTF.alle",
+        "institutional_id": 2342,
+        "institutional_name": "LOL_OMG_WTF.alle",
         "name": "lol - omg - wtf group"
       }
     ],
     "result": {
       "LOL": {
-        "institutional_group_id": 1234,
-        "institutional_group_name": "LOL.alle",
+        "institutional_id": 1234,
+        "institutional_name": "LOL.alle",
         "name": "lol group",
         "OMG": {
-          "institutional_group_id": 1337,
-          "institutional_group_name": "LOL_OMG.alle",
+          "institutional_id": 1337,
+          "institutional_name": "LOL_OMG.alle",
           "name": "lol - omg group",
           "WTF": {
-            "institutional_group_id": 2342,
-            "institutional_group_name": "LOL_OMG_WTF.alle",
+            "institutional_id": 2342,
+            "institutional_name": "LOL_OMG_WTF.alle",
             "name": "lol - omg - wtf group"
           }
         }

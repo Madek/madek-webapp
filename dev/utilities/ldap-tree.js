@@ -2,11 +2,11 @@ var f = require('active-lodash')
 
 module.exports = function ldapTree (data) {
   var res = data
-    .filter((item) => blackList(item.institutional_group_name))
+    .filter((item) => blackList(item.institutional_name))
     .filter((item) => !f.present(item))
     .reduce((prev, item, index) => {
       function buildTree (itm) {
-        var str = itm.institutional_group_name.split('.')[0] // minus '.foo'
+        var str = itm.institutional_name.split('.')[0] // minus '.foo'
           .split('_')
         return treeFromList(str, itm)
       }

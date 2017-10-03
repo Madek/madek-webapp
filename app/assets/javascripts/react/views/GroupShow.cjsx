@@ -23,9 +23,9 @@ infotable = (group, members, vocabulary_permissions) ->
       group.name
     ],
     [
-      t('group_meta_data_institutional_group_name'),
-      group.institutional_group_name
-    ] if group.institutional_group_name,
+      t('group_meta_data_institutional_name'),
+      group.institutional_name
+    ] if group.institutional_name,
     [
       t('group_show_members'),
       f.map(members, (member) ->

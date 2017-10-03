@@ -4,7 +4,7 @@ module Presenters
 
       delegate_to_app_resource :name,
                                :institutional?,
-                               :institutional_group_name
+                               :institutional_name
 
       def initialize(app_resource, user = nil, list_conf: nil)
         super(app_resource)
@@ -17,8 +17,8 @@ module Presenters
       end
 
       def detailed_name
-        if institutional_group_name and not institutional_group_name.empty?
-          "#{name} (#{institutional_group_name})"
+        if institutional_name and not institutional_name.empty?
+          "#{name} (#{institutional_name})"
         else
           name
         end
