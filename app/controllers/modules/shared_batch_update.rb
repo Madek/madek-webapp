@@ -204,7 +204,8 @@ module Modules
             begin
               handle_meta_datum_in_case_of_batch_update!(media_entry,
                                                          meta_key_id,
-                                                         value[:values])
+                                                         value[:values],
+                                                         value[:batch_action])
             rescue => exception
               errors[media_entry.id] = [meta_key_id, exception.message]
             end
@@ -217,12 +218,19 @@ module Modules
 
     def handle_meta_datum_in_case_of_batch_update!(media_entry,
                                                    meta_key_id,
-                                                   value)
+                                                   value,
+                                                   batch_action)
       # There are following 3 cases:
       # 1. Value is empty: skip (do nothing)
       # 2. Value is present, MD does not exist: create MD
       # 3. Value is present, MD exists: update MD
       # (MD="A MetaDatum for this MetaKey on this MediaResource")
+
+      if batch_action == 'remove'
+        meta_datum = media_entry.meta_data.find_by(meta_key_id: meta_key_id)
+        meta_datum.destroy if meta_datum
+        return
+      end
 
       # 1
       unless value.delete_if(&:blank?).empty?

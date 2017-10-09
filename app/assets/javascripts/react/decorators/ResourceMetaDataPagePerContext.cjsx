@@ -102,6 +102,7 @@ module.exports = React.createClass
       meta_key: meta_key
       values: []
       originalValues: []
+      batchAction: 'none'
     }
 
   _createaModelsForMetaKeys: (meta_meta_data, meta_data, diff) ->
@@ -192,6 +193,12 @@ module.exports = React.createClass
     models[meta_key_id].values = values
     @setState({models: models})
 
+
+  _onChangeBatchAction: (meta_key_id, batchAction) ->
+    console.log('on change batch action')
+    models = @state.models
+    models[meta_key_id].batchAction = batchAction
+    @setState({models: models})
 
 
   submit: (actionType) ->
@@ -419,11 +426,13 @@ module.exports = React.createClass
                     if !currentTab.byVocabularies
                       currentContextId = currentTab.byContext
                       Renderer._renderByContext(currentContextId, get.meta_meta_data, published, name,
-                        @props.batch, @state.models, @state.errors, @_batchConflictByContextKey, @_onChangeForm, @state.bundleState, @_toggleBundle)
+                        @props.batch, @state.models, @state.errors, @_batchConflictByContextKey,
+                        {onValue: @_onChangeForm, onChangeBatchAction: @_onChangeBatchAction}, @state.bundleState, @_toggleBundle)
 
                     else
                       Renderer._renderByVocabularies(get.meta_data, get.meta_meta_data, published, name,
-                        @props.batch, @state.models, @state.errors, @_batchConflictByMetaKey, @_onChangeForm, @state.bundleState, @_toggleBundle)
+                        @props.batch, @state.models, @state.errors, @_batchConflictByMetaKey,
+                        {onValue: @_onChangeForm, onChangeBatchAction: @_onChangeBatchAction}, @state.bundleState, @_toggleBundle)
                   }
 
                   {

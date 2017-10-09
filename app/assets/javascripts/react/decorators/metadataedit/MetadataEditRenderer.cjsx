@@ -26,12 +26,25 @@ module.exports = {
     else
       name += "[#{meta_key_id}][]"
 
-    <InputMetaDatum id={meta_key_id}
-      model={model}
-      name={name} onChange={onChange}
-      subForms={subForms}
-      metaKey={metaKey}
-    />
+    input = (
+      <InputMetaDatum id={meta_key_id}
+        model={model}
+        name={name} onChange={onChange}
+        subForms={subForms}
+        metaKey={metaKey}
+      />
+    )
+
+    if batch
+      style = {marginRight: '200px', marginLeft: '200px'}
+      <div style={style}>
+        {input}
+      </div>
+    else
+      input
+
+
+
 
 
   _renderLabelByContext: (meta_meta_data, context_key_id) ->
@@ -55,6 +68,30 @@ module.exports = {
       mandatory={mandatory} />
 
 
+  _renderBatchDropdown: (meta_meta_data, meta_key_id, name, model, onChangeBatchAction) ->
+
+    mandatory = meta_meta_data.mandatory_by_meta_key_id[meta_key_id]
+    return null if mandatory
+
+
+    style = {float: 'right'}
+
+    _onChange = (event) ->
+      event.preventDefault()
+      onChangeBatchAction(meta_key_id, event.target.value)
+
+    name += "[#{meta_key_id}][batch_action]"
+
+
+    <div style={style}>
+      <select name={name} value={model.batchAction} onChange={_onChange}>
+        <option value='none'>...</option>
+        <option value='remove'>{t('meta_data_batch_action_remove_meta_data')}</option>
+      </select>
+    </div>
+
+
+
   _renderItemByContext2: (meta_meta_data, published, name, context_key_id, subForms, rowed, batch, model, batchConflict, errors, _onChangeForm) ->
 
     contextKey = meta_meta_data.context_key_by_context_key_id[context_key_id]
@@ -75,7 +112,8 @@ module.exports = {
         </div>
       }
       {@_renderLabelByContext(meta_meta_data, context_key_id)}
-      {@_renderValueByContext(((values) -> _onChangeForm(meta_key_id, values)), name, subForms, metaKey, batch, model)}
+      {@_renderBatchDropdown(meta_meta_data, meta_key_id, name, model, _onChangeForm.onChangeBatchAction) if batch}
+      {@_renderValueByContext(((values) -> _onChangeForm.onValue(meta_key_id, values)), name, subForms, metaKey, batch, model)}
     </fieldset>
 
 
@@ -97,7 +135,8 @@ module.exports = {
         </div>
       }
       {@_renderLabelByVocabularies(meta_meta_data, meta_key_id)}
-      {@_renderValueByContext(((values) -> _onChangeForm(meta_key_id, values)), name, subForms, metaKey, batch, model)}
+      {@_renderBatchDropdown(meta_meta_data, meta_key_id, name, model, _onChangeForm.onChangeBatchAction) if batch}
+      {@_renderValueByContext(((values) -> _onChangeForm.onValue(meta_key_id, values)), name, subForms, metaKey, batch, model)}
     </fieldset>
 
 
@@ -116,6 +155,7 @@ module.exports = {
       model = models[meta_key_id]
       metaKey = meta_meta_data.meta_key_by_meta_key_id[meta_key_id]
       <div style={{display: 'none'}} key={meta_key_id}>
+        {@_renderBatchDropdown(meta_meta_data, meta_key_id, name, model, () -> ) if batch}
         {@_renderValueByContext((() -> ), name, null, metaKey, batch, model)}
       </div>
 

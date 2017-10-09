@@ -249,7 +249,11 @@ module BatchSelectionHelper
       media_entries_transfer_responsibility:
         :resources_box_batch_actions_transfer_responsibility_entries,
       collections_transfer_responsibility:
-        :resources_box_batch_actions_transfer_responsibility_sets
+        :resources_box_batch_actions_transfer_responsibility_sets,
+      media_entries_edit_all:
+        :resources_box_batch_actions_edit_all_media_entries,
+      collections_edit_all:
+        :resources_box_batch_actions_edit_all_collections
     }
   end
 end

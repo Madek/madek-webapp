@@ -37,10 +37,10 @@ module Modules
             media_entry.meta_data.each(&:destroy!)
             media_entry.destroy!
           end
-          collections.each do |collections|
+          collections.each do |collection|
             # TODO: Remove this when cascade delete works:
-            collections.meta_data.each(&:destroy!)
-            collections.destroy!
+            collection.meta_data.each(&:destroy!)
+            collection.destroy!
           end
         end
       end

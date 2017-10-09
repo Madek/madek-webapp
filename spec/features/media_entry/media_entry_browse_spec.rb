@@ -91,13 +91,17 @@ def within_browse_list
   end
 end
 
+def browse_list_ui_entries(row)
+  row.find('.ui-featured-entries-list').all('li a.ui-featured-entry').map do |a|
+    a[:href].split('/').last
+  end.sort
+end
+
 def browse_list_ui
   all('.ui-container.rounded-right.pbm').map do |row|
     {
       text: row.text,
-      entries: row.find('.ui-featured-entries-list').all('li a').map do |a|
-        a[:href].split('/').last
-      end.sort
+      entries: browse_list_ui_entries(row)
     }
   end
 end
