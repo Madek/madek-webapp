@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.1
--- Dumped by pg_dump version 9.6.1
+-- Dumped from database version 9.6.3
+-- Dumped by pg_dump version 9.6.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -207,6 +207,20 @@ CREATE FUNCTION hex_to_int(hexval character varying) RETURNS bigint
       $$;
 
 
+--
+-- Name: restrict_operations_on_fields_function(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION restrict_operations_on_fields_function() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+  RAISE EXCEPTION 'The fields table does not allow INSERT or DELETE or TRUNCATE!';
+  RETURN NULL;
+END;
+$$;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -385,9 +399,9 @@ CREATE TABLE delegations_users (
 
 CREATE TABLE fields (
     id character varying(50) NOT NULL,
-    data text,
     active boolean DEFAULT true,
-    "position" integer
+    "position" integer,
+    data jsonb DEFAULT '{}'::jsonb
 );
 
 
@@ -833,7 +847,7 @@ CREATE TABLE procurement_requests (
     CONSTRAINT check_allowed_priorities CHECK (((priority)::text = ANY (ARRAY[('normal'::character varying)::text, ('high'::character varying)::text]))),
     CONSTRAINT check_inspector_priority CHECK (((inspector_priority)::text = ANY (ARRAY[('low'::character varying)::text, ('medium'::character varying)::text, ('high'::character varying)::text, ('mandatory'::character varying)::text]))),
     CONSTRAINT check_internal_order_number_if_type_investment CHECK ((NOT (((accounting_type)::text = 'investment'::text) AND (internal_order_number IS NULL)))),
-    CONSTRAINT check_valid_accounting_type CHECK (((accounting_type)::text = ANY ((ARRAY['aquisition'::character varying, 'investment'::character varying])::text[])))
+    CONSTRAINT check_valid_accounting_type CHECK (((accounting_type)::text = ANY (ARRAY[('aquisition'::character varying)::text, ('investment'::character varying)::text])))
 );
 
 
@@ -2017,6 +2031,13 @@ CREATE CONSTRAINT TRIGGER trigger_ensure_general_room_cannot_be_deleted AFTER DE
 
 
 --
+-- Name: fields trigger_restrict_operations_on_fields_function; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER trigger_restrict_operations_on_fields_function BEFORE INSERT OR DELETE ON fields FOR EACH STATEMENT EXECUTE PROCEDURE restrict_operations_on_fields_function();
+
+
+--
 -- Name: hidden_fields fk_rails_00a4ef0c4f; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2648,6 +2669,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('118'),
 ('119'),
 ('12'),
+('120'),
+('121'),
+('122'),
 ('13'),
 ('2'),
 ('4'),
