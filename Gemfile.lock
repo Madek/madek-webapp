@@ -47,6 +47,7 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     arel (7.1.4)
+    base32-crockford (0.1.0)
     builder (3.2.3)
     climate_control (0.2.0)
     cocaine (0.5.8)
@@ -136,6 +137,7 @@ GEM
     thread_safe (0.3.6)
     tzinfo (1.2.3)
       thread_safe (~> 0.1)
+    uuidtools (2.1.5)
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
@@ -144,6 +146,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  base32-crockford
   exiftool_vendored
   money-rails (~> 1.4)
   paperclip (~> 4.3)
@@ -152,6 +155,7 @@ DEPENDENCIES
   pry
   rails (~> 5.0.0)
   sequel (~> 4.42, >= 4.42.1)
+  uuidtools
 
 BUNDLED WITH
-   1.15.3
+   1.15.4

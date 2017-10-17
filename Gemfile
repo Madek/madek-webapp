@@ -2,6 +2,9 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 5.0.0'
 
+gem 'uuidtools'
+gem 'base32-crockford'
+
 gem 'pg', platform: :mri
 gem 'pg_tasks', git: 'https://github.com/drtom/rails_pg-tasks', branch: 'master_rails_5'
 gem 'sequel', '~> 4.42', '>= 4.42.1'

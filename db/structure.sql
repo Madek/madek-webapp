@@ -87,6 +87,27 @@ CREATE TYPE reservation_status AS ENUM (
 
 
 --
+-- Name: check_contract_has_at_least_one_reservation(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION check_contract_has_at_least_one_reservation() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        IF NOT EXISTS (
+          SELECT 1
+          FROM reservations
+          WHERE contract_id = NEW.id)
+        THEN
+          RAISE EXCEPTION 'contract must have at least one reservation';
+        END IF;
+
+        RETURN NEW;
+      END;
+      $$;
+
+
+--
 -- Name: check_general_building_id_for_general_room(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -102,6 +123,200 @@ CREATE FUNCTION check_general_building_id_for_general_room() RETURNS trigger
             'Building ID cannot be changed for a general room';
         END IF;
         RETURN NEW;
+      END;
+      $$;
+
+
+--
+-- Name: check_item_line_state_consistency(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION check_item_line_state_consistency() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        IF (
+          (NEW.type = 'ItemLine' AND NEW.status = 'submitted' AND EXISTS (
+            SELECT 1
+            FROM orders
+            WHERE id = NEW.order_id AND state <> 'submitted')) OR
+          (NEW.type = 'ItemLine' AND NEW.status = 'rejected' AND EXISTS (
+            SELECT 1
+            FROM orders
+            WHERE id = NEW.order_id AND state <> 'rejected')) OR
+          (NEW.type = 'ItemLine' AND NEW.status IN ('approved', 'signed', 'closed') AND EXISTS (
+            SELECT 1
+            FROM orders
+            WHERE id = NEW.order_id AND state <> 'approved'))
+        )
+        THEN
+          RAISE EXCEPTION 'state between item line and order is inconsistent';
+        END IF;
+
+        RETURN NEW;
+      END;
+      $$;
+
+
+--
+-- Name: check_option_line_state_consistency(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION check_option_line_state_consistency() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        IF (
+          NEW.type = 'OptionLine' AND EXISTS (
+            SELECT 1
+            FROM orders
+            WHERE id = NEW.order_id)
+        )
+        THEN
+          RAISE EXCEPTION 'option line cannot belong to an order';
+        END IF;
+
+        RETURN NEW;
+      END;
+      $$;
+
+
+--
+-- Name: check_reservation_contract_inventory_pool_id_consistency(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION check_reservation_contract_inventory_pool_id_consistency() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        IF (
+          NEW.inventory_pool_id != (
+            SELECT inventory_pool_id
+            FROM contracts
+            WHERE id = NEW.contract_id)
+        )
+        THEN
+          RAISE EXCEPTION 'inventory_pool_id between reservation and contract is inconsistent';
+        END IF;
+
+        RETURN NEW;
+      END;
+      $$;
+
+
+--
+-- Name: check_reservation_contract_user_id_consistency(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION check_reservation_contract_user_id_consistency() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        IF (
+          NEW.user_id != (
+            SELECT user_id
+            FROM contracts
+            WHERE id = NEW.contract_id)
+        )
+        THEN
+          RAISE EXCEPTION 'user_id between reservation and contract is inconsistent';
+        END IF;
+
+        RETURN NEW;
+      END;
+      $$;
+
+
+--
+-- Name: check_reservation_order_inventory_pool_id_consistency(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION check_reservation_order_inventory_pool_id_consistency() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        IF (
+          NEW.inventory_pool_id != (
+            SELECT inventory_pool_id
+            FROM orders
+            WHERE id = NEW.order_id)
+        )
+        THEN
+          RAISE EXCEPTION 'inventory_pool_id between reservation and order is inconsistent';
+        END IF;
+
+        RETURN NEW;
+      END;
+      $$;
+
+
+--
+-- Name: check_reservation_order_user_id_consistency(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION check_reservation_order_user_id_consistency() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        IF (
+          NEW.user_id != (
+            SELECT user_id
+            FROM orders
+            WHERE id = NEW.order_id)
+        )
+        THEN
+          RAISE EXCEPTION 'user_id between reservation and order is inconsistent';
+        END IF;
+
+        RETURN NEW;
+      END;
+      $$;
+
+
+--
+-- Name: check_reservations_contracts_state_consistency(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION check_reservations_contracts_state_consistency() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        IF (
+          NEW.state = 'closed' AND (
+            SELECT count(*)
+            FROM reservations
+            WHERE contract_id = NEW.id AND status != 'closed') > 0
+        )
+        THEN
+          RAISE EXCEPTION 'all reservations of a closed contract must be closed as well';
+        END IF;
+
+        RETURN NEW;
+      END;
+      $$;
+
+
+--
+-- Name: delete_empty_order(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION delete_empty_order() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      DECLARE
+        result text;
+      BEGIN
+        IF (
+          NOT EXISTS (
+            SELECT 1
+            FROM reservations
+            WHERE reservations.order_id = OLD.order_id
+        ))
+        THEN
+          DELETE FROM orders WHERE orders.id = OLD.order_id;
+        END IF;
+
+        RETURN OLD;
       END;
       $$;
 
@@ -364,7 +579,12 @@ CREATE TABLE contracts (
     compact_id text NOT NULL,
     note text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    state text NOT NULL,
+    user_id uuid NOT NULL,
+    inventory_pool_id uuid NOT NULL,
+    purpose text NOT NULL,
+    CONSTRAINT check_valid_state CHECK ((state = ANY (ARRAY['open'::text, 'closed'::text])))
 );
 
 
@@ -667,6 +887,19 @@ CREATE TABLE numerators (
 
 
 --
+-- Name: old_empty_contracts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE old_empty_contracts (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    compact_id text NOT NULL,
+    note text,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
 -- Name: options; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -678,6 +911,23 @@ CREATE TABLE options (
     product character varying NOT NULL,
     version character varying,
     price numeric(8,2)
+);
+
+
+--
+-- Name: orders; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE orders (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    user_id uuid NOT NULL,
+    inventory_pool_id uuid NOT NULL,
+    purpose text,
+    state text NOT NULL,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp without time zone DEFAULT now() NOT NULL,
+    purpose_id uuid,
+    CONSTRAINT check_valid_state CHECK ((state = ANY (ARRAY['submitted'::text, 'approved'::text, 'rejected'::text])))
 );
 
 
@@ -847,7 +1097,7 @@ CREATE TABLE procurement_requests (
     CONSTRAINT check_allowed_priorities CHECK (((priority)::text = ANY (ARRAY[('normal'::character varying)::text, ('high'::character varying)::text]))),
     CONSTRAINT check_inspector_priority CHECK (((inspector_priority)::text = ANY (ARRAY[('low'::character varying)::text, ('medium'::character varying)::text, ('high'::character varying)::text, ('mandatory'::character varying)::text]))),
     CONSTRAINT check_internal_order_number_if_type_investment CHECK ((NOT (((accounting_type)::text = 'investment'::text) AND (internal_order_number IS NULL)))),
-    CONSTRAINT check_valid_accounting_type CHECK (((accounting_type)::text = ANY (ARRAY[('aquisition'::character varying)::text, ('investment'::character varying)::text])))
+    CONSTRAINT check_valid_accounting_type CHECK (((accounting_type)::text = ANY ((ARRAY['aquisition'::character varying, 'investment'::character varying])::text[])))
 );
 
 
@@ -906,16 +1156,6 @@ CREATE TABLE properties (
 
 
 --
--- Name: purposes; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE purposes (
-    id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    description text
-);
-
-
---
 -- Name: reservations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -935,10 +1175,12 @@ CREATE TABLE reservations (
     end_date date,
     returned_date date,
     option_id uuid,
-    purpose_id uuid,
     returned_to_user_id uuid,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    order_id uuid,
+    CONSTRAINT check_order_id_for_different_statuses_of_item_line CHECK (((((type)::text = 'ItemLine'::text) AND (((status = 'unsubmitted'::reservation_status) AND (order_id IS NULL)) OR ((status = ANY (ARRAY['submitted'::reservation_status, 'rejected'::reservation_status])) AND (order_id IS NOT NULL)) OR (status = ANY (ARRAY['approved'::reservation_status, 'signed'::reservation_status, 'closed'::reservation_status])))) OR (((type)::text = 'OptionLine'::text) AND (status = ANY (ARRAY['approved'::reservation_status, 'signed'::reservation_status, 'closed'::reservation_status]))))),
+    CONSTRAINT check_valid_status_and_contract_id CHECK ((((status = ANY (ARRAY['unsubmitted'::reservation_status, 'submitted'::reservation_status, 'approved'::reservation_status, 'rejected'::reservation_status])) AND (contract_id IS NULL)) OR ((status = ANY (ARRAY['signed'::reservation_status, 'closed'::reservation_status])) AND (contract_id IS NOT NULL))))
 );
 
 
@@ -1259,11 +1501,27 @@ ALTER TABLE ONLY numerators
 
 
 --
+-- Name: old_empty_contracts old_empty_contracts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY old_empty_contracts
+    ADD CONSTRAINT old_empty_contracts_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: options options_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY options
     ADD CONSTRAINT options_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: orders orders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY orders
+    ADD CONSTRAINT orders_pkey PRIMARY KEY (id);
 
 
 --
@@ -1384,14 +1642,6 @@ ALTER TABLE ONLY procurement_users_filters
 
 ALTER TABLE ONLY properties
     ADD CONSTRAINT properties_pkey PRIMARY KEY (id);
-
-
---
--- Name: purposes purposes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY purposes
-    ADD CONSTRAINT purposes_pkey PRIMARY KEY (id);
 
 
 --
@@ -1559,6 +1809,34 @@ CREATE INDEX index_audits_on_request_uuid ON audits USING btree (request_uuid);
 --
 
 CREATE UNIQUE INDEX index_contracts_on_compact_id ON contracts USING btree (compact_id);
+
+
+--
+-- Name: index_contracts_on_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_contracts_on_created_at ON contracts USING btree (created_at);
+
+
+--
+-- Name: index_contracts_on_inventory_pool_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_contracts_on_inventory_pool_id ON contracts USING btree (inventory_pool_id);
+
+
+--
+-- Name: index_contracts_on_state; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_contracts_on_state ON contracts USING btree (state);
+
+
+--
+-- Name: index_contracts_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_contracts_on_user_id ON contracts USING btree (user_id);
 
 
 --
@@ -1807,6 +2085,13 @@ CREATE INDEX index_notifications_on_user_id ON notifications USING btree (user_i
 
 
 --
+-- Name: index_old_empty_contracts_on_compact_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_old_empty_contracts_on_compact_id ON old_empty_contracts USING btree (compact_id);
+
+
+--
 -- Name: index_on_budget_period_id_and_category_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1825,6 +2110,55 @@ CREATE INDEX index_on_user_id_and_inventory_pool_id_and_deleted_at ON access_rig
 --
 
 CREATE INDEX index_options_on_inventory_pool_id ON options USING btree (inventory_pool_id);
+
+
+--
+-- Name: index_orders_on_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_orders_on_created_at ON orders USING btree (created_at);
+
+
+--
+-- Name: index_orders_on_inventory_pool_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_orders_on_inventory_pool_id ON orders USING btree (inventory_pool_id);
+
+
+--
+-- Name: index_orders_on_state; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_orders_on_state ON orders USING btree (state);
+
+
+--
+-- Name: index_orders_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_orders_on_user_id ON orders USING btree (user_id);
+
+
+--
+-- Name: index_partitions_on_group_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_partitions_on_group_id ON partitions USING btree (group_id);
+
+
+--
+-- Name: index_partitions_on_inventory_pool_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_partitions_on_inventory_pool_id ON partitions USING btree (inventory_pool_id);
+
+
+--
+-- Name: index_partitions_on_model_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_partitions_on_model_id ON partitions USING btree (model_id);
 
 
 --
@@ -1996,10 +2330,73 @@ CREATE INDEX user_index ON audits USING btree (user_id, user_type);
 
 
 --
+-- Name: contracts trigger_check_contract_has_at_least_one_reservation; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_check_contract_has_at_least_one_reservation AFTER INSERT OR UPDATE ON contracts DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE check_contract_has_at_least_one_reservation();
+
+
+--
 -- Name: rooms trigger_check_general_building_id_for_general_room; Type: TRIGGER; Schema: public; Owner: -
 --
 
 CREATE CONSTRAINT TRIGGER trigger_check_general_building_id_for_general_room AFTER UPDATE ON rooms NOT DEFERRABLE INITIALLY IMMEDIATE FOR EACH ROW EXECUTE PROCEDURE check_general_building_id_for_general_room();
+
+
+--
+-- Name: reservations trigger_check_item_line_state_consistency; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_check_item_line_state_consistency AFTER INSERT OR UPDATE ON reservations DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE check_item_line_state_consistency();
+
+
+--
+-- Name: reservations trigger_check_option_line_state_consistency; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_check_option_line_state_consistency AFTER INSERT OR UPDATE ON reservations DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE check_option_line_state_consistency();
+
+
+--
+-- Name: reservations trigger_check_reservation_contract_inventory_pool_id_consistenc; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_check_reservation_contract_inventory_pool_id_consistenc AFTER INSERT OR UPDATE ON reservations DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE check_reservation_contract_inventory_pool_id_consistency();
+
+
+--
+-- Name: reservations trigger_check_reservation_contract_user_id_consistency; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_check_reservation_contract_user_id_consistency AFTER INSERT OR UPDATE ON reservations DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE check_reservation_contract_user_id_consistency();
+
+
+--
+-- Name: reservations trigger_check_reservation_order_inventory_pool_id_consistency; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_check_reservation_order_inventory_pool_id_consistency AFTER INSERT OR UPDATE ON reservations DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE check_reservation_order_inventory_pool_id_consistency();
+
+
+--
+-- Name: reservations trigger_check_reservation_order_user_id_consistency; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_check_reservation_order_user_id_consistency AFTER INSERT OR UPDATE ON reservations DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE check_reservation_order_user_id_consistency();
+
+
+--
+-- Name: contracts trigger_check_reservations_contracts_state_consistency; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_check_reservations_contracts_state_consistency AFTER INSERT OR UPDATE ON contracts DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE check_reservations_contracts_state_consistency();
+
+
+--
+-- Name: reservations trigger_delete_empty_order; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_delete_empty_order AFTER DELETE ON reservations DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE delete_empty_order();
 
 
 --
@@ -2078,19 +2475,19 @@ ALTER TABLE ONLY model_links
 
 
 --
--- Name: reservations fk_rails_1391c89ed4; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY reservations
-    ADD CONSTRAINT fk_rails_1391c89ed4 FOREIGN KEY (purpose_id) REFERENCES purposes(id);
-
-
---
 -- Name: reservations fk_rails_151794e412; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY reservations
     ADD CONSTRAINT fk_rails_151794e412 FOREIGN KEY (inventory_pool_id) REFERENCES inventory_pools(id);
+
+
+--
+-- Name: contracts fk_rails_1bf8633565; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY contracts
+    ADD CONSTRAINT fk_rails_1bf8633565 FOREIGN KEY (inventory_pool_id) REFERENCES inventory_pools(id);
 
 
 --
@@ -2574,6 +2971,14 @@ ALTER TABLE ONLY items
 
 
 --
+-- Name: contracts fk_rails_f191b5ed7a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY contracts
+    ADD CONSTRAINT fk_rails_f191b5ed7a FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
 -- Name: procurement_requests fk_rails_f365098d3c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2674,6 +3079,13 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('122'),
 ('13'),
 ('2'),
+('200'),
+('201'),
+('202'),
+('203'),
+('204'),
+('205'),
+('206'),
 ('4'),
 ('5'),
 ('6'),
