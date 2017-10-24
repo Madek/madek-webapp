@@ -43,7 +43,7 @@ module.exports = React.createClass({
     else
       <ResourceIcon mediaType={media_type} thumbnail={false} type={type} />
 
-    originalUrl = ''
+    originalUrl = null
     if @props.get.media_file && @props.get.media_file.original_file_url
       originalUrl = @props.get.media_file.original_file_url
 
@@ -83,11 +83,15 @@ module.exports = React.createClass({
 
             # PDF
             when @props.get.media_type == 'document'
+              if originalUrl
+                downloadRef = originalUrl
+              else
+                downloadRef = get.url  + '/export'
               <div className='ui-has-magnifier'>
-                <a href={originalUrl}>
+                <a href={downloadRef}>
                   {picture}
                 </a>
-                <a href={originalUrl} className='ui-magnifier'>
+                <a href={downloadRef} className='ui-magnifier'>
                   <Icon i='magnifier' mods='bright'/>
                 </a>
               </div>
@@ -107,6 +111,7 @@ module.exports = React.createClass({
                 style={{width: '100%', padding: '1em', display: 'inline-block', boxSizing: 'border-box'}}
               >
                 <MediaPlayer type='audio'
+                  getUrl={get.url}
                   {...mediaPlayerConfig}
                   sources={previews.audios}
                 />
@@ -114,6 +119,12 @@ module.exports = React.createClass({
 
             # picture with link and 'zoom' icon on hover
             when imageHref && (withLink || withZoomLink)
+
+              if originalUrl
+                imageHref = originalUrl
+              else
+                imageHref = get.url + '/export'
+
               <div className={cx({'ui-has-magnifier': withZoomLink})}>
                 <a href={imageHref}>
                   {picture}

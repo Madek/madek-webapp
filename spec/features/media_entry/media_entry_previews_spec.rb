@@ -14,9 +14,8 @@ feature 'Resource: MediaEntry' do
         :media_entry_with_image_media_file,
         get_metadata_and_previews: true)
 
-      # NOTE: factory image is not large enough to determine 'largest', check all:
-      large_preview = preview_path(
-        entry.media_file.previews.where(thumbnail: :large).first)
+      # NOTE: factory image is not large enough to
+      # determine 'largest', check all:
       largest_preview = entry.media_file.previews.reorder(width: :DESC).first
       largest_previews = entry.media_file.previews
         .where(width: largest_preview.width)
@@ -28,9 +27,10 @@ feature 'Resource: MediaEntry' do
       preview_link = preview.find('a:not(.ui-magnifier)')
       preview_img = preview_link.find('img')
 
-      expect(URI.parse(preview_img[:src]).path).to eq(large_preview)
+      expect(URI.parse(preview_link[:href]).path).to eq(
+        export_media_entry_path(entry))
       expect(largest_previews) # see above
-        .to include(URI.parse(preview_link[:href]).path)
+        .to include(URI.parse(preview_img[:src]).path)
     end
 
     example 'PDF: shows image preview and links to (original) PDF' do

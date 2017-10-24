@@ -42,11 +42,13 @@ module.exports = React.createClass
         </audio>
         {
           if @state.showHint
+            downloadRef = @props.getUrl + '/export'
             <p style={{marginTop: '40px'}}>
               {t('media_entry_file_format_not_supported_1')}
-              <a href={@props.originalUrl}>{t('media_entry_file_format_not_supported_2')}</a>
+              <a href={downloadRef}>{t('media_entry_file_format_not_supported_2')}</a>
               {t('media_entry_file_format_not_supported_3')}
             </p>
+
         }
       </div>
 
