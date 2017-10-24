@@ -24,6 +24,16 @@ module Presenters
             end
           end
 
+          def copyright_notice_pretty
+            copyright = @app_resource.meta_data.find_by(
+              meta_key_id: 'madek_core:copyright_notice')
+            if copyright
+              return copyright.string
+            else
+              return ''
+            end
+          end
+
           def authors_pretty
             @app_resource.authors || ''
           end

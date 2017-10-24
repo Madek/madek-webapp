@@ -108,7 +108,7 @@ module.exports = React.createClass
                               <span className='ui-resources-table-cell-content'>{resource.keywords_pretty}</span>
                             </td>
                             <td data-name='copyright notice' title=''>
-                              <span className='ui-resources-table-cell-content'>{resource.responsible.name}</span>
+                              <span className='ui-resources-table-cell-content'>{resource.copyright_notice_pretty}</span>
                             </td>
                           </tr>
                       }

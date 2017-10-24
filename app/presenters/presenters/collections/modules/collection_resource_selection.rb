@@ -12,12 +12,12 @@ module Presenters
             cancel: I18n.t(:collection_resource_selection_cancel),
             save: I18n.t(:collection_resource_selection_save),
             h_selection: I18n.t(:collection_resource_selection_h_selection),
-            h_title: I18n.t(:collection_resource_selection_h_title),
-            h_subtitle: I18n.t(:collection_resource_selection_h_subtitle),
-            h_author: I18n.t(:collection_resource_selection_h_author),
+            h_title: MetaKey.find('madek_core:title').label,
+            h_subtitle: MetaKey.find('madek_core:subtitle').label,
+            h_author: MetaKey.find('madek_core:authors').label,
             h_date: I18n.t(:collection_resource_selection_h_date),
-            h_keywords: I18n.t(:collection_resource_selection_h_keywords),
-            h_responsible: I18n.t(:collection_resource_selection_h_responsible)
+            h_keywords: MetaKey.find('madek_core:keywords').label,
+            h_responsible: MetaKey.find('madek_core:copyright_notice').label
           }
         end
 
