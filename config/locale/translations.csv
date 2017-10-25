@@ -467,6 +467,7 @@ resource_select_collection_hint_search,"Suchen Sie Sets und markieren Sie diejen
 resource_select_collection_new,Neue,New,
 resource_select_collection_non_assigned,Inhalt ist noch keinem Set zugewiesen.,Item is not yet part of any set.,
 resource_select_collection_non_found,Zu dieser Suche wurde kein Set gefunden.,No set was found.,
+resource_select_collection_has_more,Es gibt noch weitere Resultate. Bitte Suche verfeinern.,There are more results. Please refine the search.,
 resource_select_collection_save,Speichern,Save,
 resource_select_collection_search_placeholder,Suche,Search,
 resource_select_collection_search,Suchen,Search,

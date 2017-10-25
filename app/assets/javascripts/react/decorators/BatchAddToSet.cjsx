@@ -102,7 +102,7 @@ module.exports = React.createClass
     }
 
     hasNew = @state.newSets.length > 0
-    hasResultEntries = get.search_results.length > 0 # get.collection_rows.length isnt 0
+    hasResultEntries = get.search_results.collections.length > 0 # get.collection_rows.length isnt 0
 
 
     _search =
@@ -186,7 +186,7 @@ module.exports = React.createClass
             if @state.searching
               <Preloader style={{marginTop: '20px'}}/>
             else if hasResultEntries
-              f.map get.search_results, (collection, index) ->
+              f.map get.search_results.collections, (collection, index) ->
                 <li style={{paddingLeft: '60px', paddingRight: '200px'}}
                   key={collection.uuid} className='ui-set-list-item'>
                   <img style={{margin: '0px', position: 'absolute', left: '10px', top: '10px'}}
@@ -203,6 +203,11 @@ module.exports = React.createClass
         </ol>
       )
 
+
+    if !@state.searching && hasResultEntries && get.search_results.has_more
+      _content.push(
+        <h3 key='content3' className="by-center title-m">{t('resource_select_collection_has_more')}</h3>
+      )
 
     if not hasResultEntries and f.presence(get.search_term) and not @state.searching
       _content.push(

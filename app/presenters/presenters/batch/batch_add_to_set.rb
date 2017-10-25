@@ -15,14 +15,12 @@ module Presenters
       end
 
       def search_results
-        @search_results = []
+        @search_results = {
+          collections: [],
+          has_more: false
+        }
         if @search_term.presence
           @search_results = search_collections(@user, @search_term)
-            .map do |collection|
-              Presenters::Collections::CollectionIndex.new(
-                collection, @user
-              )
-            end
         end
         @search_results
       end
@@ -42,18 +40,45 @@ module Presenters
       private
 
       def search_collections(user, search_term)
+        # Find all where the title contains the search term
+        # anywhere (case insensitive), but prefere the titles (trimmed)
+        # which start with the search term
+
+        rank_query = <<-SQL
+          case when position(
+            lower(
+              '%s'
+            ) in lower(
+              trim(both ' ' from meta_data.string))
+            ) = 1 then '1' else '2' end as rank
+        SQL
+
+        rank_query_with_search_term = ActiveRecord::Base.send(
+          :sanitize_sql_array,
+          [
+            rank_query,
+            search_term
+          ]
+        )
+
         result = Collection.editable_by_user(user)
+          .select('collections.*')
+          .select(rank_query_with_search_term)
           .joins(:meta_data)
           .where(meta_data: { meta_key_id: 'madek_core:title' })
           .where('meta_data.string ILIKE :term', term: "%#{search_term}%")
-          .reorder('meta_data.string ASC')
+          .reorder('rank ASC, meta_data.string ASC')
+          .limit(11)
 
-        if result.length > 10
-          result = result.slice(0, 10)
-        end
-        result
+        {
+          collections: result.slice(0, 10).map do |collection|
+            Presenters::Collections::CollectionIndex.new(
+              collection, @user
+            )
+          end,
+          has_more: result.length == 11
+        }
       end
-
     end
   end
 end
