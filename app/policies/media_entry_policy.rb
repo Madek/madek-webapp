@@ -31,7 +31,7 @@ class MediaEntryPolicy < Shared::MediaResources::MediaResourcePolicy
   end
 
   def select_collection?
-    show? and record.is_published
+    logged_in? and show? and record.is_published
   end
 
   def permissions_edit?

@@ -28,7 +28,7 @@ class CollectionPolicy < Shared::MediaResources::MediaResourcePolicy
   end
 
   def select_collection?
-    show?
+    logged_in? and show?
   end
 
   def share?
