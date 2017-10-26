@@ -31,6 +31,17 @@ class AddMoreColumnsToContracts < ActiveRecord::Migration[5.0]
   end
 
   def up
+    ###############################################################################
+    file_name = 'migration_204_log'
+    dir_path = "#{Dir.home}/logs"
+    unless Dir.exists?(dir_path)
+      FileUtils::mkdir_p(dir_path)
+    end
+    file_path = "#{dir_path}/#{file_name}"
+
+    log_file = File.new(file_path, 'w')
+    ###############################################################################
+
     add_column :contracts, :state, :text
     add_column :contracts, :user_id, :uuid
     add_column :contracts, :inventory_pool_id, :uuid
@@ -92,24 +103,32 @@ class AddMoreColumnsToContracts < ActiveRecord::Migration[5.0]
         purpose ||= 'unknown purpose'
 
         if user_ids.count > 1
-          if c_state == 'open'
-            raise "several user_ids for open contract #{contract.id}"
-          else
-            Rails.logger.warn "several user_ids for closed contract #{contract.id}"
-            c_reservations.group_by(&:user_id).each_pair do |user_id, reservations|
-              new_contract = ::MigrationContract.create(user_id: user_id,
-                                                        inventory_pool_id: inventory_pool_ids.first,
-                                                        state: 'closed',
-                                                        note: contract.note,
-                                                        purpose: purpose,
-                                                        created_at: contract.created_at,
-                                                        updated_at: contract.updated_at)
-              ::MigrationReservation
-                .where(user_id: user_id, contract_id: contract.id)
-                .update_all(contract_id: new_contract.id)
-            end
-            execute "DELETE FROM contracts WHERE id = '#{contract.id}'"
+          new_contracts = []
+          c_reservations.group_by(&:user_id).each_pair do |user_id, reservations|
+            new_contract = ::MigrationContract.create(user_id: user_id,
+                                                      inventory_pool_id: inventory_pool_ids.first,
+                                                      state: 'closed',
+                                                      note: contract.note,
+                                                      purpose: purpose,
+                                                      created_at: contract.created_at,
+                                                      updated_at: contract.updated_at)
+            new_contracts << new_contract
+
+            ::MigrationReservation
+              .where(user_id: user_id, contract_id: contract.id)
+              .update_all(contract_id: new_contract.id)
           end
+
+          new_contracts.each do |new_contract|
+            new_contract.note = "This and other contracts were created due to the user inconsistency of the original contract #{contract.compact_id}. Please check the before mentioned as well as the following contracts: #{new_contracts.map(&:compact_id).join(', ')}"
+            new_contract.save!
+          end
+          log_string = "Due to user inconsistency new contracts were created. Please check #{(new_contracts + [contract]).map(&:compact_id).join(', ')}\n"
+          log_file.write log_string
+          Rails.logger.warn log_string
+
+          execute "DELETE FROM contracts WHERE id = '#{contract.id}'"
+          log_file.write "Contract #{contract.compact_id} was deleted.\n"
 
         elsif inventory_pool_ids.count > 1
           if c_state == 'open'
@@ -265,6 +284,8 @@ class AddMoreColumnsToContracts < ActiveRecord::Migration[5.0]
 
     add_foreign_key :contracts, :users
     add_foreign_key :contracts, :inventory_pools
+
+    log_file.close
   end
 
   def down
