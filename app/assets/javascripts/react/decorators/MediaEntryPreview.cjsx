@@ -119,12 +119,6 @@ module.exports = React.createClass({
 
             # picture with link and 'zoom' icon on hover
             when imageHref && (withLink || withZoomLink)
-
-              if originalUrl
-                imageHref = originalUrl
-              else
-                imageHref = get.url + '/export'
-
               <div className={cx({'ui-has-magnifier': withZoomLink})}>
                 <a href={imageHref}>
                   {picture}
