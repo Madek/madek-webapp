@@ -927,6 +927,7 @@ CREATE TABLE orders (
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
     reject_reason character varying,
+    CONSTRAINT check_state_and_reject_reason_consistency CHECK ((((state = ANY (ARRAY['submitted'::text, 'approved'::text, 'rejected'::text])) AND (reject_reason IS NULL)) OR ((state = 'rejected'::text) AND (reject_reason IS NOT NULL)))),
     CONSTRAINT check_valid_state CHECK ((state = ANY (ARRAY['submitted'::text, 'approved'::text, 'rejected'::text])))
 );
 
@@ -3088,6 +3089,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('206'),
 ('207'),
 ('208'),
+('209'),
 ('4'),
 ('5'),
 ('6'),
