@@ -87,6 +87,31 @@ CREATE TYPE reservation_status AS ENUM (
 
 
 --
+-- Name: check_closed_reservations_contract_state(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION check_closed_reservations_contract_state() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+      BEGIN
+        IF (
+          NEW.status = 'closed' AND
+          NOT EXISTS(
+            SELECT 1
+            FROM reservations
+            WHERE contract_id = NEW.contract_id AND status != 'closed')
+          ) AND
+          (SELECT state FROM contracts WHERE contracts.id = NEW.contract_id) != 'closed'
+        THEN
+          RAISE EXCEPTION 'If all reservations are closed then the contract must be closed as well';
+        END IF;
+
+        RETURN NEW;
+      END;
+      $$;
+
+
+--
 -- Name: check_contract_has_at_least_one_reservation(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -926,7 +951,7 @@ CREATE TABLE orders (
     state text NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
-    purpose_id uuid,
+    reject_reason character varying,
     CONSTRAINT check_valid_state CHECK ((state = ANY (ARRAY['submitted'::text, 'approved'::text, 'rejected'::text])))
 );
 
@@ -2330,6 +2355,13 @@ CREATE INDEX user_index ON audits USING btree (user_id, user_type);
 
 
 --
+-- Name: reservations trigger_check_closed_reservations_contract_state; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE CONSTRAINT TRIGGER trigger_check_closed_reservations_contract_state AFTER INSERT OR UPDATE ON reservations DEFERRABLE INITIALLY DEFERRED FOR EACH ROW EXECUTE PROCEDURE check_closed_reservations_contract_state();
+
+
+--
 -- Name: contracts trigger_check_contract_has_at_least_one_reservation; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -3086,6 +3118,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('204'),
 ('205'),
 ('206'),
+('207'),
+('208'),
+('209'),
 ('4'),
 ('5'),
 ('6'),
