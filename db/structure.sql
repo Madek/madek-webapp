@@ -782,13 +782,13 @@ CREATE TABLE items (
     insurance_number character varying,
     note text,
     name text,
-    user_name character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     shelf text,
     room_id uuid NOT NULL,
     properties jsonb DEFAULT '{}'::jsonb,
-    item_version character varying
+    item_version character varying,
+    usage character varying
 );
 
 
@@ -1123,7 +1123,7 @@ CREATE TABLE procurement_requests (
     CONSTRAINT check_allowed_priorities CHECK (((priority)::text = ANY (ARRAY[('normal'::character varying)::text, ('high'::character varying)::text]))),
     CONSTRAINT check_inspector_priority CHECK (((inspector_priority)::text = ANY (ARRAY[('low'::character varying)::text, ('medium'::character varying)::text, ('high'::character varying)::text, ('mandatory'::character varying)::text]))),
     CONSTRAINT check_internal_order_number_if_type_investment CHECK ((NOT (((accounting_type)::text = 'investment'::text) AND (internal_order_number IS NULL)))),
-    CONSTRAINT check_valid_accounting_type CHECK (((accounting_type)::text = ANY ((ARRAY['aquisition'::character varying, 'investment'::character varying])::text[])))
+    CONSTRAINT check_valid_accounting_type CHECK (((accounting_type)::text = ANY (ARRAY[('aquisition'::character varying)::text, ('investment'::character varying)::text])))
 );
 
 
@@ -3123,6 +3123,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('208'),
 ('209'),
 ('210'),
+('211'),
 ('4'),
 ('5'),
 ('6'),
