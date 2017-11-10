@@ -55,7 +55,7 @@
     "react-dom": "15.6.1",
     "react-file-drop": "0.1.8",
     "react-waypoint": "7.0.3",
-    "rusha": "0.8.6",
+    "rusha": "0.8.7",
     "tachyons": "^4.7.1",
     "underscore.string": "3.3.4",
     "uuid-validate": "0.0.2",
