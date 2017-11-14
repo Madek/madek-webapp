@@ -7,8 +7,8 @@ include FavoriteHelper
 include BasicDataHelper
 
 feature 'Resource: Collections' do
-  def prepare_data
-    prepare_user
+  def prepare_data(admin: false)
+    prepare_user(admin: admin)
     @collection = create_collection('Test Collection')
   end
 
@@ -17,8 +17,8 @@ feature 'Resource: Collections' do
     visit collection_path(@collection)
   end
 
-  def prepare_and_open_collection
-    prepare_data
+  def prepare_and_open_collection(admin: false)
+    prepare_data(admin: admin)
     open_collection
   end
 
@@ -102,6 +102,50 @@ feature 'Resource: Collections' do
     it 'works via Toolbar-Button on "show" View' do
       prepare_and_open_collection
       favorite_check_logged_in(@user, @collection)
+    end
+  end
+
+  context '(for public/no user logged in)' do
+    it 'does not display link to admin' do
+      prepare_and_open_collection
+
+      within '.ui-body-title-actions .dropdown' do
+        find('a').click
+      end
+      within '.dropdown.open' do
+        expect(page).not_to have_link I18n.t(:resource_action_show_in_admin)
+      end
+    end
+  end
+
+  context '(for logged in user)' do
+    it 'does not display link to admin' do
+      prepare_and_open_collection
+
+      within '.ui-body-title-actions .dropdown' do
+        find('a').click
+      end
+      within '.dropdown.open' do
+        expect(page).not_to have_link I18n.t(:resource_action_show_in_admin)
+      end
+    end
+  end
+
+  context '(for logged in admin user)' do
+    background do
+      prepare_and_open_collection(admin: true)
+    end
+
+    it 'displays link to admin' do
+      within '.ui-body-title-actions .dropdown' do
+        find('a').click
+      end
+      within '.dropdown.open' do
+        expect(page).to have_link(
+          I18n.t(:resource_action_show_in_admin),
+          href: admin_collection_path(@collection)
+        )
+      end
     end
   end
 end

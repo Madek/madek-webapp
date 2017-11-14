@@ -5,6 +5,11 @@ Madek::Application.routes.draw do
 
   root to: 'application#root'
 
+  scope path: '/in-admin', as: :admin do
+    get 'entries/:id' => redirect("/admin/media_entries/%{id}"), as: :entry
+    get 'sets/:id' => redirect("/admin/collections/%{id}/"), as: :collection
+  end
+
   get :status, controller: :application, action: :status
 
   # NOTE: does not work anymore :-(

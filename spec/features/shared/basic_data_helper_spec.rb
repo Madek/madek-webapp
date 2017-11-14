@@ -4,7 +4,7 @@ require 'spec_helper_feature_shared'
 
 module BasicDataHelper
 
-  def prepare_user
+  def prepare_user(admin: false)
     @login = 'User'
     @password = '1234'
     person = FactoryGirl.create(:person, first_name: @login)
@@ -13,6 +13,7 @@ module BasicDataHelper
       person: person,
       login: @login,
       password: @password)
+    Admin.create(user: @user) if admin
   end
 
   def login

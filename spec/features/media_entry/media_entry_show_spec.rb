@@ -26,6 +26,17 @@ describe 'Action: show' do
       expect(page).not_to have_content I18n.t(:media_entry_tab_permissions)
     end
 
+    it 'does not display link to admin' do
+      visit media_entry_path(@entry)
+
+      within '.ui-body-title-actions .dropdown' do
+        find('a').click
+      end
+      within '.dropdown.open' do
+        expect(page).not_to have_link I18n.t(:resource_action_show_in_admin)
+      end
+    end
+
   end
 
   context '(for logged in user)' do
@@ -106,6 +117,39 @@ describe 'Action: show' do
       favorite_check_logged_in(@user, @entry)
     end
 
+    it 'does not display link to admin' do
+      visit media_entry_path(@entry)
+
+      within '.ui-body-title-actions .dropdown' do
+        find('a').click
+      end
+      within '.dropdown.open' do
+        expect(page).not_to have_link I18n.t(:resource_action_show_in_admin)
+      end
+    end
+
+  end
+
+  context '(for logged in admin user)' do
+    background do
+      @user = User.find_by(login: 'adam')
+      sign_in_as @user.login
+      visit media_entry_path(@entry)
+    end
+
+    it 'displays link to admin' do
+      visit media_entry_path(@entry)
+
+      within '.ui-body-title-actions .dropdown' do
+        find('a').click
+      end
+      within '.dropdown.open' do
+        expect(page).to have_link(
+          I18n.t(:resource_action_show_in_admin),
+          href: admin_entry_path(@entry)
+        )
+      end
+    end
   end
 
   it 'Favorite button is not visible for media entry whenn not logged in.' do

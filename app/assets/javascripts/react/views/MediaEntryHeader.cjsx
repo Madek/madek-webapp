@@ -73,7 +73,7 @@ module.exports = React.createClass
                         + 'but the dropdown does not support a form with "put/patch".')
 
                     <MenuItem key={button.id} onClick={onClick} href={href}
-                      onMouseEnter={null} onMouseLeave={null}>
+                      onMouseEnter={null} onMouseLeave={null} target={button.target}>
                       <Icon i={button.icon} mods='ui-drop-icon'
                         style={{position: 'static', display: 'inline-block', minWidth: '20px', marginLeft: '5px'}} />
                       <span style={{display: 'inline', marginLeft: '5px'}}>

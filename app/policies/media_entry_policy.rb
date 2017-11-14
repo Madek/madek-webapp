@@ -42,6 +42,10 @@ class MediaEntryPolicy < Shared::MediaResources::MediaResourcePolicy
     show? and record.is_published
   end
 
+  def show_in_admin?
+    logged_in? and user.admin?
+  end
+
   alias_method :edit?, :update?
 
   alias_method :more_data?, :show?
