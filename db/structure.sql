@@ -1264,7 +1264,10 @@ CREATE TABLE settings (
     text text,
     timeout_minutes integer DEFAULT 30 NOT NULL,
     external_base_url character varying,
-    custom_head_tag text
+    custom_head_tag text,
+    sessions_max_lifetime_secs integer DEFAULT 432000,
+    sessions_force_uniqueness boolean DEFAULT true NOT NULL,
+    sessions_force_secure boolean DEFAULT false NOT NULL
 );
 
 
@@ -1277,6 +1280,19 @@ CREATE TABLE suppliers (
     name character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: user_sessions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE user_sessions (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    token_hash text NOT NULL,
+    user_id uuid,
+    delegation_id uuid,
+    created_at timestamp with time zone DEFAULT now()
 );
 
 
@@ -1708,6 +1724,14 @@ ALTER TABLE ONLY settings
 
 ALTER TABLE ONLY suppliers
     ADD CONSTRAINT suppliers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_sessions user_sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY user_sessions
+    ADD CONSTRAINT user_sessions_pkey PRIMARY KEY (id);
 
 
 --
@@ -2322,6 +2346,20 @@ CREATE UNIQUE INDEX index_suppliers_on_name ON suppliers USING btree (name);
 
 
 --
+-- Name: index_user_sessions_on_token_hash; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_user_sessions_on_token_hash ON user_sessions USING btree (token_hash);
+
+
+--
+-- Name: index_user_sessions_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_user_sessions_on_user_id ON user_sessions USING btree (user_id);
+
+
+--
 -- Name: index_users_on_authentication_system_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2781,6 +2819,14 @@ ALTER TABLE ONLY items
 
 
 --
+-- Name: user_sessions fk_rails_8987cee3fd; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY user_sessions
+    ADD CONSTRAINT fk_rails_8987cee3fd FOREIGN KEY (delegation_id) REFERENCES users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: reservations fk_rails_8dc1da71d1; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2818,6 +2864,14 @@ ALTER TABLE ONLY accessories_inventory_pools
 
 ALTER TABLE ONLY model_links
     ADD CONSTRAINT fk_rails_9b7295b085 FOREIGN KEY (model_id) REFERENCES models(id) ON DELETE CASCADE;
+
+
+--
+-- Name: user_sessions fk_rails_9fa262d742; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY user_sessions
+    ADD CONSTRAINT fk_rails_9fa262d742 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 
 
 --
@@ -3126,6 +3180,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('210'),
 ('211'),
 ('212'),
+('213'),
 ('4'),
 ('5'),
 ('6'),
