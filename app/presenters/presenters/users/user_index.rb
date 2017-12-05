@@ -4,7 +4,11 @@ module Presenters
       delegate_to_app_resource :login
 
       def name
-        @app_resource.person.to_s
+        if @app_resource.is_deactivated
+          I18n.t(:user_name_deactivated)
+        else
+          @app_resource.person.to_s
+        end
       end
 
       def label
