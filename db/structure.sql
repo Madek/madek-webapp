@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.4
--- Dumped by pg_dump version 9.6.4
+-- Dumped from database version 9.6.5
+-- Dumped by pg_dump version 9.6.1
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -479,7 +479,7 @@ CREATE TABLE access_rights (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     role character varying NOT NULL,
-    CONSTRAINT check_allowed_roles CHECK (((role)::text = ANY ((ARRAY['customer'::character varying, 'group_manager'::character varying, 'lending_manager'::character varying, 'inventory_manager'::character varying, 'admin'::character varying])::text[])))
+    CONSTRAINT check_allowed_roles CHECK (((role)::text = ANY (ARRAY[('customer'::character varying)::text, ('group_manager'::character varying)::text, ('lending_manager'::character varying)::text, ('inventory_manager'::character varying)::text, ('admin'::character varying)::text])))
 );
 
 
@@ -1120,8 +1120,8 @@ CREATE TABLE procurement_requests (
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
     accounting_type character varying DEFAULT 'aquisition'::character varying NOT NULL,
     internal_order_number character varying,
-    CONSTRAINT check_allowed_priorities CHECK (((priority)::text = ANY ((ARRAY['normal'::character varying, 'high'::character varying])::text[]))),
-    CONSTRAINT check_inspector_priority CHECK (((inspector_priority)::text = ANY ((ARRAY['low'::character varying, 'medium'::character varying, 'high'::character varying, 'mandatory'::character varying])::text[]))),
+    CONSTRAINT check_allowed_priorities CHECK (((priority)::text = ANY (ARRAY[('normal'::character varying)::text, ('high'::character varying)::text]))),
+    CONSTRAINT check_inspector_priority CHECK (((inspector_priority)::text = ANY (ARRAY[('low'::character varying)::text, ('medium'::character varying)::text, ('high'::character varying)::text, ('mandatory'::character varying)::text]))),
     CONSTRAINT check_internal_order_number_if_type_investment CHECK ((NOT (((accounting_type)::text = 'investment'::text) AND (internal_order_number IS NULL)))),
     CONSTRAINT check_valid_accounting_type CHECK (((accounting_type)::text = ANY ((ARRAY['aquisition'::character varying, 'investment'::character varying])::text[])))
 );
@@ -1267,7 +1267,8 @@ CREATE TABLE settings (
     custom_head_tag text,
     sessions_max_lifetime_secs integer DEFAULT 432000,
     sessions_force_uniqueness boolean DEFAULT true NOT NULL,
-    sessions_force_secure boolean DEFAULT false NOT NULL
+    sessions_force_secure boolean DEFAULT false NOT NULL,
+    logo_link text DEFAULT ''::text
 );
 
 
@@ -1700,14 +1701,6 @@ ALTER TABLE ONLY reservations
 
 ALTER TABLE ONLY rooms
     ADD CONSTRAINT rooms_pkey PRIMARY KEY (id);
-
-
---
--- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY schema_migrations
-    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
 
 
 --
@@ -2385,6 +2378,13 @@ CREATE UNIQUE INDEX rooms_unique_building_id_general_true ON rooms USING btree (
 --
 
 CREATE UNIQUE INDEX rooms_unique_name_and_building_id ON rooms USING btree ((((lower((name)::text) || ' '::text) || building_id)));
+
+
+--
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
 
 
 --
@@ -3181,6 +3181,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('211'),
 ('212'),
 ('213'),
+('214'),
 ('4'),
 ('5'),
 ('6'),
