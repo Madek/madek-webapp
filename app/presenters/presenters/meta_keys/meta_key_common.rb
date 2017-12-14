@@ -1,9 +1,7 @@
 module Presenters
   module MetaKeys
     class MetaKeyCommon < Presenters::Shared::AppResource
-      delegate_to_app_resource(:description,
-                               :hint,
-                               :vocabulary_id,
+      delegate_to_app_resource(:vocabulary_id,
                                :allowed_people_subtypes,
                                :position)
 
@@ -30,7 +28,16 @@ module Presenters
       end
 
       def label
-        @app_resource.label or @app_resource.id.split(':').last.humanize
+        @app_resource.label(I18n.locale) or
+          @app_resource.id.split(':').last.humanize
+      end
+
+      def description
+        @app_resource.description(I18n.locale)
+      end
+
+      def hint
+        @app_resource.hint(I18n.locale)
       end
 
       def value_type

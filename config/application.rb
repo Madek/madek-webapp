@@ -66,8 +66,8 @@ module Madek
     config.i18n.load_path += Dir[
       Rails.root.join('public/assets/_rails_locales', '*.yml').to_s]
 
-    config.i18n.default_locale = :de
-    config.i18n.available_locales = [:de, :en]
+    require 'settings'
+    config.i18n.default_locale = Settings.madek_default_locale
     config.i18n.enforce_available_locales = true
 
     # translations are part of the assets (JS), so watch them for changes:
