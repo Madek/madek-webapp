@@ -1268,7 +1268,7 @@ CREATE TABLE settings (
     sessions_max_lifetime_secs integer DEFAULT 432000,
     sessions_force_uniqueness boolean DEFAULT true NOT NULL,
     sessions_force_secure boolean DEFAULT false NOT NULL,
-    logo_link text DEFAULT ''::text
+    documentation_link character varying DEFAULT ''::character varying
 );
 
 
