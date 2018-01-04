@@ -26,6 +26,15 @@ class VocabulariesController < ApplicationController
     respond_with(@get)
   end
 
+  def people
+    vocabulary = find_by_vocab_id_param
+
+    @get = Presenters::Vocabularies::VocabularyPeople.new(
+      vocabulary, user: current_user)
+
+    respond_with(@get)
+  end
+
   def contents
     vocabulary = find_by_vocab_id_param
     resources_type = params.permit(:type).fetch(:type, nil)

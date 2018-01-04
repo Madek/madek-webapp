@@ -29,6 +29,11 @@ module.exports = React.createClass
         label: t('vocabularies_tabs_keywords')
       },
       {
+        visible: @props.page.show_people,
+        path: actions.vocabulary_people,
+        label: t('vocabularies_tabs_people')
+      },
+      {
         visible: true
         path: actions.vocabulary_contents,
         label: t('vocabularies_tabs_contents')

@@ -29,6 +29,10 @@ class VocabularyPolicy < DefaultPolicy
     show?
   end
 
+  def people?
+    show?
+  end
+
   def contents?
     show?
   end

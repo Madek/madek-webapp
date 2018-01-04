@@ -18,12 +18,21 @@ module Presenters
         not keyword_keys.empty?
       end
 
+      def show_people
+        people_keys = @vocabulary.meta_keys.select do |meta_key|
+          meta_key.meta_datum_object_type == 'MetaDatum::People'
+        end
+        not people_keys.empty?
+      end
+
       def actions
         {
           index: prepend_url_context(vocabularies_path),
           vocabulary: prepend_url_context(vocabulary_path(@vocabulary)),
           vocabulary_keywords: prepend_url_context(
             vocabulary_keywords_path(@vocabulary)),
+          vocabulary_people: prepend_url_context(
+            vocabulary_people_path(@vocabulary)),
           vocabulary_contents: prepend_url_context(
             vocabulary_contents_path(@vocabulary)),
           vocabulary_permissions: prepend_url_context(

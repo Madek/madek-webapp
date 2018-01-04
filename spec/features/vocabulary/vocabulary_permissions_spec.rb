@@ -19,6 +19,7 @@ feature 'Resource: Vocabulary' do
         [
           { key: :vocabularies_tabs_vocabulary, active: false },
           { key: :vocabularies_tabs_keywords, active: false },
+          { key: :vocabularies_tabs_people, active: false },
           { key: :vocabularies_tabs_contents, active: false },
           { key: :vocabularies_tabs_permissions, active: true }
         ]

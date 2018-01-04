@@ -177,6 +177,7 @@ Madek::Application.routes.draw do
 
   get 'vocabulary/:vocabulary_id', to: 'vocabularies#show', as: 'vocabulary'
   get 'vocabulary/:vocab_id/keywords', to: 'vocabularies#keywords', as: 'vocabulary_keywords'
+  get 'vocabulary/:vocab_id/people', to: 'vocabularies#people', as: 'vocabulary_people'
   get 'vocabulary/:vocab_id/content', to: 'vocabularies#contents', as: 'vocabulary_contents'
   get 'vocabulary/:vocab_id/permissions', to: 'vocabularies#permissions', as: 'vocabulary_permissions'
 
