@@ -11,7 +11,7 @@ describe ApiTokensController do
           .to raise_error Errors::UnauthorizedError, 'Please log in!'
       end
 
-      it 'ok when logged in' do
+      it 'ok when logged in, defaults to read-only' do
         new_attrs = {
           description: Faker::Hacker.phrases.sample
         }
@@ -34,6 +34,21 @@ describe ApiTokensController do
         expect(result['description']).to eq new_attrs[:description]
         expect(result['revoked']).to be false
         expect(result['scopes']).to eq ['read']
+      end
+
+      it 'can be allowed to write' do
+        new_attrs = {
+          description: "read'n'write",
+          scope_write: true
+        }
+
+        post(
+          :create_api_token,
+          { api_token: new_attrs, format: :json },
+          user_id: user.id)
+
+        result = JSON.parse(response.body)
+        expect(result['scopes']).to eq ['read', 'write']
       end
 
     end

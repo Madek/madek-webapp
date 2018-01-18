@@ -15,7 +15,7 @@ class ApiTokensController < ApplicationController
   end
 
   def create_api_token
-    attrs = token_params([:description])
+    attrs = token_params([:description, :scope_write])
     callback_url = params.permit(:callback_url).fetch(:callback_url, nil)
     disallow_insecure_http(callback_url)
 
