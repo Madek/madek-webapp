@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.6.3
--- Dumped by pg_dump version 9.6.3
+-- Dumped from database version 9.6.5
+-- Dumped by pg_dump version 9.6.1
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1123,7 +1123,7 @@ CREATE TABLE procurement_requests (
     CONSTRAINT check_allowed_priorities CHECK (((priority)::text = ANY (ARRAY[('normal'::character varying)::text, ('high'::character varying)::text]))),
     CONSTRAINT check_inspector_priority CHECK (((inspector_priority)::text = ANY (ARRAY[('low'::character varying)::text, ('medium'::character varying)::text, ('high'::character varying)::text, ('mandatory'::character varying)::text]))),
     CONSTRAINT check_internal_order_number_if_type_investment CHECK ((NOT (((accounting_type)::text = 'investment'::text) AND (internal_order_number IS NULL)))),
-    CONSTRAINT check_valid_accounting_type CHECK (((accounting_type)::text = ANY ((ARRAY['aquisition'::character varying, 'investment'::character varying])::text[])))
+    CONSTRAINT check_valid_accounting_type CHECK (((accounting_type)::text = ANY (ARRAY[('aquisition'::character varying)::text, ('investment'::character varying)::text])))
 );
 
 
@@ -1280,7 +1280,8 @@ CREATE TABLE suppliers (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     name character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    note text DEFAULT ''::text
 );
 
 
@@ -2118,6 +2119,13 @@ CREATE INDEX index_items_on_parent_id_and_retired ON items USING btree (parent_i
 --
 
 CREATE INDEX index_items_on_retired ON items USING btree (retired);
+
+
+--
+-- Name: index_items_on_supplier_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_items_on_supplier_id ON items USING btree (supplier_id);
 
 
 --
@@ -3231,6 +3239,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('213'),
 ('214'),
 ('215'),
+('216'),
+('217'),
 ('4'),
 ('5'),
 ('6'),
