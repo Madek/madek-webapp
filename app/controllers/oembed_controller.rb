@@ -15,7 +15,9 @@ class OembedController < ApplicationController
     #       therefore all errors are catched to not trigger rails default behaviour
 
     # NOTE: `url` accepts anything that Rails recognizes, for simplicity
-    #       (so giving the "correct" external hostname is not strcitly needed)
+    #       (so giving the "correct" external hostname is not strictly needed)
+
+    # NOTE: param `sfcss` enables CSS workaround for certain contexts when present
 
     # disregard any auth (only 'public' resources are served!)
     skip_authorization
@@ -78,7 +80,9 @@ class OembedController < ApplicationController
 
     target_url = absolute_url(
       embedded_media_entry_path(
-        resource.id, height: scaled[:height], width: scaled[:width]))
+        resource.id,
+        height: scaled[:height], width: scaled[:width],
+        sfcss: params[:sfcss]))
 
     {
       version: OEMBED_VERSION,
@@ -106,7 +110,8 @@ class OembedController < ApplicationController
   def oembed_params
     { format: 'json' } # defaults
       .merge(url: params.require(:url))
-      .merge(params.permit(:format, :maxwidth, :maxheight).deep_symbolize_keys)
+      .merge(params.permit(:format, :maxwidth, :maxheight, :sfcss))
+      .deep_symbolize_keys
   end
 
   # NOTE: simpler to concat than templating
