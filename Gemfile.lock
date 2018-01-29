@@ -49,9 +49,6 @@ GEM
     arel (7.1.4)
     base32-crockford (0.1.0)
     builder (3.2.3)
-    climate_control (0.2.0)
-    cocaine (0.5.8)
-      climate_control (>= 0.0.3, < 1.0)
     coderay (1.1.1)
     concurrent-ruby (1.0.5)
     erubis (2.7.0)
@@ -71,7 +68,6 @@ GEM
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
-    mimemagic (0.3.0)
     mini_portile2 (2.2.0)
     minitest (5.10.3)
     monetize (1.7.0)
@@ -86,12 +82,6 @@ GEM
     nio4r (2.1.0)
     nokogiri (1.8.0)
       mini_portile2 (~> 2.2.0)
-    paperclip (4.3.7)
-      activemodel (>= 3.2.0)
-      activesupport (>= 3.2.0)
-      cocaine (~> 0.5.5)
-      mime-types
-      mimemagic (= 0.3.0)
     pg (0.21.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
@@ -149,7 +139,6 @@ DEPENDENCIES
   base32-crockford
   exiftool_vendored
   money-rails (~> 1.4)
-  paperclip (~> 4.3)
   pg
   pg_tasks!
   pry
@@ -158,4 +147,4 @@ DEPENDENCIES
   uuidtools
 
 BUNDLED WITH
-   1.15.4
+   1.16.0
