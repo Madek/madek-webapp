@@ -106,11 +106,14 @@ class CreateProcurementTables < ActiveRecord::Migration[4.2]
     add_foreign_key(:procurement_requests, :procurement_organizations, column: 'organization_id')
     add_foreign_key(:procurement_requests, :procurement_templates, column: 'template_id')
 
-    create_table :procurement_attachments, id: :uuid do |t|
-      t.uuid :request_id
-      t.attachment :file
-    end
-    add_foreign_key(:procurement_attachments, :procurement_requests, column: 'request_id')
+    # NOTE: this is disabled because it relied on the removed paperclip gem
+    #       see migration Nr. 101 for new version of this table
+    #
+    # create_table :procurement_attachments, id: :uuid do |t|
+    #   t.uuid :request_id
+    #   t.attachment :file
+    # end
+    # add_foreign_key(:procurement_attachments, :procurement_requests, column: 'request_id')
 
   end
 end
