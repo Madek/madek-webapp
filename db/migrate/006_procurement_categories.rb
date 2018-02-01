@@ -9,7 +9,9 @@ class ProcurementCategories < ActiveRecord::Migration[4.2]
     drop_table :procurement_template_categories
     create_table :procurement_main_categories, id: :uuid do |t|
       t.string :name
-      t.attachment :image
+      # NOTE: this is disabled because it relied on the removed paperclip gem
+      #       in migration Nr. 102 it is dropped anyhow
+      # t.attachment :image
 
       t.index :name, unique: true
     end
