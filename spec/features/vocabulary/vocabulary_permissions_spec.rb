@@ -60,7 +60,7 @@ feature 'Resource: Vocabulary' do
       visit vocabulary_permissions_path(vocab_id: v)
 
       # not visible for public!
-      expect(page).to have_content 'Error 401'
+      expect(page).to have_content I18n.t(:error_401_title)
       sign_in_as user
 
       check_title(v.label)

@@ -19,7 +19,7 @@ feature 'Batch edit media entries' do
 
       visit batch_edit_meta_data_by_context_media_entries_path(id: [me1, me2])
 
-      expect(page).to have_content 'Error 403'
+      expect(page).to have_content I18n.t(:error_403_title)
     end
   end
 end

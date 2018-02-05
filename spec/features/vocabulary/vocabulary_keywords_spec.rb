@@ -39,7 +39,7 @@ feature 'Vocabulary keywords' do
     vocabulary.save
 
     visit_vocabulary_keywords(vocabulary)
-    expect(page).to have_content 'Error 401'
+    expect(page).to have_content I18n.t(:error_401_title)
   end
 
   scenario 'Check vocabulary invisible for user' do
@@ -51,7 +51,7 @@ feature 'Vocabulary keywords' do
     login
 
     visit_vocabulary_keywords(vocabulary)
-    expect(page).to have_content 'Error 403'
+    expect(page).to have_content I18n.t(:error_403_title)
   end
 
   scenario 'Check vocabulary visible for user' do

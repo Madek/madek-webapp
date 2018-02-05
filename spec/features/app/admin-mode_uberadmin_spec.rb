@@ -19,10 +19,10 @@ feature 'App: Admin-Mode (Uberadmin/Superadmin)' do
        'Medium', 'Core', 'Set'])
 
     visit media_entry_path(@entry)
-    expect(page).to have_content 'Error 403'
+    expect(page).to have_content I18n.t(:error_403_title)
 
     visit collection_path(@set)
-    expect(page).to have_content 'Error 403'
+    expect(page).to have_content I18n.t(:error_403_title)
 
     # enter uberadmin mode
     open_user_menu
@@ -51,7 +51,7 @@ feature 'App: Admin-Mode (Uberadmin/Superadmin)' do
       .to have_selector '.ui-alert.success', text: 'Admin-Modus deaktiviert!'
 
     visit media_entry_path(@entry)
-    expect(page).to have_content 'Error 403'
+    expect(page).to have_content I18n.t(:error_403_title)
   end
 
 end

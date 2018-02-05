@@ -296,5 +296,12 @@ Madek::Application.routes.draw do
   get '/contexts/:id' => redirect("/vocabulary/%{id}")
   get '/contexts/:id/entries' => redirect("/vocabulary/%{id}/entries")
   get '/media_entries/:id/context_group/:name' => redirect("/entries/%{id}/vocabulary")
+
+  ####################################################################################
+  # ONLY FOR TEST
+  ####################################################################################
+  if Rails.env.test?
+    get '/error_500', to: 'only_for_test#error_500'
+  end
   ####################################################################################
 end

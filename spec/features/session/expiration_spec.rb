@@ -19,11 +19,11 @@ describe 'Expiration of Session after configured timeout' do
     specify 'the user is logged out after 12 seconds' do
       visit '/my'
       expect(page).to have_content I18n.t(:sitemap_my_groups)
-      expect(page).not_to have_content 'Error 401'
+      expect(page).not_to have_content I18n.t(:error_401_title)
       expect(sleep 12).to be >= 10
       visit current_path
       expect(page).not_to have_content I18n.t(:sitemap_my_groups)
-      expect(page).to have_content 'Error 401'
+      expect(page).to have_content I18n.t(:error_401_title)
     end
 
   end

@@ -1,4 +1,11 @@
-- title = "Error #{@get.status_code} — #{@get.message}"
+:ruby
+  t_key_for_title = "error_#{@get.status_code}_title"
+  t_key_for_message = "error_#{@get.status_code}_message"
+  title = if I18n.exists?(t_key_for_title)
+            t(t_key_for_title)
+          else
+            "Error #{@get.status_code} — #{@get.message}"
+          end
 
 - content_for(:title_head) do
   = title
@@ -23,14 +30,19 @@
               = component('icon.bang')
 
             .error-message.col4of6{data: { hashviz_target: 'errvis' }}
-              %p.paragraph-l
-                = @get.details.first
-              %p.title-xs-alt
-                = @get.details.second
-              %p.title-xs-alt.hidden
-                - @get.details.drop(2).flatten.uniq.each do |line|
-                  = line
-                  %br/
+              - if I18n.exists?(t_key_for_message)
+                %p.paragraph-l
+                  = t(t_key_for_message)
+              - else
+                %p.paragraph-l
+                  = @get.details.first
+                %p.title-xs-alt
+                  = @get.details.second
+                %p.title-xs-alt.hidden
+                  - @get.details.drop(2).flatten.uniq.each do |line|
+                    = line
+                    %br/
+
 
             .col1of6
               .errvis.ui-container.rounded{ data: { hashviz_container: 'errvis' } }

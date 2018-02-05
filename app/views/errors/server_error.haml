@@ -1,8 +1,5 @@
 :ruby
-  status_code = @get.try(:status_code).presence || 500
-  message = @get.try(:message).presence || 'Internal Server Error'
-
-  title = "Error #{status_code} — #{message}"
+  title = t("error_#{@get.status_code}_title")
 
 - content_for(:title_head) do
   = title
@@ -20,6 +17,11 @@
             = component('icon.bang')
 
           .error-message.col4of6{data: { hashviz_target: 'errvis' }}
+            %p.paragraph-m
+              = t("error_#{@get.status_code}_message")
+            %br
+            %hr
+            %br
             %p.paragraph-l
               = @get.details.first
             %p.title-xs-alt
