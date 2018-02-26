@@ -72,7 +72,7 @@ module Presenters
         def ignored_keywords
           return @_ignored_keywords if @_ignored_keywords
           mks = AppSetting.first.ignored_keyword_keys_for_browsing || []
-          @_ignored_keywords = Keyword.where(meta_key: mks).map(&:id) if mks.any?
+          @_ignored_keywords = Keyword.where(meta_key: mks).pluck(:id)
         end
 
         def related_entries_by_shared_keywords
@@ -96,9 +96,7 @@ module Presenters
               WHERE
                 meta_data.media_entry_id = '#{entry_id}'
                 AND meta_data_keywords.meta_datum_id = meta_data.id
-                AND meta_data_keywords.keyword_id NOT IN (
-                  SELECT UNNEST('{#{ignored_keywords.join(',')}}'::uuid[])
-                )
+                #{ignored_keywords_subquery}
           )
           AND meta_data_keywords.meta_datum_id = meta_data.id
           AND meta_data.media_entry_id = media_entries.id
@@ -119,6 +117,16 @@ module Presenters
 
           @_related_entries_by_shared_keywords = \
             ActiveRecord::Base.connection.exec_query(query).to_hash
+        end
+
+        def ignored_keywords_subquery
+          if ignored_keywords.any?
+            <<-SQL
+              AND meta_data_keywords.keyword_id NOT IN (
+                SELECT UNNEST('{#{ignored_keywords.join(',')}}'::uuid[])
+              )
+            SQL
+          end
         end
 
         def subquery_visibility(user = @user)
