@@ -16,19 +16,29 @@ module Presenters
 
       # for simple display purposes, we provide the 3 "shadowed" props,
       # for everything else 'meta_key' is provided.
+      # Fallbacks prefer a translated meta_key over a non-translated self prop.
 
       attr_reader :meta_key
 
       def description
-        @app_resource.description(I18n.locale) or @meta_key.description
+        @app_resource.description(I18n.locale) \
+          or @app_resource.meta_key.description(I18n.locale) \
+          or @app_resource.description \
+          or @meta_key.description
       end
 
       def label
-        @app_resource.label(I18n.locale) or @meta_key.label or @meta_key.uuid
+        @app_resource.label(I18n.locale) \
+          or @app_resource.meta_key.label(I18n.locale) \
+          or @app_resource.label \
+          or @meta_key.label # already makes sure to *always* display something
       end
 
       def hint
-        @app_resource.hint(I18n.locale) or @meta_key.hint
+        @app_resource.hint(I18n.locale) \
+          or @app_resource.meta_key.hint(I18n.locale) \
+          or @app_resource.hint \
+          or @meta_key.hint
       end
     end
   end
