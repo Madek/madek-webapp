@@ -44,4 +44,4 @@ module.exports = React.createClass
       )
 
     switcher = resourceTypeSwitcher(@props.get.resources, @state.forUrl, true, null)
-    <MediaResourcesBox {...@props} get={@props.get.resources} toolBarMiddle={switcher} collectionData={{uuid: @props.get.clipboard_id, addToSetUrl: @props.collectionData.addToSetUrl, removeFromSetUrl: @props.collectionData.removeFromSetUrl}} />
+    <MediaResourcesBox {...@props} get={@props.get.resources} toolBarMiddle={switcher} collectionData={{uuid: @props.get.clipboard_id}} />

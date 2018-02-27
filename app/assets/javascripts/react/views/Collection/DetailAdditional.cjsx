@@ -33,7 +33,7 @@ module.exports = React.createClass
         get={get.child_media_resources} authToken={authToken}
         router={@router}
         initial={ { show_filter: true } } mods={ [ {bordered: false}, 'rounded-bottom' ] }
-        collectionData={{uuid: get.uuid, layout: get.layout, editable: get.editable, order: get.sorting, url: get.url, batchEditUrl: get.batch_edit_url, addToSetUrl: get.add_to_set_url, removeFromSetUrl: get.remove_from_set_url}}
+        collectionData={{uuid: get.uuid, layout: get.layout, editable: get.editable, order: get.sorting, url: get.url, batchEditUrl: get.batch_edit_url}}
         toolBarMiddle={switcher}
         enableOrdering={true} enableOrderByTitle={true}
         showAllButton={true}

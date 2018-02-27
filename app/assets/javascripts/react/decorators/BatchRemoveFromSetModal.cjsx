@@ -30,8 +30,8 @@ module.exports = React.createClass
   _extractGet: (json) ->
     json
 
-  render: ({authToken, get, removeFromSetUrl} = @props) ->
-    getUrl = setUrlParams(removeFromSetUrl, {
+  render: ({authToken, get} = @props) ->
+    getUrl = setUrlParams('/batch_ask_remove_from_set', {
       parent_collection_id: @props.collectionUuid
       resource_id: @props.resourceIds
       return_to: @props.returnTo

@@ -1116,15 +1116,13 @@ module.exports = React.createClass
       {
         if @state.batchAddToSet
           <BatchAddToSetModal resourceIds={@_selectedResourceIdsWithTypes()} authToken={@props.authToken}
-            get={null} onClose={@_onCloseModal} returnTo={currentUrl}
-            addToSetUrl={@props.collectionData.addToSetUrl}/>
+            get={null} onClose={@_onCloseModal} returnTo={currentUrl} />
       }
       {
         if @state.batchRemoveFromSet
           <BatchRemoveFromSetModal collectionUuid={@props.collectionData.uuid}
             resourceIds={@_selectedResourceIdsWithTypes()} authToken={@props.authToken}
-            get={null} onClose={@_onCloseModal} returnTo={currentUrl}
-            removeFromSetUrl={@props.collectionData.removeFromSetUrl}/>
+            get={null} onClose={@_onCloseModal} returnTo={currentUrl} />
       }
       {
         if @state.batchDestroyResourcesModal

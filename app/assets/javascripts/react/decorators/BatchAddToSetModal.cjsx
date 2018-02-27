@@ -30,8 +30,8 @@ module.exports = React.createClass
   _extractGet: (json) ->
     json
 
-  render: ({authToken, get, addToSetUrl} = @props) ->
-    getUrl = setUrlParams(addToSetUrl, {
+  render: ({authToken, get} = @props) ->
+    getUrl = setUrlParams('/batch_select_add_to_set', {
       search_term: '',
       resource_id: @props.resourceIds
       return_to: @props.returnTo

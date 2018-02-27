@@ -21,10 +21,6 @@ react(ui_component,
     },
     enableOrdering: true,
     enableOrderByTitle: !is_unpublished_entries,
-    draftsView: section[:id] == :unpublished_entries,
-    collectionData: {
-      addToSetUrl: batch_select_add_to_set_path,
-      removeFromSetUrl: batch_ask_remove_from_set_path
-    })
-
+    draftsView: section[:id] == :unpublished_entries
+)
   %>
