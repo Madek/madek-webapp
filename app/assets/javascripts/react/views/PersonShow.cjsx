@@ -8,16 +8,23 @@ libUrl = require('url')
 f = require('lodash')
 resourceTypeSwitcher = require('../lib/resource-type-switcher.cjsx')
 
-
-infotable = (person) ->
+infotable = (p) ->
   [
     [
       t('person_show_first_name'),
-      person.first_name
+      p.first_name
     ],
     [
       t('person_show_last_name'),
-      person.last_name
+      p.last_name
+    ],
+    [
+      t('person_show_external_uri'),
+      if !p.external_uri then false else <a href={p.external_uri}>{p.external_uri}</a>
+    ],
+    [
+      t('person_show_description'),
+      p.description
     ]
   ]
 

@@ -1,7 +1,9 @@
 module Presenters
   module People
     class PersonShow < Presenters::People::PersonCommon
-      delegate_to_app_resource :first_name, :last_name, :to_s
+      delegate_to_app_resource \
+        :first_name, :last_name, :to_s, \
+        :external_uri, :description
 
       def initialize(app_resource, user, resources_type, list_conf)
         super(app_resource)
