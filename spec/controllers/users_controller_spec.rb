@@ -32,6 +32,61 @@ describe UsersController do
       expect(result.first['login']).to be == user.login
     end
 
+    context 'prefers exact match' do
+
+      it 'by id' do
+        2.times { FactoryGirl.create :user }
+        user = User.first
+        # this user should not be returned even with the ID as a login:
+        User.last.login = user.id
+
+        get :index,
+            search_term: user.id,
+            format: :json
+
+        assert_response :success
+        expect(response.content_type).to be == 'application/json'
+        result = JSON.parse(response.body)
+        expect(result.size).to be == 1
+        expect(result.first['uuid']).to eq user.id
+      end
+
+      it 'by url' do
+        2.times { FactoryGirl.create :user }
+        user = User.first
+        # this user should not be returned even with the ID as a login:
+        User.last.login = user.id
+
+        get :index,
+            search_term: "https://example.com/admin/users/#{user.id}/",
+            format: :json
+
+        assert_response :success
+        expect(response.content_type).to be == 'application/json'
+        result = JSON.parse(response.body)
+        expect(result.size).to be == 1
+        expect(result.first['uuid']).to eq user.id
+      end
+
+      it 'by email' do
+        2.times { FactoryGirl.create :user }
+        user = User.first
+        # this user should not be returned even with the email as a login:
+        User.last.login = user.email.split('@').join(' ')
+
+        get :index,
+            search_term: user.email,
+            format: :json
+
+        assert_response :success
+        expect(response.content_type).to be == 'application/json'
+        result = JSON.parse(response.body)
+        expect(result.size).to be == 1
+        expect(result.first['uuid']).to eq user.id
+      end
+
+    end
+
     context 'when user is deactivated' do
       before { user.update_column(:is_deactivated, true) }
 

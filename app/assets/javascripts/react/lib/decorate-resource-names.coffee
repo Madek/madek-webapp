@@ -4,7 +4,7 @@ decorators =
   Person: (o)-> o.name || buildPersonName(o)
   InstitutionalGroup: (o)-> o.detailed_name
   Group: (o)-> o.name
-  # TODO: label by rdf class
+  # TODO: label-icon by rdf class
   Keyword: (o)-> o.label
 
 module.exports = (o)->

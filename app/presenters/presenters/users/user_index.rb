@@ -15,6 +15,10 @@ module Presenters
         name
       end
 
+      def autocomplete_label
+        @app_resource.email.present? ? "#{label} <#{@app_resource.email}>" : label
+      end
+
       def import_url
         new_media_entry_path
       end

@@ -65,5 +65,47 @@ describe PeopleController do
       result = JSON.parse(response.body)
       expect(result.size).to be == 100
     end
+
+    context 'prefers exact matches' do
+
+      example 'by id' do
+        2.times { FactoryGirl.create :person }
+        person = Person.first
+        # this person should not be returned even with the ID as a name:
+        Person.last.last_name = person.id
+
+        get :index,
+            { meta_key_id: meta_key_people.id,
+              search_term: person.id,
+              format: :json },
+            user_id: user.id
+
+        assert_response :success
+        expect(response.content_type).to be == 'application/json'
+        result = JSON.parse(response.body)
+        expect(result.size).to be == 1
+        expect(result.first['name']).to match /#{person.first_name}/
+      end
+
+      example 'by url' do
+        2.times { FactoryGirl.create :person }
+        person = Person.first
+        # this person should not be returned even with the ID as a name:
+        Person.last.last_name = person.id
+
+        get :index,
+            { meta_key_id: meta_key_people.id,
+              search_term: "https://example.com/people/#{person.id}/",
+              format: :json },
+            user_id: user.id
+
+        assert_response :success
+        expect(response.content_type).to be == 'application/json'
+        result = JSON.parse(response.body)
+        expect(result.size).to be == 1
+        expect(result.first['name']).to match /#{person.first_name}/
+      end
+
+    end
   end
 end
