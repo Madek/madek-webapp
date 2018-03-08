@@ -50,15 +50,14 @@ initTypeahead = (domNode, resourceType, params, conf, existingValues, valueFilte
       pending: '<div class="ui-preloader small" style="height: 1.5em"></div>',
       notFound: '<div class="paragraph-l by-center">' + t('app_autocomplete_no_results') + '</div>',
       suggestion: (value) ->
-        line = f.get(value, searchBackend.displayKey)
+        # NOTE: use `text` to correctly escape given text
+        line = jQuery('<span>').text(f.get(value, searchBackend.displayKey))
 
-        # wrap/set as disabled if existing value
+        # set as disabled if existing value
         if existingValues && f.includes(existingValues(), line) || valueFilter && valueFilter(value)
-          line = '<span class="ui-autocomplete-disabled" title="' +
-            + t('meta_data_input_keywords_existing') + '">' +
-            line + "</span>"
+          line.attr(class: 'ui-autocomplete-disabled', title: t('meta_data_input_keywords_existing'))
 
-        '<div>' + line + '</div>'
+        jQuery('<div>').append(line)
     }
   })
 
