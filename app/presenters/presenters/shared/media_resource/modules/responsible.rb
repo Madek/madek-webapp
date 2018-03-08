@@ -4,8 +4,12 @@ module Presenters
       module Modules
         module Responsible
           def responsible
-            ::Presenters::People::PersonIndex.new \
-              @app_resource.responsible_user.person
+            return unless (responsible = @app_resource.try(:responsible_user))
+            if responsible.is_deactivated
+              ::Presenters::Users::UserIndex.new(responsible)
+            else
+              ::Presenters::People::PersonIndex.new(responsible.person)
+            end
           end
 
           def responsible_user_uuid

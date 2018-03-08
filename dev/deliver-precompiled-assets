@@ -39,7 +39,11 @@ test $DO_RESET && {
   done
 }
 
-npm install
+./cider-ci/bin/check-node-modules || {
+  git submodule update --init --force node_modules
+  npm install --offline --no-save --package-lock-only
+}
+
 ./bin/precompile-assets
 
 # commit & push assets/modules

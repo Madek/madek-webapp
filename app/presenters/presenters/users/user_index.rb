@@ -1,10 +1,10 @@
 module Presenters
   module Users
     class UserIndex < Presenters::Shared::AppResource
-      delegate_to_app_resource :login
+      delegate_to_app_resource :login, :is_deactivated
 
       def name
-        if @app_resource.is_deactivated
+        if is_deactivated
           I18n.t(:user_name_deactivated)
         else
           @app_resource.person.to_s
