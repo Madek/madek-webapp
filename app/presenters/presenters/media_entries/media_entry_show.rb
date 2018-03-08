@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 module Presenters
   module MediaEntries
     class MediaEntryShow < Presenters::Shared::AppResource
@@ -53,7 +54,9 @@ module Presenters
       end
 
       def browse_url
-        prepend_url_context(browse_media_entry_path(@app_resource))
+        if policy_for(@user).browse?
+          prepend_url_context(browse_media_entry_path(@app_resource))
+        end
       end
 
       def relation_resources
@@ -77,7 +80,9 @@ module Presenters
       end
 
       def meta_data
-        return unless ['show', 'export', 'more_data', 'usage_data']
+        return unless %w(
+          show export more_data usage_data show_by_confidential_link
+        )
           .include?(@active_tab)
         Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
       end

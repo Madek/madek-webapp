@@ -40,6 +40,7 @@ module Presenters
           share_button,
           export_button,
           custom_urls_button,
+          confidential_link_button,
           browse_button,
           show_in_admin_button
         ]
@@ -52,6 +53,7 @@ module Presenters
         [
           :browse_button,
           :custom_urls_button,
+          :confidential_link_button,
           :export_button,
           :destroy_button,
           :show_in_admin_button
@@ -111,6 +113,20 @@ module Presenters
             raise: false),
           action: custom_urls_media_entry_path(@app_resource),
           allowed: policy_for(@user).update_custom_urls?
+        }
+      end
+
+      def confidential_link_button
+        {
+          id: :confidential_link_button,
+          async_action: nil,
+          method: 'get',
+          icon: 'clock-o',
+          title: I18n.t(
+            :resource_action_media_entry_manage_confidential_links,
+            raise: false),
+          action: confidential_links_media_entry_path(@app_resource),
+          allowed: policy_for(@user).confidential_links?
         }
       end
 

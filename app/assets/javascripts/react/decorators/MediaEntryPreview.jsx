@@ -94,7 +94,9 @@ module.exports = React.createClass({
       )
     }
 
-    if (usesIframeEmbed) return <IframeEmbed url={get.url} />
+    if (usesIframeEmbed) return <IframeEmbed
+      url={get.url} accessToken={get.used_confidential_access_token}
+    />
 
     const downloadRef = originalUrl ? originalUrl : get.url + '/export'
 
@@ -151,13 +153,13 @@ module.exports = React.createClass({
   }
 })
 
-const IframeEmbed = ({ url }) => {
+const IframeEmbed = ({ url, accessToken }) => {
   const parsedUrl = parseUrl(url)
   const params = qs.parse(parsedUrl.query)
   const iframeSrc =
     parsedUrl.pathname.replace(/\/*$/, '') +
     '/embedded?' +
-    qs.stringify({ ...params, internalEmbed: 'yes' })
+    qs.stringify({ ...params, internalEmbed: 'yes', accessToken })
 
   return (
     <div className="ui-media-overview-preview">

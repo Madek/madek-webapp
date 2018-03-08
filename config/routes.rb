@@ -18,7 +18,17 @@ Madek::Application.routes.draw do
   #   get '/permissions', action: :permissions_show, as: 'permissions', on: :member
   # end
 
-  resources :media_entries, path: 'entries', except: [:new] do
+  concern :confidential_links do
+    member do
+      get 'confidential_links'
+      get 'confidential_links/new', controller: 'confidential_links', action: 'new', as: 'new_confidential_link'
+      post 'confidential_links', controller: 'confidential_links', action: 'create', as: 'create_confidential_link'
+      get 'confidential_links/:confidential_link_id', controller: 'confidential_links', action: 'show', as: 'confidential_link'
+      patch 'confidential_links/:confidential_link_id', controller: 'confidential_links', action: 'update', as: 'update_confidential_link'
+    end
+  end
+
+  resources :media_entries, path: 'entries', except: [:new], concerns: :confidential_links do
     # NOTE: 'new' action is under '/my/upload'!
     member do
       get 'meta_data/edit/by_context(/:context_id)', action: :edit_meta_data_by_context, as: 'edit_meta_data_by_context'
@@ -60,6 +70,8 @@ Madek::Application.routes.draw do
       get 'export'
 
       get 'embedded'
+
+      get 'access/:token', action: :show_by_confidential_link, as: 'show_by_confidential_link'
     end
 
     collection do

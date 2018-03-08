@@ -8,6 +8,7 @@ include MetaDataHelper
 
 feature 'Resource: MediaEntry' do
   describe 'Previews on Detail view' do
+    let(:user) { User.find_by(login: 'normin') }
 
     example 'Image: shows "large" image preview and links to "largest" image' do
       entry = FactoryGirl.create(
@@ -56,6 +57,90 @@ feature 'Resource: MediaEntry' do
       expect(URI.parse(preview_img[:src]).path).to eq(large_preview)
       expect(URI.parse(preview_link[:href]).path).to eq(original_file)
     end
+
+    context 'when accessed with confidential links' do
+      ['audio', 'video'].each do |type|
+        example "#{type.capitalize}: shows iframe which gets accessToken param" do
+          prepare_entry_and_token(type)
+
+          visit show_by_confidential_link_media_entry_path(
+            @entry,
+            @token)
+
+          within '.ui-media-overview-preview' do
+            iframe = find 'iframe'
+            query_params = Rack::Utils.parse_query(URI.parse(iframe[:src]).query)
+
+            expect(query_params['accessToken']).to eq @token
+          end
+        end
+      end
+    end
+
+    context 'Iframe embedded' do
+      let(:expected_selector) do
+        '[data-react-class="UI.Views.MediaEntry.MediaEntryEmbedded"]'
+      end
+
+      before do
+        allow_any_instance_of(MediaEntriesController)
+          .to receive(:embed_whitelisted?)
+          .and_return(true)
+      end
+
+      ['audio'].each do |type|
+        context 'when accessToken as param is given' do
+          scenario 'it works' do
+            prepare_entry_and_token(type)
+
+            visit embedded_media_entry_path(@entry, accessToken: @token)
+
+            expect(page).to have_selector(expected_selector)
+          end
+        end
+
+        context 'when accessToken as param is not given' do
+          scenario 'it does not work' do
+            prepare_entry_and_token(type)
+
+            visit embedded_media_entry_path(@entry)
+
+            expect(page).to have_no_selector(expected_selector)
+          end
+        end
+
+        context 'when accessToken as param is incorrect' do
+          scenario 'it does not work' do
+            prepare_entry_and_token(type)
+
+            visit embedded_media_entry_path(@entry, accessToken: @token + 'x')
+
+            expect(page).to have_no_selector(expected_selector)
+          end
+        end
+      end
+    end
   end
 
+end
+
+def prepare_entry_and_token(media_type)
+  @entry = create(
+    "media_entry_with_#{media_type}_media_file",
+    responsible_user: user)
+
+  @token = create(
+    :confidential_link,
+    user: user,
+    resource: @entry).token
+
+  create(
+    :zencoder_job,
+    state: 'finished',
+    media_file: @entry.media_file)
+
+  create(
+    :preview,
+    content_type: @entry.media_file.content_type,
+    media_file: @entry.media_file)
 end

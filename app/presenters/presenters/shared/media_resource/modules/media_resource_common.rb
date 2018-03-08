@@ -53,6 +53,14 @@ module Presenters
           def clipboard_url
             my_dashboard_section_path(:clipboard)
           end
+
+          def used_confidential_access_token
+            return unless @app_resource
+                           .respond_to?(:accessed_by_confidential_link)
+
+            token = @app_resource.accessed_by_confidential_link
+            return token if token.is_a?(String) && token.present?
+          end
         end
       end
     end

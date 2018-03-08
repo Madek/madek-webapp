@@ -13,6 +13,7 @@ class MediaEntriesController < ApplicationController
   include Modules::MediaEntries::Embedded
   include Modules::MetaDataStorage
   include Modules::Resources::ResourceCustomUrls
+  include Modules::Resources::ResourceConfidentialLinks
   include Modules::Resources::ResourceTransferResponsibility
   include Modules::Resources::BatchResourceTransferResponsibility
   include Modules::Resources::Share
@@ -53,7 +54,8 @@ class MediaEntriesController < ApplicationController
   # tabs that work like 'show':
   [
     :relations, :relation_children, :relation_siblings, :relation_parents,
-    :usage_data, :more_data, :permissions, :permissions_edit]
+    :usage_data, :more_data, :permissions, :permissions_edit,
+    :show_by_confidential_link]
     .each { |action| alias_method action, :show }
 
   # NOTE: modal "on top of" #show

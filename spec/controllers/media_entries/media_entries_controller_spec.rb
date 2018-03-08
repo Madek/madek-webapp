@@ -9,6 +9,11 @@ require Rails.root.join 'spec',
                         'shared',
                         'media_resources',
                         'custom_url_redirects.rb'
+require Rails.root.join 'spec',
+                        'controllers',
+                        'shared',
+                        'media_resources',
+                        'confidential_links.rb'
 
 describe MediaEntriesController do
 
@@ -62,4 +67,11 @@ describe MediaEntriesController do
   end
 
   it_handles_properly 'redirection'
+  it_handles_properly 'confidential urls' do
+    let(:resource) do
+      create :media_entry_with_image_media_file,
+             creator: @user, responsible_user: @user,
+             is_published: false
+    end
+  end
 end

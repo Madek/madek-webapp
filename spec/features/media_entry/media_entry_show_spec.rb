@@ -26,6 +26,11 @@ describe 'Action: show' do
       expect(page).not_to have_content I18n.t(:media_entry_tab_permissions)
     end
 
+    scenario "Tab: 'Temporary URLs'. Not shown for public." do
+      visit media_entry_path(@entry)
+      expect(page).not_to have_content 'Temporary URLs'
+    end
+
     it 'does not display link to admin' do
       visit media_entry_path(@entry)
 

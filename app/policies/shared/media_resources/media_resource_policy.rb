@@ -44,7 +44,7 @@ module Shared
       end
 
       def show?
-        visible?
+        visible? || accessed_by_confidential_link?
       end
 
       def list_meta_data?
@@ -116,6 +116,15 @@ module Shared
         else
           record.viewable_by_public?
         end
+      end
+
+      def accessed_by_confidential_link?
+        record.respond_to?(:accessed_by_confidential_link) &&
+          record.accessed_by_confidential_link
+      end
+
+      def owner?
+        record.responsible_user == user
       end
 
     end

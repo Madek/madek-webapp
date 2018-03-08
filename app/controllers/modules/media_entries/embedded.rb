@@ -14,7 +14,7 @@ module Modules
 
       def embedded
         media_entry = MediaEntry.unscoped.find(id_param)
-        authorize(media_entry)
+        get_authorized_resource(media_entry)
         media_type = media_entry.try(:media_file).try(:media_type)
 
         # non-public entries can only be embedded from whitelisted hosts

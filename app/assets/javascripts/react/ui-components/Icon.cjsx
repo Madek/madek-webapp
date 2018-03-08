@@ -7,7 +7,8 @@ ui = require('../lib/ui.coffee')
 # TODO: list of all supported icons.
 # For now, only the list of 'fontawesome' icons to differentiate:
 FONT_AWESOME_ICONS = [
-  'cloud'
+  'cloud',
+  'clock-o'
 ]
 
 module.exports = React.createClass

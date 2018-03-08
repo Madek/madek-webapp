@@ -21,13 +21,14 @@ module.exports = React.createClass
         <RelationResources get={get} for_url={for_url} scope='siblings' authToken={authToken} />
       else if action_name == 'relations'
         <Relations get={get} for_url={for_url} authToken={authToken} />
-      else if action_name == 'show'
+      else if f.includes(['show', 'show_by_confidential_link'], action_name)
         <MediaEntryShow get={get} for_url={for_url} authToken={authToken} />
       else if f.includes(['export', 'ask_delete', 'select_collection'], action_name)
         <MediaEntryShow get={get} for_url={for_url} authToken={authToken} />
 
     <div className='app-body-ui-container'>
       <MediaEntryHeaderWithModal get={get} for_url={for_url} authToken={authToken} />
-      <MediaEntryTabs get={get} for_url={for_url} authToken={authToken} />
+      {action_name != 'show_by_confidential_link' &&
+        <MediaEntryTabs get={get} for_url={for_url} authToken={authToken} />}
       {main}
     </div>
