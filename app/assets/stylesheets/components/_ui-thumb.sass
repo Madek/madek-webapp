@@ -52,18 +52,13 @@
   .ui-thumbnail-image-holder
     +dimension(130px, 130px)
     .ui-thumbnail-table-image-holder
-      height: 1000px
-      left: -435px
-      position: relative
-      top: -435px
-      width: 1000px
       .ui-thumbnail-cell-image-holder
         +dimension(130px, 130px)
         .ui-thumbnail-inner-image-holder
           display: inline-block
           .ui-thumbnail-image
             +min-dimension(auto, auto)
-            +max-dimension(400px, 400px)
+            +max-dimension(130px, 130px)
 
 .ui-thumbnail.media-entry,
 .ui-thumbnail.media-entry-incomplete
@@ -260,7 +255,6 @@
     // TODO: grey background to show loading and errors (when all pictures have sizes!)
     // background-color: $mono-weak
 
-
   // support media type icons (instead of <img>)
   .ui_media-type-icon
     color: $mono-mid
@@ -270,8 +264,3 @@
     top: 22%
     left: 0px
     text-align: center
-
-.ui-thumbnail.media-set,
-.ui-thumbnail.filter-set
-  .ui_media-type-icon
-    position: inherit
