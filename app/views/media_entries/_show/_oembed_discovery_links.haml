@@ -6,7 +6,7 @@
 
   # NOTE: according to the spec, relative links would be enough,
   # but the wordpress client only understands absolute URLs (incl. scheme and host)
-  full_url = URI.parse(request.base_url).merge(oembed_path(url: @get.url)).to_s
+  full_url = URI.parse(settings.madek_external_base_url).merge(oembed_path(url: @get.url)).to_s
 
   props = {
     rel: 'alternate',

@@ -106,9 +106,14 @@ tasks:
             script_key: configure_zhdk_integration
 
   spec/features/embed_player/embed_player_spec.rb:
+    ports:
+      CAPYBARA_SERVER_PORT:
+        min: 31000
+        max: 31337
     scripts:
       configure_file_storage:
         body: |
+          echo "madek_external_base_url: 'http://localhost:${CAPYBARA_SERVER_PORT}'" >> config/settings.local.yml
           echo "default_storage_dir: 'spec/_support/test_media/file_storage'" >> config/settings.local.yml
           echo "file_storage_dir: 'spec/_support/test_media/file_storage/originals'" >> config/settings.local.yml
           echo "thumbnail_storage_dir: 'spec/_support/test_media/file_storage/thumbnails'" >> config/settings.local.yml

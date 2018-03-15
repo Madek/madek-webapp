@@ -8,7 +8,7 @@ module Modules
         @get = Presenters::Shared::MediaResource::ShareResource.new(
           resource,
           current_user,
-          request.base_url
+          settings.madek_external_base_url
         )
         respond_with(@get)
       end

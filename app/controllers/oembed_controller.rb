@@ -104,7 +104,7 @@ class OembedController < ApplicationController
   end
 
   def absolute_url(path)
-    URI.parse(request.base_url).merge(path).to_s
+    URI.parse(settings.madek_external_base_url).merge(path).to_s
   end
 
   def oembed_params

@@ -18,6 +18,11 @@ TEST_DBS = {
   }
 }.freeze
 
+# set fixed port if given
+if ENV['CAPYBARA_SERVER_PORT'].present?
+  Capybara.server_port = ENV['CAPYBARA_SERVER_PORT']
+end
+
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)

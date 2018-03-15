@@ -2,7 +2,7 @@
 
 :ruby
   def full_url(url)
-    URI.parse(request.base_url).merge(url).tap {|u| u.scheme = 'https'}.to_s
+    URI.parse(settings.madek_external_base_url).merge(url).tap {|u| u.scheme = 'https'}.to_s
   end
 
   md = @get.meta_data.try(:by_vocabulary).try(:map, &:meta_data).try(:flatten)
