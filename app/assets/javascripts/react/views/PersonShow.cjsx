@@ -66,7 +66,7 @@ PersonShow = React.createClass
                     else
                       <tr key={label + i}>
                         <td className='ui-summary-label'>{label}</td>
-                        <td className='ui-summary-content'>{value}</td>
+                        <td className='ui-summary-content measure-double'>{value}</td>
                       </tr>
                 )
               }
