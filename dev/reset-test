@@ -1,0 +1,16 @@
+#!/bin/bash
+
+echo "This does a complete reset/setup of the local test environment"
+################################################################################
+set -exu # be verbose and fail on any error
+
+git submodule update --init --force
+
+for ENV in test; do
+  RAILS_ENV=$ENV bundle exec rake db:pg:terminate_connections db:drop || true # ignore error if not exists yet
+  RAILS_ENV=$ENV time bundle exec rake db:create db:pg:structure_and_data:restore FILE="datalayer/db/personas.pgbin"
+  RAILS_ENV=$ENV time bundle exec rake db:migrate
+done
+
+echo ""
+echo "Now run a clean test!"
