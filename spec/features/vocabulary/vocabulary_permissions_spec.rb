@@ -76,7 +76,7 @@ feature 'Resource: Vocabulary' do
         expect(page).to have_content I18n.t(:vocabulary_permissions_hint1)
         expect(page).to have_content I18n.t(:vocabulary_permissions_hint2)
         expect(displayed_permissions).to eq(
-          'Personen' => v.user_permissions.map do |p|
+          'Nutzer/innen' => v.user_permissions.map do |p|
             { p.user.person.to_s =>
               { 'Betrachten' => p.view, 'Anwenden' => p.use } }
           end,

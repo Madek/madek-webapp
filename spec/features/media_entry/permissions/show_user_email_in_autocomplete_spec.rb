@@ -18,7 +18,7 @@ feature 'Resource: MediaEntry' do
     user = FactoryGirl.create(:user, login: 'alice', email: 'user@example.com')
 
     open_permission_editable
-    within('.ui-rights-body', text: 'Personen') do
+    within('.ui-rights-body', text: 'Nutzer/innen') do
       input = find('input')
       input.click
       input.set(user.login)

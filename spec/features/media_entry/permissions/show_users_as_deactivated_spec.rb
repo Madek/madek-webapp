@@ -24,7 +24,7 @@ feature 'Resource: MediaEntry' do
     visit permissions_media_entry_path(@entry)
 
     expect(
-      find('.ui-rights-body', text: 'Personen')
+      find('.ui-rights-body', text: 'Nutzer/innen')
         .find('td.ui-rights-user', text: deactivated_user_string)
     ).to be
   end

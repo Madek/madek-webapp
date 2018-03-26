@@ -99,7 +99,8 @@ feature 'Resource: MediaEntry' do
 
       # TMP: smokescreen test for the batch edit page (which itself is untested!)
       expect(find('.ui-body-title-label').text).to eq \
-        "Metadaten für #{ids_to_edit.length} Medieneinträge gleichzeitig editieren"
+        "Metadaten für #{ids_to_edit.length} " \
+        "Medieneinträge gleichzeitig bearbeiten"
     end
   end
 
