@@ -29,15 +29,18 @@ module Presenters
 
       def label
         @app_resource.label(I18n.locale) or
+          @app_resource.label(I18n.default_locale) or
           @app_resource.id.split(':').last.humanize
       end
 
       def description
-        @app_resource.description(I18n.locale)
+        @app_resource.description(I18n.locale) or
+          @app_resource.description(I18n.default_locale)
       end
 
       def hint
-        @app_resource.hint(I18n.locale)
+        @app_resource.hint(I18n.locale) or
+          @app_resource.hint(I18n.default_locale)
       end
 
       def value_type
