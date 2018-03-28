@@ -1,7 +1,6 @@
 key,de,en,comment
 ajax_form_connection_error,Verbindungsfehler. Bitte versuchen Sie es noch einmal.,Connection error. Please try again.,
 ajax_form_no_longer_authorized,Sie sind für diese Aktion nicht mehr authorisiert.,You are no longer authorized to do this.,
-ajax_form_successful_but_unparsable,---,---,UNUSED
 ajax_form_unexpected_error,Es gab einen unerwarteten Server-Fehler.,There was an unexpected server error.,
 ajax_form_validation_error_unparsable,Validation error with unparsable errors.,Validation error with unparsable errors.,"Formular speichern, Edge case: Server gibt Fehlermeldung UND sie kann nicht gelesen werden."
 ajax_form_validation_error_without_any_data,Validation error without any data.,Validation error without any data.,"Formular speichern, Edge case: Server gibt Fehlermeldungs-Code aber sonst keinen Inhalt"
@@ -62,10 +61,6 @@ browse_entries_browse_link_title,In diese Richtung weiterstöbern,Browse further
 browse_entries_filter_link,Weiter filtern →,Apply additional filter →,
 browse_entries_loading_error,Ladefehler,Loading error,
 browse_entries_title,Nach ähnlichen Inhalten stöbern,Browse similar items,
-btn_delete_confirm_msq,---,---,UNUSED
-btn_delete_text,---,---,UNUSED
-btn_publish_confirm_msg,---,---,UNUSED
-btn_publish_text,---,---,UNUSED
 bubble_batch_label,Stapel,Batch,Wo: Labels in der Stapelverarbeitung
 bubble_draft_label,Entwurf,Draft,Wo: Labels in der Stapelverarbeitung
 clipboard_add_hint,Zur Stapelverarbeitung hinzufügen,Add to batch processing,
@@ -94,7 +89,6 @@ collection_edit_permissions_btn,Speichern,Submit,
 collection_highlighted_contents,Hervorgehobene Inhalte,Highlighted items,
 collection_layout_save,Darstellung festlegen,Save type of display,
 collection_layout_saved,Darstellung gespeichert,Type of display saved,
-collection_media_resources_title,---,---,UNUSED
 collection_meta_data_header_prefix,Set editieren: ,Edit set:,
 collection_new_cancel,Abbrechen,Cancel,
 collection_new_create_set,Set erstellen,Create set,
@@ -189,7 +183,6 @@ dashboard_create_media_entry_btn,Medien importieren,Upload media,
 dashboard_none_exist,Keine vorhanden.,There are none.,
 dashboard_show_all,Alle anzeigen →,Show all →,
 dashboard_title_head,Mein Archiv,My archive,
-dashboard_welcome_msg,---,---,"UNUSED. War: Nachricht, wenn Dashboard ganz leer ist. Kann nicht mehr vorkommen."
 dynamic_filters_authorization,Berechtigung,Authorization,
 dynamic_filters_visibility,Sichtbarkeit,Accessability,
 dynamic_filters_visibility_private,Nur für mich,Only for me,
@@ -355,7 +348,6 @@ meta_data_edit_media_entry_saved_missing,"Der Medieneintrag wurde gespeichert, a
 meta_data_edit_more_data,Weitere Angaben,More data,
 meta_data_form_all_data,Alle Daten,Alle daten,
 meta_data_form_cancel,Abbrechen,Cancel,
-meta_data_form_publish,---,---,UNUSED
 meta_data_form_save,Speichern,Save,
 meta_data_form_saving,Die Metadaten werden gerade gespeichert. Dies kann einige Zeit in Anspruch nehmen. Bitte gedulden Sie sich und schliessen Sie das Fenster nicht.,Meta data are currently being saved. This will take some time. Please be patient and do not close the browser.,
 meta_data_form_submit_btn,Speichern,Save,
@@ -470,7 +462,6 @@ resource_select_collection_cancel,Abbrechen,Cancel,
 resource_select_collection_clear,Löschen,Clear,
 resource_select_collection_has_more,Es gibt noch weitere Resultate. Bitte Suche verfeinern.,There are more results. Please refine the search.,
 resource_select_collection_hint_more,Es wurden noch weitere Sets gefunden. Bitte verfeinern Sie Ihre Suche.,Additional sets were found. Please refine your search.,
-resource_select_collection_hint_search,---,---,UNUSED
 resource_select_collection_new,Neue,New,
 resource_select_collection_non_assigned,Inhalt ist noch keinem Set zugewiesen.,Item is not yet related to any set.,
 resource_select_collection_non_found,Zu dieser Suche wurde kein Set gefunden.,No set was found.,
@@ -494,7 +485,6 @@ resources_box_batch_actions_managepermissions,Berechtigungen von Medieneinträge
 resources_box_batch_actions_menu_title,Aktionen,Actions,
 resources_box_batch_actions_removefromclipboard,Ausgewählte aus der Stapelverarbeitung entfernen,Remove selected from batch processing,
 resources_box_batch_actions_removefromset,Aus Set entfernen,Remove from set,
-resources_box_batch_actions_save,---,---,UNUSED
 resources_box_batch_actions_sets_managepermissions,Berechtigungen von Sets editieren,Edit permissions for sets,
 resources_box_batch_actions_transfer_responsibility_entries,Verantwortlichkeit von Medieneinträgen übertragen,Transfer responsibility of media entries,
 resources_box_batch_actions_transfer_responsibility_sets,Verantwortlichkeit von Sets übertragen,Transfer responsibility of sets,
@@ -551,13 +541,11 @@ sitemap_metakey_id,Metakey-ID,Metakey ID,
 sitemap_my_archive,Mein Archiv,My archive,
 sitemap_my_clipboard,Stapelverarbeitung,Batch processing,
 sitemap_my_content_collections,Sets,Sets,
-sitemap_my_content_filter_sets,---,---,UNUSED
 sitemap_my_content_media_entries,Medieneinträge,Media entries,
 sitemap_my_entrusted_collections,Mir anvertraute Sets,My entrusted sets,
 sitemap_my_entrusted_filter_sets,Mir anvertraute Filtersets,My entrusted filter sets,
 sitemap_my_entrusted_media_entries,Mir anvertraute Medieneinträge,My entrusted media entries,
 sitemap_my_favorite_collections,Favoriten-Sets,Favorite sets,
-sitemap_my_favorite_filter_sets,---,---,UNUSED
 sitemap_my_favorite_media_entries,Favoriten-Medieneinträge,Favorite media entries,
 sitemap_my_groups,Arbeitsgruppen,Work groups,
 sitemap_my_latest_imports,Letzte Importe,Last imports,
