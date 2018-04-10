@@ -1,13 +1,7 @@
--# NOTE: param `sfcss` enables CSS workaround for certain contexts when present
-- if params.keys.include?('sfcss')
-  - content_for(:style_head) do
-    :css
-      .ui-tile__body { height: auto !important; }
-      .vjs-tech { position: static !important; }
-      .videojs { width: auto !important; height: auto !important; }
-
+- content_for(:title_head) do
+  = @get['title']
 
 - content_for(:body) do
   = react('Views.MediaEntry.MediaEntryEmbedded', get: @get)
 
-= render template: 'layouts/_base'
+= render template: 'layouts/_embedded'

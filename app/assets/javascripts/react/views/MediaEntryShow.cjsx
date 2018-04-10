@@ -7,7 +7,7 @@ appRequest = require('../../lib/app-request.coffee')
 UI = require('../ui-components/index.coffee')
 MadekPropTypes = require('../lib/madek-prop-types.coffee')
 MetaDataList = require('../decorators/MetaDataList.cjsx')
-MediaEntryPreview = require('../decorators/MediaEntryPreview.cjsx')
+MediaEntryPreview = require('../decorators/MediaEntryPreview.jsx')
 MetaDataByListing = require('../decorators/MetaDataByListing.cjsx')
 ResourceShowOverview = require('../templates/ResourceShowOverview.cjsx')
 BrowseEntriesList = require('./MediaEntry/BrowseEntriesList.cjsx')
@@ -53,6 +53,8 @@ module.exports = React.createClass
     summaryContext = get.meta_data.entry_summary_context
     listContexts = get.meta_data.contexts_for_entry_extra
 
+    usesIframeEmbed = f.includes(['audio', 'video'], get.media_type)
+
     # overview has summary on the left and preview on the right
     previewStyle = {width: '100%'}
     previewStyle.maxHeight = '500px' unless get.media_type == 'video'
@@ -61,6 +63,7 @@ module.exports = React.createClass
                   mods='ui-media-overview-metadata'
                   tagMods='small'
                   list={summaryContext} showTitle={false}/>
+
       previewLg: <MediaEntryPreview
         get={get}
         mediaProps={{style: previewStyle}}
@@ -68,6 +71,32 @@ module.exports = React.createClass
         withLink
         withZoomLink
         />
+
+    if usesIframeEmbed
+      overview.previewLg = (
+        <div className="ui-media-overview-preview">
+          <div
+            style={{
+              width: '100%',
+              position: 'relative',
+              paddingTop: '56.25%'
+            }}>
+            <iframe
+              src={"#{get.url}/embedded?internalEmbed"}
+              style={{
+                height: '100% !important',
+                width: '100% !important',
+                position: 'absolute',
+                top: '0',
+                left: '0'
+              }}
+              allowFullScreen="true"
+              webkitallowfullscreen="true"
+              mozallowfullscreen="true"
+            />
+          </div>
+        </div>
+      )
 
     layout =
       overview: <ResourceShowOverview mods='ui-media-overview' {...overview}/>

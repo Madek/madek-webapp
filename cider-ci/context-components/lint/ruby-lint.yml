@@ -13,6 +13,7 @@
             export PATH=~/.rubies/$RUBY/bin:$PATH
             bundle exec cider-ci_flog -m app/ \
             -e app/controllers/oembed_controller.rb \
+            -e app/controllers/modules/media_entries/embedded.rb \
             -e app/lib/embed_helper.rb \
             -e app/presenters/presenters/meta_data/meta_datum_edit.rb \
             -e app/controllers/concerns/my/dashboard_sections.rb

@@ -258,7 +258,7 @@ Madek::Application.routes.draw do
 
   post '/zencoder_jobs/:id/notification' => 'zencoder_jobs#notification', as: :zencoder_job_notification
 
-  get '/oembed', controller: 'oembed', action: 'show'
+  get '/oembed', controller: 'oembed', action: 'show', defaults: { format: 'json' }
 
   get '/release', controller: 'release', action: 'show'
 

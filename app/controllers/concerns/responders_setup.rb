@@ -8,8 +8,6 @@ module Concerns
 
       def respond_with_custom(resource, location: nil, **options)
         respond_to do |f|
-          f.json { respond_with_default(resource, **options) }
-          f.yaml { respond_with_default(resource, **options) }
           f.html do
             # "unwrap" resource from presenter for responders:
             if resource.is_a?(Presenters::Shared::AppResource)
@@ -17,6 +15,8 @@ module Concerns
             end
             respond_with_default(resource, location: location, **options)
           end
+          f.json { respond_with_default(resource, **options) }
+          f.yaml { respond_with_default(resource, **options) }
         end
       end
       alias_method :respond_with_default, :respond_with

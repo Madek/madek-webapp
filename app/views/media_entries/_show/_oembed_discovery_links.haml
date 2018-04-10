@@ -1,20 +1,24 @@
 :ruby
-  return unless Madek::Constants::Webapp::ENABLE_OPENGRAPH
-
   # only for supported types
   return unless Madek::Constants::Webapp::EMBED_SUPPORTED_MEDIA.include?(@get.media_type)
 
   # NOTE: according to the spec, relative links would be enough,
   # but the wordpress client only understands absolute URLs (incl. scheme and host)
-  full_url = URI.parse(settings.madek_external_base_url).merge(oembed_path(url: @get.url)).to_s
+  full_url = URI.parse(settings.madek_external_base_url)
 
-  props = {
+  items = [{
     rel: 'alternate',
     type: 'application/json+oembed',
     title: "#{@get.title} oEmbed Profile",
-    href: full_url
-  }
+    href: full_url.merge(oembed_path(url: @get.url, format: 'json')).to_s
+  },{
+    rel: 'alternate',
+    type: 'application/xml+oembed',
+    title: "#{@get.title} oEmbed Profile (XML)",
+    href: full_url.merge(oembed_path(url: @get.url, format: 'xml')).to_s
+  }]
 
 -# inject into <head>!
 - content_for(:head) do
-  = tag('link', props)
+  - items.each do |props|
+    = tag('link', props)

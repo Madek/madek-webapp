@@ -3,13 +3,12 @@ f = require('active-lodash')
 cx = require('classnames')
 t = require('../../../lib/i18n-translate.js')
 
-MediaPlayer = require('../../ui-components/MediaPlayer.cjsx')
-MediaEntryPreview = require('../../decorators/MediaEntryPreview.cjsx')
+MediaEntryPreview = require('../../decorators/MediaEntryPreview.jsx')
 
 CAPTION_HEIGHT = 55 # absolute heigth of tile caption in pixels
 
 module.exports = React.createClass
-  displayName: 'Views.MediaEntryEmbedded'
+  displayName: 'Views.MediaEntryEmbeddedTiled'
   propTypes:
     get: React.PropTypes.shape(
       media_file: React.PropTypes.object.isRequired # TODO
@@ -17,15 +16,10 @@ module.exports = React.createClass
 
 
   render: ({get} = @props)->
-    # NOTE: only videos supported!
-    {image_url, caption_text, media_type, type, media_file, embed_config} = get
-    if (!media_type == 'video') then throw new Error('only videos supported!')
+    {image_url, caption_conf, media_type, type, media_file, embed_config} = get
     {previews, original_file_url} = media_file
 
-    hasPlayer = media_type == 'audio' || media_type == 'video'
-
     defaultSize = {width: 500, height: 500}
-    defaultSize.height = 200 if media_type == 'audio'
 
     eWidth = embed_config.width || defaultSize.width
     eHeight = embed_config.height || defaultSize.height
@@ -55,56 +49,37 @@ module.exports = React.createClass
       width: eWidth + 'px'
     }
 
-    switch media_type
-      when 'image', 'document'
-        style = f.assign({}, style, {
-          width: (if eWidth > 0 then eWidth + 'px'),
-          height: (if eHeight > 0 then eHeight + 'px')
-        })
-        mediaProps = {
-          style: {
-            maxWidth: eWidth + 'px'
-            maxHeight: (eHeight - (1 * CAPTION_HEIGHT)) + 'px'
-            minWidth: '100px'
-            minHeight: '100px',
-          }
-        }
-      when 'video'
-        mediaProps = f.merge(fullsize, {
-          options: {
-            fluid: false,
-            height: eHeight - CAPTION_HEIGHT,
-            width: eWidth
-          }
-        })
-      else
-        mediaProps = fullsize
+    style = f.assign({}, style, {
+      width: (if eWidth > 0 then eWidth + 'px'),
+      height: (if eHeight > 0 then eHeight + 'px')
+    })
 
-    mediaPreview = <MediaEntryPreview
-      get={get}
-      mediaProps={mediaProps}
-    />
+    mediaProps = {
+      style: {
+        maxWidth: eWidth + 'px'
+        maxHeight: (eHeight - (1 * CAPTION_HEIGHT)) + 'px'
+        minWidth: '100px'
+        minHeight: '100px',
+      }
+    }
 
     <div style={style}>
       <div className="ui-tile" style={{display: 'block'}}>
         <div className="ui-tile__body" style={bodyStyle}>
-          {if hasPlayer
-            mediaPreview
-          else
-            <a {...linkProps}>
-              {mediaPreview}
-            </a>}
+          <a {...linkProps}>
+            <MediaEntryPreview get={get} mediaProps={mediaProps} />
+          </a>
         </div>
         <a
           className="ui-tile__foot"
           {...linkProps}
         >
           <h3 className="ui-tile__title">
-            {caption_text[0]}
+            {caption_conf.title}
           </h3>
           <h4 className="ui-tile__meta">
             <span>
-              {caption_text[1]}
+              {caption_conf.subtitle}
             </span>
           </h4>
           <span className="ui-tile__flags">
@@ -112,6 +87,4 @@ module.exports = React.createClass
           </span>
         </a>
       </div>
-  </div>
-
-# render component: 'TodoList', props: { todos: @todos }, tag: 'span', class: 'todo'
+    </div>

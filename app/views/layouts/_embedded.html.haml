@@ -1,0 +1,44 @@
+:ruby
+  #NOTE: careful with access to `settings` comes from DB and can fail hard
+  extra_content = begin; settings.webapp_html_extra_content; rescue; end || {}
+  site_title = begin; settings.site_title; rescue; end
+  site_title ||= 'Madek' # fallback
+
+  lang = 'de-CH'
+
+  title = ''
+
+!!!
+%html{lang: lang}
+  %head
+    %meta{charset: 'utf-8'}
+
+    -# configured extra tags for head start:
+    = find_and_preserve(extra_content[:head_start].html_safe) if extra_content[:head_start].present?
+
+    %title
+      = "#{strip_tags(content_for(:title_head))} | #{site_title}"
+
+    :javascript
+      document.getElementsByTagName('html')[0].classList.add('has-js')
+      #{FrontendAppConfig.to_js}
+
+    = stylesheet_link_tag 'embedded-view', media: 'all'
+
+    -# configured extra tags for head end:
+    = find_and_preserve(extra_content[:head_end].html_safe) if extra_content[:head_end].present?
+
+  %body
+
+    -# configured extra content for body start:
+    = find_and_preserve(extra_content[:body_start].html_safe) if extra_content[:body_start].present?
+
+    = content_for(:body)
+
+    - if Rails.env == 'development'
+      = javascript_include_tag 'dev-bundle-embedded-view'
+    - else
+      = javascript_include_tag 'bundle-embedded-view'
+
+    -# configured extra content for body end:
+    = find_and_preserve(extra_content[:body_end].html_safe) if extra_content[:body_end].present?

@@ -123,7 +123,7 @@ module Madek
       'bundle-react-server-side.js'
     end
     config.react.server_renderer_options = {
-      files: [pre_render_js_env], # files to load for prerendering
+      files: [pre_render_js_env].flatten, # files to load for prerendering
       replay_console: false,      # if true, console.* will be replayed client-side
     }
     config.after_initialize do
@@ -139,10 +139,12 @@ module Madek
     # NOTE: override (don't extend) the Rails default (which matches lots of garbage)!
     config.assets.precompile = %w(
       bundle.js
+      bundle-embedded-view.js
       bundle-react-server-side.js
       bundle-integration-testbed.js
       application.css
       application-contrasted.css
+      embedded-view.css
       styleguide.css
     )
 

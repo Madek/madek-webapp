@@ -34,66 +34,42 @@ feature 'Embed aka. "Madek-Player"', with_db: :test_media do
     end
   end
 
-  context 'video embed with caption and size config' do
+  context 'video embed with size config' do
 
     it 'gives default sizes if no sizes requested' do
-      do_oembed_client(
-        url: media_entry_path(video_entry))
+      url = media_entry_path(video_entry)
+      expected_size = { height: 360, width: 640 }
 
-      expected_size = { height: 1080 + 55, width: 1920 } # height: source + caption
-
+      do_oembed_client(url: url)
       expect(displayed_embedded_ui)
-        .to eq(expected_embedded_ui(expected_size, VIDEO_CAPTION))
+        .to eq(expected_embedded_ui(expected_size, VIDEO_CAPTION, url))
     end
 
-    it 'scales down heigth and width if requested' do
-      # NOTE: same sizes like default wordpress theme (twenty sixteen)
-      do_oembed_client(
-        url: media_entry_path(video_entry),
-        maxheight: 628,
-        maxwidth: 839
-      )
-      expected_size = { height: 526, width: 839 }
+    it 'does not scale below supported minimum (345x194px)' do
+      url = media_entry_path(video_entry)
+      expected_size = { height: 194, width: 345 }
 
+      do_oembed_client(url: url, maxheight: 1, maxwidth: 1)
       expect(displayed_embedded_ui)
-        .to eq(expected_embedded_ui(expected_size, VIDEO_CAPTION))
+        .to eq(expected_embedded_ui(expected_size, VIDEO_CAPTION, url))
     end
 
-    it 'scales down width and heigth if requested' do
-      do_oembed_client(
-        url: media_entry_path(video_entry),
-        maxheight: 1200,
-        maxwidth: 550
-      )
-      expected_size = { height: 364, width: 550 }
+    it 'sets width if requested and sets proportional heigth' do
+      url = media_entry_path(video_entry)
+      expected_size = { height: 281, width: 500 }
 
+      do_oembed_client(url: url, maxwidth: 500)
       expect(displayed_embedded_ui)
-        .to eq(expected_embedded_ui(expected_size, VIDEO_CAPTION))
+        .to eq(expected_embedded_ui(expected_size, VIDEO_CAPTION, url))
     end
 
-    it 'does not scale below supported minimum (320x140px)' do
-      do_oembed_client(
-        url: media_entry_path(video_entry), maxheight: 1, maxwidth: 1)
-      expected_size = { height: 195, width: 320 }
+    it 'sets width and sets ratio if requested' do
+      url = media_entry_path(video_entry)
+      expected_size = { height: 600, width: 800 }
 
+      do_oembed_client(url: url, width: 800, ratio: '4:3')
       expect(displayed_embedded_ui)
-        .to eq(expected_embedded_ui(expected_size, VIDEO_CAPTION))
-    end
-
-    it 'scales down heigth if requested and sets proportional width' do
-      do_oembed_client(url: media_entry_path(video_entry), maxheight: 420)
-      expected_size = { height: 420, width: 648 }
-
-      expect(displayed_embedded_ui)
-        .to eq(expected_embedded_ui(expected_size, VIDEO_CAPTION))
-    end
-
-    it 'scales down width if requested and sets proportional heigth' do
-      do_oembed_client(url: media_entry_path(video_entry), maxwidth: 550)
-      expected_size = { height: 364, width: 550 }
-
-      expect(displayed_embedded_ui)
-        .to eq(expected_embedded_ui(expected_size, VIDEO_CAPTION))
+        .to eq(expected_embedded_ui(expected_size, VIDEO_CAPTION, url))
     end
 
   end
@@ -112,25 +88,31 @@ feature 'Embed aka. "Madek-Player"', with_db: :test_media do
     end
 
     it 'gives default sizes if no sizes requested' do
-      do_oembed_client(
-        url: media_entry_path(audio_entry)
-      )
-      expected_size = { height: 200, width: 500 }
+      url = media_entry_path(audio_entry)
+      expected_size = { height: 360, width: 640 }
 
+      do_oembed_client(url: url)
       expect(displayed_embedded_ui)
-        .to eq(expected_embedded_ui(expected_size, AUDIO_CAPTION))
+        .to eq(expected_embedded_ui(expected_size, AUDIO_CAPTION, url))
     end
 
-    it 'scales down heigth and width if requested' do
-      do_oembed_client(
-        url: media_entry_path(audio_entry),
-        maxheight: 320,
-        maxwidth: 400
-      )
-      expected_size = { height: 195, width: 400 }
+    it 'sets width if requested' do
+      url = media_entry_path(audio_entry)
+      expected_size = { height: 225, width: 400 }
+
+      do_oembed_client(url: url, maxwidth: 400)
+      expect(displayed_embedded_ui)
+        .to eq(expected_embedded_ui(expected_size, AUDIO_CAPTION, url))
+    end
+
+    it 'set width and set ratio if requested' do
+      url = media_entry_path(audio_entry)
+      expected_size = { height: 400, width: 400 }
+
+      do_oembed_client(url: url, width: 400, ratio: '1:1')
 
       expect(displayed_embedded_ui)
-        .to eq(expected_embedded_ui(expected_size, AUDIO_CAPTION))
+        .to eq(expected_embedded_ui(expected_size, AUDIO_CAPTION, url))
     end
   end
 end
@@ -147,14 +129,14 @@ def do_oembed_client(params)
   sleep 3 # let the DOM reticulate its spines
 end
 
-def expected_embedded_ui(size, caption)
+def expected_embedded_ui(size, caption, link)
   {
     iframe_attrs: size,
     body: size,
     embedded: {
       body: size,
-      tile: size,
-      caption_text: caption
+      caption_text: caption,
+      caption_link: URI.parse(Settings.madek_external_base_url).merge(link).to_s
     }
   }
 end
@@ -166,10 +148,12 @@ def displayed_embedded_ui
     iframe_attrs: { height: iframe[:height].to_i, width: iframe[:width].to_i },
     body: get_actual_size('document.body'),
     embedded: page.within_frame(iframe) do
+      titlebar = page.all('.vjs-titlebar')[0]
+      caption = titlebar.all('.vjs-titlebar-caption')[0]
       {
         body: get_actual_size('document.body'),
-        tile: get_actual_size('document.getElementsByClassName("ui-tile")[0]'),
-        caption_text: page.all('.ui-tile .ui-tile__foot')[0].try(:text)
+        caption_text: caption.try(:text),
+        caption_link: titlebar[:href]
       }
     end
   }.deep_symbolize_keys

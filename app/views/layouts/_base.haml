@@ -62,5 +62,5 @@
           MUST be self-contained and not depending on load order:
       = content_for(:scripts) if content_for?(:scripts)
 
-      -# configured extra content for body end:
-      = find_and_preserve(extra_content[:body_end].html_safe) if extra_content[:body_end].present?
+    -# configured extra content for body end:
+    = find_and_preserve(extra_content[:body_end].html_safe) if extra_content[:body_end].present?
