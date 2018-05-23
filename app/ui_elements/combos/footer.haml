@@ -9,6 +9,10 @@
         %li
           = component('link', href: link) do
             = text
+      - if defined?(available_locales) && available_locales.is_a?(Array) && available_locales.size > 1
+        %li
+          = t(:footer_choose_language)
+          = select_tag 'lang_switcher', options_for_select(available_locales, I18n.locale)
 
   - if defined?(copy)
     .ui-footer-copy

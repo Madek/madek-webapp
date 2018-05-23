@@ -12,7 +12,8 @@ window.jQuery = window.$ = require('jquery')
 # local requires
 each = require('active-lodash').each
 present = require('active-lodash').present
-
+parseUrl = require('url').parse
+buildUrl = require('url').format
 
 # setup APP ############################################################
 # "global" singleton (returns same object no matter where it's required)
@@ -40,6 +41,14 @@ ujs = [
 
 # initialize them all when DOM is ready:
 $(document).ready -> each ujs, (init)-> do init
+
+# language switcher
+$ ->
+  $('#lang_switcher').on 'change', (e) ->
+    parsedUrl = parseUrl(location.href, true)
+    parsedUrl.query['lang'] = $(e.currentTarget).val()
+    delete parsedUrl.search
+    window.location.href = buildUrl(parsedUrl)
 
 # DEV:
 # require('./developer-tools.coffee')

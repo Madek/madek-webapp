@@ -33,6 +33,8 @@ class ApplicationController < ActionController::Base
   # set language
   before_action :set_locale
   def set_locale
+    Rails.configuration.i18n.default_locale = AppSetting.default_locale
+    Rails.configuration.i18n.available_locales = AppSetting.available_locales
     I18n.locale = params[:lang] || I18n.default_locale
   end
 

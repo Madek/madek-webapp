@@ -28,8 +28,8 @@ feature 'Translations' do
         }
       }
 
-      expect(Settings.madek_default_locale).to eq default_lang
-      expect(Settings.madek_available_locales.sort).to eq available_langs.sort
+      expect(AppSetting.default_locale).to eq default_lang
+      expect(AppSetting.available_locales.sort).to eq available_langs.sort
 
       vocab = create(:vocabulary, id: 'test_translation')
       create_keys(vocab, given_meta_keys)
