@@ -9,8 +9,6 @@ MadekPropTypes = require('../../lib/madek-prop-types.coffee')
 MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
 ResourceThumbnail = require('../../decorators//ResourceThumbnail.cjsx')
 
-AsyncDashboardSection = require('../../lib/AsyncDashboardSection.cjsx')
-
 module.exports = React.createClass
   displayName: 'Views.MediaEntry.BrowseEntriesList'
 

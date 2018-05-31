@@ -29,15 +29,12 @@ module.exports = React.createClass
 
     is_clipboard = section.id == 'clipboard'
     is_unpublished_entries = section.id == 'unpublished_entries'
-    ui_component = 'Deco.MediaResourcesBox'
 
-    with_box = false
     mods = ['unpaginated']
     fallback = if section['is_empty?'] then true else false
 
     initial_props = {
       mods: mods,
-      withBox: with_box,
       fallback: fallback,
       enableOrdering: true,
       enableOrderByTitle: true,
@@ -79,7 +76,6 @@ module.exports = React.createClass
       </div>
 
       <AsyncDashboardSection
-        component={ui_component}
         url={buildUrl(parsedUrl)}
         json_path={'user_dashboard.' + section.id}
         fallback_url={section.href}
