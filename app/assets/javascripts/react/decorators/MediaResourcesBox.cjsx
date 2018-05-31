@@ -54,8 +54,7 @@ qs = require('qs')
 
 
 # Props/Config overview:
-# - props.get.with_actions = should the UI offer any interaction
-# - props.fetchRelations = should relations be fetched (async, only grid layout)
+# - props.get.has_user = should the UI offer any interaction
 # - state.isClient = is component in client-side mode
 # - props.get.can_filter = is it possible to filter the resources
 # - props.get.filter = the currently active filter
@@ -117,7 +116,6 @@ module.exports = React.createClass
   displayName: 'MediaResourcesBox'
   propTypes:
     initial: React.PropTypes.shape(viewConfigProps)
-    fetchRelations: React.PropTypes.bool
     fallback: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.node])
     heading: React.PropTypes.node
     toolBarMiddle: React.PropTypes.node
@@ -128,7 +126,7 @@ module.exports = React.createClass
       # resources: React.PropTypes.array # TODO: array of ampersandCollection
       type: React.PropTypes.oneOf([
         'MediaEntries', 'Collections', 'FilterSets', 'MediaResources'])
-      with_actions: React.PropTypes.bool # toggles actions, hover, flyout
+      has_user: React.PropTypes.bool # toggles actions, hover, flyout
       can_filter: React.PropTypes.bool # if true, get.resources can be filtered
       config: React.PropTypes.shape(viewConfigProps) # <- config that is part of the URL!
       user_config: React.PropTypes.shape( # <- subset that is *also* stored per session
@@ -548,7 +546,7 @@ module.exports = React.createClass
   render: ()->
     {
       get, mods, initial, fallback, heading, listMods
-      fetchRelations, saveable, authToken, children
+      saveable, authToken, children
     } = @props
 
     disableSelectToggle = true
@@ -559,13 +557,10 @@ module.exports = React.createClass
     resources = @state.resources || get.resources
 
     config = get.config
-    withActions = get.with_actions
+    withActions = get.has_user
     saveable = saveable or false
     # fetching relations enabled by default if layout is grid + withActions + isClient
-    fetchRelations = if f.present(fetchRelations)
-      fetchRelations
-    else
-      @state.isClient and withActions and f.includes(['grid', 'list'], config.layout)
+    fetchRelations = @state.isClient and withActions and f.includes(['grid', 'list'], config.layout)
 
     baseClass = 'ui-polybox'
     boxClasses = cx({ # defaults first, mods last so they can override

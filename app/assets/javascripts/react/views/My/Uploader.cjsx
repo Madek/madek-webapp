@@ -69,15 +69,6 @@ module.exports = React.createClass
     name = 'media_entry'
     return null unless state.isClient
 
-    boxGet =
-      resources: props.appCollection,
-      with_actions: false
-      config:
-        for_url: window.location.toString()
-
-    # spacer div so that the empty box has same height as with first thumbnails
-    spacerDiv = <div style={height: '250px'}/>
-
     <div id='ui-uploader'>
       <FileDrop onDrop={@onFilesDrop} targetAlwaysVisible={true}>
         <SuperBoxUpload ref='polybox' authToken={props.authToken} ampersandCollection={props.appCollection}>

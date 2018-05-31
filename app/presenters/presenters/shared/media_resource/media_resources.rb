@@ -18,7 +18,7 @@ module Presenters
       class MediaResources < Presenter
         include Presenters::Shared::MediaResource::Modules::IndexPresenterByClass
 
-        attr_reader :resources, :pagination, :with_actions, :can_filter, :type
+        attr_reader :resources, :pagination, :has_user, :can_filter, :type
         attr_accessor :try_collections
         attr_accessor :disable_file_search
         attr_reader :only_filter_search
@@ -26,7 +26,7 @@ module Presenters
 
         def initialize(
             scope, user, list_conf: nil, item_type: nil,
-            can_filter: true, with_actions: true,
+            can_filter: true,
             with_count: true, load_meta_data: false,
             only_filter_search: false,
             disable_file_search: false,
@@ -37,7 +37,7 @@ module Presenters
           @scope = scope
           @type = item_type || scope.model.name.pluralize
           # enable interaction if user logged in and not explictly turned of
-          @with_actions = true if (with_actions != false) && @user.present?
+          @has_user = true if @user.present?
           # can the given scope be filtered? (`#filter_by`)
           @can_filter = can_filter
           @conf = build_config(list_conf)
