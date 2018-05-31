@@ -18,7 +18,7 @@
 
   content_for(:filter_sets_more_info) do
     react('Deco.MediaResourcesBox',
-      get: @get.resources, withBox: true, initial: { show_filter: false })
+      get: @get.resources, initial: { show_filter: false })
   end
 
 = render template: 'filter_sets/filter_sets_app_resource'

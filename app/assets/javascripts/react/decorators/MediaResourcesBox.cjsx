@@ -56,7 +56,6 @@ qs = require('qs')
 # Props/Config overview:
 # - props.get.with_actions = should the UI offer any interaction
 # - props.fetchRelations = should relations be fetched (async, only grid layout)
-# - props.withBox = should the grid be wrapped in a Box… [TMP!]
 # - state.isClient = is component in client-side mode
 # - props.get.can_filter = is it possible to filter the resources
 # - props.get.filter = the currently active filter
@@ -118,7 +117,6 @@ module.exports = React.createClass
   displayName: 'MediaResourcesBox'
   propTypes:
     initial: React.PropTypes.shape(viewConfigProps)
-    withBox: React.PropTypes.bool # toggles simple grid or full box
     fetchRelations: React.PropTypes.bool
     fallback: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.node])
     heading: React.PropTypes.node
@@ -175,14 +173,14 @@ module.exports = React.createClass
     f.each(f.compact(@doOnUnmount), (fn)->
       if f.isFunction(fn) then fn() else console.error("Not a Function!", fn))
 
-  _createResourcesModel: (get, withBox) ->
+  _createResourcesModel: (get) ->
     collectionClass = switch get.type
       when 'MediaResources' then CollectionChildren
       when 'MediaEntries' then MediaEntries
       when 'Collections' then Collections
 
     if collectionClass
-      if withBox && f.present(f.get(get, 'pagination.total_count'))
+      if f.present(f.get(get, 'pagination.total_count'))
         if !collectionClass.Paginated then throw new Error('Collection has no Pagination!')
 
         # HACK
@@ -221,7 +219,7 @@ module.exports = React.createClass
     resources = if f.get(@props, 'get.resources.isCollection')
       @props.get.resources # if already initialized just use that
     else
-      @_createResourcesModel(@props.get, @props.withBox)
+      @_createResourcesModel(@props.get)
     @setState(resources: resources)
 
   componentDidMount: ()->
@@ -531,8 +529,7 @@ module.exports = React.createClass
         layout: state.savedLayout
         order: state.savedOrder
       ,
-      if props.withBox                # - user session config
-        {config: props.get.config.user}
+      {config: props.get.config.user}
       ,
       config:                   # - default config
         layout: 'grid'
@@ -550,7 +547,7 @@ module.exports = React.createClass
 
   render: ()->
     {
-      get, mods, initial, withBox, fallback, heading, listMods
+      get, mods, initial, fallback, heading, listMods
       fetchRelations, saveable, authToken, children
     } = @props
 
@@ -573,8 +570,8 @@ module.exports = React.createClass
     baseClass = 'ui-polybox'
     boxClasses = cx({ # defaults first, mods last so they can override
       'ui-container': yes
-      'midtone': withBox
-      'bordered': withBox
+      'midtone': true
+      'bordered': true
     }, mods, baseClass) # but baseClass can't be overridden!
 
     toolbarClasses = switch
@@ -588,7 +585,7 @@ module.exports = React.createClass
         'rounded-top'
 
     listHolderClasses = cx 'ui-resources-holder',
-      pam: withBox
+      pam: true
 
     listClasses = cx(
       config.layout, # base class like "list"
@@ -733,8 +730,6 @@ module.exports = React.createClass
 
 
     boxToolBar = () =>
-      # NOTE: don't show the bar if not in a box!
-      return false if !withBox
 
       selection = f.presence(@state.selectedResources) or false
 
@@ -881,7 +876,7 @@ module.exports = React.createClass
 
     paginationNav = (resources, staticPagination) =>
       pagination = f.get(f.last(resources.pages), 'pagination') || staticPagination
-      return if !withBox or !f.present(pagination)
+      return if !f.present(pagination)
       return if !(pagination.totalPages > pagination.page)
       # autoscroll:
       if @state.isClient
@@ -969,8 +964,8 @@ module.exports = React.createClass
           </Modal>
       }
 
-      {if withBox then boxTitleBar()}
-      {if withBox then boxToolBar()}
+      {boxTitleBar()}
+      {boxToolBar()}
 
       <div className={listHolderClasses}>
         <div className='ui-container table auto'>
@@ -1008,7 +1003,7 @@ module.exports = React.createClass
                 {(resources.pages || [{resources}]).map (page, i)=>
                   <li className='ui-resources-page' key={i}>
 
-                    {if withBox and (pagination = f.presence(page.pagination))
+                    {if (pagination = f.presence(page.pagination))
                       if (pagination.totalPages > 1 || disableSelectToggle)
 
                         onSelectPage = null
@@ -1066,20 +1061,19 @@ module.exports = React.createClass
                         page.resources.map (item)=>
                           key = item.uuid or item.cid
 
-                          if withBox
-                            selection = @state.selectedResources
-                            # selection defined means selection is enabled
-                            showActions = ActionsDropdown.showActionsConfig(actionsDropdownParameters)
-                            if @state.isClient && selection && f.any(f.values(showActions))
-                              isSelected = @state.selectedResources.contains(item.serialize())
-                              onSelect = f.curry(@_onSelectResource)(item)
-                              # if in selection mode, intercept clicks as 'select toggle'
-                              onClick = if config.layout == 'miniature'
-                                (if !selection.empty() then onSelect)
-                              # when hightlighting editables, we just dim everything else:
+                          selection = @state.selectedResources
+                          # selection defined means selection is enabled
+                          showActions = ActionsDropdown.showActionsConfig(actionsDropdownParameters)
+                          if @state.isClient && selection && f.any(f.values(showActions))
+                            isSelected = @state.selectedResources.contains(item.serialize())
+                            onSelect = f.curry(@_onSelectResource)(item)
+                            # if in selection mode, intercept clicks as 'select toggle'
+                            onClick = if config.layout == 'miniature'
+                              (if !selection.empty() then onSelect)
+                            # when hightlighting editables, we just dim everything else:
 
-                              style = if ActionsDropdown.isResourceNotInScope(item, isSelected, @state.hoverMenuId)
-                                {opacity: 0.35}
+                            style = if ActionsDropdown.isResourceNotInScope(item, isSelected, @state.hoverMenuId)
+                              {opacity: 0.35}
 
 
 

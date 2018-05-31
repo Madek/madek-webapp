@@ -88,7 +88,6 @@ module.exports = React.createClass
           listMods={['show_permissions', {active: show_hover}]}
           authToken={props.authToken}
           fetchRelations={false}
-          withBox={true}
           heading={props.appCollection.length + ' Upload(s)'}
           fallback={spacerDiv}
           get={boxGet}

@@ -109,7 +109,7 @@ GroupShow = React.createClass
           </table>
         </div>
         <MediaResourcesBox
-          for_url={@props.for_url} withBox={true}
+          for_url={@props.for_url}
           get={get.resources} authToken={@props.authToken}
           mods={[ {bordered: false}, 'rounded-bottom' ]}
           toolBarMiddle={switcher}

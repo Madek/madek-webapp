@@ -41,7 +41,7 @@ module.exports = React.createClass
         </h2>
       </div>
       <MediaResourcesBox
-        for_url={for_url} withBox={true}
+        for_url={for_url}
         get={get.resources} authToken={authToken}
         mods={[ {bordered: false}, 'rounded-bottom' ]}
         toolBarMiddle={switcher}

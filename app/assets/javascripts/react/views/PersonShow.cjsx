@@ -74,7 +74,7 @@ PersonShow = React.createClass
           </table>
         </div>
         <MediaResourcesBox
-          for_url={@state.forUrl} withBox={true}
+          for_url={@state.forUrl}
           get={resources} authToken={@props.authToken}
           mods={[ {bordered: false}, 'rounded-bottom' ]}
           toolBarMiddle={switcher}

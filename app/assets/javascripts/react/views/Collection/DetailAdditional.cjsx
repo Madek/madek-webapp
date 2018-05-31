@@ -29,7 +29,7 @@ module.exports = React.createClass
     switcher = resourceTypeSwitcher(get.child_media_resources, @state.forUrl, true, @_onResourceSwitch)
 
     <div className="ui-container rounded-bottom">
-      <MediaResourcesBox withBox={true}
+      <MediaResourcesBox
         get={get.child_media_resources} authToken={authToken}
         router={@router}
         initial={ { show_filter: true } } mods={ [ {bordered: false}, 'rounded-bottom' ] }

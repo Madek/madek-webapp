@@ -40,7 +40,7 @@ module.exports = React.createClass
         </p>
       </div>
 
-      <MediaResourcesBox withBox={true}
+      <MediaResourcesBox
         get={get.relation_resources} authToken={authToken}
         initial={ { show_filter: true } }
         mods={[ {bordered: false}, 'rounded-bottom' ]}
