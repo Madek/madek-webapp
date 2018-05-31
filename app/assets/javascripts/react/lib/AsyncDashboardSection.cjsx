@@ -10,10 +10,7 @@ f = require('active-lodash')
 appRequest = require('../../lib/app-request.coffee')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 
-# HACK: get components by name. only 1 is supported for now.
-UILibrary =
-  Deco:
-    MediaResourcesBox: require('../decorators/MediaResourcesBox.cjsx')
+SuperBoxDashboard = require('../decorators/SuperBoxDashboard.jsx')
 
 Icon = require('../ui-components/Icon.cjsx')
 Preloader = require('../ui-components/Preloader.cjsx')
@@ -22,7 +19,6 @@ module.exports = React.createClass
   displayName: 'AsyncDashboardSection'
   propTypes:
     url: PropTypes.string.isRequired
-    component: PropTypes.string.isRequired
     json_path: PropTypes.string
     initial_props: PropTypes.object
 
@@ -70,10 +66,7 @@ module.exports = React.createClass
     if @_runningRequest then @_runningRequest.abort()
 
   render: ({props} = @)->
-    {component, fallback_url} = props
-
-    unless (UIComponent = f.get(UILibrary, component))
-      throw new Error('Invalid UI Component! ' + component)
+    {fallback_url} = props
 
     if @props.renderEmpty
       return <div></div>
@@ -84,7 +77,10 @@ module.exports = React.createClass
           <div className='pvh mtm'><Preloader/></div>
         </div>
       else if f.present(@state.fetchedProps)
-        React.createElement(UIComponent, @state.fetchedProps)
+        <SuperBoxDashboard
+          authToken={@state.fetchedProps.authToken}
+          resources={@state.fetchedProps.get.resources}
+        />
       else
         <div style={{height: '250px'}}>
           <div className='pvh mth mbl by-center'>
