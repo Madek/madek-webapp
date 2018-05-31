@@ -6,6 +6,7 @@ async = require('async')
 t = require('../../../lib/i18n-translate.js')
 {ActionsBar, Button} = require('../../ui-components/index.coffee')
 MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
+SuperBoxUpload = require('../../decorators/SuperBoxUpload.jsx')
 
 FileDrop = <div/> # client-side only
 UPLOAD_CONCURRENCY = 4
@@ -74,41 +75,28 @@ module.exports = React.createClass
       config:
         for_url: window.location.toString()
 
-    show_hover = false # at the moment we never show any actions heres
-
     # spacer div so that the empty box has same height as with first thumbnails
     spacerDiv = <div style={height: '250px'}/>
 
     <div id='ui-uploader'>
       <FileDrop onDrop={@onFilesDrop} targetAlwaysVisible={true}>
-        <MediaResourcesBox
-          ref='polybox'
-          className='ui-uploader-uploads'
-          mods='rounded mvl'
-          listMods={['show_permissions', {active: show_hover}]}
-          authToken={props.authToken}
-          fetchRelations={false}
-          heading={props.appCollection.length + ' Upload(s)'}
-          fallback={spacerDiv}
-          get={boxGet}
-          disableListMode={true}>
+        <SuperBoxUpload ref='polybox' authToken={props.authToken} ampersandCollection={props.appCollection}>
+          <div className='ui-form-group rowed by-center'>
+            <h3 className='title-l'>
+              {t('media_entry_media_import_inside') + ' '}
 
-            <div className='ui-form-group rowed by-center'>
-              <h3 className='title-l'>
-                {t('media_entry_media_import_inside') + ' '}
-
-                {# NOTE: wrapping in <label> means we can hide the unstylable input…}
-                <label className="primary-button" style={{fontSize: '16px', top: '-2px'}}>
-                  {t('media_entry_media_import_select_media')}
-                  <input
-                    type='file' multiple
-                    style={{'display': 'none'}}
-                    name={name + '[media_file][]'}
-                    onChange={@onFilesSelect}/>
-                </label>
-              </h3>
-            </div>
-        </MediaResourcesBox>
+              {# NOTE: wrapping in <label> means we can hide the unstylable input…}
+              <label className="primary-button" style={{fontSize: '16px', top: '-2px'}}>
+                {t('media_entry_media_import_select_media')}
+                <input
+                  type='file' multiple
+                  style={{'display': 'none'}}
+                  name={name + '[media_file][]'}
+                  onChange={@onFilesSelect}/>
+              </label>
+            </h3>
+          </div>
+        </SuperBoxUpload>
       </FileDrop>
 
       <ActionsBar>

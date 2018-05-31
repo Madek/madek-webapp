@@ -217,7 +217,7 @@ module.exports = React.createClass
 
   componentWillMount: ()->
     resources = if f.get(@props, 'get.resources.isCollection')
-      @props.get.resources # if already initialized just use that
+      throw new Error('is collection') # should not be the case anymore after uploader is not using this box anymore
     else
       @_createResourcesModel(@props.get)
     @setState(resources: resources)
@@ -1059,7 +1059,9 @@ module.exports = React.createClass
                     <ul className='ui-resources-page-items'>
                       {
                         page.resources.map (item)=>
-                          key = item.uuid or item.cid
+
+                          throw new Error('no uuid') unless item.uuid # should not be the case anymore after uploader is not using this box anymore
+                          key = item.uuid # or item.cid
 
                           selection = @state.selectedResources
                           # selection defined means selection is enabled
