@@ -286,14 +286,12 @@ module.exports = React.createClass
     @_handleChangeInternally(event)
     return undefined
 
-  _onSearch: (event)->
-
-    refs = @refs
+  _onSearch: (event, refValues)->
 
     searchFilter = () =>
-      if !@_supportsFilesearch() || refs.searchTypeFulltext.checked
+      if !@_supportsFilesearch() || refValues.searchTypeFulltextChecked
         {
-          search: refs.filterSearch.value
+          search: refValues.filterSearchValue
         }
       else
         {
@@ -301,12 +299,12 @@ module.exports = React.createClass
         }
 
     filenameFilter = () =>
-      if @_supportsFilesearch() && refs.searchTypeFilename.checked
+      if @_supportsFilesearch() && refValues.searchTypeFilenameChecked
         {
           media_files: [
             {
               key: 'filename',
-              value: refs.filterSearch.value
+              value: refValues.filterSearchValue
             }
           ]
         }
@@ -796,78 +794,19 @@ module.exports = React.createClass
 
     sidebar = do ({config, dynamic_filters} = get, {isClient} = @state)=>
       return null if not config.show_filter
+      BoxSidebar = require('./BoxSidebar.jsx')
+      <BoxSidebar
+        config={config}
+        dynamic_filters={dynamic_filters}
+        isClient={isClient}
+        currentQuery={currentQuery}
+        onSearch={@_onSearch}
+        supportsFilesearch={@_supportsFilesearch()}
+        onlyFilterSearch={get.only_filter_search}
+        parentState={@state}
+        onSideFilterChange={@_onSideFilterChange}
+      />
 
-
-      has_filename_filter = () ->
-        (config.filter &&
-          config.filter.media_files &&
-          !f.isEmpty(f.filter(config.filter.media_files, (entry) ->
-            entry.key == 'filename'
-          ))
-        )
-
-      filename_filter_string = () ->
-        f.first(f.filter(config.filter.media_files, (entry) ->
-          entry.key == 'filename'
-        )).value
-
-      fulltext_filter_string = () ->
-        if config.filter
-          config.filter.search
-        else
-          ''
-
-      <div className='filter-panel ui-side-filter'>
-        {if not isClient
-          <div><div className='no-js'>
-            <SideFilterFallback {...config}/>
-            <FilterExamples examples={filter_examples}
-              url={config.for_url} query={currentQuery}/>
-          </div>
-          <div className='js-only'>
-            {FilterPreloader}
-          </div></div>
-        else
-
-          searchValue = () ->
-            if has_filename_filter()
-              filename_filter_string()
-            else
-              fulltext_filter_string()
-
-          <div className='js-only'>
-            <div className='ui-side-filter-search filter-search'>
-              <form name='filter_search_form' onSubmit={@_onSearch}>
-                <input type='submit' className='unstyled'
-                  value={t('resources_box_new_search')} />
-                <input type='text' className='ui-filter-search-input block'
-                  ref='filterSearch'
-                  defaultValue={searchValue()}/>
-                {
-                  if @_supportsFilesearch()
-                    <div style={{marginTop: '2px'}}>
-                      <input ref='searchTypeFulltext' type='radio' name='search_type'
-                        value='fulltext' defaultChecked={(!has_filename_filter())} />
-                      {' ' + t('search_full_text') + ' '}
-                      <input ref='searchTypeFilename' type='radio' name='search_type'
-                        value='filename' defaultChecked={has_filename_filter()} />
-                      {' ' + t('search_filename')}
-                    </div>
-                }
-              </form>
-            </div>
-            {
-              unless get.only_filter_search
-                <SideFilter
-                  forUrl={@state.config.for_url}
-                  jsonPath={@state.resources.getJsonPath()}
-                  current={config.filter or {}}
-                  accordion={config.accordion or {}}
-                  onChange={@_onSideFilterChange}/>
-            }
-          </div>
-        }
-      </div>
 
     paginationNav = (resources, staticPagination) =>
       pagination = f.get(f.last(resources.pages), 'pagination') || staticPagination
@@ -1202,18 +1141,6 @@ PageCounter = ({href, page, total, onSelectPage, checkState} = @props)->
     }
   </div>
 
-SideFilterFallback = ({filter} = @props)->
-  filter = f.presence(filter) or {}
-  <div className='ui-side-filter-search filter-search'>
-    <RailsForm name='list' method='get' mods='prm'>
-      <input type='hidden' name='list[show_filter]' value='true'/>
-      <textarea name='list[filter]' rows='25'
-        style={{fontFamily: 'monospace', fontSize: '1.1em', width: '100%'}}
-        defaultValue={JSON.stringify(filter, 0, 2)}/>
-      <Button type='submit'>Submit</Button>
-    </RailsForm>
-  </div>
-
 BoxTitleBar = ({heading, centerActions, layouts, mods, onSortItemClick, dropdownItems, selectedSort, enableOrdering} = @props)->
 
   style = {minHeight: '1px'} # Make sure col2of6 fills its space (min height ensures that following float left are blocked)
@@ -1262,44 +1189,3 @@ FallBackMsg = ({children} = @props)->
   <div className='pvh mth mbl'>
     <div className='title-l by-center'>{children}</div>
   </div>
-
-FilterPreloader = (
-  <div className='ui-slide-filter-item'>
-    <div className='title-xs by-center'>
-      Filter werden geladen</div>
-      <Preloader mods='small'/>
-  </div>)
-
-FilterExamples = ({url, query, examples} = @props)->
-  <div>
-    <h4>Examples:</h4>
-    <ul>
-      {f.map examples, (example, name)->
-        params = {list: {page: 1, filter: JSON.stringify(example, 0, 2)}}
-        <li key={name}>
-          <Link href={setUrlParams(url, query, params)}>{name}</Link>
-        </li>
-      }
-    </ul>
-  </div>
-
-filter_examples = {
-  "Search: 'still'": {
-    "search": "still"
-  },
-  "Title: 'diplom'": {
-    "meta_data": [{ "key": "madek_core:title", "match": "diplom" }]
-  },
-  "Uses Meta-Key 'Gattung'": {
-    "meta_data": [ { "key": "media_content:type" } ]
-  },
-  "Permissions: public": {
-    "permissions": [{ "key": "public", "value": true }]
-  },
-  "Media File: Content-Type jpeg": {
-    "media_files": [{ "key": "content_type", "value": "image/jpeg" }]
-  },
-  "Media File: Extension pdf": {
-    "media_files": [{ "key": "extension", "value": "pdf" }]
-  }
-}
