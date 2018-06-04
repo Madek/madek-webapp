@@ -697,12 +697,13 @@ module.exports = React.createClass
           )()
         else []
 
-      <BoxTitleBar
+      BoxTitlebarRender = require('./BoxTitlebarRender.jsx')
+      <BoxTitlebarRender
         heading={heading or ("#{totalCount} #{t('resources_box_title_count_post')}" if totalCount)}
         mods={toolbarClasses}
         layouts={layouts}
         centerActions={centerActions}
-        onSortItemClick={onSortItemClick}ß
+        onSortItemClick={onSortItemClick}
         dropdownItems={dropdownItems}
         selectedSort={order}
         enableOrdering={@props.enableOrdering} />
@@ -1141,42 +1142,6 @@ PageCounter = ({href, page, total, onSelectPage, checkState} = @props)->
     }
   </div>
 
-BoxTitleBar = ({heading, centerActions, layouts, mods, onSortItemClick, dropdownItems, selectedSort, enableOrdering} = @props)->
-
-  style = {minHeight: '1px'} # Make sure col2of6 fills its space (min height ensures that following float left are blocked)
-
-  classes = cx('ui-container inverted ui-toolbar pvx', mods)
-  style = {minHeight: '1px'} # Make sure col2of6 fills its space (min height ensures that following float left are blocked)
-  <div className={classes}>
-    <h2 className='ui-toolbar-header pls col2of6' style={style}>{heading}</h2>
-    <div className='col2of6' style={{textAlign: 'center'}}>
-      {# Action Buttons: }
-      {if f.any(centerActions)
-        <ButtonGroup mods='tertiary small center mls'>
-          {centerActions}
-        </ButtonGroup>
-      }
-    </div>
-    <div className='ui-toolbar-controls by-right'> {# removed col2of6 because of minimum width}
-      {# Layout Switcher: }
-      <ButtonGroup mods='tertiary small right mls'>
-        {layouts.map (layout)->
-          mods = cx 'small', 'ui-toolbar-vis-button', layout.mods
-          <Button
-            mode={layout.mode} title={layout.title} icon={layout.icon}
-            href={layout.href} onClick={layout.onClick}
-            mods={mods} key={layout.mode}>
-            <Icon i={layout.icon} title={layout.title}/>
-          </Button>
-        }
-      </ButtonGroup>
-      {
-        if enableOrdering
-          <SortDropdown items={dropdownItems} selectedKey={selectedSort}
-            onItemClick={onSortItemClick} />
-      }
-    </div>
-  </div>
 
 PaginationNavFallback = ({current, next, prev} = @props)->
   <ButtonGroup mods='mbm'>
