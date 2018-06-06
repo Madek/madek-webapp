@@ -772,41 +772,19 @@ module.exports = React.createClass
 
 
     paginationNav = (resources, staticPagination) =>
-      pagination = f.get(f.last(resources.pages), 'pagination') || staticPagination
-      return if !f.present(pagination)
-      return if !(pagination.totalPages > pagination.page)
-      # autoscroll:
-      if @state.isClient
-        isLoading = @state.loadingNextPage
-        <div className='ui-actions'>
-          {if !@isLoading
-            # NOTE: offset means trigger load when page is still *5 screens down*!
-            # NOTE: set "random" key to force evaluation on every rerender
-            <Waypoint onEnter={@_onFetchNextPage} bottomOffset='-500%' key={(new Date()).getTime()}/>}
-          <Button onClick={@_onFetchNextPage}>
-            {if !isLoading
-              t('pagination_nav_loadnext')
-            else
-              t('pagination_nav_nextloading')}
-          </Button>
-        </div>
 
-      # static fallback:
-      else do ({config, pagination} = get)=>
-        navLinks =
-          current:
-            href: permaLink
-            onClick: @_handleChangeInternally
-          prev: if pagination.prev
-            href: boxSetUrlParams(currentUrl, list: pagination.prev)
-          next: if pagination.next
-            href: boxSetUrlParams(currentUrl, list: pagination.next)
+      BoxPaginationNav = require('./BoxPaginationNav.jsx')
+      <BoxPaginationNav
+        resources={resources}
+        staticPagination={staticPagination}
+        onFetchNextPage={@_onFetchNextPage}
+        loadingNextPage={@state.loadingNextPage}
+        isClient={@state.isClient}
+        permaLink={permaLink}
+        handleChangeInternally={@_handleChangeInternally}
+        currentUrl={currentUrl}
+      />
 
-        <div className='no-js'>
-          <ActionsBar>
-            <PaginationNavFallback {...navLinks}/>
-          </ActionsBar>
-        </div>
 
     # component:
     <div data-test-id='resources-box' className={boxClasses}>
@@ -975,13 +953,6 @@ module.exports.boxSetUrlParams = boxSetUrlParams
 
 
 # Partials and UI-Components only used here:
-
-PaginationNavFallback = ({current, next, prev} = @props)->
-  <ButtonGroup mods='mbm'>
-    <Button {...prev} mods='mhn' disabled={not prev}>{t('pagination_nav_prevpage')}</Button>
-    <Button {...current} mods='mhn'>{t('pagination_nav_thispage')}</Button>
-    <Button {...next} mods='mhn' disabled={not next}>{t('pagination_nav_nextpage')}</Button>
-  </ButtonGroup>
 
 FallBackMsg = ({children} = @props)->
   <div className='pvh mth mbl'>
