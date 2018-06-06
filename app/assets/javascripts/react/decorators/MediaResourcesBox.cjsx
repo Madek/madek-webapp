@@ -812,53 +812,28 @@ module.exports = React.createClass
     <div data-test-id='resources-box' className={boxClasses}>
       {
         if @state.showBatchTransferResponsibility
-
-          resource_ids = f.map(@state.batchTransferResponsibilityResources, 'uuid')
-
-          responsible_uuid = @state.batchTransferResponsibilityResources[0].responsible_user_uuid
-          responsible = @state.batchTransferResponsibilityResources[0].responsible
-
-          batch_type = @state.selectedResources.first().type
-
           actionUrls = {
             MediaEntry: @_routeUrl('batch_update_transfer_responsibility_media_entries')
             Collection: @_routeUrl('batch_update_transfer_responsibility_collections')
           }
-
-          <Modal widthInPixel={800}>
-            <EditTransferResponsibility
-              authToken={@props.authToken}
-              batch={true}
-              resourceType={batch_type}
-              singleResource={null}
-              batchResourceIds={resource_ids}
-              batchActionUrls={actionUrls}
-              responsibleUuid={responsible_uuid}
-              responsible={responsible}
-              onClose={@_hideBatchTransferResponsibility}
-              onSaved={() -> location.reload()} />
-          </Modal>
+          BoxTransfer = require('./BoxTransfer.jsx')
+          <BoxTransfer
+            authToken={@props.authToken}
+            transferResources={@state.batchTransferResponsibilityResources}
+            onClose={@_hideBatchTransferResponsibility}
+            onSaved={() -> location.reload()}
+            actionUrls={actionUrls}
+          />
       }
 
       {
         if @state.showSelectionLimit
-          <Modal widthInPixel={400}>
-            <div style={{margin: '20px', marginBottom: '20px', textAlign: 'center'}}>
-              {
-                if @state.showSelectionLimit == 'page-selection'
-                  t('resources_box_selection_limit_page_1') + @_selectionLimit() + t('resources_box_selection_limit_page_2')
-                else if @state.showSelectionLimit == 'single-selection'
-                  t('resources_box_selection_limit_single_1') + @_selectionLimit() + t('resources_box_selection_limit_single_2')
-                else
-                  throw new Error('Unexpected show selection limit: ' + @state.showSelectionLimit)
-              }
-            </div>
-            <div style={{margin: '20px', marginBottom: '20px', textAlign: 'center'}}>
-              <div className="ui-actions">
-                <a onClick={@_closeSelectionLimit} className="primary-button">{t('resources_box_selection_limit_ok')}</a>
-              </div>
-            </div>
-          </Modal>
+          BoxSelectionLimit = require('./BoxSelectionLimit.jsx')
+          <BoxSelectionLimit
+            showSelectionLimit={@state.showSelectionLimit}
+            selectionLimit={@_selectionLimit()}
+            onClose={@_closeSelectionLimit}
+          />
       }
 
       {boxTitleBar()}
