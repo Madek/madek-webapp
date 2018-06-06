@@ -635,26 +635,28 @@ module.exports = React.createClass
           if err then console.error(err)
           @setState(loadingNextPage: false) if @isMounted()
 
+      boxUrl = require('./BoxSetUrlParams.jsx')
+
       dropdownItems = f.compact([
         {
           label: t('collection_sorting_created_at_asc')
           key: 'created_at ASC'
-          href: boxSetUrlParams(currentUrl, list: order: 'created_at ASC')
+          href: boxUrl(currentUrl, list: order: 'created_at ASC')
         },
         {
           label: t('collection_sorting_created_at_desc')
           key: 'created_at DESC'
-          href: boxSetUrlParams(currentUrl, list: order: 'created_at DESC')
+          href: boxUrl(currentUrl, list: order: 'created_at DESC')
         },
         {
           label: t('collection_sorting_title_asc')
           key: 'title ASC'
-          href: boxSetUrlParams(currentUrl, list: order: 'title ASC')
+          href: boxUrl(currentUrl, list: order: 'title ASC')
         } if @props.enableOrderByTitle,
         {
           label: t('collection_sorting_last_change')
           key: 'last_change'
-          href: boxSetUrlParams(currentUrl, list: order: 'last_change')
+          href: boxUrl(currentUrl, list: order: 'last_change')
         }
       ])
 
@@ -677,32 +679,18 @@ module.exports = React.createClass
         )
         return false
 
-      centerActions =
-        if @props.collectionData && @props.collectionData.editable
-          (() =>
-            layoutChanged = @state.savedLayout != layout || @state.savedOrder != order
-            text = if layoutChanged then t('collection_layout_save') else t('collection_layout_saved')
-            [
-              <a key="collection_layout" disabled={'disabled' if !layoutChanged}
-                className={cx('small ui-toolbar-vis-button button', {active: !layoutChanged})}
-                title={text}
-                onClick={layoutSave if layoutChanged}>
-                <i className="icon-fixed-width icon-eye bright"></i>
-                <span className="text">
-                  {' ' + text}
-                </span>
-              </a>
-            ]
-
-          )()
-        else []
-
-      BoxTitlebarRender = require('./BoxTitlebarRender.jsx')
-      <BoxTitlebarRender
-        heading={heading or ("#{totalCount} #{t('resources_box_title_count_post')}" if totalCount)}
+      BoxTitlebar = require('./BoxTitlebar.jsx')
+      <BoxTitlebar
+        layout={layout}
+        order={order}
+        savedLayout={@state.savedLayout}
+        savedOrder={@state.savedOrder}
+        layoutSave={layoutSave}
+        collectionData={@props.collectionData}
+        heading={heading}
+        totalCount={totalCount}
         mods={toolbarClasses}
         layouts={layouts}
-        centerActions={centerActions}
         onSortItemClick={onSortItemClick}
         dropdownItems={dropdownItems}
         selectedSort={order}
