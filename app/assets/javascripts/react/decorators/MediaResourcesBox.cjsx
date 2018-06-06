@@ -635,34 +635,6 @@ module.exports = React.createClass
           if err then console.error(err)
           @setState(loadingNextPage: false) if @isMounted()
 
-      boxUrl = require('./BoxSetUrlParams.jsx')
-
-      dropdownItems = f.compact([
-        {
-          label: t('collection_sorting_created_at_asc')
-          key: 'created_at ASC'
-          href: boxUrl(currentUrl, list: order: 'created_at ASC')
-        },
-        {
-          label: t('collection_sorting_created_at_desc')
-          key: 'created_at DESC'
-          href: boxUrl(currentUrl, list: order: 'created_at DESC')
-        },
-        {
-          label: t('collection_sorting_title_asc')
-          key: 'title ASC'
-          href: boxUrl(currentUrl, list: order: 'title ASC')
-        } if @props.enableOrderByTitle,
-        {
-          label: t('collection_sorting_last_change')
-          key: 'last_change'
-          href: boxUrl(currentUrl, list: order: 'last_change')
-        }
-      ])
-
-
-
-
       layoutSave = (event) =>
         event.preventDefault()
         simpleXhr(
@@ -681,6 +653,7 @@ module.exports = React.createClass
 
       BoxTitlebar = require('./BoxTitlebar.jsx')
       <BoxTitlebar
+        enableOrderByTitle={@props.enableOrderByTitle}
         layout={layout}
         order={order}
         savedLayout={@state.savedLayout}
@@ -692,9 +665,10 @@ module.exports = React.createClass
         mods={toolbarClasses}
         layouts={layouts}
         onSortItemClick={onSortItemClick}
-        dropdownItems={dropdownItems}
         selectedSort={order}
-        enableOrdering={@props.enableOrdering} />
+        enableOrdering={@props.enableOrdering}
+        currentUrl={currentUrl}
+      />
 
 
     actionsDropdownParameters = {

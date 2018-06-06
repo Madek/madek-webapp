@@ -4,6 +4,8 @@ import f from 'lodash'
 import BoxTitlebarRender from './BoxTitlebarRender.jsx'
 import t from '../../lib/i18n-translate.js'
 import cx from 'classnames/dedupe'
+import boxSetUrlParams from './BoxSetUrlParams.jsx'
+
 
 
 class BoxTitlebar extends React.Component {
@@ -26,6 +28,39 @@ class BoxTitlebar extends React.Component {
       }
     }
   }
+
+  getDropdownItems() {
+    var currentUrl = this.props.currentUrl
+    return f.compact([
+      {
+        label: t('collection_sorting_created_at_asc'),
+        key: 'created_at ASC',
+        href: boxSetUrlParams(currentUrl, {list: {order: 'created_at ASC'}})
+      },
+      {
+        label: t('collection_sorting_created_at_desc'),
+        key: 'created_at DESC',
+        href: boxSetUrlParams(currentUrl, {list: {order: 'created_at DESC'}})
+      },
+
+      (
+        this.props.enableOrderByTitle ?
+          {
+            label: t('collection_sorting_title_asc'),
+            key: 'title ASC',
+            href: boxSetUrlParams(currentUrl, {list: {order: 'title ASC'}})
+          }
+        :
+          null
+      ),
+      {
+        label: t('collection_sorting_last_change'),
+        key: 'last_change',
+        href: boxSetUrlParams(currentUrl, {list: {order: 'last_change'}})
+      }
+    ])
+  }
+
 
   getCenterDisabled() {
     if(!this.getLayoutChanged()) {
@@ -70,7 +105,7 @@ class BoxTitlebar extends React.Component {
         layouts={this.props.layouts}
         centerActions={this.getCenterActions()}
         onSortItemClick={this.props.onSortItemClick}
-        dropdownItems={this.props.dropdownItems}
+        dropdownItems={this.getDropdownItems()}
         selectedSort={this.props.order}
         enableOrdering={this.props.enableOrdering} />
     )
