@@ -957,56 +957,14 @@ module.exports = React.createClass
       }
       {
         if @state.batchDestroyResourcesModal
-          <Modal widthInPixel={400}>
-
-            {
-              if @state.batchDestroyResourcesWaiting
-
-                <div style={{margin: '20px', marginBottom: '20px', textAlign: 'center'}}>
-                  <Preloader />
-                </div>
-              else
-
-                <div style={{margin: '20px', marginBottom: '20px', textAlign: 'center'}}>
-                  {
-                    if @state.batchDestroyResourcesError
-                      <div className="ui-alerts" style={marginBottom: '10px'}>
-                        <div className="error ui-alert">
-                          {@state.batchDestroyResourcesError}
-                        </div>
-                      </div>
-                  }
-                  <div style={{marginBottom: '20px'}}>
-                    <div>
-                      {t('batch_destroy_resources_ask_1')}
-                    </div>
-
-                    <div style={{fontWeight: 'bold'}}>
-                      {f.size(f.filter(@state.batchDestroyResourceIdsWithTypes, {type: 'MediaEntry'}))}
-                      {t('batch_destroy_resources_ask_2')}
-                    </div>
-                    <div style={{fontWeight: 'bold'}}>
-                      {f.size(f.filter(@state.batchDestroyResourceIdsWithTypes, {type: 'Collection'}))}
-                      {t('batch_destroy_resources_ask_3')}
-                    </div>
-                    <div>
-                      {t('batch_destroy_resources_ask_4')}
-                    </div>
-                  </div>
-                  <div className="ui-actions" style={{padding: '10px'}}>
-                    <a onClick={@_onCloseModal} className="link weak">{t('batch_destroy_resources_cancel')}</a>
-                    <button className="primary-button" type="submit" onClick={@_onExecuteBatchDeleteResources}>
-                      {t('batch_destroy_resources_ok')}
-                    </button>
-                  </div>
-                </div>
-
-
-            }
-
-
-
-          </Modal>
+          BoxDestroy = require('./BoxDestroy.jsx')
+          <BoxDestroy
+            loading={@state.batchDestroyResourcesWaiting}
+            error={@state.batchDestroyResourcesError}
+            idsWithTypes={@state.batchDestroyResourceIdsWithTypes}
+            onClose={@_onCloseModal}
+            onOk={@_onExecuteBatchDeleteResources}
+          />
       }
 
     </div>
