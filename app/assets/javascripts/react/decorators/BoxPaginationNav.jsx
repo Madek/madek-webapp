@@ -100,12 +100,12 @@ class BoxPaginationNav extends React.Component {
 
     // autoscroll:
     if(this.props.isClient) {
-      if(pagination.page - 1 >= pagination.totalPages - 1) {
+      if(!(pagination.page - 1 < pagination.totalPages - 1)) {
         return null
       }
       return this.renderAutoscroll()
     } else {
-      if(pagination.page - 1 >= pagination.totalPages) {
+      if(!(pagination.page - 1 < pagination.totalPages)) {
         return null
       }
       return this.renderFallback()
