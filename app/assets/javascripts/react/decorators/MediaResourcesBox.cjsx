@@ -156,18 +156,6 @@ module.exports = React.createClass
     showSelectionLimit: false
   }
 
-  _allowedLayoutModes: () ->
-    [
-      {mode: 'tiles', title: t('layout_mode_tiles'), icon: 'vis-pins'}
-      {mode: 'grid', title: t('layout_mode_grid'), icon: 'vis-grid'}
-    ].concat(
-      if not @props.disableListMode then [
-        {mode: 'list', title: t('layout_mode_list'), icon: 'vis-list'}
-      ] else []
-    ).concat(
-      {mode: 'miniature', title: t('layout_mode_miniature'), icon: 'vis-miniature'}
-    )
-
   doOnUnmount: [] # to be filled with functions to be called on unmount
   componentWillUnmount: ()->
     f.each(f.compact(@doOnUnmount), (fn)->
@@ -490,7 +478,7 @@ module.exports = React.createClass
   # public methods:
 
   setLayout: (layoutMode)=> # NOTE: this is a hack and goes around the router :/
-    unless f.includes(f.map(@_allowedLayoutModes(), 'mode'), layoutMode)
+    unless f.includes(f.map(BoxUtil.allowedLayoutModes(@props.disableListMode), 'mode'), layoutMode)
       throw new Error "Invalid Layout!"
     @setState(config: f.merge(@state.config, {layout: layoutMode}))
 
@@ -561,7 +549,7 @@ module.exports = React.createClass
       totalCount = f.get(get, 'pagination.total_count')
       isClient = @state.isClient
 
-      layouts = @_allowedLayoutModes().map (layoutMode) =>
+      layouts = BoxUtil.allowedLayoutModes(@props.disableListMode).map (layoutMode) =>
         href = boxSetUrlParams(currentUrl, {list: {layout: layoutMode.mode}})
         f.merge layoutMode,
           mods: {'active': layoutMode.mode == layout}
