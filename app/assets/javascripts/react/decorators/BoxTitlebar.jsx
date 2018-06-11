@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import f from 'lodash'
+import f from 'active-lodash'
 import BoxTitlebarRender from './BoxTitlebarRender.jsx'
 import t from '../../lib/i18n-translate.js'
 import cx from 'classnames/dedupe'
@@ -96,12 +96,32 @@ class BoxTitlebar extends React.Component {
     ]
   }
 
+  toolbarClasses() {
+    var BoxUtil = require('./BoxUtil.js')
+    var boxClasses = BoxUtil.boxClasses(this.props.mods)
+
+    if(f.includes(boxClasses, 'rounded-right')) {
+      return 'rounded-top-right'
+    }
+    else if(f.includes(boxClasses, 'rounded-left')) {
+      return 'rounded-top-left'
+    }
+    else if(f.includes(boxClasses, 'rounded-bottom')) {
+      return null
+    }
+    else if(f.includes(boxClasses, 'rounded')) { // also for 'rounded-top'…
+      return 'rounded-top'
+    } else {
+      return null
+    }
+  }
+
   render() {
 
     return (
       <BoxTitlebarRender
         heading={this.getHeading()}
-        mods={this.props.toolbarClasses}
+        mods={this.toolbarClasses()}
         layouts={this.props.layouts}
         centerActions={this.getCenterActions()}
         onSortItemClick={this.props.onSortItemClick}

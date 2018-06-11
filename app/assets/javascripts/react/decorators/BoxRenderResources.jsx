@@ -29,6 +29,8 @@ class BoxRenderResources extends React.Component {
     var hoverMenuId = this.props.hoverMenuId
     var fetchRelations = this.props.fetchRelations
     var authToken = this.props.authToken
+    var withActions = this.props.withActions
+    var listMods = this.props.listMods
 
     var renderPage = (page, i) => {
 
@@ -119,9 +121,20 @@ class BoxRenderResources extends React.Component {
       })
     }
 
+    var listClasses = () => {
+      return cx(
+        config.layout, // base class like "list"
+        {
+          'vertical': config.layout == 'tiles',
+          'active': withActions
+        },
+        listMods,
+        'ui-resources'
+      )
+    }
 
     return (
-      <ul className={listClasses}>
+      <ul className={listClasses()}>
         {renderPages()}
       </ul>
     )

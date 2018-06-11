@@ -52,6 +52,8 @@ setsFallbackUrl = require('../../lib/sets-fallback-url.coffee')
 libUrl = require('url')
 qs = require('qs')
 
+BoxUtil = require('./BoxUtil.js')
+
 
 # Props/Config overview:
 # - props.get.has_user = should the UI offer any interaction
@@ -535,35 +537,6 @@ module.exports = React.createClass
     # fetching relations enabled by default if layout is grid + withActions + isClient
     fetchRelations = @state.isClient and withActions and f.includes(['grid', 'list'], config.layout)
 
-    baseClass = 'ui-polybox'
-    boxClasses = cx({ # defaults first, mods last so they can override
-      'ui-container': yes
-      'midtone': true
-      'bordered': true
-    }, mods, baseClass) # but baseClass can't be overridden!
-
-    toolbarClasses = switch
-      when f.includes(boxClasses, 'rounded-right')
-        'rounded-top-right'
-      when f.includes(boxClasses, 'rounded-left')
-        'rounded-top-left'
-      when f.includes(boxClasses, 'rounded-bottom')
-        null
-      when f.includes(boxClasses, 'rounded') # also for 'rounded-top'…
-        'rounded-top'
-
-    listHolderClasses = cx 'ui-resources-holder',
-      pam: true
-
-    listClasses = cx(
-      config.layout, # base class like "list"
-      {
-        'vertical': config.layout is 'tiles'
-        'active': withActions
-      },
-      listMods,
-      'ui-resources')
-
     currentQuery = f.merge(
       {list: f.merge f.omit(config, 'for_url', 'user')},
       {
@@ -637,7 +610,7 @@ module.exports = React.createClass
         collectionData={@props.collectionData}
         heading={heading}
         totalCount={totalCount}
-        mods={toolbarClasses}
+        mods={mods}
         layouts={layouts}
         onSortItemClick={onSortItemClick}
         selectedSort={order}
@@ -741,7 +714,7 @@ module.exports = React.createClass
 
 
     # component:
-    <div data-test-id='resources-box' className={boxClasses}>
+    <div data-test-id='resources-box' className={BoxUtil.boxClasses(mods)}>
       {
         if @state.showBatchTransferResponsibility
           actionUrls = {
@@ -771,7 +744,7 @@ module.exports = React.createClass
       {boxTitleBar()}
       {boxToolBar()}
 
-      <div className={listHolderClasses}>
+      <div className='ui-resources-holder pam'>
         <div className='ui-container table auto'>
           {sidebar}
 
@@ -793,7 +766,6 @@ module.exports = React.createClass
               BoxRenderResources = require('./BoxRenderResources.jsx')
               <BoxRenderResources
                 resources={resources}
-                listClasses={listClasses}
                 actionsDropdownParameters={actionsDropdownParameters}
                 selectedResources={@state.selectedResources}
                 isClient={@state.isClient}
@@ -804,6 +776,8 @@ module.exports = React.createClass
                 hoverMenuId={@state.hoverMenuId}
                 fetchRelations={fetchRelations}
                 authToken={authToken}
+                withActions={withActions}
+                listMods={listMods}
               />
 
             }
