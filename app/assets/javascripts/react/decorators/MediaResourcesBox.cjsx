@@ -813,64 +813,22 @@ module.exports = React.createClass
                 resetFilterLink={resetFilterLink}
               />
             else
-              <ul className={listClasses}>
-                {(resources.pages || [{resources}]).map (page, i)=>
-                  <li className='ui-resources-page' key={i}>
+              BoxRenderResources = require('./BoxRenderResources.jsx')
+              <BoxRenderResources
+                resources={resources}
+                listClasses={listClasses}
+                actionsDropdownParameters={actionsDropdownParameters}
+                selectedResources={@state.selectedResources}
+                isClient={@state.isClient}
+                showSelectionLimit={@_showSelectionLimit}
+                selectionLimit={@_selectionLimit()}
+                onSelectResource={@_onSelectResource}
+                config={config}
+                hoverMenuId={@state.hoverMenuId}
+                fetchRelations={fetchRelations}
+                authToken={authToken}
+              />
 
-                    {
-                      if (pagination = f.presence(page.pagination))
-                        BoxPageCounter = require('./BoxPageCounter.jsx')
-                        <BoxPageCounter
-                          showActions={ActionsDropdown.showActionsConfig(actionsDropdownParameters)}
-                          selectedResources={@state.selectedResources}
-                          isClient={@state.isClient}
-                          showSelectionLimit={@_showSelectionLimit}
-                          page={page}
-                          resources={resources}
-                          selectionLimit={@_selectionLimit()}
-                        />
-
-                    }
-
-                    <ul className='ui-resources-page-items'>
-                      {
-                        page.resources.map (item)=>
-
-                          throw new Error('no uuid') unless item.uuid # should not be the case anymore after uploader is not using this box anymore
-                          key = item.uuid # or item.cid
-
-                          selection = @state.selectedResources
-                          # selection defined means selection is enabled
-                          showActions = ActionsDropdown.showActionsConfig(actionsDropdownParameters)
-                          if @state.isClient && selection && f.any(f.values(showActions))
-                            isSelected = @state.selectedResources.contains(item.serialize())
-                            onSelect = f.curry(@_onSelectResource)(item)
-                            # if in selection mode, intercept clicks as 'select toggle'
-                            onClick = if config.layout == 'miniature'
-                              (if !selection.empty() then onSelect)
-                            # when hightlighting editables, we just dim everything else:
-
-                            style = if ActionsDropdown.isResourceNotInScope(item, isSelected, @state.hoverMenuId)
-                              {opacity: 0.35}
-
-
-
-                          # TODO: get={model}
-                          <ResourceThumbnail elm='div'
-                            style={style}
-                            get={item}
-                            isClient={@state.isClient} fetchRelations={fetchRelations}
-                            isSelected={isSelected} onSelect={onSelect} onClick={onClick}
-                            authToken={authToken} key={key}
-                            pinThumb={config.layout == 'tiles'}
-                            listThumb={config.layout == 'list'}
-                          />
-                      }
-
-                    </ul>
-
-                </li>}
-              </ul>
             }
             {paginationNav(resources, get.pagination)}
           </div>
