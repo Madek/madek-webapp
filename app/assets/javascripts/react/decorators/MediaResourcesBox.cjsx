@@ -547,8 +547,6 @@ module.exports = React.createClass
       saveable, authToken, children
     } = @props
 
-    disableSelectToggle = true
-
     get = @_mergeGet(@props, @state)
 
     # FIXME: always get from state!
@@ -687,9 +685,6 @@ module.exports = React.createClass
 
     boxToolBar = () =>
 
-      selection = f.presence(@state.selectedResources) or false
-
-
       actionsDropdown = ActionsDropdown.createActionsDropdown(
         actionsDropdownParameters,
         {
@@ -712,25 +707,6 @@ module.exports = React.createClass
           onHoverMenu: @_onHoverMenu
         })
 
-      selectToggle = if selection && withActions && !disableSelectToggle
-        selector =
-          active: t('resources_box_deselect_all'),
-          inactive: t('resources_box_select_all'),
-          isActive: selection && !(selection.empty())
-          isDirty: selection && resources && !(selection.length() == resources.totalCount)
-          onClick: (if selection then @_onSelectionAllToggle)
-
-        labelText = if selector.isActive then selector.active else selector.inactive
-        selectClass = 'ui-filterbar-select weak'
-        checkboxMods = cx({'active': selector.isActive, 'mid': selector.isDirty})
-        selectorStyle = {top: '2px'} # style fix!
-
-        <label className={selectClass} style={selectorStyle} onClick={selector.onClick} >
-          <span className='js-only'>
-            <span>{labelText} </span>
-            <Icon i='checkbox' mods={checkboxMods}/>
-          </span>
-        </label>
 
 
       filterToggleLink = boxSetUrlParams(
@@ -748,8 +724,9 @@ module.exports = React.createClass
             {if f.present(config.filter) then resetFilterLink}
           </div>
 
-        right: if selectToggle || actionsDropdown
-          <div>{selectToggle}{actionsDropdown}</div>
+        right: if actionsDropdown
+          <div>{actionsDropdown}</div>
+
 
         middle: @props.toolBarMiddle
 
@@ -855,17 +832,16 @@ module.exports = React.createClass
 
                     {
                       if (pagination = f.presence(page.pagination))
-                        if (pagination.totalPages > 1 || disableSelectToggle)
-                          BoxPageCounter = require('./BoxPageCounter.jsx')
-                          <BoxPageCounter
-                            showActions={ActionsDropdown.showActionsConfig(actionsDropdownParameters)}
-                            selectedResources={@state.selectedResources}
-                            isClient={@state.isClient}
-                            showSelectionLimit={@_showSelectionLimit}
-                            page={page}
-                            resources={resources}
-                            selectionLimit={@_selectionLimit()}
-                          />
+                        BoxPageCounter = require('./BoxPageCounter.jsx')
+                        <BoxPageCounter
+                          showActions={ActionsDropdown.showActionsConfig(actionsDropdownParameters)}
+                          selectedResources={@state.selectedResources}
+                          isClient={@state.isClient}
+                          showSelectionLimit={@_showSelectionLimit}
+                          page={page}
+                          resources={resources}
+                          selectionLimit={@_selectionLimit()}
+                        />
 
                     }
 
