@@ -804,27 +804,14 @@ module.exports = React.createClass
             {if resources.currentPage == 0
               <Preloader />
             else if not f.present(resources) or resources.length == 0 then do () =>
-              return null if !fallback
-              if !f.isBoolean(fallback)
-                fallback # we are given a fallback message, use it
-              else       # otherwise, build default fallback message:
-                <FallBackMsg>
-                  {
-                    if get.try_collections and (setsUrl = setsFallbackUrl(@_currentUrl(), @props.usePathUrlReplacement))
-                      <div>
-                        {t('resources_box_no_content_but_sets_1')}
-                        <a href={setsUrl}>
-                          {t('resources_box_no_content_but_sets_2')}
-                        </a>
-                        {t('resources_box_no_content_but_sets_3')}
-                      </div>
-                    else
-                      t('resources_box_no_content')
-                  }
-                  {if resetFilterLink
-                    <br/>}
-                  {resetFilterLink}
-                </FallBackMsg>
+              BoxSetFallback = require('./BoxSetFallback.jsx')
+              <BoxSetFallback
+                fallback={fallback}
+                try_collections={get.try_collections}
+                currentUrl={@_currentUrl()}
+                usePathUrlReplacement={@props.usePathUrlReplacement}
+                resetFilterLink={resetFilterLink}
+              />
             else
               <ul className={listClasses}>
                 {(resources.pages || [{resources}]).map (page, i)=>
@@ -925,12 +912,3 @@ module.exports = React.createClass
 
 # export helper
 module.exports.boxSetUrlParams = boxSetUrlParams
-
-
-
-# Partials and UI-Components only used here:
-
-FallBackMsg = ({children} = @props)->
-  <div className='pvh mth mbl'>
-    <div className='title-l by-center'>{children}</div>
-  </div>
