@@ -71,31 +71,6 @@ handleLinkIfLocal = (event, callback)->
     event.preventDefault()
     callback(internalLink) if not localLinks.isActive(event)
 
-filterConfigProps = React.PropTypes.shape
-  search: React.PropTypes.string
-  meta_data: React.PropTypes.arrayOf React.PropTypes.shape
-    key: React.PropTypes.string.isRequired
-    match: React.PropTypes.string
-    value: React.PropTypes.string
-    type: React.PropTypes.string # must be sub-type of MetaDatum
-  media_file: React.PropTypes.arrayOf React.PropTypes.shape
-    key: React.PropTypes.string.isRequired
-    value: React.PropTypes.string
-  permissions: React.PropTypes.arrayOf React.PropTypes.shape
-    key: React.PropTypes.string.isRequired
-    value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.bool])
-
-# view Config - bound to the URL (params)!
-viewConfigProps =
-  show_filter: React.PropTypes.bool
-  filter: filterConfigProps
-  layout: React.PropTypes.oneOf(['tiles', 'miniature', 'grid', 'list'])
-  pagination: React.PropTypes.shape
-    prev: React.PropTypes.shape(page: React.PropTypes.number.isRequired)
-    next: React.PropTypes.shape(page: React.PropTypes.number.isRequired)
-  for_url: React.PropTypes.shape
-    pathname: React.PropTypes.string.isRequired
-    query: React.PropTypes.object
 
 # url helper that deals with our weird parameter serialisation
 boxSetUrlParams = (url, params...) ->
@@ -116,23 +91,7 @@ boxSetUrlParams = (url, params...) ->
 
 module.exports = React.createClass
   displayName: 'MediaResourcesBox'
-  propTypes:
-    initial: React.PropTypes.shape(viewConfigProps)
-    fallback: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.node])
-    heading: React.PropTypes.node
-    toolBarMiddle: React.PropTypes.node
-    authToken: React.PropTypes.string.isRequired
-    draftsView: React.PropTypes.bool
-    disableListMode: React.PropTypes.bool
-    get: React.PropTypes.shape
-      # resources: React.PropTypes.array # TODO: array of ampersandCollection
-      type: React.PropTypes.oneOf([
-        'MediaEntries', 'Collections', 'FilterSets', 'MediaResources'])
-      has_user: React.PropTypes.bool # toggles actions, hover, flyout
-      can_filter: React.PropTypes.bool # if true, get.resources can be filtered
-      config: React.PropTypes.shape(viewConfigProps) # <- config that is part of the URL!
-      user_config: React.PropTypes.shape( # <- subset that is *also* stored per session
-        f.pick(viewConfigProps, 'layout', 'order', 'show_filter'))
+  propTypes: require('./BoxPropTypes.js').propTypes()
 
   getDefaultProps: ()->
     fallback: true
