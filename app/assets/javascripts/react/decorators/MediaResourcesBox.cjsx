@@ -190,29 +190,6 @@ module.exports = React.createClass
         (new collectionClass(get.resources))
 
 
-  _tryLoadListMetadata: (resource) ->
-    {type, uuid, url} = resource
-    if not @state.loadingListMetadataResource
-      @setState({loadingListMetadataResource: uuid})
-      LoadXhr({
-        method: 'GET',
-        url:
-          if type == 'Collection'
-            url + '.json?___sparse={"meta_data":{}}'
-          else if type == 'MediaEntry'
-            url + '.json?___sparse={"meta_data":{}}'
-          else
-            console.error('Unknown resource type for loading meta data: ' + resourceType)
-
-      },
-      (result, json) =>
-        @setState({
-          loadingListMetadataResource: null,
-          listMetadata: f.assign(@state.listMetadata, f.set({}, uuid, json.meta_data))
-        })
-      )
-
-
   componentWillMount: ()->
     resources = if f.get(@props, 'get.resources.isCollection')
       throw new Error('is collection') # should not be the case anymore after uploader is not using this box anymore
