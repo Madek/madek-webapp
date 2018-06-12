@@ -27,10 +27,12 @@ class BoxRenderResources extends React.Component {
     var onSelectResource = this.props.onSelectResource
     var config = this.props.config
     var hoverMenuId = this.props.hoverMenuId
-    var fetchRelations = this.props.fetchRelations
     var authToken = this.props.authToken
     var withActions = this.props.withActions
     var listMods = this.props.listMods
+
+    // fetching relations enabled by default if layout is grid + withActions + isClient
+    var fetchRelations = isClient && withActions && f.includes(['grid', 'list'], config.layout)
 
     var renderPage = (page, i) => {
 

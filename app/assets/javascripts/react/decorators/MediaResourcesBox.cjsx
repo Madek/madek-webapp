@@ -467,6 +467,16 @@ module.exports = React.createClass
   _routeUrl: (name) ->
     @props.get.route_urls[name]
 
+  _resetFilterLink: (config) ->
+    resetFilterHref =
+      boxSetUrlParams(@_currentUrl(), {list: {page: 1, filter: {}, accordion: {}}})
+
+    if resetFilterHref
+      if f.present(config.filter) or f.present(config.accordion)
+        <Link mods='mlx weak' href={resetFilterHref}>
+          <Icon i='undo'/> {t('resources_box_reset_filter')}</Link>
+
+
   render: ()->
     {
       get, mods, initial, fallback, heading, listMods
@@ -479,10 +489,6 @@ module.exports = React.createClass
     resources = @state.resources || get.resources
 
     config = get.config
-    withActions = get.has_user
-    saveable = saveable or false
-    # fetching relations enabled by default if layout is grid + withActions + isClient
-    fetchRelations = @state.isClient and withActions and f.includes(['grid', 'list'], config.layout)
 
     currentQuery = f.merge(
       {list: f.merge f.omit(config, 'for_url', 'user')},
@@ -490,18 +496,7 @@ module.exports = React.createClass
         list: filter: config.filter,
         accordion: config.accordion
       })
-    permaLink = boxSetUrlParams(@_currentUrl(), currentQuery)
     currentUrl = @_currentUrl()
-
-    resetFilterHref =
-      boxSetUrlParams(currentUrl, {list: {page: 1, filter: {}, accordion: {}}})
-
-    resetFilterLink = if resetFilterHref
-      if f.present(config.filter) or f.present(config.accordion)
-        <Link mods='mlx weak' href={resetFilterHref}>
-          <Icon i='undo'/> {t('resources_box_reset_filter')}</Link>
-
-    currentType = qs.parse(get.config.for_url.query).type
 
     boxTitleBar = () =>
       {filter, layout, for_url, order} = config
@@ -568,9 +563,9 @@ module.exports = React.createClass
 
     actionsDropdownParameters = {
       totalCount: @props.get.pagination.total_count if @props.get.pagination
-      withActions: withActions
+      withActions: get.has_user
       selection: f.presence(@state.selectedResources) or false
-      saveable: saveable
+      saveable: (saveable or false)
       draftsView: @props.draftsView
       isClient: @state.isClient
       collectionData: @props.collectionData
@@ -618,7 +613,7 @@ module.exports = React.createClass
               href={filterToggleLink} onClick={@_onFilterToggle}>
               <Icon i='filter' mods='small'/> {name}
             </Button>
-            {if f.present(config.filter) then resetFilterLink}
+            {if f.present(config.filter) then @_resetFilterLink(config)}
           </div>
 
         right: if actionsDropdown
@@ -654,7 +649,7 @@ module.exports = React.createClass
         onFetchNextPage={@_onFetchNextPage}
         loadingNextPage={@state.loadingNextPage}
         isClient={@state.isClient}
-        permaLink={permaLink}
+        permaLink={boxSetUrlParams(@_currentUrl(), currentQuery)}
         handleChangeInternally={@_handleChangeInternally}
         currentUrl={currentUrl}
       />
@@ -707,7 +702,7 @@ module.exports = React.createClass
                 try_collections={get.try_collections}
                 currentUrl={@_currentUrl()}
                 usePathUrlReplacement={@props.usePathUrlReplacement}
-                resetFilterLink={resetFilterLink}
+                resetFilterLink={@_resetFilterLink(config)}
               />
             else
               BoxRenderResources = require('./BoxRenderResources.jsx')
@@ -721,9 +716,8 @@ module.exports = React.createClass
                 onSelectResource={@_onSelectResource}
                 config={config}
                 hoverMenuId={@state.hoverMenuId}
-                fetchRelations={fetchRelations}
                 authToken={authToken}
-                withActions={withActions}
+                withActions={get.has_user}
                 listMods={listMods}
               />
 
