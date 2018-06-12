@@ -417,25 +417,6 @@ module.exports = React.createClass
     @setState(batchRemoveFromSet: false)
     @setState(batchDestroyResourcesModal: false)
 
-  _onCreateFilterSet: (config, event)->
-    event.preventDefault()
-    @_createFilterSetFromConfig(config)
-
-  # TODO: move action to model; use modal for prompt
-  _createFilterSetFromConfig: (config)->
-    if f.present(name = window.prompt('Name?'))
-      xhr
-        method: 'POST', url: @_routeUrl('filter_sets')
-        headers: 'X-CSRF-Token': getRailsCSRFToken()
-        json: filter_set: f.merge(config, title: name)
-        , (err, res)->
-          url = f.get(res, ['body', 'url'])
-          if (err or not url)
-            return alert(JSON.stringify(err or 'Error', 0, 2))
-          window.location = url
-
-  # public methods:
-
   setLayout: (layoutMode)=> # NOTE: this is a hack and goes around the router :/
     unless f.includes(f.map(BoxUtil.allowedLayoutModes(@props.disableListMode), 'mode'), layoutMode)
       throw new Error "Invalid Layout!"
@@ -595,7 +576,6 @@ module.exports = React.createClass
           onBatchPermissionsSetsEdit: @_onBatchPermissionsSetsEdit
           onBatchTransferResponsibilityEdit: @_onBatchTransferResponsibilityEdit
           onBatchTransferResponsibilitySetsEdit: @_onBatchTransferResponsibilitySetsEdit
-          # onCreateFilterSet: @_onCreateFilterSet
           onHoverMenu: @_onHoverMenu
         })
 
