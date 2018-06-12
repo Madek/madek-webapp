@@ -54,6 +54,7 @@ qs = require('qs')
 
 BoxUtil = require('./BoxUtil.js')
 
+BoxSetUrlParams = require('./BoxSetUrlParams.jsx')
 
 # Props/Config overview:
 # - props.get.has_user = should the UI offer any interaction
@@ -71,23 +72,6 @@ handleLinkIfLocal = (event, callback)->
     event.preventDefault()
     callback(internalLink) if not localLinks.isActive(event)
 
-
-# url helper that deals with our weird parameter serialisation
-boxSetUrlParams = (url, params...) ->
-  params = params.map((param) ->
-    fromPairs(f.map(param, (val, key) ->
-      if (key == 'list')
-        return [
-          key,
-          fromPairs(f.compact(f.map(val, (v, k) ->
-            if (f.includes(['accordion', 'filter'], k))
-              return if v == null
-              return [k, if typeof v == 'object' then JSON.stringify(v) else v]
-            [k, v])))
-        ]
-      [key, val]
-    )))
-  setUrlParams(url, params...)
 
 module.exports = React.createClass
   displayName: 'MediaResourcesBox'
@@ -204,7 +188,7 @@ module.exports = React.createClass
     event.preventDefault() if event && f.isFunction(event.preventDefault)
 
     # make sure that the new result starts on page 1
-    newLocation = boxSetUrlParams(@_currentUrl(), newParams, {list: {page: 1}})
+    newLocation = BoxSetUrlParams(@_currentUrl(), newParams, {list: {page: 1}})
     window.location = newLocation # SYNC!
 
   _onFilterToggle: (event)->
@@ -288,7 +272,7 @@ module.exports = React.createClass
     if router
       parseUrl(window.location.toString()).path
     else
-      boxSetUrlParams(@props.get.config.for_url)
+      BoxSetUrlParams(@props.get.config.for_url)
 
   _showBatchTransferResponsibility: (resources, event) ->
     @setState(
@@ -450,7 +434,7 @@ module.exports = React.createClass
 
   _resetFilterLink: (config) ->
     resetFilterHref =
-      boxSetUrlParams(@_currentUrl(), {list: {page: 1, filter: {}, accordion: {}}})
+      BoxSetUrlParams(@_currentUrl(), {list: {page: 1, filter: {}, accordion: {}}})
 
     if resetFilterHref
       if f.present(config.filter) or f.present(config.accordion)
@@ -485,7 +469,7 @@ module.exports = React.createClass
       isClient = @state.isClient
 
       layouts = BoxUtil.allowedLayoutModes(@props.disableListMode).map (layoutMode) =>
-        href = boxSetUrlParams(currentUrl, {list: {layout: layoutMode.mode}})
+        href = BoxSetUrlParams(currentUrl, {list: {layout: layoutMode.mode}})
         f.merge layoutMode,
           mods: {'active': layoutMode.mode == layout}
           href: href
@@ -581,7 +565,7 @@ module.exports = React.createClass
 
 
 
-      filterToggleLink = boxSetUrlParams(
+      filterToggleLink = BoxSetUrlParams(
         currentUrl, {list: {show_filter: (not config.show_filter)}})
 
       not_is_clipboard = true # !@props.initial || !@props.initial.is_clipboard
@@ -629,7 +613,7 @@ module.exports = React.createClass
         onFetchNextPage={@_onFetchNextPage}
         loadingNextPage={@state.loadingNextPage}
         isClient={@state.isClient}
-        permaLink={boxSetUrlParams(@_currentUrl(), currentQuery)}
+        permaLink={BoxSetUrlParams(@_currentUrl(), currentQuery)}
         handleChangeInternally={@_handleChangeInternally}
         currentUrl={currentUrl}
       />
@@ -741,4 +725,4 @@ module.exports = React.createClass
     </div>
 
 # export helper
-module.exports.boxSetUrlParams = boxSetUrlParams
+module.exports.boxSetUrlParams = BoxSetUrlParams
