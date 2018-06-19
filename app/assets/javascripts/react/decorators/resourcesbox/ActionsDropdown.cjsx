@@ -11,7 +11,6 @@ MenuItem = Dropdown.MenuItem
 showActionsConfig = (parameters) ->
   {totalCount, withActions, selection, saveable, draftsView, isClient, collectionData, config, isClipboard, content_type} = parameters
 
-
   showActions = if not withActions then {} else {
     addToClipboard: true if !isClipboard && selection && !draftsView
     removeFromClipboard: true if isClipboard && selection && !draftsView
@@ -22,7 +21,7 @@ showActionsConfig = (parameters) ->
     managePermissions: true if !draftsView && selection
     managePermissionsSets: true if !draftsView && selection
     save: true if isClient and saveable
-    removeFromSet: true if selection && f.present(collectionData) && !draftsView
+    removeFromSet: true if !isClipboard && selection && f.present(collectionData) && !draftsView
     transferResponsibility: true if !draftsView && selection
     transferResponsibilitySets: true if !draftsView && selection
   }
