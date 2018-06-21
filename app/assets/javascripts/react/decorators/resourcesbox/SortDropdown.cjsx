@@ -8,7 +8,7 @@ module.exports = React.createClass
   displayName: 'SortDropdown'
 
   _onItemClick: (event, itemKey) ->
-    event.preventDefault()
+    # event.preventDefault()
     @props.onItemClick(event, itemKey) if @props.onItemClick
 
   render: () ->

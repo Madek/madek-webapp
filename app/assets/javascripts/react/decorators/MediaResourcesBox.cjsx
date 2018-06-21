@@ -65,12 +65,22 @@ BoxSetUrlParams = require('./BoxSetUrlParams.jsx')
 
 # TODO: i18n
 
+
+isNewTab = (event) ->
+  localLinks = require('local-links')
+  if (internalLink = localLinks.pathname(event))
+    return false
+  else
+    return true
+
+
 # only handle *local* link events (not opening in new tab, etc):
-handleLinkIfLocal = (event, callback)->
+handleIfNotNewTabAndAddressChanged = (event, callback)->
   localLinks = require('local-links')
   if (internalLink = localLinks.pathname(event))
     event.preventDefault()
-    callback(internalLink) if not localLinks.isActive(event)
+    if not localLinks.isActive(event)
+      callback(event)
 
 
 module.exports = React.createClass
@@ -163,18 +173,16 @@ module.exports = React.createClass
 
   # client-side link handlers:
   # - for state changes that don't need new data (like visual changes):
-  _handleChangeInternally: (event) ->
-    handleLinkIfLocal(
-      event,
-      (href) =>
-        cfg = f.pick(parseQuery(parseUrl(href).query).list, ['layout', 'order', 'show_filter'])
-        if cfg then @_persistListConfig(list_config: cfg) # async, but fire-and-forget
-        router.goTo(href)
-    )
+  setAddressByEventHrefAndUpdateState: (event) ->
+    localLinks = require('local-links')
+    href = localLinks.pathname(event)
+    cfg = f.pick(parseQuery(parseUrl(href).query).list, ['layout', 'order', 'show_filter'])
+    if cfg then @_persistListConfig(list_config: cfg) # async, but fire-and-forget
+    router.goTo(href)
 
   # # - for state changes that update the resources (like filter):
   # _handleRequestInternally: (event)->
-  #   handleLinkIfLocal(event, alert)
+  #   handleIfNotNewTabAndAddressChanged(event, alert)
 
   # - custom actions:
   _onFetchNextPage: (event)->
@@ -192,9 +200,7 @@ module.exports = React.createClass
     window.location = newLocation # SYNC!
 
   _onFilterToggle: (event)->
-    event.preventDefault()
-    @_handleChangeInternally(event)
-    return undefined
+    handleIfNotNewTabAndAddressChanged(event, (e) => @setAddressByEventHrefAndUpdateState(e))
 
   _onSearch: (event, refValues)->
 
@@ -475,10 +481,12 @@ module.exports = React.createClass
           href: href
           onClick: (event) =>
             @state.resources.fetchListData() if layoutMode.mode == 'list'
-            @_handleChangeInternally(event)
+            handleIfNotNewTabAndAddressChanged(event, (e) => @setAddressByEventHrefAndUpdateState(e))
 
       onSortItemClick = (event, itemKey) =>
-        @_handleChangeInternally(event)
+
+        return if isNewTab(event)
+
         @fetchNextPage.cancel()
         url = parseUrl(@_currentUrl())
         @state.resources.clearPages({
