@@ -614,7 +614,6 @@ module.exports = React.createClass
         loadingNextPage={@state.loadingNextPage}
         isClient={@state.isClient}
         permaLink={BoxSetUrlParams(@_currentUrl(), currentQuery)}
-        handleChangeInternally={@_handleChangeInternally}
         currentUrl={currentUrl}
       />
 

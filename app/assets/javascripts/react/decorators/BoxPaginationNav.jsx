@@ -60,7 +60,6 @@ class BoxPaginationNav extends React.Component {
     var navLinks = {
       current: {
         href: this.props.permaLink,
-        onClick: this.props.handleChangeInternally
       },
       prev: (
         pagination.prev
