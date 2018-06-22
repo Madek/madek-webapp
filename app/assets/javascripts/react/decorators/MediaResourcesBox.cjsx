@@ -206,8 +206,19 @@ module.exports = React.createClass
     newLocation = BoxSetUrlParams(@_currentUrl(), newParams, {list: {page: 1}})
     window.location = newLocation # SYNC!
 
-  _onFilterToggle: (event)->
-    handleIfNotNewTabAndAddressChanged(event, (e) => @setAddressByEventHrefAndUpdateState(e))
+  _onFilterToggle: (event, showFilter) ->
+
+    return if isNewTab(event)
+
+    event.preventDefault()
+    href = getLocalLink(event)
+
+    @setState({
+      config: f.merge(@state.config, {show_filter: showFilter})
+    }, () =>
+      @_persistListConfig(list_config: {show_filter: showFilter})
+      router.goTo(href)
+    )
 
   _onSearch: (event, refValues)->
 
@@ -605,7 +616,7 @@ module.exports = React.createClass
           name = t('resources_box_filter')
           <div>
             <Button data-test-id='filter-button' name={name} mods={'active': config.show_filter}
-              href={filterToggleLink} onClick={@_onFilterToggle}>
+              href={filterToggleLink} onClick={(e) => @_onFilterToggle(e, not config.show_filter)}>
               <Icon i='filter' mods='small'/> {name}
             </Button>
             {if f.present(config.filter) then @_resetFilterLink(config)}

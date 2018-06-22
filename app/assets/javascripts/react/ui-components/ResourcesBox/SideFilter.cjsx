@@ -112,6 +112,7 @@ module.exports = React.createClass
       newParams.list = {}
 
     newParams.list.sparse_filter = true
+    newParams.list.show_filter = true
 
 
     f.each(
@@ -126,9 +127,13 @@ module.exports = React.createClass
         loadXhr(
           {
             method: 'GET'
-            url: setUrlParams(currentUrl, newParams, {
-              ___sparse: JSON.stringify(f.set({}, jsonPath, {}))
-            })
+            url: setUrlParams(
+              currentUrl,
+              newParams,
+              {
+                ___sparse: JSON.stringify(f.set({}, jsonPath, {}))
+              }
+            )
           },
           (result, json) =>
             return unless @isMounted()
