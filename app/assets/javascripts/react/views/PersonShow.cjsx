@@ -32,24 +32,16 @@ infotable = (p) ->
 PersonShow = React.createClass
   displayName: 'PersonShow',
 
-  getInitialState: ()-> {
-    forUrl: libUrl.format(@props.for_url)
-  }
-
-  componentDidMount: ()->
-    @router = require('../../lib/router.coffee')
-    @unlistenRouter = @router.listen((location) =>
-      # NOTE: `location` has strange format, stringify it!
-      @setState(forUrl: libUrl.format(location)))
-    @router.start()
-
-  componentWillUnmount: ()-> @unlistenRouter && @unlistenRouter()
+  forUrl: () ->
+    libUrl.format(@props.for_url)
 
   render: ->
     get = @props.get
     title = get.to_s
     { resources } = get
-    switcher = resourceTypeSwitcher(resources, @state.forUrl, false, null)
+
+    renderSwitcher = (boxUrl) =>
+      resourceTypeSwitcher(resources, boxUrl, false, null)
 
     <PageContent>
       <PageHeader title={title} icon='tag' />
@@ -74,10 +66,10 @@ PersonShow = React.createClass
           </table>
         </div>
         <MediaResourcesBox
-          for_url={@state.forUrl}
+          for_url={@forUrl()}
           get={resources} authToken={@props.authToken}
           mods={[ {bordered: false}, 'rounded-bottom' ]}
-          toolBarMiddle={switcher}
+          renderSwitcher={renderSwitcher}
           enableOrdering={true}
           enableOrderByTitle={true} />
       </div>

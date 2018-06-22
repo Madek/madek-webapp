@@ -13,18 +13,19 @@ module.exports = React.createClass
   displayName: 'CollectionDetailAdditional'
 
   forUrl: () ->
-    return libUrl.format(@props.get.child_media_resources.config.for_url)
+    libUrl.format(@props.get.child_media_resources.config.for_url)
 
   render: ({get, authToken} = @props) ->
 
-    switcher = resourceTypeSwitcher(get.child_media_resources, @forUrl(), true, null)
+    renderSwitcher = (boxUrl) =>
+      resourceTypeSwitcher(get.child_media_resources, boxUrl, true, null)
 
     <div className="ui-container rounded-bottom">
       <MediaResourcesBox
         get={get.child_media_resources} authToken={authToken}
         initial={ { show_filter: true } } mods={ [ {bordered: false}, 'rounded-bottom' ] }
         collectionData={{uuid: get.uuid, layout: get.layout, editable: get.editable, order: get.sorting, url: get.url, batchEditUrl: get.batch_edit_url}}
-        toolBarMiddle={switcher}
+        renderSwitcher={renderSwitcher}
         enableOrdering={true} enableOrderByTitle={true}
         showAllButton={true}
         />

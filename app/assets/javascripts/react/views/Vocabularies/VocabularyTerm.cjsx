@@ -46,19 +46,8 @@ infotable = (v, mk, kw, contentsPath) ->
 VocabulariesShow = React.createClass
   displayName: 'VocabularyTerm',
 
-
-  getInitialState: ()-> {
-    forUrl: libUrl.format(@props.get.keyword.resources.config.for_url)
-  }
-  componentDidMount: ()->
-    @router =  require('../../../lib/router.coffee')
-    @unlistenRouter = @router.listen((location) =>
-      # NOTE: `location` has strange format, stringify it!
-      @setState(forUrl: libUrl.format(location)))
-    @router.start()
-
-  componentWillUnmount: ()-> @unlistenRouter && @unlistenRouter()
-
+  forUrl: () ->
+    libUrl.format(@props.get.keyword.resources.config.for_url)
 
   render: () ->
 
@@ -68,7 +57,8 @@ VocabulariesShow = React.createClass
 
     title = '"' + keyword.label + '"'
 
-    switcher = resourceTypeSwitcher(get.keyword.resources, @state.forUrl, false, null)
+    renderSwitcher = (boxUrl) =>
+      resourceTypeSwitcher(get.keyword.resources, boxUrl, false, null)
 
     <PageContent>
       <PageHeader title={title} icon='tag' />
@@ -96,7 +86,7 @@ VocabulariesShow = React.createClass
           for_url={@props.for_url}
           get={get.keyword.resources} authToken={@props.authToken}
           mods={[ {bordered: false}, 'rounded-bottom' ]}
-          toolBarMiddle={switcher}
+          renderSwitcher={renderSwitcher}
           enableOrdering={true}
           enableOrderByTitle={true} />
       </div>

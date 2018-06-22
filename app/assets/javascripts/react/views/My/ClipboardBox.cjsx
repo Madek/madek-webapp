@@ -10,25 +10,9 @@ resourceTypeSwitcher = require('../../lib/resource-type-switcher.cjsx')
 module.exports = React.createClass
   displayName: 'ClipboardBox'
 
-  getInitialState: ()-> {
-    forUrl: libUrl.format(@props.get.resources.config.for_url) if @props.get.clipboard_id
-  }
-
-  componentDidMount: ()->
-
-    return if !@props.get.clipboard_id
-
-    @router =  require('../../../lib/router.coffee')
-    @unlistenRouter = @router.listen((location) =>
-      # NOTE: `location` has strange format, stringify it!
-      @setState(forUrl: libUrl.format(location)))
-    @router.start()
-
-  componentWillUnmount: () ->
-    return if !@props.get.clipboard_id
-
-    @unlistenRouter && @unlistenRouter()
-
+  forUrl: () ->
+    if @props.get.clipboard_id
+      libUrl.format(@props.get.resources.config.for_url)
 
   render: () ->
 
@@ -43,5 +27,7 @@ module.exports = React.createClass
         </div>
       )
 
-    switcher = resourceTypeSwitcher(@props.get.resources, @state.forUrl, true, null)
-    <MediaResourcesBox {...@props} get={@props.get.resources} toolBarMiddle={switcher} collectionData={{uuid: @props.get.clipboard_id}} />
+    renderSwitcher = (boxUrl) =>
+      resourceTypeSwitcher(@props.get.resources, boxUrl, true, null)
+
+    <MediaResourcesBox {...@props} get={@props.get.resources} renderSwitcher={renderSwitcher} collectionData={{uuid: @props.get.clipboard_id}} />

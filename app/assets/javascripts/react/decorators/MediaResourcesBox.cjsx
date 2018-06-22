@@ -623,7 +623,8 @@ module.exports = React.createClass
           <div>{actionsDropdown}</div>
 
 
-        middle: @props.toolBarMiddle
+        middle: if @props.renderSwitcher
+          @props.renderSwitcher(currentUrl)
 
       <BoxToolBar {...filterBarProps}/>
 

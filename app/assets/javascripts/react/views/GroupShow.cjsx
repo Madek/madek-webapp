@@ -57,19 +57,8 @@ GroupShow = React.createClass
   displayName: 'GroupShow',
 
 
-  getInitialState: ()-> {
-    forUrl: libUrl.format(@props.get.resources.config.for_url)
-  }
-
-  componentDidMount: ()->
-    @router =  require('../../lib/router.coffee')
-    @unlistenRouter = @router.listen((location) =>
-      # NOTE: `location` has strange format, stringify it!
-      @setState(forUrl: libUrl.format(location)))
-    @router.start()
-
-  componentWillUnmount: ()-> @unlistenRouter && @unlistenRouter()
-
+  forUrl: () ->
+    libUrl.format(@props.get.resources.config.for_url)
 
   render: () ->
 
@@ -79,7 +68,8 @@ GroupShow = React.createClass
 
     title = group.name
 
-    switcher = resourceTypeSwitcher(get.resources, @state.forUrl, false, null)
+    renderSwitcher = (boxUrl) =>
+      resourceTypeSwitcher(get.resources, boxUrl, false, null)
 
     headerActions = if get.group.edit_url
       <a href={get.group.edit_url} className='primary-button'>
@@ -112,7 +102,7 @@ GroupShow = React.createClass
           for_url={@props.for_url}
           get={get.resources} authToken={@props.authToken}
           mods={[ {bordered: false}, 'rounded-bottom' ]}
-          toolBarMiddle={switcher}
+          renderSwitcher={renderSwitcher}
           enableOrdering={true}
           enableOrderByTitle={true} />
       </div>

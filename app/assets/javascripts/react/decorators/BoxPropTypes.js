@@ -53,7 +53,7 @@ module.exports = {
       initial: React.PropTypes.shape(viewConfigProps),
       fallback: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.node]),
       heading: React.PropTypes.node,
-      toolBarMiddle: React.PropTypes.node,
+      // toolBarMiddle: React.PropTypes.node,
       authToken: React.PropTypes.string.isRequired,
       draftsView: React.PropTypes.bool,
       disableListMode: React.PropTypes.bool,

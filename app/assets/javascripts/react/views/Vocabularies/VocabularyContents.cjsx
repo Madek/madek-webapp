@@ -18,21 +18,13 @@ resourceTypeSwitcher = require('../../lib/resource-type-switcher.cjsx')
 module.exports = React.createClass
   displayName: 'VocabularyContents'
 
-  getInitialState: ()-> {
-    forUrl: libUrl.format(@props.get.resources.config.for_url)
-  }
-  componentDidMount: ()->
-    @router =  require('../../../lib/router.coffee')
-    @unlistenRouter = @router.listen((location) =>
-      # NOTE: `location` has strange format, stringify it!
-      @setState(forUrl: libUrl.format(location)))
-    @router.start()
-
-  componentWillUnmount: ()-> @unlistenRouter && @unlistenRouter()
+  forUrl: () ->
+    libUrl.format(@props.get.resources.config.for_url)
 
   render: ({get, authToken, for_url} = @props) ->
 
-    switcher = resourceTypeSwitcher(get.resources, @state.forUrl, false, null)
+    renderSwitcher = (boxUrl) =>
+      resourceTypeSwitcher(get.resources, boxUrl, false, null)
 
     <VocabularyPage page={get.page} for_url={for_url}>
       <div className='ui-container pal'>
@@ -44,7 +36,7 @@ module.exports = React.createClass
         for_url={for_url}
         get={get.resources} authToken={authToken}
         mods={[ {bordered: false}, 'rounded-bottom' ]}
-        toolBarMiddle={switcher}
+        renderSwitcher={renderSwitcher}
         enableOrdering={true}
         enableOrderByTitle={true}
       />
