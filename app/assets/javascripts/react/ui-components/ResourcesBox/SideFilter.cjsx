@@ -93,8 +93,6 @@ module.exports = React.createClass
     ]
 
 
-  componentWillUnmount: () -> @unlistenRouter && @unlistenRouter()
-
   componentDidMount: () ->
     @setState(javascript: true)
 

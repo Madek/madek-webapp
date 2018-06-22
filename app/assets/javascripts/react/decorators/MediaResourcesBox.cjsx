@@ -32,7 +32,6 @@ Collections = require('../../models/collections.coffee')
 CollectionChildren = require('../../models/collection-children.coffee')
 
 # interactive stuff, should be moved to controller
-router = null # client-side only
 xhr = require('xhr')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
 BatchAddToSetModal = require('./BatchAddToSetModal.cjsx')
@@ -71,7 +70,12 @@ getLocalLink = (event) ->
   localLinks = require('local-links')
   return localLinks.pathname(event)
 
-
+routerGoto = (path) ->
+  url = require('url')
+  History = require('history/lib/createBrowserHistory')
+  useBeforeUnload = require('history/lib/useBeforeUnload')
+  history = useBeforeUnload(History)()
+  history.push(url.parse(path)?.path)
 
 isNewTab = (event) ->
   localLinks = require('local-links')
@@ -79,16 +83,6 @@ isNewTab = (event) ->
     return false
   else
     return true
-
-
-# only handle *local* link events (not opening in new tab, etc):
-handleIfNotNewTabAndAddressChanged = (event, callback)->
-  localLinks = require('local-links')
-  if (internalLink = localLinks.pathname(event))
-    event.preventDefault()
-    if not localLinks.isActive(event)
-      callback(event)
-
 
 module.exports = React.createClass
   displayName: 'MediaResourcesBox'
@@ -151,16 +145,6 @@ module.exports = React.createClass
     if @state.resources.fetchListData && @_mergeGet(@props, @state).config.layout == 'list'
       @state.resources.fetchListData()
 
-    router = require('../../lib/router.coffee')
-
-    # listen to history and set state from params:
-    unlistenFn = router.listen (location)=>
-      @setState(config: f.merge(@state.config, resourceListParams(location)))
-    # TMP: start the router if we set it up here:
-    # (also immediatly calls listener(s) once if already attached!)
-    @doOnUnmount.push(unlistenFn)
-    router.start() unless @props.router
-
     if f.includes(['MediaResources', 'MediaEntries', 'Collections'], @props.get.type)
       selection = Selection.createEmpty(() =>
         @setState(selectedResources: selection) if @isMounted()
@@ -173,20 +157,12 @@ module.exports = React.createClass
         )
       , 1000)
       @doOnUnmount.push(@fetchNextPage.cancel())
-    @setState(isClient: true, router: router, selectedResources: selection)
+    @setState(
+      isClient: true,
+      selectedResources: selection,
+      config: resourceListParams(window.location)
+    )
 
-  # client-side link handlers:
-  # - for state changes that don't need new data (like visual changes):
-  setAddressByEventHrefAndUpdateState: (event) ->
-    localLinks = require('local-links')
-    href = localLinks.pathname(event)
-    cfg = f.pick(parseQuery(parseUrl(href).query).list, ['layout', 'order', 'show_filter'])
-    if cfg then @_persistListConfig(list_config: cfg) # async, but fire-and-forget
-    router.goTo(href)
-
-  # # - for state changes that update the resources (like filter):
-  # _handleRequestInternally: (event)->
-  #   handleIfNotNewTabAndAddressChanged(event, alert)
 
   # - custom actions:
   _onFetchNextPage: (event)->
@@ -210,11 +186,11 @@ module.exports = React.createClass
     event.preventDefault()
     href = getLocalLink(event)
 
+    routerGoto(href)
     @setState({
       config: f.merge(@state.config, {show_filter: showFilter})
     }, () =>
       @_persistListConfig(list_config: {show_filter: showFilter})
-      router.goTo(href)
     )
 
   _onSearch: (event, refValues)->
@@ -290,7 +266,7 @@ module.exports = React.createClass
     @setState(hoverMenuId: menu_id)
 
   _currentUrl: () ->
-    if router
+    if @state.isClient
       parseUrl(window.location.toString()).path
     else
       BoxSetUrlParams(@props.get.config.for_url)
@@ -496,8 +472,18 @@ module.exports = React.createClass
           mods: {'active': layoutMode.mode == layout}
           href: href
           onClick: (event) =>
-            @state.resources.fetchListData() if layoutMode.mode == 'list'
-            handleIfNotNewTabAndAddressChanged(event, (e) => @setAddressByEventHrefAndUpdateState(e))
+            return if isNewTab(event)
+            event.preventDefault()
+            href = getLocalLink(event)
+            routerGoto(href)
+            @setState(
+              config: f.merge(@state.config, {layout: layoutMode.mode})
+              ,
+              () =>
+                @state.resources.fetchListData() if layoutMode.mode == 'list'
+                @_persistListConfig(list_config: {layout: layoutMode.mode})
+            )
+
 
       onSortItemClick = (event, itemKey) =>
 
@@ -507,6 +493,7 @@ module.exports = React.createClass
         @fetchNextPage.cancel()
 
         href = getLocalLink(event)
+        routerGoto(href)
 
         @setState(
           config: f.merge(@state.config, {order: itemKey})
@@ -523,7 +510,6 @@ module.exports = React.createClass
               @setState(loadingNextPage: false) if @isMounted()
 
             @_persistListConfig(list_config: {order: itemKey})
-            router.goTo(href)
 
         )
 
