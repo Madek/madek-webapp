@@ -151,10 +151,7 @@ module.exports = React.createClass
     if @state.resources.fetchListData && @_mergeGet(@props, @state).config.layout == 'list'
       @state.resources.fetchListData()
 
-    router = if @props.router # NOTE: not a default prop so we know if we have to start()
-      @props.router
-    else
-      require('../../lib/router.coffee')
+    router = require('../../lib/router.coffee')
 
     # listen to history and set state from params:
     unlistenFn = router.listen (location)=>
