@@ -1,5 +1,6 @@
 React = require('react')
 f = require('active-lodash')
+defaultsDeep = require('lodash/defaultsDeep')
 fromPairs = require('lodash/fromPairs')
 ampersandReactMixin = require('ampersand-react-mixin')
 ui = require('../lib/ui.coffee')
@@ -64,6 +65,12 @@ BoxSetUrlParams = require('./BoxSetUrlParams.jsx')
 # - props.get.config.show_filter = if the filterBar should be shown
 
 # TODO: i18n
+
+
+getLocalLink = (event) ->
+  localLinks = require('local-links')
+  return localLinks.pathname(event)
+
 
 
 isNewTab = (event) ->
@@ -414,7 +421,8 @@ module.exports = React.createClass
 
   _mergeGet: (props, state) ->
     # TODO: refactor this + currentQuery into @getInitialState + @getCurrentQuery
-    get = f.defaultsDeep \      # combine config in order:
+    get = defaultsDeep \      # combine config in order:
+      {},
       {config: state.config},  # - client-side state
       props.get,                      # - presenter & config (from params)
       {config: props.initial},        # - per-view initial default config
@@ -487,16 +495,31 @@ module.exports = React.createClass
 
         return if isNewTab(event)
 
+        event.preventDefault()
         @fetchNextPage.cancel()
-        url = parseUrl(@_currentUrl())
-        @state.resources.clearPages({
-          pathname: url.pathname,
-          query: url.query
-        })
-        @setState(loadingNextPage: true)
-        @fetchNextPage (err, newUrl) =>
-          if err then console.error(err)
-          @setState(loadingNextPage: false) if @isMounted()
+
+        href = getLocalLink(event)
+
+        @setState(
+          config: f.merge(@state.config, {order: itemKey})
+          ,
+          () =>
+            url = parseUrl(BoxSetUrlParams(@_currentUrl(), {list: {order: itemKey}}))
+            @state.resources.clearPages({
+              pathname: url.pathname,
+              query: url.query
+            })
+            @setState(loadingNextPage: true)
+            @fetchNextPage (err, newUrl) =>
+              if err then console.error(err)
+              @setState(loadingNextPage: false) if @isMounted()
+
+            @_persistListConfig(list_config: {order: itemKey})
+            router.goTo(href)
+
+        )
+
+
 
       layoutSave = (event) =>
         event.preventDefault()
