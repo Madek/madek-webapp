@@ -188,7 +188,8 @@ module.exports = React.createClass
 
     routerGoto(href)
     @setState({
-      config: f.merge(@state.config, {show_filter: showFilter})
+      config: f.merge(@state.config, {show_filter: showFilter}),
+      windowHref: href
     }, () =>
       @_persistListConfig(list_config: {show_filter: showFilter})
     )
@@ -266,8 +267,9 @@ module.exports = React.createClass
     @setState(hoverMenuId: menu_id)
 
   _currentUrl: () ->
-    if @state.isClient
-      parseUrl(window.location.toString()).path
+    if @state.isClient && @state.windowHref
+      # parseUrl(window.location.toString()).path
+      @state.windowHref
     else
       BoxSetUrlParams(@props.get.config.for_url)
 
@@ -477,7 +479,8 @@ module.exports = React.createClass
             href = getLocalLink(event)
             routerGoto(href)
             @setState(
-              config: f.merge(@state.config, {layout: layoutMode.mode})
+              config: f.merge(@state.config, {layout: layoutMode.mode}),
+              windowHref: href
               ,
               () =>
                 @state.resources.fetchListData() if layoutMode.mode == 'list'
@@ -496,7 +499,8 @@ module.exports = React.createClass
         routerGoto(href)
 
         @setState(
-          config: f.merge(@state.config, {order: itemKey})
+          config: f.merge(@state.config, {order: itemKey}),
+          windowHref: href
           ,
           () =>
             url = parseUrl(BoxSetUrlParams(@_currentUrl(), {list: {order: itemKey}}))
