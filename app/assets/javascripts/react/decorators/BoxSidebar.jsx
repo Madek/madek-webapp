@@ -168,7 +168,7 @@ class BoxSidebar extends React.Component {
     return (
       <SideFilter
         forUrl={this.props.parentState.config.for_url}
-        jsonPath={this.props.parentState.resources.getJsonPath()}
+        jsonPath={this.props.jsonPath}
         current={(this.props.config.filter ? this.props.config.filter : {})}
         accordion={(this.props.config.accordion ? this.props.config.accordion : {})}
         onChange={this.props.onSideFilterChange}

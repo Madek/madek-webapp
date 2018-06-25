@@ -49,7 +49,7 @@ class BoxRenderResources extends React.Component {
         // selection defined means selection is enabled
         var showActions = ActionsDropdown.showActionsConfig(actionsDropdownParameters)
         if(isClient && selection && f.any(f.values(showActions))) {
-          var isSelected = selectedResources.contains(item.serialize())
+          var isSelected = selectedResources.contains(item)
           var onSelect = f.curry(onSelectResource)(item)
           // if in selection mode, intercept clicks as 'select toggle'
           var onClick = null
@@ -75,22 +75,23 @@ class BoxRenderResources extends React.Component {
             authToken={authToken} key={key}
             pinThumb={config.layout == 'tiles'}
             listThumb={config.layout == 'list'}
+            list_meta_data={item.list_meta_data}
           />
         )
       }
 
       var renderItems = (page) => {
-        return page.resources.map((item) => {
+        return page.map((item) => {
           return renderItem(item)
         })
       }
 
 
       var renderCounter = () => {
-        var pagination = f.presence(page.pagination)
-        if(!pagination) {
-          return null
-        }
+
+        var pagination = this.props.pagination
+        var pageSize = this.props.perPage
+
         var BoxPageCounter = require('./BoxPageCounter.jsx')
         return (
           <BoxPageCounter
@@ -98,9 +99,12 @@ class BoxRenderResources extends React.Component {
             selectedResources={selectedResources}
             isClient={isClient}
             showSelectionLimit={showSelectionLimit}
-            page={page}
             resources={resources}
+            pageResources={page}
             selectionLimit={selectionLimit}
+            pagination={pagination}
+            perPage={this.props.perPage}
+            pageIndex={i}
           />
         )
       }
@@ -118,7 +122,10 @@ class BoxRenderResources extends React.Component {
 
 
     var renderPages = () => {
-      return (resources.pages || [{resources}]).map((page, i) => {
+      var pagination = this.props.pagination
+      var pageSize = this.props.perPage
+
+      return f.chunk(resources, pageSize).map((page, i) => {
         return renderPage(page, i)
       })
     }

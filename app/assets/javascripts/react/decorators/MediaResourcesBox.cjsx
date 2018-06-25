@@ -53,6 +53,7 @@ libUrl = require('url')
 qs = require('qs')
 
 BoxUtil = require('./BoxUtil.js')
+BoxFetchListData = require('./BoxFetchListData.js')
 
 BoxSetUrlParams = require('./BoxSetUrlParams.jsx')
 
@@ -108,6 +109,7 @@ module.exports = React.createClass
     batchDestroyResourcesModal: false
     batchDestroyResourcesWaiting: false
     showSelectionLimit: false
+    listJobQueue: []
   }
 
   doOnUnmount: [] # to be filled with functions to be called on unmount
@@ -115,35 +117,121 @@ module.exports = React.createClass
     f.each(f.compact(@doOnUnmount), (fn)->
       if f.isFunction(fn) then fn() else console.error("Not a Function!", fn))
 
-  _createResourcesModel: (get) ->
-    collectionClass = switch get.type
-      when 'MediaResources' then CollectionChildren
-      when 'MediaEntries' then MediaEntries
-      when 'Collections' then Collections
+  getJsonPath: () ->
 
-    if collectionClass
-      if f.present(f.get(get, 'pagination.total_count'))
-        if !collectionClass.Paginated then throw new Error('Collection has no Pagination!')
+    if @props.get.json_path
+      return @props.get.json_path
 
-        # HACK
-        if get.config.for_url.pathname == get.clipboard_url
-          (new collectionClass.PaginatedClipboard(get))
-        else
-          (new collectionClass.Paginated(get))
+    path = parseUrl(@_currentUrl()).pathname
+    if path.indexOf('/relations/children') > 0 or path.indexOf('/relations/siblings') > 0 or path.indexOf('/relations/parents') > 0
+      return 'relation_resources.resources'
+
+    if path.indexOf('/vocabulary') == 0 and path.indexOf('/content') > 0
+      return 'resources.resources'
+
+    if path.indexOf('/my/groups') == 0
+      return 'resources.resources'
+
+    if path.indexOf('/vocabulary/keyword') == 0
+      return 'keyword.resources.resources'
+
+    if path.indexOf('/people') == 0
+      return 'resources.resources'
+
+
+    if @props.get.type == 'MediaResources'
+      if @props.get.config.for_url.pathname == @props.get.clipboard_url
+        return 'resources'
       else
-        (new collectionClass(get.resources))
+        return 'child_media_resources.resources'
+    else if @props.get.type == 'MediaEntries'
+      return 'resources'
+    else if @props.get.type == 'Collections'
+      return 'resources'
 
 
   componentWillMount: ()->
     resources = if f.get(@props, 'get.resources.isCollection')
       throw new Error('is collection') # should not be the case anymore after uploader is not using this box anymore
     else
-      @_createResourcesModel(@props.get)
+      @props.get.resources
     @setState(resources: resources)
 
+
+  requestId: Math.random()
+
+  fetchListData: () ->
+    jobQueue = BoxFetchListData.todo(
+      this.state.listJobQueue,
+      this.state.resources
+    )
+
+    this.setState({
+      listJobQueue: jobQueue
+    },
+    () =>
+      BoxFetchListData.loadJobs(this.state.listJobQueue, () =>
+        this.setState({
+          resources: this.state.resources
+        }, () =>
+          this.fetchListData()
+        )
+      )
+
+    )
+
+
+
+  fetchNext: (callback) ->
+
+    # @state.resources.fetchNext(@_mergeGet(@props, @state).config.layout == 'list', c)
+
+    pagination = @props.get.pagination
+
+
+    pageSize = this.props.get.config.per_page
+
+    page = Math.ceil(@state.resources.length / pageSize)
+
+    nextPage = page + 1
+
+
+    nextUrl = setUrlParams(
+      @_currentUrl(),
+      {list: {page: nextPage}},
+      {___sparse: JSON.stringify(f.set({}, @getJsonPath(), {}))})
+
+    # We compare the request id when sending started
+    # with the request id when the answer arrives and
+    # only process the answer when its still the same id.
+    localRequestId = @requestId
+
+    return xhr.get(
+      {url: nextUrl, json: true },
+      (err, res, body) => (
+
+        if @requestId != localRequestId
+          return
+
+        if err || res.statusCode > 400
+          return callback(err || body)
+
+        this.setState({
+          resources: this.state.resources.concat(
+            f.get(body, @getJsonPath())
+          )
+        }, () =>
+          callback(null)
+        )
+
+        if @_mergeGet(@props, @state).config.layout == 'list'
+          @fetchListData()
+    ))
+
+
   componentDidMount: ()->
-    if @state.resources.fetchListData && @_mergeGet(@props, @state).config.layout == 'list'
-      @state.resources.fetchListData()
+    if @_mergeGet(@props, @state).config.layout == 'list'
+      @fetchListData()
 
     if f.includes(['MediaResources', 'MediaEntries', 'Collections'], @props.get.type)
       selection = Selection.createEmpty(() =>
@@ -153,7 +241,7 @@ module.exports = React.createClass
     if @state.resources
       @fetchNextPage = f.throttle(
         ((c) =>
-          @state.resources.fetchNext(@_mergeGet(@props, @state).config.layout == 'list', c)
+          this.fetchNext(c)
         )
       , 1000)
       @doOnUnmount.push(@fetchNextPage.cancel())
@@ -247,10 +335,10 @@ module.exports = React.createClass
   _onSelectResource: (resource, event)-> # toggles selection item
     event.preventDefault()
     selection = @state.selectedResources
-    if !selection.contains(resource.serialize()) && selection.length() > @_selectionLimit() - 1
+    if !selection.contains(resource) && selection.length() > @_selectionLimit() - 1
       @_showSelectionLimit('single-selection')
     else
-      selection.toggle(resource.serialize())
+      selection.toggle(resource)
 
   _showSelectionLimit: (version) ->
     @setState(showSelectionLimit: version)
@@ -258,10 +346,6 @@ module.exports = React.createClass
   _closeSelectionLimit: () ->
     @setState(showSelectionLimit: false)
 
-
-  _onSelectionAllToggle: (event)-> # toggles selection
-    event.preventDefault()
-    @state.selectedResources.toggleAll(@state.resources.serialize().resources)
 
   _onHoverMenu: (menu_id, event) ->
     @setState(hoverMenuId: menu_id)
@@ -483,7 +567,8 @@ module.exports = React.createClass
               windowHref: href
               ,
               () =>
-                @state.resources.fetchListData() if layoutMode.mode == 'list'
+                if layoutMode.mode == 'list'
+                  @fetchListData()
                 @_persistListConfig(list_config: {layout: layoutMode.mode})
             )
 
@@ -504,16 +589,23 @@ module.exports = React.createClass
           ,
           () =>
             url = parseUrl(BoxSetUrlParams(@_currentUrl(), {list: {order: itemKey}}))
-            @state.resources.clearPages({
-              pathname: url.pathname,
-              query: url.query
-            })
-            @setState(loadingNextPage: true)
-            @fetchNextPage (err, newUrl) =>
-              if err then console.error(err)
-              @setState(loadingNextPage: false) if @isMounted()
+            # @state.resources.clearPages({
+            #   pathname: url.pathname,
+            #   query: url.query
+            # })
+            @setState({
+              loadingNextPage: true,
+              resources: [],
+              requestId: Math.random()
+            }, () =>
 
-            @_persistListConfig(list_config: {order: itemKey})
+              @fetchNextPage (err, newUrl) =>
+                if err then console.error(err)
+                @setState(loadingNextPage: false) if @isMounted()
+
+              @_persistListConfig(list_config: {order: itemKey})
+
+            )
 
         )
 
@@ -631,6 +723,7 @@ module.exports = React.createClass
         onlyFilterSearch={get.only_filter_search}
         parentState={@state}
         onSideFilterChange={@_onSideFilterChange}
+        jsonPath={@getJsonPath()}
       />
 
 
@@ -645,6 +738,7 @@ module.exports = React.createClass
         isClient={@state.isClient}
         permaLink={BoxSetUrlParams(@_currentUrl(), currentQuery)}
         currentUrl={currentUrl}
+        perPage={@props.get.config.per_page}
       />
 
 
@@ -686,7 +780,7 @@ module.exports = React.createClass
           {# main list:}
           <div className='ui-container table-cell table-substance'>
             {children}
-            {if resources.currentPage == 0
+            {if resources.length == 0 && @state.loadingNextPage
               <Preloader />
             else if not f.present(resources) or resources.length == 0 then do () =>
               BoxSetFallback = require('./BoxSetFallback.jsx')
@@ -712,6 +806,8 @@ module.exports = React.createClass
                 authToken={authToken}
                 withActions={get.has_user}
                 listMods={listMods}
+                pagination={@props.get.pagination}
+                perPage={@props.get.config.per_page}
               />
 
             }
@@ -726,7 +822,10 @@ module.exports = React.createClass
           <Clipboard type={@state.clipboardModal}
             onClose={() => @setState(clipboardModal: 'hidden')}
             resources={@state.resources}
-            selectedResources={@state.selectedResources} />
+            selectedResources={@state.selectedResources}
+            pagination={@props.get.pagination}
+            jsonPath={@getJsonPath()}
+          />
       }
       {
         if @state.batchAddToSet

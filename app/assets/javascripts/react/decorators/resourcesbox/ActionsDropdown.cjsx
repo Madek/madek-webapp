@@ -231,7 +231,7 @@ highlightingRules = (item, isSelected) ->
     }
     {
       hoverMenuId: 'media_entries_edit'
-      rule: () -> (!SelectionScope.batchMetaDataResource(item.serialize()) or
+      rule: () -> (!SelectionScope.batchMetaDataResource(item) or
         item.type != 'MediaEntry' or (not isSelected))
     }
     {
@@ -241,22 +241,22 @@ highlightingRules = (item, isSelected) ->
     }
     {
       hoverMenuId: 'collections_edit'
-      rule: () -> (!SelectionScope.batchMetaDataResource(item.serialize()) or
+      rule: () -> (!SelectionScope.batchMetaDataResource(item) or
         item.type != 'Collection' or (not isSelected))
     }
     {
       hoverMenuId: 'resources_destroy'
-      rule: () -> (!SelectionScope.batchDestroyResource(item.serialize()) or
+      rule: () -> (!SelectionScope.batchDestroyResource(item) or
         (item.type != 'MediaEntry' and item.type != 'Collection') or not isSelected)
     }
     {
       hoverMenuId: 'media_entries_permissions'
-      rule: () -> (!SelectionScope.batchPermissionResource(item.serialize()) or
+      rule: () -> (!SelectionScope.batchPermissionResource(item) or
         item.type != 'MediaEntry' or (not isSelected))
     }
     {
       hoverMenuId: 'collections_permissions'
-      rule: () -> (!SelectionScope.batchPermissionResource(item.serialize()) or
+      rule: () -> (!SelectionScope.batchPermissionResource(item) or
         item.type != 'Collection' or (not isSelected))
     }
     {
@@ -290,12 +290,12 @@ highlightingRules = (item, isSelected) ->
     }
     {
       hoverMenuId: 'media_entries_transfer_responsibility'
-      rule: () -> (!SelectionScope.batchTransferResponsibilityResource(item.serialize()) or
+      rule: () -> (!SelectionScope.batchTransferResponsibilityResource(item) or
         (item.type != 'MediaEntry') or (not isSelected))
     }
     {
       hoverMenuId: 'collections_transfer_responsibility'
-      rule: () -> (!SelectionScope.batchTransferResponsibilityResource(item.serialize()) or
+      rule: () -> (!SelectionScope.batchTransferResponsibilityResource(item) or
         (item.type != 'Collection') or (not isSelected))
     }
   ]

@@ -5,6 +5,7 @@ t = ui.t
 Modal = require('../../ui-components/Modal.cjsx')
 setUrlParams = require('../../../lib/set-params-for-url.coffee')
 railsFormPut = require('../../../lib/form-put-with-errors.coffee')
+xhr = require('xhr')
 
 module.exports = React.createClass
   displayName: 'Clipboard'
@@ -30,10 +31,33 @@ module.exports = React.createClass
         type: model.type
       }
 
+
+  fetchAllResourceIds: (resources, pagination, jsonPath, callback) ->
+
+    nextUrl = setUrlParams(
+      @url,
+      {list: {page: 1, per_page: pagination.total_count}},
+      {___sparse: JSON.stringify(f.set({}, jsonPath, [{uuid: {}, type: {}}]))})
+
+    return xhr.get(
+      {url: nextUrl, json: true },
+      (err, res, body) => (
+        if err || res.statusCode > 400
+          return callback({result: 'error'})
+
+        callback({
+          result: 'success',
+          data: f.get(body, jsonPath)
+        })
+    ))
+
   _fetchForAddAll: () ->
     @setState(step: 'fetching')
 
-    @props.resources.fetchAllResourceIds(
+    @fetchAllResourceIds(
+      @props.resources,
+      @props.pagination,
+      @props.jsonPath,
       (result) =>
         if result.result == 'error'
           window.scrollTo(0, 0)

@@ -19,10 +19,17 @@ class BoxPageCounter extends React.Component {
   render() {
 
 
-    var page = this.props.page
     var resources = this.props.resources
 
-    var pagination = page.pagination
+    var pageResources = this.props.pageResources
+
+    var pagination = this.props.pagination
+    var perPage = this.props.perPage
+
+    var totalPages = pagination.total_pages
+    var totalCount = pagination.total_count
+    var page = this.props.pageIndex + 1
+
 
 
     var onSelectPage = null
@@ -36,24 +43,24 @@ class BoxPageCounter extends React.Component {
         selection
         ?
           f.size(
-            page.resources.filter((item) => selection.contains(item.serialize()))
+            pageResources.filter((item) => selection.contains(item))
           )
         :
           0
       )
 
       var fullPageCount = (
-        page.pagination.totalPages == page.pagination.page
+        totalPages == page
         ?
           (
-            page.pagination.totalCount < resources.perPage * page.pagination.totalPages
+            totalCount < perPage * totalPages
             ?
-              page.pagination.totalCount - (page.pagination.totalPages - 1) * resources.perPage
+              totalCount - (totalPages - 1) * perPage
             :
-              resources.perPage
+              perPage
           )
         :
-          resources.perPage
+          perPage
       )
 
       if(selectionCountOnPage > 0) {
@@ -66,13 +73,13 @@ class BoxPageCounter extends React.Component {
       onSelectPage = (event) => {
         event.preventDefault()
         if(selectionCountOnPage > 0) {
-          page.resources.forEach((item) => selection.remove(item.serialize()))
+          pageResources.forEach((item) => selection.remove(item))
         }
         else {
-          if(selection.length() > this.props.selectionLimit - page.resources.length)
+          if(selection.length() > this.props.selectionLimit - pageResources.length)
             this.props.showSelectionLimit('page-selection')
           else
-            page.resources.forEach((item) => selection.add(item.serialize()))
+            pageResources.forEach((item) => selection.add(item))
         }
       }
     }
@@ -115,7 +122,7 @@ class BoxPageCounter extends React.Component {
 
     return (
       <div className='ui-resources-page-counter ui-pager small'>
-        <div style={{display: 'inline-block'}}>Seite {pagination.page} von {pagination.totalPages}</div>
+        <div style={{display: 'inline-block'}}>Seite {page} von {totalPages}</div>
         {showSelectPage()}
       </div>
     )
