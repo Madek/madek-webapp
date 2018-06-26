@@ -12,6 +12,7 @@ PinThumbnail = require('./PinThumbnail.cjsx')
 ListThumbnail = require('./ListThumbnail.cjsx')
 ResourceIcon = require('../ui-components/ResourceIcon.cjsx')
 Picture = require('../ui-components/Picture.cjsx')
+BoxFetchRelations = require('./BoxFetchRelations.js')
 
 CURSOR_SELECT_STYLE = {cursor: 'cell'}
 
@@ -30,10 +31,21 @@ module.exports = React.createClass
     resource: React.PropTypes.shape
       type: React.PropTypes.oneOf(['MediaEntry'])
 
+  relationsTrigger: (props) ->
+    this.relationsTransition(props)
+
+  relationsInitial: (props) ->
+    return BoxFetchRelations(null, props, (ps) => this.relationsTrigger(ps))
+
+  relationsTransition: (props) ->
+    next = BoxFetchRelations(f.cloneDeep(@state.relationsState), props, (ps) => this.relationsTrigger(ps))
+    @setState({relationsState: next})
+
   getInitialState: ()-> {
     isClient: @props.isClient or false
     pendingFavorite: false
     deleteModal: false
+    relationsState: this.relationsInitial({type: @props.get.type})
   }
 
   componentWillMount: ()->
@@ -50,23 +62,14 @@ module.exports = React.createClass
   componentDidMount: ()->
     @setState(isClient: true)
 
-  _fetchRelations: ()-> # for hover/flyouts
-    model = @state.model
-    return console.error('No model found in state!') unless model
-    return console.error('Not implemented for model!') unless model.fetchRelations
-    return if @state.fetchingRelations
-
-    typesToFetch = ['parent']
-    typesToFetch.push('child') if (model.type is 'Collection')
-
-    # NOTE: setting state.fetchingRelations also forces view update!
-    @setState(fetchingRelations: typesToFetch)
-    async.each(typesToFetch, ((typeToFetch, next)=>
-      model.fetchRelations typeToFetch, (err, res)=>
-        if @isMounted() then @setState(
-          fetchingRelations: f.without(@state.fetchingRelations, typeToFetch))
-        next(err, res)),
-      (err)=> @setState(fetchingRelations: false) if @isMounted())
+  _fetchRelations: () ->
+    this.relationsTransition(
+      {
+        state: @state,
+        event: 'try-fetch',
+        resource: @props.get
+      }
+    )
 
   _onHover: ()->
     @_fetchRelations() if @props.fetchRelations
@@ -94,8 +97,8 @@ module.exports = React.createClass
 
 
     if fetchRelations
-      parentRelations = f.get(model, 'parent_collections')
-      childRelations = f.get(model, 'child_media_resources')
+      parentRelations = @state.relationsState.relations.parents
+      childRelations = @state.relationsState.relations.children
 
       if parentRelations
         parentsCount = parentRelations.pagination.total_count
