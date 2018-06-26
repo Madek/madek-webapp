@@ -180,8 +180,10 @@ class BoxSidebar extends React.Component {
   _onSearch(event) {
     var refs = this.refs
 
-    var searchTypeFulltextChecked = refs.searchTypeFulltext.checked
-    var searchTypeFilenameChecked = refs.searchTypeFilename.checked
+    var searchTypeFulltextChecked = (refs.searchTypeFulltext ?
+      refs.searchTypeFulltext.checked : null)
+    var searchTypeFilenameChecked = (refs.searchTypeFilename ?
+      refs.searchTypeFilename.checked : null)
     var filterSearchValue = refs.filterSearch.value
     this.props.onSearch(
       event,
