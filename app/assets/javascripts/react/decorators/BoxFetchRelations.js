@@ -12,14 +12,14 @@ module.exports = (last, props, trigger) => {
   var next = () => {
 
     if(props.event == 'try-fetch') {
-      if(!last.fetching) {
+      if(last.status == 'initial') {
         asyncLoadAll()
       }
     }
 
     if(!last) {
       return {
-        fetching: false,
+        status: 'initial',
         queue: null,
         relations: {
           parents: null,
@@ -28,7 +28,7 @@ module.exports = (last, props, trigger) => {
       }
     } else {
       return {
-        fetching: nextFetching(),
+        status: nextStatus(),
         queue: nextQueue(),
         relations: nextRelations()
       }
@@ -37,16 +37,15 @@ module.exports = (last, props, trigger) => {
 
   var nextQueue = () => {
     if(props.event == 'try-fetch') {
-      if(last.fetching) {
-        return last.queue
-      } else {
+      if(last.status == 'initial') {
         var typesToFetch = ['parents']
         if(props.resource.type == 'Collection') {
           typesToFetch.push('children')
         }
         return typesToFetch
+      } else {
+        return last.queue
       }
-
     } else if(props.event == 'relations-loaded') {
       return l.filter(last.queue, (q) => q != props.property)
     } else {
@@ -55,13 +54,13 @@ module.exports = (last, props, trigger) => {
   }
 
 
-  var nextFetching = () => {
-    if(props.event == 'try-fetch') {
-      return true
-    } else if(props.event == 'relations-loaded') {
-      return !l.isEmpty(nextQueue())
+  var nextStatus = () => {
+    if(props.event == 'try-fetch' && last.status == 'initial') {
+      return 'fetching'
+    } else if(props.event == 'relations-loaded' && l.isEmpty(nextQueue())) {
+      return 'done'
     } else {
-      return last.fetching
+      return last.status
     }
   }
 

@@ -67,7 +67,6 @@ module.exports = React.createClass
   _fetchRelations: () ->
     this.relationsTransition(
       {
-        state: @state,
         event: 'try-fetch',
         resource: @props.get
       }
