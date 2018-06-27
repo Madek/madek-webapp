@@ -9,7 +9,7 @@ module.exports = React.createClass
   displayName: 'StatusIcon'
 
 
-  render: ({privacyStatus, resourceType, modelIsNew, modelPublished, iconClass} = @props) ->
+  render: ({privacyStatus, resourceType, modelPublished, iconClass} = @props) ->
 
     # map the type name:
     # type = get.type.replace(/Collection/, 'MediaSet')
@@ -24,4 +24,3 @@ module.exports = React.createClass
       <Icon i={iconName} title={privacyStatus} className={iconClass} />
 
     privacyIcon
-    

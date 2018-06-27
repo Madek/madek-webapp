@@ -27,7 +27,7 @@ module.exports = React.createClass
 
     if statusProps
       statusIcon = <StatusIcon privacyStatus={statusProps.privacyStatus}
-        resourceType={resourceType} modelIsNew={statusProps.modelIsNew}
+        resourceType={resourceType}
         modelPublished={statusProps.modelPublished} />
 
     # hover - actions

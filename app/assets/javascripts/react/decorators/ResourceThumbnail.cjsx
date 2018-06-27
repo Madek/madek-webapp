@@ -173,7 +173,6 @@ module.exports = React.createClass
 
     statusProps = {
       modelType: model.type
-      modelIsNew: (model.isNew() if model.type is 'MediaEntry')
       modelPublished: (model['published?'] if model.type is 'MediaEntry')
       privacyStatus: get.privacy_status
       onClipboard: true if model.on_clipboard

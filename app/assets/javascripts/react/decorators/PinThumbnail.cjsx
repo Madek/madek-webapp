@@ -63,7 +63,7 @@ module.exports = React.createClass
 
     if statusProps
       badgeLeft = <StatusIcon privacyStatus={statusProps.privacyStatus}
-        resourceType={resourceType} modelIsNew={statusProps.modelIsNew}
+        resourceType={resourceType}
         modelPublished={statusProps.modelPublished}
         iconClass='ui-tile__flag ui-tile__flag--privac' />
 
