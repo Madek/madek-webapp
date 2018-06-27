@@ -14,6 +14,7 @@ ResourceIcon = require('../ui-components/ResourceIcon.cjsx')
 Picture = require('../ui-components/Picture.cjsx')
 BoxFetchRelations = require('./BoxFetchRelations.js')
 BoxFavorite = require('./BoxFavorite.js')
+BoxDelete = require('./BoxDelete.js')
 
 CURSOR_SELECT_STYLE = {cursor: 'cell'}
 
@@ -93,8 +94,11 @@ module.exports = React.createClass
     @setState(deleteModal: true)
 
   _onModalOk: () ->
-    @state.model.delete (err, res)->
-      location.reload()
+    BoxDelete(
+      @props.get,
+      () =>
+        location.reload()
+    )
 
   _onModalCancel: () ->
     @setState(deleteModal: false)
