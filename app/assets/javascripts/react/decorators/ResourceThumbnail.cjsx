@@ -4,7 +4,6 @@ f = require('active-lodash')
 cx = require('classnames')
 ampersandReactMixin = require('ampersand-react-mixin')
 t = require('../../lib/i18n-translate.js')
-Models = require('../../models/index.coffee')
 { Link, Icon, Thumbnail, Button, Preloader, AskModal
 } = require('../ui-components/index.coffee')
 ResourceThumbnailRenderer = require('./ResourceThumbnailRenderer.cjsx')
@@ -15,6 +14,7 @@ Picture = require('../ui-components/Picture.cjsx')
 BoxFetchRelations = require('./BoxFetchRelations.js')
 BoxFavorite = require('./BoxFavorite.js')
 BoxDelete = require('./BoxDelete.js')
+getMediaType = require('../../models/shared/get-media-type.js')
 
 CURSOR_SELECT_STYLE = {cursor: 'cell'}
 
@@ -61,17 +61,6 @@ module.exports = React.createClass
     favoriteState: this.favoriteInitial({resource: @props.get})
   }
 
-  componentWillMount: ()->
-    # instantiate model from data if not already…
-    get = @props.get
-    unless (get.isState or get.isCollection)
-      if (modelByType = Models[get.type])
-        model = new modelByType(get)
-      else
-        # FIXME: throw this
-        console.error('WARNING: No model found for resource!', get)
-    @setState(model: model or get)
-
   componentDidMount: ()->
     @setState(isClient: true)
 
@@ -104,8 +93,6 @@ module.exports = React.createClass
     @setState(deleteModal: false)
 
   render: ({get, elm, onClick, isSelected, fetchRelations, authToken} = @props, state = @state)->
-    model = @state.model or @props.get
-
 
     if fetchRelations
       parentRelations = @state.relationsState.relations.parents
@@ -171,15 +158,15 @@ module.exports = React.createClass
       stateDeleteModal: @state.deleteModal
       onModalCancel: @_onModalCancel
       onModalOk: @_onModalOk
-      modalTitle: model.title
+      modalTitle: @props.get.title
       showModal: @_showModal
     }
 
     statusProps = {
-      modelType: model.type
-      modelPublished: (model['published?'] if model.type is 'MediaEntry')
+      modelType: @props.get.type
+      modelPublished: (@props.get['published?'] if @props.get.type is 'MediaEntry')
       privacyStatus: get.privacy_status
-      onClipboard: true if model.on_clipboard
+      onClipboard: true if @props.get.on_clipboard
     }
 
     selectProps = {
@@ -195,11 +182,17 @@ module.exports = React.createClass
       title: get.title
       subtitle: get.authors_pretty
 
+    resourceMediaType = if @props.uploadMediaType
+      @props.uploadMediaType
+    else
+      getMediaType(f.get(@props.get, 'media_file.content_type'))
+
+
     if @props.pinThumb
       <PinThumbnail
-        resourceType={model.type}
+        resourceType={@props.get.type}
         imageUrl={f.get(get, 'media_file.previews.images.large.url', get.image_url)}
-        mediaType={model.mediaType}
+        mediaType={resourceMediaType}
         title={textProps.title}
         subtitle={textProps.subtitle}
         mediaUrl={get.url}
@@ -214,9 +207,9 @@ module.exports = React.createClass
         />
     else if @props.listThumb
       <ListThumbnail
-        resourceType={model.type}
+        resourceType={@props.get.type}
         imageUrl={get.image_url}
-        mediaType={model.mediaType}
+        mediaType={resourceMediaType}
         title={textProps.title}
         subtitle={textProps.subtitle}
         mediaUrl={get.url}
@@ -229,8 +222,8 @@ module.exports = React.createClass
         />
     else
       <ResourceThumbnailRenderer
-        resourceType={model.type}
-        mediaType={model.mediaType}
+        resourceType={@props.get.type}
+        mediaType={resourceMediaType}
         elm={elm}
         get={get}
         pictureOnClick={onClick}
