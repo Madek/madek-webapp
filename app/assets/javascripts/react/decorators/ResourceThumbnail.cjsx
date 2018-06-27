@@ -13,6 +13,7 @@ ListThumbnail = require('./ListThumbnail.cjsx')
 ResourceIcon = require('../ui-components/ResourceIcon.cjsx')
 Picture = require('../ui-components/Picture.cjsx')
 BoxFetchRelations = require('./BoxFetchRelations.js')
+BoxFavorite = require('./BoxFavorite.js')
 
 CURSOR_SELECT_STYLE = {cursor: 'cell'}
 
@@ -41,11 +42,22 @@ module.exports = React.createClass
     next = BoxFetchRelations(f.cloneDeep(@state.relationsState), props, (ps) => this.relationsTrigger(ps))
     @setState({relationsState: next})
 
+  favoriteTrigger: (props) ->
+    this.favoriteTransition(props)
+
+  favoriteInitial: (props) ->
+    return BoxFavorite(null, props, (ps) => this.favoriteTrigger(ps))
+
+  favoriteTransition: (props) ->
+    next = BoxFavorite(f.cloneDeep(@state.favoriteState), props, (ps) => this.favoriteTrigger(ps))
+    @setState({favoriteState: next})
+
+
   getInitialState: ()-> {
     isClient: @props.isClient or false
-    pendingFavorite: false
     deleteModal: false
     relationsState: this.relationsInitial({type: @props.get.type})
+    favoriteState: this.favoriteInitial({resource: @props.get})
   }
 
   componentWillMount: ()->
@@ -75,12 +87,7 @@ module.exports = React.createClass
     @_fetchRelations() if @props.fetchRelations
 
   _favorOnClick: () ->
-    @setState(pendingFavorite: true)
-    action = {}
-    action.name = if @state.model.favored then 'disfavor' else 'favor'
-    action.url = @state.model[action.name + '_url']
-    @state.model.setFavoredStatus action, (err, res)=>
-      @setState(pendingFavorite: false) if @isMounted()
+    this.favoriteTransition({event: 'toggle', resource: @props.get})
 
   _showModal: () ->
     @setState(deleteModal: true)
@@ -146,9 +153,9 @@ module.exports = React.createClass
     }
 
     favoriteProps = {
-      pendingFavorite: @state.pendingFavorite
+      pendingFavorite: @state.favoriteState.pendingFavorite
       favorOnClick: @_favorOnClick
-      modelFavored: model.favored
+      modelFavored: @state.favoriteState.favored
       favorUrl: get.favor_url
       disfavorUrl: get.disfavor_url
       stateIsClient: state.isClient

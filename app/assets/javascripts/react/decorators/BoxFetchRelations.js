@@ -111,7 +111,7 @@ module.exports = (last, props, trigger) => {
 
     var relationsUrl = url.format(parsedUrl)
 
-    return xhr(
+    xhr(
       {
         url: relationsUrl,
         json: true,
