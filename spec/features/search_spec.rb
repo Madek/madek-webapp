@@ -67,6 +67,26 @@ feature 'Page: Search' do
     # end
   end
 
+  describe 'searching media entries', browser: :firefox do
+    let!(:media_entry) do
+      create(:media_entry_with_title,
+             title: 'mazdamazda 2018',
+             get_metadata_and_previews: true)
+    end
+
+    ['mazda', 'Mazda', 'MaZdA', 'mazda 2', 'mazda '].each do |search_term|
+      it "returns media entry in the result list for term '#{search_term}'" do
+        search_for_text search_term
+
+        within '.ui-resources-page-items' do
+          expect(
+            find('.ui-resource .ui-thumbnail-meta-title', text: media_entry.title)
+          ).to be
+        end
+      end
+    end
+  end
+
 end
 
 # helpers
@@ -94,7 +114,7 @@ def expect_redirect_to_filtered_entries_index(string)
   entries_results_url = current_path_with_query
   expect(entries_results_url).to eq(
     '/entries?list%5Bfilter%5D=%7B%22search%22%3A%22' \
-    + string \
+    + CGI.escape(string) \
     + '%22%7D&list%5Bshow_filter%5D=true')
 end
 
