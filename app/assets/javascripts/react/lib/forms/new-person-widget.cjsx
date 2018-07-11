@@ -94,21 +94,21 @@ module.exports = React.createClass
                 if (type == 'Person') then return (
                   <Tab.Pane eventKey={type} className={paneClass} key={type}>
                     <div className='ui-form-group rowed pbx ptx'>
-                      <label className='form-label'>Vorname</label>
+                      <label className='form-label'>{t('meta_data_input_new_person_first_name')}</label>
                       <div className='form-item'>
                         {@_inputField('first_name')}
                       </div>
                     </div>
 
                     <div className='ui-form-group rowed pbx ptx'>
-                      <label className='form-label'>Nachname</label>
+                      <label className='form-label'>{t('meta_data_input_new_person_last_name')}</label>
                       <div className='form-item'>
                         {@_inputField('last_name')}
                       </div>
                     </div>
 
                     <div className='ui-form-group rowed pbx ptx'>
-                      <label className='form-label'>Pseudonym</label>
+                      <label className='form-label'>{t('meta_data_input_new_person_pseudonym')}</label>
                       <div className='form-item'>
                         {@_inputField('pseudonym')}
                       </div>
@@ -124,7 +124,7 @@ module.exports = React.createClass
                 if type == 'PeopleGroup' then return (
                   <Tab.Pane eventKey={type} className={paneClass} key={type}>
                     <div className='ui-form-group rowed pbx ptx'>
-                      <label className='form-label'>Name</label>
+                      <label className='form-label'>{t('meta_data_input_new_group_name')}</label>
                       <div className='form-item'>
                         {@_inputField('first_name')}
                       </div>
