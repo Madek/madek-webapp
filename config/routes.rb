@@ -63,18 +63,22 @@ Madek::Application.routes.draw do
 
     collection do
       get 'batch_edit_meta_data_by_context(/:context_id)', action: :batch_edit_meta_data_by_context, as: 'batch_edit_meta_data_by_context'
+      post 'batch_edit_meta_data_by_context(/:context_id)', action: :batch_edit_meta_data_by_context
       get 'batch_edit_meta_data_by_vocabularies', action: :batch_edit_meta_data_by_vocabularies, as: 'batch_edit_meta_data_by_vocabularies'
+      post 'batch_edit_meta_data_by_vocabularies', action: :batch_edit_meta_data_by_vocabularies
       put 'batch_meta_data', action: :batch_meta_data_update
 
       put 'batch_update_transfer_responsibility', action: :batch_update_transfer_responsibility, as: 'batch_update_transfer_responsibility'
 
       get 'batch_edit_permissions', controller: :batch, action: :batch_edit_entry_permissions, as: 'batch_edit_permissions'
+      post 'batch_edit_permissions', controller: :batch, action: :batch_edit_entry_permissions
       put 'batch_update_permissions', controller: :batch, action: :batch_update_entry_permissions, as: 'batch_update_permissions'
     end
 
   end
 
   get 'batch_select_add_to_set', controller: :batch, action: :batch_select_add_to_set, as: 'batch_select_add_to_set'
+  post 'batch_select_add_to_set', controller: :batch, action: :batch_select_add_to_set
   put 'batch_destroy_resources', controller: :batch, action: :batch_destroy_resources, as: 'batch_destroy_resources'
   put 'batch_add_to_set', controller: :batch, action: :batch_add_to_set, as: 'batch_add_to_set'
   get 'batch_ask_remove_from_set', controller: :batch, action: :batch_ask_remove_from_set, as: 'batch_ask_remove_from_set'
@@ -125,20 +129,19 @@ Madek::Application.routes.draw do
 
       get 'select_collection', action: :select_collection, as: 'select_collection'
       patch 'add_remove_collection', to: 'collections#add_remove_collection'
-
-      # FIXME: should be in `collection` not `member`???
-      get 'batch_edit_permissions', controller: :batch, action: :batch_edit_collection_permissions, as: 'batch_edit_collection_permissions'
-
     end
 
     collection do
       get 'batch_edit_meta_data_by_context(/:context_id)', action: :batch_edit_meta_data_by_context, as: 'batch_edit_meta_data_by_context'
+      post 'batch_edit_meta_data_by_context(/:context_id)', action: :batch_edit_meta_data_by_context
       get 'batch_edit_meta_data_by_vocabularies(/:context_id)', action: :batch_edit_meta_data_by_vocabularies, as: 'batch_edit_meta_data_by_vocabularies'
+      post 'batch_edit_meta_data_by_vocabularies(/:context_id)', action: :batch_edit_meta_data_by_vocabularies
       put 'batch_meta_data', action: :batch_meta_data_update
 
       put 'batch_update_transfer_responsibility', action: :batch_update_transfer_responsibility, as: 'batch_update_transfer_responsibility'
 
       get 'batch_edit_permissions', controller: :batch, action: :batch_edit_collection_permissions, as: 'batch_edit_permissions'
+      post 'batch_edit_permissions', controller: :batch, action: :batch_edit_collection_permissions
       put 'batch_update_permissions', controller: :batch, action: :batch_update_collection_permissions, as: 'batch_update_permissions'
     end
   end

@@ -21,10 +21,11 @@ feature 'Batch update media entries permissions' do
       'Berechtigungen von Medieneinträgen editieren')
 
     # edit form opens:
-    expect(current_path_with_query).to eq \
-      batch_edit_permissions_media_entries_path(
-        id: [@resource_2.id, @resource_1.id],
-        return_to: collection_path(@collection))
+    expect(current_path_with_query).to eq(
+      batch_edit_permissions_media_entries_path
+    )
+    check_resources([@resource_2, @resource_1])
+    cancel_and_check_return_to(collection_path(@collection))
   end
 
   it 'successfully updates permissions for all Entries' do
@@ -39,9 +40,10 @@ feature 'Batch update media entries permissions' do
       'Berechtigungen von Medieneinträgen editieren')
 
     # edit form opens:
-    expect(current_path_with_query)
-      .to eq batch_edit_permissions_media_entries_path(
-        id: [@resource_2.id, @resource_1.id], return_to: my_content_page)
+    expect(current_path_with_query).to eq(
+      batch_edit_permissions_media_entries_path
+    )
+    check_resources([@resource_2, @resource_1])
 
     within('form[name="ui-rights-management"]') do
       check_displayed_permission_cases(MediaEntry)
@@ -49,6 +51,8 @@ feature 'Batch update media entries permissions' do
       # SAVE
       find('.primary-button').click
     end
+
+    expect(current_path).to eq(my_content_page)
 
     # assertions
 
@@ -72,9 +76,11 @@ feature 'Batch update media entries permissions' do
     select_all_in_box_and_choose_from_menu('Berechtigungen von Sets editieren')
 
     # edit form opens:
-    expect(current_path_with_query)
-      .to eq batch_edit_permissions_collections_path(
-        id: [@resource_2.id, @resource_1.id], return_to: my_content_page)
+    expect(current_path_with_query).to eq(
+      batch_edit_permissions_collections_path
+    )
+
+    check_resources([@resource_2, @resource_1])
 
     within('form[name="ui-rights-management"]') do
       check_displayed_permission_cases(Collection)
@@ -82,6 +88,8 @@ feature 'Batch update media entries permissions' do
       # SAVE
       find('.primary-button').click
     end
+
+    expect(current_path).to eq(my_content_page)
 
     # assertions
 
@@ -199,4 +207,26 @@ end
 
 def subject_search_name(subject)
   subject.class == User ? subject.login : subject_name(subject)
+end
+
+def cancel_and_check_return_to(expected)
+  within('.ui-actions') do
+    find('a', text: I18n.t('permissions_table_cancel_btn')).click
+    expect(current_path).to eq(expected)
+  end
+end
+
+def check_resources(resources)
+  within('.ui-resources-holder') do
+    resources.each do |r|
+      base = \
+        if r.class == MediaEntry then 'entries'
+        elsif r.class == Collection then 'sets'
+        else
+          throw 'unexpected'
+        end
+      href = '/' + base + '/' + r.id
+      find('.ui-resource a[href="' + href + '"]')
+    end
+  end
 end

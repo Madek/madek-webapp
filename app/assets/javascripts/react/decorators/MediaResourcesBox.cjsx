@@ -330,7 +330,7 @@ module.exports = React.createClass
         accordion: event.accordion}})
 
   _selectionLimit: () ->
-    36
+    256
 
   _onSelectResource: (resource, event)-> # toggles selection item
     event.preventDefault()
@@ -372,8 +372,21 @@ module.exports = React.createClass
   _sharedOnBatch: (resources, event, path) ->
     event.preventDefault()
     selected = f.map(resources, 'uuid')
-    batchEditUrl = setUrlParams(path, {id: selected, return_to: @_currentUrl()})
-    window.location = batchEditUrl # SYNC!
+
+    html = '<form method="post" acceptCharset="UTF-8" action="' + path + '">' +
+      '<input type="hidden" name="authenticity_token" value="' + getRailsCSRFToken() + '"></input>' +
+      '<input type="hidden" name="return_to" value="' + @_currentUrl() + '"></input>' +
+      '<button type="button"></button>' +
+      require('lodash').join(f.map(
+        selected,
+        (s) =>
+          '<input type="hidden" name="id[]" value="' + s + '"></input>'
+      ), '') +
+      '</form>'
+
+    form = $(html)
+    document.body.appendChild(form[0])
+    form.submit()
 
   _sharedOnBatchAll: (event, type) ->
     event.preventDefault()

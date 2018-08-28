@@ -17,6 +17,10 @@ formXhr = require('../../lib/form-xhr.coffee')
 setUrlParams = require('../../lib/set-params-for-url.coffee')
 Preloader = require('../ui-components/Preloader.cjsx')
 
+qs = require('qs')
+getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
+xhr = require('xhr')
+
 module.exports = React.createClass
   displayName: 'BatchAddToSet'
 
@@ -54,30 +58,39 @@ module.exports = React.createClass
         if @lastRequest
           @lastRequest.abort()
 
-        @lastRequest = formXhr(
+        data = {
+          resource_id: @props.get.resource_ids
+          search_term: @state.searchTerm
+          return_to: @state.get.return_to
+        }
+
+        body = qs.stringify(
+          data,
           {
-            method: 'GET'
-            url: @_requestUrl()
-            form: @refs.form
+            arrayFormat: 'brackets' # NOTE: Do it like rails.
+          }
+        )
+
+        @lastRequest = xhr(
+          {
+            url: @props.get.batch_select_add_to_set_url,
+            method: 'POST',
+            body: body,
+            headers: {
+              'Accept': 'application/json',
+              'Content-type': 'application/x-www-form-urlencoded',
+              'X-CSRF-Token': getRailsCSRFToken()
+            }
           },
-          (result, json) =>
-            if result == 'success'
-              @setState({get: json, searching: false}) if @isMounted()
+          (err, res, json) =>
+            if err || res.statusCode != 200
+              return
+            else
+              @setState({get: JSON.parse(json), searching: false}) if @isMounted()
         )
       ,
       500
     )
-
-  _requestUrl: () ->
-    setUrlParams(
-      @props.get.batch_select_add_to_set_url,
-      {
-        resource_id: @props.get.resource_ids
-        search_term: @state.searchTerm
-        return_to: @state.get.return_to
-      }
-    )
-
 
   _onClickNew: (event) ->
     event.preventDefault()
@@ -107,8 +120,8 @@ module.exports = React.createClass
 
     _search =
       <div className='ui-search'>
-        <RailsForm ref='form' name='search_collections' action={@_requestUrl()}
-            method='get' authToken={authToken} className='dummy'>
+        <RailsForm ref='form' name='search_collections' action={@props.get.batch_select_add_to_set_url}
+            method='post' authToken={authToken} className='dummy'>
 
           <input type='hidden' name='return_to' value={@state.get.return_to} />
           <input type='text' autoCorrect='off' autoComplete='off' autofocus='autofocus'

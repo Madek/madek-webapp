@@ -47,7 +47,7 @@ feature 'Batch linking' do
 
     expect(current_path).to eq(
       batch_edit_meta_data_by_context_media_entries_path(nil))
-    url_ids_match(media_entries_1_3)
+    check_resources(media_entries_1_3)
   end
 
   scenario 'Collections metadata' do
@@ -62,7 +62,7 @@ feature 'Batch linking' do
 
     expect(current_path).to eq(
       batch_edit_meta_data_by_context_collections_path(nil))
-    url_ids_match(collections_1_3)
+    check_resources(collections_1_3)
   end
 
   scenario 'Media entries permissions' do
@@ -77,19 +77,22 @@ feature 'Batch linking' do
 
     expect(current_path).to eq(
       batch_edit_permissions_media_entries_path(nil))
-    url_ids_match(media_entries_1_3)
+    check_resources(media_entries_1_3)
   end
 
-  def url_ids_match(resources)
-    expect(resources.map(&:id).sort).to eq(url_id_params.sort)
-  end
-
-  def url_id_params
-    url_params['id[]']
-  end
-
-  def url_params
-    CGI::parse(URI::parse(current_url).query)
+  def check_resources(resources)
+    within('.ui-resources-holder') do
+      resources.each do |r|
+        base = \
+          if r.class == MediaEntry then 'entries'
+          elsif r.class == Collection then 'sets'
+          else
+            throw 'unexpected'
+          end
+        href = '/' + base + '/' + r.id
+        find('.ui-resource a[href="' + href + '"]')
+      end
+    end
   end
 
   def prepare_and_login_and_visit_collection

@@ -93,18 +93,29 @@ feature 'Resource: MediaEntry' do
 
       # confirm we are in the right place, including return_to param
       # also, one of the ids was removed because it
-      expect(current_path_with_query).to eq(
-        batch_edit_meta_data_by_context_media_entries_path(
-          id: ids_to_edit, return_to: return_url))
+      expect(current_path).to eq(
+        batch_edit_meta_data_by_context_media_entries_path
+      )
+      check_resources(ids_to_edit)
 
       # TMP: smokescreen test for the batch edit page (which itself is untested!)
       expect(find('.ui-body-title-label').text).to eq \
         "Metadaten für #{ids_to_edit.length} " \
         "Medieneinträge gleichzeitig bearbeiten"
+
+      cancel_and_check_return_to(return_url)
     end
   end
 
   private
+
+  def check_resources(ids)
+    within('.ui-resources-holder') do
+      ids.each do |id|
+        find('.ui-resource a[href="/entries/' + id + '"]')
+      end
+    end
+  end
 
   def find_button(link, favored)
     thumbnail = find(:xpath, "//a[@href='" + link + "']") # <- just the link
@@ -118,4 +129,10 @@ feature 'Resource: MediaEntry' do
     favorite
   end
 
+  def cancel_and_check_return_to(expected)
+    within('.ui-actions') do
+      find('a', text: I18n.t('permissions_table_cancel_btn')).click
+      expect(current_path).to eq(expected)
+    end
+  end
 end
