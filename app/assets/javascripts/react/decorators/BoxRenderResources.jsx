@@ -7,8 +7,10 @@ import cx from 'classnames/dedupe'
 import boxSetUrlParams from './BoxSetUrlParams.jsx'
 import setsFallbackUrl from '../../lib/sets-fallback-url.coffee'
 import Preloader from '../ui-components/Preloader.cjsx'
-import ActionsDropdown from './resourcesbox/ActionsDropdown.cjsx'
+import ActionsDropdownHelper from './resourcesbox/ActionsDropdownHelper.cjsx'
 import ResourceThumbnail from './ResourceThumbnail.cjsx'
+import BoxRenderResource from './BoxRenderResource.jsx'
+import l from 'lodash'
 
 class BoxRenderResources extends React.Component {
 
@@ -16,7 +18,13 @@ class BoxRenderResources extends React.Component {
     super(props)
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    var l = require('lodash')
+    return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
+  }
+
   render() {
+
     var resources = this.props.resources
     var listClasses = this.props.listClasses
     var actionsDropdownParameters = this.props.actionsDropdownParameters
@@ -36,46 +44,44 @@ class BoxRenderResources extends React.Component {
 
     var renderPage = (page, i) => {
 
-      var renderItem = (item) => {
-        if(!item.uuid) {
-          // should not be the case anymore after uploader is not using this box anymore
-          throw new Error('no uuid')
+      var renderItem = (itemState) => {
+
+        var resourceId = itemState.data.resource.uuid
+        var job = this.props.applyJob
+        var batchStatus = () => {
+
+          if(!job || job.processing.length == 0 && job.failure.length == 0) {
+            return null
+          } else if(l.find(job.pending, (p) => p.uuid == resourceId)) {
+            return 'pending'
+          } else if(l.find(job.processing, (p) => p.uuid == resourceId)) {
+            return 'processing'
+          } else if(l.find(job.success, (p) => p.uuid == resourceId)) {
+            return 'success'
+          } else if(l.find(job.failure, (p) => p.uuid == resourceId)) {
+            return 'failure'
+          } else if(l.find(job.cancelled, (p) => p.uuid == resourceId)) {
+            return 'cancelled'
+          } else {
+            return 'sleep'
+          }
         }
 
-        var key = item.uuid // or item.cid
-
-        var style = null
-        var selection = selectedResources
-        // selection defined means selection is enabled
-        var showActions = ActionsDropdown.showActionsConfig(actionsDropdownParameters)
-        if(isClient && selection && f.any(f.values(showActions))) {
-          var isSelected = selectedResources.contains(item)
-          var onSelect = f.curry(onSelectResource)(item)
-          // if in selection mode, intercept clicks as 'select toggle'
-          var onClick = null
-          if(config.layout == 'miniature' && !selection.empty()) {
-            onClick = onSelect
-          }
-
-          //  when hightlighting editables, we just dim everything else:
-          if(ActionsDropdown.isResourceNotInScope(item, isSelected, hoverMenuId)) {
-            style = {opacity: 0.35}
-          }
-
-        }
-
-
-        // TODO: get={model}
         return (
-          <ResourceThumbnail elm='div'
-            style={style}
-            get={item}
-            isClient={isClient} fetchRelations={fetchRelations}
-            isSelected={isSelected} onSelect={onSelect} onClick={onClick}
-            authToken={authToken} key={key}
-            pinThumb={config.layout == 'tiles'}
-            listThumb={config.layout == 'list'}
-            list_meta_data={item.list_meta_data}
+          <BoxRenderResource
+            resourceState={itemState}
+            isClient={isClient}
+            onSelectResource={onSelectResource}
+            config={config}
+            hoverMenuId={hoverMenuId}
+            showBatchButtons={this.props.showBatchButtons}
+            fetchRelations={fetchRelations}
+            key={itemState.data.resource.uuid}
+            trigger={this.props.trigger}
+            isSelected={f.find(selectedResources, (sr) => sr.uuid == itemState.data.resource.uuid)}
+            showActions={ActionsDropdownHelper.showActionsConfig(actionsDropdownParameters)}
+            selectionMode={this.props.selectionMode}
+            batchStatus={batchStatus()}
           />
         )
       }
@@ -95,16 +101,18 @@ class BoxRenderResources extends React.Component {
         var BoxPageCounter = require('./BoxPageCounter.jsx')
         return (
           <BoxPageCounter
-            showActions={ActionsDropdown.showActionsConfig(actionsDropdownParameters)}
+            showActions={ActionsDropdownHelper.showActionsConfig(actionsDropdownParameters)}
             selectedResources={selectedResources}
             isClient={isClient}
             showSelectionLimit={showSelectionLimit}
             resources={resources}
-            pageResources={page}
+            pageResources={f.map(page, (i) => i.data.resource)}
             selectionLimit={selectionLimit}
             pagination={pagination}
             perPage={this.props.perPage}
             pageIndex={i}
+            unselectResources={this.props.unselectResources}
+            selectResources={this.props.selectResources}
           />
         )
       }

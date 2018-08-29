@@ -14,16 +14,21 @@ DeleteModal = require('./thumbnail/DeleteModal.cjsx')
 module.exports = React.createClass
   displayName: 'ResourceThumbnailRenderer'
 
+  shouldComponentUpdate: (nextProps, nextState) ->
+    l = require('lodash')
+    return !l.isEqual(@state, nextState) || !l.isEqual(@props, nextProps)
+
   render: ({resourceType,
       mediaType,
       elm, get,
-      pictureOnClick,
+      onPictureClick,
       relationsProps,
       favoriteProps,
       deleteProps,
       statusProps,
       selectProps,
-      textProps} = @props) ->
+      textProps} = @props
+  ) ->
 
     if statusProps
       statusIcon = <StatusIcon privacyStatus={statusProps.privacyStatus}
@@ -79,7 +84,6 @@ module.exports = React.createClass
       )
 
 
-    Element = elm or 'div'
     thumbProps =
       draft: statusProps.modelPublished == false
       onClipboard: statusProps.onClipboard
@@ -91,8 +95,8 @@ module.exports = React.createClass
       alt: get.title
       mediaType: mediaType
       # click handlers:
-      onClick: pictureOnClick
-      linkStyle: ({cursor: 'cell'} if pictureOnClick && selectProps && (pictureOnClick == selectProps.onSelect))
+      onPictureClick: onPictureClick
+      pictureLinkStyle: @props.pictureLinkStyle
       # extra elements (nested for layout):
       meta: textProps
       badgeLeft: statusIcon
@@ -114,21 +118,14 @@ module.exports = React.createClass
       disableLink: get.disableLink
       editMetaDataByContextUrl: get.edit_meta_data_by_context_url
 
-    classes = {'ui-resource': true, 'ui-selected': true if (selectProps and selectProps.isSelected)}
 
-    <Element
-      style={@props.style}
-      className={cx(classes)}
-      onMouseOver={relationsProps.onHover if relationsProps}>
-
-      <div className='ui-resource-body'>
-        <Thumbnail {...thumbProps}/>
-        {
-          if deleteProps && deleteProps.stateDeleteModal == true
-            <DeleteModal resourceType={get.type} onModalOk={deleteProps.onModalOk}
-              onModalCancel={deleteProps.onModalCancel} modalTitle={deleteProps.modalTitle} />
-          else
-            null
-        }
-      </div>
-    </Element>
+    <div className='ui-resource-body'>
+      <Thumbnail {...thumbProps} />
+      {
+        if deleteProps && deleteProps.stateDeleteModal == true
+          <DeleteModal resourceType={get.type} onModalOk={deleteProps.onModalOk}
+            onModalCancel={deleteProps.onModalCancel} modalTitle={deleteProps.modalTitle} />
+        else
+          null
+      }
+    </div>

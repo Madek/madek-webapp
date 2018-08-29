@@ -89,6 +89,11 @@ module BatchSelectionHelper
       expected_media_entries_label_and_count(count: count, all: all)
     elsif key == :collections_metadata
       expected_collections_label_and_count(count: count, all: all)
+    elsif key == :meta_data_batch
+      {
+        count: nil,
+        text: I18n.t('resources_box_batch_actions_meta_data_batch')
+      }
     else
       {
         count: count.to_s,
@@ -231,7 +236,8 @@ module BatchSelectionHelper
       :media_entries_permissions,
       :collections_permissions,
       :media_entries_transfer_responsibility,
-      :collections_transfer_responsibility
+      :collections_transfer_responsibility,
+      :meta_data_batch
     ]
   end
 
@@ -253,7 +259,8 @@ module BatchSelectionHelper
       media_entries_edit_all:
         :resources_box_batch_actions_edit_all_media_entries,
       collections_edit_all:
-        :resources_box_batch_actions_edit_all_collections
+        :resources_box_batch_actions_edit_all_collections,
+      meta_data_batch: :resources_box_batch_actions_meta_data_batch
     }
   end
 end

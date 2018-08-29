@@ -16,6 +16,10 @@ StatusIcon = require('./thumbnail/StatusIcon.cjsx')
 module.exports = React.createClass
   displayName: 'PinThumbnail'
 
+  shouldComponentUpdate: (nextProps, nextState) ->
+    l = require('lodash')
+    return !l.isEqual(@state, nextState) || !l.isEqual(@props, nextProps)
+
   render: ({resourceType, imageUrl, mediaType, title, subtitle, mediaUrl,
     selectProps, favoriteProps, editable, editUrl, destroyable, deleteProps, statusProps} = @props) ->
 
@@ -76,7 +80,7 @@ module.exports = React.createClass
     starShadow += ', -1px 0px 1px rgba(255, 255, 255, 0.5)'
     starShadow += ', 0px -1px 1px rgba(255, 255, 255, 0.5)'
 
-    <li style={@props.style} className={c('ui-resource', 'ui-selected': (selectProps and selectProps.isSelected))}>
+    <div>
       {
         if deleteProps && deleteProps.stateDeleteModal == true
           <DeleteModal resourceType={resourceType} onModalOk={deleteProps.onModalOk}
@@ -112,7 +116,8 @@ module.exports = React.createClass
           </ul>
         </div>
         <div className='ui-tile__body'>
-          <a className='ui-tile__thumbnail' href={mediaUrl}>
+          <a className='ui-tile__thumbnail' style={@props.pictureLinkStyle}
+            onClick={@props.onPictureClick} href={mediaUrl}>
             {innerImage}
           </a>
         </div>
@@ -127,4 +132,4 @@ module.exports = React.createClass
           </div>
         </a>
       </div>
-    </li>
+    </div>

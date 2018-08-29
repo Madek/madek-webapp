@@ -30,7 +30,8 @@ feature 'Batch dropdown' do
       media_entries_permissions: { count: 0, active: false },
       collections_permissions: { count: 0, active: false },
       media_entries_transfer_responsibility: { count: 0, active: false },
-      collections_transfer_responsibility: { count: 0, active: false }
+      collections_transfer_responsibility: { count: 0, active: false },
+      meta_data_batch: {}
     )
 
     click_dropdown
@@ -47,7 +48,8 @@ feature 'Batch dropdown' do
       media_entries_permissions: { count: 3, highlights: media_entries_1_2_3 },
       collections_permissions: { count: 3 },
       media_entries_transfer_responsibility: { count: 3 },
-      collections_transfer_responsibility: { count: 3 }
+      collections_transfer_responsibility: { count: 3 },
+      meta_data_batch: {}
     )
 
     click_dropdown
@@ -67,7 +69,8 @@ feature 'Batch dropdown' do
       media_entries_transfer_responsibility: {
         count: 2, highlights: media_entries_1_3 },
       collections_transfer_responsibility: {
-        count: 0, active: false, highlights: [] }
+        count: 0, active: false, highlights: [] },
+      meta_data_batch: {}
     )
 
     click_dropdown
@@ -87,7 +90,8 @@ feature 'Batch dropdown' do
       media_entries_transfer_responsibility: {
         count: 0, active: false, highlights: [] },
       collections_transfer_responsibility: {
-        count: 2, highlights: collections_1_3 }
+        count: 2, highlights: collections_1_3 },
+      meta_data_batch: {}
     )
   end
 end

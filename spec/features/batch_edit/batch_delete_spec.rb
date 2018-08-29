@@ -49,7 +49,8 @@ feature 'batch delete' do
       media_entries_permissions: { count: 3 },
       collections_permissions: { count: 2 },
       media_entries_transfer_responsibility: { count: 2 },
-      collections_transfer_responsibility: { count: 1 }
+      collections_transfer_responsibility: { count: 1 },
+      meta_data_batch: {}
     )
     click_batch_action(:resources_destroy)
 

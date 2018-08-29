@@ -22,7 +22,9 @@ MetaDataDefinitionList = require('./MetaDataDefinitionList.cjsx')
 module.exports = React.createClass
   displayName: 'ListThumbnail'
 
-
+  shouldComponentUpdate: (nextProps, nextState) ->
+    l = require('lodash')
+    return !l.isEqual(@state, nextState) || !l.isEqual(@props, nextProps)
 
   render: ({resourceType, imageUrl, mediaType, title, subtitle, mediaUrl, metaData, selectProps, favoriteProps, deleteProps, get} = @props) ->
 
@@ -178,10 +180,7 @@ module.exports = React.createClass
         </ul>
       </div>
 
-
-    classes = {'ui-resource': true, 'ui-selected': true if (selectProps and selectProps.isSelected)}
-
-    <li className={c(classes)} style={@props.style}>
+    <div>
       <div className="ui-resource-head" style={{marginLeft: '168px'}}>
         {actions}
         <h3 className="ui-resource-title">{title}</h3>
@@ -192,7 +191,9 @@ module.exports = React.createClass
             <div className="ui-thumbnail-privacy">
               <i className="icon-privacy-group"></i>
             </div>
-            <Image innerImage={innerImage} mediaUrl={mediaUrl} />
+            <Image onPictureClick={@props.onPictureClick}
+              pictureLinkStyle={@props.pictureLinkStyle}
+              innerImage={innerImage} mediaUrl={mediaUrl} />
             <Titles />
           </div>
         </div>
@@ -222,13 +223,14 @@ module.exports = React.createClass
         }
 
       </div>
-    </li>
+    </div>
 
 
 Image = React.createClass
   displayName: 'Image'
   render: ({old, innerImage, mediaUrl} = @props) ->
-    <a className="ui-thumbnail-image-wrapper" href={mediaUrl}>
+    <a className="ui-thumbnail-image-wrapper" onClick={@props.onPictureClick}
+      style={@props.pictureLinkStyle} href={mediaUrl}>
       <div className="ui-thumbnail-image-holder">
         <div className="ui-thumbnail-table-image-holder">
           <div className="ui-thumbnail-cell-image-holder">

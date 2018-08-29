@@ -157,6 +157,10 @@ class MediaEntriesController < ApplicationController
     shared_meta_data_update
   end
 
+  def advanced_meta_data_update
+    advanced_shared_meta_data_update
+  end
+
   private
 
   def initialize_presenter(name, template)

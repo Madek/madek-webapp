@@ -31,6 +31,20 @@ module Modules
         resource = get_authorized_resource
         errors = update_all_meta_data_transaction!(resource, meta_data_params)
 
+        handle_meta_data_update_result(resource, errors)
+      end
+
+      def advanced_shared_meta_data_update
+        resource = get_authorized_resource
+        errors = advanced_update_all_meta_data_transaction!(
+          resource, meta_data_params)
+
+        handle_meta_data_update_result(resource, errors)
+      end
+
+      private
+
+      def handle_meta_data_update_result(resource, errors)
         if errors.empty?
           published_before = published_state(resource)
           if resource.class == MediaEntry
@@ -43,8 +57,6 @@ module Modules
           respond_with_errors(errors)
         end
       end
-
-      private
 
       def published_state(resource)
         resource.class != MediaEntry or resource.is_published

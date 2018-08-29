@@ -43,7 +43,9 @@ class BoxPageCounter extends React.Component {
         selection
         ?
           f.size(
-            pageResources.filter((item) => selection.contains(item))
+            pageResources.filter((item) => {
+              return f.find(selection, (sr) => sr.uuid == item.uuid)
+            })
           )
         :
           0
@@ -73,13 +75,15 @@ class BoxPageCounter extends React.Component {
       onSelectPage = (event) => {
         event.preventDefault()
         if(selectionCountOnPage > 0) {
-          pageResources.forEach((item) => selection.remove(item))
+          this.props.unselectResources(pageResources)
+          // pageResources.forEach((item) => selection.remove(item))
         }
         else {
-          if(selection.length() > this.props.selectionLimit - pageResources.length)
+          if(selection.length > this.props.selectionLimit - pageResources.length)
             this.props.showSelectionLimit('page-selection')
           else
-            pageResources.forEach((item) => selection.add(item))
+          this.props.selectResources(pageResources)
+            // pageResources.forEach((item) => selection.add(item))
         }
       }
     }

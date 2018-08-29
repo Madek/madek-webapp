@@ -15,7 +15,7 @@ class SuperBoxDashboard extends React.Component {
         style={null}
         get={config.resource}
         isClient={true} fetchRelations={true}
-        isSelected={false} onSelect={null} onClick={null}
+        isSelected={false} onSelect={null} 
         authToken={config.authToken} key={'resource_' + config.resource.uuid}
         pinThumb={false}
         listThumb={false}

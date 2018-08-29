@@ -33,7 +33,7 @@ module.exports = React.createClass
           )
 
           f.compact([
-            <li className={classes} key={section_id}>
+            <li key={section_id + 'key1'} className={classes} key={section_id}>
               <a className='strong' href={link}>
                 {
                   if section.is_beta && show_beta
@@ -45,7 +45,7 @@ module.exports = React.createClass
             </li>
             ,
             if section_id != f.last(f.keys(sections))
-              <li className='separator mini' />
+              <li  key={section_id + 'key2'} className='separator mini' />
 
           ])
         ))

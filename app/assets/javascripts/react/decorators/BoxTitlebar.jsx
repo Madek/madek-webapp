@@ -14,6 +14,11 @@ class BoxTitlebar extends React.Component {
     super(props)
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    var l = require('lodash')
+    return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
+  }
+
   getHeading() {
     var heading = this.props.heading
     if(heading) {
@@ -127,7 +132,9 @@ class BoxTitlebar extends React.Component {
         onSortItemClick={this.props.onSortItemClick}
         dropdownItems={this.getDropdownItems()}
         selectedSort={this.props.order}
-        enableOrdering={this.props.enableOrdering} />
+        enableOrdering={this.props.enableOrdering}
+        onLayoutClick={this.props.onLayoutClick}
+      />
     )
   }
 }

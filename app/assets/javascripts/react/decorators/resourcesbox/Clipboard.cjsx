@@ -25,7 +25,7 @@ module.exports = React.createClass
       else throw 'Unexpected type: ' + @props.type
 
   _selectedResourceIdsWithTypes: () ->
-    @props.selectedResources.selection.map (model) ->
+    @props.selectedResources.map (model) ->
       {
         uuid: model.uuid
         type: model.type

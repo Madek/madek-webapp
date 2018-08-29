@@ -53,9 +53,16 @@ libUrl = require('url')
 qs = require('qs')
 
 BoxUtil = require('./BoxUtil.js')
-BoxFetchListData = require('./BoxFetchListData.js')
 
 BoxSetUrlParams = require('./BoxSetUrlParams.jsx')
+
+BoxBatchEdit = require('./BoxBatchEdit.js')
+BoxBatchEditForm = require('./BoxBatchEditForm.jsx')
+
+BoxRedux = require('./BoxRedux.js')
+BoxState = require('./BoxState.js')
+
+BoxFilterButton = require('./BoxFilterButton.jsx')
 
 # Props/Config overview:
 # - props.get.has_user = should the UI offer any interaction
@@ -109,13 +116,110 @@ module.exports = React.createClass
     batchDestroyResourcesModal: false
     batchDestroyResourcesWaiting: false
     showSelectionLimit: false
-    listJobQueue: []
+    boxState: this.initialBoxState({})
   }
 
   doOnUnmount: [] # to be filled with functions to be called on unmount
   componentWillUnmount: ()->
     f.each(f.compact(@doOnUnmount), (fn)->
       if f.isFunction(fn) then fn() else console.error("Not a Function!", fn))
+
+
+  initialBoxState: (event) ->
+    props = {get: @props.get}
+
+    return BoxState(
+      {
+        event: {},
+        trigger: @triggerComponentEvent,
+        initial: true,
+        components: {},
+        data: {},
+        nextProps: props,
+        path: []
+      }
+    )
+
+  nextBoxState: (events) ->
+    merged = BoxRedux.mergeStateAndEventsRoot(@state.boxState, events)
+
+    props = {
+      get: @_mergeGet(@props, @state),
+      currentUrl: @_currentUrl(),
+      getJsonPath: @getJsonPath
+    }
+
+    boxState = BoxState(
+      {
+        event: merged.event,
+        trigger: @triggerComponentEvent,
+        initial: false,
+        components: merged.components,
+        data: merged.data,
+        nextProps: props,
+        path: []
+      }
+    )
+
+    @setState({boxState: boxState})
+
+  triggetRootEvent: (event)  ->
+    events = [
+      {
+        path: [],
+        event: event
+      }
+    ]
+    @nextBoxState(events)
+
+  triggerComponentEvent: (component, event)  ->
+    events = [
+      {
+        path: component.path,
+        event: event
+      }
+    ]
+    @nextBoxState(events)
+
+  onBatchButton: (event) ->
+    @triggerComponentEvent(this.state.boxState.components.batch, { action: 'toggle' })
+
+  onClickKey: (event, metaKeyId, contextKey) ->
+    @triggerComponentEvent(this.state.boxState.components.batch, { action: 'select-key', metaKeyId: metaKeyId, contextKey: contextKey})
+
+  onClickApplyAll: (event) ->
+    events = [
+      {
+        path: [],
+        event: {
+          action: 'apply'
+        }
+      }
+    ]
+    @nextBoxState(events)
+
+  onClickApplySelected: (event) ->
+    events = [
+      {
+        path: [],
+        event: {
+          action: 'apply-selected'
+        }
+      }
+    ]
+    @nextBoxState(events)
+
+  onClickCancel: (event) ->
+    this.triggetRootEvent({action: 'cancel-all'})
+
+  onClickIgnore: (event) ->
+    this.triggetRootEvent({action: 'ignore-all'})
+
+  getResources: () ->
+    f.map(
+      @state.boxState.components.resources,
+      (r) => r.data.resource
+    )
 
   getJsonPath: () ->
 
@@ -150,115 +254,36 @@ module.exports = React.createClass
       return 'resources'
 
 
-  componentWillMount: ()->
-    resources = if f.get(@props, 'get.resources.isCollection')
-      throw new Error('is collection') # should not be the case anymore after uploader is not using this box anymore
-    else
-      @props.get.resources
-    @setState(resources: resources)
-
-
   requestId: Math.random()
 
   fetchListData: () ->
-    jobQueue = BoxFetchListData.todo(
-      this.state.listJobQueue,
-      this.state.resources
-    )
-
-    this.setState({
-      listJobQueue: jobQueue
-    },
-    () =>
-      BoxFetchListData.loadJobs(this.state.listJobQueue, () =>
-        this.setState({
-          resources: this.state.resources
-        }, () =>
-          this.fetchListData()
-        )
-      )
-
-    )
-
-
-
-  fetchNext: (callback) ->
-
-    # @state.resources.fetchNext(@_mergeGet(@props, @state).config.layout == 'list', c)
-
-    pagination = @props.get.pagination
-
-
-    pageSize = this.props.get.config.per_page
-
-    page = Math.ceil(@state.resources.length / pageSize)
-
-    nextPage = page + 1
-
-
-    nextUrl = setUrlParams(
-      @_currentUrl(),
-      {list: {page: nextPage}},
-      {___sparse: JSON.stringify(f.set({}, @getJsonPath(), {}))})
-
-    # We compare the request id when sending started
-    # with the request id when the answer arrives and
-    # only process the answer when its still the same id.
-    localRequestId = @requestId
-
-    return xhr.get(
-      {url: nextUrl, json: true },
-      (err, res, body) => (
-
-        if @requestId != localRequestId
-          return
-
-        if err || res.statusCode > 400
-          return callback(err || body)
-
-        this.setState({
-          resources: this.state.resources.concat(
-            f.get(body, @getJsonPath())
-          )
-        }, () =>
-          callback(null)
-        )
-
-        if @_mergeGet(@props, @state).config.layout == 'list'
-          @fetchListData()
-    ))
-
+    this.triggetRootEvent({ action: 'fetch-list-data' })
 
   componentDidMount: ()->
     if @_mergeGet(@props, @state).config.layout == 'list'
       @fetchListData()
 
-    if f.includes(['MediaResources', 'MediaEntries', 'Collections'], @props.get.type)
-      selection = Selection.createEmpty(() =>
-        @setState(selectedResources: selection) if @isMounted()
-      )
+    # if f.includes(['MediaResources', 'MediaEntries', 'Collections'], @props.get.type)
+    #   selection = Selection.createEmpty(() =>
+    #     @setState(selectedResources: selection) if @isMounted()
+    #   )
 
-    if @state.resources
-      @fetchNextPage = f.throttle(
-        ((c) =>
-          this.fetchNext(c)
-        )
-      , 1000)
-      @doOnUnmount.push(@fetchNextPage.cancel())
     @setState(
       isClient: true,
-      selectedResources: selection,
+      # selectedResources: selection,
       config: resourceListParams(window.location)
     )
 
+    this.triggetRootEvent({ action: 'mount' })
+
+
+  forceFetchNextPage: () ->
+    this.triggetRootEvent({ action: 'force-fetch-next-page' })
 
   # - custom actions:
   _onFetchNextPage: (event)->
-    return if @state.loadingNextPage
-    @setState(loadingNextPage: true)
-    @fetchNextPage (err, newUrl)=>
-      if err then console.error(err)
-      @setState(loadingNextPage: false) if @isMounted()
+    return if @state.boxState.data.loadingNextPage
+    this.triggetRootEvent({ action: 'fetch-next-page' })
 
   _onFilterChange: (event, newParams)->
     event.preventDefault() if event && f.isFunction(event.preventDefault)
@@ -334,11 +359,11 @@ module.exports = React.createClass
 
   _onSelectResource: (resource, event)-> # toggles selection item
     event.preventDefault()
-    selection = @state.selectedResources
-    if !selection.contains(resource) && selection.length() > @_selectionLimit() - 1
+    selection = @state.boxState.data.selectedResources
+    if !f.find(selection, (s) => s.uuid == resource.uuid) && selection.length > @_selectionLimit() - 1
       @_showSelectionLimit('single-selection')
     else
-      selection.toggle(resource)
+      this.triggetRootEvent({ action: 'toggle-resource-selection', resourceUuid: resource.uuid})
 
   _showSelectionLimit: (version) ->
     @setState(showSelectionLimit: version)
@@ -464,7 +489,7 @@ module.exports = React.createClass
     return false
 
   _selectedResourceIdsWithTypes: () ->
-    @state.selectedResources.selection.map (model) ->
+    @state.boxState.data.selectedResources.map (model) ->
       {
         uuid: model.uuid
         type: model.type
@@ -503,22 +528,28 @@ module.exports = React.createClass
     @setState(config: f.merge(@state.config, {layout: layoutMode}))
 
   _mergeGet: (props, state) ->
-    # TODO: refactor this + currentQuery into @getInitialState + @getCurrentQuery
-    get = defaultsDeep \      # combine config in order:
-      {},
-      {config: state.config},  # - client-side state
-      props.get,                      # - presenter & config (from params)
-      {config: props.initial},        # - per-view initial default config
-      config:                   # - config saved for set
-        layout: state.savedLayout
-        order: state.savedOrder
-      ,
-      {config: props.get.config.user}
-      ,
-      config:                   # - default config
-        layout: 'grid'
-        order: 'last_change'
-        show_filter: false
+    f.extend(
+      props.get,
+      {
+        config: defaultsDeep(
+          {},
+          state.config,
+          props.get.config,
+          props.initial,
+          {
+            layout: state.savedLayout
+            order: state.savedOrder
+          },
+          props.get.config.user,
+          {
+            layout: 'grid'
+            order: 'last_change'
+            show_filter: false
+          }
+        )
+      }
+    )
+
 
   _supportsFilesearch: () ->
     get = @props.get
@@ -539,6 +570,72 @@ module.exports = React.createClass
           <Icon i='undo'/> {t('resources_box_reset_filter')}</Link>
 
 
+  unselectResources: (resources) ->
+    this.triggetRootEvent({ action: 'unselect-resources', resourceUuids: f.map(resources, (r) => r.uuid)})
+
+
+  selectResources: (resources) ->
+    this.triggetRootEvent({ action: 'select-resources', resourceUuids: f.map(resources, (r) => r.uuid)})
+
+
+  onSortItemClick: (event, itemKey) ->
+
+    return if isNewTab(event)
+
+    event.preventDefault()
+
+    href = getLocalLink(event)
+    routerGoto(href)
+
+    @setState(
+      config: f.merge(@state.config, {order: itemKey}),
+      windowHref: href
+      ,
+      () =>
+        url = parseUrl(BoxSetUrlParams(@_currentUrl(), {list: {order: itemKey}}))
+        # @state.resources.clearPages({
+        #   pathname: url.pathname,
+        #   query: url.query
+        # })
+
+        this.forceFetchNextPage()
+        @_persistListConfig(list_config: {order: itemKey})
+    )
+
+  onLayoutClick: (event, layoutMode) ->
+    return if isNewTab(event)
+    event.preventDefault()
+    href = getLocalLink(event)
+    routerGoto(href)
+    @setState(
+      config: f.merge(@state.config, {layout: layoutMode.mode}),
+      windowHref: href
+      ,
+      () =>
+        if layoutMode.mode == 'list'
+          @fetchListData()
+        @_persistListConfig(list_config: {layout: layoutMode.mode})
+    )
+
+  layoutSave: (event) ->
+    event.preventDefault()
+    config = @_mergeGet(@props, @state).config
+    layout = config.layout
+    order = config.order
+    simpleXhr(
+      {
+        method: 'PATCH',
+        url: @props.collectionData.url,
+        body: 'collection[layout]=' + layout + '\&collection[sorting]=' + order
+      },
+      (error) =>
+        if error
+          alert(error)
+        else
+          @setState(savedLayout: layout, savedOrder: order)
+    )
+    return false
+
   render: ()->
     {
       get, mods, initial, fallback, heading, listMods
@@ -547,8 +644,7 @@ module.exports = React.createClass
 
     get = @_mergeGet(@props, @state)
 
-    # FIXME: always get from state!
-    resources = @state.resources || get.resources
+    resources = @getResources()
 
     config = get.config
 
@@ -570,75 +666,7 @@ module.exports = React.createClass
         f.merge layoutMode,
           mods: {'active': layoutMode.mode == layout}
           href: href
-          onClick: (event) =>
-            return if isNewTab(event)
-            event.preventDefault()
-            href = getLocalLink(event)
-            routerGoto(href)
-            @setState(
-              config: f.merge(@state.config, {layout: layoutMode.mode}),
-              windowHref: href
-              ,
-              () =>
-                if layoutMode.mode == 'list'
-                  @fetchListData()
-                @_persistListConfig(list_config: {layout: layoutMode.mode})
-            )
 
-
-      onSortItemClick = (event, itemKey) =>
-
-        return if isNewTab(event)
-
-        event.preventDefault()
-        @fetchNextPage.cancel()
-
-        href = getLocalLink(event)
-        routerGoto(href)
-
-        @setState(
-          config: f.merge(@state.config, {order: itemKey}),
-          windowHref: href
-          ,
-          () =>
-            url = parseUrl(BoxSetUrlParams(@_currentUrl(), {list: {order: itemKey}}))
-            # @state.resources.clearPages({
-            #   pathname: url.pathname,
-            #   query: url.query
-            # })
-            @setState({
-              loadingNextPage: true,
-              resources: [],
-              requestId: Math.random()
-            }, () =>
-
-              @fetchNextPage (err, newUrl) =>
-                if err then console.error(err)
-                @setState(loadingNextPage: false) if @isMounted()
-
-              @_persistListConfig(list_config: {order: itemKey})
-
-            )
-
-        )
-
-
-
-      layoutSave = (event) =>
-        event.preventDefault()
-        simpleXhr(
-          {
-            method: 'PATCH',
-            url: @props.collectionData.url,
-            body: 'collection[layout]=' + layout + '\&collection[sorting]=' + order
-          },
-          (error) =>
-            if error
-              alert(error)
-            else
-              @setState(savedLayout: layout, savedOrder: order)
-        )
-        return false
 
       BoxTitlebar = require('./BoxTitlebar.jsx')
       <BoxTitlebar
@@ -647,23 +675,24 @@ module.exports = React.createClass
         order={order}
         savedLayout={@state.savedLayout}
         savedOrder={@state.savedOrder}
-        layoutSave={layoutSave}
+        layoutSave={@layoutSave}
         collectionData={@props.collectionData}
         heading={heading}
         totalCount={totalCount}
         mods={mods}
         layouts={layouts}
-        onSortItemClick={onSortItemClick}
+        onSortItemClick={@onSortItemClick}
         selectedSort={order}
         enableOrdering={@props.enableOrdering}
         currentUrl={currentUrl}
+        onLayoutClick={@onLayoutClick}
       />
 
 
     actionsDropdownParameters = {
       totalCount: @props.get.pagination.total_count if @props.get.pagination
       withActions: get.has_user
-      selection: f.presence(@state.selectedResources) or false
+      selection: @state.boxState.data.selectedResources or false
       saveable: (saveable or false)
       draftsView: @props.draftsView
       isClient: @state.isClient
@@ -676,9 +705,9 @@ module.exports = React.createClass
 
     boxToolBar = () =>
 
-      actionsDropdown = ActionsDropdown.createActionsDropdown(
-        actionsDropdownParameters,
-        {
+      actionsDropdown = <ActionsDropdown
+        parameters={actionsDropdownParameters}
+        callbacks={{
           onBatchAddAllToClipboard: @_onBatchAddAllToClipboard
           onBatchAddSelectedToClipboard: @_onBatchAddSelectedToClipboard
           onBatchRemoveAllFromClipboard: @_onBatchRemoveAllFromClipboard
@@ -695,24 +724,21 @@ module.exports = React.createClass
           onBatchTransferResponsibilityEdit: @_onBatchTransferResponsibilityEdit
           onBatchTransferResponsibilitySetsEdit: @_onBatchTransferResponsibilitySetsEdit
           onHoverMenu: @_onHoverMenu
-        })
-
-
+          onQuickBatch: @onBatchButton
+        }}
+      />
 
       filterToggleLink = BoxSetUrlParams(
         currentUrl, {list: {show_filter: (not config.show_filter)}})
 
-      not_is_clipboard = true # !@props.initial || !@props.initial.is_clipboard
       filterBarProps =
-        left: if get.can_filter && not_is_clipboard then do =>
-          name = t('resources_box_filter')
-          <div>
-            <Button data-test-id='filter-button' name={name} mods={'active': config.show_filter}
-              href={filterToggleLink} onClick={(e) => @_onFilterToggle(e, not config.show_filter)}>
-              <Icon i='filter' mods='small'/> {name}
-            </Button>
-            {if f.present(config.filter) then @_resetFilterLink(config)}
-          </div>
+        left: <BoxFilterButton
+          get={get}
+          config={config}
+          _onFilterToggle={@_onFilterToggle}
+          filterToggleLink={filterToggleLink}
+          resetFilterLink={if f.present(config.filter) then @_resetFilterLink(config)}
+        />
 
         right: if actionsDropdown
           <div>{actionsDropdown}</div>
@@ -747,7 +773,7 @@ module.exports = React.createClass
         resources={resources}
         staticPagination={staticPagination}
         onFetchNextPage={@_onFetchNextPage}
-        loadingNextPage={@state.loadingNextPage}
+        loadingNextPage={@state.boxState.data.loadingNextPage}
         isClient={@state.isClient}
         permaLink={BoxSetUrlParams(@_currentUrl(), currentQuery)}
         currentUrl={currentUrl}
@@ -793,7 +819,22 @@ module.exports = React.createClass
           {# main list:}
           <div className='ui-container table-cell table-substance'>
             {children}
-            {if resources.length == 0 && @state.loadingNextPage
+
+            <BoxBatchEditForm
+              onClose={(e) => @onBatchButton(e)}
+              stateBox={@state.boxState}
+              onClickKey={(e, k, ck) => @onClickKey(e, k, ck)}
+              onClickApplyAll={(e) => @onClickApplyAll(e)}
+              onClickApplySelected={(e) => @onClickApplySelected(e)}
+              onClickCancel={(e) => @onClickCancel(e)}
+              onClickIgnore={(e) => @onClickIgnore(e)}
+              totalCount={@props.get.pagination.total_count}
+              allLoaded={@props.get.pagination && @state.boxState.components.resources.length == @props.get.pagination.total_count}
+              trigger={@triggerComponentEvent}
+            />
+
+
+            {if resources.length == 0 && @state.boxState.data.loadingNextPage
               <Preloader />
             else if not f.present(resources) or resources.length == 0 then do () =>
               BoxSetFallback = require('./BoxSetFallback.jsx')
@@ -807,9 +848,15 @@ module.exports = React.createClass
             else
               BoxRenderResources = require('./BoxRenderResources.jsx')
               <BoxRenderResources
-                resources={resources}
+                resources={
+                  f.map(
+                    @state.boxState.components.resources,
+                    (r) => r
+                  )
+                }
+                applyJob={@state.boxState.components.batch.data.applyJob}
                 actionsDropdownParameters={actionsDropdownParameters}
-                selectedResources={@state.selectedResources}
+                selectedResources={@state.boxState.data.selectedResources}
                 isClient={@state.isClient}
                 showSelectionLimit={@_showSelectionLimit}
                 selectionLimit={@_selectionLimit()}
@@ -821,6 +868,15 @@ module.exports = React.createClass
                 listMods={listMods}
                 pagination={@props.get.pagination}
                 perPage={@props.get.config.per_page}
+                showBatchButtons={
+                  {
+                    editMode: @state.boxState.components.batch.data.open && @state.boxState.components.batch.components.metaKeyForms.length > 0
+                  }
+                }
+                unselectResources={@unselectResources}
+                selectResources={@selectResources}
+                trigger={@triggerComponentEvent}
+                selectionMode={@state.boxState.components.batch.data.open}
               />
 
             }
@@ -834,8 +890,8 @@ module.exports = React.createClass
         if @state.clipboardModal != 'hidden'
           <Clipboard type={@state.clipboardModal}
             onClose={() => @setState(clipboardModal: 'hidden')}
-            resources={@state.resources}
-            selectedResources={@state.selectedResources}
+            resources={@getResources()}
+            selectedResources={@state.boxState.data.selectedResources}
             pagination={@props.get.pagination}
             jsonPath={@getJsonPath()}
           />

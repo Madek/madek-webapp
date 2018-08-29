@@ -32,7 +32,7 @@ module.exports = React.createClass
     flyoutBottom: flyoutProps
 
   render: () ->
-    { type, src, alt, href, onClick,
+    { type, src, alt, href, onPictureClick,
       meta, iconCenter, badgeRight, badgeLeft, actionsLeft, actionsRight,
       flyoutTop, flyoutBottom,
       mediaType,
@@ -72,7 +72,6 @@ module.exports = React.createClass
       <div className='ui-thumbnail-privacy'>
         {badgeLeft}
       </div>
-
 
     bubbles = []
 
@@ -154,8 +153,8 @@ module.exports = React.createClass
         if @props.disableLink
           <div className='ui-thumbnail-image-wrapper'>{innerPart}</div>
         else
-          <Link className='ui-thumbnail-image-wrapper' style={@props.linkStyle}
-            href={@props.href} onClick={@props.onClick} title={alt}>
+          <Link className='ui-thumbnail-image-wrapper' style={@props.pictureLinkStyle}
+            href={@props.href} onClick={@props.onPictureClick} title={alt}>
             {innerPart}
           </Link>
       }

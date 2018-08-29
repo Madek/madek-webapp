@@ -13,11 +13,25 @@ import cx from 'classnames/dedupe'
 import ButtonGroup from '../ui-components/ButtonGroup.cjsx'
 import Icon from '../ui-components/Icon.cjsx'
 import SortDropdown from './resourcesbox/SortDropdown.cjsx'
+import BoxLayoutButton from './BoxLayoutButton.jsx'
 
 class BoxTitlebarRender extends React.Component {
 
   constructor(props) {
     super(props)
+  }
+
+  renderLayout(layout) {
+    return (
+      <BoxLayoutButton key={layout.mode}
+        onLayoutClick={this.props.onLayoutClick}
+        layout={layout}
+      />
+    )
+  }
+
+  renderLayouts() {
+    return this.props.layouts.map((layout) => this.renderLayout(layout))
   }
 
   render({heading, centerActions, layouts, mods, onSortItemClick, dropdownItems, selectedSort, enableOrdering} = this.props) {
@@ -60,19 +74,7 @@ class BoxTitlebarRender extends React.Component {
         <div className='ui-toolbar-controls by-right'> {/* removed col2of6 because of minimum width */}
           {/* Layout Switcher: */}
           <ButtonGroup mods='tertiary small right mls'>
-            {
-              layouts.map((layout) => {
-                var mods = cx('small', 'ui-toolbar-vis-button', layout.mods)
-                return (
-                  <Button
-                    mode={layout.mode} title={layout.title} icon={layout.icon}
-                    href={layout.href} onClick={layout.onClick}
-                    mods={mods} key={layout.mode}>
-                    <Icon i={layout.icon} title={layout.title}/>
-                  </Button>
-                )
-              })
-            }
+            {this.renderLayouts()}
           </ButtonGroup>
           {renderOrdering()}
         </div>

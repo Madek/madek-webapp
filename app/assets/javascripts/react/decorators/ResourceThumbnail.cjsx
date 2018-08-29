@@ -15,6 +15,7 @@ BoxFetchRelations = require('./BoxFetchRelations.js')
 BoxFavorite = require('./BoxFavorite.js')
 BoxDelete = require('./BoxDelete.js')
 getMediaType = require('../../models/shared/get-media-type.js')
+BoxBatchApplyButton = require('./BoxBatchApplyButton.jsx')
 
 CURSOR_SELECT_STYLE = {cursor: 'cell'}
 
@@ -24,7 +25,6 @@ module.exports = React.createClass
   propTypes:
     authToken: React.PropTypes.string
     onSelect: React.PropTypes.func
-    onClick: React.PropTypes.func
     fetchRelations: React.PropTypes.bool
     elm: React.PropTypes.string # type of html node of outer wrapper
     get: React.PropTypes.shape
@@ -32,6 +32,10 @@ module.exports = React.createClass
     # TODO: consilidate with `get` (when used in uploader)
     resource: React.PropTypes.shape
       type: React.PropTypes.oneOf(['MediaEntry'])
+
+  shouldComponentUpdate: (nextProps, nextState) ->
+    l = require('lodash')
+    return !l.isEqual(@state, nextState) || !l.isEqual(@props, nextProps)
 
   relationsTrigger: (props) ->
     this.relationsTransition(props)
@@ -91,7 +95,7 @@ module.exports = React.createClass
   _onModalCancel: () ->
     @setState(deleteModal: false)
 
-  render: ({get, elm, onClick, isSelected, fetchRelations, authToken} = @props, state = @state)->
+  render: ({get, elm, isSelected, fetchRelations, authToken} = @props, state = @state)->
 
     if fetchRelations
       parentRelations = @state.relationsState.relations.parents
@@ -174,66 +178,104 @@ module.exports = React.createClass
       isSelected: @props.isSelected
     }
 
-    textProps = if get.uploadStatus
-      title: get.uploadStatus[0]
-      subtitle: get.uploadStatus[1]
-    else
-      title: get.title
-      subtitle: get.authors_pretty
+
+    getTextProps = () =>
+
+      getTitle = () =>
+        if @props.overrideTexts && @props.overrideTexts.title
+          @props.overrideTexts.title
+        else
+          get.title
+
+      getSubtitle = () =>
+        if @props.overrideTexts && @props.overrideTexts.subtitle
+          @props.overrideTexts.subtitle
+        else
+          get.authors_pretty
+
+
+      if get.uploadStatus
+        title: get.uploadStatus[0]
+        subtitle: get.uploadStatus[1]
+      else
+        title: getTitle()
+        subtitle: getSubtitle()
+
+    textProps = getTextProps()
+
 
     resourceMediaType = if @props.uploadMediaType
       @props.uploadMediaType
     else
       getMediaType(f.get(@props.get, 'media_file.content_type'))
 
-
     if @props.pinThumb
-      <PinThumbnail
-        resourceType={@props.get.type}
-        imageUrl={f.get(get, 'media_file.previews.images.large.url', get.image_url)}
-        mediaType={resourceMediaType}
-        title={textProps.title}
-        subtitle={textProps.subtitle}
-        mediaUrl={get.url}
-        selectProps={selectProps}
-        favoriteProps={favoriteProps}
-        editable={get.editable}
-        editUrl={get.edit_meta_data_by_context_url}
-        destroyable={get.destroyable}
-        deleteProps={deleteProps}
-        statusProps={statusProps}
-        style={@props.style}
+      <li style={@props.style} className={cx('ui-resource', 'ui-selected': (selectProps and selectProps.isSelected))}>
+        {@props.batchApplyButton}
+        <PinThumbnail
+          resourceType={@props.get.type}
+          imageUrl={f.get(get, 'media_file.previews.images.large.url', get.image_url)}
+          mediaType={resourceMediaType}
+          title={textProps.title}
+          subtitle={textProps.subtitle}
+          mediaUrl={get.url}
+          selectProps={selectProps}
+          favoriteProps={favoriteProps}
+          editable={get.editable}
+          editUrl={get.edit_meta_data_by_context_url}
+          destroyable={get.destroyable}
+          deleteProps={deleteProps}
+          statusProps={statusProps}
+          style={@props.style}
+          onPictureClick={this.props.onPictureClick}
+          pictureLinkStyle={this.props.pictureLinkStyle}
         />
+      </li>
     else if @props.listThumb
-      <ListThumbnail
-        resourceType={@props.get.type}
-        imageUrl={get.image_url}
-        mediaType={resourceMediaType}
-        title={textProps.title}
-        subtitle={textProps.subtitle}
-        mediaUrl={get.url}
-        metaData={@props.list_meta_data.meta_data if @props.list_meta_data}
-        style={@props.style}
-        selectProps={selectProps}
-        favoriteProps={favoriteProps}
-        deleteProps={deleteProps}
-        get={get}
+      classes = {'ui-resource': true, 'ui-selected': true if (selectProps and selectProps.isSelected)}
+      <li className={cx(classes)} style={@props.style}>
+        {@props.batchApplyButton}
+        <ListThumbnail
+          resourceType={@props.get.type}
+          imageUrl={get.image_url}
+          mediaType={resourceMediaType}
+          title={textProps.title}
+          subtitle={textProps.subtitle}
+          mediaUrl={get.url}
+          metaData={@props.list_meta_data.meta_data if @props.list_meta_data}
+          style={@props.style}
+          selectProps={selectProps}
+          favoriteProps={favoriteProps}
+          deleteProps={deleteProps}
+          get={get}
+          onPictureClick={this.props.onPictureClick}
+          pictureLinkStyle={this.props.pictureLinkStyle}
         />
+      </li>
     else
-      <ResourceThumbnailRenderer
-        resourceType={@props.get.type}
-        mediaType={resourceMediaType}
-        elm={elm}
-        get={get}
-        pictureOnClick={onClick}
-        relationsProps={relationsProps}
-        favoriteProps={favoriteProps}
-        deleteProps={deleteProps}
-        statusProps={statusProps}
-        selectProps={selectProps}
-        textProps={textProps}
+      Element = elm or 'div'
+      classes = {'ui-resource': true, 'ui-selected': true if (selectProps and selectProps.isSelected)}
+      <Element
         style={@props.style}
-        />
+        className={cx(classes)}
+        onMouseOver={relationsProps.onHover if relationsProps}>
+        {@props.batchApplyButton}
+        <ResourceThumbnailRenderer
+          resourceType={@props.get.type}
+          mediaType={resourceMediaType}
+          elm={elm}
+          get={get}
+          relationsProps={relationsProps}
+          favoriteProps={favoriteProps}
+          deleteProps={deleteProps}
+          statusProps={statusProps}
+          selectProps={selectProps}
+          textProps={textProps}
+          style={@props.style}
+          onPictureClick={this.props.onPictureClick}
+          pictureLinkStyle={this.props.pictureLinkStyle}
+          />
+      </Element>
 
 
 

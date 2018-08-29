@@ -18,7 +18,7 @@ const lazyDate = memoize(strOrDate => {
     : moment(strOrDate, 'L', true).toDate()
   if (!isNaN(d)) return d
 })
-const propTypeLazyDate = PropTypes.oneOfType([PropTypes.string, PropTypes.date])
+const propTypeLazyDate = PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)])
 
 class DatePicker extends Component {
   constructor (props) {
