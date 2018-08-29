@@ -124,12 +124,15 @@ module.exports = (merged) => {
         return data.keywords
       }
 
-      var newKeyword = {
-        subtype: 'Person',
-        first_name: person.firstname,
-        last_name: person.lastname,
-        pseudonym: person.pseudonym
-      }
+      var newKeyword = l.omitBy(
+        {
+          subtype: 'Person',
+          first_name: person.firstname.trim(),
+          last_name: person.lastname.trim(),
+          pseudonym: person.pseudonym.trim()
+        },
+        (v, k) => l.isNil(v) || v == ''
+      )
       if(l.find(data.keywords, (k) => keywordMatch(k, newKeyword))) {
         return data.keywords
       } else {
@@ -145,7 +148,7 @@ module.exports = (merged) => {
 
       var newKeyword = {
         subtype: 'PeopleGroup',
-        first_name: group.name
+        first_name: group.name.trim()
       }
       if(l.find(data.keywords, (k) => keywordMatch(k, newKeyword))) {
         return data.keywords
