@@ -125,15 +125,6 @@ var applyResourceMetaData = ({batchComponent, trigger, resource, formData}) => {
 
 
             )
-
-            //
-            // {
-            //   action: (
-            //     fd.props.metaKey.value_type == 'MetaDatum::Keywords'
-            //     ? 'add'
-            //     : 'replace'
-            //   )
-            // }
           }
 
         ]
@@ -141,13 +132,22 @@ var applyResourceMetaData = ({batchComponent, trigger, resource, formData}) => {
     )
   }
 
-  // if(l.isEmpty(metaData())) {
-  //   setTimeout(
-  //     () => trigger(batchComponent, {action: 'apply-success'}),
-  //     0
-  //   )
-  //   return
-  // }
+  if(l.isEmpty(metaData())) {
+    setTimeout(
+      () => {
+        trigger(
+          batchComponent,
+          {
+            action: 'apply-success',
+            resourceId: resource.uuid,
+            thumbnailMetaData: null
+          }
+        )
+      },
+      0
+    )
+    return
+  }
 
   var data = {
     [property()]: {
