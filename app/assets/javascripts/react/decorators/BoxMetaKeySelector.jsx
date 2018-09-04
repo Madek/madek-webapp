@@ -188,12 +188,30 @@ class BoxMetaKeySelector extends React.Component {
     var metaMetaDataForTypes = data.metaMetaData
 
 
-    var getContexts = (type, metaMetaData) => {
+    var type = () => {
+      if(data.selectedTab == 'entries') {
+        return 'MediaEntry'
+      } else if(data.selectedTab == 'sets') {
+        return 'Collection'
+      } else {
+        throw 'Unexpected template = ' + data.selectedTemplate
+      }
+    }
+
+
+    var getMetaData = () => {
+      return l.find(metaMetaDataForTypes, (mdft) => mdft.type == type()).data
+    }
+
+    var contextsWithType = () => {
+
+      var metaMetaData = getMetaData()
+
       return l.map(
         metaMetaData.meta_data_edit_context_ids,
         (cid) => {
           return {
-            type: type,
+            type: type(),
             context: metaMetaData.contexts_by_context_id[cid],
             contextKeys: l.uniqBy(
               l.map(
@@ -208,24 +226,11 @@ class BoxMetaKeySelector extends React.Component {
 
     }
 
-    var mergeContextsForTypes = () => {
-      return l.flatten(
-        l.map(
-          metaMetaDataForTypes,
-          (mdft) => getContexts(mdft.type, mdft.data)
-        )
-      )
-    }
-
-    var noDuplicates = (contexts) => {
-      return l.uniqBy(
-        contexts,
-        (ct) => ct.context.uuid
-      )
-    }
-
     return l.filter(
-      noDuplicates(mergeContextsForTypes()),
+      l.uniqBy(
+        contextsWithType(),
+        (ct) => ct.context.uuid
+      ),
       (ct) => ct.contextKeys.length > 0
     )
   }
@@ -266,7 +271,8 @@ class BoxMetaKeySelector extends React.Component {
     return (
       <div>
         <ul className='ui-tabs'>
-          {renderTab('templates', t('resources_box_batch_contexts'))}
+          {renderTab('entries', t('resources_box_batch_entry_contexts'))}
+          {renderTab('sets', t('resources_box_batch_set_contexts'))}
           {renderTab('all_data', t('resources_box_batch_all_data'))}
         </ul>
         <div className='ui-container tab-content bordered bright rounded-right rounded-bottom'>
