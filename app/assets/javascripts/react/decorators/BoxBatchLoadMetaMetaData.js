@@ -52,7 +52,7 @@ module.exports = (merged) => {
   var nextSelectedTab = () => {
 
     if(initial) {
-      return 'templates'
+      return 'entries'
     }
 
     if(event.action == 'select-tab') {
