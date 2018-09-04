@@ -68,7 +68,7 @@ class BoxRenderLabel extends React.Component {
       }
 
       return (
-        <span style={{color: '#aaa', fontSize: '11px'}}>{this.props.vocabLabel}</span>  
+        <span style={{color: '#aaa', fontSize: '11px'}}>{this.props.metaKeyForm.props.metaKey.hint}</span>
       )
     }
 

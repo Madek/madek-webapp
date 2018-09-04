@@ -111,7 +111,25 @@ class BoxBatchEditForm extends React.Component {
     return l.size(
       l.filter(
         this.stateBox().data.selectedResources,
-        (sr) => sr.editable
+        (r) => r.editable
+      )
+    )
+  }
+
+  editableEntriesSelectedCount() {
+    return l.size(
+      l.filter(
+        this.stateBox().data.selectedResources,
+        (r) => r.type == 'MediaEntry' && r.editable
+      )
+    )
+  }
+
+  editableCollectionsSelectedCount() {
+    return l.size(
+      l.filter(
+        this.stateBox().data.selectedResources,
+        (r) => r.type == 'Collection' && r.editable
       )
     )
   }
@@ -121,6 +139,24 @@ class BoxBatchEditForm extends React.Component {
       l.filter(
         this.stateBox().components.resources,
         (rs) => rs.data.resource.editable
+      )
+    )
+  }
+
+  editableEntriesCount() {
+    return l.size(
+      l.filter(
+        this.stateBox().components.resources,
+        (rs) => rs.data.resource.type == 'MediaEntry' && rs.data.resource.editable
+      )
+    )
+  }
+
+  editableCollectionsCount() {
+    return l.size(
+      l.filter(
+        this.stateBox().components.resources,
+        (rs) => rs.data.resource.type == 'Collection' && rs.data.resource.editable
       )
     )
   }
@@ -169,6 +205,16 @@ class BoxBatchEditForm extends React.Component {
           <div>&nbsp;</div>
           <div>{t('resources_box_batch_stats_where_selected') + ' ' + this.selectedCount()}</div>
           <div>{t('resources_box_batch_stats_where_editable') + ' ' + this.editableSelectedCount()}</div>
+        </div>
+        <div>
+          <div
+            style={{
+              marginTop: '10px',
+              fontSize: '20px'
+            }}
+          >
+            {this.editableEntriesSelectedCount() + ' ' + t('resources_box_batch_stats_entries') + ' ' + this.editableCollectionsSelectedCount() + ' ' + t('resources_box_batch_stats_collections')}
+          </div>
         </div>
         <div
           onClick={(hasSelection() ? this.props.onClickApplySelected : null)}
@@ -264,6 +310,20 @@ class BoxBatchEditForm extends React.Component {
           <div>{t('resources_box_batch_stats_total') + ' ' + this.props.totalCount}</div>
           <div>{t('resources_box_batch_stats_where_loaded') + ' ' + this.loadedCount()}</div>
           <div>{t('resources_box_batch_stats_where_editable') + ' ' + this.editableCount()}</div>
+        </div>
+        <div>
+          <div
+            style={{
+              marginTop: '10px',
+              fontSize: '20px'
+            }}
+          >
+            {(
+              this.loadedCount() != totalCount()
+              ? <span>&nbsp;</span>
+              : (this.editableEntriesCount() + ' ' + t('resources_box_batch_stats_entries') + ' ' + this.editableCollectionsCount() + ' ' + t('resources_box_batch_stats_collections'))
+            )}
+          </div>
         </div>
         <div
           onClick={(this.toApplyCount() > 0 || this.loadedCount() != totalCount() ? null : this.props.onClickApplyAll)}
