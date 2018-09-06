@@ -190,46 +190,47 @@ class BoxBatchEditForm extends React.Component {
     }
 
     return (
-      <div
-        style={{
-          float: 'left',
-          backgroundColor: '#fff',
-          borderRadius: '5px',
-          border: '1px solid #cccccc',
-          padding: '10px',
-          marginLeft: '5px'
-        }}
-      >
-        <div>
-          <h2 className='title-m ui-info-box-title mbm'>{t('resources_box_batch_selected_content')}</h2>
-          <div>&nbsp;</div>
-          <div>{t('resources_box_batch_stats_where_selected') + ' ' + this.selectedCount()}</div>
-          <div>{t('resources_box_batch_stats_where_editable') + ' ' + this.editableSelectedCount()}</div>
-        </div>
-        <div>
-          <div
-            style={{
-              marginTop: '10px',
-              fontSize: '20px'
-            }}
-          >
-            {this.editableEntriesSelectedCount() + ' ' + t('resources_box_batch_stats_entries') + ' ' + this.editableCollectionsSelectedCount() + ' ' + t('resources_box_batch_stats_collections')}
-          </div>
-        </div>
+      <div style={{width: '50%', float: 'left'}}>
         <div
-          onClick={(hasSelection() ? this.props.onClickApplySelected : null)}
-          className='primary-button'
-          disabled={(hasSelection() ? null: 'disabled')}
           style={{
-            display: 'inline-block',
-            padding: '0px 10px',
-            marginRight: '5px',
-            marginBottom: '5px',
-            cursor: 'pointer',
-            marginTop: '5px'
+            backgroundColor: '#fff',
+            borderRadius: '5px',
+            border: '1px solid #cccccc',
+            padding: '10px',
+            marginLeft: '5px'
           }}
         >
-          {renderText()}
+          <div>
+            <h2 className='title-m ui-info-box-title mbm'>{t('resources_box_batch_selected_content')}</h2>
+            <div>&nbsp;</div>
+            <div>{t('resources_box_batch_stats_where_selected') + ' ' + this.selectedCount()}</div>
+            <div>{t('resources_box_batch_stats_where_editable') + ' ' + this.editableSelectedCount()}</div>
+          </div>
+          <div>
+            <div
+              style={{
+                marginTop: '10px',
+                fontSize: '20px'
+              }}
+            >
+              {this.editableEntriesSelectedCount() + ' ' + t('resources_box_batch_stats_entries') + ' / ' + this.editableCollectionsSelectedCount() + ' ' + t('resources_box_batch_stats_collections')}
+            </div>
+          </div>
+          <div
+            onClick={(hasSelection() ? this.props.onClickApplySelected : null)}
+            className='primary-button'
+            disabled={(hasSelection() ? null: 'disabled')}
+            style={{
+              display: 'inline-block',
+              padding: '0px 10px',
+              marginRight: '5px',
+              marginBottom: '5px',
+              cursor: 'pointer',
+              marginTop: '5px'
+            }}
+          >
+            {renderText()}
+          </div>
         </div>
       </div>
     )
@@ -296,49 +297,50 @@ class BoxBatchEditForm extends React.Component {
     }
 
     return (
-      <div
-        style={{
-          float: 'left',
-          backgroundColor: '#fff',
-          borderRadius: '5px',
-          border: '1px solid #cccccc',
-          padding: '10px'
-        }}
-      >
-        <div>
-          <h2 className='title-m ui-info-box-title mbm'>{t('resources_box_batch_all_content')}</h2>
-          <div>{t('resources_box_batch_stats_total') + ' ' + this.props.totalCount}</div>
-          <div>{t('resources_box_batch_stats_where_loaded') + ' ' + this.loadedCount()}</div>
-          <div>{t('resources_box_batch_stats_where_editable') + ' ' + this.editableCount()}</div>
-        </div>
-        <div>
-          <div
-            style={{
-              marginTop: '10px',
-              fontSize: '20px'
-            }}
-          >
-            {(
-              this.loadedCount() != totalCount()
-              ? <span>&nbsp;</span>
-              : (this.editableEntriesCount() + ' ' + t('resources_box_batch_stats_entries') + ' ' + this.editableCollectionsCount() + ' ' + t('resources_box_batch_stats_collections'))
-            )}
-          </div>
-        </div>
+      <div style={{width: '50%', float: 'left'}}>
         <div
-          onClick={(this.toApplyCount() > 0 || this.loadedCount() != totalCount() ? null : this.props.onClickApplyAll)}
-          className='primary-button'
-          disabled={(this.toApplyCount() > 0 || this.loadedCount() != totalCount() ? 'disabled' : null)}
           style={{
-            display: 'inline-block',
-            padding: '0px 10px',
-            marginRight: '5px',
-            marginBottom: '5px',
-            cursor: 'pointer',
-            marginTop: '5px'
+            backgroundColor: '#fff',
+            borderRadius: '5px',
+            border: '1px solid #cccccc',
+            padding: '10px'
           }}
         >
-          {renderText()}
+          <div>
+            <h2 className='title-m ui-info-box-title mbm'>{t('resources_box_batch_all_content')}</h2>
+            <div>{t('resources_box_batch_stats_total') + ' ' + this.props.totalCount}</div>
+            <div>{t('resources_box_batch_stats_where_loaded') + ' ' + this.loadedCount()}</div>
+            <div>{t('resources_box_batch_stats_where_editable') + ' ' + this.editableCount()}</div>
+          </div>
+          <div>
+            <div
+              style={{
+                marginTop: '10px',
+                fontSize: '20px'
+              }}
+            >
+              {(
+                this.loadedCount() != totalCount()
+                ? <span>&nbsp;</span>
+                : (this.editableEntriesCount() + ' ' + t('resources_box_batch_stats_entries') + ' / ' + this.editableCollectionsCount() + ' ' + t('resources_box_batch_stats_collections'))
+              )}
+            </div>
+          </div>
+          <div
+            onClick={(this.toApplyCount() > 0 || this.loadedCount() != totalCount() ? null : this.props.onClickApplyAll)}
+            className='primary-button'
+            disabled={(this.toApplyCount() > 0 || this.loadedCount() != totalCount() ? 'disabled' : null)}
+            style={{
+              display: 'inline-block',
+              padding: '0px 10px',
+              marginRight: '5px',
+              marginBottom: '5px',
+              cursor: 'pointer',
+              marginTop: '5px'
+            }}
+          >
+            {renderText()}
+          </div>
         </div>
       </div>
     )
