@@ -114,18 +114,6 @@ class BoxBatchEditMetaKeyForm extends React.Component {
   renderScope() {
     var metaKey = this.props.metaKeyForm.props.metaKey
 
-    if(l.size(metaKey.scope) > 1) {
-      return null
-    }
-
-    var hasSetsSelected = () => {
-      return l.find(this.props.resourceStates, (r) => r.data.resource.type == 'Collection')
-    }
-
-    var hasEntriesSelected = () => {
-      return l.find(this.props.resourceStates, (r) => r.data.resource.type == 'MediaEntry')
-    }
-
     var renderDiv = (text) => {
       return (
         <div style={{marginBottom: '10px', color: '#b59d6e', textAlign: 'right'}}>
@@ -144,9 +132,11 @@ class BoxBatchEditMetaKeyForm extends React.Component {
       )
     }
 
-    if(l.includes(metaKey.scope, 'Entries') && hasSetsSelected()) {
+    if(l.includes(metaKey.scope, 'Entries') && l.includes(metaKey.scope, 'Sets')) {
+      return renderDiv(t('resources_box_batch_field_only_for_entries_and_sets'))
+    } else if(l.includes(metaKey.scope, 'Entries')) {
       return renderDiv(t('resources_box_batch_field_only_for_entries'))
-    } else if(l.includes(metaKey.scope, 'Sets') && hasEntriesSelected()) {
+    } else if(l.includes(metaKey.scope, 'Sets')) {
       return renderDiv(t('resources_box_batch_field_only_for_sets'))
     } else {
       return null
