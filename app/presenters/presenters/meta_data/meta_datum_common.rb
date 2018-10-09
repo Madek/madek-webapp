@@ -40,6 +40,7 @@ module Presenters
       end
 
       def indexify_if_necessary(value)
+        puts "---> " + value.class.name
         case value.class.name
         when 'Person'
           Presenters::People::PersonIndex.new(value)
@@ -51,6 +52,8 @@ module Presenters
           Presenters::Groups::GroupIndex.new(value)
         when 'Keyword'
           Presenters::Keywords::KeywordIndex.new(value)
+        when 'Role'
+          Presenters::Roles::RoleIndex.new(value).values
         else # all other values are "primitive/literal/unspecified":
           value
         end

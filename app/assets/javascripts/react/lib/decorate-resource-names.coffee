@@ -2,12 +2,14 @@ f = require('active-lodash')
 
 decorators =
   Person: (o)-> o.name || buildPersonName(o)
+  Role: (o) -> o.label
   InstitutionalGroup: (o)-> o.detailed_name
   Group: (o)-> o.name
   # TODO: label-icon by rdf class
   Keyword: (o)-> o.label
 
 module.exports = (o)->
+  console.log(o)
   unless f.isObject(o) and f.isFunction(decorate = decorators[o.type])
     throw new Error('Decorator: Unknown Resource! Type: ' + o.type + ' Object: ' + JSON.stringify(o))
 

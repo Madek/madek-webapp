@@ -24,6 +24,12 @@ module.exports = React.createClass
 
     resourceType = f.last(@props.metaKey.value_type.split('::'))
 
+    if resourceType == 'Roles'
+      console.log('id', id)
+      console.log('name', name)
+      console.log('model', model)
+      console.log('')
+
     multiple = not (f.includes(['Text', 'TextDate'], resourceType))
 
     values = f.map model.values, (value) ->
@@ -45,7 +51,8 @@ module.exports = React.createClass
         values={values}
         subForms={@props.subForms}/>
 
-    else if resourceType == 'People'
+    # else if resourceType == 'People'
+    else if f.includes(['People', 'Roles'], resourceType)
 
       <InputPeople
         metaKey={@props.metaKey}
@@ -53,7 +60,8 @@ module.exports = React.createClass
         name={name}
         multiple={multiple}
         values={values}
-        subForms={@props.subForms}/>
+        subForms={@props.subForms}
+        withRoles={resourceType == 'Roles'}/>
 
     else if resourceType == 'Keywords'
 
@@ -69,3 +77,6 @@ module.exports = React.createClass
         metaKey={@props.metaKey}
         contextKey={@props.contextKey}
         subForms={@props.subForms}/>
+
+    else
+        return null

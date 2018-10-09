@@ -28,6 +28,22 @@ module Presenters
               end
             end
           end
+
+          ## MetaDatum::Roles
+
+          # if meta_key.can_have_roles?
+            # define_singleton_method :roles do
+            #   meta_key.roles.map do |role|
+            #     Presenters::Roles::RoleIndex(role)
+            #   end
+            # end
+          # end
+        end
+      end
+
+      def roles
+        Role.all.map do |role|
+          Presenters::Roles::RoleIndex.new(role)
         end
       end
     end

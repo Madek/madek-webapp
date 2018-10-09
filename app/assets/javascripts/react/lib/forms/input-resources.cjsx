@@ -26,11 +26,12 @@ module.exports = React.createClass
 
   getInitialState: ()-> { }
 
-  componentDidMount: ({values} = @props)->
+  componentDidMount: ({values, roles} = @props)->
     AutoComplete = require('../autocomplete.cjsx')
     # TODO: make selection a collection to keep track of persistent vs on the fly values
     @setState
       values: values # keep internal state of entered values
+      roles: (roles || [])
 
   _onItemAdd: (item)->
     @_adding = true
@@ -77,6 +78,13 @@ module.exports = React.createClass
     state = @state
     values = state.values or values
 
+    withRoles = @props.withRoles
+
+    console.log('withRoles', withRoles)
+
+    if withRoles is true
+      console.log('input-resource @props', @props)
+
     # NOTE: this is only supposed to be used client side,
     # but we need to wait until AutoComplete is loaded
     return null unless AutoComplete
@@ -117,10 +125,11 @@ module.exports = React.createClass
               </li>
 
               {# add a *new* Person.Person or Person.PeopleGroup}
-              {if (resourceType is 'People')
+              {if (f.includes(['People', 'Roles'], resourceType))
                 <NewPersonWidget id={"#{f.snakeCase(name)}_new_person"}
                   allowedTypes={allowedTypes}
-                  onAddValue={_onNewPerson}/>}
+                  onAddValue={_onNewPerson}
+                  roles={@props.metaKey.roles}/>}
 
             </div>
           }
