@@ -24,13 +24,18 @@ module.exports = React.createClass
     autocompleteConfig: React.PropTypes.shape
       minLength: React.PropTypes.number
 
-  getInitialState: ()-> { }
+  getInitialState: ()-> {}
 
   componentDidMount: ({values} = @props)->
     AutoComplete = require('../autocomplete.cjsx')
     # TODO: make selection a collection to keep track of persistent vs on the fly values
     @setState
       values: values # keep internal state of entered values
+      selectedRole: @defaultRole()
+
+  defaultRole: ->
+    if firstRole = f.get(@props.metaKey, 'roles[0]')
+      { id: firstRole.uuid, label: firstRole.name }
 
   _onItemAdd: (item)->
     @_adding = true
@@ -52,18 +57,122 @@ module.exports = React.createClass
     if @props.onChange
       @props.onChange(newValues)
 
+  _onRoleSave: ->
+    return unless f.present(@state.selectedRole)
+
+    newValues = @state.values.slice(0)
+    selectedRole = f.clone(@state.selectedRole)
+
+    if @state.addingRole is true
+      if f.has(@state.editedItem, 'role') and not f.isEmpty(@state.editedItem.role)
+        item = f.cloneDeep(@state.editedItem)
+        item.role = selectedRole
+        newValues.push(item)
+      else
+        itemIndex = @state.editedItemIndex
+        item = f.cloneDeep(@state.values[itemIndex])
+        item.role = selectedRole
+        newValues[itemIndex] = item
+    else if @state.editedRole
+      itemIndex = @state.editedRole.itemIndex
+      item = f.cloneDeep(@state.values[itemIndex])
+      item.role = selectedRole
+      newValues[itemIndex] = item
+
+    @setState(
+      values: newValues
+      editedItem: null
+      editedItemIndex: null
+      addingRole: null
+      editedRole: null
+      selectedRole: @defaultRole()
+    )
+
   _onNewKeyword: (term)->
     @_onItemAdd({ type: 'Keyword', label: term, isNew: true, term: term })
 
   _onNewPerson: (obj)->
     @_onItemAdd(f.extend(obj, { type: 'Person', isNew: true }))
 
-  _onItemRemove: (item, _event)->
-    newValues = f.reject(@state.values, item)
+  _onItemRemove: (itemIndex, _event)->
+    _event.stopPropagation()
+    newValues = @state.values.slice(0)
+    newValues.splice(itemIndex, 1)
     @setState(values: newValues)
 
     if @props.onChange
       @props.onChange(newValues)
+
+  _onRoleAdd: (index, e) ->
+    e.preventDefault()
+
+    editedItem = @state.values[index]
+    @setState(editedItem: editedItem, editedItemIndex: index, addingRole: true)
+
+  _renderRoleSelect: ->
+    selectedRoleId = f.get(@state, 'selectedRole.id')
+
+    <select
+      name='role_id'
+      onChange={@_onRoleSelect}
+      value={selectedRoleId}>
+      {@props.metaKey.roles.map (role) ->
+        <option value={role.uuid} key={role.uuid}>
+          {role.name}
+        </option>
+      }
+    </select>
+
+  _onRoleSelect: (e) ->
+    roleId = e.target.value
+    role = f.find(@props.metaKey.roles, (r) -> r.id is roleId)
+
+    @setState(selectedRole: role)
+
+  _onRoleEdit: (roleId, itemIndex, e) ->
+    e.preventDefault()
+    role = f.find(@props.metaKey.roles, (r) -> r.id is roleId)
+
+    @setState(
+      editedItem: @state.values[itemIndex]
+      editedRole: { id: roleId, itemIndex: itemIndex }
+      selectedRole: role
+    )
+
+  _onRoleRemove: (itemIndex, e) ->
+    e.preventDefault()
+
+    newValues = @state.values.slice(0)
+    delete newValues[itemIndex].role
+    @setState(values: newValues)
+
+  _onRoleCancel: () ->
+    @setState(
+      editedRole: null
+      editedItemIndex: null
+      editedItem: null
+      selectedRole: @defaultRole()
+    )
+
+  _handleMoveUp: (itemIndex, e) ->
+    e.preventDefault()
+
+    if previousItem = @state.values[itemIndex - 1]
+      editedItem = @state.values[itemIndex]
+      newValues = @state.values.slice(0)
+      newValues[itemIndex - 1] = f.cloneDeep(editedItem)
+      newValues[itemIndex] = f.cloneDeep(previousItem)
+      @setState(values: newValues)
+
+  _handleMoveDown: (itemIndex, e) ->
+    e.preventDefault()
+
+    if nextItem = @state.values[itemIndex + 1]
+      editedItem = @state.values[itemIndex]
+      newValues = @state.values.slice(0)
+      newValues[itemIndex + 1] = f.cloneDeep(editedItem)
+      newValues[itemIndex] = f.cloneDeep(nextItem)
+      @setState(values: newValues)
 
   componentDidUpdate: ()->
     if @_adding
@@ -73,7 +182,7 @@ module.exports = React.createClass
   render: ()->
     {_onItemAdd, _onItemRemove, _onNewKeyword, _onNewPerson} = @
     { name, resourceType, values, multiple, extensible, allowedTypes
-      searchParams, autocompleteConfig } = @props
+      searchParams, autocompleteConfig, withRoles } = @props
     state = @state
     values = state.values or values
 
@@ -84,8 +193,8 @@ module.exports = React.createClass
     <div className='form-item'>
       <div className='multi-select'>
         <ul className='multi-select-holder'>
-          {values.map (item)->
-            remover = f.curry(_onItemRemove)(item)
+          {!withRoles and values.map (item, i) =>
+            remover = f.curry(_onItemRemove)(i)
             style = if item.isNew then {fontStyle: 'italic'} else {}
             <li className='multi-select-tag' style={style} key={item.uuid or item.getId?() or JSON.stringify(item)}>
               {decorateResource(item)}
@@ -117,10 +226,77 @@ module.exports = React.createClass
               </li>
 
               {# add a *new* Person.Person or Person.PeopleGroup}
-              {if (resourceType is 'People')
+              {if resourceType is 'People'
                 <NewPersonWidget id={"#{f.snakeCase(name)}_new_person"}
                   allowedTypes={allowedTypes}
                   onAddValue={_onNewPerson}/>}
+
+              {if withRoles and f.present(@state.editedItem)
+                <div className='multi-select mts'>
+                  <label className="form-label pas">
+                    {if f.present(@state.editedRole) then 'Edit the role of' else 'Add a role to'} 
+                    <strong> {f.trim("#{@state.editedItem.first_name} #{@state.editedItem.last_name}")}</strong>
+                  </label>
+                  <hr/>
+                  <div className='ui-form-group test'>
+                    <label className='form-label mrs'>{"Choose the role"}</label>
+                    {@_renderRoleSelect()}
+                  </div>
+                  <div className='ui-form-group limited-width-s pan'>
+                    <button className='add-person button' onClick={@_onRoleSave}>
+                      {t('meta_data_input_person_save')}
+                    </button>
+                    <button className='update-person button mls' onClick={@_onRoleCancel}>
+                      {'Cancel'}
+                    </button>
+                  </div>
+                </div>
+              }
+
+              {if withRoles
+                <table className='block multi-selectX mts'>
+                  <tbody>
+                  {values.map (item, i) =>
+                    <tr key={i}>
+                      <td className='pas'>
+                        <strong className='mrs'>{i+1}.</strong>{decorateResource(item)}
+
+                        {if f.present(item.role)
+                          (role = item.role)
+                          <span className="mbs" style={{float: 'right'}} key={role.id}>
+                            <a href="#" onClick={(e) => @_onRoleEdit(role.id, i, e)} className='mls button small'>Edit role</a>
+                            <a href="#" onClick={(e) => @_onRoleRemove(i, e)} className='mlx button small'>Remove role</a>
+                          </span>
+                        }
+                      </td>
+                      <td style={{width: '160px'}} className='pvs by-center'>
+                        {if f.present(item.role)
+                          <a href="#" onClick={(e) => @_onRoleAdd(i, e)} className='button small'>+ Add another role</a>}
+                        {unless f.present(item.role)
+                          <a href="#" onClick={(e) => @_onRoleAdd(i, e)} className='button small'>+ Add a role</a>}
+                      </td>
+                      <td style={{width: '32px'}} className='pvs by-center'>
+                        {i < values.length - 1 and (
+                          <a className='button small' onClick={(e) => @_handleMoveDown(i, e)}>
+                            <span className='icon-arrow-down'></span>
+                          </a>)}
+                      </td>
+                      <td style={{width: '32px'}} className='pvs by-center'>
+                        {i > 0 and (
+                          <a className='button small' onClick={(e) => @_handleMoveUp(i, e)}>
+                            <span className='icon-arrow-up'></span>
+                          </a>)}
+                      </td>
+                      <td style={{width: '30px'}} className='pas by-center'>
+                        <a onClick={(e) => @_onItemRemove(i, e)}>
+                          <i className='icon-close'/>
+                        </a>
+                      </td>
+                    </tr>
+                  }
+                  </tbody>
+                </table>
+              }
 
             </div>
           }
@@ -131,15 +307,21 @@ module.exports = React.createClass
       {# in case of no values add an empty one (to distinguish removed values). }
       {f.map (f(values).presence() or ['']), (item)->
         # persisted resources have and only need a uuid (as string)
-        keyValuePairs = if item.uuid
+        keyValuePairs = if item.uuid and not f.has(item, 'role')
           [[name, item.uuid]]
 
         # new resources are sent as on object (with all the attributes)
         else if item.type is 'Keyword'
           [[name + '[term]', item.term]]
         else if item.type is 'Person'
-          f(item).omit(['type', 'isNew'])
+          newItem = if item.isNew
+            item
+          else
+            f.pick(item, ['uuid', 'role'])
+          f(newItem).omit(['type', 'isNew'])
             .map((val, key)-> # pairs; build keys; clean & stringify values:
+              val = val.map((v) => v.id).join(',') if f.isArray(val)
+              val = val.id if f.isPlainObject(val) and f.has(val, 'id')
               if f.present(val) then ["#{name}[#{key}]", (val + '')])
             .compact().value()
 

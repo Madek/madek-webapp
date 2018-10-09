@@ -23,6 +23,9 @@ DecoratorsByType =
   People: ({values, tagMods} = @props)->
     <UI.TagCloud mod='person' mods='small' list={labelize(values)}/>
 
+  Roles: ({values, tagMods} = @props)->
+    <UI.TagCloud mod='role' mods='small' list={labelize(values)}/>
+
   Groups: ({values, tagMods} = @props)->
     <UI.TagCloud mod='group' mods='small' list={labelize(values)}/>
 
@@ -44,8 +47,8 @@ module.exports = React.createClass
 
 ## build tag from name and url and provide unique key
 labelize = (resourceList)->
-  resourceList.map (resource)->
-    {children: resourceName(resource), href: resource.url, key: resource.uuid}
+  resourceList.map (resource, i)->
+    {children: resourceName(resource), href: resource.url, key: "#{resource.uuid}-#{i}"}
 
 ## build html string with auto-generated links
 linkifyInnerHtml = (string)->

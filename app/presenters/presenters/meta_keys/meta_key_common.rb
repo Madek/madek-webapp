@@ -3,7 +3,8 @@ module Presenters
     class MetaKeyCommon < Presenters::Shared::AppResource
       delegate_to_app_resource(:vocabulary_id,
                                :allowed_people_subtypes,
-                               :position)
+                               :position,
+                               :can_have_roles?)
 
       def initialize(app_resource)
         super(app_resource)

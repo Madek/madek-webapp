@@ -34,6 +34,8 @@ module Presenters
       def wrap_in_array(value)
         if value.class < ActiveRecord::Associations::CollectionProxy
           value
+        elsif value.is_a?(PeopleWithRoles)
+          value
         else
           [value]
         end
@@ -51,6 +53,12 @@ module Presenters
           Presenters::Groups::GroupIndex.new(value)
         when 'Keyword'
           Presenters::Keywords::KeywordIndex.new(value)
+        when 'Role'
+          Presenters::Roles::RoleIndex.new(value)
+        when 'MetaDatum::Role'
+          Presenters::People::PersonIndexForRoles.new(value)
+        when 'PersonWithRoles'
+          Presenters::People::PersonIndexForRoles.new(value)
         else # all other values are "primitive/literal/unspecified":
           value
         end

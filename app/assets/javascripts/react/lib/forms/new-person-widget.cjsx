@@ -2,7 +2,6 @@ React = require('react')
 f = require('active-lodash')
 ui = require('../../lib/ui.coffee')
 t = ui.t
-decorateResource = require('../decorate-resource-names.coffee')
 Tabs = require('react-bootstrap/lib/Tabs')
 Tab = require('react-bootstrap/lib/Tab')
 Nav = require('react-bootstrap/lib/Nav')
@@ -32,7 +31,7 @@ module.exports = React.createClass
     ).isRequired
 
   # NOTE: no models needed here yet:
-  _emptyPerson: ()-> { type: 'Person', subtype: PEOPLE_SUBTYPES[0]}
+  _emptyPerson: ()-> { type: 'Person', subtype: PEOPLE_SUBTYPES[0] }
 
   getInitialState: ()-> {
     isOpen: false,
@@ -60,6 +59,7 @@ module.exports = React.createClass
     # NEVER trigger (parent form!) submit on button click
     event.preventDefault()
     @props.onAddValue(@state.newPerson)
+
     @setState(isOpen: false, newPerson: @_emptyPerson())
 
   render: ({id, allowedTypes} = @props)->
@@ -76,14 +76,14 @@ module.exports = React.createClass
       </a>
       {if @state.isOpen
         <Tab.Container id={id} className='form-widget'
-          defaultActiveKey='Person' animation={false} onSelect={@_onTabChange}
+          defaultActiveKey='Person' onSelect={@_onTabChange}
           >
           <div>
             <Nav className='ui-tabs ui-container' >
               <NavItem eventKey='Person' className='ui-tabs-item mll pls'>
                 Person
               </NavItem>
-              <NavItem eventKey='PeopleGroup'  className='ui-tabs-item'>
+              <NavItem eventKey='PeopleGroup' className='ui-tabs-item'>
                 Group
               </NavItem>
             </Nav>
@@ -92,7 +92,7 @@ module.exports = React.createClass
 
               {allowedTypes.map((type) => (
                 if (type == 'Person') then return (
-                  <Tab.Pane eventKey={type} className={paneClass}>
+                  <Tab.Pane eventKey={type} className={paneClass} key={type}>
                     <div className='ui-form-group rowed pbx ptx'>
                       <label className='form-label'>Vorname</label>
                       <div className='form-item'>
@@ -122,7 +122,7 @@ module.exports = React.createClass
                   </Tab.Pane>)
 
                 if type == 'PeopleGroup' then return (
-                  <Tab.Pane eventKey={type} className={paneClass}>
+                  <Tab.Pane eventKey={type} className={paneClass} key={type}>
                     <div className='ui-form-group rowed pbx ptx'>
                       <label className='form-label'>Name</label>
                       <div className='form-item'>
@@ -142,4 +142,5 @@ module.exports = React.createClass
 
           </div>
         </Tab.Container>}
+
     </div>
