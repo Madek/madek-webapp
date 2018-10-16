@@ -24,16 +24,20 @@ module.exports = React.createClass
     autocompleteConfig: React.PropTypes.shape
       minLength: React.PropTypes.number
 
-  getInitialState: ()-> { }
+  getInitialState: ()-> {
+    editItem: null
+  }
 
-  componentDidMount: ({values, roles} = @props)->
+  componentDidMount: ({values, roles, editItem} = @props)->
     AutoComplete = require('../autocomplete.cjsx')
     # TODO: make selection a collection to keep track of persistent vs on the fly values
     @setState
       values: values # keep internal state of entered values
       roles: (roles || [])
+      editItem: editItem
 
   _onItemAdd: (item)->
+    # console.log('_onItemAdd', item)
     @_adding = true
     # TODO: use collection…
     is_duplicate = if f.present(item.uuid)
@@ -53,18 +57,68 @@ module.exports = React.createClass
     if @props.onChange
       @props.onChange(newValues)
 
+  _onItemUpdate: (item) ->
+    # console.log('_onItemUpdate', arguments)
+
+    index = @state.values.findIndex((i) => i.uuid == @state.editItem.uuid)
+    # console.log('index', index)
+    newValues = @state.values.slice(0)
+    newValues[index] = @state.editItem
+    # newValues = [Object.assign({}, @state.editItem)]
+
+    @setState(
+      editItem: null
+      values: newValues
+    )
+
+    # console.log('state', @state)
+
   _onNewKeyword: (term)->
     @_onItemAdd({ type: 'Keyword', label: term, isNew: true, term: term })
 
   _onNewPerson: (obj)->
+    # console.log('obj', obj)
     @_onItemAdd(f.extend(obj, { type: 'Person', isNew: true }))
 
   _onItemRemove: (item, _event)->
+    _event.stopPropagation()
     newValues = f.reject(@state.values, item)
     @setState(values: newValues)
 
     if @props.onChange
       @props.onChange(newValues)
+
+  _onItemEdit: (item) ->
+    # console.log('_onItemEdit', arguments)
+    # console.log('_onItemEdit', item)
+    @setState(editItem: Object.assign({}, item))
+    # console.log('state after edit start', @state)
+
+  _roleSelect: (name, roles, _onRoleSelect = @_onRoleSelect, model = @state.editItem) ->
+    <select
+      name={name}
+      onChange={_onRoleSelect}
+      value={model[name]}>
+      {roles.map (role) ->
+        <option value={role.uuid} key={role.uuid}>
+          {role.name}
+        </option>
+      }
+    </select>
+
+  _onRoleSelect: (e) ->
+    # console.log('_onRoleSelect', e)
+    # console.log('state', @state)
+
+    key = e.target.getAttribute('name')
+    value = e.target.value
+    newItem = f.set(@state.editItem, key, value)
+
+    index = e.target.selectedIndex
+    roleName = e.target[index].text
+    newItem = f.set(@state.editItem, 'role_name', roleName)
+    # console.log('newItem', newItem)
+    @setState(editItem: newItem)
 
   componentDidUpdate: ()->
     if @_adding
@@ -78,12 +132,16 @@ module.exports = React.createClass
     state = @state
     values = state.values or values
 
+    # console.log('VALUES', values)
+
     withRoles = @props.withRoles
 
-    console.log('withRoles', withRoles)
+    # console.log('inputResources->withRoles', withRoles)
 
-    if withRoles is true
-      console.log('input-resource @props', @props)
+    # if withRoles is true
+      # console.log('input-resource @props', @props)
+
+    # console.log('EDIT ITEM', @state.editItem)
 
     # NOTE: this is only supposed to be used client side,
     # but we need to wait until AutoComplete is loaded
@@ -92,10 +150,11 @@ module.exports = React.createClass
     <div className='form-item'>
       <div className='multi-select'>
         <ul className='multi-select-holder'>
-          {values.map (item)->
+          {values.map (item) =>
             remover = f.curry(_onItemRemove)(item)
             style = if item.isNew then {fontStyle: 'italic'} else {}
-            <li className='multi-select-tag' style={style} key={item.uuid or item.getId?() or JSON.stringify(item)}>
+            <li className='multi-select-tag' style={style} key={item.uuid or item.getId?() or JSON.stringify(item)}
+              onClick={@_onItemEdit.bind(this, item)}>
               {decorateResource(item)}
               <a className='multi-select-tag-remove' onClick={remover}>
                 <i className='icon-close'/>
@@ -124,12 +183,37 @@ module.exports = React.createClass
                 <a className='multi-select-input-toggle icon-arrow-down'/>
               </li>
 
+              {if withRoles and f.present(@state.editItem)
+                <div className='test rowed multi-select mbs'>
+                  <label className="form-label pas">
+                    Edit Person: 
+                    <strong>{f.trim("#{@state.editItem.first_name} #{@state.editItem.last_name}")}</strong>
+                  </label>
+                  <hr/>
+                  <div className='ui-form-group test'>
+                    <label className='form-label mrs'>{"Choose the role"}</label>
+                    {@_roleSelect('role_id', @props.metaKey.roles)}
+                  </div>
+                  <div className='ui-form-group limited-width-s pan'>
+                    <button className='add-person button' onClick={@_onItemUpdate}>
+                      {#t('meta_data_input_new_person_add')}
+                      {'Update Person'}
+                    </button>
+                    <button className='update-person button mls' onClick={() => @setState(editItem: null)}>
+                      {'Cancel'}
+                    </button>
+                  </div>
+                </div>
+              }
+
               {# add a *new* Person.Person or Person.PeopleGroup}
               {if (f.includes(['People', 'Roles'], resourceType))
                 <NewPersonWidget id={"#{f.snakeCase(name)}_new_person"}
                   allowedTypes={allowedTypes}
                   onAddValue={_onNewPerson}
-                  roles={@props.metaKey.roles}/>}
+                  roles={@props.metaKey.roles}
+                  _roleSelect={@_roleSelect}
+                  isEditing={f.present(@state.editItem)}/>}
 
             </div>
           }

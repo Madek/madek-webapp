@@ -1,7 +1,11 @@
 f = require('active-lodash')
 
 decorators =
-  Person: (o)-> o.name || buildPersonName(o)
+  Person: (o)->
+    if f.present(o.role_name) || !f.present(o.name)
+      buildPersonName(o)
+    else
+      o.name
   Role: (o) -> o.label
   InstitutionalGroup: (o)-> o.detailed_name
   Group: (o)-> o.name
@@ -9,7 +13,6 @@ decorators =
   Keyword: (o)-> o.label
 
 module.exports = (o)->
-  console.log(o)
   unless f.isObject(o) and f.isFunction(decorate = decorators[o.type])
     throw new Error('Decorator: Unknown Resource! Type: ' + o.type + ' Object: ' + JSON.stringify(o))
 
@@ -20,9 +23,13 @@ module.exports = (o)->
 buildPersonName = (o)->
   fullName = if f.any([o.first_name, o.last_name], f.present)
     f.trim("#{o.first_name || ''} #{o.last_name || ''}")
+  role = if o.role_name && f.present(o, 'role_name')
+    "[#{o.role_name}]: "
+  else
+    ''
 
   switch
-    when fullName and f.present(o.pseudonym) then "#{fullName} (#{o.pseudonym})"
-    when fullName then fullName
-    when o.pseudonym then o.pseudonym
+    when fullName and f.present(o.pseudonym) then "#{role}#{fullName} (#{o.pseudonym})"
+    when fullName then "#{role}#{fullName}"
+    when o.pseudonym then "#{role}#{o.pseudonym}"
     else throw new Error('Invalid Name!')

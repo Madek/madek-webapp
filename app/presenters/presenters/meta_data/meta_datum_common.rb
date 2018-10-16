@@ -40,7 +40,6 @@ module Presenters
       end
 
       def indexify_if_necessary(value)
-        puts "---> " + value.class.name
         case value.class.name
         when 'Person'
           Presenters::People::PersonIndex.new(value)
