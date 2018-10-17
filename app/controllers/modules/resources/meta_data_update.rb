@@ -30,7 +30,7 @@ module Modules
       def shared_meta_data_update
         resource = get_authorized_resource
         errors = update_all_meta_data_transaction!(resource, meta_data_params)
-        binding.pry
+        # binding.pry
 
         handle_meta_data_update_result(resource, errors)
       end

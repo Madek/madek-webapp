@@ -65,7 +65,7 @@ module Modules
       # (MD="A MetaDatum for this MetaKey on this MediaResource")
 
       # binding.pry if meta_key_id == 'media_content:other_creative_participants'
-      binding.pry if meta_key_id == 'madek_core:authors'
+      # binding.pry if meta_key_id == 'madek_core:authors'
 
       if meta_datum = resource.meta_data.find_by(meta_key_id: meta_key_id)
         meta_datum.set_value!(value, current_user)

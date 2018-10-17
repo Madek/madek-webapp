@@ -1,0 +1,8 @@
+Analysis - issue #122:
+
+Keywords after searching are additionaly sorted by relevance, and there are four rules which compute the rank needed for sorting mechanism.
+
+The «Schlagworte» meta key contains 9743 keywords, when «Material / Format / Sprache» meta keys contains "only" in quotes 283 keywords,
+so there is an obvious situation, that sorting results for the second one are less vulnerable (walnerabl) for edge cases.
+
+In my opinion the solution could be about adding some condition, when the sorting rules are applied at all, I mean when you type a term with length equal or greater than 2 letters. Because the issue happens only for 1-letter term.
