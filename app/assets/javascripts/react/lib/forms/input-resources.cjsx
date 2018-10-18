@@ -196,8 +196,7 @@ module.exports = React.createClass
                   </div>
                   <div className='ui-form-group limited-width-s pan'>
                     <button className='add-person button' onClick={@_onItemUpdate}>
-                      {#t('meta_data_input_new_person_add')}
-                      {'Update Person'}
+                      {t('meta_data_input_person_save')}
                     </button>
                     <button className='update-person button mls' onClick={() => @setState(editItem: null)}>
                       {'Cancel'}
