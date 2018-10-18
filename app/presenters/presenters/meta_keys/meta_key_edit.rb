@@ -43,7 +43,7 @@ module Presenters
 
       def roles
         if @app_resource.can_have_roles?
-          Role.all.map do |role|
+          Role.sorted.map do |role|
             Presenters::Roles::RoleIndex.new(role)
           end
         end
