@@ -6,7 +6,6 @@ decorators =
       buildPersonName(o)
     else
       o.name
-  Role: (o) -> o.label
   InstitutionalGroup: (o)-> o.detailed_name
   Group: (o)-> o.name
   # TODO: label-icon by rdf class

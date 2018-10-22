@@ -1,18 +1,18 @@
 module Presenters
   module Roles
-    class RoleCommon < Presenters::Shared::AppResource
+    class RoleCommon < Presenters::People::PersonCommon
 
       def label(role = @app_resource)
         role.term
       end
 
       def name
-        "#{@app_resource.meta_key.label}: #{label}"
+        label
       end
 
       def url(role = @app_resource)
         # prepend_url_context(vocabulary_meta_key_term_show_path(keyword.id))
-        '/foo'
+        '/roles/' + label.parameterize
       end
     end
   end

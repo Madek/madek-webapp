@@ -13,12 +13,12 @@ module.exports = React.createClass
     id: React.PropTypes.string.isRequired
     name: React.PropTypes.string.isRequired
 
-  _inputByTypeMap: {
-    'Text': Text
-    'TextDate': InputTextDate
-    'People': InputPeople
-    'Keywords': InputKeywords
-  }
+  # _inputByTypeMap: {
+  #   'Text': Text
+  #   'TextDate': InputTextDate
+  #   'People': InputPeople
+  #   'Keywords': InputKeywords
+  # }
 
   render: ({id, name, model} = @props)->
 
@@ -61,7 +61,7 @@ module.exports = React.createClass
         multiple={multiple}
         values={values}
         subForms={@props.subForms}
-        withRoles={resourceType == 'Roles'}/>
+        withRoles={f.present(@props.metaKey.roles)}/>
 
     else if resourceType == 'Keywords'
 

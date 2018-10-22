@@ -23,6 +23,9 @@ DecoratorsByType =
   People: ({values, tagMods} = @props)->
     <UI.TagCloud mod='person' mods='small' list={labelize(values)}/>
 
+  Roles: ({values, tagMods} = @props)->
+    <UI.TagCloud mod='role' mods='small' list={labelize(values)}/>
+
   Groups: ({values, tagMods} = @props)->
     <UI.TagCloud mod='group' mods='small' list={labelize(values)}/>
 

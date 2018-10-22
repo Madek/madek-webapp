@@ -19,16 +19,18 @@ module.exports = React.createClass
       count: React.PropTypes.string
       disabled: React.PropTypes.bool
     )).isRequired
-    mod: React.PropTypes.oneOf(['label', 'person', 'group'])
+    mod: React.PropTypes.oneOf(['label', 'person', 'group', 'role'])
     # TODO: mods: UIPropTypes.mods(['small', 'large', 'ellipsed', 'compact'])
 
   render: ({list, mod, mods} = @props)->
+    console.log('TagCloud', @props)
     baseClass = classList(parseMods(@props), 'ui-tag-cloud')
     itemClass = 'ui-tag-cloud-item'
     tagClass = 'ui-tag-button'
     tagIcon = switch mod
       when 'label'  then 'tag'
       when 'person' then 'user'
+      when 'role' then 'user'
       when 'group'  then 'group'
     if tagIcon and !f.includes(mods, 'large')
       tagIcon = "#{tagIcon}-mini" # mini variant except in large tags
