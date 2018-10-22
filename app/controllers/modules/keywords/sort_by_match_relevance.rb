@@ -9,8 +9,7 @@ module Modules
 
           case_sensitive_full_match(string, t1, t2) or \
             case_insensitive_full_match(string, t1, t2) or \
-            term_beginning_with_string(string, t1, t2) or \
-            position_of_string_inside_of_term(string, t1, t2)
+              default_rule(t1, t2)
         end
       end
 
@@ -34,23 +33,8 @@ module Modules
         end
       end
 
-      def term_beginning_with_string(string, t1, t2)
-        if t1.starts_with?(string) and not t2.starts_with?(string)
-          -1
-        elsif t1.starts_with?(string) and t2.starts_with?(string)
-          0
-        elsif not t1.starts_with?(string) and t2.starts_with?(string)
-          1
-        end
-      end
-
-      def position_of_string_inside_of_term(string, t1, t2)
-        result = (t1 =~ /#{string}/i) - (t2 =~ /#{string}/i)
-        if result == 0
-          t1 <=> t2
-        else
-          result
-        end
+      def default_rule(t1, t2)
+        t1 <=> t2
       end
     end
   end

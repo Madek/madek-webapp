@@ -117,6 +117,32 @@ describe KeywordsController do
       expect(result.map { |k| k['label'] }).to be == sorted_labels
     end
 
+    specify 'sorting by match relevance' do
+      truncate_tables
+      vocab = FactoryGirl.create(:vocabulary,
+                                 id: Faker::Lorem.characters(5),
+                                 enabled_for_public_view: true)
+      meta_key = \
+        FactoryGirl.create(:meta_key,
+                           id: "#{vocab.id}:#{Faker::Lorem.characters(8)}")
+      98.times do |i|
+        FactoryGirl.create(:keyword, meta_key: meta_key, term: "xa#{Faker::Lorem.characters(3)}")
+      end
+      FactoryGirl.create(:keyword, meta_key: meta_key, term: 'A')
+      FactoryGirl.create(:keyword, meta_key: meta_key, term: 'a')
+      longer_keyword = FactoryGirl.create(:keyword, meta_key: meta_key, term: "ax#{Faker::Lorem.characters(4)}")
+
+      get :index,
+          search_term: 'a',
+          meta_key_id: meta_key.id,
+          format: :json
+
+      result = JSON.parse(response.body)
+
+      expect(result.detect { |k| k['label'] == longer_keyword.term }).to be
+      expect(result.map { |k| k['label'] }[0..2]).to eq ['a', 'A', longer_keyword.term]
+    end
+
     it 'order by last used DESC' do
       meta_key.vocabulary.user_permissions << \
         create(:vocabulary_user_permission, user: user)
