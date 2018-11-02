@@ -76,7 +76,7 @@ module.exports = React.createClass
     # console.log('itemIndex', itemIndex)
     newValues = @state.values.slice(0)
     # newValues[index] = @state.editItem
-    editedItem = Object.assign({}, @state.values[itemIndex])
+    editedItem = f.cloneDeep(@state.values[itemIndex])
 
     # console.log('editedItem', editedItem)
     # return
@@ -92,7 +92,7 @@ module.exports = React.createClass
     # )
 
     if @state.editedRole
-      roleIndex = newRoles.findIndex((nr) => nr.id is @state.editedRole.id)
+      roleIndex = f.findIndex(newRoles, (nr) => nr.id is @state.editedRole.id)
       newRoles[roleIndex] = {id: @state.role.id, term: @state.role.term}
     else if not f.find(newRoles, {id: @state.role.id})
       newRoles.push({id: @state.role.id, term: @state.role.term})
@@ -170,7 +170,7 @@ module.exports = React.createClass
     e.preventDefault()
 
     newValues = @state.values.slice(0)
-    roleIndex = newValues[itemIndex].roles.findIndex((r) => r.id == roleId)
+    roleIndex = f.findIndex(newValues[itemIndex].roles, (r) => r.id == roleId)
     newValues[itemIndex].roles.splice(roleIndex, 1)
     @setState(values: newValues)
 
