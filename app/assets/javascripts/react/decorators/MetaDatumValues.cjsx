@@ -47,8 +47,8 @@ module.exports = React.createClass
 
 ## build tag from name and url and provide unique key
 labelize = (resourceList)->
-  resourceList.map (resource)->
-    {children: resourceName(resource), href: resource.url, key: resource.uuid}
+  resourceList.map (resource, i)->
+    {children: resourceName(resource), href: resource.url, key: "#{resource.uuid}-#{i}"}
 
 ## build html string with auto-generated links
 linkifyInnerHtml = (string)->

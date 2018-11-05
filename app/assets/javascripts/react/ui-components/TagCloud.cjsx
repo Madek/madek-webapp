@@ -23,9 +23,8 @@ module.exports = React.createClass
     # TODO: mods: UIPropTypes.mods(['small', 'large', 'ellipsed', 'compact'])
 
   render: ({list, mod, mods} = @props)->
-    console.log('TagCloud', @props)
     baseClass = classList(parseMods(@props), 'ui-tag-cloud')
-    itemClass = 'ui-tag-cloud-item'
+    itemClass = classList('ui-tag-cloud-item', { block: mod is 'role' })
     tagClass = 'ui-tag-button'
     tagIcon = switch mod
       when 'label'  then 'tag'
