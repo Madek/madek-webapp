@@ -3,8 +3,13 @@ module Presenters
     # class RoleCommon < Presenters::People::PersonCommon
     class RoleCommon < Presenters::Shared::AppResource
 
-      def label(role = @app_resource)
-        role.term
+      def term
+        @app_resource.term(I18n.locale) \
+          or @app_resource.term
+      end
+
+      def label
+        term
       end
 
       def name

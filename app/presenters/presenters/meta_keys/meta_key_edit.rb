@@ -33,7 +33,7 @@ module Presenters
 
       def roles
         if @app_resource.can_have_roles?
-          Role.sorted.map do |role|
+          Role.sorted(I18n.locale).map do |role|
             Presenters::Roles::RoleIndex.new(role)
           end
         end
