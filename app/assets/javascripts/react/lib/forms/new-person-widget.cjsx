@@ -27,25 +27,17 @@ module.exports = React.createClass
   propTypes:
     id: React.PropTypes.string.isRequired
     onAddValue: React.PropTypes.func.isRequired
-    # allowedTypes: React.PropTypes.arrayOf(
-    #   React.PropTypes.oneOf(PEOPLE_SUBTYPES).isRequired
-    # ).isRequired
+    allowedTypes: React.PropTypes.arrayOf(
+      React.PropTypes.oneOf(PEOPLE_SUBTYPES).isRequired
+    ).isRequired
 
   # NOTE: no models needed here yet:
   _emptyPerson: ()-> { type: 'Person', subtype: PEOPLE_SUBTYPES[0] }
 
-  getInitialState: ()-> 
-    {
-      isOpen: false,
-      newPerson: @_emptyPerson(),
-    }
-
-  componentDidMount: ({values} = @props)->
-    AutoComplete = require('../autocomplete.cjsx')
-
-    @setState
-      values: [] # keep internal state of entered values
-
+  getInitialState: ()-> {
+    isOpen: false,
+    newPerson: @_emptyPerson()
+  }
   _toggleOpen: ()-> @setState(isOpen: !@state.isOpen)
   _onKeyPress: (event)->
     # NEVER trigger (parent form!) submit on ENTER
@@ -71,25 +63,20 @@ module.exports = React.createClass
 
     @setState(isOpen: false, newPerson: @_emptyPerson())
 
-  render: ({id, allowedTypes, _roleSelect, isEditing} = @props)->
+  render: ({id, allowedTypes} = @props)->
     supportsAnyAllowedType = f.any(allowedTypes, (t) -> f.includes(SUPPORTED_PEOPLE_SUBTYPES, t))
-    values = @state.values || []
-    roles = @props.roles || []
+    if (!supportsAnyAllowedType) then return false
     withRoles = f.present(@props.roles)
 
     paneClass = 'ui-container pam bordered rounded-right rounded-bottom'
-    toggleButtonTranslationKey = if withRoles
-      'meta_data_input_new_person_toggle_only'
-    else
-      'meta_data_input_new_person_toggle'
     <div onKeyPress={@_onKeyPress}>
       <a className='button small form-widget-toggle'
         onClick={@_toggleOpen}>
         <Icon i='privacy-private' mods='small'/>
         {# only show the text when widget is closed:}
-        {' ' + t(toggleButtonTranslationKey) unless @state.isOpen}
+        {' ' + t('meta_data_input_new_person_toggle') unless @state.isOpen}
       </a>
-      {if @state.isOpen #&& !withRoles
+      {if @state.isOpen
         <Tab.Container id={id} className='form-widget'
           defaultActiveKey='Person' onSelect={@_onTabChange}
           >
@@ -127,21 +114,6 @@ module.exports = React.createClass
                       <div className='form-item'>
                         {@_inputField('pseudonym')}
                       </div>
-                    </div>
-
-                    <div className='ui-form-group rowed pbx ptx multi-select-input-holder mbs'>
-                      <ul className='multi-select-holder'>
-                        {values.map (item)->
-                          remover = f.curry(_onItemRemove)(item)
-                          style = if item.isNew then {fontStyle: 'italic'} else {}
-                          <li className='multi-select-tag' style={style} key={item.uuid or item.getId?() or JSON.stringify(item)}>
-                            {decorateResource(item)}
-                            <a className='multi-select-tag-remove' onClick={remover}>
-                              <i className='icon-close'/>
-                            </a>
-                          </li>
-                        }
-                      </ul>
                     </div>
 
                     <div className='ui-form-group rowed ptm limited-width-s'>

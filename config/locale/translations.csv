@@ -364,7 +364,6 @@ meta_data_input_keywords_existing,Schlagwort ist bereits vergeben.,Keyword alrea
 meta_data_input_new_group_add,Arbeitsgruppe einfügen,Add work group,
 meta_data_input_new_person_add,Person einfügen,Add person,
 meta_data_input_new_person_toggle,Neue Person oder Gruppe anlegen,Add new person or work group,
-meta_data_input_new_person_toggle_only,Neue Person anlegen,Add new person,
 meta_data_input_person_save,Speichern,Save,
 meta_data_meta_key_label,Schlüssel,Key,
 meta_data_type_label,Typ,Type,

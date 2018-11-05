@@ -1,6 +1,7 @@
 module Presenters
   module Roles
-    class RoleCommon < Presenters::People::PersonCommon
+    # class RoleCommon < Presenters::People::PersonCommon
+    class RoleCommon < Presenters::Shared::AppResource
 
       def label(role = @app_resource)
         role.term

@@ -24,10 +24,7 @@ module.exports = React.createClass
     autocompleteConfig: React.PropTypes.shape
       minLength: React.PropTypes.number
 
-  getInitialState: ()-> {
-    editItem: null
-    role: null
-  }
+  getInitialState: ()-> {}
 
   componentDidMount: ({values} = @props)->
     console.log('componentDidMount->roles', @props)
@@ -62,56 +59,38 @@ module.exports = React.createClass
       @props.onChange(newValues)
 
   _onRoleSave: ->
-    # console.log('_onRoleSave()', arguments)
+    return unless f.present(@state.selectedRole)
 
-    return unless f.present(@state.role)
-
-    # console.log('@state.editItem', @state.editItem)
-    itemIndex = if @state.editedRole
-      @state.editedRole.itemIndex
-    else
-      @state.editedItemIndex
-
-    # itemIndex = @state.editedRole.itemIndex
-    # console.log('itemIndex', itemIndex)
     newValues = @state.values.slice(0)
-    # newValues[index] = @state.editItem
-    editedItem = f.cloneDeep(@state.values[itemIndex])
 
-    # console.log('editedItem', editedItem)
-    # return
-    # newValues = [Object.assign({}, @state.editItem)]
-    # editedItem.roles.push({id: @state.role.id, term: @state.role.term})
-    newRoles = if f.isArray(editedItem.roles)
-      editedItem.roles.slice(0)
-    else
-      []
-    # newRoles = f.remove(editedItem.roles, (r) => r.id is not @state.role.id)
-    # newRoles = newRoles.map (role) =>
-    #   if role.id is @state.role.id
-    # )
-
-    if @state.editedRole
-      roleIndex = f.findIndex(newRoles, (nr) => nr.id is @state.editedRole.id)
-      newRoles[roleIndex] = {id: @state.role.id, term: @state.role.term}
-    else if not f.find(newRoles, {id: @state.role.id})
-      newRoles.push({id: @state.role.id, term: @state.role.term})
-    editedItem.roles = newRoles
-    newValues[itemIndex] = editedItem
+    if @state.addingRole is true
+      if f.has(@state.editedItem, 'role') and not f.isEmpty(@state.editedItem.role)
+        item = f.cloneDeep(@state.editedItem)
+        item.role = f.clone(@state.selectedRole)
+        newValues.push(item)
+      else
+        itemIndex = @state.editedItemIndex
+        item = f.cloneDeep(@state.values[itemIndex])
+        item.role = f.clone(@state.selectedRole)
+        newValues[itemIndex] = item
+    else if @state.editedRole
+      itemIndex = @state.editedRole.itemIndex
+      item = f.cloneDeep(@state.values[itemIndex])
+      item.role = {id: @state.selectedRole.id, term: @state.selectedRole.term}
+      newValues[itemIndex] = item
 
     @setState(
-      editItem: null
-      editedItemIndex: null
-      editedRole: null
       values: newValues
-      role: null
+      editedItem: null
+      editedItemIndex: null
+      addingRole: null
+      editedRole: null
     )
 
   _onNewKeyword: (term)->
     @_onItemAdd({ type: 'Keyword', label: term, isNew: true, term: term })
 
   _onNewPerson: (obj)->
-    # console.log('obj', obj)
     @_onItemAdd(f.extend(obj, { type: 'Person', isNew: true }))
 
   _onItemRemove: (item, _event)->
@@ -122,18 +101,17 @@ module.exports = React.createClass
     if @props.onChange
       @props.onChange(newValues)
 
-  _onItemEdit: (index, e) ->
-    # console.log('_onItemEdit()', arguments)
+  _onRoleAdd: (index, e) ->
     e.preventDefault()
-    # @setState(editItem: Object.assign({}, item))
+
     editedItem = @state.values[index]
-    @setState(editItem: editedItem, editedItemIndex: index)
+    @setState(editedItem: editedItem, editedItemIndex: index, addingRole: true)
 
   _renderRoleSelect: (name, roles, _onRoleSelect = @_onRoleSelect, model = @state.editItem) ->
     <select
       name={name}
       onChange={_onRoleSelect}
-      value={f.get(@state, 'role.id') || f.get(@state, 'editedRole.id')}>
+      value={f.get(@state, 'selectedRole.id') || f.get(@state, 'editedRole.id')}>
       {roles.map (role) ->
         <option value={role.uuid} key={role.uuid}>
           {role.name}
@@ -142,36 +120,25 @@ module.exports = React.createClass
     </select>
 
   _onRoleSelect: (e) ->
-    # console.log('_onRoleSelect', e)
-    # console.log('state', @state)
-
-    # newItem = Object.assign({}, @state.editItem)
-
-    # key = e.target.getAttribute('name') # role_id
     roleId = e.target.value
-    # newItem = f.set(@state.editItem, key, value)
-
     index = e.target.selectedIndex
     roleName = e.target[index].text
-    # newItem = f.set(@state.editItem, 'role_name', roleName)
-    # console.log('newItem', newItem)
-    # newItem.roles.push({ role_id: roleId, role_name: roleName })
-    @setState(role: { id: roleId, term: roleName })
+
+    @setState(selectedRole: { id: roleId, term: roleName })
 
   _onRoleEdit: (roleId, itemIndex, e) ->
     e.preventDefault()
 
     @setState(
-      editItem: @state.values[itemIndex]
+      editedItem: @state.values[itemIndex]
       editedRole: { id: roleId, itemIndex: itemIndex }
     )
 
-  _onRoleRemove: (roleId, itemIndex, e) ->
+  _onRoleRemove: (itemIndex, e) ->
     e.preventDefault()
 
     newValues = @state.values.slice(0)
-    roleIndex = f.findIndex(newValues[itemIndex].roles, (r) => r.id == roleId)
-    newValues[itemIndex].roles.splice(roleIndex, 1)
+    delete newValues[itemIndex].role
     @setState(values: newValues)
 
   _onRoleCancel: () ->
@@ -179,7 +146,7 @@ module.exports = React.createClass
       role: null
       editedRole: null
       editedItemIndex: null
-      editItem: null
+      editedItem: null
     )
 
   componentDidUpdate: ()->
@@ -234,19 +201,17 @@ module.exports = React.createClass
               </li>
 
               {# add a *new* Person.Person or Person.PeopleGroup}
-              {if (f.includes(['People', 'Roles'], resourceType))
+              {if resourceType is 'People'
                 <NewPersonWidget id={"#{f.snakeCase(name)}_new_person"}
                   allowedTypes={allowedTypes}
                   onAddValue={_onNewPerson}
-                  roles={@props.metaKey.roles}
-                  _roleSelect={@_renderRoleSelect}
-                  isEditing={f.present(@state.editItem)}/>}
+                  roles={@props.metaKey.roles}/>}
 
-              {if withRoles and f.present(@state.editItem)
+              {if withRoles and f.present(@state.editedItem)
                 <div className='multi-select mts'>
                   <label className="form-label pas">
                     {if f.present(@state.editedRole) then 'Edit the role of' else 'Add a role to'} 
-                    <strong> {f.trim("#{@state.editItem.first_name} #{@state.editItem.last_name}")}</strong>
+                    <strong> {f.trim("#{@state.editedItem.first_name} #{@state.editedItem.last_name}")}</strong>
                   </label>
                   <hr/>
                   <div className='ui-form-group test'>
@@ -265,33 +230,40 @@ module.exports = React.createClass
               }
 
               {if withRoles
-                <table className='block multi-select mts'>
-                  <thead>
-                    <tr>
-                      <th className='pas' style={{fontSize: '13px', backgroundColor: '#fafafa'}}><strong>Person / Group</strong></th>
-                      <th className='pas' style={{fontSize: '13px', backgroundColor: '#fafafa'}}><strong>Roles</strong></th>
-                      <th style={{background: '#fafafa', width: '30px'}}>&nbsp;</th>
-                    </tr>
-                  </thead>
+                <table className='block multi-selectX mts'>
                   <tbody>
                   {values.map (item, i) =>
                     <tr key={i}>
-                      <td style={{width: '47%'}} className='pas'>
-                        {decorateResource(item)}
-                        <a href="#" onClick={(e) => @_onItemEdit(i, e)} className='mls'>+ Add a role</a>
-                      </td>
                       <td className='pas'>
-                        {f.isArray(item.roles) and item.roles.map (role) =>
-                          <div className="mbs" key={role.id}>
-                            - {role.term}
-                            <a href="#" onClick={(e) => @_onRoleEdit(role.id, i, e)} className='mls'>Edit</a>,
-                            <a href="#" onClick={(e) => @_onRoleRemove(role.id, i, e)} className='mls'>Remove</a>
-                          </div>
+                        <strong className='mrs'>{item.position}.</strong>{decorateResource(item)}
+
+                        {if f.present(item.role)
+                          (role = item.role)
+                          <span className="mbs" key={role.id}>
+                            <a href="#" onClick={(e) => @_onRoleEdit(role.id, i, e)} className='mls button small'>Edit role</a>
+                            <a href="#" onClick={(e) => @_onRoleRemove(i, e)} className='mlxs button small'>Remove role</a>
+                          </span>
                         }
-                        {unless f.present(item.roles)
-                          <em style={{fontStyle: 'italic', color: '#ccc'}}>No roles.</em>}
                       </td>
-                      <td className='pas' style={{textAlign: 'center'}}>
+                      <td style={{width: '30px'}} className='pas by-center'>
+                        {if f.present(item.role)
+                          <a href="#" onClick={(e) => @_onRoleAdd(i, e)} className='button small mls'>+ Add another role</a>}
+                        {unless f.present(item.role)
+                          <a href="#" onClick={(e) => @_onRoleAdd(i, e)} className='button small mls'>+ Add a role</a>}
+                      </td>
+                      <td style={{width: '12px'}} className='pas by-center'>
+                        {i < values.length - 1 and (
+                          <a className='button small' onClick={(e) => console.log('move down')}>
+                            <span className='icon-arrow-down'></span>
+                          </a>)}
+                      </td>
+                      <td style={{width: '12px'}} className='pas by-center'>
+                        {i > 0 and (
+                          <a className='button small' onClick={(e) => console.log('move up')}>
+                            <span className='icon-arrow-up'></span>
+                          </a>)}
+                      </td>
+                      <td style={{width: '30px'}} className='pas by-center'>
                         <a onClick={(e) => @_onItemRemove(item, e)}>
                           <i className='icon-close'/>
                         </a>
@@ -299,7 +271,8 @@ module.exports = React.createClass
                     </tr>
                   }
                   </tbody>
-                </table>}
+                </table>
+              }
 
             </div>
           }
@@ -310,7 +283,7 @@ module.exports = React.createClass
       {# in case of no values add an empty one (to distinguish removed values). }
       {f.map (f(values).presence() or ['']), (item)->
         # persisted resources have and only need a uuid (as string)
-        keyValuePairs = if item.uuid and not f.has(item, 'roles')
+        keyValuePairs = if item.uuid and not f.has(item, 'role')
           [[name, item.uuid]]
 
         # new resources are sent as on object (with all the attributes)
@@ -320,7 +293,7 @@ module.exports = React.createClass
           newItem = if item.isNew
             item
           else
-            f.pick(item, ['uuid', 'roles'])
+            f.pick(item, ['uuid', 'role'])
           # console.log('***')
           # console.log('newItem', newItem)
           # console.log(f(item).omit(['type', 'isNew']).value())
@@ -328,6 +301,7 @@ module.exports = React.createClass
           f(newItem).omit(['type', 'isNew'])
             .map((val, key)-> # pairs; build keys; clean & stringify values:
               val = val.map((v) => v.id).join(',') if f.isArray(val)
+              val = val.id if f.isPlainObject(val) and f.has(val, 'id')
               if f.present(val) then ["#{name}[#{key}]", (val + '')])
             .compact().value()
 

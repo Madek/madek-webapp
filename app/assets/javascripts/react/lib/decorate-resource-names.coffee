@@ -2,7 +2,7 @@ f = require('active-lodash')
 
 decorators =
   Person: (o)->
-    if f.present(o.role_name) || !f.present(o.name)
+    if f.present(o.role) or o.isNew
       buildPersonName(o)
     else
       o.name
@@ -22,13 +22,13 @@ module.exports = (o)->
 buildPersonName = (o)->
   fullName = if f.any([o.first_name, o.last_name], f.present)
     f.trim("#{o.first_name || ''} #{o.last_name || ''}")
-  role = if o.role_name && f.present(o, 'role_name')
-    "[#{o.role_name}]: "
+  role = if o.role && f.present(o, 'role.term')
+    ": #{o.role.term}"
   else
     ''
 
   switch
-    when fullName and f.present(o.pseudonym) then "#{role}#{fullName} (#{o.pseudonym})"
-    when fullName then "#{role}#{fullName}"
-    when o.pseudonym then "#{role}#{o.pseudonym}"
+    when fullName and f.present(o.pseudonym) then "#{fullName} (#{o.pseudonym})#{role}"
+    when fullName then "#{fullName}#{role}"
+    when o.pseudonym then "#{o.pseudonym}#{role}"
     else throw new Error('Invalid Name!')

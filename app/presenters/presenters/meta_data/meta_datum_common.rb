@@ -56,7 +56,7 @@ module Presenters
         when 'Role'
           Presenters::Roles::RoleIndex.new(value)
         when 'MetaDatum::Role'
-          Presenters::People::PersonIndexForRoles.new(value) # is needed????
+          Presenters::People::PersonIndexForRoles.new(value)
         when 'PersonWithRoles'
           Presenters::People::PersonIndexForRoles.new(value)
         else # all other values are "primitive/literal/unspecified":
