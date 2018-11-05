@@ -149,6 +149,26 @@ module.exports = React.createClass
       editedItem: null
     )
 
+  _handleMoveUp: (itemIndex, e) ->
+    e.preventDefault()
+
+    if previousItem = @state.values[itemIndex - 1]
+      editedItem = @state.values[itemIndex]
+      newValues = @state.values.slice(0)
+      newValues[itemIndex - 1] = f.cloneDeep(editedItem)
+      newValues[itemIndex] = f.cloneDeep(previousItem)
+      @setState(values: newValues)
+
+  _handleMoveDown: (itemIndex, e) ->
+    e.preventDefault()
+
+    if nextItem = @state.values[itemIndex + 1]
+      editedItem = @state.values[itemIndex]
+      newValues = @state.values.slice(0)
+      newValues[itemIndex + 1] = f.cloneDeep(editedItem)
+      newValues[itemIndex] = f.cloneDeep(nextItem)
+      @setState(values: newValues)
+
   componentDidUpdate: ()->
     if @_adding
       @_adding = false
@@ -235,31 +255,31 @@ module.exports = React.createClass
                   {values.map (item, i) =>
                     <tr key={i}>
                       <td className='pas'>
-                        <strong className='mrs'>{item.position}.</strong>{decorateResource(item)}
+                        <strong className='mrs'>{i+1}.</strong>{decorateResource(item)}
 
                         {if f.present(item.role)
                           (role = item.role)
-                          <span className="mbs" key={role.id}>
+                          <span className="mbs" style={{float: 'right'}} key={role.id}>
                             <a href="#" onClick={(e) => @_onRoleEdit(role.id, i, e)} className='mls button small'>Edit role</a>
-                            <a href="#" onClick={(e) => @_onRoleRemove(i, e)} className='mlxs button small'>Remove role</a>
+                            <a href="#" onClick={(e) => @_onRoleRemove(i, e)} className='mlx button small'>Remove role</a>
                           </span>
                         }
                       </td>
-                      <td style={{width: '30px'}} className='pas by-center'>
+                      <td style={{width: '160px'}} className='pvs by-center'>
                         {if f.present(item.role)
-                          <a href="#" onClick={(e) => @_onRoleAdd(i, e)} className='button small mls'>+ Add another role</a>}
+                          <a href="#" onClick={(e) => @_onRoleAdd(i, e)} className='button small'>+ Add another role</a>}
                         {unless f.present(item.role)
-                          <a href="#" onClick={(e) => @_onRoleAdd(i, e)} className='button small mls'>+ Add a role</a>}
+                          <a href="#" onClick={(e) => @_onRoleAdd(i, e)} className='button small'>+ Add a role</a>}
                       </td>
-                      <td style={{width: '12px'}} className='pas by-center'>
+                      <td style={{width: '32px'}} className='pvs by-center'>
                         {i < values.length - 1 and (
-                          <a className='button small' onClick={(e) => console.log('move down')}>
+                          <a className='button small' onClick={(e) => @_handleMoveDown(i, e)}>
                             <span className='icon-arrow-down'></span>
                           </a>)}
                       </td>
-                      <td style={{width: '12px'}} className='pas by-center'>
+                      <td style={{width: '32px'}} className='pvs by-center'>
                         {i > 0 and (
-                          <a className='button small' onClick={(e) => console.log('move up')}>
+                          <a className='button small' onClick={(e) => @_handleMoveUp(i, e)}>
                             <span className='icon-arrow-up'></span>
                           </a>)}
                       </td>
