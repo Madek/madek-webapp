@@ -30,7 +30,7 @@ module Modules
         end
 
         unless media_entry.try(:media_file).try(:previews).try(:any?)
-          raise ActionController::NotFound, 'no media!'
+          raise ActiveRecord::RecordNotFound, 'no media!'
         end
 
         conf = params.permit(:width, :height, :ratio)

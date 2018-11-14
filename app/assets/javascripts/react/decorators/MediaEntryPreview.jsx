@@ -27,11 +27,13 @@ module.exports = React.createClass({
   },
 
   render() {
-    const { get, mediaProps, withLink, withZoomLink } = this.props
+    const { get, mediaProps, withLink, withZoomLink, isEmbedded } = this.props
     const { image_url, title, media_type, type } = get
     const { previews } = get.media_file
 
     const classes = cx(this.props.mods)
+
+    const usesIframeEmbed = !isEmbedded && f.includes(['audio', 'video'], media_type)
 
     // get the largest image and use it as 'full size link'
     // NOTE: we want this link even if the file is the same,
@@ -90,6 +92,8 @@ module.exports = React.createClass({
       )
     }
 
+    if (usesIframeEmbed) return <IframeEmbed url={get.url} />
+
     const downloadRef = originalUrl ? originalUrl : get.url + '/export'
 
     const content =
@@ -144,3 +148,28 @@ module.exports = React.createClass({
     return <div className={classes}>{content}</div>
   }
 })
+
+const IframeEmbed = ({ url }) => (
+  <div className="ui-media-overview-preview">
+    <div
+      style={{
+        width: '100%',
+        position: 'relative',
+        paddingTop: '56.25%'
+      }}>
+      <iframe
+        src={`${url}/embedded?internalEmbed`}
+        style={{
+          height: '100% !important',
+          width: '100% !important',
+          position: 'absolute',
+          top: '0',
+          left: '0'
+        }}
+        allowFullScreen="true"
+        webkitallowfullscreen="true"
+        mozallowfullscreen="true"
+      />
+    </div>
+  </div>
+)

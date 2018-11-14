@@ -46,6 +46,7 @@ module.exports = React.createClass({
         get={get}
         mediaProps={mediaProps}
         captionConf={caption_conf}
+        isEmbedded={true}
         isInternal={embed_config.isInternal}
       />
     )

@@ -30,7 +30,9 @@ module Madek
       # non-public meidia, and/or without showing the title.
       # MUST inlude own URL because embeds are used in Madek itself that way.
       EMBED_INTERNAL_HOST_WHITELIST = [
-        Settings.madek_external_base_url
+        Settings.madek_external_base_url,
+        'http://localhost:3000',
+        'http://localhost:3003'
         # TODO: Settings.madek_embeds_allow_hosts_no_title…
       ].flatten.compact.freeze
 
