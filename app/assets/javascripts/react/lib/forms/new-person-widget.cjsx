@@ -66,7 +66,6 @@ module.exports = React.createClass
   render: ({id, allowedTypes} = @props)->
     supportsAnyAllowedType = f.any(allowedTypes, (t) -> f.includes(SUPPORTED_PEOPLE_SUBTYPES, t))
     if (!supportsAnyAllowedType) then return false
-    withRoles = f.present(@props.roles)
 
     paneClass = 'ui-container pam bordered rounded-right rounded-bottom'
     <div onKeyPress={@_onKeyPress}>

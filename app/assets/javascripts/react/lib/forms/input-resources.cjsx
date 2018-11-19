@@ -27,18 +27,17 @@ module.exports = React.createClass
   getInitialState: ()-> {}
 
   componentDidMount: ({values} = @props)->
-    console.log('componentDidMount->roles', @props)
     AutoComplete = require('../autocomplete.cjsx')
-    defaultRole = f.get(@props, 'metaKey.roles[0]')
-    defaultRole = { id: defaultRole.uuid, term: defaultRole.name } if defaultRole
-    console.log('defaultRole', defaultRole)
     # TODO: make selection a collection to keep track of persistent vs on the fly values
     @setState
       values: values # keep internal state of entered values
-      role: defaultRole
+      selectedRole: @defaultRole()
+
+  defaultRole: ->
+    if firstRole = f.get(@props, 'metaKey.roles[0]')
+      { id: firstRole.uuid, term: firstRole.name }
 
   _onItemAdd: (item)->
-    # console.log('_onItemAdd', item)
     @_adding = true
     # TODO: use collection…
     is_duplicate = if f.present(item.uuid)
@@ -85,6 +84,7 @@ module.exports = React.createClass
       editedItemIndex: null
       addingRole: null
       editedRole: null
+      selectedRole: @defaultRole()
     )
 
   _onNewKeyword: (term)->
@@ -107,12 +107,14 @@ module.exports = React.createClass
     editedItem = @state.values[index]
     @setState(editedItem: editedItem, editedItemIndex: index, addingRole: true)
 
-  _renderRoleSelect: (name, roles, _onRoleSelect = @_onRoleSelect, model = @state.editItem) ->
+  _renderRoleSelect: ->
+    selectedRoleId = f.get(@state, 'editedRole.id') || f.get(@state, 'selectedRole.id')
+
     <select
-      name={name}
-      onChange={_onRoleSelect}
-      value={f.get(@state, 'selectedRole.id') || f.get(@state, 'editedRole.id')}>
-      {roles.map (role) ->
+      name='role_id'
+      onChange={@_onRoleSelect}
+      value={selectedRoleId}>
+      {@props.metaKey.roles.map (role) ->
         <option value={role.uuid} key={role.uuid}>
           {role.name}
         </option>
@@ -143,10 +145,10 @@ module.exports = React.createClass
 
   _onRoleCancel: () ->
     @setState(
-      role: null
       editedRole: null
       editedItemIndex: null
       editedItem: null
+      selectedRole: @defaultRole()
     )
 
   _handleMoveUp: (itemIndex, e) ->
@@ -224,8 +226,7 @@ module.exports = React.createClass
               {if resourceType is 'People'
                 <NewPersonWidget id={"#{f.snakeCase(name)}_new_person"}
                   allowedTypes={allowedTypes}
-                  onAddValue={_onNewPerson}
-                  roles={@props.metaKey.roles}/>}
+                  onAddValue={_onNewPerson}/>}
 
               {if withRoles and f.present(@state.editedItem)
                 <div className='multi-select mts'>
@@ -236,7 +237,7 @@ module.exports = React.createClass
                   <hr/>
                   <div className='ui-form-group test'>
                     <label className='form-label mrs'>{"Choose the role"}</label>
-                    {@_renderRoleSelect('role_id', @props.metaKey.roles)}
+                    {@_renderRoleSelect()}
                   </div>
                   <div className='ui-form-group limited-width-s pan'>
                     <button className='add-person button' onClick={@_onRoleSave}>
