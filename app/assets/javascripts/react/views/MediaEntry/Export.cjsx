@@ -5,10 +5,7 @@ f = require('active-lodash')
 parseUrl = require('url').parse
 t = require('../../../lib/i18n-translate.js')
 Modal = require('../../ui-components/Modal.cjsx')
-
-forceDownload = (url) ->
-  if (parseUrl(url).query) then throw new Error('URL should not have params!')
-  url + '?download'
+setUrlParams = require('../../../lib/set-params-for-url.coffee')
 
 module.exports = React.createClass
   displayName: 'MediaEntryExport'
@@ -137,3 +134,5 @@ module.exports = React.createClass
       </div>
 
     </Modal>
+
+forceDownload = (url) -> setUrlParams(url, {download: 'yes'})
