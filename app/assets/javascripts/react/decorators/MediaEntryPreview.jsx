@@ -4,6 +4,8 @@ const PropTypes = React.PropTypes
 const f = require('active-lodash')
 const t = require('../../lib/i18n-translate.js')
 const cx = require('classnames')
+const qs = require('qs')
+const parseUrl = require('url').parse
 
 // const Link = require('../ui-components/Link.cjsx')
 const Icon = require('../ui-components/Icon.cjsx')
@@ -149,27 +151,36 @@ module.exports = React.createClass({
   }
 })
 
-const IframeEmbed = ({ url }) => (
-  <div className="ui-media-overview-preview">
-    <div
-      style={{
-        width: '100%',
-        position: 'relative',
-        paddingTop: '56.25%'
-      }}>
-      <iframe
-        src={`${url}/embedded?internalEmbed`}
+const IframeEmbed = ({ url }) => {
+  const parsedUrl = parseUrl(url)
+  const params = qs.parse(parsedUrl.query)
+  const iframeSrc =
+    parsedUrl.pathname.replace(/\/*$/, '') +
+    '/embedded?' +
+    qs.stringify({ ...params, internalEmbed: 'yes' })
+
+  return (
+    <div className="ui-media-overview-preview">
+      <div
         style={{
-          height: '100% !important',
-          width: '100% !important',
-          position: 'absolute',
-          top: '0',
-          left: '0'
-        }}
-        allowFullScreen="true"
-        webkitallowfullscreen="true"
-        mozallowfullscreen="true"
-      />
+          width: '100%',
+          position: 'relative',
+          paddingTop: '56.25%'
+        }}>
+        <iframe
+          src={iframeSrc}
+          style={{
+            height: '100% !important',
+            width: '100% !important',
+            position: 'absolute',
+            top: '0',
+            left: '0'
+          }}
+          allowFullScreen="true"
+          webkitallowfullscreen="true"
+          mozallowfullscreen="true"
+        />
+      </div>
     </div>
-  </div>
-)
+  )
+}
