@@ -3,6 +3,9 @@ f = require('active-lodash')
 classList = require('classnames')
 
 t = require('../../../lib/i18n-translate.js')
+qs = require('qs')
+url = require('url')
+parseUrl = require('url').parse
 setUrlParams = require('../../../lib/set-params-for-url.coffee')
 UI = require('../../ui-components/index.coffee')
 MadekPropTypes = require('../../lib/madek-prop-types.coffee')
@@ -115,7 +118,7 @@ MediaResourcesLine = ({resources, children, authToken} = props)->
                 <li className='ui-featured-entry-action'>
                   <a
                     className='block'
-                    href={url + '/browse'}
+                    href={makeBrowseUrl(url)}
                     title={t('browse_entries_browse_link_title')}
                   >
                     <UI.Icon i='eye' />
@@ -129,3 +132,9 @@ MediaResourcesLine = ({resources, children, authToken} = props)->
     </div>
     <hr className='separator' />
   </div>
+
+
+makeBrowseUrl = (url) ->
+  parsedUrl = parseUrl(url)
+  params = qs.parse(parsedUrl.query)
+  parsedUrl.pathname.replace(/\/*$/, '') + '/browse?' + qs.stringify(params)
