@@ -1,6 +1,7 @@
 module Presenters
   module Keywords
     class KeywordShow < Presenters::Keywords::KeywordCommon
+      include AuthorizationSetup
 
       delegate_to_app_resource :description, :external_uri, :rdf_class
 
@@ -94,7 +95,7 @@ module Presenters
         )
         .distinct
 
-        "#{classname}Policy::Scope".constantize.new(@user, scope).resolve
+        auth_policy_scope(@user, scope)
       end
     end
   end

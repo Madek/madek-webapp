@@ -1,6 +1,8 @@
 module Presenters
   module People
     class PersonShow < Presenters::People::PersonCommon
+      include AuthorizationSetup
+
       delegate_to_app_resource \
         :first_name, :last_name, :to_s, \
         :external_uri, :description
@@ -88,7 +90,7 @@ module Presenters
         .where(meta_data_people: { person_id: person.id })
         .distinct
 
-        "#{klass.name}Policy::Scope".constantize.new(@user, scope).resolve
+        auth_policy_scope(@user, scope)
       end
     end
   end

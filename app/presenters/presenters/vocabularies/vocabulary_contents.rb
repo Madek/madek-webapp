@@ -1,6 +1,7 @@
 module Presenters
   module Vocabularies
     class VocabularyContents < Presenter
+      include AuthorizationSetup
 
       def initialize(vocabulary, user, list_conf, resources_type)
         @vocabulary = vocabulary
@@ -54,13 +55,13 @@ module Presenters
       def entries_scope(meta_key_ids)
         scope = MediaEntry.joins(:meta_data).where(
           meta_data: { meta_key_id: meta_key_ids }).distinct
-        MediaEntryPolicy::Scope.new(@user, scope).resolve
+        auth_policy_scope(@user, scope)
       end
 
       def collections_scope(meta_key_ids)
         scope = Collection.joins(:meta_data).where(
           meta_data: { meta_key_id: meta_key_ids }).distinct
-        CollectionPolicy::Scope.new(@user, scope).resolve
+        auth_policy_scope(@user, scope)
       end
 
     end
