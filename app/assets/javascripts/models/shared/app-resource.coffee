@@ -41,6 +41,7 @@ module.exports = Model.extend RailsResource,
       method: req.method
       url: req.url
       body: req.body
+      beforeSend: req.beforeSend
       headers: {
         'Accept': 'application/json'
         'X-CSRF-Token': getRailsCSRFToken()}},

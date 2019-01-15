@@ -13,10 +13,7 @@ class SuperBoxUpload extends React.Component {
     return (
       <ResourceThumbnail elm='div'
         style={null}
-        get={l.merge(
-          config.resource.serialize(),
-          {type: 'MediaEntry'}
-        )}
+        get={config.resource}
         isClient={true} fetchRelations={false}
         isSelected={false} onSelect={null} 
         authToken={config.authToken} key={'resource_' + (config.resource.uuid || config.resource.cid)}

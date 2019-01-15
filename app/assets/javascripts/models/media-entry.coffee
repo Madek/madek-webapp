@@ -95,10 +95,18 @@ module.exports = AppResource.extend(
 
     @merge('uploading', started: (new Date()).getTime())
 
+    # listen to progress if supported by XHR:
+    handleOnProgress = ({loaded, total} = event)=>
+      unless f.all([loaded, total], f.isNumber)
+        return console.error('Math error!')
+      @merge('uploading', progress: (loaded/total*100))
+
     req = @_runRequest {
       method: 'POST'
       url: app.config.relativeUrlRoot + '/entries/'
       body: formData
+      beforeSend: (xhrObject) ->
+        xhrObject.upload.onprogress = handleOnProgress
       },
       (err, res)=>
         # handle error
@@ -112,11 +120,4 @@ module.exports = AppResource.extend(
 
         # pass through to callback if given:
         callback(error || null, res) if f.isFunction(callback)
-
-    # listen to progress if supported by XHR:
-    if req.upload
-      req.upload.onprogress = ({loaded, total} = event)=>
-        unless f.all([loaded, total], f.isNumber)
-          return console.error('Math error!')
-        @merge('uploading', progress: (loaded/total*100))
 })
