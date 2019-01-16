@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import l from 'lodash'
 import ResourceThumbnail from './ResourceThumbnail.cjsx'
+import t from '../../lib/i18n-translate'
 
 class SuperBoxUpload extends React.Component {
 
@@ -60,8 +61,10 @@ class SuperBoxUpload extends React.Component {
       <div data-test-id='resources-box' className='ui-container midtone bordered rounded mvl ui-polybox'>
 
         <div className='ui-container inverted ui-toolbar pvx rounded-top'>
-          <h2 className='ui-toolbar-header pls' style={{minHeight: '1px'}}>
-            {ampersandCollection.length + ' Upload(s)'}
+          <h2 className="ui-toolbar-header pls" style={{ minHeight: '1px' }}>
+            {t('media_entry_media_import_box_header_a') +
+              ampersandCollection.length +
+              t('media_entry_media_import_box_header_b')}
           </h2>
         </div>
 

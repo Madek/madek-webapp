@@ -28,5 +28,7 @@ module.exports = function I18nTranslate (marker) {
     throw new Error(`Unknown language '${LANG}'!`)
   }
 
-  return f.presence(f.get(translations, [LANG, marker])) || '⟨' + marker + '⟩'
+  const s = f.get(translations, [LANG, marker])
+
+  return f.isString(s) ? s : '⟨' + marker + '⟩'
 }

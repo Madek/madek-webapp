@@ -5,6 +5,7 @@ AppResource = require('./shared/app-resource.coffee')
 Permissions = require('./media-entry/permissions.coffee')
 Person = require('./person.coffee')
 # MediaResources = require('./shared/media-resources.coffee')
+t = require('../lib/i18n-translate')
 getMediaType = require('./shared/get-media-type.js')
 MetaData = require('./meta-data.coffee')
 ResourceWithRelations = require('./concerns/resource-with-relations.coffee')
@@ -77,13 +78,15 @@ module.exports = AppResource.extend(
         filename = f.get(this, 'uploading.file.name')
         state = switch
           when @uploading.error
-            'Error!'
+            t('media_entry_media_import_box_upload_status_error')
           when not @uploading.progress
-            'Waiting…'
+            t('media_entry_media_import_box_upload_status_waiting')
           when @uploading.progress < 100
-            "Uploading… #{@uploading.progress.toFixed(2)}%"
+            t('media_entry_media_import_box_upload_status_progress_a') +
+            "#{@uploading.progress.toFixed(2)}" +
+            t('media_entry_media_import_box_upload_status_progress_b')
           else
-            'Processing…'
+            t('media_entry_media_import_box_upload_status_processing')
         return [filename, state]
 
   upload: (callback)->
