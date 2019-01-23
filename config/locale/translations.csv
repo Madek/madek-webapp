@@ -300,7 +300,9 @@ media_entry_media_import_box_upload_status_progress_b,"%","%",
 media_entry_media_import_box_upload_status_processing,Verarbeiten…,Processing…,
 media_entry_media_import_inside,Dateien auf dieses Feld ziehen oder ,Add files by drag and drop in this field or ,
 media_entry_media_import_inside_nojs,Dateien auswählen,Select files,
-media_entry_media_import_notes_msg,"Bilder (TIFF, JPEG, PNG) sowie Audio- und Videofiles in den gängigsten Formaten werden direkt verarbeitet und dargestellt. Bilder im CMYK-Farbraum werden nicht korrekt dargestellt. Wandeln Sie diese vor dem Importieren in RGB um.","Images (TIFF, JPEG, PNG) and audio/video files in the most common formats are processed and displayed directly. Images in the CMYK color model cannot be displayed correctly, please convert to RGB before uploading.",
+media_entry_media_import_notes_msg,"Für grosse Dateien auf eine schnelle Internet-Anbindung achten (Netzwerkkabel).
+Bilder (TIFF, JPEG, PNG) sowie Audio- und Videofiles in den gängigsten Formaten werden direkt verarbeitet und dargestellt. Bilder im CMYK-Farbraum werden nicht korrekt dargestellt. Wandeln Sie diese vor dem Importieren in RGB um.","Please use a fast internet connection (network cable) for large files.
+Images (TIFF, JPEG, PNG) and audio/video files in the most common formats are processed and displayed directly. Images in the CMYK color model cannot be displayed correctly, please convert to RGB before uploading.",
 media_entry_media_import_notes_title,Hinweise,Hints,
 media_entry_media_import_select_media,Medien auswählen,Select media files,
 media_entry_media_import_title,"Bilder, Videos, Audio-Dateien oder Dokumente bereitstellen.","Add images, video or audio files, or other documents.",

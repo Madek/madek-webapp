@@ -40,4 +40,4 @@
       %h3.title-m.prm
         %strong= t(:media_entry_media_import_notes_title)
       %p.prm.ptx
-        = t(:media_entry_media_import_notes_msg)
+        = (t(:media_entry_media_import_notes_msg) || '').to_s.gsub(/\n/, '<br/>').html_safe
