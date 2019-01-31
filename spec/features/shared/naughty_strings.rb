@@ -44,6 +44,11 @@ RSpec.shared_examples '"naughty strings"' do |range|
       else
         expect(page.text).to match /Error 4\d\d/
       end
+
+      click_on I18n.t(:sitemap_search)
+      fill_in 'search', with: s
+      click_on I18n.t(:search_btn_search)
+      expect(page.text).not_to match /Error 5\d\d/
     end
   end
   end
