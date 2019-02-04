@@ -54,6 +54,13 @@ module MetaDataHelper
       media_entry: resource)
   end
 
+  def add_roles_datum(resource, meta_key_id)
+    FactoryGirl.create(
+      :meta_datum_roles,
+      meta_key: MetaKey.find_by(id: meta_key_id),
+      media_entry: resource)
+  end
+
   def update_text_field(key, value)
     meta_key = MetaKey.find(key)
     element = meta_key.text_type == 'line' ? 'input' : 'textarea'
@@ -93,7 +100,7 @@ module MetaDataHelper
     login_and_edit
     open_full_or_context(config, config[:async])
 
-    within('.tab-content') do
+    within('.app-body-ui-container') do
       manipulate.call
       submit_form
     end

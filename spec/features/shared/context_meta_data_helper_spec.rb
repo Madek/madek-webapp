@@ -36,6 +36,30 @@ module ContextMetaDataHelper
       .set(value.id)
   end
 
+  def update_context_roles_field(context_id, meta_key_id, value, full: false)
+    open_context(context_id, true) unless full
+
+    form = find_context_meta_key_form_by_id(context_id, meta_key_id)
+    autocomplete_and_choose_first(form, value, press_escape: true)
+
+    random_role = MetaKey.find(meta_key_id).roles.map(&:label).sample
+
+    within form do
+      form.find('table a', text: 'Add a role').click
+      select random_role, from: 'role_id'
+      click_button I18n.t(:meta_data_input_person_save)
+    end
+  end
+
+  def clean_context_roles_field(context_id, meta_key_id, full: false)
+    open_context(context_id, true) unless full
+
+    fieldset = find_context_meta_key_form_by_id(context_id, meta_key_id)
+    until fieldset.all('.form-item table tr td:last-child a').empty?
+      fieldset.all('.form-item table tr td:last-child a').first.click
+    end
+  end
+
   def read_context_bubble_no_js(context_id, meta_key_id)
     find_context_meta_key_form_by_id(context_id, meta_key_id)
       .find('.form-item-add input')

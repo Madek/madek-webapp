@@ -238,7 +238,7 @@ module.exports = React.createClass
                     <strong> {f.trim("#{@state.editedItem.first_name} #{@state.editedItem.last_name}")}</strong>
                   </label>
                   <hr/>
-                  <div className='ui-form-group test'>
+                  <div className='ui-form-group'>
                     <label className='form-label mrs'>{"Choose the role"}</label>
                     {@_renderRoleSelect()}
                   </div>
@@ -254,7 +254,7 @@ module.exports = React.createClass
               }
 
               {if withRoles
-                <table className='block multi-selectX mts'>
+                <table className='block mts'>
                   <tbody>
                   {values.map (item, i) =>
                     <tr key={i}>

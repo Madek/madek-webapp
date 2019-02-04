@@ -19,6 +19,7 @@ Action: Updating
 Tested variations :
 1. a. MD::Text exists, value is present: update MD
 1. b. MD::People exists, value is present: update MD
+1. c. MD::Roles exists, value is present: update MD
 2. MD exists, value is empty: delete MD
 3. MD does not exist, value is present: create MD
 4. MD does not exist, value is empty: ignore/skip
@@ -69,6 +70,15 @@ feature 'Resource: MediaEntry' do
             update_bubble('madek_core:authors', person_name(@co_author))
             update_text_field('madek_core:description', '')
             update_bubble('media_object:creator', person_name(@creator))
+            clean_context_roles_field(
+              'media_object',
+              'media_object:roles_movie',
+              full: true)
+            update_context_roles_field(
+              'media_object',
+              'media_object:roles_music',
+              @person_with_role,
+              full: true)
           end,
           lambda do
             expect(find_datum(@resource, 'madek_core:title').string)
@@ -84,6 +94,16 @@ feature 'Resource: MediaEntry' do
               .to eq([@creator])
             expect(find_datum(@resource, 'madek_core:portrayed_object_date'))
               .to eq nil
+            expect(find_datum(@resource, 'media_object:roles_movie')).to be_nil
+            expect(find_datum(@resource, 'media_object:roles_music').value.size)
+              .to eq 1
+            expect(
+              find_datum(@resource, 'media_object:roles_music').value.first.person)
+                .to eq @person_with_role
+            expect(
+              find_datum(@resource, 'media_object:roles_music').value.first.role)
+                .to be
+            expect(find_datum(@resource, 'media_object:theater')).to be_nil
           end
         )
       end
@@ -112,6 +132,13 @@ feature 'Resource: MediaEntry' do
               'media_content',
               'madek_core:description',
               '')
+            clean_context_roles_field(
+              'media_object',
+              'media_object:roles_movie')
+            update_context_roles_field(
+              'media_object',
+              'media_object:roles_music',
+              @person_with_role)
           end,
           lambda do
             expect(find_datum(@resource, 'madek_core:title').string)
@@ -122,9 +149,19 @@ feature 'Resource: MediaEntry' do
               .to include(@co_author)
             expect(find_datum(@resource, 'madek_core:authors')
               .try(:people).length).to eq(2)
-            expect(find_datum(@resource, 'madek_core:description')).to eq nil
+            expect(find_datum(@resource, 'madek_core:description')).to be_nil
             expect(find_datum(@resource, 'madek_core:portrayed_object_date'))
-              .to eq nil
+              .to be_nil
+            expect(find_datum(@resource, 'media_object:roles_movie')).to be_nil
+            expect(find_datum(@resource, 'media_object:roles_music').value.size)
+              .to eq 1
+            expect(
+              find_datum(@resource, 'media_object:roles_music').value.first.person)
+                .to eq @person_with_role
+            expect(
+              find_datum(@resource, 'media_object:roles_music').value.first.role)
+                .to be
+            expect(find_datum(@resource, 'media_object:theater')).to be_nil
           end
         )
       end
@@ -142,6 +179,7 @@ def prepare_data
   @author = create_or_find_person('Author')
   @co_author = create_or_find_person('Co-Author')
   @creator = create_or_find_person('Creator')
+  prepare_roles
 
   add_authors_datum(@resource, [@author])
   expect(find_datum(@resource, 'madek_core:authors').people.length).to eq 1
@@ -149,4 +187,47 @@ def prepare_data
   add_creators_datum(@resource, [])
 
   @resource.reload
+end
+
+def prepare_roles
+  mk_roles_movie = create(
+    :meta_key_roles,
+    label: 'Rollen (Film)',
+    id: 'media_object:roles_movie')
+  mk_roles_music = create(
+    :meta_key_roles,
+    label: 'Rollen (Musik)',
+    id: 'media_object:roles_music')
+  mk_roles_theater = create(
+    :meta_key_roles,
+    label: 'Rollen (Theater)',
+    id: 'media_object:roles_theater')
+
+  create_roles_for(mk_roles_movie, mk_roles_music, mk_roles_theater)
+  create_context_key_for(mk_roles_movie, mk_roles_music, mk_roles_theater)
+
+  add_roles_datum(@resource, mk_roles_movie.id)
+
+  md = find_datum(@resource, 'media_object:roles_movie')
+  expect(md.meta_data_roles.where(role_id: nil).size).to eq 1
+  expect(md.meta_data_roles.where.not(role_id: nil).size).to eq 3
+
+  @person_with_role = create_or_find_person 'Ruby master'
+end
+
+def create_roles_for(*meta_keys)
+  meta_keys.each do |meta_key|
+    3.times { create :role, meta_key: meta_key }
+  end
+end
+
+def create_context_key_for(*meta_keys)
+  context = Context.find('media_object')
+  meta_keys.each do |meta_key|
+    create(
+      :context_key,
+      label: nil,
+      meta_key: meta_key,
+      context: context)
+  end
 end
