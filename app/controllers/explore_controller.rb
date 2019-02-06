@@ -126,7 +126,7 @@ class ExploreController < ApplicationController
   end
 
   def size_param
-    params.require(:preview_size)
+    params.require(:preview_size).to_sym
   end
 
   def category_param
