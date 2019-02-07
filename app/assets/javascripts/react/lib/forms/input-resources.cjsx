@@ -234,12 +234,12 @@ module.exports = React.createClass
               {if withRoles and f.present(@state.editedItem)
                 <div className='multi-select mts'>
                   <label className="form-label pas">
-                    {if f.present(@state.editedRole) then 'Edit the role of' else 'Add a role to'} 
-                    <strong> {f.trim("#{@state.editedItem.first_name} #{@state.editedItem.last_name}")}</strong>
+                    {if f.present(@state.editedRole) then t('meta_data_role_edit_heading') else t('meta_data_role_add_heading')} 
+                    <strong> {decorateResource(@state.editedItem, false)}</strong>
                   </label>
                   <hr/>
                   <div className='ui-form-group'>
-                    <label className='form-label mrs'>{"Choose the role"}</label>
+                    <label className='form-label mrs'>{t('meta_data_role_choose_label')}</label>
                     {@_renderRoleSelect()}
                   </div>
                   <div className='ui-form-group limited-width-s pan'>
@@ -247,7 +247,7 @@ module.exports = React.createClass
                       {t('meta_data_input_person_save')}
                     </button>
                     <button className='update-person button mls' onClick={@_onRoleCancel}>
-                      {'Cancel'}
+                      {t('meta_data_form_cancel')}
                     </button>
                   </div>
                 </div>
@@ -264,16 +264,16 @@ module.exports = React.createClass
                         {if f.present(item.role)
                           (role = item.role)
                           <span className="mbs" style={{float: 'right'}} key={role.id}>
-                            <a href="#" onClick={(e) => @_onRoleEdit(role.id, i, e)} className='mls button small'>Edit role</a>
-                            <a href="#" onClick={(e) => @_onRoleRemove(i, e)} className='mlx button small'>Remove role</a>
+                            <a href="#" onClick={(e) => @_onRoleEdit(role.id, i, e)} className='mls button small'>{t('meta_data_role_edit_btn')}</a>
+                            <a href="#" onClick={(e) => @_onRoleRemove(i, e)} className='mlx button small'>{t('meta_data_role_remove_btn')}</a>
                           </span>
                         }
                       </td>
                       <td style={{width: '160px'}} className='pvs by-center'>
                         {if f.present(item.role)
-                          <a href="#" onClick={(e) => @_onRoleAdd(i, e)} className='button small'>+ Add another role</a>}
+                          <a href="#" onClick={(e) => @_onRoleAdd(i, e)} className='button small'>+ {t('meta_data_role_add_another_btn')}</a>}
                         {unless f.present(item.role)
-                          <a href="#" onClick={(e) => @_onRoleAdd(i, e)} className='button small'>+ Add a role</a>}
+                          <a href="#" onClick={(e) => @_onRoleAdd(i, e)} className='button small'>+ {t('meta_data_role_add_btn')}</a>}
                       </td>
                       <td style={{width: '32px'}} className='pvs by-center'>
                         {i < values.length - 1 and (

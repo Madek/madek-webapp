@@ -1,9 +1,9 @@
 f = require('active-lodash')
 
 decorators =
-  Person: (o)->
+  Person: (o, withRole = true)->
     if f.present(o.role) or o.isNew
-      buildPersonName(o)
+      buildPersonName(o, withRole)
     else
       o.name
   InstitutionalGroup: (o)-> o.detailed_name
@@ -15,14 +15,14 @@ module.exports = (o)->
   unless f.isObject(o) and f.isFunction(decorate = decorators[o.type])
     throw new Error('Decorator: Unknown Resource! Type: ' + o.type + ' Object: ' + JSON.stringify(o))
 
-  decorate(o)
+  decorate(arguments...)
 
 
 # TODO: move to Person model
-buildPersonName = (o)->
+buildPersonName = (o, withRole)->
   fullName = if f.any([o.first_name, o.last_name], f.present)
     f.trim("#{o.first_name || ''} #{o.last_name || ''}")
-  role = if o.role && f.present(o, 'role.label')
+  role = if withRole and o.role and f.present(o, 'role.label')
     ": #{o.role.label}"
   else
     ''
