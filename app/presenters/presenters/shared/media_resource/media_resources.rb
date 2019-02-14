@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 module Presenters
   module Shared
     module MediaResource
@@ -16,6 +17,7 @@ module Presenters
       }
 
       class MediaResources < Presenter
+        include AuthorizationSetup
         include Presenters::Shared::MediaResource::Modules::IndexPresenterByClass
 
         attr_reader :resources, :pagination, :has_user, :can_filter, :type
@@ -99,6 +101,12 @@ module Presenters
 
         def clipboard_url
           my_dashboard_section_path(:clipboard)
+        end
+
+        def feature_toggles
+          {
+            beta_test_quick_edit: auth_policy(@user, :user).beta_test_quick_edit?
+          }
         end
 
         private

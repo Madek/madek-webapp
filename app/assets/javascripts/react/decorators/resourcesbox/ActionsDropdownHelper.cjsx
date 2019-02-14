@@ -9,8 +9,7 @@ MenuItem = Dropdown.MenuItem
 
 
 showActionsConfig = (parameters) ->
-  {totalCount, withActions, selection, saveable, draftsView, isClient, collectionData, config, isClipboard, content_type} = parameters
-
+  {totalCount, withActions, selection, saveable, draftsView, isClient, collectionData, config, featureToggles, isClipboard, content_type} = parameters
   showActions = if not withActions then {} else {
     addToClipboard: true if !isClipboard && selection && !draftsView
     removeFromClipboard: true if isClipboard && selection && !draftsView
@@ -24,6 +23,7 @@ showActionsConfig = (parameters) ->
     removeFromSet: true if !isClipboard && selection && f.present(collectionData) && !draftsView
     transferResponsibility: true if !draftsView && selection
     transferResponsibilitySets: true if !draftsView && selection
+    quickEdit: !!featureToggles.beta_test_quick_edit
   }
   showActions
 

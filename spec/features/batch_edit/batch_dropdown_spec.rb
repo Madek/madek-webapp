@@ -31,6 +31,93 @@ feature 'Batch dropdown' do
       collections_permissions: { count: 0, active: false },
       media_entries_transfer_responsibility: { count: 0, active: false },
       collections_transfer_responsibility: { count: 0, active: false },
+      meta_data_batch: false
+    )
+
+    click_dropdown
+    click_select_all_on_first_page
+
+    click_dropdown
+    check_full_dropdown(
+      add_to_clipboard: { count: 6, all: false },
+      add_to_set: { count: 6, highlights: all_resources },
+      remove_from_set: { count: 6, highlights: all_resources },
+      media_entries_metadata: { count: 3, highlights: media_entries_1_2_3 },
+      collections_metadata: { count: 3, highlights: collections_1_2_3 },
+      resources_destroy: { count: 6, highlights: all_resources },
+      media_entries_permissions: { count: 3, highlights: media_entries_1_2_3 },
+      collections_permissions: { count: 3 },
+      media_entries_transfer_responsibility: { count: 3 },
+      collections_transfer_responsibility: { count: 3 },
+      meta_data_batch: false
+    )
+
+    click_dropdown
+    click_select_all_on_first_page
+    select_media_entries(media_entries_1_3)
+
+    click_dropdown
+    check_full_dropdown(
+      add_to_clipboard: { count: 2, all: false },
+      add_to_set: { count: 2, highlights: media_entries_1_3 },
+      remove_from_set: { count: 2, highlights: media_entries_1_3 },
+      media_entries_metadata: { count: 2, highlights: media_entries_1_3 },
+      collections_metadata: { count: 0, active: false, highlights: [] },
+      resources_destroy: { count: 2, highlights: media_entries_1_3 },
+      media_entries_permissions: { count: 2, highlights: media_entries_1_3 },
+      collections_permissions: { count: 0, active: false, highlights: [] },
+      media_entries_transfer_responsibility: {
+        count: 2, highlights: media_entries_1_3 },
+      collections_transfer_responsibility: {
+        count: 0, active: false, highlights: [] },
+      meta_data_batch: false
+    )
+
+    click_dropdown
+    click_select_all_on_first_page
+    select_collections(collections_1_3)
+
+    click_dropdown
+    check_full_dropdown(
+      add_to_clipboard: { count: 2, all: false },
+      add_to_set: { count: 2, highlights: collections_1_3 },
+      remove_from_set: { count: 2, highlights: collections_1_3 },
+      media_entries_metadata: { count: 0, active: false, highlights: [] },
+      collections_metadata: { count: 2, highlights: collections_1_3 },
+      resources_destroy: { count: 2, highlights: collections_1_3 },
+      media_entries_permissions: { count: 0, active: false, highlights: [] },
+      collections_permissions: { count: 2, highlights: collections_1_3 },
+      media_entries_transfer_responsibility: {
+        count: 0, active: false, highlights: [] },
+      collections_transfer_responsibility: {
+        count: 2, highlights: collections_1_3 },
+      meta_data_batch: false
+    )
+  end
+
+  scenario 'Check dropdown menu and for `beta_test_quick_edit` group' do
+    prepare_user
+
+    beta_testers_group_id = Madek::Constants::BETA_TESTERS_QUICK_EDIT_GROUP_ID
+    beta_testers_group = InstitutionalGroup.find_by(id: beta_testers_group_id)
+    @user.groups << beta_testers_group
+
+    prepare_data
+    login
+    visit collection_path(@parent_collection)
+
+    click_dropdown
+    check_full_dropdown(
+      add_to_clipboard: { count: 6, all: true },
+      add_to_set: { count: 0, active: false },
+      remove_from_set: { count: 0, active: false },
+      media_entries_metadata: { all: true },
+      resources_destroy: { count: 0, active: false },
+      collections_metadata: { all: true },
+      media_entries_permissions: { count: 0, active: false },
+      collections_permissions: { count: 0, active: false },
+      media_entries_transfer_responsibility: { count: 0, active: false },
+      collections_transfer_responsibility: { count: 0, active: false },
       meta_data_batch: {}
     )
 
@@ -70,27 +157,6 @@ feature 'Batch dropdown' do
         count: 2, highlights: media_entries_1_3 },
       collections_transfer_responsibility: {
         count: 0, active: false, highlights: [] },
-      meta_data_batch: {}
-    )
-
-    click_dropdown
-    click_select_all_on_first_page
-    select_collections(collections_1_3)
-
-    click_dropdown
-    check_full_dropdown(
-      add_to_clipboard: { count: 2, all: false },
-      add_to_set: { count: 2, highlights: collections_1_3 },
-      remove_from_set: { count: 2, highlights: collections_1_3 },
-      media_entries_metadata: { count: 0, active: false, highlights: [] },
-      collections_metadata: { count: 2, highlights: collections_1_3 },
-      resources_destroy: { count: 2, highlights: collections_1_3 },
-      media_entries_permissions: { count: 0, active: false, highlights: [] },
-      collections_permissions: { count: 2, highlights: collections_1_3 },
-      media_entries_transfer_responsibility: {
-        count: 0, active: false, highlights: [] },
-      collections_transfer_responsibility: {
-        count: 2, highlights: collections_1_3 },
       meta_data_batch: {}
     )
   end

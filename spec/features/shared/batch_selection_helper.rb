@@ -18,12 +18,14 @@ module BatchSelectionHelper
   def check_full_dropdown(expected_counts)
     expect(expected_counts.keys.sort).to eq(all_logical_menu_keys.sort)
 
+    expected_menu = expected_counts.reject { |k, v| !v }
+
     within '[data-test-id=resources_box_dropdown]' do
       expect(page).to have_selector(
-        '.ui-drop-item', count: expected_counts.keys.length)
+        '.ui-drop-item', count: expected_menu.keys.length)
     end
 
-    check_dropdown(expected_counts)
+    check_dropdown(expected_menu)
   end
 
   def check_menu_config(menu_config)

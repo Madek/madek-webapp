@@ -109,12 +109,13 @@ module.exports = React.createClass
                 t('resources_box_batch_actions_edit_sets'))}
 
 
-          <MenuItem onClick={@props.callbacks.onQuickBatch}>
-            <i className='fa fa-magic' style={{position: 'static', display: 'inline-block', minWidth: '20px', marginLeft: '5px'}}></i>
-            <span style={{display: 'inline', marginLeft: '5px'}}>
-              <span style={{color: '#9a9a9a'}}>{t('resources_box_batch_actions_meta_data_batch_new')}</span>{' '}{t('resources_box_batch_actions_meta_data_batch')}
-            </span>
-          </MenuItem>
+          {if showActions.quickEdit
+            <MenuItem onClick={@props.callbacks.onQuickBatch}>
+              <i className='fa fa-magic' style={{position: 'static', display: 'inline-block', minWidth: '20px', marginLeft: '5px'}}></i>
+              <span style={{display: 'inline', marginLeft: '5px'}}>
+                <span style={{color: '#9a9a9a'}}>{t('resources_box_batch_actions_meta_data_batch_new')}</span>{' '}{t('resources_box_batch_actions_meta_data_batch')}
+              </span>
+            </MenuItem>}
 
 
           {if showActions.deleteResources

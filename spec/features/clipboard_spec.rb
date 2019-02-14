@@ -47,7 +47,7 @@ feature 'clipboard' do
       collections_permissions: { count: 0, active: false },
       media_entries_transfer_responsibility: { count: 0, active: false },
       collections_transfer_responsibility: { count: 0, active: false },
-      meta_data_batch: {}
+      meta_data_batch: false
     )
     click_batch_action(:add_to_clipboard, all: true, all_count: 4)
     click_dialog_ok
@@ -79,7 +79,7 @@ feature 'clipboard' do
       collections_permissions: { count: 1 },
       media_entries_transfer_responsibility: { count: 1 },
       collections_transfer_responsibility: { count: 1 },
-      meta_data_batch: {}
+      meta_data_batch: false
     )
     click_batch_action(:add_to_clipboard, all: false)
     check_add_success_message

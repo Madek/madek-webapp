@@ -698,6 +698,7 @@ module.exports = React.createClass
       isClient: @state.isClient
       collectionData: @props.collectionData
       config: config
+      featureToggles: get.feature_toggles
       isClipboard: if @props.initial then @props.initial.is_clipboard else false
       content_type: @props.get.content_type
     }
