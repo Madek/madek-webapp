@@ -36,7 +36,7 @@ class BoxTitlebar extends React.Component {
 
   getDropdownItems() {
     var currentUrl = this.props.currentUrl
-    return f.compact([
+    var items = f.compact([
       {
         label: t('collection_sorting_created_at_asc'),
         key: 'created_at ASC',
@@ -47,14 +47,20 @@ class BoxTitlebar extends React.Component {
         key: 'created_at DESC',
         href: boxSetUrlParams(currentUrl, {list: {order: 'created_at DESC'}})
       },
-
       (
         this.props.enableOrderByTitle ?
-          {
-            label: t('collection_sorting_title_asc'),
-            key: 'title ASC',
-            href: boxSetUrlParams(currentUrl, {list: {order: 'title ASC'}})
-          }
+          (
+            [{
+              label: t('collection_sorting_title_asc'),
+              key: 'title ASC',
+              href: boxSetUrlParams(currentUrl, {list: {order: 'title ASC'}})
+            },
+            {
+              label: t('collection_sorting_title_desc'),
+              key: 'title DESC',
+              href: boxSetUrlParams(currentUrl, {list: {order: 'title DESC'}})
+            }]
+          )
         :
           null
       ),
@@ -64,6 +70,8 @@ class BoxTitlebar extends React.Component {
         href: boxSetUrlParams(currentUrl, {list: {order: 'last_change'}})
       }
     ])
+
+    return f.flatten(items)
   }
 
 

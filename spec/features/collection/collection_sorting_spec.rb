@@ -81,12 +81,19 @@ feature 'collection sorting' do
       '2 Media Entry',
       '3 Collection',
       '4 Media Entry']
+    expected_title_desc = [
+      '4 Media Entry',
+      '3 Collection',
+      '2 Media Entry',
+      '1 Collection']
 
     check_children_explicitly(expected_created_at_asc)
     select_sorting(:collection_sorting_created_at_desc)
     check_children_explicitly(expected_created_at_asc.reverse)
     select_sorting(:collection_sorting_title_asc)
     check_children_explicitly(expected_title_asc)
+    select_sorting(:collection_sorting_title_desc)
+    check_children_explicitly(expected_title_desc)
   end
 
   scenario 'sort by last change' do
