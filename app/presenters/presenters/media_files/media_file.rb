@@ -40,7 +40,7 @@ module Presenters
       end
 
       def original_file_url
-        return unless Pundit.policy(@user, @app_resource).show?
+        return unless auth_policy(@user, @app_resource).show?
         media_file_path(@app_resource)
       end
 
