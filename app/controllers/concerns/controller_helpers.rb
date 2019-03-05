@@ -49,8 +49,6 @@ module Concerns
       "::Presenters::#{base_klass}::#{klass}".constantize
     end
 
-    private
-
     def handle_confidential_links(resource)
       return unless resource.respond_to?(:accessed_by_confidential_link)
       if token = get_valid_access_token(resource)
@@ -60,6 +58,8 @@ module Concerns
         resource.accessed_by_confidential_link = true
       end
     end
+
+    private
 
     def get_valid_access_token(resource)
       return unless resource

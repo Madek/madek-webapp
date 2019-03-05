@@ -13,16 +13,29 @@ module Modules
       end
 
       def embedded
-        media_entry = MediaEntry.unscoped.find(id_param)
-        get_authorized_resource(media_entry)
-        media_type = media_entry.try(:media_file).try(:media_type)
+        # allow this to be displayed inside an <iframe>
+        response.headers.delete('X-Frame-Options')
 
-        # non-public entries can only be embedded from whitelisted hosts
-        unless embed_whitelisted? || media_entry.get_metadata_and_previews
-          return redirect_to(media_entry_path(media_entry))
-        end
+        media_entry = MediaEntry.unscoped.find(id_param)
+        media_type = media_entry.try(:media_file).try(:media_type)
+        handle_confidential_links(media_entry)
+
         # only whitelisted hosts can hide the title etc
+        # by default this is for our OWN ui!
         is_internal = embed_whitelisted? && params.keys.include?('internalEmbed')
+
+        # - special case policy: differ for internal and external embeds.
+        # - special case error handling: dont raise `UnauthorizedError`,
+        # because logging in won't change the result (see policy for why)
+        begin
+          if is_internal
+            auth_authorize(media_entry, :embedded_internally?)
+          else
+            auth_authorize(media_entry, :embedded_externally?)
+          end
+        rescue Pundit::NotAuthorizedError
+          raise Errors::ForbiddenError
+        end
 
         # errors
         unless EMBED_SUPPORTED_MEDIA.include?(media_type)
@@ -35,9 +48,6 @@ module Modules
 
         conf = params.permit(:width, :height, :ratio)
           .merge(isInternal: is_internal)
-
-        # allow this to be displayed inside an <iframe>
-        response.headers.delete('X-Frame-Options')
 
         @get = Presenters::MediaEntries::MediaEntryEmbedded.new(media_entry, conf)
           .dump.merge(authToken: nil)

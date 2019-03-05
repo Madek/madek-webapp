@@ -31,21 +31,28 @@ class ConfidentialLinks extends React.Component {
       <div>
         <PageHeader icon={null} title={title} actions={null} />
 
-        <div className='bright ui-container pal bordered rounded'>
+        <div className="bright ui-container pal bordered rounded">
           <div>
-        <div className="ui-resources-holder pal">
-          <div className="ui-container pbl">
-            <div className="ui-resources-header">
-              <h2 className="title-l ui-resources-title">{t('confidential_links_header')}</h2>
+            <div className="ui-resources-holder pal">
+              <div className="ui-container pbl">
+                <div className="ui-resources-header">
+                  <h2 className="title-l ui-resources-title">{t('confidential_links_header')}</h2>
+                </div>
+                <ConfidentialLinksList
+                  list={confidentialLinksList}
+                  actions={[newButton]}
+                  authToken={authToken}
+                />
+              </div>
             </div>
-            <ConfidentialLinksList list={confidentialLinksList} actions={[newButton]} authToken={authToken} />
+            <div className="ui-actions phl pbl">
+              <a className="button" href={get.actions.go_back.url}>
+                {' '}
+                {backText}{' '}
+              </a>
+            </div>
           </div>
         </div>
-        <div className='ui-actions phl pbl'>
-          <a className='button' href={get.actions.go_back.url}> {backText} </a>
-        </div>
-      </div>
-      </div>
       </div>
     )
   }
@@ -56,10 +63,7 @@ const ConfidentialLinksList = ({ list, actions, authToken }) => {
   const activeUrls = f.difference(list, revokedUrls)
   const allUrls = f.compact([
     [activeUrls],
-    !f.isEmpty(revokedUrls) && [
-      revokedUrls,
-      t('confidential_links_list_revoked_title')
-    ]
+    !f.isEmpty(revokedUrls) && [revokedUrls, t('confidential_links_list_revoked_title')]
   ])
 
   return (
@@ -68,32 +72,7 @@ const ConfidentialLinksList = ({ list, actions, authToken }) => {
         <div key={i}>
           {!!label && <h4 className="title-s mtl mbm">{label}</h4>}
           <table className="ui-workgroups bordered block aligned">
-            <thead>
-              <tr>
-                <td>
-                  <span className="ui-resources-table-cell-content">
-                    {t('confidential_links_head_token')}
-                  </span>
-                </td>
-                <td>
-                  <span className="ui-resources-table-cell-content">
-                    {t('confidential_links_head_name')}
-                  </span>
-                </td>
-                <td>
-                  <span className="ui-resources-table-cell-content">
-                    {t('confidential_links_head_valid_since')}
-                  </span>
-                </td>
-                <td>
-                  <span className="ui-resources-table-cell-content">
-                    {t('confidential_links_head_valid_until')}
-                  </span>
-                </td>
-                <td />
-                <td />
-              </tr>
-            </thead>
+            <ConfidentialLinkHead />
             <tbody>
               {f.map(urls, url => (
                 <ConfidentialLinkRow key={url.uuid} {...url} authToken={authToken} />
@@ -106,6 +85,33 @@ const ConfidentialLinksList = ({ list, actions, authToken }) => {
     </div>
   )
 }
+
+const ConfidentialLinkHead = () => (
+  <thead>
+    <tr>
+      <td>
+        <span className="ui-resources-table-cell-content">
+          {t('confidential_links_head_token')}
+        </span>
+      </td>
+      <td>
+        <span className="ui-resources-table-cell-content">{t('confidential_links_head_name')}</span>
+      </td>
+      <td>
+        <span className="ui-resources-table-cell-content">
+          {t('confidential_links_head_valid_since')}
+        </span>
+      </td>
+      <td>
+        <span className="ui-resources-table-cell-content">
+          {t('confidential_links_head_valid_until')}
+        </span>
+      </td>
+      <td />
+      <td />
+    </tr>
+  </thead>
+)
 
 const ConfidentialLinkRow = ({ authToken, ...confidentialLink }) => {
   Moment.locale(currentLocale())
@@ -130,13 +136,12 @@ const ConfidentialLinkRow = ({ authToken, ...confidentialLink }) => {
   return (
     <tr key={uuid} style={trStyle}>
       <td>
-        {f.isString(label) && label.slice(0, 6)}{'…'}
+        {f.isString(label) && label.slice(0, 6)}
+        {'…'}
       </td>
       <td>
         <div className="measure-narrow">
-          {!f.isEmpty(description)
-            ? description
-            : t('confidential_links_list_no_description')}
+          {!f.isEmpty(description) ? description : t('confidential_links_list_no_description')}
         </div>
       </td>
       <td>
@@ -154,9 +159,7 @@ const ConfidentialLinkRow = ({ authToken, ...confidentialLink }) => {
         )}
       </td>
       <td>
-        {!!showAction && (
-          <Link href={showAction.url}>{t('confidential_links_list_show_url')}</Link>
-        )}
+        {!!showAction && <Link href={showAction.url}>{t('confidential_links_list_show_url')}</Link>}
       </td>
       <td className="ui-workgroup-actions">
         {!!revokeAction && (
@@ -164,18 +167,13 @@ const ConfidentialLinkRow = ({ authToken, ...confidentialLink }) => {
             name={'confidential_link'}
             authToken={authToken}
             method={revokeAction.method}
-            action={revokeAction.url}
-          >
+            action={revokeAction.url}>
             <input name="confidential_link[revoked]" value="true" type="hidden" />
-            <UI.Tooltipped
-              text={t('confidential_links_list_revoke_btn_hint')}
-              id={`btnrv.${uuid}`}
-            >
+            <UI.Tooltipped text={t('confidential_links_list_revoke_btn_hint')} id={`btnrv.${uuid}`}>
               <button
                 className="button"
                 type="submit"
-                data-confirm={t('confidential_links_list_revoke_confirm')}
-              >
+                data-confirm={t('confidential_links_list_revoke_confirm')}>
                 <i className="fa fa-ban" />
               </button>
             </UI.Tooltipped>
@@ -187,4 +185,5 @@ const ConfidentialLinkRow = ({ authToken, ...confidentialLink }) => {
 }
 
 module.exports = ConfidentialLinks
+ConfidentialLinks.ConfidentialLinkHead = ConfidentialLinkHead
 ConfidentialLinks.ConfidentialLinkRow = ConfidentialLinkRow

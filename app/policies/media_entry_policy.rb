@@ -6,6 +6,18 @@ class MediaEntryPolicy < Shared::MediaResources::MediaResourcePolicy
     super or allow_for_creator_if_unpublished(record, user)
   end
 
+  def embedded_internally?
+    show? || accessed_by_confidential_link?
+  end
+
+  def embedded_externally?
+    # External embedding is ignoring any *user-specific* permissions!
+    # This is to make sure that when a user embed contents somewhere else,
+    # it will always work for all other users as well.
+    record.viewable_by_public? ||
+     accessed_by_confidential_link?
+  end
+
   def update?
     super or allow_for_creator_if_unpublished(record, user)
   end
@@ -67,7 +79,6 @@ class MediaEntryPolicy < Shared::MediaResources::MediaResourcePolicy
   alias_method :edit?, :update?
 
   alias_method :export?, :show?
-  alias_method :embedded?, :show?
 
   alias_method :meta_data_update?, :update?
   alias_method :advanced_meta_data_update?, :update?

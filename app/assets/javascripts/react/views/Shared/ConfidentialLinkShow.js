@@ -1,49 +1,61 @@
 import React from 'react'
 import f from 'lodash'
-import { ConfidentialLinkRow } from './ConfidentialLinks'
+import { ConfidentialLinkHead, ConfidentialLinkRow } from './ConfidentialLinks'
 import ui from '../../lib/ui.coffee'
 import UI from '../../ui-components/index.coffee'
 const t = ui.t
 
 class ConfidentialLinkCreated extends React.Component {
-  render (props = this.props) {
+  render(props = this.props) {
     const { get } = props
     const justCreated = f.get(get, 'just_created', false)
     const indexAction = f.get(get, 'actions.index.url')
-    const title = justCreated ? t('confidential_links_created_title') : t('confidential_links_show_title')
+    const title = justCreated
+      ? t('confidential_links_created_title')
+      : t('confidential_links_show_title')
 
     return (
-      <div
-        className='by-center'
-        style={{ marginLeft: 'auto', marginRight: 'auto' }}
-      >
+      <div className="by-center" style={{ marginLeft: 'auto', marginRight: 'auto' }}>
         <div
-          className='ui-container bright bordered rounded mal phl pbs'
-          style={{ display: 'inline-block' }}
-        >
-          <h3 className='title-l mas'>
-            {title}
-          </h3>
+          className="ui-container bright bordered rounded phl pbs"
+          style={{ display: 'inline-block' }}>
+          <h3 className="title-l mam">{title}</h3>
           {get.revoked && (
-            <h4 className='title-s mas' style={{ color: 'darkred' }}>revoked</h4>
+            <h4 className="title-s mas" style={{ color: 'darkred' }}>
+              revoked
+            </h4>
           )}
-          <div>
-            <p
-              className='ui-container bordered rounded mam pas'
-              style={{ display: 'inline-block' }}
-            >
-              <samp className='title-m code b'>{get.secret_url}</samp>
-            </p>
-          </div>
-          <table className='block aligned'>
+
+          <table className="block aligned mbm">
+            <ConfidentialLinkHead />
             <tbody>
-              <tr><td /><td /><td /><td /><td /><td /></tr>
               <ConfidentialLinkRow {...get} />
             </tbody>
           </table>
+
+          <div style={{ maxWidth: '60em' }}>
+            <details open className="mbm" onClick={e => e.preventDefault()}>
+              <summary>{t('confidential_links_show_link_for_copy')}</summary>
+              <p
+                className="ui-container bordered rounded xmam phl pbs"
+                style={{ display: 'inline-block' }}>
+                <a href={get.secret_url} target="_blank">
+                  <samp className="title-m code b">{get.secret_url}</samp>
+                </a>
+              </p>
+            </details>
+
+            <details className="mbm">
+              <summary>{t('confidential_links_show_embedcode_for_copy')}</summary>
+              <SelectingTextarea className="code block pas">
+                {get.embed_html_code}
+              </SelectingTextarea>
+            </details>
+          </div>
+
           {!!indexAction && (
-            <div className='ui-actions mtm'>
-              <UI.Button href={indexAction} className='button'>
+            <div className="ui-actions mas pan">
+              <UI.Button href={indexAction} className="button">
                 {t('confidential_links_created_back_btn')}
               </UI.Button>
             </div>
@@ -55,3 +67,37 @@ class ConfidentialLinkCreated extends React.Component {
 }
 
 module.exports = ConfidentialLinkCreated
+
+const SelectingTextarea = props => {
+  const doSelect = event => {
+    const { target } = event
+    setTimeout(() => {
+      // NOTE: Mobile Safari does not support `select()`, use this fallback:
+      let selectionLength
+      try {
+        selectionLength = target.value.length
+      } catch (e) {
+        selectionLength = 9999
+      }
+      target.setSelectionRange(0, selectionLength)
+      target.focus()
+    }, 1)
+  }
+  return (
+    <textarea
+      rows="1"
+      {...props}
+      value={props.value || props.children}
+      style={{
+        display: 'inline-block',
+        textIndent: 0,
+        fontSize: '85%',
+        minHeight: 0,
+        ...props.style
+      }}
+      onClick={doSelect}
+      onFocus={doSelect}
+      onChange={doSelect}
+    />
+  )
+}

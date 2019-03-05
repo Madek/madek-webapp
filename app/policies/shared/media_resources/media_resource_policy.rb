@@ -119,8 +119,8 @@ module Shared
       end
 
       def accessed_by_confidential_link?
-        record.respond_to?(:accessed_by_confidential_link) &&
-          record.accessed_by_confidential_link
+        !!(record.respond_to?(:accessed_by_confidential_link) &&
+          record.accessed_by_confidential_link)
       end
 
       def owner?
