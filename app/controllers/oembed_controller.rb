@@ -123,7 +123,7 @@ class OembedController < ApplicationController
 
   # NOTE: simpler to concat than templating
   def oembed_iframe(url, width, height)
-    <<-HTML.strip_heredoc.tr("\n", ' ')
+    <<-HTML.strip_heredoc.tr("\n", ' ').strip
       <iframe
       width="#{width}px"
       height="#{height}px"
