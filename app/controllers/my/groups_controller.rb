@@ -3,7 +3,6 @@ class My::GroupsController < ApplicationController
   include Concerns::My::DashboardSections
   include Concerns::UserScopes::Dashboard
 
-  # rubocop:disable Metrics/MethodLength
   def index
     auth_authorize :dashboard, :logged_in?
 

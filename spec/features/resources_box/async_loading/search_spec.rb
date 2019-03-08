@@ -47,7 +47,6 @@ feature 'search async loading' do
     visit collections_path(parameters)
   end
 
-  # rubocop:disable Metrics/MethodLength
   def create_config
     [
       {

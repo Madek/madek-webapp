@@ -51,7 +51,6 @@ feature 'relations async loading' do
     [*100..120].map { |i| "collection_#{i}".to_sym }
   end
 
-  # rubocop:disable Metrics/MethodLength
   def create_parents_config
     [
       {

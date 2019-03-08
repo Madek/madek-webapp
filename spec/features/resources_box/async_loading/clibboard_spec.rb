@@ -37,7 +37,6 @@ feature 'clipboard async loading' do
     visit my_dashboard_section_path(:clipboard, parameters)
   end
 
-  # rubocop:disable Metrics/MethodLength
   def create_config
     [
       {

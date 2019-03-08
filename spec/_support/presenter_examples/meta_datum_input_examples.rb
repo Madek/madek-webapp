@@ -6,7 +6,6 @@
 # uses mixture of prod data and fake examples
 # (should use personas, but that fails atm)
 
-# rubocop:disable Metrics/MethodLength
 module Examples
 
   def core_keywords_without_existing_values

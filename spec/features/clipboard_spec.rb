@@ -91,7 +91,6 @@ feature 'clipboard' do
 
   private
 
-  # rubocop:disable Metrics/MethodLength
   def prepare_data
     user = create_user
     media_entry_1 = create_media_entry('Media Entry 1', user)

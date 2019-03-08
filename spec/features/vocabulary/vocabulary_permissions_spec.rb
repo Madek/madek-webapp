@@ -109,7 +109,6 @@ end
 
 private
 
-# rubocop:disable Metrics/MethodLength
 def displayed_permissions
   rows = all('form > div.ui-rights-management > div')
   titles = rows.first.all('td.ui-rights-check-title').map(&:text)

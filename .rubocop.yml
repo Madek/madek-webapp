@@ -68,7 +68,7 @@ Metrics/LineLength:
 
 # Configuration parameters: CountComments.
 Metrics/MethodLength:
-  Max: 20
+  Max: 30
   Exclude:
     # NOTE: presenters are long by design, they contain lots of data structures
     - 'app/presenters/presenters/**/*'
@@ -99,6 +99,9 @@ Style/ColonMethodCall:
   Enabled: false
 
 Style/Documentation:
+  Enabled: false
+
+Style/DoubleNegation:
   Enabled: false
 
 # Cop supports --auto-correct.
