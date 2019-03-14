@@ -3,6 +3,8 @@ module Modules
     extend ActiveSupport::Concern
     include Concerns::MetaData
 
+    DEFAULT_MIME_TYPE = Madek::Constants::DEFAULT_MIME_TYPE
+
     def extract_and_store_metadata(media_entry)
       # this includes 'real' meta data as well as 'meta_data' for the media file
       # and media file attributes like width and height.
@@ -15,10 +17,13 @@ module Modules
 
     def extract_and_store_metadata_for_media_file(extractor, media_file)
       hash_for_media_file = extractor.hash_for_media_file
+      detect_and_set_media_type(extractor, media_file)
       media_file.update_attributes(meta_data: hash_for_media_file,
                                    width: hash_for_media_file[:image_width],
                                    height: hash_for_media_file[:image_height])
     end
+
+    private
 
     def extract_and_store_metadata_for_media_entry(extractor, media_entry)
       hash_for_media_entry = extractor.hash_for_media_entry
@@ -35,6 +40,13 @@ module Modules
           end
         end
       end
+    end
+
+    def detect_and_set_media_type(extractor, media_file)
+      mime_type = extractor.hash_for_media_file['File:MIMEType']
+      mime_type ||= mime_type.presence || DEFAULT_MIME_TYPE
+      media_file.content_type = mime_type
+      media_file.set_media_type
     end
 
     def create_meta_datum!(media_entry, meta_key_id, value)

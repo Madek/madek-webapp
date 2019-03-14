@@ -92,7 +92,8 @@ feature 'Resource: MediaEntry' do
           val
         end
 
-      expect(media_file.meta_data).to eq extractor
+      expect(only_relevant_metadata(media_file.meta_data))
+        .to eq only_relevant_metadata(extractor)
       expect(media_file.width).to be == extractor[:image_width]
       expect(media_file.height).to be == extractor[:image_height]
 
@@ -129,4 +130,9 @@ def select_file_and_submit(*path)
     attach_file('media_entry_media_file', File.absolute_path(files.join(*path)))
     submit_form
   end
+end
+
+def only_relevant_metadata(hash)
+  ignored = ['System:FileAccessDate']
+  hash.except(*ignored)
 end

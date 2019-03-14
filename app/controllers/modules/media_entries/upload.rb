@@ -19,7 +19,7 @@ module Modules
 
         ActiveRecord::Base.transaction do
           media_entry.save!
-          store_file_and_create_previews!(file, media_entry.media_file)
+          store_uploaded_file!(file, media_entry.media_file)
         end
 
         # optional steps, errors are ignored but logged:
@@ -30,6 +30,10 @@ module Modules
         rescue => e
           Rails.logger.warn "Upload Soft-Error: #{e.inspect}, #{e.backtrace}"
         end
+
+        # NOTE: creating previews must come last, because in we try to detect
+        #       a correct media type in `extract_and_store_metadata`
+        create_previews!(media_entry.media_file)
 
         represent(media_entry.reload, Presenters::MediaEntries::MediaEntryIndex)
       end
@@ -53,7 +57,7 @@ module Modules
 
       def media_file_attributes
         { uploader: current_user,
-          content_type: file.content_type,
+          content_type: Madek::Constants::DEFAULT_MIME_TYPE,
           filename: file.original_filename,
           extension: extension(file.original_filename),
           size: file.size }
@@ -69,8 +73,11 @@ module Modules
         end
       end
 
-      def store_file_and_create_previews!(file, media_file)
+      def store_uploaded_file!(file, media_file)
         store_file!(file.tempfile.path, media_file.original_store_location)
+      end
+
+      def create_previews!(media_file)
         media_file.create_previews! if media_file.previews_internal?
         process_with_zencoder(media_file) if media_file.previews_zencoder?
       end
