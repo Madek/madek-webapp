@@ -9,6 +9,8 @@ class ApplicationController < ActionController::Base
   include Concerns::RespondersSetup
   include Errors
 
+  before_action :set_locale_for_app
+
   # use pundit to make sure all actions are authorized
   after_action :verify_authorized, except: :index
   # TODO: after_action :verify_policy_scoped
@@ -30,26 +32,22 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   # i18n setup:
-  # set language
-  before_action :set_locale
-  def set_locale
-    Rails.configuration.i18n.default_locale = AppSetting.default_locale
-    Rails.configuration.i18n.available_locales = AppSetting.available_locales
-    I18n.locale = params[:lang] || I18n.default_locale
-  end
-
   # for all generated URLs, set language param if it's not the default
   def default_url_options(options = {})
     return options if I18n.locale == I18n.default_locale
     { lang: I18n.locale }.merge(options)
   end
 
-  before_action do
+  # this is always run first (`before_action` hook)
+  def set_locale_for_app
+    Rails.configuration.i18n.default_locale = AppSetting.default_locale
+    Rails.configuration.i18n.available_locales = AppSetting.available_locales
+    I18n.locale = params[:lang] || I18n.default_locale
     # presenters need to know about set default_url_options from controller
-    Presenter.class_variable_set(:@@_default_url_options, default_url_options)
     Presenter.instance_eval do
       def default_url_options(options = {})
-        options.merge(class_variable_get(:@@_default_url_options))
+        return options if I18n.locale == I18n.default_locale
+        { lang: I18n.locale }.merge(options)
       end
     end
 
