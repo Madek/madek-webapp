@@ -127,7 +127,6 @@ class DatePicker extends Component {
     return (
       <div
         id={`${id}.DatePicker`}
-        style={{ position: 'relative' }} // needed for Overlay
         className='ui-datepicker'
       >
         <input
@@ -151,7 +150,7 @@ class DatePicker extends Component {
           target={() => this.inputEl}
         >
           <div
-            style={{ width: '100%', position: 'absolute' }}
+            className='ui-datepicker--overlay'
             onMouseDown={this._onPickerClick}
           >
             <DayPicker

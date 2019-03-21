@@ -3,7 +3,12 @@
 //= depend_on_asset '../../../node_modules/react-day-picker/lib/style'
 
 .ui-datepicker
-  z-index: 1000
+  position: relative
+
+  .ui-datepicker--overlay
+    z-index: 1000
+    width: 100%
+    position: absolute
 
   .DayPicker
     width: 200px
