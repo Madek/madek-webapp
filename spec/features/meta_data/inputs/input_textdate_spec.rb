@@ -32,7 +32,8 @@ feature 'Resource: MetaDatum' do
     example 'add new date text ("Freie Eingabe")' do
       edit_in_meta_data_form_and_save do
         expect_type_switcher_has_options(['text', 'timestamp', 'duration'])
-        expect_type_switcher_set_to('text') # 'Freie Eingabe'
+        expect_type_switcher_set_to('timestamp') # "Am"
+        set_type_switcher_to('text')
         input = find('input')
         expect(input.value).to eq ''
         input.set('A long time ago')
@@ -45,11 +46,12 @@ feature 'Resource: MetaDatum' do
       example 'using calendar picker' do
         edit_in_meta_data_form_and_save do
           expect_type_switcher_has_options(['text', 'timestamp', 'duration'])
-          expect_type_switcher_set_to('text')
+          expect_type_switcher_set_to('timestamp')
           input = find('input')
           expect(input.value).to eq ''
-          set_type_switcher_to('timestamp')
-          # NOTE: input/calendar have focus after switching!
+          # NOTE: click input to focus it and show calendar!
+          input.click
+
           in_the_calendar_picker do
             calendar_move_months(5, 'backward')
             calendar_select_day(TEST_DATE.day)
@@ -63,10 +65,9 @@ feature 'Resource: MetaDatum' do
       example 'using keyboard' do
         edit_in_meta_data_form_and_save do
           expect_type_switcher_has_options(['text', 'timestamp', 'duration'])
-          expect_type_switcher_set_to('text')
+          expect_type_switcher_set_to('timestamp')
           input = find('input')
           expect(input.value).to eq ''
-          set_type_switcher_to('timestamp')
           # NOTE: input/calendar have focus after switching!
           input.set(TEST_STRING)
           in_the_calendar_picker do
@@ -85,7 +86,7 @@ feature 'Resource: MetaDatum' do
 
       edit_in_meta_data_form_and_save do
         expect_type_switcher_has_options(['text', 'timestamp', 'duration'])
-        expect_type_switcher_set_to('text')
+        expect_type_switcher_set_to('timestamp')
         set_type_switcher_to('duration')
         # NOTE: first input/calendar has focus after switching!
 

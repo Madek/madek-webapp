@@ -10,6 +10,7 @@
 import React, { Component, PropTypes } from 'react'
 import compact from 'lodash/compact'
 import isString from 'lodash/isString'
+import isEmpty from 'lodash/isEmpty'
 import ui from '../ui.coffee'
 const t = ui.t
 
@@ -20,7 +21,11 @@ const formatDuration = DateValues => compact(DateValues).join(' - ')
 const parseDuration = MdValues =>
   isString(MdValues[0]) && MdValues[0].split(' - ')
 const initialSubtype = MdValues => {
+  // if no values (yet), default to timestamp:
+  if (isEmpty(MdValues)) return SUBTYPES[1]
+  // otherwise choose best offer according to content:
   const dates = (parseDuration(MdValues) || []).map(parseDate)
+  if (!dates[0]) return SUBTYPES[0]
   if (!dates[0]) return SUBTYPES[0]
   if (!dates[1]) return SUBTYPES[1]
   return SUBTYPES[2]
