@@ -8,34 +8,26 @@ import MomentLocaleUtils from 'react-day-picker/moment'
 import currentLocale from '../../../lib/current-locale'
 import Moment from 'moment'
 
+const locale = currentLocale()
+
+const disabledDays = day =>
+  Moment(day).isBefore(new Date()) || Moment(day).isAfter(Moment().add(1, 'year'))
+
 class ConfidentialLinkNew extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      expiresAt: this.defaultExpiresAt(),
-      showCalendar: false,
-      locale: currentLocale()
+      expiresAtDate: Moment(props.get.default_expires_at),
+      useExpiryDate: true
     }
   }
 
-  defaultExpiresAt() {
-    return Moment().add(30, 'day')
-  }
-
-  disabledDays(day) {
-    return (
-      Moment(day).isBefore(new Date()) ||
-        Moment(day).isAfter(Moment().add(1, 'year'))
-    )
-  }
-
-  _toggleCalendar(e) {
-    this.setState({showCalendar: !this.state.showCalendar})
+  _toggleUseExpiryDate() {
+    this.setState(current => ({ useExpiryDate: !current.useExpiryDate }))
   }
 
   _handleDayClick(e, day, modifiers) {
-    if(f.get(modifiers, 'disabled', false) === false)
-      this.setState({ expiresAt: Moment(day) })
+    if (f.get(modifiers, 'disabled', false) === false) this.setState({ expiresAtDate: Moment(day) })
   }
 
   render(props = this.props) {
@@ -48,20 +40,15 @@ class ConfidentialLinkNew extends React.Component {
     }
 
     return (
-      <div
-        className="by-center"
-        style={{ marginLeft: 'auto', marginRight: 'auto' }}
-      >
+      <div className="by-center" style={{ marginLeft: 'auto', marginRight: 'auto' }}>
         <div
           className="ui-container bright bordered rounded mal phm pbm"
-          style={{ display: 'inline-block', minWidth: '420px' }}
-        >
+          style={{ display: 'inline-block', minWidth: '420px' }}>
           <RailsForm
             name="confidential_link"
             method={action.method}
             action={action.url}
-            authToken={props.authToken}
-          >
+            authToken={props.authToken}>
             <div className="ui-form-group rowed prn pbs">
               <h3 className="title-l">{t('confidential_links_create_title')}</h3>
             </div>
@@ -81,11 +68,13 @@ class ConfidentialLinkNew extends React.Component {
                 <input
                   type="checkbox"
                   className="mrx"
-                  onChange={this._toggleCalendar.bind(this)} />
+                  checked={!!this.state.useExpiryDate}
+                  onChange={this._toggleUseExpiryDate.bind(this)}
+                />
                 {t('confidential_links_create_set_expiration_date')}
               </label>
             </div>
-            {this.state.showCalendar &&
+            {this.state.useExpiryDate && (
               <div className="ui-form-group rowed pan">
                 <label className="form-label">
                   {t('confidential_links_list_expires_hint_pre')}
@@ -93,20 +82,22 @@ class ConfidentialLinkNew extends React.Component {
                 <input
                   type="hidden"
                   name="confidential_link[expires_at]"
-                  value={this.state.expiresAt.format()}
+                  value={this.state.expiresAtDate.format()}
                 />
                 <DayPicker
                   onDayClick={this._handleDayClick.bind(this)}
-                  disabledDays={this.disabledDays}
-                  initialMonth={this.defaultExpiresAt().toDate()}
+                  disabledDays={disabledDays}
+                  initialMonth={this.state.expiresAtDate.toDate()}
                   fromMonth={Moment().toDate()}
-                  toMonth={Moment().add(1, 'year').toDate()}
-                  selectedDays={day => Moment(day).isSame(this.state.expiresAt, 'day')}
+                  toMonth={Moment()
+                    .add(1, 'year')
+                    .toDate()}
+                  selectedDays={day => Moment(day).isSame(this.state.expiresAtDate, 'day')}
                   localeUtils={MomentLocaleUtils}
-                  locale={this.state.locale}
+                  locale={locale}
                 />
               </div>
-            }
+            )}
             <div className="ui-actions mtm">
               <UI.Button type="submit" className="primary-button">
                 {t('confidential_links_create_submit')}

@@ -11,6 +11,10 @@ module Presenters
           }
         }
       end
+
+      def default_expires_at
+        (DateTime.now.utc + 30.days).as_json
+      end
     end
   end
 end
