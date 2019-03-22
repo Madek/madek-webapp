@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import RailsForm from '../../lib/forms/rails-form.cjsx'
 import PageHeader from '../../ui-components/PageHeader'
 import f from 'lodash'
@@ -57,11 +56,11 @@ class ConfidentialLinks extends React.Component {
 }
 
 const ConfidentialLinksList = ({ list, actions, authToken }) => {
-  const revokedUrls = f.filter(list, 'revoked')
-  const activeUrls = f.difference(list, revokedUrls)
+  const expiredUrls = f.filter(list, 'is_expired')
+  const activeUrls = f.difference(list, expiredUrls)
   const allUrls = f.compact([
     [activeUrls],
-    !f.isEmpty(revokedUrls) && [revokedUrls, t('confidential_links_list_revoked_title')]
+    !f.isEmpty(expiredUrls) && [expiredUrls, t('confidential_links_list_revoked_title')]
   ])
 
   return (
@@ -113,7 +112,7 @@ const ConfidentialLinkHead = () => (
 
 const ConfidentialLinkRow = ({ authToken, ...confidentialLink }) => {
   Moment.locale(currentLocale())
-  const { uuid, label, description, revoked } = confidentialLink
+  const { uuid, label, description, is_expired } = confidentialLink
   let creationDate, creationDateTitle, expirationDate, expirationDateTitle
   if (confidentialLink.created_at) {
     creationDate = Moment(new Date(confidentialLink.created_at)).calendar()
@@ -129,7 +128,7 @@ const ConfidentialLinkRow = ({ authToken, ...confidentialLink }) => {
   }
   const showAction = f.get(confidentialLink, 'actions.show')
   const revokeAction = f.get(confidentialLink, 'actions.revoke')
-  const trStyle = !revoked ? {} : { opacity: 0.67 }
+  const trStyle = !is_expired ? {} : { opacity: 0.67 }
 
   return (
     <tr key={uuid} style={trStyle}>

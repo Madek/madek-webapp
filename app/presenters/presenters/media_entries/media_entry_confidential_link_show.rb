@@ -1,7 +1,7 @@
 module Presenters
   module MediaEntries
     class MediaEntryConfidentialLinkShow < \
-      Presenters::Shared::MediaResource::MediaResourceConfidentialLinkCommon
+      Presenters::ConfidentialLinks::ConfidentialLinkCommon
 
       DEFAULT_WIDTH = 640
       DEFAULT_HEIGHT = 360
@@ -12,9 +12,11 @@ module Presenters
       end
 
       def secret_url
+        # NOTE: MUST use UUID-based url, because a custom URL can be moved to
+        #       another resource without moving the accessToken
         full_url(
-          show_by_confidential_link_media_entry_path(@app_resource.resource,
-                                                     @app_resource.token)
+          show_by_confidential_link_media_entry_path(
+            @app_resource.resource.id, @app_resource.token)
         )
       end
 
@@ -35,7 +37,7 @@ module Presenters
           },
           go_back: {
             url: prepend_url_context(
-              media_entry_path(@app_resource)
+              media_entry_path(@app_resource.resource.id)
             )
           }
         }
@@ -50,7 +52,7 @@ module Presenters
       # NOTE: based on app/controllers/oembed_controller.rb
       def oembed_iframe(url)
         <<-HTML.strip_heredoc.tr("\n", ' ').strip
-          <div class="___madek-embed"><iframe
+          <div class="___madek-embed ___madek-confidential-link"><iframe
           src="#{url}"
           frameborder="0"
           width="#{DEFAULT_WIDTH}px"

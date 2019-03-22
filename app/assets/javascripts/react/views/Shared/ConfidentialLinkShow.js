@@ -38,7 +38,7 @@ class ConfidentialLinkCreated extends React.Component {
               <summary>{t('confidential_links_show_link_for_copy')}</summary>
               <p
                 className="ui-container bordered rounded xmam phl pbs"
-                style={{ display: 'inline-block' }}>
+                style={{ wordBreak: 'break-all' }}>
                 <a href={get.secret_url} target="_blank">
                   <samp className="title-m code b">{get.secret_url}</samp>
                 </a>

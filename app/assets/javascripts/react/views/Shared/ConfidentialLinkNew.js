@@ -9,9 +9,7 @@ import currentLocale from '../../../lib/current-locale'
 import Moment from 'moment'
 
 const locale = currentLocale()
-
-const disabledDays = day =>
-  Moment(day).isBefore(new Date()) || Moment(day).isAfter(Moment().add(1, 'year'))
+const disabledDays = day => Moment(day).isBefore(new Date())
 
 class ConfidentialLinkNew extends React.Component {
   constructor(props) {
@@ -78,6 +76,7 @@ class ConfidentialLinkNew extends React.Component {
               <div className="ui-form-group rowed pan">
                 <label className="form-label">
                   {t('confidential_links_list_expires_hint_pre')}
+                  {this.state.expiresAtDate.format('L')} — {this.state.expiresAtDate.fromNow()}
                 </label>
                 <input
                   type="hidden"
