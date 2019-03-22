@@ -17,7 +17,6 @@ class ConfidentialLinks extends React.Component {
     const confidentialLinksList = get.list
     const newAction = f.get(get, 'actions.new')
     const title = t('confidential_links_title_pre') + '"' + get.resource.title + '"'
-    const backText = t('confidential_links_back_to_' + f.kebabCase(get.type).replace('-', '_'))
 
     const newButton = !!newAction && (
       <div className="mtl">
@@ -47,8 +46,7 @@ class ConfidentialLinks extends React.Component {
             </div>
             <div className="ui-actions phl pbl">
               <a className="button" href={get.actions.go_back.url}>
-                {' '}
-                {backText}{' '}
+                {t('confidential_links_back_to_media_entry')}
               </a>
             </div>
           </div>

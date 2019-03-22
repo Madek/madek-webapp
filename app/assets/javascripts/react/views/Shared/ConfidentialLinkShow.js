@@ -58,6 +58,9 @@ class ConfidentialLinkCreated extends React.Component {
               <UI.Button href={indexAction} className="button">
                 {t('confidential_links_created_back_btn')}
               </UI.Button>
+              <a className="button" href={get.actions.go_back.url}>
+                {t('confidential_links_back_to_media_entry')}
+              </a>
             </div>
           )}
         </div>
