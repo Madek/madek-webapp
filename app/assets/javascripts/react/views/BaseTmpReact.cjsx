@@ -27,6 +27,16 @@ module.exports = React.createClass
         <MediaEntryShow get={get} for_url={for_url} authToken={authToken} />
 
     <div className='app-body-ui-container'>
+
+      {action_name == 'show_by_confidential_link' &&
+        <div className='ui-alerts' style={{marginBottom: '10px'}}>
+          <div className='confirmation ui-alert'>
+            Hinweis: Der Zugang zu diesem Inhalt wird mittels eines Vertraulichen Links zur Verfügung gestellt!
+          </div>
+        </div>
+      }
+
+
       <MediaEntryHeaderWithModal get={get} for_url={for_url} authToken={authToken} />
       {action_name != 'show_by_confidential_link' &&
         <MediaEntryTabs get={get} for_url={for_url} authToken={authToken} />}

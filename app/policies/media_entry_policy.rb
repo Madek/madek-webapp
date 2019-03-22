@@ -78,8 +78,6 @@ class MediaEntryPolicy < Shared::MediaResources::MediaResourcePolicy
 
   alias_method :edit?, :update?
 
-  alias_method :export?, :show?
-
   alias_method :meta_data_update?, :update?
   alias_method :advanced_meta_data_update?, :update?
   alias_method :edit_meta_data?, :update?

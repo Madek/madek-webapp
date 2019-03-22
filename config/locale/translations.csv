@@ -653,7 +653,7 @@ confidential_links_list_new_button,Neuen Vertraulichen Link erstellen,Add a new 
 confidential_links_list_no_description,(Keine Beschreibung),(No description),
 confidential_links_list_revoke_btn_hint,Vertraulichen Link zurückziehen,Revoke Confidential Link,
 confidential_links_list_revoke_confirm,"Sind Sie sicher, dass Sie diesen Vertraulichen Link zurückziehen wollen?","Are you sure you want to revoke this Confidential Link?",
-confidential_links_list_revoked_title,Abgelaufene Vertrauliche Links,Expired Confidential Links,
+confidential_links_list_revoked_title,Abgelaufene und zurückgezogene Vertrauliche Links,Expired and revoked Confidential Links,
 confidential_links_list_show_url,Link anzeigen,Show Link,
 confidential_links_list_copy_url,Vertraulichen Link kopieren,Copy Confidential Link,
 confidential_links_head_id,ID,ID,

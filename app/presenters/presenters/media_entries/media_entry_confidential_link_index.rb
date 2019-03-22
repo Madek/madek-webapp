@@ -1,11 +1,11 @@
 module Presenters
   module MediaEntries
-    class MediaEntryConfidentialLinkIndex < \
-      Presenters::Shared::MediaResource::MediaResourceConfidentialLinkIndex
+    class MediaEntryConfidentialLinkIndex \
+      < Presenters::ConfidentialLinks::ConfidentialLinkIndex
 
       def actions
         {
-          revoke: policy_for(@user).update? && {
+          revoke: !is_expired && policy_for(@user).update? && {
             url: prepend_url_context(
               update_confidential_link_media_entry_path(
                 @app_resource.resource,

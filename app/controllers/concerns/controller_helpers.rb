@@ -81,6 +81,7 @@ module Concerns
     def get_access_token_from_params(params)
       (action_name == 'show_by_confidential_link' && params.fetch('token', nil)) ||
         (action_name == 'show' && params.fetch('access', nil)) ||
+        (controller_name == 'previews' && params.fetch('token', nil)) ||
         params.fetch('accessToken', nil)
     end
 
@@ -91,7 +92,7 @@ module Concerns
       ref_params = _with_failsafe do
         Rack::Utils.parse_query(URI.parse(request.referrer).query)
       end
-      {}.merge(ref_route.to_h).merge(ref_params.to_h)
+      {}.merge(ref_route.to_h).merge(ref_params.to_h).deep_stringify_keys
     end
 
     def _with_failsafe
