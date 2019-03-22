@@ -32,6 +32,11 @@ module Presenters
           index: {
             url: prepend_url_context(
               confidential_links_media_entry_path(@app_resource.resource))
+          },
+          go_back: {
+            url: prepend_url_context(
+              media_entry_path(@app_resource)
+            )
           }
         }
       end
