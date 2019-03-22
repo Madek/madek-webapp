@@ -5,7 +5,7 @@ module Presenters
         module PrivacyStatus
 
           def privacy_status
-            public_status or confidential_status or shared_status or private_status
+            public_status or shared_status or private_status
           end
 
           private
@@ -14,13 +14,8 @@ module Presenters
             :public if @app_resource.public_view?
           end
 
-          def confidential_status
-            if @app_resource.try(:confidential_links).try(:empty?) == false
-              :public
-            end
-          end
-
           def shared_status
+            return unless @user.present?
             model_name = @app_resource.class.model_name
             :shared if \
               @user.send("entrusted_#{model_name.singular}_to_users?",
