@@ -40,14 +40,11 @@ class TokensPage extends React.Component {
 }
 
 const TokensList = ({ tokens, authToken }) => {
-  const revokedTokens = f.filter(tokens, 'revoked')
-  const activeTokens = f.difference(tokens, revokedTokens)
+  const expiredTokens = f.filter(tokens, 'is_expired')
+  const activeTokens = f.difference(tokens, expiredTokens)
   const allTokes = f.compact([
     [activeTokens],
-    !f.isEmpty(revokedTokens) && [
-      revokedTokens,
-      t('api_tokens_list_revoked_title')
-    ]
+    !f.isEmpty(expiredTokens) && [expiredTokens, t('api_tokens_list_revoked_title')]
   ])
 
   return (
@@ -59,9 +56,7 @@ const TokensList = ({ tokens, authToken }) => {
             <thead>
               <tr>
                 <td>
-                  <span className="ui-resources-table-cell-content">
-                    {t('api_tokens_head_id')}
-                  </span>
+                  <span className="ui-resources-table-cell-content">{t('api_tokens_head_id')}</span>
                 </td>
                 <td>
                   <span className="ui-resources-table-cell-content">
@@ -100,7 +95,7 @@ const TokensList = ({ tokens, authToken }) => {
 
 export const TokenRow = ({ authToken, ...token }) => {
   Moment.locale(currentLocale())
-  const { uuid, label, description, revoked, scopes } = token
+  const { uuid, label, description, is_expired, scopes } = token
   let creationDate, creationDateTitle, expirationDate, expirationDateTitle
   if (token.created_at) {
     creationDate = Moment(new Date(token.created_at)).calendar()
@@ -108,8 +103,7 @@ export const TokenRow = ({ authToken, ...token }) => {
   }
   if (token.expires_at) {
     expirationDate = Moment(new Date(token.expires_at)).fromNow()
-    expirationDateTitle =
-      t('api_tokens_list_expires_hint_pre') + token.expires_at
+    expirationDateTitle = t('api_tokens_list_expires_hint_pre') + token.expires_at
   }
   const revokeAction = f.get(token, 'actions.update')
   const perms = [
@@ -125,16 +119,14 @@ export const TokenRow = ({ authToken, ...token }) => {
     })
   )
 
-  const trStyle = !revoked ? {} : { opacity: 0.67 }
+  const trStyle = !is_expired ? {} : { opacity: 0.67 }
 
   return (
     <tr key={uuid} style={trStyle}>
       <td>{label}</td>
       <td>
         <div className="measure-narrow">
-          {!f.isEmpty(description)
-            ? description
-            : t('api_tokens_list_no_description')}
+          {!f.isEmpty(description) ? description : t('api_tokens_list_no_description')}
         </div>
       </td>
       <td>
@@ -158,18 +150,13 @@ export const TokenRow = ({ authToken, ...token }) => {
             name={'api_token'}
             authToken={authToken}
             method={revokeAction.method}
-            action={revokeAction.url}
-          >
+            action={revokeAction.url}>
             <input name="api_token[revoked]" value="true" type="hidden" />
-            <UI.Tooltipped
-              text={t('api_tokens_list_revoke_btn_hint')}
-              id={`btnrv.${uuid}`}
-            >
+            <UI.Tooltipped text={t('api_tokens_list_revoke_btn_hint')} id={`btnrv.${uuid}`}>
               <button
                 className="button"
                 type="submit"
-                data-confirm={t('api_tokens_list_revoke_confirm')}
-              >
+                data-confirm={t('api_tokens_list_revoke_confirm')}>
                 <i className="fa fa-ban" />
               </button>
             </UI.Tooltipped>
