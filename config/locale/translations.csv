@@ -26,7 +26,7 @@ api_tokens_list_new_button,Neuen Token erstellen,Create new token,
 api_tokens_list_no_description,(Keine Beschreibung),No description),"Platzhalter-Text, falls ein Token keine Beschreibung hat."
 api_tokens_list_revoke_btn_hint,Token zurückziehen.,Revoke token.,
 api_tokens_list_revoke_confirm,"Sind Sie sicher, dass Sie diesen Token zurückziehen wollen?",Are you sure you want to revoke the token?,
-api_tokens_list_revoked_title,Zurückgezogene Tokens,Revoked tokens,
+api_tokens_list_revoked_title,Abgelaufene und zurückgezogene Tokens,Expired and revoked tokens,
 api_tokens_list_scope_off,Nein,No,
 api_tokens_list_scope_on,Ja,Yes,
 api_tokens_list_scope_read,Lesen,Read,

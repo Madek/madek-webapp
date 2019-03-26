@@ -4,7 +4,7 @@ module Presenters
 
       def actions
         {
-          update: policy_for(@user).update_api_token? && {
+          update: !is_expired && policy_for(@user).update_api_token? && {
             url: prepend_url_context(my_update_api_token_path(uuid)),
             method: 'PATCH'
           }

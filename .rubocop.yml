@@ -24,6 +24,10 @@ Style/VariableNumber:
   Exclude:
     - 'spec/**/*'
 
+Style/PredicateName:
+  Exclude:
+    - 'app/presenters/**/*'
+
 Lint/EndAlignment:
   AlignWith: variable
 
