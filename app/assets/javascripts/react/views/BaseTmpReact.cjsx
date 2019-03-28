@@ -3,6 +3,7 @@ ReactDOM = require('react-dom')
 cx = require('classnames')
 f = require('lodash')
 Icon = require('../ui-components/Icon.cjsx')
+t = require('../lib/ui.coffee').t
 
 MediaEntryHeaderWithModal = require('./MediaEntryHeaderWithModal.cjsx')
 MediaEntryTabs = require('./MediaEntryTabs.cjsx')
@@ -31,7 +32,7 @@ module.exports = React.createClass
       {action_name == 'show_by_confidential_link' &&
         <div className='ui-alerts' style={{marginBottom: '10px'}}>
           <div className='confirmation ui-alert'>
-            Hinweis: Der Zugang zu diesem Inhalt wird mittels eines Vertraulichen Links zur Verfügung gestellt!
+            {t('confidential_links_access_notice')}
           </div>
         </div>
       }

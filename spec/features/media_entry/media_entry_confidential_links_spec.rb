@@ -55,6 +55,7 @@ feature 'Media Entry - Managing Confidential Links' do
     click_link I18n.t(:confidential_links_list_new_button)
 
     fill_in 'confidential_link[description]', with: description
+    uncheck I18n.t(:confidential_links_create_set_expiration_date)
     expect { submit_form }.to change { ConfidentialLink.count }.by 1
 
     check_secret_url
@@ -76,8 +77,7 @@ feature 'Media Entry - Managing Confidential Links' do
     end
 
     click_link I18n.t(:confidential_links_list_new_button)
-
-    check I18n.t(:confidential_links_create_set_expiration_date)
+    # dont check the checkbox, we expect it to be checked by default
     expect { submit_form }.to change { ConfidentialLink.count }.by 1
 
     check_secret_url

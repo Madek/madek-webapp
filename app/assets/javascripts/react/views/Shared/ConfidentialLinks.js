@@ -17,7 +17,7 @@ class ConfidentialLinks extends React.Component {
     const newAction = f.get(get, 'actions.new')
     const title = t('confidential_links_title_pre') + '"' + get.resource.title + '"'
 
-    const newButton = !!newAction && (
+    const actions = !!newAction && (
       <div className="mtl">
         <UI.Button href={newAction.url} className="primary-button">
           {t('confidential_links_list_new_button')}
@@ -28,9 +28,8 @@ class ConfidentialLinks extends React.Component {
     return (
       <div>
         <PageHeader icon={null} title={title} actions={null} />
-
-        <div className="bright ui-container pal bordered rounded">
-          <div>
+        <div className="ui-container tab-content bordered rounded-right rounded-bottom mbh">
+          <div className="bright rounded-bottom ui-container">
             <div className="ui-resources-holder pal">
               <div className="ui-container pbl">
                 <div className="ui-resources-header">
@@ -38,7 +37,7 @@ class ConfidentialLinks extends React.Component {
                 </div>
                 <ConfidentialLinksList
                   list={confidentialLinksList}
-                  actions={[newButton]}
+                  actions={actions}
                   authToken={authToken}
                 />
               </div>
@@ -48,6 +47,21 @@ class ConfidentialLinks extends React.Component {
                 {t('confidential_links_back_to_media_entry')}
               </a>
             </div>
+          </div>
+          <div className="row ui-container midtone pvm phl rounded-bottom">
+            <h3 className="title-m prm">
+              <strong>{t('confidential_links_help_title')}</strong>
+            </h3>
+            <p>
+              {t('confidential_links_help_text')
+                .split('\n')
+                .map((l, i) => (
+                  <span key={i}>
+                    {l}
+                    <br />
+                  </span>
+                ))}
+            </p>
           </div>
         </div>
       </div>
@@ -76,7 +90,7 @@ const ConfidentialLinksList = ({ list, actions, authToken }) => {
               ))}
             </tbody>
           </table>
-          {i == 0 && f.map(actions)}
+          {i === 0 && actions}
         </div>
       ))}
     </div>
