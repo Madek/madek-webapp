@@ -127,6 +127,6 @@ feature 'Vocabulary people' do
     FactoryGirl.create(
       :meta_key_people,
       id: vocabulary_id + ':' + meta_key_id,
-      label: meta_key_id)
+      labels: { de: meta_key_id })
   end
 end

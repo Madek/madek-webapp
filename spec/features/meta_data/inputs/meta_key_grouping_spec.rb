@@ -120,7 +120,7 @@ feature 'Meta key grouping' do
     meta_key = FactoryGirl.create(:meta_key, id: id)
     FactoryGirl.create(
       :context_key,
-      label: id,
+      labels: { de: id },
       context: data[:context],
       meta_key: meta_key,
       position: position)

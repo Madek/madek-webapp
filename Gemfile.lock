@@ -122,7 +122,7 @@ GEM
       json
     exiftool_vendored (10.23.0)
       exiftool (>= 0.7.0)
-    factory_girl (4.8.0)
+    factory_girl (4.8.1)
       activesupport (>= 3.0.0)
     faker (1.7.2)
       i18n (~> 0.5)
@@ -395,7 +395,7 @@ DEPENDENCIES
   drtom-textacular (= 4.0.0.alpha.20160302)
   execjs
   exiftool_vendored
-  factory_girl
+  factory_girl (~> 4.8.1)
   faker
   git
   haml-rails
@@ -439,4 +439,4 @@ DEPENDENCIES
   zencoder-fetcher
 
 BUNDLED WITH
-   1.16.0
+   1.16.5
