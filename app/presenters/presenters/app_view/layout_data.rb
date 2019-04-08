@@ -60,7 +60,8 @@ module Presenters
 
         zhdk_agw = Settings.zhdk_integration && Settings.zhdk_agw_api_url.present?
         switch_aai = Settings.shibboleth_sign_in_enabled == true \
-          && Settings.shibboleth_sign_in_url.present?
+          && Settings.shibboleth_sign_in_url_base.present? \
+          && Settings.shibboleth_sign_in_url_target.present?
         fail 'too many logins!' if zhdk_agw and switch_aai
 
         if zhdk_agw then logins.push(
@@ -74,7 +75,7 @@ module Presenters
           id: 'aai',
           title: I18n.t(:login_provider_aai_title),
           description: I18n.t(:login_provider_aai_hint),
-          href: Settings.shibboleth_sign_in_url)
+          href: shibboleth_sign_in_url)
         end
 
         # NOTE: DB login is always enabled,
@@ -91,6 +92,18 @@ module Presenters
 
       def uberadmin_mode
         @user.admin.webapp_session_uberadmin_mode
+      end
+
+      def shibboleth_sign_in_url
+        extra_target_params = default_url_options
+        ut = URI.parse(Settings.shibboleth_sign_in_url_target)
+        if extra_target_params.present?
+          ut.query = ut.query.to_h.merge(extra_target_params).to_query
+        end
+        extra_params = { target: ut.to_s }
+        u = URI.parse(Settings.shibboleth_sign_in_url_base)
+        u.query = u.query.to_h.merge(extra_params).to_query
+        u.to_s
       end
 
     end
