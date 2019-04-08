@@ -38,10 +38,15 @@ describe SessionsController do
           :user, person: @person, email: 'FIRSTNAME.LASTNAME@example.com'.downcase
       end
 
+      it 'passes through a `lang` parameter' do
+        get :shib_sign_in, lang: 'en'
+        expect(response).to redirect_to '/my?lang=en'
+      end
+
       it 'signs in as the existing user and updates attributes' do
         get :shib_sign_in
 
-        assert_response :redirect
+        expect(response).to redirect_to '/my'
 
         expect(Person.first.last_name).to be == 'LASTNAME'
         expect(Person.first.first_name).to be == 'FIRSTNAME'

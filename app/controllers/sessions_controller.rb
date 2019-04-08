@@ -45,7 +45,7 @@ class SessionsController < ActionController::Base
 
   def deny_shibboleth_sign_in
     destroy_madek_session
-    redirect_back_or root_path, error:
+    redirect_back_or root_path(shib_extra_params), error:
       'Shibboleth authentication data is incomplete. ' \
       'SURNAME, GIVENNAME and EMAIL are required fields! '
   end
@@ -57,7 +57,8 @@ class SessionsController < ActionController::Base
     @person.update_attributes! last_name: @last_name, first_name: @first_name
     @user.update_attributes! person: @person, email: @email
     set_madek_session @user, true
-    redirect_to my_dashboard_path, success: 'Sie haben sich angemeldet.'
+    redirect_to(
+      my_dashboard_path(shib_extra_params), success: 'Sie haben sich angemeldet.')
   end
 
   def shib_sign_in_person
@@ -68,6 +69,10 @@ class SessionsController < ActionController::Base
         last_name: @last_name,
         first_name: @first_name, subtype: 'Person'
     end
+  end
+
+  def shib_extra_params
+    { lang: params['lang'] }
   end
 
 end
