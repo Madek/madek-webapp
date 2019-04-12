@@ -3,13 +3,19 @@ module Presenters
     class KeywordShow < Presenters::Keywords::KeywordCommon
       include AuthorizationSetup
 
-      delegate_to_app_resource :description, :external_uri, :rdf_class
+      delegate_to_app_resource :description, :rdf_class
 
       def initialize(user, app_resource, resources_type, list_conf)
         super(app_resource)
         @resources_type = resources_type
         @list_conf = list_conf
         @user = user
+      end
+
+      def external_uris
+        @app_resource.external_uris.map do |uri|
+          suppress(URI::Error) { URI.parse(uri).to_s }
+        end.compact
       end
 
       def resources

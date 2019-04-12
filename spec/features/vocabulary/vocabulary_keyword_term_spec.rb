@@ -19,6 +19,7 @@ feature 'Vocabulary Pages' do
       ].flatten.shuffle
 
       random_keywords_to_check.each do |keyword|
+        kw = keyword
         meta_key = keyword.meta_key
         visit(vocabulary_keywords_path(keyword.meta_key.vocabulary.id))
         click_on keyword.term
@@ -34,8 +35,8 @@ feature 'Vocabulary Pages' do
           page: {
             info_table: [
               ['Begriff', keyword.term],
-              (['Beschreibung', keyword.description] if keyword.description),
-              (['URL', keyword.external_uri] if keyword.external_uri),
+              (['Beschreibung', keyword.description] if kw.description),
+              (['URL', keyword.external_uris.join(' ')] if kw.external_uris.any?),
               ['Metakey', "#{meta_key.label} (#{meta_key.id})"],
               ['Typ', keyword.rdf_class],
               ['Vokabular', meta_key.vocabulary.label]

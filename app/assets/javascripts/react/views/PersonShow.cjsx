@@ -9,7 +9,7 @@ f = require('lodash')
 resourceTypeSwitcher = require('../lib/resource-type-switcher.cjsx')
 
 infotable = (p) ->
-  [
+  f.compact([
     [
       t('person_show_first_name'),
       p.first_name
@@ -18,15 +18,21 @@ infotable = (p) ->
       t('person_show_last_name'),
       p.last_name
     ],
-    [
-      t('person_show_external_uri'),
-      if !p.external_uri then false else <a href={p.external_uri}>{p.external_uri}</a>
-    ],
+    if p.external_uris && p.external_uris.length > 0
+      [
+        if p.external_uris.length > 1
+          t('person_show_external_uris')
+        else
+          t('person_show_external_uri')
+        ,
+        deco_external_uris(p.external_uris)
+      ]
+    ,
     [
       t('person_show_description'),
       p.description
     ]
-  ]
+  ])
 
 
 PersonShow = React.createClass
@@ -74,5 +80,21 @@ PersonShow = React.createClass
           enableOrderByTitle={true} />
       </div>
     </PageContent>
+
+deco_external_uris = (uris) ->
+  uris = f.sortBy(uris, 'authority_control.kind')
+  <ul className='list-unstyled'>{uris.map((uri) ->
+    label = uri.uri
+    badge = false
+    if f.get(uri, 'authority_control.kind')
+      label = uri.authority_control.label
+      badge = <span className='ui-authority-control-badge' >
+        <abbr title={uri.authority_control.provider.name}>{uri.authority_control.kind}</abbr>: </span>
+    content = if !uri.is_web
+      <span>{label}</span>
+    else
+      <a href={uri.uri} target="_blank" rel="noreferrer noopener">{label}</a>
+    return <li>{badge}{content}</li>
+  )}</ul>
 
 module.exports = PersonShow

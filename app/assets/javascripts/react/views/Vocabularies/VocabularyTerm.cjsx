@@ -9,11 +9,10 @@ libUrl = require('url')
 f = require('lodash')
 resourceTypeSwitcher = require('../../lib/resource-type-switcher.cjsx')
 
-
 link = (c, h) -> <a href={h}>{c}</a>
 
 infotable = (v, mk, kw, contentsPath) ->
-  [
+  f.compact([
     [
       t('vocabulary_term_info_term'),
       link(kw.label, kw.url)
@@ -22,10 +21,18 @@ infotable = (v, mk, kw, contentsPath) ->
       t('vocabulary_term_info_description'),
       kw.description
     ],
-    [
-      t('vocabulary_term_info_url'),
-      if !kw.external_uri then false else link(kw.external_uri, kw.external_uri)
-    ],
+
+    if kw.external_uris && kw.external_uris.length > 0
+      [
+        if kw.external_uris.length > 1
+          t('vocabulary_term_info_urls')
+        else
+          t('vocabulary_term_info_url')
+        ,
+        deco_external_uris(kw.external_uris)
+      ]
+    ,
+
     [
       t('sitemap_metakey'),
       link(
@@ -41,7 +48,7 @@ infotable = (v, mk, kw, contentsPath) ->
       t('sitemap_vocabulary'),
       link(v.label, v.url)
     ]
-  ]
+  ])
 
 VocabulariesShow = React.createClass
   displayName: 'VocabularyTerm',
@@ -92,5 +99,9 @@ VocabulariesShow = React.createClass
       </div>
     </PageContent>
 
+deco_external_uris = (uris) ->
+  <ul className='list-unstyled'>{uris.map((uri) ->
+    <li><a href={uri} target="_blank" rel="noreferrer noopener">{uri}</a></li>
+  )}</ul>
 
 module.exports = VocabulariesShow

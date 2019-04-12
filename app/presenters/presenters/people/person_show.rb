@@ -3,9 +3,7 @@ module Presenters
     class PersonShow < Presenters::People::PersonCommon
       include AuthorizationSetup
 
-      delegate_to_app_resource \
-        :first_name, :last_name, :to_s, \
-        :external_uri, :description
+      delegate_to_app_resource :first_name, :last_name, :to_s, :description
 
       def initialize(app_resource, user, resources_type, list_conf)
         super(app_resource)
@@ -31,7 +29,66 @@ module Presenters
         resources
       end
 
+      def external_uris
+        @app_resource.external_uris.map do |uri|
+          decorate_external_uri(uri)
+        end.compact
+      end
+
       private
+
+      def decorate_external_uri(raw_uri)
+        return unless (uri = suppress(URI::Error) { URI.parse(raw_uri) })
+        {
+          uri: uri.to_s,
+          is_web: ['http', 'https'].include?(uri.scheme),
+          authority_control: detect_authority_control(uri)
+        }
+      end
+
+      # like https://en.wikipedia.org/wiki/Help:Authority_control
+      def detect_authority_control(uri)
+        res = \
+        case
+        # https://viaf.org/viaf/75121530
+        when uri.host == 'viaf.org' && (match = uri.path.match(%r{/viaf/(\d+)/?}))
+          { kind: :VIAF, label: match[1] }
+
+        # https://id.loc.gov/authorities/names/n79022889
+        when uri.host == 'id.loc.gov' \
+        && (match = uri.path.match(%r{/authorities/names/([a-zA-Z]*\d+)/?}))
+          { kind: :LCCN, label: match[1] }
+
+        # https://lccn.loc.gov/no97021030
+        when uri.host == 'lccn.loc.gov' \
+        && (match = uri.path.match(%r{/([a-zA-Z]*\d+)/?}))
+          { kind: :LCCN, label: match[1] }
+
+        # https://d-nb.info/gnd/118529579
+        when uri.host == 'd-nb.info' \
+        && (match = uri.path.match(%r{/gnd/([a-zA-Z0-9]+)/?}))
+          { kind: :GND, label: match[1] }
+        end
+
+        res.merge(provider: authority_control_provider_map[res[:kind]]) if res
+      end
+
+      def authority_control_provider_map
+        {
+          LCCN: {
+            name: 'Library of Congress Control Number',
+            url: 'https://lccn.loc.gov/lccnperm-faq.html'
+          },
+          GND: {
+            name: 'Gemeinsame Normdatei',
+            url: 'https://www.dnb.de/DE/Standardisierung/GND/gnd_node.html'
+          },
+          VIAF: {
+            name: 'Virtual International Authority File',
+            url: 'https://viaf.org'
+          }
+        }
+      end
 
       def content_type
         case @resources_type
