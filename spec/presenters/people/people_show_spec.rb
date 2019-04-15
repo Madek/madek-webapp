@@ -57,6 +57,7 @@ describe Presenters::People::PersonShow do
             label: '75121530',
             provider: {
               name: 'Virtual International Authority File',
+              label: 'VIAF',
               url: 'https://viaf.org'
             }
           }
@@ -69,6 +70,7 @@ describe Presenters::People::PersonShow do
             label: 'n79022889',
             provider: {
               name: 'Library of Congress Control Number',
+              label: 'LCCN',
               url: 'https://lccn.loc.gov/lccnperm-faq.html'
             }
           }
@@ -81,6 +83,7 @@ describe Presenters::People::PersonShow do
             label: '118529579',
             provider: {
               name: 'Gemeinsame Normdatei',
+              label: 'GND',
               url: 'https://www.dnb.de/DE/Standardisierung/GND/gnd_node.html'
             }
           }

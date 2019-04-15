@@ -83,18 +83,19 @@ PersonShow = React.createClass
 
 deco_external_uris = (uris) ->
   uris = f.sortBy(uris, 'authority_control.kind')
-  <ul className='list-unstyled'>{uris.map((uri) ->
+  <ul className='list-unstyled'>{uris.map((uri, i) ->
     label = uri.uri
     badge = false
     if f.get(uri, 'authority_control.kind')
       label = uri.authority_control.label
+      providerLabel = uri.authority_control.provider.label
       badge = <span className='ui-authority-control-badge' >
-        <abbr title={uri.authority_control.provider.name}>{uri.authority_control.kind}</abbr>: </span>
+        <abbr title={uri.authority_control.provider.name}>{providerLabel}</abbr>: </span>
     content = if !uri.is_web
       <span>{label}</span>
     else
       <a href={uri.uri} target="_blank" rel="noreferrer noopener">{label}</a>
-    return <li>{badge}{content}</li>
+    return <li key={i}>{badge}{content}</li>
   )}</ul>
 
 module.exports = PersonShow
