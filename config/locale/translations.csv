@@ -652,6 +652,8 @@ confidential_links_created_back_btn,Zurück zu allen Vertraulichen Links,Go back
 confidential_links_created_notice,Vertraulicher Link erstellt!,Confidential Link was created!,
 confidential_links_show_link_for_copy,Link zum kopieren:,Link to copy:,
 confidential_links_show_embedcode_for_copy,Embed-Code zum kopieren:,Embed-Code to copy:,
+confidential_links_show_embed_link,Embed-Link:,Embed-link:,
+confidential_links_show_embed_code_iframe,HTML-Code/iframe:,HTML-code/iframe:,
 confidential_links_list_created_hint_pre,Erstellt: ,Created: ,
 confidential_links_list_expires_hint_pre,Ablaufdatum: ,Expiration date: ,
 confidential_links_list_no_expiry,Nie,Never,
