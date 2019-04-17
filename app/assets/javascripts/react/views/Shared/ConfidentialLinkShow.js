@@ -47,9 +47,17 @@ class ConfidentialLinkCreated extends React.Component {
 
             <details className="mbm">
               <summary>{t('confidential_links_show_embedcode_for_copy')}</summary>
-              <SelectingTextarea className="code block pas">
-                {get.embed_html_code}
-              </SelectingTextarea>
+              <label>
+                {t('confidential_links_show_embed_link')}
+                <SelectingTextarea className="code block pas">{get.embed_link}</SelectingTextarea>
+              </label>
+
+              <label>
+                {t('confidential_links_show_embed_code_iframe')}
+                <SelectingTextarea className="code block pas">
+                  {get.embed_html_code}
+                </SelectingTextarea>
+              </label>
             </details>
           </div>
 

@@ -20,13 +20,18 @@ module Presenters
         )
       end
 
+      def embed_link
+        @_embed_link ||= \
+        full_url(
+          embedded_media_entry_path(
+            @app_resource.resource,
+            accessToken: @app_resource.token,
+            height: DEFAULT_HEIGHT,
+            width: DEFAULT_WIDTH))
+      end
+
       def embed_html_code
-        oembed_iframe(full_url(
-                        embedded_media_entry_path(
-                          @app_resource.resource,
-                          accessToken: @app_resource.token,
-                          height: DEFAULT_HEIGHT,
-                          width: DEFAULT_WIDTH)))
+        oembed_iframe(embed_link)
       end
 
       def actions
