@@ -5,10 +5,13 @@ PageHeader = require('../ui-components/PageHeader.js')
 PageContent = require('./PageContent.cjsx')
 MediaResourcesBox = require('../decorators/MediaResourcesBox.cjsx')
 libUrl = require('url')
-f = require('lodash')
+f = require('active-lodash')
 resourceTypeSwitcher = require('../lib/resource-type-switcher.cjsx')
 
 infotable = (p) ->
+  autority_links = f.filter(p.external_uris, 'authority_control.kind')
+  external_links = f.difference(p.external_uris, autority_links)
+
   f.compact([
     [
       t('person_show_first_name'),
@@ -18,16 +21,14 @@ infotable = (p) ->
       t('person_show_last_name'),
       p.last_name
     ],
-    if p.external_uris && p.external_uris.length > 0
-      [
-        if p.external_uris.length > 1
-          t('person_show_external_uris')
-        else
-          t('person_show_external_uri')
-        ,
-        deco_external_uris(p.external_uris)
-      ]
-    ,
+    [
+      t('person_show_external_uris'),
+      deco_external_uris(external_links)
+    ],
+    [
+      t('person_show_external_uris_autority_control'),
+      deco_external_uris(autority_links)
+    ],
     [
       t('person_show_description'),
       p.description
