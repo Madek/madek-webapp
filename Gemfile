@@ -24,6 +24,14 @@ gem 'react-rails', '~> 1.7.1'
 gem 'sass'
 gem 'sass-rails'
 
+# LINKED DATA
+gem 'linkeddata'
+gem 'json-ld'
+gem 'rdf'
+gem 'rdf-rdfxml'
+gem 'equivalent-xml'
+gem 'nokogiri'
+
 # The rest
 gem 'bcrypt-ruby'
 gem 'cider_ci-open_session', '>= 1.0.0', '< 2.0.0'
@@ -34,7 +42,6 @@ gem 'git'
 gem 'jruby-openssl', platform: :jruby
 gem 'json'
 gem 'kaminari'
-gem 'nokogiri'
 gem 'pundit'
 gem 'rails_autolink', '~> 1.0'
 gem 'rubyzip'
