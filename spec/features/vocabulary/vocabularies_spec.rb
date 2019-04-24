@@ -79,11 +79,11 @@ feature 'Resource: Vocabularies' do
         {
           title: 'Madek Core',
           description: 'Das Core-Vokabular ist fester Bestandteil der Software '\
-            'Madek. Es enthält die wichtigsten Metadaten für die Verwaltung von '\
-            'Medieninhalten und ist vordefiniert und unveränderbar.',
+            'Madek. Es enthält die wichtigsten Metadaten für die Beschreibung '\
+            'von Medieninhalten und ist vordefiniert und unveränderbar.',
           meta_keys: [
             'Titel', 'Untertitel', 'Autor/in', 'Datierung',
-            'Schlagworte', 'Beschreibung', 'Rechteinhaber/in'
+            'Schlagworte', 'Beschreibung', 'Urheberrechtshinweis'
           ]
         }
       ]
@@ -128,7 +128,7 @@ feature 'Resource: Vocabularies' do
             ['ID', 'madek_core:description'],
             ['type', 'Text'],
             ['scope', 'Entries, Sets']] },
-        { title: 'Rechteinhaber/in',
+        { title: 'Urheberrechtshinweis',
           table: [
             ['ID', 'madek_core:copyright_notice'],
             ['type', 'Text'],
