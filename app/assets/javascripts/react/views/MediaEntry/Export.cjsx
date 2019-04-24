@@ -22,6 +22,37 @@ module.exports = React.createClass
     hasOriginal = get.media_file.original_file_url
     hasNeither = not hasPreviews and not hasOriginal
 
+    section_rdf_export = <div>
+      <h2 className="title-l ui-resource-title"
+        style={{marginTop: '0px', marginLeft: '0px', marginBottom: '20px'}}>
+        {t('media_entry_export_rdf_title')}{' '}
+        <mark>{t('media_entry_export_rdf_title_hint')}</mark>
+      </h2>
+      <table className="block">
+        <thead>
+          <tr>
+            <td>Typ</td>
+            <td></td>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            f.map get.rdf_export_urls, ({key, label, url, plain_text_url}) ->
+              <tr key={key}>
+                <td><b>{label}</b></td>
+                <td style={textAlign: 'right'}>
+                  {!!plain_text_url &&
+                    <a href={plain_text_url} target='_blank' className='primary-button'><i className="icon-eye"></i></a>
+                  }
+                  {' '}
+                  <a href={url} target='_blank' className='primary-button'><i className="icon-dload"></i></a>
+                </td>
+              </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
     <Modal widthInPixel='800'>
 
       <div className='ui-modal-head'>
@@ -42,7 +73,6 @@ module.exports = React.createClass
               {t('media_entry_export_no_content')}
             </div>
         }
-
 
         {
           if hasNeither == false
@@ -78,6 +108,8 @@ module.exports = React.createClass
             </div>
 
         }
+
+        {section_rdf_export}
 
         {
           if hasPreviews

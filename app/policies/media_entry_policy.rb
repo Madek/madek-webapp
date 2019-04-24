@@ -94,6 +94,8 @@ class MediaEntryPolicy < Shared::MediaResources::MediaResourcePolicy
   alias_method :relation_children?, :show?
   alias_method :relation_siblings?, :show?
 
+  alias_method :rdf_export?, :show?
+
   private
 
   def allow_for_creator_if_unpublished(record, user)
