@@ -27,6 +27,14 @@ gem 'sass'
 gem 'sass-rails'
 gem 'coffee-rails'
 
+# LINKED DATA
+gem 'linkeddata'
+gem 'json-ld'
+gem 'rdf'
+gem 'rdf-rdfxml'
+gem 'equivalent-xml'
+gem 'nokogiri'
+
 # The rest
 gem 'bcrypt-ruby'
 gem 'cider_ci-open_session', '>= 1.0.0', '< 2.0.0'
@@ -35,7 +43,6 @@ gem 'exiftool_vendored'
 gem 'git'
 gem 'json'
 gem 'kaminari'
-gem 'nokogiri'
 gem 'pundit'
 gem 'rubyzip'
 gem 'therubyracer', platform: :mri

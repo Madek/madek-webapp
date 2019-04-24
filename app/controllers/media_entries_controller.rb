@@ -23,6 +23,25 @@ class MediaEntriesController < ApplicationController
   # used in Concerns::ResourceListParams
   ALLOWED_FILTER_PARAMS = [:search, :meta_data, :media_files, :permissions].freeze
 
+  # TMP
+  def rdf_export
+    entry = get_authorized_resource
+    @get = Presenters::MediaEntries::MediaEntryRdfExport.new(entry, current_user)
+
+    respond_to do |format|
+      format.rdf do
+        render(xml: @get.rdf_xml)
+      end
+      format.ttl do
+        fmt = params.keys.include?('txt') ? :plain : :text
+        render(fmt => @get.rdf_turtle)
+      end
+      format.json do
+        render(json: @get.json_ld)
+      end
+    end
+  end
+
   def index
     resources = auth_policy_scope(current_user, model_klass)
     @get = presenterify(resources, nil)
