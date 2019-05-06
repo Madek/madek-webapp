@@ -21,11 +21,11 @@ infotable = (p) ->
       t('person_show_last_name'),
       p.last_name
     ],
-    [
+    if f.isEmpty(external_links) then null else [
       t('person_show_external_uris'),
       deco_external_uris(external_links)
     ],
-    [
+    if f.isEmpty(autority_links) then null else [
       t('person_show_external_uris_autority_control'),
       deco_external_uris(autority_links)
     ],
