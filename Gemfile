@@ -19,7 +19,7 @@ gem 'puma'
 gem "madek_zhdk_integration", path: "zhdk-integration"
 
 # FRONTEND
-gem 'compass-rails', '~> 2.0'
+gem 'compass-rails', '~> 3.0.1'
 gem 'haml-rails'
 gem 'kramdown'
 gem 'react-rails', '~> 1.7.1'
