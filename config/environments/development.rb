@@ -35,6 +35,9 @@ Madek::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = false
 
+  # Suppress logger output for asset requests.
+  config.assets.quiet = true
+
   # Don't use precompiled assets in dev!
   config.assets.compile = true
   config.assets.prefix = '/dev-assets'

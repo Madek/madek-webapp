@@ -1,11 +1,13 @@
 eval_gemfile Pathname(File.dirname(File.absolute_path(__FILE__))).join('datalayer', 'Gemfile')
 
+ruby '2.6.3'
+
 ####################################################################
 # required in production PRODUCTION
 #####################################################################
 
 # Engines
-gem 'configuration_management_backdoor', '= 3.0.0'
+# gem 'configuration_management_backdoor', '= 3.0.0'
 
 # API
 gem 'responders'
@@ -29,14 +31,14 @@ gem 'bcrypt-ruby'
 gem 'cider_ci-open_session', '>= 1.0.0', '< 2.0.0'
 gem 'execjs'
 gem 'exiftool_vendored'
-gem 'inshape', '>= 1.0.1', '< 2.0'
+# gem 'inshape', '>= 1.0.1', '< 2.0'
 gem 'git'
 gem 'jruby-openssl', platform: :jruby
 gem 'json'
 gem 'kaminari'
 gem 'nokogiri'
 gem 'pundit'
-gem 'rails_autolink', '~> 1.0'
+# gem 'rails_autolink', '~> 1.0'
 gem 'rubyzip'
 gem 'therubyracer', platform: :mri
 gem 'therubyrhino', platform: :jruby
@@ -49,9 +51,9 @@ gem 'uglifier'
 gem 'better_errors', platform: :mri, group: [:development]
 gem 'binding_of_caller', platform: :mri, group: [:development]
 gem 'capybara', '~> 2.4', group: [:test]
-gem 'meta_request', group: [:development]
+# gem 'meta_request', group: [:development]
 gem 'poltergeist', group: [:test, :development, :personas]
-gem 'quiet_assets', group: [:development]
+# gem 'quiet_assets', group: [:development]
 gem 'rest-client', group: [:test, :development, :personas]
 gem 'ruby-prof', group: [:development], platform: :mri
 gem 'selenium-webdriver', group: [:test]
