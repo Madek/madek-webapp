@@ -11,7 +11,8 @@ module Modules
           verify_authorized_without_special_cases_exclusion
         end
       end
-      alias_method_chain :verify_authorized, :special_cases_exclusion
+      alias_method :verify_authorized_without_special_cases_exclusion, :verify_authorized
+      alias_method :verify_authorized, :verify_authorized_with_special_cases_exclusion
 
       def verify_usage_terms_accepted!
         if current_user \
