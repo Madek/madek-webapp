@@ -1,5 +1,4 @@
 require 'application_responder'
-require 'inshape'
 
 class ApplicationController < ActionController::Base
   include AuthorizationSetup
