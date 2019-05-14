@@ -23,8 +23,6 @@ module Madek
 
     config.active_record.timestamped_migrations = false
     config.active_record.record_timestamps = false
-    config.active_record.raise_in_transactional_callbacks = true
-    config.active_record.disable_implicit_join_references = true
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
