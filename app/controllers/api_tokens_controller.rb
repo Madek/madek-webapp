@@ -1,6 +1,5 @@
 class ApiTokensController < ApplicationController
   include Concerns::ResourceListParams
-  extend ActiveSupport::Concern
 
   before_action do
     auth_authorize :dashboard, :logged_in?

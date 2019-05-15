@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/michalpodlecki/rails_configuration-management-backdoor.git
+  revision: 7ee906596fd48a55d444a49e8ce8614bb669159b
+  specs:
+    configuration_management_backdoor (4.0.0)
+      rails (~> 5.2.3, < 6.0)
+
+GIT
   remote: https://github.com/drtom/rails_pg-tasks
   revision: e89db3adf583dca74dac7745387f692f9a083197
   branch: master_rails_5
@@ -389,6 +396,7 @@ DEPENDENCIES
   cider_ci-open_session (>= 1.0.0, < 2.0.0)
   cider_ci-support (= 3.2)
   compass-rails (~> 3.0.1)
+  configuration_management_backdoor (= 4.0.0)!
   execjs
   exiftool_vendored
   factory_girl (~> 4.8.1)

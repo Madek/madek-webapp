@@ -7,7 +7,7 @@ ruby '2.6.3'
 #####################################################################
 
 # Engines
-# gem 'configuration_management_backdoor', '= 3.0.0'
+gem 'configuration_management_backdoor', '= 4.0.0', github: 'michalpodlecki/rails_configuration-management-backdoor'
 
 # API
 gem 'responders'

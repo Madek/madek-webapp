@@ -6,7 +6,7 @@ module Modules
 
       def verify_authorized_with_special_cases_exclusion
         if Madek::Constants::Webapp::VERIFY_AUTH_SKIP_CONTROLLERS.all? do |sc|
-          self.class != sc
+          self.class.to_s != sc
         end
           verify_authorized_without_special_cases_exclusion
         end
