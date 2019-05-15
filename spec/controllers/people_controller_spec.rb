@@ -10,7 +10,7 @@ describe PeopleController do
   context 'Resource: People' do
     example 'Action: show - inits corresponding presenter' do
       person = FactoryGirl.create :person
-      get :show, { id: person.id }, user_id: user.id
+      get :show, params: { id: person.id }, session: { user_id: user.id }
 
       expect(response).to have_http_status(:success)
       expect(response).to render_template(:show)
@@ -25,10 +25,11 @@ describe PeopleController do
       person = Person.first
 
       get :index,
-          { meta_key_id: meta_key_people.id,
+          params: {
+            meta_key_id: meta_key_people.id,
             search_term: person.first_name,
             format: :json },
-          user_id: user.id
+          session: { user_id: user.id }
 
       assert_response :success
       expect(response.content_type).to be == 'application/json'
@@ -41,10 +42,11 @@ describe PeopleController do
       2.times { FactoryGirl.create :person }
 
       get :index,
-          { meta_key_id: meta_key_people.id,
+          params: {
+            meta_key_id: meta_key_people.id,
             limit: 1,
             format: :json },
-          user_id: user.id
+          session: { user_id: user.id }
 
       assert_response :success
       expect(response.content_type).to be == 'application/json'
@@ -56,9 +58,10 @@ describe PeopleController do
       101.times { FactoryGirl.create :person }
 
       get :index,
-          { meta_key_id: meta_key_people.id,
+          params: {
+            meta_key_id: meta_key_people.id,
             format: :json },
-          user_id: user.id
+          session: { user_id: user.id }
 
       assert_response :success
       expect(response.content_type).to be == 'application/json'
@@ -75,10 +78,11 @@ describe PeopleController do
         Person.last.last_name = person.id
 
         get :index,
-            { meta_key_id: meta_key_people.id,
+            params: {
+              meta_key_id: meta_key_people.id,
               search_term: person.id,
               format: :json },
-            user_id: user.id
+            session: { user_id: user.id }
 
         assert_response :success
         expect(response.content_type).to be == 'application/json'
@@ -94,10 +98,11 @@ describe PeopleController do
         Person.last.last_name = person.id
 
         get :index,
-            { meta_key_id: meta_key_people.id,
+            params: {
+              meta_key_id: meta_key_people.id,
               search_term: "https://example.com/people/#{person.id}/",
               format: :json },
-            user_id: user.id
+            session: { user_id: user.id }
 
         assert_response :success
         expect(response.content_type).to be == 'application/json'

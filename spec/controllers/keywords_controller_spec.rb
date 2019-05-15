@@ -14,8 +14,8 @@ describe KeywordsController do
       keyword = FactoryGirl.create :keyword, meta_key: meta_key
       get(
         :redirect_by_term,
-        { term: keyword.term, meta_key_id: meta_key },
-        user_id: user.id
+        params: { term: keyword.term, meta_key_id: meta_key },
+        session: { user_id: user.id }
       )
       assert_response 302
       expect(URI(response.redirect_url).path).to eq(
@@ -25,7 +25,10 @@ describe KeywordsController do
     example \
       'action show works if user is authorized' do
       keyword = FactoryGirl.create :keyword, meta_key: meta_key
-      get :show, { keyword_id: keyword.id }, user_id: user.id
+      get(
+        :show,
+        params: { keyword_id: keyword.id },
+        session: { user_id: user.id })
       assert_response 200
     end
 
@@ -42,7 +45,10 @@ describe KeywordsController do
       keyword = meta_datum_keywords.keywords.first
 
       expect do
-        get :show, { keyword_id: keyword.id }, user_id: user.id
+        get(
+          :show,
+          params: { keyword_id: keyword.id },
+          session: { user_id: user.id })
       end.to raise_error Errors::ForbiddenError
     end
   end
@@ -55,10 +61,11 @@ describe KeywordsController do
         create(:vocabulary_user_permission, user: user)
 
       get :index,
-          { search_term: keyword.term,
+          params: {
+            search_term: keyword.term,
             meta_key_id: meta_key.id,
             format: :json },
-          user_id: user.id
+          session: { user_id: user.id }
 
       assert_response :success
       expect(response.content_type).to be == 'application/json'
@@ -109,9 +116,10 @@ describe KeywordsController do
                          Weepinbell
                          Caterpie)
       get :index,
-          search_term: 'pi',
-          meta_key_id: meta_key.id,
-          format: :json
+          params: {
+            search_term: 'pi',
+            meta_key_id: meta_key.id,
+            format: :json }
 
       result = JSON.parse(response.body)
       expect(result.map { |k| k['label'] }).to be == sorted_labels
@@ -137,10 +145,11 @@ describe KeywordsController do
       (1..2).map { FactoryGirl.create :meta_datum_keyword }
 
       get :index,
-          { used_by_id: user.id,
+          params: {
+            used_by_id: user.id,
             meta_key_id: meta_key.id,
             format: :json },
-          user_id: user.id
+          session: { user_id: user.id }
 
       assert_response :success
       expect(response.content_type).to be == 'application/json'
@@ -154,8 +163,9 @@ describe KeywordsController do
     it 'limiting with params[:limit]' do
       2.times { FactoryGirl.create :keyword, meta_key: meta_key }
 
-      get :index, { meta_key_id: meta_key.id, limit: 1, format: :json },
-          user_id: user.id
+      get :index,
+          params: { meta_key_id: meta_key.id, limit: 1, format: :json },
+          session: { user_id: user.id }
 
       assert_response :success
       expect(response.content_type).to be == 'application/json'
@@ -166,8 +176,9 @@ describe KeywordsController do
     it 'with default limit of 100' do
       101.times { FactoryGirl.create :keyword, meta_key: meta_key }
 
-      get :index, { meta_key_id: meta_key.id, format: :json },
-          user_id: user.id
+      get :index,
+          params: { meta_key_id: meta_key.id, format: :json },
+          session: { user_id: user.id }
 
       assert_response :success
       expect(response.content_type).to be == 'application/json'

@@ -133,10 +133,10 @@ end
 def open_dashboard
   get(
     :dashboard,
-    {
+    params: {
       page: 1
     },
-    user_id: @user.id
+    session: { user_id: @user.id }
   )
   @get = assigns(:get)
 end
@@ -144,7 +144,7 @@ end
 def open_dashboard_section(dashboard_section)
   get(
     :dashboard,
-    {
+    params: {
       page: 1,
       ___sparse: {
         user_dashboard: {
@@ -152,7 +152,7 @@ def open_dashboard_section(dashboard_section)
         }
       }.to_json
     },
-    user_id: @user.id
+    session: { user_id: @user.id }
   )
   @get = assigns(:get)
 end

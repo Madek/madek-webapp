@@ -55,8 +55,8 @@ private
 def execute_search(search_term, scope, expected_result)
   get(
     :index,
-    { format: :json, search_term: search_term, scope: scope },
-    user_id: user.id
+    params: { format: :json, search_term: search_term, scope: scope },
+    session: { user_id: user.id }
   )
 
   result = JSON.parse(response.body)

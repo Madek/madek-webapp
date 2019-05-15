@@ -10,8 +10,8 @@ describe ApiClientsController do
       api_client = ApiClient.first
 
       get :index,
-          { search_term: api_client.login, format: :json },
-          user_id: user.id
+          params: { search_term: api_client.login, format: :json },
+          session: { user_id: user.id }
 
       assert_response :success
       expect(response.content_type).to be == 'application/json'
@@ -23,7 +23,10 @@ describe ApiClientsController do
     it 'limiting with params[:limit]' do
       2.times { FactoryGirl.create :api_client }
 
-      get :index, { limit: 1, format: :json }, user_id: user.id
+      get(
+        :index,
+        params: { limit: 1, format: :json },
+        session: { user_id: user.id })
 
       assert_response :success
       expect(response.content_type).to be == 'application/json'
@@ -34,7 +37,7 @@ describe ApiClientsController do
     it 'with default limit of 100' do
       101.times { FactoryGirl.create :api_client }
 
-      get :index, { format: :json }, user_id: user.id
+      get :index, params: { format: :json }, session: { user_id: user.id }
 
       assert_response :success
       expect(response.content_type).to be == 'application/json'

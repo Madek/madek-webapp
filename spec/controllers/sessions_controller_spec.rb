@@ -39,7 +39,7 @@ describe SessionsController do
       end
 
       it 'passes through a `lang` parameter' do
-        get :shib_sign_in, lang: 'en'
+        get :shib_sign_in, params: { lang: 'en' }
         expect(response).to redirect_to '/my?lang=en'
       end
 

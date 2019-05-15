@@ -99,7 +99,7 @@ describe ZencoderJobsController, webmock: true do
 
         post(
           :notification,
-          { id: zencoder_job.id }.merge(failed_notification)
+          params: { id: zencoder_job.id }.merge(failed_notification)
         )
 
         zencoder_job.reload
@@ -123,8 +123,9 @@ describe ZencoderJobsController, webmock: true do
       it 'persists notification data' do
         post(
           :notification,
-          id: zencoder_job.id,
-          job: { id: 12345 }
+          params: {
+            id: zencoder_job.id,
+            job: { id: 12345 } }
         )
 
         zencoder_job.reload

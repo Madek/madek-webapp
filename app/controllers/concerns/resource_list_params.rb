@@ -71,6 +71,7 @@ module Concerns
 
       def process_list_params(list_params, coerced_types, allowed_filter_params)
         list_params
+          .to_h
           .deep_symbolize_keys
           .map { |key, val| _coerce_types(coerced_types, key, val) }
           .tap do |p|

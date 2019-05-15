@@ -37,10 +37,10 @@ describe MediaEntriesController do
           }
         }
 
-      xhr :put,
-          :batch_meta_data_update,
-          update_data.merge(format: :json, return_to: '/my'),
-          user_id: user.id
+      put :batch_meta_data_update,
+          params: update_data.merge(format: :json, return_to: '/my'),
+          session: { user_id: user.id },
+          xhr: true
 
       expect(response.status).to be == 200
 

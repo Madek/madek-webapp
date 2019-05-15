@@ -12,7 +12,7 @@ describe ConfidentialLinksController do
         end
 
         it 'renders template' do
-          get :new, { id: resource.id }, user_id: user.id
+          get :new, params: { id: resource.id }, session: { user_id: user.id }
 
           expect(response).to be_success
           expect(response)
@@ -20,7 +20,7 @@ describe ConfidentialLinksController do
         end
 
         it 'assigns presenter' do
-          get :new, { id: resource.id }, user_id: user.id
+          get :new, params: { id: resource.id }, session: { user_id: user.id }
 
           expect(assigns[:get]).to be_instance_of(
             Presenters::MediaEntries::MediaEntryConfidentialLinkNew)
@@ -30,8 +30,9 @@ describe ConfidentialLinksController do
           it 'raises not found error' do
             resource.update_column(:is_published, false)
 
-            expect { get :new, { id: resource.id }, user_id: user.id }
-              .to raise_error ActiveRecord::RecordNotFound
+            expect do
+              get :new, params: { id: resource.id }, session: { user_id: user.id }
+            end.to raise_error ActiveRecord::RecordNotFound
           end
         end
       end
@@ -44,8 +45,12 @@ describe ConfidentialLinksController do
         end
 
         it 'raises forbidden error' do
-          expect { get :new, { id: resource.id }, user_id: not_owner.id }
-            .to raise_error Errors::ForbiddenError
+          expect do
+            get(
+              :new,
+              params: { id: resource.id },
+              session: { user_id: not_owner.id })
+          end.to raise_error Errors::ForbiddenError
         end
       end
 
@@ -56,7 +61,7 @@ describe ConfidentialLinksController do
         end
 
         it 'raises unauthorized error' do
-          expect { get :new, id: resource.id }
+          expect { get :new, params: { id: resource.id } }
             .to raise_error Errors::UnauthorizedError
         end
       end
@@ -73,7 +78,7 @@ describe ConfidentialLinksController do
         end
 
         it 'redirects to confidential urls show action' do
-          post :create, { id: resource.id }, user_id: user.id
+          post :create, params: { id: resource.id }, session: { user_id: user.id }
 
           expect(response).to have_http_status(302)
           expect(response).to redirect_to confidential_link_media_entry_path(
@@ -87,8 +92,12 @@ describe ConfidentialLinksController do
           it 'raises not found error' do
             resource.update_column(:is_published, false)
 
-            expect { post :create, { id: resource.id }, user_id: user.id }
-              .to raise_error ActiveRecord::RecordNotFound
+            expect do
+              post(
+                :create,
+                params: { id: resource.id },
+                session: { user_id: user.id })
+            end.to raise_error ActiveRecord::RecordNotFound
           end
         end
       end
@@ -101,8 +110,12 @@ describe ConfidentialLinksController do
         end
 
         it 'raises forbidden error' do
-          expect { post :create, { id: resource.id }, user_id: not_owner.id }
-            .to raise_error Errors::ForbiddenError
+          expect do
+            post(
+              :create,
+              params: { id: resource.id },
+              session: { user_id: not_owner.id })
+          end.to raise_error Errors::ForbiddenError
         end
       end
 
@@ -113,7 +126,7 @@ describe ConfidentialLinksController do
         end
 
         it 'raises unauthorized error' do
-          expect { post :create, id: resource.id }
+          expect { post :create, params: { id: resource.id } }
             .to raise_error Errors::UnauthorizedError
         end
       end
@@ -134,9 +147,10 @@ describe ConfidentialLinksController do
         end
 
         it 'redirects to template urls list' do
-          patch :update,
-                { id: resource.id, confidential_link_id: confidential_link.id },
-                user_id: user.id
+          patch(
+            :update,
+            params: { id: resource.id, confidential_link_id: confidential_link.id },
+            session: { user_id: user.id })
 
           expect(response).to redirect_to \
             confidential_links_media_entry_path(resource)
@@ -148,9 +162,10 @@ describe ConfidentialLinksController do
 
             expect do
               patch :update,
-                    { id: resource.id,
+                    params: {
+                      id: resource.id,
                       confidential_link_id: confidential_link.id },
-                    user_id: user.id
+                    session: { user_id: user.id }
             end.to raise_error ActiveRecord::RecordNotFound
           end
         end
@@ -166,9 +181,10 @@ describe ConfidentialLinksController do
         it 'raises forbidden error' do
           expect do
             patch :update,
-                  { id: resource.id,
+                  params: {
+                    id: resource.id,
                     confidential_link_id: confidential_link.id },
-                  user_id: not_owner.id
+                  session: { user_id: not_owner.id }
           end.to raise_error Errors::ForbiddenError
         end
       end
@@ -181,8 +197,10 @@ describe ConfidentialLinksController do
 
         it 'raises unauthorized error' do
           expect do
-            patch :update, id: resource.id,
-                           confidential_link_id: confidential_link.id
+            patch :update,
+                  params: {
+                    id: resource.id,
+                    confidential_link_id: confidential_link.id }
           end.to raise_error Errors::UnauthorizedError
         end
       end

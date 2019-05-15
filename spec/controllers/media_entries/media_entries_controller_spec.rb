@@ -59,8 +59,11 @@ describe MediaEntriesController do
                          creator: @user, responsible_user: @user,
                          is_published: false
 
-    expect { delete :destroy, { id: media_entry.id }, user_id: @user.id }
-      .to change { MediaEntry.unscoped.count }.by(-1)
+    expect do
+      delete :destroy,
+             params: { id: media_entry.id },
+             session: { user_id: @user.id }
+    end.to change { MediaEntry.unscoped.count }.by(-1)
 
     expect(response).to redirect_to my_dashboard_path
 

@@ -10,7 +10,7 @@ def create_vocabulary_permissions(vocab)
 end
 
 def delete_and_assert_success(meta_datum)
-  delete :destroy, { id: meta_datum.id }, user_id: @user.id
+  delete :destroy, params: { id: meta_datum.id }, session: { user_id: @user.id }
   assert_response 303
   expect { MetaDatum.find(meta_datum.id) }
     .to raise_error(ActiveRecord::RecordNotFound)

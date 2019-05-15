@@ -30,12 +30,13 @@ describe MetaDataController do
       new_text = Faker::Lorem.sentence
 
       patch :update,
-            { id: meta_datum.id,
+            params: {
+              id: meta_datum.id,
               media_entry_id: @media_entry.id,
               meta_key: meta_key.id,
               type: 'MetaDatum::Text',
               values: [new_text] },
-            user_id: @user.id
+            session: { user_id: @user.id }
 
       assert_response 303
       expect(meta_datum.reload.string).to eq new_text
@@ -51,12 +52,12 @@ describe MetaDataController do
       new_text_date = Faker::Lorem.words.join(' ')
 
       patch :update,
-            { id: meta_datum.id,
+            params: { id: meta_datum.id,
               media_entry_id: @media_entry.id,
               meta_key: meta_key.id,
               type: 'MetaDatum::TextDate',
               values: [new_text_date] },
-            user_id: @user.id
+            session: { user_id: @user.id }
 
       assert_response 303
       expect(meta_datum.reload.string).to eq new_text_date
@@ -73,11 +74,12 @@ describe MetaDataController do
         meta_datum.people.map(&:id) + [FactoryGirl.create(:person).id]
 
       patch :update,
-            { id: meta_datum.id,
+            params: {
+              id: meta_datum.id,
               media_entry_id: @media_entry.id,
               meta_key: meta_key.id,
               type: 'MetaDatum::People', values: new_people_ids },
-            user_id: @user.id
+            session: { user_id: @user.id }
 
       assert_response 303
       expect(meta_datum.reload.people.map(&:id))
@@ -94,11 +96,12 @@ describe MetaDataController do
       new_people_ids = [FactoryGirl.create(:person).id]
 
       patch :update,
-            { id: meta_datum.id,
+            params: {
+              id: meta_datum.id,
               media_entry_id: @media_entry.id,
               meta_key: meta_key.id,
               type: 'MetaDatum::People', values: new_people_ids },
-            user_id: @user.id
+            session: { user_id: @user.id }
 
       assert_response 303
 
@@ -117,11 +120,12 @@ describe MetaDataController do
         meta_datum.keywords.map(&:id) + [FactoryGirl.create(:keyword).id]
 
       patch :update,
-            { id: meta_datum.id,
+            params: {
+              id: meta_datum.id,
               media_entry_id: @media_entry.id,
               meta_key: meta_key.id,
               type: 'MetaDatum::Keywords', values: new_keyword_ids },
-            user_id: @user.id
+            session: { user_id: @user.id }
 
       assert_response 303
       expect(meta_datum.reload.keywords.map(&:id))
@@ -138,12 +142,13 @@ describe MetaDataController do
       new_keyword_data = { term: 'On the fly' }
 
       patch :update,
-            { id: meta_datum.id,
+            params: {
+              id: meta_datum.id,
               media_entry_id: @media_entry.id,
               meta_key: meta_key.id,
               type: 'MetaDatum::Keywords',
               values: [new_keyword_data] },
-            user_id: @user.id
+            session: { user_id: @user.id }
 
       assert_response 303
       newly_created_keyword = Keyword.find_by(term: new_keyword_data[:term])
@@ -162,11 +167,12 @@ describe MetaDataController do
       new_keyword_ids = [FactoryGirl.create(:keyword).id]
 
       patch :update,
-            { id: meta_datum.id,
+            params: {
+              id: meta_datum.id,
               media_entry_id: @media_entry.id,
               meta_key: meta_key.id,
               type: 'MetaDatum::Keywords', values: new_keyword_ids },
-            user_id: @user.id
+            session: { user_id: @user.id }
 
       assert_response 303
       expect(meta_datum.reload.keywords.map(&:id))
@@ -181,12 +187,13 @@ describe MetaDataController do
                             meta_key: meta_key,
                             media_entry: @media_entry)
         post :update,
-             { id: meta_datum.id,
+             params: {
+               id: meta_datum.id,
                media_entry_id: @media_entry.id,
                meta_key: meta_key.id,
                type: 'MetaDatum::People',
                values: [] },
-             user_id: @user.id
+             session: { user_id: @user.id }
 
         assert_response 303
         md = @media_entry.meta_data.find_by(meta_key_id: meta_key.id)
@@ -200,12 +207,13 @@ describe MetaDataController do
                             meta_key: meta_key,
                             media_entry: @media_entry)
         post :update,
-             { id: meta_datum.id,
+             params: {
+               id: meta_datum.id,
                media_entry_id: @media_entry.id,
                meta_key: meta_key.id,
                type: 'MetaDatum::People',
                values: ['', ''] },
-             user_id: @user.id
+             session: { user_id: @user.id }
 
         assert_response 303
         md = @media_entry.meta_data.find_by(meta_key_id: meta_key.id)
