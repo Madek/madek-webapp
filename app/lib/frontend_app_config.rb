@@ -4,7 +4,7 @@
 class FrontendAppConfig
 
   def self.to_js # NOTE: this generates JavaScript to be included as-is (global!)
-    "Object.freeze(APP_CONFIG = #{JSON.generate(self.app_config)})"
+    "Object.freeze(APP_CONFIG = #{JSON.generate(self.app_config)})".html_safe
   end
 
   def self.app_config
