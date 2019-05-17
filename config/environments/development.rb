@@ -40,6 +40,7 @@ Madek::Application.configure do
 
   # Don't use precompiled assets in dev!
   config.assets.compile = true
+  config.assets.precompile += %w( dev-bundle.js )
   config.assets.prefix = '/dev-assets'
 
 end

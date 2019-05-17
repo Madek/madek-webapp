@@ -14,7 +14,8 @@ class ErrorsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def show
-    exception = env['action_dispatch.exception']
+    skip_authorization
+    exception = request.env['action_dispatch.exception']
     for_url = request.original_fullpath
     err = Presenters::Errors::ErrorShow.new(exception, for_url: for_url)
     # Select type (show server errors as plain page, client error in app):

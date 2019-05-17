@@ -19,12 +19,13 @@ gem 'puma'
 gem "madek_zhdk_integration", path: "zhdk-integration"
 
 # FRONTEND
-gem 'compass-rails', '~> 3.0.1'
+gem 'compass-rails', '~> 3.0'
 gem 'haml-rails'
 gem 'kramdown'
-gem 'react-rails', '~> 1.7.1'
+gem 'react-rails', '~> 1.9'
 gem 'sass'
 gem 'sass-rails'
+gem 'coffee-rails'
 
 # The rest
 gem 'bcrypt-ruby'
@@ -48,7 +49,7 @@ gem 'uglifier'
 # TEST or DEVELOPMENT only
 #####################################################################
 
-gem 'better_errors', platform: :mri, group: [:development]
+# gem 'better_errors', group: [:development]
 gem 'binding_of_caller', platform: :mri, group: [:development]
 gem 'capybara', '~> 2.4', group: [:test]
 # gem 'meta_request', group: [:development]
