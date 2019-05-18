@@ -11,7 +11,7 @@ module Concerns
     end
 
     def value_param(parameters = params)
-      parameters.fetch(:values)
+      parameters.fetch(:values, [])
     end
 
     def value_param_for_update(type)
