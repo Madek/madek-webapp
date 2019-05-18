@@ -9,7 +9,8 @@ shared_examples 'confidential urls' do
       it 'renders template' do
         cf_link = create :confidential_link, user: @user, resource: resource
 
-        get action_name, confidential_link_params(action_name, cf_link.token)
+        get action_name,
+            params: confidential_link_params(action_name, cf_link.token)
 
         expect(response).to be_success
         expect(response).to render_template(action_name)
@@ -19,7 +20,8 @@ shared_examples 'confidential urls' do
         it 'raises unauthorized error' do
           fake_token = 'ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEF'
           expect do
-            get(action_name, confidential_link_params(action_name, fake_token))
+            get(action_name,
+                params: confidential_link_params(action_name, fake_token))
           end
             .to raise_error(Errors::UnauthorizedError)
         end
@@ -31,7 +33,8 @@ shared_examples 'confidential urls' do
                                                revoked: true
 
           expect do
-            get(action_name, confidential_link_params(action_name, cf_link.token))
+            get(action_name,
+                params: confidential_link_params(action_name, cf_link.token))
           end
             .to raise_error(Errors::UnauthorizedError)
         end
@@ -48,7 +51,8 @@ shared_examples 'confidential urls' do
           sleep 1
 
           expect do
-            get(action_name, confidential_link_params(action_name, cf_link.token))
+            get(action_name,
+                params: confidential_link_params(action_name, cf_link.token))
           end
             .to raise_error(Errors::UnauthorizedError)
         end
@@ -66,7 +70,9 @@ shared_examples 'confidential urls' do
     context 'when resource is published' do
       context 'when user is an owner' do
         it 'renders template' do
-          get :confidential_links, { id: resource.id }, user_id: @user.id
+          get :confidential_links,
+              params: { id: resource.id },
+              session: { user_id: @user.id }
 
           expect(response).to be_success
           expect(response).to render_template :confidential_links
@@ -78,7 +84,9 @@ shared_examples 'confidential urls' do
           resource.update_column(:responsible_user_id, create(:user).id)
 
           expect do
-            get :confidential_links, { id: resource.id }, user_id: @user.id
+            get :confidential_links,
+                params: { id: resource.id },
+                session: { user_id: @user.id }
           end.to raise_error Errors::ForbiddenError
         end
       end

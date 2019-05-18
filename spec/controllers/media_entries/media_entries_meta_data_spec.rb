@@ -167,11 +167,12 @@ def add_meta_datum_keywords
 end
 
 def put_meta_data(data)
-  xhr :put,
-      :meta_data_update,
-      { id: @media_entry.id,
+  put :meta_data_update,
+      params: {
+        id: @media_entry.id,
         media_entry: { meta_data: data },
         format: :json
       },
-      user_id: @user.id
+      session: { user_id: @user.id },
+      xhr: true
 end

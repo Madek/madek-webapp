@@ -55,8 +55,8 @@ describe BatchController do
       return_to_url = '/my'
 
       put :batch_update_entry_permissions,
-          update_data.merge(format: :json, return_to: return_to_url),
-          user_id: @logged_in_user.id
+          params: update_data.merge(format: :json, return_to: return_to_url),
+          session: { user_id: @logged_in_user.id }
 
       ################################ ASSERTIONS #################################
 
@@ -85,8 +85,8 @@ describe BatchController do
       entry_2_before_count = @resource_2.edit_sessions.count
 
       put :batch_update_entry_permissions,
-          update_data.merge(format: :json, return_to: '/my'),
-          user_id: @logged_in_user.id
+          params: update_data.merge(format: :json, return_to: '/my'),
+          session: { user_id: @logged_in_user.id }
 
       expect(response.status).to be == 200
 
@@ -146,8 +146,8 @@ describe BatchController do
       return_to_url = '/my'
 
       put :batch_update_collection_permissions,
-          update_data.merge(format: :json, return_to: return_to_url),
-          user_id: @logged_in_user.id
+          params: update_data.merge(format: :json, return_to: return_to_url),
+          session: { user_id: @logged_in_user.id }
 
       ################################ ASSERTIONS #################################
 

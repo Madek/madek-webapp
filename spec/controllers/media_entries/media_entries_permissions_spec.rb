@@ -13,18 +13,19 @@ describe MediaEntriesController do
     it 'for edit' do
       expect do
         get :permissions_edit,
-            { id: @media_entry.id },
-            user_id: @user.id
+            params: { id: @media_entry.id },
+            session: { user_id: @user.id }
       end.to raise_error(Errors::ForbiddenError)
     end
 
     it 'for update' do
       expect do
         put :permissions_update,
-            { id: @media_entry.id,
+            params: {
+              id: @media_entry.id,
               user_permissions: [{ user_id: create(:user).id,
                                    get_metadata_and_previews: true }] },
-            user_id: @user.id
+            session: { user_id: @user.id }
       end.to raise_error(Errors::ForbiddenError)
     end
   end
@@ -84,8 +85,8 @@ describe MediaEntriesController do
       }
 
     put :permissions_update,
-        update_params,
-        user_id: @user.id
+        params: update_params,
+        session: { user_id: @user.id }
 
     # check that old permissions were deleted
     [up1, up2, gp1, gp2, apc1, apc2].each do |p|
@@ -140,7 +141,7 @@ describe MediaEntriesController do
           { user_permissions: 'not an array' } }
 
     expect do
-      put :permissions_update, update_params, user_id: @user.id
+      put :permissions_update, params: update_params, session: { user_id: @user.id }
     end.to raise_error Errors::InvalidParameterValue
   end
 
@@ -164,7 +165,7 @@ describe MediaEntriesController do
             get_metadata_and_previews: true,
             get_full_size: true } } }
 
-    put :permissions_update, update_params, user_id: @user.id
+    put :permissions_update, params: update_params, session: { user_id: @user.id }
 
     media_entry.reload
     expect(media_entry.user_permissions.count).to be == 0
@@ -197,7 +198,7 @@ describe MediaEntriesController do
             get_metadata_and_previews: true,
             get_full_size: true } } }
 
-    put :permissions_update, update_params, user_id: @user.id
+    put :permissions_update, params: update_params, session: { user_id: @user.id }
 
     media_entry.reload
     expect(media_entry.user_permissions.count).to be == 0
@@ -216,7 +217,8 @@ describe MediaEntriesController do
         }
       }
 
-    expect { put :permissions_update, update_params, user_id: @user.id }
-      .to change { media_entry.reload.edit_sessions.count }.by 1
+    expect do
+      put :permissions_update, params: update_params, session: { user_id: @user.id }
+    end.to change { media_entry.reload.edit_sessions.count }.by 1
   end
 end

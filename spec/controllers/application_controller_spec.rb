@@ -13,7 +13,7 @@ describe ApplicationController do
   end
 
   it 'current user' do
-    get :root, nil, user_id: FactoryGirl.create(:user).id
+    get :root, session: { user_id: FactoryGirl.create(:user).id }
     expect(@controller.current_user).not_to be_nil
   end
 
