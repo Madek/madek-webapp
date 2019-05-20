@@ -56,7 +56,7 @@ feature 'Collection tabs' do
   end
 
   def setup_contexts_for_collection_extra
-    app_settings = AppSettings.first
+    app_settings = AppSetting.first
     app_settings.contexts_for_collection_extra << Context.find('core')
     app_settings.contexts_for_collection_extra << Context.find('media_content')
     app_settings.save
