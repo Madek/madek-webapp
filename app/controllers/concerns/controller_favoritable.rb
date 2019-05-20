@@ -31,7 +31,8 @@ module Concerns
         action = value ? 'favored' : 'disfavored'
         i18n_key = "#{name}_was_" + action
         message = I18n.t(i18n_key.to_sym)
-        redirect_to :back, flash: { success: message }
+        redirect_back fallback_location: proc { send(name + '_path', resource) },
+                      flash: { success: message }
       end
     end
 
