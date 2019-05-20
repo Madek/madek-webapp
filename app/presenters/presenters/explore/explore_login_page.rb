@@ -24,8 +24,8 @@ module Presenters
             @settings),
           Presenters::Explore::Modules::ExploreLatestSection.new(
             @user, @settings),
-          # Presenters::Explore::Modules::ExploreFeaturedContentSection.new(
-          #   @user, @settings),
+          Presenters::Explore::Modules::ExploreFeaturedContentSection.new(
+            @user, @settings),
           Presenters::Explore::Modules::ExploreKeywordsSection.new,
           Presenters::Explore::Modules::ExploreVocabulariesSection.new(
             @user, @settings)

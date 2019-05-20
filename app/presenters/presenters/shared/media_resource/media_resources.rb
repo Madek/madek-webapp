@@ -161,12 +161,19 @@ module Presenters
           end
         end
 
+        def presenter_by_resource_type(resource)
+          if resource.respond_to?(:cast_to_type)
+            presenter_by_class(resource.cast_to_type.class)
+          end
+        end
+
         def presenterify(resources, determined_presenter = nil)
           resources.map do |resource|
             # if no presenter given, need to check class of every member!
-            presenter = determined_presenter || presenter_by_class(resource.class)
+            presenter = \
+              determined_presenter || presenter_by_resource_type(resource) || presenter_by_class(resource.class)
             presenter.new(
-              resource,
+              resource.try(:cast_to_type) || resource,
               @user,
               load_meta_data: @load_meta_data,
               list_conf: @conf)
