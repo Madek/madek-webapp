@@ -1,17 +1,17 @@
 GIT
-  remote: git://github.com/michalpodlecki/rails_configuration-management-backdoor.git
-  revision: e071565002b9d5d69733ba828ce89a67a0be0845
-  specs:
-    configuration_management_backdoor (4.0.0)
-      rails (>= 5.0, < 6.0)
-
-GIT
   remote: https://github.com/drtom/rails_pg-tasks
   revision: e89db3adf583dca74dac7745387f692f9a083197
   branch: master_rails_5
   specs:
     pg_tasks (2.2.0.pre.0)
       rails (~> 5.0)
+
+GIT
+  remote: https://github.com/michalpodlecki/rails_configuration-management-backdoor
+  revision: e071565002b9d5d69733ba828ce89a67a0be0845
+  specs:
+    configuration_management_backdoor (4.0.0)
+      rails (>= 5.0, < 6.0)
 
 PATH
   remote: zhdk-integration
