@@ -222,7 +222,7 @@ feature 'Resource: MetaDatum' do
       # prepare second tab:
       @context_key2 = FactoryGirl.create(
         :context_key, meta_key: MetaKey.find('madek_core:title'))
-      AppSettings.first.update_attributes!(
+      AppSetting.first.update_attributes!(
         contexts_for_entry_edit: [
           @context_key.context_id, @context_key2.context_id])
 

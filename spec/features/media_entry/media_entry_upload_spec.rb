@@ -47,7 +47,7 @@ feature 'Resource: MediaEntry' do
 
     scenario 'Default License and Usage are applied on upload as configured',
              browser: false do
-      settings = AppSettings.first
+      settings = AppSetting.first
 
       visit new_media_entry_path
       select_file_and_submit('images', 'grumpy_cat_new.jpg')
