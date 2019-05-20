@@ -5,7 +5,7 @@ module Presenters
 
       def initialize(app_resource)
         fail 'TypeError!' unless app_resource.is_a?(ActiveRecord::Base)
-        @app_resource = app_resource
+        @app_resource = app_resource.try(:cast_to_type) || app_resource
       end
 
       # extend presenter base method:
