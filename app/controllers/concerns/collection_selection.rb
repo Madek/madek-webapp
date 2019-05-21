@@ -145,7 +145,7 @@ module Concerns
         {}
       else
         Hash[
-          params.require(key_sym).map do |key, checks|
+          params.require(key_sym).to_h.map do |key, checks|
             [key, checks.include?('true')]
           end
         ]
@@ -157,7 +157,7 @@ module Concerns
         {}
       else
         Hash[
-          params.require(key_sym).map do |key, checks|
+          params.require(key_sym).to_h.map do |key, checks|
             [
               key,
               {
