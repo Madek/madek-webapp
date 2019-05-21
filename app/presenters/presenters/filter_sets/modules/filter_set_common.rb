@@ -7,7 +7,7 @@ module Presenters
 
         def saved_filter
           return unless (definition = @app_resource.try(:definition))
-          JSON.parse(@app_resource.definition).deep_symbolize_keys
+          definition.deep_symbolize_keys
         end
       end
 
