@@ -85,7 +85,7 @@ feature 'Resource: MediaEntry' do
                            id: "#{vocabulary.id}:#{Faker::Lorem.characters(8)}",
                            vocabulary: vocabulary)
       FactoryGirl.create(:context_key,
-                         label: (@ck_label = Faker::Lorem.characters(8)),
+                         labels: { de: (@ck_label = Faker::Lorem.characters(8)) },
                          meta_key: meta_key,
                          context_id: 'core')
 

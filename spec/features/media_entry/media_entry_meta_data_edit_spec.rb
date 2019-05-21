@@ -192,15 +192,15 @@ end
 def prepare_roles
   mk_roles_movie = create(
     :meta_key_roles,
-    label: 'Rollen (Film)',
+    labels: { de: 'Rollen (Film)' },
     id: 'media_object:roles_movie')
   mk_roles_music = create(
     :meta_key_roles,
-    label: 'Rollen (Musik)',
+    labels: { de: 'Rollen (Musik)' },
     id: 'media_object:roles_music')
   mk_roles_theater = create(
     :meta_key_roles,
-    label: 'Rollen (Theater)',
+    labels: { de: 'Rollen (Theater)' },
     id: 'media_object:roles_theater')
 
   create_roles_for(mk_roles_movie, mk_roles_music, mk_roles_theater)
@@ -226,7 +226,7 @@ def create_context_key_for(*meta_keys)
   meta_keys.each do |meta_key|
     create(
       :context_key,
-      label: nil,
+      labels: { de: nil },
       meta_key: meta_key,
       context: context)
   end

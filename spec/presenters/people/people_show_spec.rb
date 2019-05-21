@@ -11,9 +11,16 @@ describe Presenters::People::PersonShow do
       last_name: 'Einstein',
       pseudonym: nil,
       external_uris: [
+        # AuthorityControl links
         'https://viaf.org/viaf/75121530',
         'https://id.loc.gov/authorities/names/n79022889',
-        'https://d-nb.info/gnd/118529579'
+        'https://d-nb.info/gnd/118529579',
+        # normal links
+        'https://www.nobelprize.org/prizes/physics/1921/einstein/',
+        # bare link
+        'example.com',
+        # invalid link (should not be in DB< but make sure it does not crash)
+        'NOT_EVEN_A_LINK_BUT_DOES_NOT_CRASH'
       ])
   end
 
@@ -87,6 +94,18 @@ describe Presenters::People::PersonShow do
               url: 'https://www.dnb.de/DE/Standardisierung/GND/gnd_node.html'
             }
           }
+        },
+        {
+          uri: 'https://www.nobelprize.org/prizes/physics/1921/einstein/',
+          is_web: true
+        },
+        {
+          uri: 'example.com',
+          is_web: false
+        },
+        {
+          uri: 'NOT_EVEN_A_LINK_BUT_DOES_NOT_CRASH',
+          is_web: false
         }
       ]
     )

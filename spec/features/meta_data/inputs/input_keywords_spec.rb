@@ -136,7 +136,10 @@ feature 'Resource: MetaDatum' do
   # create a metakey and set it as the only input field:
   def create_meta_key_keywords(attrs = {})
     meta_key = FactoryGirl.create(:meta_key_keywords, **attrs)
-    context_key = FactoryGirl.create(:context_key, meta_key: meta_key, label: nil)
+    context_key = FactoryGirl.create(
+      :context_key,
+      meta_key: meta_key,
+      labels: { de: nil })
     configure_as_only_input(context_key)
     meta_key
   end

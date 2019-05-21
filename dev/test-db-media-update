@@ -2,11 +2,10 @@
 
 git submodule update --init spec/_support/test_media
 
-export RAILS_ENV="test"
 export FILE="spec/_support/test_media/madek_test_media.pgbin"
 
-bundle exec rake db:pg:terminate_connections db:drop || true # ignore error if not exists yet
-bundle exec rake db:create db:pg:structure_and_data:restore FILE="$FILE"
-bundle exec rake db:migrate db:seed
+RAILS_ENV="test" bundle exec rake db:pg:terminate_connections db:drop || true # ignore error if not exists yet
+RAILS_ENV="test" bundle exec rake db:create db:pg:structure_and_data:restore FILE="$FILE"
+RAILS_ENV="test" bundle exec rake db:migrate db:seed
 rm -f "$FILE"
-bundle exec rake db:pg:structure_and_data:dump FILE="$FILE"
+RAILS_ENV="test" bundle exec rake db:pg:structure_and_data:dump FILE="$FILE"
