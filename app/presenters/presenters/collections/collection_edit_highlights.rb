@@ -12,8 +12,8 @@ module Presenters
         child_presenters = scoped_child_resources
           .custom_order_by('created_at DESC')
           .map do |child|
-          index_presenter(child.type).new(child, @user)
-        end
+            index_presenter(child.type).new(child.cast_to_type, @user)
+          end
 
         @child_presenters = {
           resources: child_presenters
@@ -27,7 +27,7 @@ module Presenters
       def uuid_to_checked_hash
         Hash[
           @app_resource.child_media_resources.map do |resource|
-            [resource.id, resource.highlighted_for?(@app_resource)]
+            [resource.id, resource.cast_to_type.highlighted_for?(@app_resource)]
           end
         ]
       end
