@@ -22,7 +22,7 @@ gem "madek_zhdk_integration", path: "zhdk-integration"
 gem 'compass-rails', '~> 3.0'
 gem 'haml-rails'
 gem 'kramdown'
-gem 'react-rails', '~> 1.9'
+gem 'react-rails', '= 1.9.0'
 gem 'sass'
 gem 'sass-rails'
 gem 'coffee-rails'

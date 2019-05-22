@@ -276,8 +276,9 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
-    react-rails (1.11.0)
+    react-rails (1.9.0)
       babel-transpiler (>= 0.7.0)
+      coffee-script-source (~> 1.8)
       connection_pool
       execjs
       railties (>= 3.2)
@@ -425,7 +426,7 @@ DEPENDENCIES
   pundit
   rails (~> 5.2.3)
   rails-controller-testing
-  react-rails (~> 1.9)
+  react-rails (= 1.9.0)
   responders
   rest-client
   rspec-rails (~> 3.1)
