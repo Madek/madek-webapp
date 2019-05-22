@@ -138,7 +138,7 @@ feature 'Meta key grouping' do
     media_entry = FactoryGirl.create(:media_entry, responsible_user: user)
 
     app_setting = AppSetting.first
-    app_setting.contexts_for_entry_edit << context
+    app_setting[:contexts_for_entry_edit] << context.id
     app_setting.save
 
     {
