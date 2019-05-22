@@ -141,33 +141,23 @@ module Concerns
     end
 
     def read_checkboxes(key_sym)
-      if not params[key_sym]
-        {}
-      else
-        Hash[
-          params.require(key_sym).to_h.map do |key, checks|
-            [key, checks.include?('true')]
-          end
-        ]
-      end
+      Hash[
+        params.fetch(key_sym, {}).permit!.to_h.map do |key, checks|
+          [key, checks.include?('true')]
+        end
+      ]
     end
 
     def read_new_checkboxes(key_sym)
-      if not params[key_sym]
-        {}
-      else
-        Hash[
-          params.require(key_sym).to_h.map do |key, checks|
-            [
-              key,
-              {
-                checked: checks[:checked] == 'true',
-                name: checks[:name]
-              }
-            ]
-          end
-        ]
-      end
+      Hash[
+        params.fetch(key_sym, {}).permit!.to_h.map do |key, checks|
+          [key,
+          {
+            checked: checks[:checked] == 'true',
+            name: checks[:name]
+          }]
+        end
+      ]
     end
 
   end
