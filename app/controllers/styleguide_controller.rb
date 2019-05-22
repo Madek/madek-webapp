@@ -6,6 +6,7 @@ class StyleguideController < ApplicationController
   helper_method :resource_list_params
 
   before_action do
+    skip_authorization
     @sections = build_styleguide_tree # from LivingStyleguide module
   end
 
