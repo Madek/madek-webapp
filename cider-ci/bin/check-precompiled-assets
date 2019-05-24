@@ -21,7 +21,7 @@ if (!args.assetsPath || !args.comparePath) {
 // helpers
 function getNewestManifest (assetsFiles) {
   return assetsFiles
-    .filter((i) => /manifest-[^.]*.js/.test(i))
+    .filter((i) => /\.sprockets-manifest-[^.]*.js/.test(i))
     .sort((i) => fs.statSync(path.join(ASSETS_PATH, i)).mtime)[0]
 }
 
