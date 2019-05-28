@@ -25,6 +25,7 @@ resourceName = require('../lib/decorate-resource-names.coffee')
 UsageData = require('../decorators/UsageData.cjsx')
 Share = require('./Shared/Share.cjsx')
 
+WORKFLOW_STATES = { IN_PROGRESS: 'IN_PROGRESS', FINISHED: 'FINISHED' }
 
 parseUrlState = (location) ->
   urlParts = f.slice(parseUrl(location).pathname.split('/'), 1)
@@ -177,7 +178,16 @@ module.exports = React.createClass
           when 'permissions'
             <TabContent testId={contentTestId('permissions')}>
               <div className="bright pal rounded-bottom rounded-top-right ui-container">
-                <RightsManagement authToken={@props.authToken} get={get.permissions} />
+                {f.get(get, 'workflow.status') is WORKFLOW_STATES.IN_PROGRESS and (
+                  <div className="ui-alert">
+                    As this Set is part of the workflow "<a href={get.workflow.actions.edit.url}>{get.workflow.name}</a>",
+                    managing permissions is available only by changing common settings on workflow edit page which
+                    will be applied after finishing it.
+                  </div>)
+                }
+                {f.get(get, 'workflow.status') != WORKFLOW_STATES.IN_PROGRESS and (
+                  <RightsManagement authToken={@props.authToken} get={get.permissions} />)
+                }
               </div>
             </TabContent>
 

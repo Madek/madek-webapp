@@ -84,7 +84,7 @@ describe ApiTokensController do
             params: { api_token: new_attrs, id: token.id, format: :json },
             session: { user_id: user.id })
         end.to \
-          raise_error Errors::ForbiddenError, 'Acces Denied!'
+          raise_error Errors::ForbiddenError, 'Access Denied!'
 
         token.reload
         expect(token.revoked).to be true
@@ -101,7 +101,7 @@ describe ApiTokensController do
             params: { api_token: new_attrs, id: token.id, format: :json },
             session: { user_id: another_user.id })
         end.to \
-          raise_error Errors::ForbiddenError, 'Acces Denied!'
+          raise_error Errors::ForbiddenError, 'Access Denied!'
 
         token.reload
         expect(token.revoked).to be false

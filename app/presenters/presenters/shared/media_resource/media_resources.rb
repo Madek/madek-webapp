@@ -33,7 +33,8 @@ module Presenters
             only_filter_search: false,
             disable_file_search: false,
             json_path: nil,
-            content_type: nil)
+            content_type: nil,
+            part_of_workflow: false)
           fail 'missing config!' unless list_conf or list_conf[:for_url].present?
           @user = user
           @scope = scope
@@ -50,6 +51,7 @@ module Presenters
           @disable_file_search = disable_file_search
           @json_path = json_path
           @content_type = content_type
+          @part_of_workflow = part_of_workflow
           init_resources_and_pagination(@scope, @conf)
         end
 
@@ -148,7 +150,12 @@ module Presenters
           unless active_record_collection?(resources)
             fail 'TypeError! not an AR Collection/Relation!'
           end
-          resources.filter_by(@user, config[:filter] || {})
+
+          resources
+            .filter_by(
+              @user,
+              (config[:filter] || {}).merge(part_of_workflow: @part_of_workflow)
+            )
         end
 
         def _total_count

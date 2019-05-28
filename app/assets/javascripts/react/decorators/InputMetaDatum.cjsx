@@ -74,4 +74,5 @@ module.exports = React.createClass
         subForms={@props.subForms}/>
 
     else
+      console.error "Unknown MetaDatum type!", resourceType
       return null

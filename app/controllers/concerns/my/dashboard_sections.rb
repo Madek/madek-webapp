@@ -20,6 +20,14 @@ module Concerns
             hide_from_index: true,
             href: my_dashboard_section_path(:activity_stream)
           },
+          workflows: {
+            title: 'Workflows',
+            icon: 'fa fa-flask',
+            partial: :workflows,
+            is_beta: true,
+            hide_from_index: true,
+            href: my_dashboard_section_path(:workflows)
+          },
           clipboard: {
             title: I18n.t(:sitemap_clipboard),
             icon: 'icon-clipboard',

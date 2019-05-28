@@ -23,10 +23,8 @@
  *
  */
 
-
 /* External Library Includes */
 /*@import '../../../../node_modules/tachyons/src/_normalize';*/
-
 
 /* Modules */
 /*@import '../../../../node_modules/tachyons/src/_box-sizing';*/
@@ -44,7 +42,7 @@
 /*@import '../../../../node_modules/tachyons/src/_code';*/
 /*@import '../../../../node_modules/tachyons/src/_coordinates';*/
 /*@import '../../../../node_modules/tachyons/src/_clears';*/
-/*@import '../../../../node_modules/tachyons/src/_display';*/
+@import '../../../../node_modules/tachyons/src/_display';
 /*@import '../../../../node_modules/tachyons/src/_flexbox';*/
 /*@import '../../../../node_modules/tachyons/src/_floats';*/
 @import '../../../../node_modules/tachyons/src/_font-family';
@@ -73,7 +71,9 @@
 @import '../../../../node_modules/tachyons/src/_type-scale';
 
 @import '../../../../node_modules/tachyons/src/_typography';
-.measure-double { max-width: 60em }
+.measure-double {
+  max-width: 60em;
+}
 
 /*@import '../../../../node_modules/tachyons/src/_utilities';*/
 /*@import '../../../../node_modules/tachyons/src/_visibility';*/

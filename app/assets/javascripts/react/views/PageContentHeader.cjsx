@@ -6,5 +6,6 @@ PageHeader = require('../ui-components/PageHeader.js')
 module.exports = React.createClass
   displayName: 'PageContentHeader'
 
-  render: ({icon, title, children} = @props) ->
-    <PageHeader icon={icon} title={title} actions={children}/>
+  render: ({icon, title, children, workflow} = @props) ->
+    # console.log('PageContentHeader', this.props)
+    <PageHeader icon={icon} title={title} actions={children} workflow={workflow}/>

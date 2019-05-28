@@ -5,7 +5,6 @@ f = require('lodash')
 Icon = require('../ui-components/Icon.cjsx')
 t = require('../../lib/i18n-translate.js')
 
-
 MediaEntryHeaderWithModal = require('./MediaEntryHeaderWithModal.cjsx')
 MediaEntryTabs = require('./MediaEntryTabs.cjsx')
 RelationResources = require('./Collection/RelationResources.cjsx')
@@ -15,6 +14,8 @@ MediaEntryShow = require('./MediaEntryShow.cjsx')
 MetaDataByListing = require('../decorators/MetaDataByListing.cjsx')
 MediaEntryPermissions = require('./MediaEntry/MediaEntryPermissions.cjsx')
 UsageData = require('../decorators/UsageData.cjsx')
+
+WORKFLOW_STATES = { IN_PROGRESS: 'IN_PROGRESS', FINISHED: 'FINISHED' }
 
 module.exports = React.createClass
   displayName: 'Base'
@@ -29,6 +30,12 @@ module.exports = React.createClass
           <MetaDataByListing list={get.meta_data.by_vocabulary} hideSeparator={true} authToken={authToken} />
         </div>
 
+      else if action_name is 'permissions' and f.get(get, 'workflow.status') is WORKFLOW_STATES.IN_PROGRESS
+        <div className="ui-alert">
+          As this Media Entry is part of the workflow "<a href={get.workflow.actions.edit.url}>{get.workflow.name}</a>",
+          managing permissions is available only by changing common settings on workflow edit page which
+          will be applied after finishing it.
+        </div>
 
       else if f.includes(['permissions', 'permissions_edit'], action_name)
         <MediaEntryPermissions get={get.permissions} for_url={for_url} authToken={authToken} />

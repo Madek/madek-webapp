@@ -27,6 +27,7 @@ describe MyController do
         :used_keywords,
         :action,
         :tokens,
+        :workflows,
         :_presenter].sort
   end
 

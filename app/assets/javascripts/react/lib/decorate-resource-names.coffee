@@ -1,6 +1,7 @@
 f = require('active-lodash')
 
 decorators =
+  User: (o) => o.label
   Person: (o, withRole = true)->
     if f.present(o.role) or o.isNew
       buildPersonName(o, withRole)
@@ -10,6 +11,8 @@ decorators =
   Group: (o)-> o.name
   # TODO: label-icon by rdf class
   Keyword: (o)-> o.label
+  # TMP!
+  ApiClient: (o)-> "[API] #{o.login}"
 
 module.exports = (o)->
   unless f.isObject(o) and f.isFunction(decorate = decorators[o.type])

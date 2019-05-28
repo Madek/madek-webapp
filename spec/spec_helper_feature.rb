@@ -87,9 +87,16 @@ RSpec.configure do |config|
     end
   end
 
+  def maximize_window_if_possible
+    if Capybara.current_driver.presence_in %i(selenium_ff selenium_ff_nojs)
+      Capybara.page.driver.browser.manage.window.maximize
+    end
+  end
+
   config.before(:each) do |example|
     prepare_db(example)
     set_browser(example)
+    maximize_window_if_possible
   end
 
   config.after(:each) do |example|

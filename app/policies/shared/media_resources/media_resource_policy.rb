@@ -56,7 +56,7 @@ module Shared
       end
 
       def update?
-        logged_in? and record.editable_by_user?(user)
+        logged_in? and record.editable_by_user?(user) || accessed_by_workflow_owner?
       end
 
       def update_custom_urls?
@@ -126,7 +126,6 @@ module Shared
       def owner?
         record.responsible_user == user
       end
-
     end
   end
 end

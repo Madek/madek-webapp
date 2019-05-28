@@ -42,7 +42,7 @@ module.exports = React.createClass
       )
     )
 
-    <PageContentHeader icon={icon} title={get.title}>
+    <PageContentHeader icon={icon} title={get.title} workflow={get.workflow}>
       {
         f.map(
           buttons,

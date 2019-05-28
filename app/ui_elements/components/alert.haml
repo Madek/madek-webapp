@@ -13,5 +13,5 @@
 
 
 .ui-alert{class: level}
-  = text
+  = simple_format(text, {}, wrapper_tag: :span)
   = block_content

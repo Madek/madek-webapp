@@ -93,7 +93,7 @@ class ApplicationController < ActionController::Base
 
   def error_according_to_login_state
     if authenticated?
-      raise Errors::ForbiddenError, 'Acces Denied!'
+      raise Errors::ForbiddenError, 'Access Denied!'
     else
       raise Errors::UnauthorizedError, 'Please log in!'
     end

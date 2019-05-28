@@ -8,8 +8,13 @@ ui = require('../lib/ui.coffee')
 # For now, only the list of 'fontawesome' icons to differentiate:
 FONT_AWESOME_ICONS = [
   'cloud',
-  'clock-o'
+  'clock-o',
+  'flask'
 ]
+# map names for internal use to fa icon names
+FA_ICON_NAME_MAP = {
+  'madek-workflow': 'flask'
+}
 
 module.exports = React.createClass
   displayName: 'Icon'
@@ -18,6 +23,7 @@ module.exports = React.createClass
 
   render: ({i} = @props)->
     restProps = f.omit(@props, ['i', 'mods'])
+    i = FA_ICON_NAME_MAP[i] || i
     iconClass = if f.includes(FONT_AWESOME_ICONS, i)
       "fa fa-#{i}"
     else

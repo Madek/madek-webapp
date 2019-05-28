@@ -254,6 +254,13 @@ Madek::Application.routes.draw do
     post 'tokens', controller: '/api_tokens', action: 'create_api_token', as: 'create_api_token'
     patch 'tokens/:id', controller: '/api_tokens', action: 'update_api_token', as: 'update_api_token'
 
+    resources :workflows, only: [:index, :new, :create, :edit, :update] do
+      get :preview, on: :member
+      patch :save_and_not_finish, on: :member
+      patch :finish, on: :member
+      patch :update_owners, on: :member
+    end
+
     # non-resourceful sections are just plain views:
     get ':section', action: 'dashboard_section', as: 'dashboard_section'
   end

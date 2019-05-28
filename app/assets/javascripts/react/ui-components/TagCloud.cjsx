@@ -26,23 +26,31 @@ module.exports = React.createClass
     baseClass = classList(parseMods(@props), 'ui-tag-cloud')
     itemClass = classList('ui-tag-cloud-item', { block: mod is 'role' })
     tagClass = 'ui-tag-button'
-    tagIcon = switch mod
-      when 'label'  then 'tag'
-      when 'person' then 'user'
-      when 'role' then 'user'
-      when 'group'  then 'group'
-    if tagIcon and !f.includes(mods, 'large')
-      tagIcon = "#{tagIcon}-mini" # mini variant except in large tags
 
-    <ul className={baseClass}>
+    <ul
+      className={baseClass}
+      style={if f.includes(mods, 'inline') then {display:'inline-block'} else {}}
+    >
       {list.map (tag)->
         props = f.merge(f.omit(@props, 'list'), tag)
-        linkProps = f.pick(props, 'href', 'disabled', 'onClick')
-        {count, children} = props
+        {count, children, mod, tag} = props
+        linkProps = f.merge(
+          f.pick(props, 'href', 'disabled', 'onClick'),
+          { className: classList('ui-tag-button', parseMods(props)) }
+        )
         key = props.key or JSON.stringify(tag)
+        tagIcon = switch mod
+          when 'label'  then 'tag'
+          when 'person' then 'user'
+          when 'role' then 'user'
+          when 'group'  then 'group'
+        if tagIcon and !f.includes(mods, 'large')
+          tagIcon = "#{tagIcon}-mini" # mini variant except in large tags
+
+        TagElm = tag || Link
 
         <li key={key} className={itemClass}>
-          <Link {...linkProps} mods='ui-tag-button'>
+          <TagElm {...linkProps}>
             {if tagIcon
               <Icon i={tagIcon} mods='ui-tag-icon'/>}
 
@@ -50,7 +58,7 @@ module.exports = React.createClass
 
             {if count
               <span className='ui-tag-counter'>{count}</span>}
-          </Link>
+          </TagElm>
         </li>
       }
     </ul>

@@ -344,7 +344,6 @@ module.exports = React.createClass
 
     published = @_atLeastOnePublished()
 
-
     <PageContent>
 
       {
@@ -356,9 +355,7 @@ module.exports = React.createClass
           </Modal>
       }
 
-
-      <PageContentHeader icon='pen' title={@_title(get)}>
-      </PageContentHeader>
+      <PageContentHeader icon='pen' title={@_title(get)} />
 
       {if @props.batch
         <ResourcesBatchBox batchCount={@props.get.batch_length} counts={@props.get.counts}
@@ -425,12 +422,12 @@ module.exports = React.createClass
                   {
                     if !currentTab.byVocabularies
                       currentContextId = currentTab.byContext
-                      Renderer._renderByContext(currentContextId, get.meta_meta_data, published, name,
+                      Renderer._renderByContext(currentContextId, get.meta_meta_data, get.workflow, published, name,
                         @props.batch, @state.models, @state.errors, @_batchConflictByContextKey,
                         {onValue: @_onChangeForm, onChangeBatchAction: @_onChangeBatchAction}, @state.bundleState, @_toggleBundle)
 
                     else
-                      Renderer._renderByVocabularies(get.meta_data, get.meta_meta_data, published, name,
+                      Renderer._renderByVocabularies(get.meta_data, get.meta_meta_data, get.workflow, published, name,
                         @props.batch, @state.models, @state.errors, @_batchConflictByMetaKey,
                         {onValue: @_onChangeForm, onChangeBatchAction: @_onChangeBatchAction}, @state.bundleState, @_toggleBundle)
                   }

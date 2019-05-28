@@ -11,14 +11,42 @@ ResourceIcon = require('../../ui-components/ResourceIcon.cjsx')
 Tabs = require('../../views/Tabs.cjsx')
 Tab = require('../../views/Tab.cjsx')
 Icon = require('../../ui-components/Icon.cjsx')
+Link = require('../../ui-components/Link.cjsx')
+TagCloud = require('../../ui-components/TagCloud.cjsx')
 setUrlParams = require('../../../lib/set-params-for-url.coffee')
 VocabTitleLink = require('../../ui-components/VocabTitleLink.cjsx')
 grouping = require('../../../lib/metadata-edit-grouping.coffee')
+labelize = require('../../../lib/labelize').default
 
 module.exports = {
 
-  _renderValueByContext: (onChange, name, subForms, metaKey, batch, model) ->
+  _renderValueFromWorkflowCommonSettings: (workflow, meta_key_id) ->
+    md = f.find(workflow.common_settings.meta_data, (md) -> md.meta_key.uuid is meta_key_id)
 
+    value = if f.has(md.value, '0.string')
+      md.value[0].string
+    else
+      <TagCloud
+        mod='person'
+        mods='small'
+        list={labelize(md.value)} />
+
+    workflowLink = <Link href={workflow.actions.edit.url} mods='strong'>{workflow.name}</Link>
+    info = <span style={{fontStyle: 'italic'}}>
+      This value is managed by workflow "{workflowLink}"
+    </span>
+    arrowStyle =
+      fontSize: '0.75em'
+      position: 'relative'
+      top: '-2px'
+
+    <div className='form-item' style={{paddingTop: '5px'}}>
+      <div>{value or 'not set'}</div>
+      <span style={arrowStyle}>&#11153;</span> {info}
+    </div>
+
+
+  _renderValueByContext: (onChange, name, subForms, metaKey, batch, model, workflow) ->
     meta_key_id = metaKey.uuid
 
     if batch
@@ -35,16 +63,15 @@ module.exports = {
       />
     )
 
-    if batch
+    if workflow? and f.includes(f.map(workflow.common_settings.meta_data, 'meta_key.uuid'), meta_key_id)
+      @_renderValueFromWorkflowCommonSettings(workflow, meta_key_id)
+    else if batch
       style = {marginRight: '200px', marginLeft: '200px'}
       <div style={style}>
         {input}
       </div>
     else
       input
-
-
-
 
 
   _renderLabelByContext: (meta_meta_data, context_key_id) ->
@@ -92,7 +119,7 @@ module.exports = {
 
 
 
-  _renderItemByContext2: (meta_meta_data, published, name, context_key_id, subForms, rowed, batch, model, batchConflict, errors, _onChangeForm) ->
+  _renderItemByContext2: (meta_meta_data, workflow, published, name, context_key_id, subForms, rowed, batch, model, batchConflict, errors, _onChangeForm) ->
 
     contextKey = meta_meta_data.context_key_by_context_key_id[context_key_id]
     meta_key_id = contextKey.meta_key_id
@@ -113,11 +140,11 @@ module.exports = {
       }
       {@_renderLabelByContext(meta_meta_data, context_key_id)}
       {@_renderBatchDropdown(meta_meta_data, meta_key_id, name, model, _onChangeForm.onChangeBatchAction) if batch}
-      {@_renderValueByContext(((values) -> _onChangeForm.onValue(meta_key_id, values)), name, subForms, metaKey, batch, model)}
+      {@_renderValueByContext(((values) -> _onChangeForm.onValue(meta_key_id, values)), name, subForms, metaKey, batch, model, workflow)}
     </fieldset>
 
 
-  _renderItemByVocabularies2: (meta_meta_data, published, name, meta_key_id, subForms, rowed, batch, model, batchConflict, errors, _onChangeForm) ->
+  _renderItemByVocabularies2: (meta_meta_data, workflow, published, name, meta_key_id, subForms, rowed, batch, model, batchConflict, errors, _onChangeForm) ->
 
     metaKey = meta_meta_data.meta_key_by_meta_key_id[meta_key_id]
     mandatory = meta_meta_data.mandatory_by_meta_key_id[meta_key_id]
@@ -136,7 +163,7 @@ module.exports = {
       }
       {@_renderLabelByVocabularies(meta_meta_data, meta_key_id)}
       {@_renderBatchDropdown(meta_meta_data, meta_key_id, name, model, _onChangeForm.onChangeBatchAction) if batch}
-      {@_renderValueByContext(((values) -> _onChangeForm.onValue(meta_key_id, values)), name, subForms, metaKey, batch, model)}
+      {@_renderValueByContext(((values) -> _onChangeForm.onValue(meta_key_id, values)), name, subForms, metaKey, batch, model, workflow)}
     </fieldset>
 
 
@@ -195,7 +222,7 @@ module.exports = {
       meta_meta_data.context_key_by_context_key_id[context_key_id]
 
 
-  _renderByContext: (context_id, meta_meta_data, published, name,
+  _renderByContext: (context_id, meta_meta_data, workflow, published, name,
     batch, models, errors, _batchConflictByContextKey, _onChangeForm, bundleState, _toggleBundle) ->
 
     bundled_context_keys = grouping._group_context_keys(@_context_keys(meta_meta_data, context_id))
@@ -204,7 +231,7 @@ module.exports = {
 
       contextKey = meta_meta_data.context_key_by_context_key_id[context_key_id]
 
-      @_renderItemByContext2(meta_meta_data, published, name, context_key_id, subForms, rowed,
+      @_renderItemByContext2(meta_meta_data, workflow, published, name, context_key_id, subForms, rowed,
         batch, models[contextKey.meta_key_id], _batchConflictByContextKey(context_key_id), errors, _onChangeForm)
 
 
@@ -265,7 +292,7 @@ module.exports = {
 
 
 
-  _renderByVocabularies: (meta_data, meta_meta_data, published, name,
+  _renderByVocabularies: (meta_data, meta_meta_data, workflow, published, name,
     batch, models, errors, _batchConflictByMetaKey, _onChangeForm, bundleState, _toggleBundle) ->
 
 
@@ -282,7 +309,7 @@ module.exports = {
         bundled_meta_data = grouping._group_meta_data(vocabMetaData)
 
         _renderItemByMetaKeyId = (meta_key_id, subForms, rowed) =>
-          @_renderItemByVocabularies2(meta_meta_data, published, name, meta_key_id, subForms, rowed,
+          @_renderItemByVocabularies2(meta_meta_data, workflow, published, name, meta_key_id, subForms, rowed,
             batch, models[meta_key_id], _batchConflictByMetaKey(meta_key_id), errors, _onChangeForm)
 
 
@@ -350,7 +377,7 @@ module.exports = {
     </div>
 
 
-  _renderThumbnail: (resource) ->
+  _renderThumbnail: (resource, displayMetaData = true) ->
     src = resource.image_url
 
     if resource.media_file && resource.media_file.previews
@@ -407,10 +434,12 @@ module.exports = {
                   </div>
               }
             </div>
-            <div className="ui-thumbnail-meta">
-              <h3 className="ui-thumbnail-meta-title">{resource.title}</h3>
-              <h4 className="ui-thumbnail-meta-subtitle">{resource.subtitle}</h4>
-            </div>
+            {displayMetaData && (
+              <div className="ui-thumbnail-meta">
+                <h3 className="ui-thumbnail-meta-title">{resource.title}</h3>
+                <h4 className="ui-thumbnail-meta-subtitle">{resource.subtitle}</h4>
+              </div>
+            )}
 
 
           </div>

@@ -7,6 +7,7 @@ t = require('../../../lib/i18n-translate.js')
 {ActionsBar, Button} = require('../../ui-components/index.coffee')
 MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
 SuperBoxUpload = require('../../decorators/SuperBoxUpload.jsx')
+parseUrl = require('url').parse
 
 FileDrop = <div/> # client-side only
 UPLOAD_CONCURRENCY = 4
@@ -49,8 +50,11 @@ module.exports = React.createClass
   addFiles: (files)->
     return unless f.present(files)
 
+    parsedUrl = parseUrl(window.location.href, true)
+    workflowId = f.get(parsedUrl, 'query.workflow_id')
+
     added = @props.appCollection.add f.map files, (file)->
-      {uploading: {file: file}}
+      {uploading: {file: file, workflowId: workflowId}}
 
     # TODO: enable this (needs more polishing, in miniature there is nothing to see)
     # # HACK: force miniature layout if more than 20 items:

@@ -1,0 +1,8 @@
+:ruby
+  content_for(:page_header) do
+    component('page-header',
+              text: 'Preview of workflow: ' + @get.section_content.name)
+  end
+
+- content_for(:page_content) do
+  = react('Views.My.WorkflowPreview', get: @get.section_content)

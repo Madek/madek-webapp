@@ -67,7 +67,9 @@ class CollectionThumbUrl
     end
 
     # otherwise return the first image-like entry
-    auth_policy_scope(@user, collection.media_entries)
+    scope = auth_policy_scope(@user, collection.media_entries)
+    scope = scope.with_unpublished if collection.part_of_workflow?
+    scope
       .reorder(created_at: :desc)
       .each do |entry|
         return entry if entry.try(:media_file).try(:representable_as_image?)

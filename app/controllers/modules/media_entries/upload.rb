@@ -5,7 +5,11 @@ module Modules
 
       def new
         auth_authorize MediaEntry
-        @get = Presenters::MediaEntries::MediaEntryNew.new
+        workflow = find_workflow_and_authorize
+        workflow_presenter = if workflow
+          Presenters::Workflows::WorkflowCommon.new(workflow, current_user)
+        end
+        @get = Presenters::MediaEntries::MediaEntryNew.new(workflow_presenter)
       end
 
       def create
@@ -17,6 +21,8 @@ module Modules
 
         auth_authorize media_entry
 
+        workflow = find_workflow_and_authorize
+
         ActiveRecord::Base.transaction do
           media_entry.save!
           store_uploaded_file!(file, media_entry.media_file)
@@ -26,7 +32,8 @@ module Modules
         begin
           add_default_license(media_entry)
           extract_and_store_metadata(media_entry)
-          add_to_collection(media_entry, collection_id_param)
+          add_to_collection(media_entry,
+                            collection_id_param || workflow&.master_collection&.id)
         rescue => e
           Rails.logger.warn "Upload Soft-Error: #{e.inspect}, #{e.backtrace}"
         end
@@ -102,6 +109,18 @@ module Modules
         end
       end
 
+      def workflow_id_param
+        @_workflow_id_param ||= params.fetch(:workflow_id, nil) || \
+          params.fetch(:media_entry, {}).fetch(:workflow_id, nil)
+      end
+
+      def find_workflow_and_authorize(perm_name = :add_resource?)
+        if workflow_id_param
+          workflow = Workflow.find(workflow_id_param)
+          auth_authorize workflow, perm_name
+          workflow
+        end
+      end
     end
   end
 end

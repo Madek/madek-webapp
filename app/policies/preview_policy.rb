@@ -7,7 +7,8 @@ class PreviewPolicy < DefaultPolicy
     if !logged_in?
       entry.viewable_by_public?
     else
-      entry.viewable_by_user?(user) or (entry.creator == user)
+      entry.viewable_by_user?(user) or (entry.creator == user) or \
+        accessed_by_workflow_owner?(entry)
     end
   end
 

@@ -295,3 +295,10 @@ $feat-play-btn-border-size: 0.2rem
   // same as player button hover styles
   background-color: darken($primary-background-color, $button-bg-contrast-ratio)
   background-color: transparentize(darken($primary-background-color, $button-bg-contrast-ratio), 0.3)
+
+details.ui-subsection
+  summary
+    cursor: s-resize
+  &[open]
+    summary
+      cursor: n-resize

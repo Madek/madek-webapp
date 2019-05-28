@@ -95,6 +95,7 @@ module.exports = AppResource.extend(
 
     formData = new FormData()
     formData.append('media_entry[media_file]', @uploading.file)
+    formData.append('media_entry[workflow_id]', @uploading.workflowId) if @uploading.workflowId
 
     @merge('uploading', started: (new Date()).getTime())
 

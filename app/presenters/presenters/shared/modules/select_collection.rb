@@ -50,6 +50,7 @@ module Presenters
 
         def search_collections(user)
           result = Collection.editable_by_user(user)
+            .not_part_of_finished_workflow
             .joins(:meta_data)
             .where(meta_data: { meta_key_id: 'madek_core:title' })
             .where('meta_data.string ILIKE :term', term: "%#{@search_term}%")
@@ -67,6 +68,7 @@ module Presenters
 
         def marked_collections(user, media_entry)
           media_entry.parent_collections
+            .not_part_of_finished_workflow
             .editable_by_user(user)
             .joins(:meta_data)
             .where(meta_data: { meta_key_id: 'madek_core:title' })

@@ -25,7 +25,7 @@ cx = ui.cx
 t = ui.t
 searchResources = require('../../lib/search.coffee')
 
-initTypeahead = (domNode, resourceType, params, conf, existingValues, valueFilter, onSelect, onAdd, positionRelative)->
+initTypeahead = (domNode, resourceType, params, conf, existingValues, valueFilter, onSelect, onAdd, positionRelative, existingValueHint)->
   {minLength, localData} = conf
   unless (searchBackend = searchResources(resourceType, params, localData))
     throw new Error "No search backend for '#{resourceType}'!"
@@ -56,8 +56,9 @@ initTypeahead = (domNode, resourceType, params, conf, existingValues, valueFilte
 
         # set as disabled if existing value
         if existingValues && f.includes(existingValues(), content) || valueFilter && valueFilter(value)
-          console.log 'disabled'
-          line.attr(class: 'ui-autocomplete-disabled', title: t('meta_data_input_keywords_existing'))
+          line.attr(
+            class: 'ui-autocomplete-disabled',
+            title: (f.presence(existingValueHint) || t('meta_data_input_keywords_existing')))
 
         jQuery('<div>').append(line)
     }
@@ -112,11 +113,11 @@ module.exports = React.createClass
       minLength: PropTypes.number
 
   componentDidMount: ()->
-    {resourceType, searchParams, autoFocus, config, existingValues, valueFilter, onSelect, onAddValue, positionRelative} = @props
+    {resourceType, searchParams, autoFocus, config, existingValues, valueFilter, onSelect, onAddValue, positionRelative, existingValueHint} = @props
     conf = f.defaults config,
       minLength: 1
     inputDOM = ReactDOM.findDOMNode(@refs.InputField)
-    initTypeahead(inputDOM, resourceType, searchParams, conf, existingValues, valueFilter, onSelect, onAddValue, positionRelative)
+    initTypeahead(inputDOM, resourceType, searchParams, conf, existingValues, valueFilter, onSelect, onAddValue, positionRelative, existingValueHint)
     if autoFocus then @focus()
 
   focus: ()->

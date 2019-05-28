@@ -3,6 +3,7 @@ module Presenters
     class EditContextMetaData < Presenters::Shared::AppResourceWithUser
 
       include Presenters::Shared::MediaResource::Modules::IndexPresenterByClass
+      include Presenters::Shared::Modules::PartOfWorkflow
 
       attr_reader :context_id, :by_vocabularies
 

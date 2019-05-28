@@ -1,4 +1,8 @@
 class CollectionPolicy < Shared::MediaResources::MediaResourcePolicy
+  def show?
+    super || accessed_by_workflow_owner?
+  end
+
   def edit?
     logged_in? and record.editable_by_user?(user)
   end
@@ -24,7 +28,7 @@ class CollectionPolicy < Shared::MediaResources::MediaResourcePolicy
   end
 
   def add_remove_collection?
-    update?
+    update? or accessed_by_workflow_owner?
   end
 
   def select_collection?
