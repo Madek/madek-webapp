@@ -106,6 +106,9 @@ module Madek
     # Enable the asset pipeline
     config.assets.enabled = true
 
+    # TODO: do we want this?
+    # config.assets.unknown_asset_fallback = false
+
     # NOTE: sprockets is not used for bundling JS, hand it the prebundled files:
     Rails.application.config.assets.paths.concat(
       Dir["#{Rails.root}/public/assets/bundles"])
@@ -135,16 +138,19 @@ module Madek
 
     # List of all assets that need precompilation
     # NOTE: override (don't extend) the Rails default (which matches lots of garbage)!
-    config.assets.precompile = %w(
-      bundle.js
-      bundle-embedded-view.js
-      bundle-react-server-side.js
-      bundle-integration-testbed.js
-      application.css
-      application-contrasted.css
-      embedded-view.css
-      styleguide.css
-    )
+    # 2019 update: overriding the default is not possible anymore, so we need to run after the faulty initializer from here: https://github.com/rails/sprockets-rails/blob/e135984ee2b07e1a67c3fa57f799f40b0830e99a/lib/sprockets/railtie.rb#L108
+    initializer :fix_sprockets_defaults, after: :set_default_precompile do |app|
+      Rails.application.config.assets.precompile = %w(
+        bundle.js
+        bundle-embedded-view.js
+        bundle-react-server-side.js
+        bundle-integration-testbed.js
+        application.css
+        application-contrasted.css
+        embedded-view.css
+        styleguide.css
+      )
+    end
 
     # NOTE: Rails does not support *matchers* anymore, do it manually
     precompile_assets_dirs = %w(
