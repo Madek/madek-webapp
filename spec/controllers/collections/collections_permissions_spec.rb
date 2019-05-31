@@ -103,19 +103,6 @@ describe CollectionsController do
       .to be (not old.get_metadata_and_previews)
   end
 
-  it 'raises if empty array' do
-    collection = FactoryGirl.create(:collection,
-                                    responsible_user: @user)
-    update_params = \
-      { id: collection.id,
-        collection:
-          { user_permissions: 'not an array' } }
-
-    expect do
-      put :permissions_update, params: update_params, session: { user_id: @user.id }
-    end.to raise_error Errors::InvalidParameterValue
-  end
-
   it 'deletes old permissions if no new provided' do
     collection = FactoryGirl.create(:collection,
                                     responsible_user: @user)

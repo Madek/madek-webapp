@@ -132,19 +132,6 @@ describe MediaEntriesController do
     expect(media_entry.get_full_size).to be (not old.get_full_size)
   end
 
-  it 'raises if empty array' do
-    media_entry = FactoryGirl.create(:media_entry,
-                                     responsible_user: @user)
-    update_params = \
-      { id: media_entry.id,
-        media_entry:
-          { user_permissions: 'not an array' } }
-
-    expect do
-      put :permissions_update, params: update_params, session: { user_id: @user.id }
-    end.to raise_error Errors::InvalidParameterValue
-  end
-
   it 'deletes permissions if no new provided for subject' do
     media_entry = FactoryGirl.create(:media_entry,
                                      responsible_user: @user)
