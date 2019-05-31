@@ -4,6 +4,8 @@ echo "This does a complete reset/setup of the local test environment"
 ################################################################################
 set -exu # be verbose and fail on any error
 
+export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
+
 git submodule update --init --force
 
 for ENV in test; do

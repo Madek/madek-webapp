@@ -1,10 +1,13 @@
 #!/bin/bash
 
+
 echo "This does a complete reset/setup of the local dev and test environments"
 printf "Waiting 5 seconds";
 for N in $(seq 5); do printf '.' && sleep 1; done; echo ""
 ################################################################################
 set -exu # be verbose and fail on any error
+
+export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
 
 git submodule update --init
 

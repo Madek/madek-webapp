@@ -1,6 +1,7 @@
 #!/bin/bash
 set -ex
 
+
 # get a current dump from staging and restores it to the DB
 # usefull for getting current prod data when migrations changed during an iteration
 
@@ -8,6 +9,7 @@ set -ex
 
 CURRENT_DATE="$(date '+%Y-%m-%d')"
 DUMPFILE="db/backups/staging.zhdk-data_${CURRENT_DATE}.pgbin"
+export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
 
 if [[ ! -e "$DUMPFILE" ]]; then
   ansible-playbook -i ../deploy/inventories/zhdk/hosts_staging ../deploy/play_dump-and-fetch-data.yml
