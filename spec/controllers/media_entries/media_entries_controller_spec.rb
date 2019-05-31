@@ -49,7 +49,7 @@ describe MediaEntriesController do
 
     expect do
       delete :destroy,
-             params:{ id: media_entry.id },
+             params: { id: media_entry.id },
              session: { user_id: @user.id }
     end.to change { MediaEntry.count }.by(-1)
 

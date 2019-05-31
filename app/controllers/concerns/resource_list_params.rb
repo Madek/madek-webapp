@@ -58,7 +58,7 @@ module Concerns
                           jsons: [:filter, :accordion] }
 
         # NOTE: can be `nil` if base is a string (like `?list=some_string`)
-        list_params = parameters.permit(base => allowed).fetch(base, {})# || {}
+        list_params = parameters.permit(base => allowed).fetch(base, {})
         list_params.permit! if list_params.empty?
         list_params = process_list_params(
           list_params, coerced_types, allowed_filter_params)

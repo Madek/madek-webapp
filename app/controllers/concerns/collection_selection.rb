@@ -152,10 +152,10 @@ module Concerns
       Hash[
         params.fetch(key_sym, {}).permit!.to_h.map do |key, checks|
           [key,
-          {
-            checked: checks[:checked] == 'true',
-            name: checks[:name]
-          }]
+           {
+             checked: checks[:checked] == 'true',
+             name: checks[:name]
+           }]
         end
       ]
     end

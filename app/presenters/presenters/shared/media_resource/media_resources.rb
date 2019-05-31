@@ -165,7 +165,9 @@ module Presenters
           resources.map do |resource|
             # if no presenter given, need to check class of every member!
             presenter = \
-              determined_presenter || presenter_by_resource_type(resource) || presenter_by_class(resource.class)
+              determined_presenter \
+              || presenter_by_resource_type(resource) \
+              || presenter_by_class(resource.class)
             presenter.new(
               resource.try(:cast_to_type) || resource,
               @user,

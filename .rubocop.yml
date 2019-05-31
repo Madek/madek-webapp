@@ -68,7 +68,7 @@ Metrics/CyclomaticComplexity:
 
 # Configuration parameters: AllowURI, URISchemes.
 Metrics/LineLength:
-  Max: 83
+  Max: 100
 
 # Configuration parameters: CountComments.
 Metrics/MethodLength:

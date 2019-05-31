@@ -53,10 +53,10 @@ describe MetaDataController do
 
       patch :update,
             params: { id: meta_datum.id,
-              media_entry_id: @media_entry.id,
-              meta_key: meta_key.id,
-              type: 'MetaDatum::TextDate',
-              values: [new_text_date] },
+                      media_entry_id: @media_entry.id,
+                      meta_key: meta_key.id,
+                      type: 'MetaDatum::TextDate',
+                      values: [new_text_date] },
             session: { user_id: @user.id }
 
       assert_response 303
