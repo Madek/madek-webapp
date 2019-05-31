@@ -36,7 +36,7 @@ contexts:
       spec-docs:
         name: 'Docs: Render Overview from rspec feature specs'
         traits: { Ruby: on, nodejs: on }
-        git_options: { submodules: { include_match: ^datalayer|node_modules$ } }
+        git_options: { submodules: { include_match: '.' } }
         tree_attachments:
           feature-specs:
             content_type: text/html
