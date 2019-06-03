@@ -1,3 +1,3 @@
 #!/bin/sh
 
-bundle exec rails s -p 3100 -b127.0.0.1
+bundle exec rails s -p 3100 -b 127.0.0.1
