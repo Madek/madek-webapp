@@ -137,19 +137,25 @@ module Madek
     end
 
     # List of all assets that need precompilation
+
+    # the JS bundles are different for dev/prod:
+    bundles = %w(
+      bundle.js
+      bundle-embedded-view.js
+      bundle-react-server-side.js
+      bundle-integration-testbed.js
+    ).map {|name| "#{Rails.env.development? ? 'dev-': ''}#{name}" }
+
     # NOTE: override (don't extend) the Rails default (which matches lots of garbage)!
     # 2019 update: overriding the default is not possible anymore, so we need to run after the faulty initializer from here: https://github.com/rails/sprockets-rails/blob/e135984ee2b07e1a67c3fa57f799f40b0830e99a/lib/sprockets/railtie.rb#L108
     initializer :fix_sprockets_defaults, after: :set_default_precompile do |app|
-      Rails.application.config.assets.precompile = %w(
-        bundle.js
-        bundle-embedded-view.js
-        bundle-react-server-side.js
-        bundle-integration-testbed.js
+
+      Rails.application.config.assets.precompile = bundles.concat(%w(
         application.css
         application-contrasted.css
         embedded-view.css
         styleguide.css
-      )
+      ))
     end
 
     # NOTE: Rails does not support *matchers* anymore, do it manually
