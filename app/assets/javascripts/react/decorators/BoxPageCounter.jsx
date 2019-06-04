@@ -10,15 +10,11 @@ import Icon from '../ui-components/Icon.cjsx'
 import EditTransferResponsibility from '../views/Shared/EditTransferResponsibility.cjsx'
 
 class BoxPageCounter extends React.Component {
-
   constructor(props) {
     super(props)
   }
 
-
   render() {
-
-
     var resources = this.props.resources
 
     var pageResources = this.props.pageResources
@@ -30,108 +26,87 @@ class BoxPageCounter extends React.Component {
     var totalCount = pagination.total_count
     var page = this.props.pageIndex + 1
 
-
-
     var onSelectPage = null
     var checkState = 'unchecked'
 
     var showActions = this.props.showActions
     var selection = this.props.selectedResources
 
-    if(this.props.isClient && selection && !f.isEmpty(f.values(showActions))) {
-      var selectionCountOnPage = (
-        selection
-        ?
-          f.size(
-            pageResources.filter((item) => {
-              return f.find(selection, (sr) => sr.uuid == item.uuid)
+    if (this.props.isClient && selection && !f.isEmpty(f.values(showActions))) {
+      var selectionCountOnPage = selection
+        ? f.size(
+            pageResources.filter(item => {
+              return f.find(selection, sr => sr.uuid == item.uuid)
             })
           )
-        :
-          0
-      )
+        : 0
 
-      var fullPageCount = (
+      var fullPageCount =
         totalPages == page
-        ?
-          (
-            totalCount < perPage * totalPages
-            ?
-              totalCount - (totalPages - 1) * perPage
-            :
-              perPage
-          )
-        :
-          perPage
-      )
+          ? totalCount < perPage * totalPages
+            ? totalCount - (totalPages - 1) * perPage
+            : perPage
+          : perPage
 
-      if(selectionCountOnPage > 0) {
+      if (selectionCountOnPage > 0) {
         checkState = 'checked'
-        if(selectionCountOnPage < fullPageCount) {
+        if (selectionCountOnPage < fullPageCount) {
           checkState = 'partial'
         }
       }
 
-      onSelectPage = (event) => {
+      onSelectPage = event => {
         event.preventDefault()
-        if(selectionCountOnPage > 0) {
+        if (selectionCountOnPage > 0) {
           this.props.unselectResources(pageResources)
           // pageResources.forEach((item) => selection.remove(item))
-        }
-        else {
-          if(selection.length > this.props.selectionLimit - pageResources.length)
+        } else {
+          if (selection.length > this.props.selectionLimit - pageResources.length)
             this.props.showSelectionLimit('page-selection')
-          else
-          this.props.selectResources(pageResources)
-            // pageResources.forEach((item) => selection.add(item))
+          else this.props.selectResources(pageResources)
+          // pageResources.forEach((item) => selection.add(item))
         }
       }
     }
-
-
-
-
 
     // TMP: this link causes to view to start loading at page Nr. X
     //      it's ONLY needed for some edge cases (viewing page N + 1),
     //      where N = number of pages the browser can handle (memory etc)
     //      BUT the UI is unfinished in this case (no way to scroll "backwards")
     //      SOLUTION: disable the link-click so it is not clicked accidentally
-    var checkBoxStyle = {position: 'absolute', right: '0px', top: '0px'}
+    var checkBoxStyle = { position: 'absolute', right: '0px', top: '0px' }
 
     var determineIcon = () => {
-      if(checkState == 'checked') {
-        return <Icon style={checkBoxStyle} i='checkbox-active' />
-      }
-      else if(checkState == 'partial') {
-        return <Icon style={checkBoxStyle} i='checkbox-mixed' />
-      }
-      else {
-        return <Icon style={checkBoxStyle} i='checkbox' />
+      if (checkState == 'checked') {
+        return <Icon style={checkBoxStyle} i="checkbox-active" />
+      } else if (checkState == 'partial') {
+        return <Icon style={checkBoxStyle} i="checkbox-mixed" />
+      } else {
+        return <Icon style={checkBoxStyle} i="checkbox" />
       }
     }
 
     var showSelectPage = () => {
-      if(!onSelectPage) {
+      if (!onSelectPage) {
         return
       }
 
       return (
-        <div style={{float: 'right', position: 'relative'}} onClick={onSelectPage}>
-          <span style={{marginRight: '20px'}}>Seite auswählen</span>
+        <div style={{ float: 'right', position: 'relative' }} onClick={onSelectPage}>
+          <span style={{ marginRight: '20px' }}>Seite auswählen</span>
           {determineIcon()}
         </div>
       )
     }
 
     return (
-      <div className='ui-resources-page-counter ui-pager small'>
-        <div style={{display: 'inline-block'}}>Seite {page} von {totalPages}</div>
+      <div className="ui-resources-page-counter ui-pager small">
+        <div style={{ display: 'inline-block' }}>
+          Seite {page} von {totalPages}
+        </div>
         {showSelectPage()}
       </div>
     )
-
-
   }
 }
 
