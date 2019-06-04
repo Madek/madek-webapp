@@ -93,7 +93,7 @@ class BoxPageCounter extends React.Component {
 
       return (
         <div style={{ float: 'right', position: 'relative' }} onClick={onSelectPage}>
-          <span style={{ marginRight: '20px' }}>Seite auswählen</span>
+          <span style={{ marginRight: '20px' }}>{t('pagination_selection_label')}</span>
           {determineIcon()}
         </div>
       )
@@ -102,7 +102,11 @@ class BoxPageCounter extends React.Component {
     return (
       <div className="ui-resources-page-counter ui-pager small">
         <div style={{ display: 'inline-block' }}>
-          Seite {page} von {totalPages}
+          {t('pagination_prefix')}
+          {page}
+          {t('pagination_infix')}
+          {totalPages}
+          {t('pagination_postfix')}
         </div>
         {showSelectPage()}
       </div>

@@ -401,8 +401,10 @@ pagination_nav_nextloading,Mehr Inhalte werden geladen.,More items are being loa
 pagination_nav_nextpage,Nächste Seite,Next page,Wo: Manuelle Paginierung (ohne Javascript-Auto-Nachladen)
 pagination_nav_prevpage,Vorangehende Seite,Previous page,Wo: Manuelle Paginierung (ohne Javascript-Auto-Nachladen)
 pagination_nav_thispage,Diese Seite,This page,Wo: Manuelle Paginierung (ohne Javascript-Auto-Nachladen)
-pagination_of,von,of,Wo: Paginierung - Seitenanzeige (Zwischenbalken)
-pagination_prefix,Seite,Page,Wo: Paginierung - Seitenanzeige (Zwischenbalken)
+pagination_prefix,Seite ,Page ,Wo: Paginierung - Seitenanzeige (Zwischenbalken)
+pagination_infix, von , of ,Wo: Paginierung - Seitenanzeige (Zwischenbalken)
+pagination_postfix,,,Wo: Paginierung - Seitenanzeige (Zwischenbalken)
+pagination_selection_label,Seite auswählen,Select page,Wo: Paginierung - Seitenanzeige (Zwischenbalken)
 people_toolbar_header,Ähnliche Inhalte,Related items,
 permission_entrusted_to_group,Sichtbar für Arbeitsgruppen,Visible to work groups,
 permission_entrusted_to_user,Sichtbar für Nutzer/innen,Visible to users,
