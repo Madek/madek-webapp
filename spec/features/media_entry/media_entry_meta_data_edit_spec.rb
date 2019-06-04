@@ -74,11 +74,16 @@ feature 'Resource: MediaEntry' do
               'media_object',
               'media_object:roles_movie',
               full: true)
+
+            # FIXME: correct person is selected in UI but wrong person is saved!!!
+            binding.pry
+
             update_context_roles_field(
               'media_object',
               'media_object:roles_music',
               @person_with_role,
               full: true)
+
           end,
           lambda do
             expect(find_datum(@resource, 'madek_core:title').string)
