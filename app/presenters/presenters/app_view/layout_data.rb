@@ -68,7 +68,7 @@ module Presenters
           id: 'zhdk',
           title: I18n.t(:login_provider_zhdk_title),
           description: I18n.t(:login_provider_zhdk_hint),
-          href: '/login/zhdk')
+          href: with_extra_params('/login/zhdk', default_url_options))
         end
 
         if switch_aai then logins.push(
@@ -95,14 +95,18 @@ module Presenters
       end
 
       def shibboleth_sign_in_url
-        extra_target_params = default_url_options
-        ut = URI.parse(Settings.shibboleth_sign_in_url_target)
-        if extra_target_params.present?
-          ut.query = ut.query.to_h.merge(extra_target_params).to_query
-        end
-        extra_params = { target: ut.to_s }
-        u = URI.parse(Settings.shibboleth_sign_in_url_base)
-        u.query = u.query.to_h.merge(extra_params).to_query
+        target_url = with_extra_params(
+          Settings.shibboleth_sign_in_url_target,
+          default_url_options)
+
+        with_extra_params(
+          Settings.shibboleth_sign_in_url_base,
+          { target: target_url })
+      end
+
+      def with_extra_params(url, extra_params = {})
+        u = URI.parse(url)
+        u.query = u.query.to_h.merge(default_url_options).to_query
         u.to_s
       end
 
