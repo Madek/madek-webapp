@@ -1,6 +1,7 @@
 class SessionsController < ActionController::Base
   include Concerns::MadekCookieSession
   include Concerns::RedirectBackOr
+  include Concerns::LangParams
 
   def sign_in
     @user = User.find_by(login: params[:login].try(&:downcase))
