@@ -82,7 +82,8 @@ module Presenters
         #       can have a different title if its the only login method
         logins.push(
           id: 'system',
-          title: I18n.t(:login_box_internal)
+          title: I18n.t(:login_box_internal),
+          url: sign_in_path
         )
 
         @_login_providers = logins
