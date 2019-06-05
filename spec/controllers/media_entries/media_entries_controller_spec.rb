@@ -34,7 +34,7 @@ describe MediaEntriesController do
 
     post :publish, { id: media_entry.id }, user_id: @user.id
     expect(response.redirect?).to be true
-    expect(flash[:success]).to eq 'Entry was published!'
+    expect(flash[:success]).to eq I18n.t(:meta_data_edit_media_entry_published)
 
     media_entry.reload
     expect(media_entry.is_published).to be true

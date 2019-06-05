@@ -27,10 +27,10 @@ class UsersController < ApplicationController
     authorize(current_user)
     if !session[:uberadmin_mode]
       session[:uberadmin_mode] = true
-      redirect_back_or my_dashboard_path, success: 'Admin-Modus aktiviert!'
+      redirect_back_or my_dashboard_path, success: I18n.t(:app_notice_admin_mode_on)
     else
       session[:uberadmin_mode] = false
-      redirect_back_or my_dashboard_path, success: 'Admin-Modus deaktiviert!'
+      redirect_back_or my_dashboard_path, success: I18n.t(:app_notice_admin_mode_off)
     end
   end
 

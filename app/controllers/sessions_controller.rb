@@ -8,16 +8,16 @@ class SessionsController < ActionController::Base
 
     if @user and @user.authenticate params[:password]
       set_madek_session @user, params[:remember_me].present?
-      redirect_back_or my_dashboard_path, success: 'Sie haben sich angemeldet.'
+      redirect_back_or my_dashboard_path, success: I18n.t(:app_notice_logged_in)
     else
       destroy_madek_session
-      redirect_back_or root_path, error: 'Falscher Benutzername/Passwort.'
+      redirect_back_or root_path, error: I18n.t(:app_notice_wrong_credentials)
     end
   end
 
   def shib_sign_in
     unless Settings.shibboleth_sign_in_enabled == true
-      render status: :forbidden, text: 'Sibboleth sign in is not enabled!'
+      render status: :forbidden, text: I18n.t(:app_notice_shibboleth_not_enabled)
     else
       @last_name = request.env['HTTP_SURNAME'].presence
       @first_name = request.env['HTTP_GIVENNAME'].presence
@@ -46,9 +46,9 @@ class SessionsController < ActionController::Base
 
   def deny_shibboleth_sign_in
     destroy_madek_session
-    redirect_back_or root_path(shib_extra_params), error:
-      'Shibboleth authentication data is incomplete. ' \
-      'SURNAME, GIVENNAME and EMAIL are required fields! '
+    redirect_back_or(
+      root_path(shib_extra_params),
+      error: I18n.t(:app_notice_shibboleth_missing_fields))
   end
 
   def perform_shibboleth_sign_in
@@ -59,7 +59,7 @@ class SessionsController < ActionController::Base
     @user.update_attributes! person: @person, email: @email
     set_madek_session @user, true
     redirect_to(
-      my_dashboard_path(shib_extra_params), success: 'Sie haben sich angemeldet.')
+      my_dashboard_path(shib_extra_params), success: I18n.t(:app_notice_logged_in))
   end
 
   def shib_sign_in_person

@@ -27,7 +27,7 @@ feature 'App: UsageTerms' do
       # expect that the normal login flow goes on, with redirect and flash:
       expect(current_path).to eq dashboard_section
       expect(find('.ui-alert.success'))
-        .to have_content 'Sie haben sich angemeldet.'
+        .to have_content I18n.t(:app_notice_logged_in)
 
       expect(user.reload.accepted_usage_terms_id).to eq latest_usage_terms.id
     end

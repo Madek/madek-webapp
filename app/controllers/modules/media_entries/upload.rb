@@ -45,8 +45,9 @@ module Modules
           media_entry.is_published = true
           media_entry.save!
         end
-        redirect_to media_entry_path,
-                    flash: { success: 'Entry was published!' }
+        redirect_to(
+          media_entry_path,
+          flash: { success: I18n.t(:meta_data_edit_media_entry_published) })
       end
 
       private
