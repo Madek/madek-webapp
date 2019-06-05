@@ -7,9 +7,10 @@ class ApplicationController < ActionController::Base
   include Concerns::ControllerHelpers
   include Concerns::MadekCookieSession
   include Concerns::RespondersSetup
+  include Concerns::LangParams
   include Errors
 
-  before_action :set_locale_for_app
+  before_action :init_layout_data_presenter
 
   # use pundit to make sure all actions are authorized
   after_action :verify_authorized, except: :index
@@ -39,22 +40,9 @@ class ApplicationController < ActionController::Base
   end
 
   # this is always run first (`before_action` hook)
-  def set_locale_for_app
-    Rails.configuration.i18n.default_locale = AppSetting.default_locale
-    Rails.configuration.i18n.available_locales = AppSetting.available_locales
-    # NOTE: try `request.query_parameters` in case of
-    #       POST actions with body params BUT lang in URL query
-    I18n.locale = params[:lang] || request.query_parameters['lang'] || I18n.default_locale
-    # presenters need to know about set default_url_options from controller
-    Presenter.instance_eval do
-      def default_url_options(options = {})
-        return options if I18n.locale == I18n.default_locale
-        { lang: I18n.locale }.merge(options)
-      end
-    end
-
-    # TMP: data for application layout.
-    #      it's already a presenter, but we can't `include` it everyhwere yet
+  def init_layout_data_presenter
+    # NOTE: data for application layout.
+    #       it's already a presenter, but we can't `include` it everyhwere.
     @app_layout_data = Presenters::AppView::LayoutData.new(user: current_user)
   end
 
