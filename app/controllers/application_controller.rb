@@ -42,7 +42,9 @@ class ApplicationController < ActionController::Base
   def set_locale_for_app
     Rails.configuration.i18n.default_locale = AppSetting.default_locale
     Rails.configuration.i18n.available_locales = AppSetting.available_locales
-    I18n.locale = params[:lang] || I18n.default_locale
+    # NOTE: try `request.query_parameters` in case of
+    #       POST actions with body params BUT lang in URL query
+    I18n.locale = params[:lang] || request.query_parameters['lang'] || I18n.default_locale
     # presenters need to know about set default_url_options from controller
     Presenter.instance_eval do
       def default_url_options(options = {})

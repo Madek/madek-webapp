@@ -101,12 +101,13 @@ module Presenters
 
         with_extra_params(
           Settings.shibboleth_sign_in_url_base,
-          { target: target_url })
+          target: target_url)
       end
 
       def with_extra_params(url, extra_params = {})
         u = URI.parse(url)
-        u.query = u.query.to_h.merge(default_url_options).to_query
+        query = u.query ? Rack::Utils::parse_query(u.query) : {}
+        u.query = query.to_h.merge(extra_params).to_query
         u.to_s
       end
 
