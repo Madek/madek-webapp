@@ -45,7 +45,7 @@ module Presenters
           @catalog_context_keys ||= \
             @settings
             .catalog_context_keys \
-            .try(:map, & proc { |ck_id| ContextKey.find_by_id(ck_id) })
+            .try(:map, & proc { |ck_id| ::ContextKey.find_by_id(ck_id) })
             .to_a
             .compact
         end
