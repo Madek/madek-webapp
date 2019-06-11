@@ -174,7 +174,6 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
-    jruby-openssl (0.9.19-java)
     json (2.2.0)
     json (2.2.0-java)
     kaminari (1.0.1)
@@ -349,9 +348,6 @@ GEM
     therubyracer (0.12.3)
       libv8 (~> 3.16.14.15)
       ref
-    therubyrhino (2.0.4)
-      therubyrhino_jar (>= 1.7.3)
-    therubyrhino_jar (1.7.6)
     thor (0.20.3)
     thread_safe (0.3.6)
     thread_safe (0.3.6-java)
@@ -410,7 +406,6 @@ DEPENDENCIES
   faker
   git
   haml-rails
-  jruby-openssl
   json
   kaminari
   kramdown
@@ -439,7 +434,6 @@ DEPENDENCIES
   strong_password
   textacular (~> 5.0)
   therubyracer
-  therubyrhino
   uglifier
   uuidtools
   webmock

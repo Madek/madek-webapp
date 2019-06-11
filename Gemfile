@@ -32,29 +32,22 @@ gem 'bcrypt-ruby'
 gem 'cider_ci-open_session', '>= 1.0.0', '< 2.0.0'
 gem 'execjs'
 gem 'exiftool_vendored'
-# gem 'inshape', '>= 1.0.1', '< 2.0'
 gem 'git'
-gem 'jruby-openssl', platform: :jruby
 gem 'json'
 gem 'kaminari'
 gem 'nokogiri'
 gem 'pundit'
-# gem 'rails_autolink', '~> 1.0'
 gem 'rubyzip'
 gem 'therubyracer', platform: :mri
-gem 'therubyrhino', platform: :jruby
 gem 'uglifier'
 
 ####################################################################
 # TEST or DEVELOPMENT only
 #####################################################################
 
-# gem 'better_errors', group: [:development]
 gem 'binding_of_caller', platform: :mri, group: [:development]
 gem 'capybara', '~> 2.4', group: [:test]
-# gem 'meta_request', group: [:development]
 gem 'poltergeist', group: [:test, :development, :personas]
-# gem 'quiet_assets', group: [:development]
 gem 'rest-client', group: [:test, :development, :personas]
 gem 'ruby-prof', group: [:development], platform: :mri
 gem 'selenium-webdriver', group: [:test]
