@@ -28,9 +28,6 @@ module Madek
     # config.autoload_paths += %W(#{config.root}/extras)
 
     config.autoload_paths += [
-      Rails.root.join('app', 'lib'),
-      Rails.root.join('app', 'policies'),
-      Rails.root.join('app', 'views'),
       Rails.root.join('lib')
     ]
 

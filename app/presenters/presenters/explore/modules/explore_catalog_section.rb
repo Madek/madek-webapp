@@ -41,10 +41,13 @@ module Presenters
         end
 
         def catalog_context_keys
-          return [] # FIXME
           # NOTE: limit (of catalog_keys) would be 3, for full page ???
           @catalog_context_keys ||= \
-            ::ContextKey.where(id: @settings.catalog_context_keys.to_a).to_a
+            @settings
+            .catalog_context_keys \
+            .try(:map, & proc { |ck_id| ::ContextKey.find_by_id(ck_id) })
+            .to_a
+            .compact
         end
       end
     end

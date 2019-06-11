@@ -56,7 +56,7 @@ module AuthorizationSetup
 
     def uberadmin_mode(user = current_user)
       # NOTE: uses instance var because we don't always have access to `session`
-      user.is_a?(::User) and user.admin? \
+      user.is_a?(User) and user.admin? \
         and user.admin.webapp_session_uberadmin_mode
     end
 
