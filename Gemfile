@@ -53,3 +53,4 @@ gem 'ruby-prof', group: [:development], platform: :mri
 gem 'selenium-webdriver', group: [:test]
 gem 'zencoder-fetcher', group: [:development]
 gem 'rails-controller-testing', group: :test
+gem 'listen', group: :development
