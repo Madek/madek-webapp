@@ -192,15 +192,15 @@ end
 def prepare_roles
   mk_roles_movie = create(
     :meta_key_roles,
-    labels: { de: 'Rollen (Film)' },
+    labels: { de: 'Funktionen (Film)' },
     id: 'media_object:roles_movie')
   mk_roles_music = create(
     :meta_key_roles,
-    labels: { de: 'Rollen (Musik)' },
+    labels: { de: 'Funktionen (Musik)' },
     id: 'media_object:roles_music')
   mk_roles_theater = create(
     :meta_key_roles,
-    labels: { de: 'Rollen (Theater)' },
+    labels: { de: 'Funktionen (Theater)' },
     id: 'media_object:roles_theater')
 
   create_roles_for(mk_roles_movie, mk_roles_music, mk_roles_theater)

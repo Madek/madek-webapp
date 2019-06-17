@@ -45,7 +45,7 @@ module ContextMetaDataHelper
     random_role = MetaKey.find(meta_key_id).roles.map(&:label).sample
 
     within form do
-      form.find('table a', text: 'Rolle hinzufügen').click
+      form.find('table a', text: 'Funktion hinzufügen').click
       select random_role, from: 'role_id'
       click_button I18n.t(:meta_data_input_person_save)
     end
