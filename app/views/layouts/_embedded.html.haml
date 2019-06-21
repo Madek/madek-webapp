@@ -1,7 +1,7 @@
 :ruby
   #NOTE: careful with access to `settings` comes from DB and can fail hard
   extra_content = begin; settings.webapp_html_extra_content; rescue; end || {}
-  site_title = begin; settings.site_title; rescue; end
+  site_title = begin; localize(settings.site_titles); rescue; end
   site_title ||= 'Madek' # fallback
 
   lang = 'de-CH'

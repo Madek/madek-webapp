@@ -20,7 +20,7 @@ module Presenters
       end
 
       def catalog_title
-        @settings.catalog_title
+        localize(@settings.catalog_titles)
       end
 
       def title

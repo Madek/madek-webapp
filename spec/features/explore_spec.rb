@@ -32,7 +32,7 @@ feature 'Page: Explore' do
 
     it 'proper order of context_keys in catalog and navigation' do
       app_setting = AppSetting.first
-      app_setting.catalog_context_keys = \
+      app_setting[:catalog_context_keys] = \
         ContextKey
         .joins(:meta_key)
         .joins('INNER JOIN keywords ON keywords.meta_key_id = meta_keys.id')
@@ -60,7 +60,7 @@ feature 'Page: Explore' do
         context_key = create(:context_key, meta_key: create(:meta_key_keywords))
         app_setting = AppSetting.first
         app_setting.update_attributes!(catalog_context_keys: [context_key.id],
-                                       catalog_title: 'Catalog Title')
+                                       catalog_titles: { de: 'Catalog Title' })
         media_entry = create(:media_entry,
                              get_metadata_and_previews: false,
                              get_full_size: false)
@@ -80,7 +80,7 @@ feature 'Page: Explore' do
         @keyword = create(:keyword, meta_key: @meta_key)
         app_setting = AppSetting.first
         app_setting.update_attributes!(catalog_context_keys: [@context_key.id],
-                                       catalog_title: 'Catalog Title')
+                                       catalog_titles: { de: 'Catalog Title' })
 
         media_entry_with_image = create(:media_entry_with_image_media_file,
                                         get_metadata_and_previews: true)
@@ -187,7 +187,7 @@ feature 'Page: Explore' do
         app_setting = AppSetting.first
         app_setting.update_attributes!(
           catalog_context_keys: [@context_key.id],
-          catalog_title: 'Catalog Title'
+          catalog_titles: { de: 'Catalog Title' }
         )
         media_entry_with_image = create(:media_entry_with_image_media_file,
                                         get_metadata_and_previews: true)

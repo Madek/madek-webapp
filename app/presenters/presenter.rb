@@ -83,4 +83,10 @@ class Presenter
     context.present? ? context + url : url
   end
 
+  def localize(setting)
+    return setting unless setting
+    setting[I18n.locale.to_s].presence || \
+      setting[I18n.default_locale.to_s].presence
+  end
+
 end

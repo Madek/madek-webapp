@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
   rescue_from Errors::UnauthorizedError, with: :error_according_to_login_state
 
   # Give views access to these methods:
-  helper_method :current_user, :settings, :use_js
+  helper_method :current_user, :settings, :use_js, :localize
 
   # UI Elements
   append_view_path(Rails.root.join('app', 'ui_elements'))
@@ -67,7 +67,7 @@ class ApplicationController < ActionController::Base
   def settings
     @_settings ||= Pojo.new(
       Settings.to_h # from static files
-      .merge(AppSettings.first.try(:attributes).to_h)) # from DB
+      .merge(AppSetting.first.try(:attributes).to_h)) # from DB
   end
 
   def current_user
@@ -99,6 +99,12 @@ class ApplicationController < ActionController::Base
     else
       raise Errors::UnauthorizedError, 'Please log in!'
     end
+  end
+
+  def localize(setting)
+    return setting unless setting
+    setting[I18n.locale.to_s].presence || \
+      setting[I18n.default_locale.to_s].presence
   end
 
   Madek::UserPrecaching.start_pre_caching_loop

@@ -5,7 +5,7 @@ class AboutPagesController < ApplicationController
   end
 
   def index
-    raw_text = AppSettings.first.about_page
+    raw_text = localize(settings[:about_pages])
     raise ActiveRecord::RecordNotFound unless raw_text.present?
     respond_with(@get = Presenters::AboutPages::AboutPageShow.new(raw_text))
   end

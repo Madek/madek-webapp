@@ -3,7 +3,7 @@ require 'spec_helper'
 describe ApplicationController do
 
   before(:each) do
-    AppSetting.first || create(:app_settings)
+    AppSetting.first || create(:app_setting)
   end
 
   it 'root' do

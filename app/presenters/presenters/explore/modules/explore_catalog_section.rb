@@ -26,7 +26,7 @@ module Presenters
 
         def catalog_overview
           {
-            title: @settings.catalog_title,
+            title: localize(@settings.catalog_titles),
             url: explore_catalog_path,
             list: non_empty_catalog_context_keys_presenters
           }

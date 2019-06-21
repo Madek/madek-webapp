@@ -3,8 +3,8 @@
 
     # - responsive brand section on the left:
     brand: {
-      instance_name: settings.site_title,
-      name: settings.brand_text,
+      instance_name: localize(settings.site_titles),
+      name: localize(settings.brand_texts),
       logo: settings.brand_logo_url.try(:empty?) ? nil : {
         src: settings.brand_logo_url,
         # a11y: logo is just the visual representation of the
@@ -39,8 +39,8 @@
             link_active?(filter_sets_path, deep: true))
         },
 
-        help: !settings.support_url.present? ? nil : {
-          text: t(:sitemap_help), href: settings.support_url
+        help: !localize(settings.support_urls).present? ? nil : {
+          text: t(:sitemap_help), href: localize(settings.support_urls)
         }
 
       }

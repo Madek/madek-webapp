@@ -44,5 +44,5 @@ end
 private
 
 def configure_about_page_content(content)
-  AppSetting.first.update_attributes!(about_page: content)
+  AppSetting.first.update_attributes!(about_pages: { de: content })
 end

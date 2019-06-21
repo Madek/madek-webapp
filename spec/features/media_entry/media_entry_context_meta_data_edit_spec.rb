@@ -290,7 +290,7 @@ def prepare_data
   @copyright = 'My Copyright'
 
   first = AppSetting.first
-  first.contexts_for_entry_validation = ['upload']
+  first[:contexts_for_entry_validation] = ['upload']
   first.save!
 
   @resource.is_published = false

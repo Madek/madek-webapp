@@ -7,7 +7,7 @@ module MetaDatumInputsHelper
     other_context = FactoryGirl.create(:context)
     FactoryGirl.create(
       :context_key, context: other_context, meta_key_id: 'madek_core:title')
-    AppSettings.first.update_attributes!(
+    AppSetting.first.update_attributes!(
       contexts_for_entry_edit: [context_key.context_id, other_context.id],
       context_for_entry_summary: context_key.context_id)
   end

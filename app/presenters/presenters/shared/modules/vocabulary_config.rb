@@ -53,38 +53,18 @@ module Presenters
 
           def app_settings
             # There is also AppSetting.first (without s)
-            @app_settings ||= AppSettings.first.presence # memo
+            @app_settings ||= AppSetting.first.presence # memo
           end
-
-          # [
-          #   :contexts_for_list_details,
-          #   :contexts_for_validationx,
-          #   :contexts_for_dynamic_filters
-          # ].each do |setting_name|
-          #   define_method setting_name do
-          #     _get_contexts_by_ids(app_settings.try(setting_name))
-          #   end
-          # end
 
           # helper:
 
           def _get_app_settings_contexts(keys)
-            _get_contexts_by_ids(
-              keys.map do |key|
-                app_settings.try(key)
-              end.flatten.compact
-            )
-          end
-
-          def _get_contexts_by_ids(context_list)
-            return [] unless context_list.present?
-            Context
-              .where(id: context_list)
-              .sort_by { |c| context_list.index(c.id) } # enforce given order
+            keys.map do |key|
+              app_settings.try(key)
+            end.flatten.compact
           end
 
         end
-
       end
     end
   end

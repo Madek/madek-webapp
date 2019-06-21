@@ -6,15 +6,15 @@ module Presenters
       def initialize(user, settings, show_login: false)
         @user = user
         @settings = settings
-        @catalog_title = settings.catalog_title
-        @featured_set_title = settings.featured_set_title
+        @catalog_title = localize(settings.catalog_titles)
+        @featured_set_title = localize(settings.featured_set_titles)
         @show_login = show_login
       end
 
       def welcome_message
         {
-          title: @settings[:welcome_title],
-          text: { __html: markdown(@settings[:welcome_text] || '') }
+          title: localize(@settings.welcome_titles),
+          text: { __html: markdown(localize(@settings.welcome_texts) || '') }
         }
       end
 

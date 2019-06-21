@@ -31,7 +31,7 @@ module Presenters
 
         def featured_set_overview # list of Collections
           {
-            title: @settings.featured_set_title,
+            title: localize(@settings.featured_set_titles),
             url: collection_path(featured_set),
             list: Presenters::Shared::MediaResource::IndexResources.new(
               @user,

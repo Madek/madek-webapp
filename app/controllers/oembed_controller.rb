@@ -100,7 +100,7 @@ class OembedController < ApplicationController
       author_name: [
         resource.authors.presence, resource.copyright_notice.presence
       ].compact.join(' / '),
-      provider_name: settings.site_title,
+      provider_name: localize(settings.site_titles),
       provider_url: absolute_url(''),
       html: oembed_iframe(target_url, scaled[:width], scaled[:height])
     }

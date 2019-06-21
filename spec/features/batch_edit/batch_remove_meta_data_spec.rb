@@ -34,7 +34,7 @@ feature 'batch remove meta data' do
 
   def execute_scenario(user, resource_1, resource_2)
     app_setting = AppSetting.first
-    app_setting.contexts_for_entry_validation = ['core']
+    app_setting[:contexts_for_entry_validation] = ['core']
 
     app_setting.save!
     app_setting.reload

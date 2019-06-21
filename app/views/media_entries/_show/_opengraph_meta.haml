@@ -18,7 +18,7 @@
   tags = [
     ['og:type', 'article'],
     ['og:locale', 'de_DE'],
-    ['og:site_name', settings.site_title],
+    ['og:site_name', localize(settings.site_titles)],
     ['og:url', full_url(@get.url)], # canonical url!
     ['og:title', get_md(md, 'madek_core:title')],
     ['og:description', summary]
