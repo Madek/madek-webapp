@@ -1,3 +1,29 @@
+:ruby
+  #  OLD:
+  # menu = YAML.safe_load <<-HEREDOC
+  #   - one: 'example.com/1'
+  #   - two: 'example.com/2'
+  # HEREDOC
+
+  # NEW:
+  # menu = YAML.safe_load <<-HEREDOC
+  #   de:
+  #     - eins: 'example.com/1'
+  #     - zwei: 'example.com/2'
+  #   en:
+  #     - one: 'example.com/1'
+  #     - two: 'example.com/2'
+  # HEREDOC
+
+  def localized_value(obj)
+    return obj unless obj.is_a? Hash
+    obj[I18n.locale.to_s].presence \
+      || obj[I18n.locale.to_s].presence \
+      || labels.values.first.presence
+  end
+
+  menu = localized_value(menu)
+
 %footer.app-footer.ui-footer.ui-container.inverted
 
   - if defined?(menu) && menu.is_a?(Array)

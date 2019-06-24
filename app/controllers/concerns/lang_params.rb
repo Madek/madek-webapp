@@ -9,6 +9,7 @@ module Concerns
     end
 
     def set_locale_for_app
+      return if @set_locale_for_app_done == true # memo
       Rails.configuration.i18n.default_locale = AppSetting.default_locale
       Rails.configuration.i18n.available_locales = AppSetting.available_locales
       # NOTE: try `request.query_parameters` in case of
@@ -21,6 +22,7 @@ module Concerns
           { lang: I18n.locale }.merge(options)
         end
       end
+      @set_locale_for_app_done = true
     end
 
     # for all generated URLs, set language param if it's not the default
