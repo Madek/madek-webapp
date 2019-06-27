@@ -39,8 +39,9 @@ body.vjs-full-window {
   cursor: none;
 }
 
-$brand-color: $main-color;
-$contrast-ratio: 12%; // for darker darks
+// $brand-color: $main-color;
+$brand-color: darken(white, 20%);
+$contrast-ratio: 16%; // for darker darks
 $brand-color: lighten($brand-color, 8%); // lighter lights
 $controls-opacity: 0.67;
 
@@ -77,6 +78,8 @@ $control-bar-height: 3em;
   background-color: transparent;
 }
 
+$button-bg-contrast-ratio: 16%;
+$button-fg-transparency: 0; // 0.15;
 .vjs-default-skin .vjs-big-play-button {
   font-size: 17vmin;
 
@@ -91,10 +94,16 @@ $control-bar-height: 3em;
 
   // same width as slider lines:
   border: 0.05em solid $primary-foreground-color;
-  background-color: transparentize($primary-foreground-color, 0.67);
+  border: 0.05em solid transparentize($primary-foreground-color, $button-fg-transparency);
 
-  color: $brand-color;
-  border-color: $brand-color;
+  background-color: darken($primary-background-color, $button-bg-contrast-ratio);
+  background-color: transparentize(
+    darken($primary-background-color, $button-bg-contrast-ratio),
+    0.7
+  );
+
+  color: $primary-foreground-color;
+  color: transparentize($primary-foreground-color, $button-fg-transparency);
 
   /* Align center */
   left: 50%;
@@ -104,16 +113,11 @@ $control-bar-height: 3em;
 }
 
 .vjs-default-skin:hover .vjs-big-play-button {
-  // // green on black
-  // color:  $primary-foreground-color;
-  // border-color:  $primary-foreground-color;
-  // background: transparent;
-
-  // like primary btn
-  color: white;
-  border-color: $brand-color;
-  background-color: darken($brand-color, 3%);
-  background-image: (linear-gradient(lighten($brand-color, 5%), darken($brand-color, 3%)));
+  background-color: darken($primary-background-color, $button-bg-contrast-ratio);
+  background-color: transparentize(
+    darken($primary-background-color, $button-bg-contrast-ratio),
+    0.3
+  );
 }
 
 /* The default color of control backgrounds is mostly black but with a little
