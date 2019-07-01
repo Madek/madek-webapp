@@ -47,7 +47,7 @@ module Modules
         end
 
         conf = params.permit(:width, :height, :ratio)
-          .merge(isInternal: is_internal)
+          .merge(isInternal: is_internal, referer_info: referer_info)
 
         @get = Presenters::MediaEntries::MediaEntryEmbedded.new(media_entry, conf)
           .dump.merge(authToken: nil)

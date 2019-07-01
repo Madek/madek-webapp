@@ -1,10 +1,14 @@
+-# Base template for embedded player, only used inside an iframe (inside webapp and externally)
+
 :ruby
-  #NOTE: careful with access to `settings` comes from DB and can fail hard
+  # NOTE: careful with access to `settings` comes from DB and can fail hard
   extra_content = begin; settings.webapp_html_extra_content; rescue; end || {}
   site_title = begin; localize(settings.site_titles); rescue; end
   site_title ||= 'Madek' # fallback
 
   lang = 'de-CH'
+
+  body_data = begin; { referer: @get[:embed_config].symbolize_keys[:referer_info] }; rescue; end || {}
 
   title = ''
 
@@ -28,7 +32,7 @@
     -# configured extra tags for head end:
     = find_and_preserve(extra_content[:head_end].html_safe) if extra_content[:head_end].present?
 
-  %body
+  %body{data: ({embedded_view: true}).merge(body_data)}
 
     -# configured extra content for body start:
     = find_and_preserve(extra_content[:body_start].html_safe) if extra_content[:body_start].present?

@@ -34,4 +34,13 @@ module EmbedHelper
       .any? { |h| URI.join(h, '/') == URI.join(from_origin, '/') }
   end
 
+  def referer_info
+    u = URI.parse(request.env['HTTP_REFERER'])
+    # NOTE: we can only rely on "host" in practice
+    #       (see Referrer-Policy HTTP Headers and related browser heuristics)
+    { host: u.host }
+  rescue
+    nil
+  end
+
 end
