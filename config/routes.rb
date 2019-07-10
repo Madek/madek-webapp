@@ -2,6 +2,7 @@
 # TODO: redirect format html to base-URI (without format, it's the default!)
 
 Madek::Application.routes.draw do
+  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   root to: 'application#root'
 

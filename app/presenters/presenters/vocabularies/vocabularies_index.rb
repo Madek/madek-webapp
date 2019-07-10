@@ -2,7 +2,7 @@ module Presenters
   module Vocabularies
     class VocabulariesIndex < Presenter
 
-      def initialize(resources, user)
+      def initialize(resources, user:)
         @resources = resources
         @user = user
       end

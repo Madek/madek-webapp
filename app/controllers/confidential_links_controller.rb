@@ -40,7 +40,6 @@ class ConfidentialLinksController < ApplicationController
 
   def confidential_link_params(*props)
     params.permit(confidential_link: props).fetch(:confidential_link, {})
-      .map { |k, v| [k, v.presence] }.to_h
   end
 
   def resource_type

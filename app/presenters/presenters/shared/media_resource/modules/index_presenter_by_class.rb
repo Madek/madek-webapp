@@ -18,6 +18,11 @@ module Presenters
             end
           end
 
+          def presenter_by_resource_type(resource)
+            if resource.respond_to?(:cast_to_type)
+              presenter_by_class(resource.cast_to_type.class)
+            end
+          end
         end
       end
     end

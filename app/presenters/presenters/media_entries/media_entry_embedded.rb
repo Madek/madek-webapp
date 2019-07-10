@@ -5,7 +5,7 @@ module Presenters
       include Presenters::MediaEntries::Modules::MediaEntryCommon
 
       def initialize(app_resource, config)
-        raise TypeError unless config.is_a?(Hash)
+        raise TypeError unless config.is_a?(ActionController::Parameters)
         super(app_resource, nil) # MediaEntryCommon!
         @embed_config = config
       end

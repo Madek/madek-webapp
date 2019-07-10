@@ -1,6 +1,5 @@
 class ApiTokensController < ApplicationController
   include Concerns::ResourceListParams
-  extend ActiveSupport::Concern
 
   before_action do
     auth_authorize :dashboard, :logged_in?
@@ -53,7 +52,7 @@ class ApiTokensController < ApplicationController
   end
 
   def token_params(props)
-    params.permit(api_token: props).fetch(:api_token, {})
+    params.permit(api_token: props).fetch(:api_token, {}).to_h
       .map { |k, v| [k, v.presence] }.to_h
   end
 

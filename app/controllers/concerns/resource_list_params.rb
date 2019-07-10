@@ -58,8 +58,8 @@ module Concerns
                           jsons: [:filter, :accordion] }
 
         # NOTE: can be `nil` if base is a string (like `?list=some_string`)
-        list_params = parameters.permit(base => allowed).fetch(base, {}) || {}
-
+        list_params = parameters.permit(base => allowed).fetch(base, {})
+        list_params.permit! if list_params.empty?
         list_params = process_list_params(
           list_params, coerced_types, allowed_filter_params)
 
@@ -71,6 +71,7 @@ module Concerns
 
       def process_list_params(list_params, coerced_types, allowed_filter_params)
         list_params
+          .to_h
           .deep_symbolize_keys
           .map { |key, val| _coerce_types(coerced_types, key, val) }
           .tap do |p|

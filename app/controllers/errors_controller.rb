@@ -9,12 +9,13 @@
 class ErrorsController < ApplicationController
 
   # skips the checks that raise errors that are handled here (or it loops!)
-  skip_before_action :authenticate_user!
+  skip_before_action :authenticate_user!, raise: false
   skip_before_action :verify_usage_terms_accepted!
   skip_before_action :verify_authenticity_token
 
   def show
-    exception = env['action_dispatch.exception']
+    skip_authorization
+    exception = request.env['action_dispatch.exception']
     for_url = request.original_fullpath
     err = Presenters::Errors::ErrorShow.new(exception, for_url: for_url)
     # Select type (show server errors as plain page, client error in app):

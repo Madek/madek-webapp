@@ -5,6 +5,7 @@ class ZencoderJobsController < ApplicationController
   protect_from_forgery with: :null_session
 
   def notification
+    skip_authorization
     # find Job, fail 404 if unknown
     @zencoder_job = ZencoderJob.find(params[:id])
 
@@ -28,7 +29,7 @@ class ZencoderJobsController < ApplicationController
     rescue => e
       @zencoder_job.update_attributes(state: 'failed', error: e.to_s)
     ensure
-      render nothing: true
+      head :ok
     end
   end
 

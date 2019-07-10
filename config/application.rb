@@ -1,42 +1,40 @@
-# -*- encoding : utf-8 -*-
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
 $:.push File.expand_path('../../datalayer/lib', __FILE__)
 
 require 'rails/all'
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
-Bundler.require(:default, Rails.env)
+Bundler.require(*Rails.groups)
 
 module Madek
   class Application < Rails::Application
+    # Initialize configuration defaults for originally generated Rails version.
+    config.load_defaults 5.2
+    config.active_record.belongs_to_required_by_default = false
+    config.assets.unknown_asset_fallback = true
+
     # Use the responders controller from the responders gem
     config.app_generators.scaffold_controller :responders_controller
     config.responders.flash_keys = [ :success, :error ]
 
     # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration should go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded.
-    #
+    # Application configuration can go into files in config/initializers
+    # -- all .rb files in that directory are automatically loaded after loading
+    # the framework and any gems in your application.
 
     config.action_controller.relative_url_root = (
       ENV['RAILS_RELATIVE_URL_ROOT'].presence or '')
 
     config.active_record.timestamped_migrations = false
-    config.active_record.record_timestamps = false
-    config.active_record.raise_in_transactional_callbacks = true
-    config.active_record.disable_implicit_join_references = true
+    # config.active_record.record_timestamps = false
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
 
-    config.autoload_paths += [
-      Rails.root.join('app', 'lib'),
-      Rails.root.join('app', 'policies'),
-      Rails.root.join('app', 'views'),
-      Rails.root.join('lib')
-    ]
+    config.autoload_paths << Rails.root.join('lib')
 
-    config.paths["db/migrate"] << \
+    config.paths['db/migrate'] << \
       Rails.root.join('datalayer', 'db', 'migrate')
 
     config.paths["config/initializers"] <<  \
@@ -57,7 +55,7 @@ module Madek
     end
 
     # handle all error pages inside the app:
-    config.show_execptions = true
+    config.action_dispatch.show_exceptions = true
     config.exceptions_app = ->(env) { ErrorsController.action(:show).call(env) }
     # to develop/debug error pages, set this to false in dev env as well:
     config.consider_all_requests_local = false
@@ -74,25 +72,10 @@ module Madek
     config.watchable_files
       .concat(Dir["#{Rails.root}/config/locale/*"])
 
-    # Only load the plugins named here, in the order given (default is alphabetical).
-    # :all can be used as a placeholder for all plugins not explicitly named.
-    # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
-
-    # Activate observers that should always be running.
-    # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
-
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Central Time (US & Canada)'
     config.time_zone = ENV['RAILS_TIME_ZONE'].presence || 'UTC'
-
-    # Configure the default encoding used in templates for Ruby 1.9.
-    config.encoding = 'utf-8'
-
-    # Configure sensitive parameters which will be filtered from the log file.
-    config.filter_parameters += [:password]
-
-    config.logger = ActiveSupport::Logger.new(STDOUT) unless Rails.env.development?
 
     if ENV['RAILS_LOG_LEVEL'].present?
       config.log_level = ENV['RAILS_LOG_LEVEL']
@@ -100,13 +83,14 @@ module Madek
       config.log_level = :info
     end
 
+    # always log to stdout
+    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger.formatter = config.log_formatter
+    config.logger    = ActiveSupport::TaggedLogging.new(logger)
 
     config.log_tags = [->(req) { Time.now.strftime('%T') }, :port, :remote_ip]
 
     # Assets & React
-
-    # Enable the asset pipeline
-    config.assets.enabled = true
 
     # NOTE: sprockets is not used for bundling JS, hand it the prebundled files:
     Rails.application.config.assets.paths.concat(
@@ -136,17 +120,26 @@ module Madek
     end
 
     # List of all assets that need precompilation
-    # NOTE: override (don't extend) the Rails default (which matches lots of garbage)!
-    config.assets.precompile = %w(
+
+    # the JS bundles are different for dev/prod:
+    bundles = %w(
       bundle.js
       bundle-embedded-view.js
       bundle-react-server-side.js
       bundle-integration-testbed.js
-      application.css
-      application-contrasted.css
-      embedded-view.css
-      styleguide.css
-    )
+    ).map {|name| "#{Rails.env.development? ? 'dev-': ''}#{name}" }
+
+    # NOTE: override (don't extend) the Rails default (which matches lots of garbage)!
+    # 2019 update: overriding the default is not possible anymore, so we need to run after the faulty initializer from here: https://github.com/rails/sprockets-rails/blob/e135984ee2b07e1a67c3fa57f799f40b0830e99a/lib/sprockets/railtie.rb#L108
+    initializer :fix_sprockets_defaults, after: :set_default_precompile do |app|
+
+      Rails.application.config.assets.precompile = bundles.concat(%w(
+        application.css
+        application-contrasted.css
+        embedded-view.css
+        styleguide.css
+      ))
+    end
 
     # NOTE: Rails does not support *matchers* anymore, do it manually
     precompile_assets_dirs = %w(

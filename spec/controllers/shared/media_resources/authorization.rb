@@ -11,14 +11,14 @@ RSpec.shared_examples 'authorization' do
   it 'public resource' do
     resource = FactoryGirl.create(model_name.singular,
                                   get_metadata_and_previews: true)
-    get :show, id: resource.id
+    get :show, params: { id: resource.id }
     assert_response 200
   end
 
   it 'not public resource' do
     resource = FactoryGirl.create(model_name.singular,
                                   get_metadata_and_previews: false)
-    expect { get :show, id: resource.id }
+    expect { get :show, params: { id: resource.id } }
       .to raise_error Errors::UnauthorizedError
   end
 
@@ -30,7 +30,7 @@ RSpec.shared_examples 'authorization' do
                          Hash[model_name.singular, resource])
 
     user = FactoryGirl.create :user
-    expect { get :show, { id: resource.id }, user_id: user.id }
+    expect { get :show, params: { id: resource.id }, session: { user_id: user.id } }
       .to raise_error Errors::ForbiddenError
   end
 

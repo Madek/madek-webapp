@@ -25,11 +25,12 @@ describe MetaDataController do
       create_vocabulary_permissions(meta_key.vocabulary)
       ids = Person.take(2).map(&:id)
       post :create,
-           { media_entry_id: @media_entry.id,
+           params: {
+             media_entry_id: @media_entry.id,
              meta_key: meta_key.id,
              type: 'MetaDatum::People',
              values: ids },
-           user_id: @user.id
+           session: { user_id: @user.id }
 
       assert_response :created
       md = @media_entry.meta_data.find_by_meta_key_id(meta_key.id)
@@ -43,11 +44,12 @@ describe MetaDataController do
       2.times { FactoryGirl.create :keyword, :license, meta_key: meta_key }
       ids = Keyword.where(rdf_class: 'License').take(2).map(&:id)
       post :create,
-           { media_entry_id: @media_entry.id,
+           params: {
+             media_entry_id: @media_entry.id,
              meta_key: meta_key.id,
              type: 'MetaDatum::Keywords',
              values: ids },
-           user_id: @user.id
+           session: { user_id: @user.id }
 
       assert_response :created
       md = @media_entry.meta_data.find_by_meta_key_id(meta_key.id)
@@ -61,11 +63,12 @@ describe MetaDataController do
       2.times { FactoryGirl.create :keyword }
       ids = Keyword.take(2).map(&:id)
       post :create,
-           { media_entry_id: @media_entry.id,
+           params: {
+             media_entry_id: @media_entry.id,
              meta_key: meta_key.id,
              type: 'MetaDatum::Keywords',
              values: ids },
-           user_id: @user.id
+           session: { user_id: @user.id }
 
       assert_response :created
       md = @media_entry.meta_data.find_by_meta_key_id(meta_key.id)
@@ -79,11 +82,12 @@ describe MetaDataController do
       create_vocabulary_permissions(meta_key.vocabulary)
       text = Faker::Lorem.word
       post :create,
-           { media_entry_id: @media_entry.id,
+           params: {
+             media_entry_id: @media_entry.id,
              meta_key: meta_key.id,
              type: 'MetaDatum::Text',
              values: [text] },
-           user_id: @user.id
+           session: { user_id: @user.id }
 
       assert_response :created
       md = @media_entry.meta_data.find_by_meta_key_id(meta_key.id)
@@ -96,11 +100,12 @@ describe MetaDataController do
       create_vocabulary_permissions(meta_key.vocabulary)
       text = Faker::Lorem.word
       post :create,
-           { media_entry_id: @media_entry.id,
+           params: {
+             media_entry_id: @media_entry.id,
              meta_key: meta_key.id,
              type: 'MetaDatum::TextDate',
              values: [text] },
-           user_id: @user.id
+           session: { user_id: @user.id }
 
       assert_response :created
       md = @media_entry.meta_data.find_by_meta_key_id(meta_key.id)
@@ -119,11 +124,12 @@ describe MetaDataController do
                              user: @user,
                              edit_metadata_and_relations: true)
         post :create,
-             { collection_id: collection.id,
+             params: {
+               collection_id: collection.id,
                meta_key: meta_key.id,
                type: 'MetaDatum::Text',
                values: [text] },
-             user_id: @user.id
+             session: { user_id: @user.id }
 
         assert_response :created
         md = collection.meta_data.find_by_meta_key_id(meta_key.id)
@@ -146,11 +152,12 @@ describe MetaDataController do
 
       expect do
         post :create,
-             { media_entry_id: @media_entry.id,
+             params: {
+               media_entry_id: @media_entry.id,
                meta_key: meta_key.id,
                type: 'MetaDatum::Keywords',
                values: ids },
-             user_id: @user.id
+             session: { user_id: @user.id }
       end.to raise_error ActiveRecord::RecordNotUnique
 
       md = @media_entry.meta_data.where(meta_key_id: meta_key.id)
@@ -172,11 +179,12 @@ describe MetaDataController do
 
       expect do
         post :create,
-             { media_entry_id: @media_entry.id,
+             params: {
+               media_entry_id: @media_entry.id,
                meta_key: meta_key.id,
                type: 'MetaDatum::People',
                values: [] },
-             user_id: @user.id
+             session: { user_id: @user.id }
       end.to raise_error ActionController::ParameterMissing
 
       md = @media_entry.meta_data.where(meta_key_id: meta_key.id)
@@ -189,11 +197,12 @@ describe MetaDataController do
 
       expect do
         post :create,
-             { media_entry_id: @media_entry.id,
+             params: {
+               media_entry_id: @media_entry.id,
                meta_key: meta_key.id,
                type: 'MetaDatum::People',
                values: ['', ''] },
-             user_id: @user.id
+             session: { user_id: @user.id }
       end.to raise_error ActionController::ParameterMissing
 
       md = @media_entry.meta_data.where(meta_key_id: meta_key.id)

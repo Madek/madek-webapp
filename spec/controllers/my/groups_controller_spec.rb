@@ -8,8 +8,8 @@ describe My::GroupsController do
     context 'when name is not used' do
       it 'creates a new group' do
         post :create,
-             { group: { name: 'new group' } },
-             user_id: user.id
+             params: { group: { name: 'new group' } },
+             session: { user_id: user.id }
 
         expect(response).to redirect_to my_groups_path
       end
@@ -19,8 +19,8 @@ describe My::GroupsController do
       it 'raises an error' do
         expect do
           post :create,
-               { group: { name: group.name } },
-               user_id: user.id
+               params: { group: { name: group.name } },
+               session: { user_id: user.id }
         end.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
@@ -33,8 +33,8 @@ describe My::GroupsController do
 
         expect do
           delete :destroy,
-                 { id: group.id },
-                 user_id: user.id
+                 params: { id: group.id },
+                 session: { user_id: user.id }
         end.to change { Group.count }.by(-1)
       end
     end
@@ -46,8 +46,8 @@ describe My::GroupsController do
 
         expect do
           delete :destroy,
-                 { id: group.id },
-                 user_id: user.id
+                 params: { id: group.id },
+                 session: { user_id: user.id }
         end.to raise_error(Errors::ForbiddenError)
       end
     end
@@ -72,8 +72,8 @@ describe My::GroupsController do
 
         expect do
           put :update,
-              { id: group.id }.merge(member_params),
-              user_id: user.id
+              params: { id: group.id }.merge(member_params),
+              session: { user_id: user.id }
         end.to change { group.users.count }.by(1)
 
         expect(response).to have_http_status(302)
@@ -88,8 +88,8 @@ describe My::GroupsController do
 
         expect do
           put :update,
-              { id: external_group.id }.merge(member_params),
-              user_id: user.id
+              params: { id: external_group.id }.merge(member_params),
+              session: { user_id: user.id }
         end.to raise_error(Errors::ForbiddenError)
       end
     end
@@ -113,8 +113,8 @@ describe My::GroupsController do
 
         expect do
           put :update,
-              { id: group.id }.merge(member_params),
-              user_id: user.id
+              params: { id: group.id }.merge(member_params),
+              session: { user_id: user.id }
         end.to change { group.users.count }.by(-1)
 
         expect(response).to have_http_status(302)
@@ -129,8 +129,8 @@ describe My::GroupsController do
 
         expect do
           put :update,
-              { id: external_group.id }.merge(member_params),
-              user_id: user.id
+              params: { id: external_group.id }.merge(member_params),
+              session: { user_id: user.id }
         end.to raise_error(Errors::ForbiddenError)
       end
     end

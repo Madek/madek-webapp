@@ -23,7 +23,7 @@ module Modules
             .select do |p|
               p.key?("#{type}_id") \
                 and not p.fetch("#{type}_id").blank? \
-                and p.size > 1
+                and p.to_h.size > 1
             end
         end
 

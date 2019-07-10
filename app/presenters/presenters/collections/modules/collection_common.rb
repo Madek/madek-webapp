@@ -7,6 +7,7 @@ module Presenters
         include Presenters::Shared::Modules::Favoritable
 
         def initialize(app_resource, user, list_conf: {})
+          app_resource = app_resource.try(:cast_to_type) || app_resource
           fail 'TypeError!' unless app_resource.is_a?(Collection)
           @app_resource = app_resource
           @user = user

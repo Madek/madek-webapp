@@ -57,8 +57,8 @@ describe CollectionsController do
       }
 
     put :permissions_update,
-        update_params,
-        user_id: @user.id
+        params: update_params,
+        session: { user_id: @user.id }
 
     # check that old permissions were deleted
     [up1, up2, gp1, gp2, apc1, apc2].each do |p|
@@ -103,19 +103,6 @@ describe CollectionsController do
       .to be (not old.get_metadata_and_previews)
   end
 
-  it 'raises if empty array' do
-    collection = FactoryGirl.create(:collection,
-                                    responsible_user: @user)
-    update_params = \
-      { id: collection.id,
-        collection:
-          { user_permissions: 'not an array' } }
-
-    expect do
-      put :permissions_update, update_params, user_id: @user.id
-    end.to raise_error Errors::InvalidParameterValue
-  end
-
   it 'deletes old permissions if no new provided' do
     collection = FactoryGirl.create(:collection,
                                     responsible_user: @user)
@@ -136,7 +123,7 @@ describe CollectionsController do
             get_metadata_and_previews: true,
             get_full_size: true } } }
 
-    put :permissions_update, update_params, user_id: @user.id
+    put :permissions_update, params: update_params, session: { user_id: @user.id }
 
     collection.reload
     expect(collection.user_permissions.count).to be == 0

@@ -1,27 +1,44 @@
-Madek::Application.configure do
-  # Settings specified here will take precedence over those in config/environment.rb
+Rails.application.configure do
+  # Settings specified here will take precedence over those in config/application.rb.
 
   # With this cache store, all fetch and read operations will result in a miss.
   config.cache_store = ENV['RAILS_CACHE'].present? ? :memory_store : :null_store
   config.action_controller.perform_caching = ENV['RAILS_CACHE'].present? ? true : false
 
-  config.eager_load = false
-
   # In the development environment your application's code is reloaded on
-  # every request.  This slows down response time but is perfect for development
-  # since you don't have to restart the webserver when you make code changes.
+  # every request. This slows down response time but is perfect for development
+  # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
-  # Always show the developer-friendly error pages in DEV, even from non-localhost:
+  # Do not eager load code on boot.
+  config.eager_load = false
+
+  # Show full error reports.
   config.consider_all_requests_local = true
   #       ^ set to 'false' to force showing of custom error pages in DEV
 
+  # Enable/disable caching. By default caching is disabled.
+  # Run rails dev:cache to toggle caching.
+  if Rails.root.join('tmp', 'caching-dev.txt').exist?
+    config.action_controller.perform_caching = true
 
-  # Don't care if the mailer can't send
+    config.cache_store = :memory_store
+    config.public_file_server.headers = {
+      'Cache-Control' => "public, max-age=#{2.days.to_i}"
+    }
+  else
+    config.action_controller.perform_caching = false
+    config.cache_store = :null_store
+  end
+  # Store uploaded files on the local file system (see config/storage.yml for options)
+  config.active_storage.service = :local
+
+  # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.perform_deliveries = false
 
-  # Print deprecation notices to the Rails logger
+  config.action_mailer.perform_caching = false
+
+  # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
   # Use SQL instead of Active Record's schema dumper when creating the test database.
@@ -29,14 +46,25 @@ Madek::Application.configure do
   # like if you have constraints or database-specific column types
   config.active_record.schema_format = :sql
 
-  # Only use best-standards-support built into browsers
-  config.action_dispatch.best_standards_support = :builtin
+  # Raise an error on page load if there are pending migrations.
+  config.active_record.migration_error = :page_load
 
-  # Expands the lines which load the assets
+  # Highlight code that triggered database queries in logs.
+  config.active_record.verbose_query_logs = true
+
+  # Debug mode disables concatenation and preprocessing of assets.
+  # This option may cause significant delays in view rendering with a large
+  # number of complex assets.
   config.assets.debug = false
 
+  # Suppress logger output for asset requests.
+  config.assets.quiet = true
+
   # Don't use precompiled assets in dev!
-  config.assets.compile = true
+  config.assets.precompile += %w( dev-bundle.js )
   config.assets.prefix = '/dev-assets'
 
+  # Use an evented file watcher to asynchronously detect changes in source code,
+  # routes, locales, etc. This feature depends on the listen gem.
+  config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 end

@@ -10,9 +10,6 @@
 [submodule "zhdk-integration"]
 	path = zhdk-integration
 	url = https://github.com/Madek/madek-zhdk-integration.git
-[submodule "vendor"]
-	path = vendor
-	url = https://github.com/Madek/madek_webapp_vendor.git
 [submodule "test-media"]
 	path = spec/_support/test_media
 	url = https://github.com/Madek/madek-test-media

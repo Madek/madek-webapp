@@ -39,7 +39,7 @@ class UsersController < ApplicationController
   def set_list_config
     skip_authorization # session only, no policy
     config = params.require(:list_config)
-      .permit(*Madek::Constants::Webapp::USER_LIST_CONFIG_KEYS).deep_symbolize_keys
+      .permit(*Madek::Constants::Webapp::USER_LIST_CONFIG_KEYS).to_h.deep_symbolize_keys
     persist_list_config_to_session(config)
     respond_with(nil)
   end

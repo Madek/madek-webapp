@@ -12,7 +12,7 @@ describe MetaDataController do
                                     media_entry: media_entry,
                                     meta_key: meta_key)
 
-    expect { get :show, id: meta_datum.id }
+    expect { get :show, params: { id: meta_datum.id } }
       .to raise_error Errors::UnauthorizedError
   end
 
@@ -27,11 +27,12 @@ describe MetaDataController do
 
     expect do
       post :create,
-           { media_entry_id: media_entry.id,
+           params: {
+             media_entry_id: media_entry.id,
              meta_key: meta_key.id,
              type: 'MetaDatum::Text',
              values: ['text'] },
-           user_id: user.id
+           session: { user_id: user.id }
     end.to raise_error Errors::ForbiddenError
   end
 end

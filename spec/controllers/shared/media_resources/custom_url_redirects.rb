@@ -28,13 +28,13 @@ RSpec.shared_examples 'redirection' do
         @custom_url = create(:custom_url,
                              Hash[:is_primary, true,
                                   model_name.singular, @resource])
-        get :show, id: @resource.id
+        get :show, params: { id: @resource.id }
         redirect_path = "#{request.base_url}/#{plural}/#{@custom_url.id}"
         expect(response).to redirect_to redirect_path
       end
 
       it 'returns 200 if custom url does not exist' do
-        get :show, id: @resource.id
+        get :show, params: { id: @resource.id }
         expect(response.status).to be == 200
       end
 
@@ -42,7 +42,7 @@ RSpec.shared_examples 'redirection' do
         @custom_url = create(:custom_url,
                              Hash[:is_primary, false,
                                   model_name.singular, @resource])
-        get :show, id: @resource.id
+        get :show, params: { id: @resource.id }
         expect(response.status).to be == 200
       end
     end
@@ -52,7 +52,7 @@ RSpec.shared_examples 'redirection' do
         @custom_url = create(:custom_url,
                              Hash[:is_primary, false,
                                   model_name.singular, @resource])
-        get :show, id: @custom_url.id
+        get :show, params: { id: @custom_url.id }
         redirect_path = \
           "#{request.base_url}/#{plural}/#{@resource.id}"
         expect(response).to redirect_to redirect_path
@@ -62,12 +62,12 @@ RSpec.shared_examples 'redirection' do
         @custom_url = create(:custom_url,
                              Hash[:is_primary, true,
                                   model_name.singular, @resource])
-        get :show, id: @custom_url.id
+        get :show, params: { id: @custom_url.id }
         expect(response.status).to be == 200
       end
 
       it 'returns 404 if custom url does not exist' do
-        expect { get :show, id: 'blah' }
+        expect { get :show, params: { id: 'blah' } }
           .to raise_error(ActiveRecord::RecordNotFound)
       end
     end
@@ -80,14 +80,14 @@ RSpec.shared_examples 'redirection' do
         @custom_url = create(:custom_url,
                              Hash[:is_primary, true,
                                   model_name.singular, @resource])
-        get :more_data, id: @resource.id
+        get :more_data, params: { id: @resource.id }
         redirect_path = \
           "#{request.base_url}/#{plural}/#{@custom_url.id}/more_data"
         expect(response).to redirect_to redirect_path
       end
 
       it 'returns 200 if custom url does not exist' do
-        get :more_data, id: @resource.id
+        get :more_data, params: { id: @resource.id }
         expect(response.status).to be == 200
       end
 
@@ -95,7 +95,7 @@ RSpec.shared_examples 'redirection' do
         @custom_url = create(:custom_url,
                              Hash[:is_primary, false,
                                   model_name.singular, @resource])
-        get :more_data, id: @resource.id
+        get :more_data, params: { id: @resource.id }
         expect(response.status).to be == 200
       end
     end
@@ -105,7 +105,7 @@ RSpec.shared_examples 'redirection' do
         @custom_url = create(:custom_url,
                              Hash[:is_primary, false,
                                   model_name.singular, @resource])
-        get :more_data, id: @custom_url.id
+        get :more_data, params: { id: @custom_url.id }
         redirect_path = \
           "#{request.base_url}/#{plural}/#{@resource.id}/more_data"
         expect(response).to redirect_to redirect_path
@@ -115,12 +115,12 @@ RSpec.shared_examples 'redirection' do
         @custom_url = create(:custom_url,
                              Hash[:is_primary, true,
                                   model_name.singular, @resource])
-        get :more_data, id: @custom_url.id
+        get :more_data, params: { id: @custom_url.id }
         expect(response.status).to be == 200
       end
 
       it 'returns 404 if custom url does not exist' do
-        expect { get :more_data, id: 'blah' }
+        expect { get :more_data, params: { id: 'blah' } }
           .to raise_error(ActiveRecord::RecordNotFound)
       end
     end

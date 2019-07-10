@@ -22,9 +22,10 @@ describe CollectionsController do
     @coll.media_entries << me
 
     put :update_cover,
-        { id: @coll.id,
+        params: {
+          id: @coll.id,
           selected_resource: me.id },
-        user_id: @user.id
+        session: { user_id: @user.id }
 
     expect(response).to be_redirect
     @coll.reload
@@ -53,7 +54,8 @@ describe CollectionsController do
       # filter_sets: []
 
       put :update_highlights,
-          { id: @coll.id,
+          params: {
+            id: @coll.id,
             resource_selections: [
               {
                 id: me.id,
@@ -76,7 +78,7 @@ describe CollectionsController do
                 type: 'FilterSet',
                 selected: true
               }] },
-          user_id: @user.id
+          session: { user_id: @user.id }
 
       # highlighted resources after:
       # media_entries: [me, me_h]
@@ -99,7 +101,8 @@ describe CollectionsController do
 
       expect do
         put :update_highlights,
-            { id: @coll.id,
+            params: {
+              id: @coll.id,
               resource_selections: [
                 {
                   id: me_h.id,
@@ -110,7 +113,7 @@ describe CollectionsController do
                   type: 'MediaEntry',
                   selected: true
                 }] },
-            user_id: @user.id
+            session: { user_id: @user.id }
       end.to raise_error ActiveRecord::RecordNotFound
 
       @coll.reload

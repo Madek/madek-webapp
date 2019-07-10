@@ -84,8 +84,6 @@ tasks:
       RAILS_RELATIVE_URL_ROOT: /my-test
 
   spec/features/session/expiration_spec.rb:
-    environment_variables:
-      RAILS_RELATIVE_URL_ROOT: /my-test
     scripts:
       configure_session_validity_duration:
         body: |

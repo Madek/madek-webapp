@@ -32,7 +32,7 @@ describe MediaEntriesController do
     expect(@user.unpublished_media_entries.first.id).to eq media_entry.id
     expect(media_entry.is_published).to be false
 
-    post :publish, { id: media_entry.id }, user_id: @user.id
+    post :publish, params: { id: media_entry.id }, session: { user_id: @user.id }
     expect(response.redirect?).to be true
     expect(flash[:success]).to eq I18n.t(:meta_data_edit_media_entry_published)
 
@@ -47,8 +47,11 @@ describe MediaEntriesController do
     media_entry = create :media_entry_with_image_media_file,
                          creator: @user, responsible_user: @user
 
-    expect { delete :destroy, { id: media_entry.id }, user_id: @user.id }
-      .to change { MediaEntry.count }.by(-1)
+    expect do
+      delete :destroy,
+             params: { id: media_entry.id },
+             session: { user_id: @user.id }
+    end.to change { MediaEntry.count }.by(-1)
 
     expect(response).to redirect_to my_dashboard_path
 
@@ -59,8 +62,11 @@ describe MediaEntriesController do
                          creator: @user, responsible_user: @user,
                          is_published: false
 
-    expect { delete :destroy, { id: media_entry.id }, user_id: @user.id }
-      .to change { MediaEntry.unscoped.count }.by(-1)
+    expect do
+      delete :destroy,
+             params: { id: media_entry.id },
+             session: { user_id: @user.id }
+    end.to change { MediaEntry.unscoped.count }.by(-1)
 
     expect(response).to redirect_to my_dashboard_path
 

@@ -9,8 +9,9 @@ describe UsersController do
   context 'Resource: Users - responds to search with json' do
     it 'filtering with params[:search_term] by login' do
       get :index,
-          search_term: user.login,
-          format: :json
+          params: {
+            search_term: user.login,
+            format: :json }
 
       assert_response :success
       expect(response.content_type).to be == 'application/json'
@@ -21,9 +22,10 @@ describe UsersController do
 
     it 'filtering with params[:search_also_in_person] by person\'s first name' do
       get :index,
-          search_term: user.person.first_name,
-          search_also_in_person: true,
-          format: :json
+          params: {
+            search_term: user.person.first_name,
+            search_also_in_person: true,
+            format: :json }
 
       assert_response :success
       expect(response.content_type).to be == 'application/json'
@@ -41,8 +43,9 @@ describe UsersController do
         User.last.login = user.id
 
         get :index,
-            search_term: user.id,
-            format: :json
+            params: {
+              search_term: user.id,
+              format: :json }
 
         assert_response :success
         expect(response.content_type).to be == 'application/json'
@@ -58,8 +61,9 @@ describe UsersController do
         User.last.login = user.id
 
         get :index,
-            search_term: "https://example.com/admin/users/#{user.id}/",
-            format: :json
+            params: {
+              search_term: "https://example.com/admin/users/#{user.id}/",
+              format: :json }
 
         assert_response :success
         expect(response.content_type).to be == 'application/json'
@@ -75,8 +79,9 @@ describe UsersController do
         User.last.login = user.email.split('@').join(' ')
 
         get :index,
-            search_term: user.email,
-            format: :json
+            params: {
+              search_term: user.email,
+              format: :json }
 
         assert_response :success
         expect(response.content_type).to be == 'application/json'
@@ -92,8 +97,9 @@ describe UsersController do
 
       specify 'filtering by login does not return the user' do
         get :index,
-            search_term: user.login,
-            format: :json
+            params: {
+              search_term: user.login,
+              format: :json }
 
         expect(response).to be_success
         expect(response.content_type).to eq 'application/json'
@@ -103,9 +109,10 @@ describe UsersController do
 
       specify 'filtering by person\'s first name does not return the user' do
         get :index,
-            search_term: user.person.first_name,
-            search_also_in_person: true,
-            format: :json
+            params: {
+              search_term: user.person.first_name,
+              search_also_in_person: true,
+              format: :json }
 
         expect(response).to be_success
         expect(response.content_type).to eq 'application/json'
