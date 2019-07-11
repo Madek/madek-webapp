@@ -6,7 +6,7 @@ jobs:
       the branch does not match no-ci or _wip_:
         type: branch
         include_match: &default_branch_match    ^.+$
-        exclude_match: &default_branch_exclude  ^(.*no-ci.*)|(greenkeeper\/.*)|([a-z]*(_|\/)wip_.*)$
+        exclude_match: &default_branch_exclude  ^(.*no-ci.*)|((greenkeeper|dependabot)\/.*)|([a-z]*(_|\/)wip_.*)$
     context:
       include: cider-ci/context-components/rspec-tests.yml
 
@@ -99,7 +99,7 @@ jobs:
     run_when:
       is on a WIP branch:
         type: branch
-        include_match: ^(greenkeeper\/.*)|([a-z]*(_|\/)wip_.*)$
+        include_match: ^((greenkeeper|dependabot)\/.*)|([a-z]*(_|\/)wip_.*)$
     context:
       include: cider-ci/context-components/rspec-tests.yml
       task_defaults:
