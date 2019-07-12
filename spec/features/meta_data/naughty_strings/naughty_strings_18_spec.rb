@@ -7,5 +7,5 @@ require Rails.root.join 'spec',
                         'naughty_strings.rb'
 
 feature 'Resource: MetaDatum' do
-  it_handles_properly '"naughty strings"', 341..360
+  it_handles_properly '"naughty strings"', 170..179
 end
