@@ -894,6 +894,7 @@ module.exports = React.createClass
             resources={@getResources()}
             selectedResources={@state.boxState.data.selectedResources}
             pagination={@props.get.pagination}
+            forUrl={@props.for_url}
             jsonPath={@getJsonPath()}
           />
       }
