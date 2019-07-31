@@ -35,7 +35,7 @@ module.exports = React.createClass
   fetchAllResourceIds: (resources, pagination, jsonPath, callback) ->
 
     nextUrl = setUrlParams(
-      @url,
+      @props.forUrl,
       {list: {page: 1, per_page: pagination.total_count}},
       {___sparse: JSON.stringify(f.set({}, jsonPath, [{uuid: {}, type: {}}]))})
 
