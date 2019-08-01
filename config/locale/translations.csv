@@ -339,6 +339,7 @@ meta_data_batch_hint_differences_override,"Achtung: Bestehende Werte werden durc
 meta_data_batch_hint_equal_data,Gleiche Metadaten vorhanden,Same metadata in place.,
 meta_data_batch_hint_no_data,Noch keine Metadaten vorhanden,No metadata available yet.,
 meta_data_batch_hint_value,Werte oder Text,Values or text,
+meta_data_batch_item_selected,Medieneintrag selektiert,Media entry selected,
 meta_data_batch_items_selected,Medieneinträge selektiert,Media entries selected,
 meta_data_batch_more,weitere,More,
 meta_data_batch_some_ignored_1,(,(,

@@ -10,12 +10,17 @@ module.exports = React.createClass
     authToken: React.PropTypes.string.isRequired
 
   render: ({resources, authToken, batchCount, counts} = @props) ->
+    batchCount = if f.isString(batchCount) or f.isNumber(batchCount) then batchCount else f.get(resources, 'length')
 
     <div className="bordered ui-container midtone rounded-right rounded-bottom mbm">
       <div className="ui-resources-selection">
         <div className="ui-toolbar inverted ui-container pvx phs rounded-top">
           <h2 className="ui-toolbar-header">
-            {batchCount + ' ' + t('meta_data_batch_items_selected')}
+            {if batchCount == 1
+              batchCount + ' ' + t('meta_data_batch_item_selected')
+            else
+              batchCount + ' ' + t('meta_data_batch_items_selected')
+            }
             {
               if counts && counts.authorized_resources < counts.all_resources
                 <span style={{color: '#e5b100'}}>
