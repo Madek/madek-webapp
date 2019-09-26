@@ -95,10 +95,21 @@ module Concerns
       {}.merge(ref_route.to_h).merge(ref_params.to_h).deep_stringify_keys
     end
 
+    def absolute_full_url(url)
+      URI.parse(settings.madek_external_base_url).merge(url).to_s
+    end
+
     def _with_failsafe
        yield
     rescue StandardError
       nil
     end
+
+    def disable_http_caching
+      response.headers['Cache-Control'] = 'no-cache, no-store'
+      response.headers['Pragma'] = 'no-cache'
+      response.headers['Expires'] = 1.year.ago.to_s
+    end
+
   end
 end

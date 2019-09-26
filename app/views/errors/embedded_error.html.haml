@@ -1,0 +1,37 @@
+:ruby
+  status_code = defined?(status_code) ? status_code : 500
+  wanted_url = wanted_url if defined?(wanted_url)
+  support_url = localize(settings.support_urls).presence if defined?(settings)
+  link_attrs = { target: '_blank', rel: 'noreferrer noopener', style: 'color:white!important;text-decoration:underline!important' }
+
+  error_msg = t(:embed_error_msg)
+  error_msg = t(:embed_error_msg_403) if status_code == 403
+  error_msg = t(:embed_error_msg_404) if status_code == 404
+
+
+- content_for(:title_head) do
+  = t(:embed_error_title)
+
+- content_for(:body) do
+  %div.error-msg-container{style: 'display:table;height:100vh;width:100%;color:white;background-color:#222;font-family:sans-serif;'}
+    %div{style: 'display:table-cell;vertical-align:middle;padding:5%;'}
+      %div.error-msg{style: 'font-family:sans-serif;'}
+        %h1= t(:embed_error_title)
+        %p.error-reason{style: 'font-size:1.15em;font-weight:bold'}= error_msg
+
+        - if wanted_url
+          %p.error-context
+            = t(:embed_error_context_pre)
+            %a.link{href: wanted_url, **link_attrs}<>
+              %small= wanted_url
+            = t(:embed_error_context_post)
+
+        - if support_url.present?
+          %p.error-help
+            = t(:embed_error_help_pre)
+            %a.link{href: support_url, **link_attrs}<>
+              %small= support_url
+            = t(:embed_error_help_post)
+
+
+= render template: 'layouts/_embedded'

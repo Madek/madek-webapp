@@ -42,7 +42,7 @@ def click_select_all_on_first_page
   elsif pager.all('.icon-checkbox-mixed').first
     pager.all('.icon-checkbox-mixed').first.click
   else
-    pager.all('.icon-checkbox').first.click
+    wait_until { pager.all('.icon-checkbox').first }.click
   end
 end
 
@@ -138,12 +138,13 @@ def submit_form
   #    use the "primary" button (async forms where implicit submit is off)
   # 2. HTML convention: use the submit button if there is one
   # 3/4. try the same, but assuming we are 'within' a form
-  submit = first("\
-    form .ui-actions .primary-button, \
-    form *[type='submit'], \
-    *.ui-actions .primary-button, \
-    *[type='submit']")
-  expect(submit).to be
+  submit = wait_until do
+    first("\
+      form .ui-actions .primary-button, \
+      form *[type='submit'], \
+      *.ui-actions .primary-button, \
+      *[type='submit']")
+  end
   submit.click
 end
 

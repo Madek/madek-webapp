@@ -32,44 +32,41 @@ task_defaults:
           -s "-ac -screen 0 $XVFB_SCREEN_CONF" \
           bundle exec rspec $CIDER_CI_TASK_FILE
 
-
 generate_tasks:
   include_match: spec/.*_spec.rb
 
 tasks:
-
   # manually prioritize slow tests higher
-  spec/features/batch_edit/batch_update_permissions_spec.rb: {priority: 2}
-  spec/features/batch_edit/form_values_and_appearance_spec.rb: {priority: 1}
-  spec/features/collection/collection_destroy_spec.rb: {priority: 1}
-  spec/features/collection/collection_meta_data_edit_spec.rb: {priority: 1}
-  spec/features/collection/collection_select_collection_spec.rb: {priority: 3}
-  spec/features/collection/collection_show_spec.rb: {priority: 2}
-  spec/features/collection/edit_collection_cover_spec.rb: {priority: 1}
-  spec/features/collection/edit_collection_cover_spec.rb: {priority: 2}
-  spec/features/collection/edit_collection_highlights_spec.rb: {priority: 1}
-  spec/features/flyout_actions_spec.rb: {priority: 2}
-  spec/features/manage_custom_urls/check-table-and-uuid_spec.rb: {priority: 2}
-  spec/features/manage_custom_urls/transfer-without-primary_spec.rb: {priority: 2}
-  spec/features/media_entry/media_entry_context_meta_data_edit_spec.rb: {priority: 3}
-  spec/features/media_entry/media_entry_export_spec.rb: {priority: 2}
-  spec/features/media_entry/media_entry_index_spec.rb: {priority: 1}
-  spec/features/media_entry/media_entry_select_collection_spec.rb: {priority: 2}
-  spec/features/media_entry/media_entry_show_spec.rb: {priority: 2}
-  spec/features/media_entry/permissions/media_entry_permissions_spec.rb: {priority: 1}
-  spec/features/meta_data/inputs/input_keywords_spec.rb: {priority: 2}
-  spec/features/meta_data/inputs/input_textdate_spec.rb: {priority: 2}
-  spec/features/meta_data/meta_data_spec.rb: {priority: 1}
-  spec/features/meta_data/naughty_strings/naughty_strings_10_spec.rb: {priority: 2}
-  spec/features/meta_data/naughty_strings/naughty_strings_11_spec.rb: {priority: 2}
-  spec/features/meta_data/naughty_strings/naughty_strings_12_spec.rb: {priority: 2}
-  spec/features/meta_data/naughty_strings/naughty_strings_13_spec.rb: {priority: 2}
-  spec/features/meta_data/naughty_strings/naughty_strings_14_spec.rb: {priority: 2}
-  spec/features/meta_data/naughty_strings/naughty_strings_3_spec.rb: {priority: 2}
-  spec/features/my/my_groups_spec.rb: {priority: 2}
-  spec/features/search_spec.rb: {priority: 2}
+  spec/features/batch_edit/batch_update_permissions_spec.rb: { priority: 2 }
+  spec/features/batch_edit/form_values_and_appearance_spec.rb: { priority: 1 }
+  spec/features/collection/collection_destroy_spec.rb: { priority: 1 }
+  spec/features/collection/collection_meta_data_edit_spec.rb: { priority: 1 }
+  spec/features/collection/collection_select_collection_spec.rb: { priority: 3 }
+  spec/features/collection/collection_show_spec.rb: { priority: 2 }
+  spec/features/collection/edit_collection_cover_spec.rb: { priority: 2 }
+  spec/features/collection/edit_collection_highlights_spec.rb: { priority: 1 }
+  spec/features/flyout_actions_spec.rb: { priority: 2 }
+  spec/features/manage_custom_urls/check-table-and-uuid_spec.rb: { priority: 2 }
+  spec/features/manage_custom_urls/transfer-without-primary_spec.rb: { priority: 2 }
+  spec/features/media_entry/media_entry_context_meta_data_edit_spec.rb: { priority: 3 }
+  spec/features/media_entry/media_entry_export_spec.rb: { priority: 2 }
+  spec/features/media_entry/media_entry_index_spec.rb: { priority: 1 }
+  spec/features/media_entry/media_entry_select_collection_spec.rb: { priority: 2 }
+  spec/features/media_entry/media_entry_show_spec.rb: { priority: 2 }
+  spec/features/media_entry/permissions/media_entry_permissions_spec.rb: { priority: 1 }
+  spec/features/meta_data/inputs/input_keywords_spec.rb: { priority: 2 }
+  spec/features/meta_data/inputs/input_textdate_spec.rb: { priority: 2 }
+  spec/features/meta_data/meta_data_spec.rb: { priority: 1 }
+  spec/features/meta_data/naughty_strings/naughty_strings_10_spec.rb: { priority: 2 }
+  spec/features/meta_data/naughty_strings/naughty_strings_11_spec.rb: { priority: 2 }
+  spec/features/meta_data/naughty_strings/naughty_strings_12_spec.rb: { priority: 2 }
+  spec/features/meta_data/naughty_strings/naughty_strings_13_spec.rb: { priority: 2 }
+  spec/features/meta_data/naughty_strings/naughty_strings_14_spec.rb: { priority: 2 }
+  spec/features/meta_data/naughty_strings/naughty_strings_3_spec.rb: { priority: 2 }
+  spec/features/my/my_groups_spec.rb: { priority: 2 }
+  spec/features/search_spec.rb: { priority: 2 }
   # this 1 is really flacky:
-  spec/features/side_filter/side_filter_spec.rb: {priority: 3, max_trials: 5}
+  spec/features/side_filter/side_filter_spec.rb: { priority: 3, max_trials: 5 }
 
   spec/features/styleguide_spec.rb:
     priority: 2
@@ -103,7 +100,7 @@ tasks:
           zhdk integration has been configured:
             script_key: configure_zhdk_integration
 
-  spec/features/embed_player/embed_player_spec.rb:
+  spec/features/embed_player/embed_player_spec.rb: &EMBED_PLAYER_CONFIG
     ports:
       CAPYBARA_SERVER_PORT:
         min: 31000
@@ -117,4 +114,7 @@ tasks:
           echo "thumbnail_storage_dir: 'spec/_support/test_media/file_storage/thumbnails'" >> config/settings.local.yml
       test:
         start_when:
-          file_storage has been configured: {script_key: configure_file_storage}
+          file_storage has been configured: { script_key: configure_file_storage }
+
+  spec/features/embed_player/embed_player_interaction_spec.rb: *EMBED_PLAYER_CONFIG
+  spec/features/embed_player/embed_error_ui_spec.rb: *EMBED_PLAYER_CONFIG

@@ -19,12 +19,13 @@ const app = require('ampersand-app')
 app.extend({ config: require('global').APP_CONFIG })
 
 function main() {
-  const element = document.querySelector(
+  const rootEl = document.querySelector(
     '[data-react-class="UI.Views.MediaEntry.MediaEntryEmbedded"]'
   )
-  const props = JSON.parse(element.dataset.reactProps)
+  if (!rootEl || !rootEl.dataset || !rootEl.dataset.reactProps) return false
+  const props = JSON.parse(rootEl.dataset.reactProps)
   const view = React.createElement(MediaEntryEmbedded, props)
-  ReactDOM.render(view, element)
+  ReactDOM.render(view, rootEl)
 }
 
 // init

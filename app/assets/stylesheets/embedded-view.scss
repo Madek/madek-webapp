@@ -27,6 +27,7 @@
 body {
   font-family: $default-font-family;
   color: $white;
+  background: #222;
   width: 100%;
   height: 100%;
   padding: 0;
@@ -110,4 +111,20 @@ $modal-dialog-padding: 20vmin !important;
 }
 .vjs-modal-dialog-content {
   padding: $modal-dialog-padding !important;
+}
+
+// error messages
+.error-msg-container {
+  background-image: image-url('animated-static-noise.gif');
+  background-size: 100% 100%; // fallback
+  background-size: cover;
+  & > div {
+    padding: 0 !important;
+  }
+}
+.error-msg {
+  padding: 5%;
+  text-align: center;
+  font-family: $default-font-family !important;
+  background: transparent !important;
 }
