@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/LineLength
 require_relative './_shared'
 
 # NOTE: there is also a spec for the oEmbed API!
@@ -59,20 +58,22 @@ feature 'Embed aka. "Madek-Player"', with_db: :test_media do
       )
     end
 
-    # it 'shows error when permissions are missing (expired ConfidentialLink)' do
-    #   entry = video_entry
-    #   entry.update_attributes!(get_metadata_and_previews: false, get_full_size: false)
-    #   sikrit = create(:confidential_link, resource: entry, expires_at: DateTime.now - 1.seconds)
-    #   do_manual_embed(embedded_media_entry_url(entry, accessToken: sikrit.token))
-    #   expect(displayed_embed_error_ui).to eq(
-    #     title: 'Fehler!',
-    #     details: {
-    #       reason:
-    #         'Dieser Inhalt kann nicht eingebettet werden, weil die nötigen Berechtigungen fehlen.',
-    #       context: "Angeforderte URL: #{absolute_external_url(media_entry_url(entry))}",
-    #       help: "Hilfe: #{the_support_url}"
-    #     }
-    #   )
-    # end
+    it 'shows error when permissions are missing (expired ConfidentialLink)' do
+      entry = video_entry
+      entry.update_attributes!(get_metadata_and_previews: false, get_full_size: false)
+      sikrit = create(
+        :confidential_link, resource: entry, expires_at: DateTime.now.utc - 1.second)
+
+      do_manual_embed(embedded_media_entry_url(entry, accessToken: sikrit.token))
+      expect(displayed_embed_error_ui).to eq(
+        title: 'Fehler!',
+        details: {
+          reason:
+            'Dieser Inhalt kann nicht eingebettet werden, weil die nötigen Berechtigungen fehlen.',
+          context: "Angeforderte URL: #{absolute_external_url(media_entry_url(entry))}",
+          help: "Hilfe: #{the_support_url}"
+        }
+      )
+    end
   end
 end

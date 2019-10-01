@@ -11,14 +11,12 @@ class OembedController < ApplicationController
   EMBED_MEDIA_TYPES_MAP = Madek::Constants::Webapp::EMBED_MEDIA_TYPES_MAP
 
   def show
-    # NOTE: this *only* returns JSON, no matter what was requested!
-    #       therefore all errors are catched to not trigger rails default behaviour
-
     # NOTE: `url` accepts anything that Rails recognizes, for simplicity
     #       (so giving the "correct" external hostname is not strictly needed)
 
-    # TODO: auth per user, whitelisted hosts can serve non-public res.
-    # disregard any auth (only 'public' resources are served!)
+    # disregard any logged-in-state (cookie) the request might have,
+    # so the API behaves consistently, no matter if it comes directly from a browser
+    # or is used indirectly (e.g. WordPress, which fetches from the backend)
     skip_authorization
     current_user = nil
 
@@ -45,14 +43,15 @@ class OembedController < ApplicationController
       return error_response(err, 500)
     end
 
-    # preview?
-    unless resource.try(:media_file).try(:previews).try(:any?)
-      return render(json: { error: 'no media!' }, status: 404)
+    # confidential link?
+    access_token = _with_failsafe do
+      get_valid_access_token(resource, ActionController::Parameters
+        .new(route_params.merge(Rack::Utils.parse_query(URI.parse(params[:url]).query))))
     end
 
     # public?
-    unless resource.get_metadata_and_previews
-      return render(json: { error: 'non-public Resource!' }, status: 401)
+    unless (resource.get_metadata_and_previews || access_token.present?)
+      return render(json: { error: 'Access denied!' }, status: 401)
     end
 
     # correct media type?
@@ -62,7 +61,12 @@ class OembedController < ApplicationController
 
     presenter = presenter_by_class(resource_class).new(resource, current_user)
 
-    response = oembed_response(resource, presenter, params)
+    response = oembed_response(resource, presenter, params, access_token)
+
+    # no caching of confidential links!
+    if (access_token.present? && !resource.get_metadata_and_previews)
+      disable_http_caching
+    end
 
     respond_to do |format|
       format.json { render(json: response) }
@@ -72,7 +76,7 @@ class OembedController < ApplicationController
 
   private
 
-  def oembed_response(resource, presenter, params)
+  def oembed_response(resource, presenter, params, access_token = nil)
     # NOTE: MUST set fixed sizes on iframe, so we need to proportionally scale it!
     # also respect params given in the resource URL itself.
     # those come from the user, not from the oEmbed client they are using.
@@ -87,6 +91,7 @@ class OembedController < ApplicationController
     target_url = absolute_url(
       embedded_media_entry_path(
         resource.id,
+        accessToken: access_token,
         height: scaled[:height], width: scaled[:width],
         ratio: user_params[:ratio] || params[:ratio],
         sfcss: params[:sfcss]))
@@ -102,7 +107,7 @@ class OembedController < ApplicationController
       ].compact.join(' / '),
       provider_name: localize(settings.site_titles),
       provider_url: absolute_url(''),
-      html: oembed_iframe(target_url, scaled[:width], scaled[:height])
+      html: oembed_iframe(target_url, scaled[:width], scaled[:height], access_token.present?)
     }
   end
 
@@ -121,19 +126,21 @@ class OembedController < ApplicationController
       .deep_symbolize_keys
   end
 
-  # NOTE: simpler to concat than templating
-  def oembed_iframe(url, width, height)
+  def oembed_iframe(url, width, height, is_confidential)
+    wrapper_cls = '___madek-embed' + (is_confidential ? ' ___madek-confidential-link' : '')
     <<-HTML.strip_heredoc.tr("\n", ' ').strip
-      <iframe
-      width="#{width}px"
-      height="#{height}px"
-      src="#{url}"
-      frameborder="0"
-      style="margin:0;padding:0;border:0"
-      allowfullscreen
-      webkitallowfullscreen
-      mozallowfullscreen
-      ></iframe>
+      <div class="#{wrapper_cls}">
+        <iframe
+        width="#{width}px"
+        height="#{height}px"
+        src="#{url}"
+        frameborder="0"
+        style="margin:0;padding:0;border:0"
+        allowfullscreen
+        webkitallowfullscreen
+        mozallowfullscreen
+        ></iframe>
+      </div>
     HTML
   end
 

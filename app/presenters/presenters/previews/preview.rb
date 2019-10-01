@@ -10,9 +10,9 @@ module Presenters
                                :height,
                                :width)
 
-      def initialize(app_resource)
+      def initialize(app_resource, access_token = nil)
         super(app_resource)
-
+        @access_token = access_token
         if @app_resource.media_type == 'video'
           define_singleton_method :profile do
             @app_resource.conversion_profile
@@ -29,7 +29,11 @@ module Presenters
       end
 
       def url
-        prepend_url_context preview_path(@app_resource)
+        if @access_token
+          prepend_url_context(preview_path(@app_resource, accessToken: @access_token))
+        else
+          prepend_url_context(preview_path(@app_resource))
+        end
       end
 
     end

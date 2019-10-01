@@ -16,6 +16,7 @@ module Presenters
         end
         super(media_entry_with_media_file.media_file)
         @user = user
+        @access_token = media_entry_with_media_file.accessed_by_confidential_link.presence
       end
 
       # NOTE: always returns PreviewPresenters, for non-images an Array of them
@@ -87,12 +88,12 @@ module Presenters
           # select first or apply 30% rule for videos
           image = get_first_or_30_percent(images) if images
         end
-        Presenters::Previews::Preview.new(image) if image.present?
+        Presenters::Previews::Preview.new(image, @access_token) if image.present?
       end
 
       def get_previews_by_type(type)
         @app_resource.previews.where(media_type: type).map do |preview|
-          Presenters::Previews::Preview.new(preview) if preview.present?
+          Presenters::Previews::Preview.new(preview, @access_token) if preview.present?
         end.compact.presence
       end
 

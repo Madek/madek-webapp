@@ -41,6 +41,21 @@ feature 'Embed aka. "Madek-Player"', with_db: :test_media do
       do_oembed_client(url: url, width: 800, ratio: '4:3')
       expect(displayed_embedded_ui).to eq(expected_embedded_ui(expected_size, VIDEO_CAPTION, url))
     end
+
+    it 'works with a ConfidentialLink / accessToken' do
+      expected_size = { height: 360, width: 640 }
+      entry = video_entry
+      entry.update_attributes!(get_metadata_and_previews: false, get_full_size: false)
+      sikrit = create(:confidential_link, resource: entry)
+
+      url_without_access_token = media_entry_path(video_entry)
+      url_with_access_token = media_entry_path(video_entry, accessToken: sikrit.token)
+
+      do_oembed_client(url: url_with_access_token)
+      expect(displayed_embedded_ui).to eq(
+        expected_embedded_ui(expected_size, VIDEO_CAPTION, url_without_access_token)
+      )
+    end
   end
 
   context 'audio embed with caption and size config' do
