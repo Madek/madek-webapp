@@ -27,6 +27,7 @@
   "dependencies": {
     "@eins78/typeahead.js": "0.11.2-pre.1",
     "@eins78/typopro-open-sans": "0.0.0",
+    "@prettier/plugin-ruby": "^0.15.0",
     "active-lodash": "1.2.2",
     "ampersand-app": "2.0.0",
     "ampersand-model": "6.0.2",
