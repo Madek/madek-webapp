@@ -6,16 +6,19 @@
   # but the wordpress client only understands absolute URLs (incl. scheme and host)
   full_url = URI.parse(settings.madek_external_base_url)
 
+  # include confidential link access token if it was used to load this view:
+  resource_url = media_entry_path(accessToken: @get.used_confidential_access_token.presence)
+
   items = [{
     rel: 'alternate',
     type: 'application/json+oembed',
-    title: "#{@get.title} oEmbed Profile",
-    href: full_url.merge(oembed_path(url: @get.url, format: 'json')).to_s
+    title: "oEmbed Profile: JSON",
+    href: full_url.merge(oembed_path(url: resource_url, format: 'json')).to_s
   },{
     rel: 'alternate',
     type: 'application/xml+oembed',
-    title: "#{@get.title} oEmbed Profile (XML)",
-    href: full_url.merge(oembed_path(url: @get.url, format: 'xml')).to_s
+    title: "oEmbed Profile: XML",
+    href: full_url.merge(oembed_path(url: resource_url, format: 'xml')).to_s
   }]
 
 -# inject into <head>!
