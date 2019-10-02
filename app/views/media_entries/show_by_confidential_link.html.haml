@@ -1,4 +1,6 @@
+:ruby
+  render('media_entries/_show/head_meta_tags')
+
 - content_for(:title_head) { @get.title }
 
 = react('Views.BaseTmpReact', { get: @get, action_name: action_name })
-
