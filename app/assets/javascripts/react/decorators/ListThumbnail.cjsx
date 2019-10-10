@@ -110,7 +110,10 @@ module.exports = React.createClass
       <ResourceIcon mediaType={mediaType} thumbnail={true} tiles={false}
         type={resourceType} overrideClasses='ui-thumbnail-image' />
 
-    thumbnailClass = f.kebabCase(resourceType.replace(/Collection/, 'MediaSet'))
+    thumbnailClass = [
+      f.kebabCase(resourceType.replace(/Collection/, 'MediaSet')),
+      'video' if mediaType is 'video'
+    ]
 
 
     actionLis = []
