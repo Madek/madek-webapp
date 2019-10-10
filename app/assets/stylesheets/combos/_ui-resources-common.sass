@@ -58,6 +58,12 @@
   color: $mono-mid
   font-size: $font-xs
 
+// fallback background for non-loaded/broken images
+.ui-resource
+  img
+    background-color: rgba(1.0, 1.0, 1.0, 0.3)
+    box-shadow: 0 0 150px #575757 inset
+
 // Active state
 
 .ui-thumbnail-privacy
