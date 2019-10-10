@@ -210,7 +210,10 @@ module.exports = React.createClass
       getMediaType(f.get(@props.get, 'media_file.content_type'))
 
     if @props.pinThumb
-      <li style={@props.style} className={cx('ui-resource', 'ui-selected': (selectProps and selectProps.isSelected))}>
+      do -> console.log get
+      <li style={@props.style} className={cx('ui-resource', {
+        'is-video': get.media_type == 'video', 'ui-selected': (selectProps and selectProps.isSelected)})
+      }>
         {@props.batchApplyButton}
         <PinThumbnail
           resourceType={@props.get.type}

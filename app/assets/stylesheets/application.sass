@@ -164,6 +164,8 @@
 @import uberadmin
 @import markdown
 @import _embedded
+
+@import video-js-theme
 /*-----------------------------------------
  *-----------------------------------------
 
@@ -226,3 +228,39 @@ img, img.ui-thumbnail-image
   #ui-resources-preview
     height: 300px
     overflow: auto
+
+
+// for Thumbs in Tile mode, show play icon on video entries
+$tile-play-btn-size: 8rem
+$tile-play-btn-border-size: 0.2rem
+.ui-resources.tiles
+  .ui-resource.is-video
+    img
+      // enforce minimum height for video thumbs,
+      // so that the play icon is not cut off
+      min-height: 160px
+
+    .ui-tile__thumbnail::before
+      // play icon from videojs icon font
+      font-family: VideoJS
+      font-weight: normal
+      font-style: normal
+      content: "\f101"
+
+      color: $primary-foreground-color
+
+      font-size: $tile-play-btn-size
+      border-radius: $tile-play-btn-size
+      line-height: $tile-play-btn-size
+      height: $tile-play-btn-size
+      width: $tile-play-btn-size
+      border: $tile-play-btn-border-size solid $primary-foreground-color
+      margin-left: -(($tile-play-btn-size + $tile-play-btn-border-size) / 2)
+      margin-top: -(($tile-play-btn-size + $tile-play-btn-border-size) / 2)
+      position: absolute
+      left: 50%
+      top: 50%
+
+      // same as player button hover styles
+      background-color: darken($primary-background-color, $button-bg-contrast-ratio)
+      background-color: transparentize(darken($primary-background-color, $button-bg-contrast-ratio), 0.3)
