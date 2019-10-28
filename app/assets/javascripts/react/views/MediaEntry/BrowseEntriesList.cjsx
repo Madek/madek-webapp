@@ -106,10 +106,10 @@ MediaResourcesLine = ({resources, children, authToken} = props)->
         <ul
           className='ui-featured-entries-list'
         >
-          {f.map(resources, ({uuid, url, image_url}) ->
+          {f.map(resources, ({uuid, url, image_url, media_type}) ->
             <li  key={uuid} className='ui-featured-entries-item'>
               <a
-                className='ui-featured-entry'
+                className={classList('ui-featured-entry', {"is-#{media_type}": !!media_type})}
                 href={url}
               >
                 <img src={image_url} />

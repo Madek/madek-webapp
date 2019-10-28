@@ -264,3 +264,34 @@ $tile-play-btn-border-size: 0.2rem
       // same as player button hover styles
       background-color: darken($primary-background-color, $button-bg-contrast-ratio)
       background-color: transparentize(darken($primary-background-color, $button-bg-contrast-ratio), 0.3)
+
+// for Thumbs in Featured, show play icon on video entries
+$feat-play-btn-size: 3.5rem
+$feat-play-btn-padding: 1.5rem
+$feat-play-btn-border-size: 0.2rem
+.ui-featured-entries .ui-featured-entry.is-video::before
+  // play icon from videojs icon font
+  font-family: VideoJS
+  font-weight: normal
+  font-style: normal
+  content: "\f101"
+
+  color: $primary-foreground-color
+
+  font-size: $feat-play-btn-size
+  border-radius: $feat-play-btn-size
+  line-height: $feat-play-btn-size
+  height: $feat-play-btn-size
+  width: $feat-play-btn-size
+  border: $feat-play-btn-border-size solid $primary-foreground-color
+  margin-left: -((($feat-play-btn-size + $feat-play-btn-border-size) / 2) + $feat-play-btn-padding)
+  margin-top: -((($feat-play-btn-size + $feat-play-btn-border-size) / 2) + $feat-play-btn-padding)
+  position: absolute
+  left: 50%
+  top: 50%
+  // only in this place the icon is to big(!?!), so needs some padding
+  padding: $feat-play-btn-padding
+
+  // same as player button hover styles
+  background-color: darken($primary-background-color, $button-bg-contrast-ratio)
+  background-color: transparentize(darken($primary-background-color, $button-bg-contrast-ratio), 0.3)

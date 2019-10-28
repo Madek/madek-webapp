@@ -178,10 +178,10 @@ MediaResourcesLine = ({keyword, asyncData} = props) ->
       <div className='ui-featured-entries small active'>
         <ul className='ui-featured-entries-list'>
           {
-            f.map(resources, ({uuid, url, browse_url, image_url}) ->
+            f.map(resources, ({uuid, url, browse_url, image_url, media_type}) ->
               <li key={keyword.uuid + '_' + uuid} className='ui-featured-entries-item'>
                 <a
-                  className='ui-featured-entry'
+                  className={classnames('ui-featured-entry', {"is-#{media_type}": !!media_type})}
                   href={url}
                 >
                   <img src={image_url} />

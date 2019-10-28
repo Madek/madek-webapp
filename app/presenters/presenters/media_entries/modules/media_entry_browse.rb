@@ -53,13 +53,13 @@ module Presenters
 
         # PERF: only dump needed data (only `image_url`, `url`!)
         def entries_by_id
-          wanted_props = [:uuid, :url, :image_url]
           @_entries_by_id ||= related_entries_by_shared_keywords
             .map do |dat|
-              e = MediaEntry.find_by_id(dat['id'])
-              raise ActiveRecord::RecordNotFound unless e
-              p = Presenters::MediaEntries::MediaEntryIndex.new(e, @user)
-              [e.id, p.dump(sparse_spec: wanted_props.map { |k| [k, {}] }.to_h)]
+          wanted_props = %i(uuid url image_url media_type)
+          e = MediaEntry.find_by_id(dat['id'])
+          raise ActiveRecord::RecordNotFound unless e
+          p = Presenters::MediaEntries::MediaEntryIndex.new(e, @user)
+          [e.id, p.dump(sparse_spec: wanted_props.map { |k| [k, {}] }.to_h)]
           end.to_h
         end
 
