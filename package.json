@@ -1,7 +1,6 @@
 {
   "name": "madek-webapp-ui",
   "description": "madek javascript toolchain",
-  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "npm run -s watch",
