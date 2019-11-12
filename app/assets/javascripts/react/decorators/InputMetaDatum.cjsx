@@ -6,6 +6,7 @@ InputResources = require('../lib/forms/input-resources.cjsx')
 InputTextDate = require('../lib/forms/InputTextDate.js').default
 InputKeywords = require('../lib/forms/input-keywords.cjsx')
 InputPeople = require('../lib/forms/input-people.cjsx')
+InputJsonText = require('../lib/forms/InputJsonText.js').default
 
 module.exports = React.createClass
   displayName: 'InputMetaDatum'
@@ -16,7 +17,7 @@ module.exports = React.createClass
   render: ({id, name, model} = @props)->
 
     resourceType = f.last(@props.metaKey.value_type.split('::'))
-    multiple = not (f.includes(['Text', 'TextDate'], resourceType))
+    multiple = not (f.includes(['Text', 'TextDate', 'JSON'], resourceType))
 
     values = f.map model.values, (value) ->
       value
@@ -36,6 +37,15 @@ module.exports = React.createClass
         name={name}
         values={values}
         subForms={@props.subForms}/>
+
+    else if resourceType == 'JSON'
+      <InputJsonText
+        metaKey={@props.metaKey}
+        id={id}
+        name={name}
+        values={values}
+        onChange={@props.onChange}
+        subForms={@props.subForms} />
 
     else if f.includes(['People', 'Roles'], resourceType)
 

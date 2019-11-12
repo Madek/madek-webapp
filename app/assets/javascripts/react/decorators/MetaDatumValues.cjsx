@@ -20,6 +20,14 @@ DecoratorsByType =
     <ul className='inline'>
       {values.map (string)-> <li key={string}>{string}</li>}</ul>
 
+  JSON: ({values} = @props)->
+    <ul className='inline ui-md-json'>{
+      values.map (obj, i)->
+        <li key={i}>
+          <pre className='code' style={{fontSize: '85%'}}>
+            {prettifyJson(obj)}</pre></li>
+    }</ul>
+
   People: ({values, tagMods} = @props)->
     <UI.TagCloud mod='person' mods='small' list={labelize(values)}/>
 
@@ -65,3 +73,10 @@ linkifyInnerHtml = (string)->
       if (type == 'url' && value.length > 50)
         value = value.slice(0, 50) + '…'
       return value)}
+
+prettifyJson = (obj)->
+  try
+    JSON.stringify(obj, 0, 2)
+  catch error
+    console.error("MetaDatumJSON: " + error)
+    String(obj)

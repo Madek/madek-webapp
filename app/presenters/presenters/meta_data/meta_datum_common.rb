@@ -22,6 +22,7 @@ module Presenters
       end
 
       def literal_values
+        return if @app_resource.is_a?(MetaDatum::JSON) # dont doubly include potentially huge text
         @literal_values ||= values.map { |v| v.is_a?(Presenter) ? v.uuid : v }
       end
 

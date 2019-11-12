@@ -38,10 +38,12 @@
 
         -# TODO: really check check if multiple allowed!
         - multiple_allowed = (@get.type != 'MetaDatum::Text')
+        - vals = @get.literal_values
+        - vals = @get.values if (@get.type == 'MetaDatum::JSON')
 
         = combo('form-group', mods: 'columned', label: label) do
           -# one field for every current value:
-          - @get.literal_values.each do |text_value|
+          - vals.each do |text_value|
             = text_field_tag("values[]", text_value,
                               class: :block, placeholder: placeholder_text)
           -# one field to add a value
