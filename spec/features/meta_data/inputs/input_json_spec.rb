@@ -37,7 +37,7 @@ feature 'Resource: MetaDatum' do
 
       # Check that the rendered HTML contains line breaks.
       expect(
-        find('.ui-media-overview-metadata').find('.media-data-content li pre')[:innerHTML]
+        find('.ui-media-overview-metadata').find('.media-data-content li textarea')[:innerHTML]
       ).to eq(TEST_DATA_OUT)
 
       # Check that the saved value has the right format.
