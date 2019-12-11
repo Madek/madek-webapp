@@ -133,6 +133,27 @@ module Presenters
         relation_siblings_media_entry_path(@app_resource)
       end
 
+      def rdf_export_urls
+        [
+          {
+            key: :rdf_xml,
+            label: 'RDF/XML',
+            url: meta_data_media_entry_path(@app_resource, format: 'xml')
+          },
+          {
+            key: :turtle,
+            label: 'Turtle',
+            url: meta_data_media_entry_path(@app_resource, format: 'ttl'),
+            plain_text_url: meta_data_media_entry_path(@app_resource, format: 'ttl', txt: 1)
+          },
+          {
+            key: :json_ld,
+            label: 'JSON-LD',
+            url: meta_data_media_entry_path(@app_resource, format: 'json')
+          }
+        ]
+      end
+
       private
 
       # NOTE: used by tab helper, because tab should not be shown if no relations
