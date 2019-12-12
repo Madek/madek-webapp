@@ -33,7 +33,6 @@ gem 'json-ld'
 gem 'rdf'
 gem 'rdf-rdfxml'
 gem 'equivalent-xml'
-gem 'nokogiri'
 
 # The rest
 gem 'bcrypt-ruby'

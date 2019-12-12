@@ -138,7 +138,8 @@ module Presenters
           {
             key: :rdf_xml,
             label: 'RDF/XML',
-            url: meta_data_media_entry_path(@app_resource, format: 'xml')
+            url: meta_data_media_entry_path(@app_resource, format: 'rdf'),
+            plain_text_url: meta_data_media_entry_path(@app_resource, format: 'rdf', txt: 1)
           },
           {
             key: :turtle,
@@ -149,7 +150,8 @@ module Presenters
           {
             key: :json_ld,
             label: 'JSON-LD',
-            url: meta_data_media_entry_path(@app_resource, format: 'json')
+            url: meta_data_media_entry_path(@app_resource, format: 'json'),
+            plain_text_url: meta_data_media_entry_path(@app_resource, format: 'json', txt: 1)
           }
         ]
       end

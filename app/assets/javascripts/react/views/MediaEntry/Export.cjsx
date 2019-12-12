@@ -25,7 +25,8 @@ module.exports = React.createClass
     section_rdf_export = <div>
       <h2 className="title-l ui-resource-title"
         style={{marginTop: '0px', marginLeft: '0px', marginBottom: '20px'}}>
-        {"RDF-Export (Metadaten)"}
+        {t('media_entry_export_rdf_title')}{' '}
+        <mark>{t('media_entry_export_rdf_title_hint')}</mark>
       </h2>
       <table className="block">
         <thead>
