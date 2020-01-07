@@ -7,6 +7,7 @@ InputTextDate = require('../lib/forms/InputTextDate.js').default
 InputKeywords = require('../lib/forms/input-keywords.cjsx')
 InputPeople = require('../lib/forms/input-people.cjsx')
 InputJsonText = require('../lib/forms/InputJsonText.js').default
+InputMediaEntry = require('../lib/forms/InputMediaEntry').default
 
 module.exports = React.createClass
   displayName: 'InputMetaDatum'
@@ -17,7 +18,7 @@ module.exports = React.createClass
   render: ({id, name, model} = @props)->
 
     resourceType = f.last(@props.metaKey.value_type.split('::'))
-    multiple = not (f.includes(['Text', 'TextDate', 'JSON'], resourceType))
+    multiple = not (f.includes(['Text', 'TextDate', 'JSON', 'MediaEntry'], resourceType))
 
     values = f.map model.values, (value) ->
       value
@@ -72,6 +73,17 @@ module.exports = React.createClass
         metaKey={@props.metaKey}
         contextKey={@props.contextKey}
         subForms={@props.subForms}/>
+
+    else if resourceType == 'MediaEntry'
+
+      <InputMediaEntry
+        meta_key={@props.metaKey}
+        onChange={@props.onChange}
+        id={id}
+        name={name}
+        values={values}
+        subForms={@props.subForms}
+      />
 
     else
       console.error "Unknown MetaDatum type!", resourceType

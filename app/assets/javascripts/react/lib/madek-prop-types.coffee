@@ -12,7 +12,8 @@ MKEY_REGEX = RegExp("^#{NAMESPACE_MATCH}:#{NAMESPACE_MATCH}$")
 META_DATUM_TYPES = [
     'MetaDatum::Text', 'MetaDatum::TextDate',
     'MetaDatum::People', 'MetaDatum::Roles',
-    'MetaDatum::Keywords', 'MetaDatum::JSON'
+    'MetaDatum::Keywords', 'MetaDatum::JSON',
+    'MetaDatum::MediaEntry'
   ]
 PEOPLE_SUBTYPES = ['Person', 'PeopleGroup', 'PeopleInstitutionalGroup']
 

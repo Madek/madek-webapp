@@ -60,6 +60,16 @@ DecoratorsByType =
   Keywords: ({values, tagMods} = @props)->
     <UI.TagCloud mod='label' mods='small' list={labelize(values)}/>
 
+  MediaEntry: ({values} = @props) ->
+    [resource, description] = f.get(values, '0')
+    { url, title, unAuthorized, notFound } = resource
+    <div>
+      <UI.Link href={url} className='link'>{title}</UI.Link>{' '}
+      {f.present(description) && <p>({description})</p>}
+      {!!unAuthorized && <p style={{fontStyle: 'italic'}}>{t('meta_datum_media_entry_value_unauthorized')}</p>}
+      {!!notFound && <p style={{fontStyle: 'italic'}}>{t('meta_datum_media_entry_value_not_found')}</p>}
+    </div>
+
 module.exports = React.createClass
   displayName: 'Deco.MetaDatumValues'
   propTypes:
@@ -68,8 +78,12 @@ module.exports = React.createClass
 
   render: (props = @props)->
     {type, values, api_data_stream_url, tagMods} = props.metaDatum
-    DecoratorByType = DecoratorsByType[f.trimLeft(type, 'MetaDatum::')]
-    <DecoratorByType values={values} tagMods={tagMods} apiUrl={api_data_stream_url}/>
+    DecoratorByType = DecoratorsByType[f.last(type.split('::'))]
+    <DecoratorByType
+      values={values}
+      tagMods={tagMods}
+      apiUrl={api_data_stream_url}
+    />
 
 
 # helpers

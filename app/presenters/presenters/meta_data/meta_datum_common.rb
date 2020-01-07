@@ -48,6 +48,21 @@ module Presenters
         end
       end
 
+      def indexify_media_entry(value)
+        id = value.other_media_entry_id
+        return unless id
+        entry = value.other_media_entry
+        # NOTE: when not found or authorized for viewing the referenced entry, only reveal the UUID
+        if entry and auth_policy(@user, entry).show?
+          Presenters::MediaEntries::MediaEntryIndex.new(entry, @user)
+        elsif entry
+          { title: id, url: media_entry_path(id: id), unAuthorized: true }
+        else
+          { title: id, url: media_entry_path(id: id), notFound: true }
+        end
+      end
+
+      # rubocop:disable Metrics/CyclomaticComplexity
       def indexify_if_necessary(value)
         case value.class.name
         when 'Person'
@@ -66,10 +81,13 @@ module Presenters
           Presenters::People::PersonIndexForRoles.new(value)
         when 'PersonWithRoles'
           Presenters::People::PersonIndexForRoles.new(value)
+        when 'MetaDatum::MediaEntry'
+          [indexify_media_entry(value), value.string.presence || '']
         else # all other values are "primitive/literal/unspecified":
           value
         end
       end
+      # rubocop:enable Metrics/CyclomaticComplexity
     end
   end
 end

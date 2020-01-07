@@ -21,8 +21,8 @@ describe Presenters::MediaEntries::BatchDiffQuery do
 
       context 'when values are different' do
         it 'counts correctly' do
-          create :media_entry_with_title, title: 'foobar'
-          create :media_entry_with_title, title: 'barfoo'
+          media_entry_1
+          media_entry_2
 
           described_class.diff(MediaEntry, media_entries)
 
@@ -204,10 +204,49 @@ describe Presenters::MediaEntries::BatchDiffQuery do
       end
     end
 
+    context 'MetaDatum::MediaEntry' do
+      context 'when values are equal' do
+        let(:common_media_entry) { create :media_entry_with_title }
+        let(:common_description) { Faker::Lorem.sentence }
+
+        it 'counts correctly' do
+          create(
+            :meta_datum_media_entry,
+            media_entry: media_entry_1,
+            other_media_entry: common_media_entry,
+            string: common_description)
+          create(
+            :meta_datum_media_entry,
+            media_entry: media_entry_2,
+            other_media_entry: common_media_entry,
+            string: common_description)
+
+          expect(result('test:media_entry')).to eq(
+            'meta_key_id' => 'test:media_entry',
+            'max' => 2,
+            'count' => 2
+          )
+        end
+      end
+
+      context 'when values are different' do
+        it 'counts correctly' do
+          create(:meta_datum_media_entry, media_entry: media_entry_1)
+          create(:meta_datum_media_entry, media_entry: media_entry_2)
+
+          expect(result('test:media_entry')).to eq(
+            'meta_key_id' => 'test:media_entry',
+            'max' => 1,
+            'count' => 2
+          )
+        end
+      end
+    end
+
     describe 'handling query for missing meta data type' do
       it 'raises error with missing meta data type' do
-        create :media_entry_with_title, title: 'foo'
-        create :media_entry_with_title, title: 'foo'
+        media_entry_1
+        media_entry_2
 
         expect do
           described_class.diff(MediaEntry, media_entries, covered_types: [])

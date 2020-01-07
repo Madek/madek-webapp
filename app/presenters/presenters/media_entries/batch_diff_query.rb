@@ -70,14 +70,20 @@ module Presenters
                     select
                       meta_data.meta_key_id as meta_key_id,
                       meta_data.#{singular}_id as #{singular}_id,
-                      (case when meta_data.type = 'MetaDatum::JSON' then meta_data.json::text else meta_data.string end) as string,
+                      (
+                        case
+                        when meta_data.type = 'MetaDatum::JSON' then meta_data.json::text
+                        when meta_data.type = 'MetaDatum::MediaEntry' then meta_data.other_media_entry_id || meta_data.string
+                        else meta_data.string
+                        end
+                      ) as string,
                       meta_data.type as meta_data_type
                     from
                       sub1,
                       meta_data
                     where
                       meta_data.#{singular}_id = sub1.id
-                      and (meta_data.type = ANY('{MetaDatum::Text,MetaDatum::TextDate,MetaDatum::JSON}'))
+                      and (meta_data.type = ANY('{MetaDatum::Text,MetaDatum::TextDate,MetaDatum::JSON,MetaDatum::MediaEntry}'))
                     order by
                       meta_data.meta_key_id,
                       meta_data.#{singular}_id,
@@ -201,6 +207,48 @@ module Presenters
         end
 
         def meta_datum_roles_query(singular)
+          <<-SQL
+            (
+              select
+                sub2.meta_key_id as meta_key_id, sub2.meta_data_type, sub2.value_ids as multi_values, null as single_value, count(sub2.#{singular}_id) as resource_count
+              from
+              (
+
+                select
+                  sub.meta_key_id, sub.#{singular}_id, sub.meta_data_type, array_agg(sub.person_role_id) as value_ids
+
+                from
+                (
+
+                  select
+                    meta_data.meta_key_id as meta_key_id, meta_data.#{singular}_id as #{singular}_id, ARRAY [meta_data_roles.person_id, meta_data_roles.role_id] as person_role_id, meta_data.type as meta_data_type
+                  from
+                    sub1,
+                    meta_data,
+                    meta_data_roles
+                  where
+                    meta_data.#{singular}_id = sub1.id
+                    and meta_data.type = 'MetaDatum::Roles'
+                    and meta_data_roles.meta_datum_id = meta_data.id
+                  order by
+                    meta_data.meta_key_id, meta_data.#{singular}_id, meta_data_roles.person_id, meta_data_roles.role_id
+
+                ) as sub
+
+                group by
+                  (sub.meta_key_id, sub.#{singular}_id, sub.meta_data_type)
+              ) as sub2
+
+              group by
+                (sub2.meta_key_id, sub2.value_ids, sub2.meta_data_type)
+
+              order by
+                meta_key_id asc, resource_count desc
+            )
+          SQL
+        end
+
+        def meta_datum_media_entry_query(singular)
           <<-SQL
             (
               select
