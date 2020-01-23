@@ -9,7 +9,7 @@ MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
 SuperBoxUpload = require('../../decorators/SuperBoxUpload.jsx')
 
 FileDrop = <div/> # client-side only
-UPLOAD_CONCURRENCY = 1
+UPLOAD_CONCURRENCY = 4
 
 # api see <https://www.npmjs.com/package/async#queue>
 UploadQueue = async.queue(((resource, callback)->
