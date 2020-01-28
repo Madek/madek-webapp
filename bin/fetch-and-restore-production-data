@@ -1,4 +1,4 @@
 #!/bin/bash
 mkdir -p tmp
 rsync --progress -vLe ssh root@medienarchiv.zhdk.ch:/opt/madekdata/backups/latest.pgbin tmp/latest.pgbin
-bundle exec rake db:pg:terminate_connections db:drop db:create db:pg:structure_and_data:restore FILE=tmp/latest.pgbin
+DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake db:pg:terminate_connections db:drop db:create db:pg:structure_and_data:restore FILE=tmp/latest.pgbin
