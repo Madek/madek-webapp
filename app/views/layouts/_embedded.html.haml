@@ -8,9 +8,13 @@
 
   lang = 'de-CH'
 
-  body_data = begin; { referer: @get[:embed_config].symbolize_keys[:referer_info] }; rescue; end || {}
+  body_data = begin; { 'referer-host': @get[:embed_config]['referer_info']['host'] }; rescue; end || {}
+
+  body_data = {:referer=>{'host' => 'www.zhdk.ch'}}
 
   title = ''
+
+  binding.pry
 
 !!!
 %html{lang: lang}
