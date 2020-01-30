@@ -1,4 +1,6 @@
-eval_gemfile Pathname(File.dirname(File.absolute_path(__FILE__))).join('datalayer', 'Gemfile')
+# common gems from datalayer, if checked out (otherwise GitHub cant parse this file!)
+SHARED_GEMFILE = './datalayer/Gemfile'
+eval_gemfile(SHARED_GEMFILE) if File.exists?(SHARED_GEMFILE)
 
 ruby '2.6.3'
 
