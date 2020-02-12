@@ -23,6 +23,13 @@ module Concerns
       resource
     end
 
+    def try_redirect_to_subsequent_resource
+      resource = model_klass.unscoped.find_by_previous_id(id_param)
+      raise unless resource
+      skip_authorization
+      redirect_to(block_given? ? yield(resource) : resource)
+    end
+
     def model_klass
       controller_name.classify.constantize
     end
