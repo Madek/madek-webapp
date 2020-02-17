@@ -1,4 +1,12 @@
 class WorkflowPolicy < DefaultPolicy
+  def index?
+    member_of_beta_tester_group?
+  end
+
+  def create?
+    member_of_beta_tester_group?
+  end
+
   def edit?
     creator? || owner?
   end
@@ -24,5 +32,9 @@ class WorkflowPolicy < DefaultPolicy
 
   def owner?
     record.owners.exists?(id: user.id)
+  end
+
+  def member_of_beta_tester_group?
+    user.groups.exists?('e12e1bc0-b29f-5e93-85d6-ff0aae9a9db0')
   end
 end

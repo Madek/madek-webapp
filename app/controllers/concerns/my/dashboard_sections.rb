@@ -26,7 +26,8 @@ module Concerns
             partial: :workflows,
             is_beta: true,
             hide_from_index: true,
-            href: my_dashboard_section_path(:workflows)
+            href: my_dashboard_section_path(:workflows),
+            is_accessible: policy(:workflow).index?
           },
           clipboard: {
             title: I18n.t(:sitemap_clipboard),

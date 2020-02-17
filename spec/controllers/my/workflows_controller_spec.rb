@@ -11,14 +11,29 @@ describe My::WorkflowsController do
     end
 
     context 'when user is logged in' do
-      before { get(:index, session: { user_id: user.id }) }
+      context 'when user is a member of the beta-tester group' do
+        before do
+          allow_any_instance_of(
+            Group.const_get(:ActiveRecord_Associations_CollectionProxy)
+          ).to receive(:exists?).and_return(true)
+          get(:index, session: { user_id: user.id })
+        end
 
-      it 'renders template' do
-        expect(response).to render_template('workflows/index')
+        it 'renders template' do
+          expect(response).to render_template('workflows/index')
+        end
+
+        it 'assigns a presenter to @get' do
+          expect(assigns(:get))
+            .to be_instance_of(Presenters::Users::DashboardSection)
+        end
       end
 
-      it 'assigns a presenter to @get' do
-        expect(assigns(:get)).to be_instance_of(Presenters::Users::DashboardSection)
+      context 'when user is not a member of the beta-tester group' do
+        it 'raises error' do
+          expect { get(:index, session: { user_id: user.id }) }
+            .to raise_error(Errors::ForbiddenError)
+        end
       end
     end
   end
@@ -31,16 +46,32 @@ describe My::WorkflowsController do
     end
 
     context 'when user is logged in' do
-      it 'renders template' do
-        get(:new, session: { user_id: user.id })
+      context 'when user is a member of the beta-tester group' do
+        before do
+          allow_any_instance_of(
+            Group.const_get(:ActiveRecord_Associations_CollectionProxy)
+          ).to receive(:exists?).and_return(true)
+        end
 
-        expect(response).to render_template('workflows/new')
+        it 'renders template' do
+          get(:new, session: { user_id: user.id })
+
+          expect(response).to render_template('workflows/new')
+        end
+
+        it 'assigns a presenter to @get' do
+          get(:new, session: { user_id: user.id })
+
+          expect(assigns[:get])
+            .to be_instance_of(Presenters::Users::DashboardSection)
+        end
       end
 
-      it 'assigns a presenter to @get' do
-        get(:new, session: { user_id: user.id })
-
-        expect(assigns[:get]).to be_instance_of(Presenters::Users::DashboardSection)
+      context 'when user is not a member of the beta-tester group' do
+        it 'raises error' do
+          expect { get(:new, session: { user_id: user.id }) }
+            .to raise_error(Errors::ForbiddenError)
+        end
       end
     end
   end
@@ -60,41 +91,59 @@ describe My::WorkflowsController do
     end
 
     context 'when user is logged in' do
-      before(:all) do
-        with_disabled_triggers do
-          MetaKey.find_by(id: 'madek_core:title') || create(:meta_key_core_title)
+      context 'when user is a member of the beta-tester group' do
+        before do
+          allow_any_instance_of(
+            Group.const_get(:ActiveRecord_Associations_CollectionProxy)
+          ).to receive(:exists?).and_return(true)
+        end
+        before(:all) do
+          with_disabled_triggers do
+            MetaKey.find_by(id: 'madek_core:title') || create(:meta_key_core_title)
+          end
+        end
+        after(:all) { truncate_tables }
+
+        it 'creates a workflow' do
+          expect do
+            post(
+              :create,
+              params: { workflow: { name: workflow.name } },
+              session: { user_id: user.id }
+            )
+          end.to change { Workflow.count }.by(1)
+        end
+
+        it 'creates a collection' do
+          expect do
+            post(
+              :create,
+              params: { workflow: { name: workflow.name } },
+              session: { user_id: user.id }
+            )
+          end.to change { Collection.count }.by(1)
+        end
+
+        it 'creates a collection with the same name' do
+          post(
+            :create,
+            params: { workflow: { name: workflow.name } },
+            session: { user_id: user.id }
+          )
+
+          expect(Workflow.first.master_collection.title).to eq(workflow.name)
         end
       end
-      after(:all) { truncate_tables }
 
-      it 'creates a workflow' do
-        expect do
-          post(
-            :create,
-            params: { workflow: { name: workflow.name } },
-            session: { user_id: user.id }
-          )
-        end.to change { Workflow.count }.by(1)
-      end
-
-      it 'creates a collection' do
-        expect do
-          post(
-            :create,
-            params: { workflow: { name: workflow.name } },
-            session: { user_id: user.id }
-          )
-        end.to change { Collection.count }.by(1)
-      end
-
-      it 'creates a collection with the same name' do
-        post(
-          :create,
-          params: { workflow: { name: workflow.name } },
-          session: { user_id: user.id }
-        )
-
-        expect(Workflow.first.master_collection.title).to eq(workflow.name)
+      context 'when user is not a member of the beta-tester group' do
+        it 'raises error' do
+          expect do
+            post(
+              :create,
+              params: { workflow: { name: workflow.name } }
+            )
+          end.to raise_error(Errors::UnauthorizedError)
+        end
       end
     end
   end

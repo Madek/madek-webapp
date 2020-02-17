@@ -4,6 +4,7 @@ class My::WorkflowsController < ApplicationController
   before_action { auth_authorize(:dashboard, :logged_in?) }
 
   def index
+    auth_authorize :workflow
     @get =
       Presenters::Users::DashboardSection.new(
         Presenters::Workflows::WorkflowIndex.new(current_user),
@@ -14,6 +15,7 @@ class My::WorkflowsController < ApplicationController
   end
 
   def new
+    auth_authorize :workflow
     @get =
       Presenters::Users::DashboardSection.new(
         Presenters::Workflows::WorkflowNew.new(Workflow.new, current_user),
@@ -24,6 +26,7 @@ class My::WorkflowsController < ApplicationController
   end
 
   def create
+    auth_authorize :workflow
     WorkflowCreator.new(workflow_params, current_user).call
 
     redirect_to my_workflows_path, notice: 'Workflow has been created successfully.'

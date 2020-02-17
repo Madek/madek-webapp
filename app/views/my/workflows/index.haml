@@ -1,11 +1,11 @@
 :ruby
   content_for(:page_header) do
     component('page-header',
-              text: 'My Workflows',
+              text: t(:workflows_index_header),
               icon: capture_haml { haml_tag('i.fa.fa-flask') },
               actions: [
                 component('button.primary', link: new_my_workflow_path,
-                                            text: 'New workflow')
+                                            text: t(:workflows_index_actions_new))
               ])
   end
 

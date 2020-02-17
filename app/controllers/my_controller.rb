@@ -139,8 +139,13 @@ class MyController < ApplicationController
     section
   end
 
+  def select_accessible_sections
+    sections_definition
+      .reject { |_, attrs| attrs.fetch(:is_accessible, true) == false }
+  end
+
   def create_sections
-    sections_definition.map do |id, s|
+    select_accessible_sections.map do |id, s|
       [id, s.merge(id: id)]
     end.to_h
   end
