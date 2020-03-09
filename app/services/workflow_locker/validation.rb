@@ -5,22 +5,34 @@ module WorkflowLocker
     private
 
     def required_context_keys(resource)
+      return @required_context_keys if @required_context_keys
       if resource.is_a?(Collection)
-        [
-          meta_key_id: 'madek_core:title'
-        ]
+        [meta_key_id: 'madek_core:title']
       else
-        @required_context_keys ||= (
-          app_settings = AppSetting.first
-          context = app_settings.contexts_for_entry_validation.first
-          context.context_keys.where(is_required: true)
-        )
+        @required_context_keys =
+          (
+            app_settings = AppSetting.first
+            context = app_settings.contexts_for_entry_validation.first
+            context.context_keys.where(is_required: true)
+          )
+            .to_a
+
+        if (workflow = resource.try(:workflow))
+          @required_context_keys.concat(
+            workflow.mandatory_meta_key_ids.map { |mk| { meta_key_id: mk } }
+          )
+        end
       end
     end
 
-    def error_message(context_key)
-      Presenters::ContextKeys::ContextKeyCommon.new(context_key).label +
-        ' is missing'
+    def error_message(key)
+      label =
+        if key.is_a?(ContextKey)
+          Presenters::ContextKeys::ContextKeyCommon.new(key).label
+        else
+          Presenters::MetaKeys::MetaKeyCommon.new(MetaKey.find_by!(id: key[:meta_key_id])).label
+        end
+      label + ' is missing'
     end
 
     def validate_and_publish!
@@ -28,21 +40,17 @@ module WorkflowLocker
         resource = nested_resource.cast_to_type.reload
         has_errors = false
         required_context_keys(resource).each do |rck|
-          next if resource.meta_data.find_by(meta_key_id: rck.meta_key_id)
+          next if resource.meta_data.find_by(meta_key_id: rck[:meta_key_id])
 
           has_errors = true
           @errors[resource.title] ||= []
           @errors[resource.title] << error_message(rck)
         end
 
-        if resource.is_a?(MediaEntry) && !has_errors
-          resource.update!(is_published: true)
-        end
+        resource.update!(is_published: true) if resource.is_a?(MediaEntry) && !has_errors
       end
 
-      unless @errors.blank?
-        raise ValidationError
-      end
+      raise ValidationError unless @errors.blank?
     end
   end
 end

@@ -22,7 +22,10 @@ module.exports = React.createClass
   propTypes:
     # appCollection: TODO: <Model>
     get: React.PropTypes.shape({
-      next_url: React.PropTypes.string.isRequired
+      next_step: React.PropTypes.shape({
+        label: React.PropTypes.string.isRequired,
+        url: React.PropTypes.string.isRequired
+      }).isRequired
     }).isRequired
 
   getInitialState: ()->
@@ -98,9 +101,9 @@ module.exports = React.createClass
         <Button
           mod='primary'
           mods='large'
-          href={props.get.next_url}
+          href={props.get.next_step.url}
           disabled={state.uploading}>
-          {t('media_entry_media_import_gotodrafts')}
+          {props.get.next_step.label}
         </Button>
       </ActionsBar>
 

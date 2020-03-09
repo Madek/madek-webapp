@@ -16,60 +16,15 @@ import InputMetaDatum from '../../decorators/InputMetaDatum.cjsx'
 import WorkflowCommonPermissions from '../../decorators/WorkflowCommonPermissions'
 import RailsForm from '../../lib/forms/rails-form.cjsx'
 import appRequest from '../../../lib/app-request.coffee'
-// import ui from '../../lib/ui.coffee'
-// const t = ui.t
+import { Let, IfLet } from '../../lib/lets'
 import I18nTranslate from '../../../lib/i18n-translate'
 import labelize from '../../../lib/labelize'
 let AutoComplete = false // client-side only!
+const t = I18nTranslate
 
 // const fakeCallback = (a, b, c) => console.log([a, b, c]) // eslint-disable-line
 const DEBUG_STATE = false // set to true when developing or debugging forms with state!
-
-// TODO: move to translations.csv
-const UI_TXT = {
-  feature_title: { de: 'Prozess', en: 'Workflow' },
-
-  associated_collections_title: { de: 'Set mit Inhalten', en: 'Set with content' },
-  associated_collections_explain: {
-    de: `In diesem Set enthaltene Inhalte können vor dem Abschluss nur als Teil dieses Prozesses bearbeitet werden.`,
-    en: `Content contained in this set may only be considered as part of this workflow prior to completion to be edited.`
-  },
-  associated_collections_upload: { de: 'Medien hinzufügen', en: 'Add media' },
-
-  workflow_owners_title: { de: 'Prozess-Besitzer', en: 'Workflow owners' },
-
-  common_settings_title: { de: 'Gemeinsamer Datensatz', en: 'Common data' },
-  common_settings_explain: {
-    de: `Diese Daten und Einstellungen gelten für alle enthaltenen Inhalte und werden bei
-     Prozessabschluss permanent angewendet.`,
-    en: `These data and settings apply to all contents and are permanently applied at the end of the process.`
-  },
-  common_settings_permissions_title: { de: 'Berechtigungen', en: 'Permissions' },
-  common_settings_permissions_responsible: { de: 'Verantwortlich', en: 'Responsible' },
-  common_settings_permissions_write: { de: 'Schreib- und Leserechte', en: 'Read and write rights' },
-  common_settings_permissions_read: { de: 'Nur Leserechte', en: 'Only reading rights' },
-  common_settings_permissions_read_public: { de: 'Öffentlicher Zugriff', en: 'Public access' },
-  common_settings_permissions_select_user: { de: 'Nutzer auswählen', en: 'Select user' },
-  common_settings_permissions_add_user: { de: 'Nutzer hinzufügen', en: 'Add user' },
-  common_settings_permissions_add_group: { de: 'Gruppe hinzufügen', en: 'Add group' },
-  common_settings_permissions_add_api_client: { de: 'API-Client hinzufügen', en: 'Add API-Client' },
-  common_settings_metadata_title: { de: 'MetaDaten', en: 'MetaData' },
-
-  actions_back: { de: 'Zurück', en: 'Go back' },
-  actions_validate: { de: 'Prüfen', en: 'Check' },
-  actions_validating: { de: 'Prüfen…', en: 'Checking…' },
-  actions_finish: { de: 'Abschliessen…', en: 'Finish…' },
-
-  add_md_by_metakey: { de: 'Hinzufügen', en: 'Add' },
-  adder_meta_key_already_used: { de: 'Metakey ist schon verwendet', en: 'Metakey already used' }
-}
-
-const t = key => {
-  /* global APP_CONFIG */
-  // FIXME: only works client-side for now, hardcode a fallback…
-  const locale = f.get(APP_CONFIG, 'userLanguage') || 'de'
-  return f.get(UI_TXT, [key, locale]) || I18nTranslate(key)
-}
+const HIDE_OVERRIDABLE_TOGGLE = true
 
 class WorkflowEdit extends React.Component {
   constructor(props) {
@@ -130,7 +85,7 @@ class WorkflowEdit extends React.Component {
         alert('ERROR! ' + JSON.stringify(err))
         return this.setState({ ...finalState, ownersUpdateError: err })
       }
-      console.log({ res }) // eslint-disable-line no-console
+      DEBUG_STATE && console.log({ res }) // eslint-disable-line no-console
       const workflowOwners = f.get(res, 'body.workflow_owners')
       this.setState({ ...finalState, workflowOwners })
     })
@@ -150,8 +105,8 @@ class WorkflowEdit extends React.Component {
     this.setState({ isSavingPermissions: true })
 
     function prepareData(obj) {
-      const { uuid, type } = obj;
-      return { uuid, type };
+      const { uuid, type } = obj
+      return { uuid, type }
     }
 
     // tranform form data into what is sent to server:
@@ -172,7 +127,7 @@ class WorkflowEdit extends React.Component {
         alert('ERROR! ' + JSON.stringify(err))
         return this.setState({ ...finalState, permissionsUpdateError: err })
       }
-      console.log({ res }) // eslint-disable-line no-console
+      DEBUG_STATE && console.log({ res }) // eslint-disable-line no-console
       const commonPermissions = f.get(res, 'body.common_settings.permissions')
       this.setState({ ...finalState, commonPermissions })
     })
@@ -217,7 +172,10 @@ class WorkflowEdit extends React.Component {
       workflow: {
         common_meta_data: f.map(commonMetadata, md => ({
           meta_key_id: md.meta_key.uuid,
-          value: f.map(md.value, prepareValue)
+          value: f.map(md.value, prepareValue),
+          is_common: md.is_common,
+          is_mandatory: md.is_mandatory,
+          is_overridable: md.is_overridable
         }))
       }
     }
@@ -228,7 +186,7 @@ class WorkflowEdit extends React.Component {
         alert('ERROR! ' + JSON.stringify(err))
         return this.setState({ finalState, metaDataUpdateError: err })
       }
-      console.log({ res }) // eslint-disable-line no-console
+      DEBUG_STATE && console.log({ res }) // eslint-disable-line no-console
       const commonMetadata = f.get(res, 'body.common_settings.meta_data')
       this.setState({ ...finalState, commonMetadata })
     })
@@ -253,7 +211,7 @@ class WorkflowEdit extends React.Component {
         alert('ERROR! ' + JSON.stringify(err))
         return this.setState({ finalState, metaDataUpdateError: err })
       }
-      console.log({ res }) // eslint-disable-line no-console
+      DEBUG_STATE && console.log({ res }) // eslint-disable-line no-console
       this.setState({ ...finalState, name: f.get(res, 'body.name') })
     })
   }
@@ -265,7 +223,7 @@ class WorkflowEdit extends React.Component {
     this.setState({ isProcessing: true })
   }
 
-  handlePreviewClick(e) {
+  handlePreviewClick() {
     this.setState({ isPreviewing: true })
   }
 
@@ -287,7 +245,7 @@ class WorkflowEdit extends React.Component {
 
 const WorkflowEditor = ({
   name,
-  status,
+  // status,
   authToken,
 
   get, // FIXME: remove this, replace with named props
@@ -330,7 +288,7 @@ const WorkflowEditor = ({
   return (
     <section className="ui-container bright bordered rounded mas pam">
       <header>
-        <span style={supHeadStyle}>{t('feature_title')}</span>
+        <span style={supHeadStyle}>{t('workflow_feature_title')}</span>
         {!isEditingName ? (
           <h1 className="title-l" style={headStyle}>
             {name}
@@ -351,10 +309,10 @@ const WorkflowEditor = ({
       <div>
         <SubSection>
           <SubSection.Title tag="h2" className="title-m mts">
-            {t('associated_collections_title')}
+            {t('workflow_associated_collections_title')}
           </SubSection.Title>
 
-          <Explainer>{t('associated_collections_explain')}</Explainer>
+          <Explainer>{t('workflow_associated_collections_explain')}</Explainer>
 
           <div>
             <div className="ui-resources miniature" style={{ margin: 0 }}>
@@ -367,20 +325,20 @@ const WorkflowEditor = ({
               <div className="button-group small mas">
                 <a className="tertiary-button" href={get.actions.upload.url}>
                   <span>
-                    <i className="icon-upload"></i>
+                    <i className="icon-upload" />
                   </span>{' '}
-                  {t('associated_collections_upload')}
+                  {t('workflow_associated_collections_upload')}
                 </a>
-              </div>)
-            }
+              </div>
+            )}
           </div>
         </SubSection>
 
         <SubSection>
           <SubSection.Title tag="h2" className="title-m mts">
-            {t('workflow_owners_title')}
+            {t('workflow_owners_title')}{' '}
+            {canEditOwners && !isEditingOwners && <EditButton onClick={onToggleEditOwners} />}
           </SubSection.Title>
-          {canEditOwners && <EditButton onClick={onToggleEditOwners} />}
           {isEditingOwners ? (
             <OwnersEditor
               workflowOwners={workflowOwners}
@@ -396,16 +354,20 @@ const WorkflowEditor = ({
 
         <SubSection>
           <SubSection.Title tag="h2" className="title-m mts">
-            {t('common_settings_title')}
+            {t('workflow_common_settings_title')}
           </SubSection.Title>
 
-          <Explainer>{t('common_settings_explain')}</Explainer>
+          <Explainer>{t('workflow_common_settings_explain')}</Explainer>
 
           <h3 className="title-s mts">
-            {t('common_settings_permissions_title')}
+            {t('workflow_common_settings_permissions_title')}
             {'  '}
             {!isEditingPermissions && canEdit && <EditButton onClick={onToggleEditPermissions} />}
           </h3>
+
+          <IfLet txt={t('workflow_common_settings_explain_permissions')}>
+            {txt => <Explainer className="mbs">{txt}</Explainer>}
+          </IfLet>
 
           {isEditingPermissions ? (
             <PermissionsEditor
@@ -420,10 +382,14 @@ const WorkflowEditor = ({
           )}
 
           <h3 className="title-s mts">
-            {t('common_settings_metadata_title')}
+            {t('workflow_common_settings_metadata_title')}
             {'  '}
             {!isEditingPermissions && canEdit && <EditButton onClick={onToggleEditMetadata} />}
           </h3>
+
+          <IfLet txt={t('workflow_common_settings_explain_metadata')}>
+            {txt => <Explainer className="mbs">{txt}</Explainer>}
+          </IfLet>
 
           {isEditingMetadata ? (
             <MetadataEditor
@@ -434,33 +400,99 @@ const WorkflowEditor = ({
               onSave={onSaveMetadata}
             />
           ) : (
-            <ul>
-              {commonMetadata.map(({ meta_key, value }) => {
-                return <li key={meta_key.uuid}>
-                  <b>{meta_key.label}:</b>
-                  {' '}
-                  {f.has(value, '0.string') ? (
-                    value[0].string
-                  ) : (
-                    <UI.TagCloud mod="person" mods="small inline" list={labelize(value)} />
-                  )}
-                </li>
-              })}
-            </ul>
+            <Let firstColStyle={{ width: '18rem' }}>
+              {({ firstColStyle }) => (
+                <table>
+                  <thead>
+                    <tr>
+                      <th className="prs" style={firstColStyle}>
+                        MetaKey
+                      </th>
+                      <th className="prs">Pflichtfeld</th>
+                      <th>Wert</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {commonMetadata.map(
+                      ({ meta_key, value, is_common, is_mandatory /*, is_overridable*/ }) => {
+                        const decoValues = f.isEmpty(value) ? (
+                          false
+                        ) : f.has(value, '0.string') ? (
+                          value[0].string
+                        ) : (
+                          <UI.TagCloud mods="small inline" list={labelize(value)} />
+                        )
+
+                        const hasValueError =
+                          is_common && is_mandatory && !isNonEmptyMetaDatumValue(value)
+
+                        return (
+                          <tr key={meta_key.uuid}>
+                            <th className="prs" style={firstColStyle}>
+                              <span title={meta_key.uuid}>{meta_key.label}</span>
+                            </th>
+                            <th className="prs text-center">
+                              {is_mandatory ? (
+                                <UI.Icon i="checkmark" title="Pflichtfeld" />
+                              ) : (
+                                <UI.Icon i="close" />
+                              )}
+                            </th>
+                            <th
+                              className={cx('prs', { 'bg-error text-error pls ': hasValueError })}>
+                              {is_common ? (
+                                decoValues ? (
+                                  <details>
+                                    <summary className="font-italic">
+                                      {t('workflow_md_edit_is_common')}
+                                      <b>{t('workflow_md_edit_is_common_nonempty')}</b>
+                                    </summary>
+                                    {decoValues}
+                                  </details>
+                                ) : (
+                                  <div>
+                                    {hasValueError && (
+                                      <UI.Icon
+                                        i="bang"
+                                        title={t('workflow_md_edit_value_error_notice')}
+                                        className="prs"
+                                      />
+                                    )}
+                                    <em className="font-italic">
+                                      {t('workflow_md_edit_is_common')}
+                                      <b>{t('workflow_md_edit_is_common_empty')}</b>
+                                    </em>
+                                  </div>
+                                )
+                              ) : (
+                                <em className="font-italic">
+                                  {t('workflow_md_edit_is_not_common')}
+                                </em>
+                              )}
+                            </th>
+                          </tr>
+                        )
+                      }
+                    )}
+                  </tbody>
+                </table>
+              )}
+            </Let>
           )}
         </SubSection>
       </div>
 
       <div className="ui-actions phl pbl mtl">
         <a className="link weak" href={get.actions.index.url}>
-          {t('actions_back')}
+          {t('workflow_actions_back')}
         </a>
         <a
           className={cx('button large', { disabled: isProcessing })}
           href={get.actions.fill_data.url}
-          onClick={handleFillDataClick}
-        >
-          {isProcessing ? 'Processing...' : 'Fill Data'}
+          onClick={handleFillDataClick}>
+          {isProcessing
+            ? t('workflow_edit_actions_processing')
+            : t('workflow_edit_actions_fill_data')}
         </a>
         <PreviewButton
           canPreview={canPreview}
@@ -471,7 +503,7 @@ const WorkflowEditor = ({
         />
         {/*
         <button className="tertiary-button large" type="button">
-          {t('actions_validate')}
+          {t('workflow_actions_validate')}
         </button>
         */}
         {canEdit && false && (
@@ -483,7 +515,7 @@ const WorkflowEditor = ({
             authToken={authToken}>
             {' '}
             <button className="primary-button large" type="submit" disabled={isEditing}>
-              {t('actions_finish')}
+              {t('workflow_actions_finish')}
             </button>
           </RailsForm>
         )}
@@ -499,22 +531,20 @@ class MetadataEditor extends React.Component {
     super(props)
     this.state = { md: this.props.commonMetadata }
     AutoComplete = AutoComplete || require('../../lib/autocomplete.cjsx')
-    this.onChangeMdValue = this.onChangeMdValue.bind(this)
+    this.onChangeMdAttr = this.onChangeMdAttr.bind(this)
     this.onAddMdByMk = this.onAddMdByMk.bind(this)
     this.onRemoveMd = this.onRemoveMd.bind(this)
   }
-
-  onChangeMdValue(name, value) {
-    // change value in metadata list where `name` of input matches MetaKey `id`
+  onChangeMdAttr(name, attr, val) {
+    // change attribute in metadata list where `name` of input matches MetaKey `id`
     this.setState(cur => ({
-      md: cur.md.map(md => (md.meta_key.uuid !== name ? md : { ...md, value: f.compact(value) }))
+      md: cur.md.map(md => (md.meta_key.uuid !== name ? md : { ...md, [attr]: val }))
     }))
   }
   onAddMdByMk(mk) {
     // add to metadata list for the MetaKey provided by the automcomplete/searcher.
     const alreadyExists = f.any(this.state.md, md => f.get(mk, 'uuid') === md.meta_key.uuid)
     if (alreadyExists) return false
-    // debugger // eslint-disable-line no-debugger
     this.setState(cur => ({ md: cur.md.concat([{ meta_key: mk }]) }))
   }
   onRemoveMd(md) {
@@ -534,6 +564,12 @@ class MetadataEditor extends React.Component {
     const { onSave, onCancel, isSaving } = props
     const langParam = { lang: currentLocale() }
 
+    const legendExplains = [
+      [t('workflow_md_edit_is_common'), t('workflow_md_edit_is_common_explanation')],
+      [t('workflow_md_edit_is_mandatory'), t('workflow_md_edit_is_mandatory_explanation')],
+      [t('workflow_md_edit_remove_btn'), t('workflow_md_edit_remove_explain')]
+    ]
+
     return (
       <div>
         {!!isSaving && <SaveBusySignal />}
@@ -543,43 +579,132 @@ class MetadataEditor extends React.Component {
             e.preventDefault()
             onSave(this.state.md)
           }}>
-          <ul className="pvs">
+          <div>
+            <dl className="measure-wide">
+              <span className="font-italic">Legende:</span>
+              {f.flatten(
+                f.map(legendExplains, ([dt, dd], i) => [
+                  <dt key={'t' + i} className="font-bold">
+                    {dt}
+                  </dt>,
+                  <dd key={'d' + i} className="font-italic plm">
+                    {dd}
+                  </dd>
+                ])
+              )}
+            </dl>
+          </div>
+          <div className="pvs" style={{ marginLeft: '-10px' }}>
             {state.md.map((md, i) => (
-              <Let key={i} name={md.meta_key.uuid} inputId={`emk_${md.meta_key.uuid}`}>
-                {({ name, inputId }) => (
-                  <li className="ui-form-group pan pts columned">
-                    <div className="form-label">
-                      <label htmlFor={inputId}>{md.meta_key.label}</label>
-                      <button
-                        type="button"
-                        className="button small db"
-                        onClick={() => this.onRemoveMd(md)}>
-                        DEL
-                      </button>
+              <Let
+                key={i}
+                name={md.meta_key.uuid}
+                inputId={`emk_${md.meta_key.uuid}`}
+                mdValue={this.prepareMdValue(md.value)}>
+                {({ name, inputId, mdValue }) => (
+                  <div>
+                    <div
+                      className={cx('ui-form-group  pvs columned', {
+                        error: md.is_common && md.is_mandatory && !isNonEmptyMetaDatumValue(mdValue)
+                      })}>
+                      <div className="form-label">
+                        <label htmlFor={inputId}>{md.meta_key.label}</label>
+                        <span style={{ fontWeight: 'normal', display: 'block' }}>
+                          <small>({md.meta_key.uuid.split(':').join(':\u200B')})</small>
+                        </span>
+                        <div className="mts">
+                          <button
+                            type="button"
+                            className="button small db mts"
+                            onClick={() => this.onRemoveMd(md)}>
+                            {t('workflow_md_edit_remove_btn')}
+                          </button>{' '}
+                        </div>
+                      </div>
+
+                      <div className="form-item">
+                        <div className={cx('mbs', !!md.is_common && 'separated pbs')}>
+                          <label>
+                            <input
+                              type="checkbox"
+                              name="is_common"
+                              checked={!!md.is_common}
+                              onChange={e =>
+                                this.onChangeMdAttr(name, 'is_common', f.get(e, 'target.checked'))
+                              }
+                            />{' '}
+                            {t('workflow_md_edit_is_common')}
+                          </label>
+                          <br />
+                          {!HIDE_OVERRIDABLE_TOGGLE && (
+                            <div>
+                              <label>
+                                <input
+                                  type="checkbox"
+                                  name="is_overridable"
+                                  checked={!!md.is_overridable}
+                                  onChange={e =>
+                                    this.onChangeMdAttr(
+                                      name,
+                                      'is_overridable',
+                                      f.get(e, 'target.checked')
+                                    )
+                                  }
+                                />{' '}
+                                {t('workflow_md_edit_is_overridable')}
+                              </label>
+                              <br />
+                            </div>
+                          )}
+                          <label>
+                            <input
+                              type="checkbox"
+                              name="is_mandatory"
+                              checked={!!md.is_mandatory}
+                              onChange={e =>
+                                this.onChangeMdAttr(
+                                  name,
+                                  'is_mandatory',
+                                  f.get(e, 'target.checked')
+                                )
+                              }
+                            />{' '}
+                            {t('workflow_md_edit_is_mandatory')}
+                          </label>
+                        </div>
+
+                        {!!md.is_common && (
+                          <fieldset title="wert">
+                            <legend className="font-italic">Fixen Wert vergeben:</legend>
+                            <InputMetaDatum
+                              key="item"
+                              id={inputId}
+                              metaKey={md.meta_key}
+                              // NOTE: with plural values this array around value should be removed
+                              model={{ values: mdValue }}
+                              name={name}
+                              onChange={val => this.onChangeMdAttr(name, 'value', f.compact(val))}
+                            />
+                          </fieldset>
+                        )}
+                      </div>
                     </div>
-                    <InputMetaDatum
-                      id={inputId}
-                      metaKey={md.meta_key}
-                      // NOTE: with plural values this array around value should be removed
-                      model={{ values: this.prepareMdValue(md.value) }}
-                      name={name}
-                      onChange={val => this.onChangeMdValue(name, val)}
-                    />
-                  </li>
+                  </div>
                 )}
               </Let>
             ))}
-          </ul>
+          </div>
+
           <div>
-            {t('add_md_by_metakey')}
+            {t('workflow_add_md_by_metakey')}
             <span style={{ position: 'relative' }}>
               <AutoComplete
-                className="block"
+                className="block mbs"
                 name="add-meta-key"
                 resourceType="MetaKeys"
                 searchParams={langParam}
                 onSelect={this.onAddMdByMk}
-                existingValueHint={t('adder_meta_key_already_used')}
+                existingValueHint={t('workflow_adder_meta_key_already_used')}
                 valueFilter={val => f.any(state.md, md => f.get(val, 'uuid') === md.meta_key.uuid)}
               />
             </span>
@@ -646,16 +771,19 @@ class PermissionsEditor extends React.Component {
           }}>
           <ul>
             <li>
-              <span className="title-s">{t('common_settings_permissions_responsible')}: </span>
+              <span className="title-s">
+                {t('workflow_common_settings_permissions_responsible')}:{' '}
+              </span>
               <UI.TagCloud
                 mod="person"
                 mods="small inline"
                 list={labelize([state.responsible], {
                   onDelete: this.onRemoveResponsible
-                })} />
+                })}
+              />
               <div className="row">
                 <div className="col1of3">
-                  {t('common_settings_permissions_select_user')}:{' '}
+                  {t('workflow_common_settings_permissions_select_user')}:{' '}
                   <AutocompleteAdder
                     type="Users"
                     onSelect={this.onSetResponsible}
@@ -666,7 +794,7 @@ class PermissionsEditor extends React.Component {
             </li>
             <li>
               <span className="title-s">
-                {t('common_settings_permissions_write')}
+                {t('workflow_common_settings_permissions_write')}
                 {': '}
               </span>
               <UI.TagCloud
@@ -676,11 +804,14 @@ class PermissionsEditor extends React.Component {
                   onDelete: f.curry(this.onRemovePermissionEntity)('write')
                 })}
               />
-              <MultiAdder onAdd={f.curry(this.onAddPermissionEntity)('write')} permissionsScope='write' />
+              <MultiAdder
+                onAdd={f.curry(this.onAddPermissionEntity)('write')}
+                permissionsScope="write"
+              />
             </li>
             <li>
               <span className="title-s">
-                {t('common_settings_permissions_read')}
+                {t('workflow_common_settings_permissions_read')}
                 {': '}
               </span>
               <UI.TagCloud
@@ -688,12 +819,16 @@ class PermissionsEditor extends React.Component {
                 mods="small inline"
                 list={labelize(state.read, {
                   onDelete: f.curry(this.onRemovePermissionEntity)('read')
-                })} />
-              <MultiAdder onAdd={f.curry(this.onAddPermissionEntity)('read')} permissionsScope='read' />
+                })}
+              />
+              <MultiAdder
+                onAdd={f.curry(this.onAddPermissionEntity)('read')}
+                permissionsScope="read"
+              />
             </li>
             <li>
               <span className="title-s">
-                {t('common_settings_permissions_read_public')}
+                {t('workflow_common_settings_permissions_read_public')}
                 {': '}
               </span>
               <input
@@ -788,7 +923,11 @@ class OwnersEditor extends React.Component {
     return (
       <div>
         {!!props.isSaving && <SaveBusySignal />}
-        <form onSubmit={(e) => { e.preventDefault(); props.onSave(state.owners) }}>
+        <form
+          onSubmit={e => {
+            e.preventDefault()
+            props.onSave(state.owners)
+          }}>
           <UI.TagCloud
             mod="person"
             mods="small"
@@ -799,11 +938,11 @@ class OwnersEditor extends React.Component {
           />
           <div className="row">
             <div className="col1of3">
-              {t('common_settings_permissions_select_user')}:{' '}
+              {t('workflow_common_settings_permissions_select_user')}:{' '}
               <AutocompleteAdder
                 type="Users"
                 onSelect={this.onAddOwner}
-                valueFilter={({ uuid }) => f.includes(f.map(this.state.owners, 'uuid'), uuid) }
+                valueFilter={({ uuid }) => f.includes(f.map(this.state.owners, 'uuid'), uuid)}
               />
             </div>
           </div>
@@ -821,8 +960,8 @@ class OwnersEditor extends React.Component {
   }
 }
 
-const Explainer = ({ children }) => (
-  <p className="paragraph-s mts measure-wide" style={{ fontStyle: 'italic' }}>
+const Explainer = ({ className, children }) => (
+  <p className={cx('paragraph-s mts measure-wide', className)} style={{ fontStyle: 'italic' }}>
     {children}
   </p>
 )
@@ -840,28 +979,23 @@ const EditButton = ({ onClick, icon = 'icon-pen', ...props }) => {
 
 const PreviewButton = ({ handleClick, canPreview, isEditing, isPreviewing, previewUrl }) => {
   const cssClasses = cx('primary-button large', { disabled: isEditing || isPreviewing })
-  const disabledButton = <div className={cssClasses}>
-    {isPreviewing ? t('actions_validating') : t('actions_validate')}
-  </div>
-  const regularButton = <a className={cssClasses} href={previewUrl} onClick={handleClick}>
-    {t('actions_validate')}
-  </a>
-
-  return (
-    canPreview && (
-      (isEditing || isPreviewing) ? (
-        disabledButton
-      ) : (
-        regularButton
-      )
-    )
+  const disabledButton = (
+    <div className={cssClasses}>
+      {isPreviewing ? t('workflow_actions_validating') : t('workflow_actions_validate')}
+    </div>
   )
+  const regularButton = (
+    <a className={cssClasses} href={previewUrl} onClick={handleClick}>
+      {t('workflow_actions_validate')}
+    </a>
+  )
+
+  return canPreview && (isEditing || isPreviewing ? disabledButton : regularButton)
 }
 
 const AutocompleteAdder = ({ type, currentValues, ...props }) => {
-  const valueFilter = props.valueFilter || (
-    ({ uuid }) => f.includes(f.map(currentValues, 'subject.uuid'), uuid)
-  )
+  const valueFilter =
+    props.valueFilter || (({ uuid }) => f.includes(f.map(currentValues, 'subject.uuid'), uuid))
   return (
     <span style={{ position: 'relative' }}>
       <AutoComplete
@@ -875,17 +1009,23 @@ const AutocompleteAdder = ({ type, currentValues, ...props }) => {
   )
 }
 
-const MultiAdder = ({ currentUsers, currentGroups, currentApiClients, onAdd , permissionsScope }) => (
+const MultiAdder = ({
+  currentUsers,
+  currentGroups,
+  currentApiClients,
+  onAdd,
+  permissionsScope
+}) => (
   <div className="row pts pbm">
     <div className="col1of3">
       <div className="">
-        {t('common_settings_permissions_add_user')}:{' '}
+        {t('workflow_common_settings_permissions_add_user')}:{' '}
         <AutocompleteAdder type="Users" onSelect={onAdd} currentValues={currentUsers} />
       </div>
     </div>
     <div className="col1of3">
       <div className="pls">
-        {t('common_settings_permissions_add_group')}:{' '}
+        {t('workflow_common_settings_permissions_add_group')}:{' '}
         <AutocompleteAdder
           type="Groups"
           searchParams={{ scope: 'permissions' }}
@@ -894,14 +1034,14 @@ const MultiAdder = ({ currentUsers, currentGroups, currentApiClients, onAdd , pe
         />
       </div>
     </div>
-    { permissionsScope === 'read' &&
+    {permissionsScope === 'read' && (
       <div className="col1of3">
         <div className="pls">
-          {t('common_settings_permissions_add_api_client')}:{' '}
+          {t('workflow_common_settings_permissions_add_api_client')}:{' '}
           <AutocompleteAdder type="ApiClients" onSelect={onAdd} currentValues={currentApiClients} />
         </div>
       </div>
-    }
+    )}
   </div>
 )
 
@@ -918,4 +1058,9 @@ const ShowJSONData = ({ data }) => (
   </div>
 )
 
-const Let = ({ children, ...bindings }) => children(bindings)
+const isNonEmptyMetaDatumValue = val => {
+  const isNonEmpty = i => !f.isEmpty(f.isString ? f.trim(i) : i)
+  if (!val) return false
+  if (f.isArray(val)) return f.any(f.compact(val), isNonEmpty)
+  else return isNonEmpty(val)
+}

@@ -1,7 +1,6 @@
 module Presenters
   module MetaData
     class EditContextMetaData < Presenters::Shared::AppResourceWithUser
-
       include Presenters::Shared::MediaResource::Modules::IndexPresenterByClass
       include Presenters::Shared::Modules::PartOfWorkflow
 
@@ -31,7 +30,7 @@ module Presenters
       end
 
       def meta_meta_data
-        Presenters::MetaData::MetaMetaDataEdit.new(@user, @app_resource.class)
+        Presenters::MetaData::MetaMetaDataEdit.new(@user, @app_resource.class, @app_resource)
       end
 
       def meta_data
@@ -41,8 +40,7 @@ module Presenters
       def edit_by_context_urls
         {}.tap do |urls|
           meta_meta_data.meta_data_edit_context_ids.map do |context_id|
-            urls[context_id] =
-              edit_meta_data_by_context_media_entry_path(@app_resource, context_id)
+            urls[context_id] = edit_meta_data_by_context_media_entry_path(@app_resource, context_id)
           end
         end
       end
@@ -54,8 +52,7 @@ module Presenters
       def batch_edit_by_context_urls
         {}.tap do |urls|
           meta_meta_data.meta_data_edit_context_ids.map do |context_id|
-            urls[context_id] =
-              batch_edit_meta_data_by_context_media_entries_path(context_id)
+            urls[context_id] = batch_edit_meta_data_by_context_media_entries_path(context_id)
           end
         end
       end
@@ -73,11 +70,7 @@ module Presenters
       end
 
       def published
-        if @app_resource.class == MediaEntry
-          @app_resource.is_published
-        else
-          true
-        end
+        @app_resource.class == MediaEntry ? @app_resource.is_published : true
       end
     end
   end

@@ -81,7 +81,7 @@ class My::WorkflowsController < ApplicationController
     result = WorkflowLocker::Service.new(@workflow, meta_data_params).save_only
     if result == true
       flash[:notice] = 'Meta data has been updated successfully.'
-      redirect_to preview_my_workflow_path(@workflow)
+      redirect_to edit_my_workflow_path(@workflow)
     else
       handle_errors(result)
     end
@@ -105,19 +105,7 @@ class My::WorkflowsController < ApplicationController
   end
 
   def meta_data_value_params
-    [
-      :string,
-      :uuid,
-      :isNew,
-      :label,
-      :type,
-      :subtype,
-      :term,
-      :first_name,
-      :last_name,
-      :pseudonym,
-      :role
-    ]
+    %i(string uuid isNew label type subtype term first_name last_name pseudonym role)
   end
 
   def workflow_params
@@ -126,11 +114,17 @@ class My::WorkflowsController < ApplicationController
       { owner_ids: [] },
       common_permissions: [
         :responsible,
-        { write: [:uuid, :type] },
-        { read: [:uuid, :type] },
+        { write: %i(uuid type) },
+        { read: %i(uuid type) },
         :read_public
       ],
-      common_meta_data: [:meta_key_id, { value: meta_data_value_params }]
+      common_meta_data: [
+        :meta_key_id,
+        { value: meta_data_value_params },
+        :is_common,
+        :is_mandatory,
+        :is_overridable
+      ]
     )
   end
 
@@ -141,7 +135,7 @@ class My::WorkflowsController < ApplicationController
   def handle_errors(errors)
     error_message = ['Workflow cannot be finished because of following errors:']
     errors.each do |resource_title, messages|
-      error_message << "#{resource_title}: #{messages.join(' ')}"
+      error_message << "#{resource_title}: #{messages.join(', ')}"
     end
     flash[:error] = error_message.join("\n")
     redirect_to preview_my_workflow_path(@workflow)

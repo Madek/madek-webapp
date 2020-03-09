@@ -6,9 +6,7 @@ module Presenters
       end
 
       def workflow_owners
-        @app_resource.owners.map do |owner|
-          Presenters::Users::UserIndex.new(owner)
-        end
+        @app_resource.owners.map { |owner| Presenters::Users::UserIndex.new(owner) }
       end
 
       def common_settings
@@ -21,8 +19,7 @@ module Presenters
           index: { url: my_workflows_path },
           fill_data: { url: preview_my_workflow_path(@app_resource, fill_data: true) },
           preview: { url: preview_my_workflow_path(@app_resource) },
-          update_owners: { url: update_owners_my_workflow_path(@app_resource),
-                           method: 'PATCH' }
+          update_owners: { url: update_owners_my_workflow_path(@app_resource), method: 'PATCH' }
         }.merge(super)
       end
 
@@ -37,22 +34,21 @@ module Presenters
       private
 
       def role_presenter(value)
-        md_role = MetaDatum::Role.new(
-          person: Person.find_by(id: value['uuid']),
-          role: Role.find_by(id: value['role'])
-        )
+        md_role =
+          MetaDatum::Role.new(
+            person: Person.find_by(id: value['uuid']), role: Role.find_by(id: value['role'])
+          )
         Presenters::People::PersonIndexForRoles.new(md_role)
       end
 
       def md_presenter(klass, uuid)
-        "Presenters::#{klass}::#{klass.singularize}Index"
-          .constantize
-          .new(klass.singularize.constantize.find(uuid))
+        "Presenters::#{klass}::#{klass.singularize}Index".constantize.new(
+          klass.singularize.constantize.find(uuid)
+        )
       end
 
       def role_is_not_presenterified?(value)
-        !value.key?('uuid') &&
-          value['role'].present? &&
+        !value.key?('uuid') && value['role'].present? &&
           !value['role'].is_a?(Presenters::Roles::RoleIndex)
       end
 
@@ -66,9 +62,7 @@ module Presenters
           if val.is_a?(String)
             { string: val }
           elsif role_is_not_presenterified?(val)
-            val['role'] = Presenters::Roles::RoleIndex.new(
-              Role.find(val['role'])
-            )
+            val['role'] = Presenters::Roles::RoleIndex.new(Role.find(val['role']))
             val
           elsif UUIDTools::UUID_REGEXP =~ uuid
             klass = type.split('::').last
@@ -81,15 +75,17 @@ module Presenters
 
       def common_meta_data
         @app_resource.configuration['common_meta_data'].map do |md|
-          # build something like MetaDatumEdit presenter, but from plain JSON
           begin
+            # build something like MetaDatumEdit presenter, but from plain JSON
             meta_key = MetaKey.find(md['meta_key_id'])
             mk = Presenters::MetaKeys::MetaKeyEdit.new(meta_key)
           rescue ActiveRecord::RecordNotFound
             next
           end
 
-          { meta_key: mk, value: meta_data_value(md['value'], meta_key) }
+          { meta_key: mk, value: meta_data_value(md['value'], meta_key) }.merge(
+            md.slice('is_common', 'is_mandatory', 'is_overridable')
+          )
         end
       end
     end

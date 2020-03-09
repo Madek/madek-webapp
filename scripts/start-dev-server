@@ -1,6 +1,7 @@
 #!/bin/bash
 
 PORT=${PORT:-3100}
+export RAILS_LOG_LEVEL=${RAILS_LOG_LEVEL:-"INFO"}
 
 { sleep 10 && open "http://localhost:${PORT}" ;} &
 

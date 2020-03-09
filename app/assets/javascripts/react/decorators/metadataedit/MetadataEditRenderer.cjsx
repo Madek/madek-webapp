@@ -33,7 +33,7 @@ module.exports = {
 
     workflowLink = <Link href={workflow.actions.edit.url} mods='strong'>{workflow.name}</Link>
     info = <span style={{fontStyle: 'italic'}}>
-      This value is managed by workflow "{workflowLink}"
+      {t('workflow_md_edit_form_key_is_managed_a')}"{workflowLink}"{t('workflow_md_edit_form_key_is_managed_b')}
     </span>
     arrowStyle =
       fontSize: '0.75em'
@@ -63,7 +63,7 @@ module.exports = {
       />
     )
 
-    if workflow? and f.includes(f.map(workflow.common_settings.meta_data, 'meta_key.uuid'), meta_key_id)
+    if workflow? and !!f.find(workflow.common_settings.meta_data, {is_common: true, meta_key: { uuid: meta_key_id}})
       @_renderValueFromWorkflowCommonSettings(workflow, meta_key_id)
     else if batch
       style = {marginRight: '200px', marginLeft: '200px'}
@@ -377,12 +377,12 @@ module.exports = {
     </div>
 
 
-  _renderThumbnail: (resource, displayMetaData = true) ->
+  _renderThumbnail: (resource, displayMetaData = true, href = null) ->
     src = resource.image_url
 
     if resource.media_file && resource.media_file.previews
       previews = resource.media_file.previews
-      href = f.chain(previews.images).sortBy('width').last().get('url').run()
+      href = href || f.chain(previews.images).sortBy('width').last().get('url').run()
 
     alt = ''
     image = if src

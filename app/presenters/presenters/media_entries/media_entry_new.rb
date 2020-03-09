@@ -8,16 +8,21 @@ module Presenters
         @workflow = workflow
       end
 
-      def next_url
+      def next_step
         if workflow
-          prepend_url_context workflow.actions.dig(:edit, :url)
+          {
+            label: I18n.t(:media_entry_media_import_gotoworkflow),
+            url: prepend_url_context(workflow.actions.dig(:edit, :url))
+          }
         else
-          prepend_url_context my_dashboard_section_path(:unpublished_entries)
+          {
+            label: I18n.t(:media_entry_media_import_gotodrafts),
+            url: prepend_url_context(my_dashboard_section_path(:unpublished_entries))
+          }
         end
       end
 
       # TODO: into_collection (upload into this collection, id comes from param)
-
     end
   end
 end
