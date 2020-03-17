@@ -16,7 +16,7 @@ feature 'App: UserMenu' do
   describe 'content of user menu' do
 
     example 'links' do
-      sign_in_as('normin')
+      user = sign_in_as('normin')
       open_user_menu
       links = user_menu_drop_menu.all('a')
         .map { |i| URI.parse(i[:href]).path.presence }.compact
@@ -28,6 +28,7 @@ feature 'App: UserMenu' do
         '/my/content_collections',
         '/my/favorite_media_entries',
         '/my/favorite_collections',
+        '/people/' + user.person.id,
         '/my/groups']
     end
 

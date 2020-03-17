@@ -13,6 +13,7 @@
     "build:app": "NODE_ENV=production browserify app/assets/javascripts/application.coffee -v -o public/assets/bundles/bundle.js",
     "build:app-embedded-view": "NODE_ENV=production browserify app/assets/javascripts/embedded-view.js -v -o public/assets/bundles/bundle-embedded-view.js",
     "build:server": "NODE_ENV=production browserify app/assets/javascripts/react-server-side.js -v -o public/assets/bundles/bundle-react-server-side.js",
+    "build:server:dev": "NODE_ENV=development browserify app/assets/javascripts/react-server-side.js -v -o public/assets/bundles/bundle-react-server-side.js",
     "build:integration": "NODE_ENV=production browserify app/assets/javascripts/integration-testbed.coffee -v -o public/assets/bundles/bundle-integration-testbed.js",
     "test": "npm run -s lint",
     "lint": "bash -c 'npm run -s coffeelint -- --quiet app/assets/javascripts/**/*.coffee app/assets/javascripts/react/**/*.cjsx && npm run -s standardlint -- {.,**}/*.js'",

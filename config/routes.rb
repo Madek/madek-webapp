@@ -205,7 +205,7 @@ Madek::Application.routes.draw do
   resources :meta_keys, only: :index
   resources :keywords, only: :index
   resources :licenses, only: [:index, :show]
-  resources :people, only: [:index, :show]
+  resources :people, only: [:index, :show, :edit, :update]
 
   # Clients/Logins:
   resource :user, only: [] do

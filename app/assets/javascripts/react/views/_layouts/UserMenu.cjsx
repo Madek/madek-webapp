@@ -63,6 +63,10 @@ module.exports = React.createClass
         url: props.my.favorite_sets_url
       },
       {
+        title: t('user_menu_my_person'), icon: 'user',
+        url: props.my.person_url
+      },
+      {
         title: t('user_menu_my_groups'), icon: 'privacy-group',
         url: props.my.groups
       }

@@ -46,6 +46,7 @@ module Presenters
             sets_url: my_dashboard_section_path(:content_collections),
             favorite_entries_url: \
               my_dashboard_section_path(:favorite_media_entries),
+            person_url: person_path(@user.person),
             favorite_sets_url: my_dashboard_section_path(:favorite_collections),
             groups: my_dashboard_section_path(:groups)
           },

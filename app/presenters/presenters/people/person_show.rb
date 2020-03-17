@@ -1,11 +1,10 @@
-require_relative '../../../../datalayer/lib/uri_authority_control.rb'
-
 module Presenters
   module People
     class PersonShow < Presenters::People::PersonCommon
       include AuthorizationSetup
 
-      delegate_to_app_resource :first_name, :last_name, :to_s, :description
+      delegate_to_app_resource :first_name, :last_name, :to_s, :description,
+                               :external_uris
 
       def initialize(app_resource, user, resources_type, list_conf)
         super(app_resource)
@@ -31,22 +30,15 @@ module Presenters
         resources
       end
 
-      def external_uris
-        @app_resource.external_uris
-          .map { |uri| decorate_external_uri(uri) }
-          .compact
+      def actions
+        {
+          edit: policy_for(@user).edit? && {
+            url: prepend_url_context(edit_person_path(@app_resource))
+          }
+        }
       end
 
       private
-
-      def decorate_external_uri(raw_uri)
-        return unless (uri = suppress(URI::Error) { URI.parse(raw_uri) })
-        {
-          uri: uri.to_s,
-          is_web: ['http', 'https'].include?(uri.scheme),
-          authority_control: UriAuthorityControl.detect(uri)
-        }
-      end
 
       def content_type
         case @resources_type

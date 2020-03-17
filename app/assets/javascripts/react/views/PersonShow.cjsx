@@ -7,6 +7,7 @@ MediaResourcesBox = require('../decorators/MediaResourcesBox.cjsx')
 libUrl = require('url')
 f = require('active-lodash')
 resourceTypeSwitcher = require('../lib/resource-type-switcher.cjsx')
+decorateExternalURI = require('../../lib/URIAuthorityControl').decorateExternalURI
 
 infotable = (p) ->
   autority_links = f.filter(p.external_uris, 'authority_control.kind')
@@ -46,12 +47,18 @@ PersonShow = React.createClass
     get = @props.get
     title = get.to_s
     { resources } = get
+    get.external_uris = f.map(get.external_uris, (uri) -> decorateExternalURI(uri))
 
     renderSwitcher = (boxUrl) =>
       resourceTypeSwitcher(resources, boxUrl, false, null)
 
+    actions =
+      <a href={get.actions.edit.url} className='primary-button'>
+        {t('person_show_edit_btn')}
+      </a>
+
     <PageContent>
-      <PageHeader title={title} icon='tag' />
+      <PageHeader title={title} icon='tag' actions={actions} />
       <div className='ui-container tab-content bordered bright rounded-right rounded-bottom'>
         <div className='ui-container pal'>
           <table className='borderless'>
@@ -90,13 +97,14 @@ deco_external_uris = (uris) ->
     if f.get(uri, 'authority_control.kind')
       label = uri.authority_control.label
       providerLabel = uri.authority_control.provider.label
-      badge = <span className='ui-authority-control-badge' >
+      badge = <span className='ui-authority-control-badge'>
         <abbr title={uri.authority_control.provider.name}>{providerLabel}</abbr>: </span>
     content = if !uri.is_web
       <span>{label}</span>
     else
       <a href={uri.uri} target="_blank" rel="noreferrer noopener">{label}</a>
-    return <li key={i}>{badge}{content}</li>
+    return <li key={i} data-authority-control={JSON.stringify(uri.authority_control)}>{badge}{content}</li>
   )}</ul>
 
 module.exports = PersonShow
+module.exports.deco_external_uris = deco_external_uris

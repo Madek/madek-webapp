@@ -56,58 +56,18 @@ describe Presenters::People::PersonShow do
       url: "/people/#{@person.id}",
       uuid: @person.id,
       external_uris: [
-        {
-          uri: 'https://viaf.org/viaf/75121530',
-          is_web: true,
-          authority_control: {
-            kind: :VIAF,
-            label: '75121530',
-            provider: {
-              name: 'Virtual International Authority File',
-              label: 'VIAF',
-              url: 'https://viaf.org'
-            }
-          }
-        },
-        {
-          uri: 'https://id.loc.gov/authorities/names/n79022889',
-          is_web: true,
-          authority_control: {
-            kind: :LCCN,
-            label: 'n79022889',
-            provider: {
-              name: 'Library of Congress Control Number',
-              label: 'LCCN',
-              url: 'https://lccn.loc.gov/lccnperm-faq.html'
-            }
-          }
-        },
-        {
-          uri: 'https://d-nb.info/gnd/118529579',
-          is_web: true,
-          authority_control: {
-            kind: :GND,
-            label: '118529579',
-            provider: {
-              name: 'Gemeinsame Normdatei',
-              label: 'GND',
-              url: 'https://www.dnb.de/DE/Standardisierung/GND/gnd_node.html'
-            }
-          }
-        },
-        {
-          uri: 'https://www.nobelprize.org/prizes/physics/1921/einstein/',
-          is_web: true
-        },
-        {
-          uri: 'example.com',
-          is_web: false
-        },
-        {
-          uri: 'NOT_EVEN_A_LINK_BUT_DOES_NOT_CRASH',
-          is_web: false
+        'https://viaf.org/viaf/75121530',
+        'https://id.loc.gov/authorities/names/n79022889',
+        'https://d-nb.info/gnd/118529579',
+        'https://www.nobelprize.org/prizes/physics/1921/einstein/',
+        'example.com',
+        'NOT_EVEN_A_LINK_BUT_DOES_NOT_CRASH'
+      ],
+      actions: {
+        edit: {
+          url: "/people/#{@person.id}/edit"
         }
-      ]
+      }
     )
   end
 
