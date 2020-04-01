@@ -1,6 +1,6 @@
 eval_gemfile Pathname(File.dirname(File.absolute_path(__FILE__))).join('datalayer', 'Gemfile')
 
-ruby '2.6.3'
+ruby '2.6.6'
 
 ####################################################################
 # required in production PRODUCTION
