@@ -10,11 +10,7 @@
 
   body_data = begin; { 'referer-host': @get[:embed_config]['referer_info']['host'] }; rescue; end || {}
 
-  body_data = {:referer=>{'host' => 'www.zhdk.ch'}}
-
   title = ''
-
-  binding.pry
 
 !!!
 %html{lang: lang}
