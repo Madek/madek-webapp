@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "npm run -s watch",
-    "watch": "mkdir -p public/assets/bundles && npm run -s watch:app & npm run -s watch:app-embedded-view & npm run -s watch:server",
+    "watch": "mkdir -p public/assets/bundles && npm run -s watch:app",
+    "watch-all": "mkdir -p public/assets/bundles && npm run -s watch:app & npm run -s watch:app-embedded-view & npm run -s watch:server",
     "build": "mkdir -p public/assets/bundles && npm run -s build:app && npm run -s build:app-embedded-view && npm run -s build:server && npm run -s build:integration",
     "watch:app": "NODE_ENV=development watchify app/assets/javascripts/application.coffee -d -v -o public/assets/bundles/dev-bundle.js",
     "watch:app-embedded-view": "NODE_ENV=development watchify app/assets/javascripts/embedded-view.js -d -v -o public/assets/bundles/dev-bundle-embedded-view.js",
