@@ -4,17 +4,10 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
   before { truncate_tables }
   let(:user) { create :user }
   let(:title) { Faker::Name.title }
-  let(:media_entry) do
-    create(:media_entry_with_title,
-           responsible_user: user,
-           title: title)
-  end
+  let(:media_entry) { create(:media_entry_with_title, responsible_user: user, title: title) }
   let(:vocabulary) { create(:vocabulary) }
   let!(:meta_datum_text_date) do
-    create(
-      :meta_datum_text_date,
-      string: Time.current,
-      media_entry: media_entry)
+    create(:meta_datum_text_date, string: Time.current, media_entry: media_entry)
   end
   let(:keyword_1) { create(:keyword) }
   let(:keyword_2) { create(:keyword) }
@@ -23,8 +16,8 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
   let!(:meta_datum_keywords) do
     create(
       :meta_datum_keywords,
-      media_entry: media_entry,
-      keywords: [keyword_1, keyword_2, keyword_with_external_uri])
+      media_entry: media_entry, keywords: [keyword_1, keyword_2, keyword_with_external_uri]
+    )
   end
   let(:person_1) { create(:person) }
   let(:person_2) { create(:person) }
@@ -33,17 +26,13 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
   let!(:meta_datum_people) do
     create(
       :meta_datum_people,
-      media_entry: media_entry,
-      people: [person_1, person_2, person_with_external_uri])
+      media_entry: media_entry, people: [person_1, person_2, person_with_external_uri]
+    )
   end
   let(:base_url) { 'http://localhost:1234' }
   subject { Presenters::MediaEntries::MediaEntryRdfExport.new(media_entry, user) }
 
-  before do
-    allow(Settings)
-      .to receive(:madek_external_base_url)
-      .and_return(base_url)
-  end
+  before { allow(Settings).to receive(:madek_external_base_url).and_return(base_url) }
 
   describe '#json_ld' do
     let(:json) { subject.json_ld }
@@ -55,17 +44,21 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
     end
 
     it 'returns correct @context node' do
-      expect(json.fetch('@context').keys)
-        .to contain_exactly('@base', 'madek', 'madek_core', 'madek_system',
-                            'Keyword', 'rdfs', 'owl', 'test')
+      expect(json.fetch('@context').keys).to contain_exactly(
+        '@base',
+        'madek',
+        'madek_core',
+        'madek_system',
+        'Keyword',
+        'rdfs',
+        'owl',
+        'test'
+      )
       expect(json.dig('@context', '@base')).to eq(base_url + '/')
       expect(json.dig('@context', 'madek')).to eq(base_url + '/ns#')
-      expect(json.dig('@context', 'madek_core'))
-        .to eq(base_url + '/vocabulary/madek_core:')
-      expect(json.dig('@context', 'madek_system'))
-        .to eq(base_url + '/vocabulary/madek_system:')
-      expect(json.dig('@context', 'Keyword'))
-        .to eq(base_url + '/vocabulary/keyword/')
+      expect(json.dig('@context', 'madek_core')).to eq(base_url + '/vocabulary/madek_core:')
+      expect(json.dig('@context', 'madek_system')).to eq(base_url + '/vocabulary/madek_system:')
+      expect(json.dig('@context', 'Keyword')).to eq(base_url + '/vocabulary/keyword/')
       expect(json.dig('@context', 'rdfs')).to eq('http://www.w3.org/2000/01/rdf-schema#')
       expect(json.dig('@context', 'owl')).to eq('http://www.w3.org/2002/07/owl#')
       expect(json.dig('@context', 'test')).to eq(base_url + '/vocabulary/test:')
@@ -91,14 +84,8 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
       expect(entry_md.fetch('test:keywords')).to be_an(Array)
       expect(entry_md.fetch('test:keywords')).to match_array(
         [
-          {
-            '@id' => base_url + '/vocabulary/keyword/' + keyword_1.id,
-            '@type' => 'madek:Keyword'
-          },
-          {
-            '@id' => base_url + '/vocabulary/keyword/' + keyword_2.id,
-            '@type' => 'madek:Keyword'
-          },
+          { '@id' => base_url + '/vocabulary/keyword/' + keyword_1.id, '@type' => 'madek:Keyword' },
+          { '@id' => base_url + '/vocabulary/keyword/' + keyword_2.id, '@type' => 'madek:Keyword' },
           {
             '@id' => base_url + '/vocabulary/keyword/' + keyword_with_external_uri.id,
             '@type' => 'madek:Keyword'
@@ -109,17 +96,10 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
       expect(entry_md.fetch('test:people')).to be_an(Array)
       expect(entry_md.fetch('test:people')).to match_array(
         [
+          { '@id' => base_url + '/people/' + person_1.id, '@type' => 'madek:Person' },
+          { '@id' => base_url + '/people/' + person_2.id, '@type' => 'madek:Person' },
           {
-            '@id' => base_url + '/people/' + person_1.id,
-            '@type' => 'madek:Person'
-          },
-          {
-            '@id' => base_url + '/people/' + person_2.id,
-            '@type' => 'madek:Person'
-          },
-          {
-            '@id' => base_url + '/people/' + person_with_external_uri.id,
-            '@type' => 'madek:Person'
+            '@id' => base_url + '/people/' + person_with_external_uri.id, '@type' => 'madek:Person'
           }
         ]
       )
@@ -179,27 +159,30 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
 
     it 'returns correct data' do
       expect(turtle).to match(
-        Regexp.new("^<#{base_url}/entries/#{media_entry.id}> a madek:MediaEntry;$"))
+        Regexp.new("^<#{base_url}/entries/#{media_entry.id}> a madek:MediaEntry;$")
+      )
 
       expect_triple(turtle, 'madek_core:title', title, 'madek:MetaDatum::Text')
       expect_triple(
         turtle,
         'test:textdate',
         meta_datum_text_date.string,
-        'madek:MetaDatum::TextDate')
+        'madek:MetaDatum::TextDate'
+      )
       expect_triple(
         turtle,
         'test:keywords',
-        %W(Keyword:#{keyword_1.id} Keyword:#{keyword_2.id} Keyword:#{keyword_with_external_uri.id}),
-        'madek:MetaDatum::Text')
+        %W[Keyword:#{keyword_1.id} Keyword:#{keyword_2.id} Keyword:#{keyword_with_external_uri.id}],
+        'madek:MetaDatum::Text'
+      )
       expect_triple(
         turtle,
         'test:people',
-        %W(
+        %W[
           <#{base_url}/people/#{person_1.id}>
           <#{base_url}/people/#{person_2.id}>
           <#{base_url}/people/#{person_with_external_uri.id}>
-        )
+        ]
       )
       expect_entity(
         turtle,
@@ -213,9 +196,10 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
         'madek:Person',
         "rdfs:label \"#{person_2.first_name} #{person_2.last_name} \\(#{person_2.pseudonym}\\)\""
       )
-      rdfs_label = "#{person_with_external_uri.first_name} "\
-                   "#{person_with_external_uri.last_name} "\
-                   "\\(#{person_with_external_uri.pseudonym}\\)"
+      rdfs_label =
+        "#{person_with_external_uri.first_name} " \
+          "#{person_with_external_uri.last_name} " \
+          "\\(#{person_with_external_uri.pseudonym}\\)"
       expect_entity(
         turtle,
         "<#{base_url}/people/#{person_with_external_uri.id}>",
@@ -229,18 +213,22 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
   end
 
   describe '#rdf_xml' do
-    let(:xml) { Nokogiri::XML(subject.rdf_xml) { |config| config.strict.noblanks } }
+    let(:xml) { Nokogiri.XML(subject.rdf_xml) { |config| config.strict.noblanks } }
 
     it 'contains correct namespaces' do
       namespaces = xml.namespaces
-      expect(namespaces.keys)
-        .to contain_exactly('xmlns:madek', 'xmlns:madek_core', 'xmlns:Keyword',
-                            'xmlns:owl', 'xmlns:rdf', 'xmlns:rdfs', 'xmlns:test')
+      expect(namespaces.keys).to contain_exactly(
+        'xmlns:madek',
+        'xmlns:madek_core',
+        'xmlns:Keyword',
+        'xmlns:owl',
+        'xmlns:rdf',
+        'xmlns:rdfs',
+        'xmlns:test'
+      )
       expect(namespaces.fetch('xmlns:madek')).to eq(base_url + '/ns#')
-      expect(namespaces.fetch('xmlns:madek_core'))
-        .to eq(base_url + '/vocabulary/madek_core:')
-      expect(namespaces.fetch('xmlns:Keyword'))
-        .to eq(base_url + '/vocabulary/keyword/')
+      expect(namespaces.fetch('xmlns:madek_core')).to eq(base_url + '/vocabulary/madek_core:')
+      expect(namespaces.fetch('xmlns:Keyword')).to eq(base_url + '/vocabulary/keyword/')
       expect(namespaces.fetch('xmlns:rdfs')).to eq('http://www.w3.org/2000/01/rdf-schema#')
       expect(namespaces.fetch('xmlns:owl')).to eq('http://www.w3.org/2002/07/owl#')
       expect(namespaces.fetch('xmlns:test')).to eq(base_url + '/vocabulary/test:')
@@ -254,26 +242,24 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
       expect(media_entry_node).to be
       expect_attribute(
         media_entry_node,
-        name: 'about',
-        value: base_url + '/entries/' + media_entry.id
+        name: 'about', value: base_url + '/entries/' + media_entry.id
       )
 
       expect(media_entry_node.at_xpath('./madek_core:title')).to be
       expect_attribute(
         media_entry_node.at_xpath('./madek_core:title'),
-        name: 'datatype',
-        value: base_url + '/ns#MetaDatum::Text'
+        name: 'datatype', value: base_url + '/ns#MetaDatum::Text'
       )
       expect(media_entry_node.at_xpath('./madek_core:title').content).to eq(title)
 
       expect(media_entry_node.at_xpath('./test:textdate')).to be
       expect_attribute(
         media_entry_node.at_xpath('./test:textdate'),
-        name: 'datatype',
-        value: base_url + '/ns#MetaDatum::TextDate'
+        name: 'datatype', value: base_url + '/ns#MetaDatum::TextDate'
       )
-      expect(media_entry_node.at_xpath('./test:textdate').content)
-        .to eq(meta_datum_text_date.string)
+      expect(media_entry_node.at_xpath('./test:textdate').content).to eq(
+        meta_datum_text_date.string
+      )
 
       expect(media_entry_node.xpath('./test:keywords').size).to eq(3)
       expect(media_entry_node.xpath('./test:keywords/madek:Keyword').size).to eq(3)
@@ -294,12 +280,13 @@ def expect_prefix(source, label, vocabulary_iri)
 end
 
 def expect_triple(source, meta_key_id, value_or_array, iri = nil)
-  value = if value_or_array.is_a?(Array)
-    combinations = value_or_array.permutation.to_a.map { |a| a.join(',\n    ') }
-    '(' + combinations.join('|') + ')'
-  else
-    '"' + value_or_array + '"\^\^' + iri
-  end
+  value =
+    if value_or_array.is_a?(Array)
+      combinations = value_or_array.permutation.to_a.map { |a| a.join(',\n    ') }
+      '(' + combinations.join('|') + ')'
+    else
+      '"' + value_or_array + '"\^\^' + iri
+    end
   regexp = Regexp.new("^  #{meta_key_id} #{value}(;| .)$")
   expect(source).to match(regexp)
 end
@@ -311,9 +298,10 @@ def expect_entity(source, prefixed_name_or_iri, type, *attributes)
 end
 
 def expect_attribute(node, name:, value:, prefix: 'rdf')
-  attribute = node.attribute_nodes.detect do |attr_node|
-    attr_node.name == name && attr_node.namespace.prefix == prefix
-  end
+  attribute =
+    node.attribute_nodes.detect do |attr_node|
+      attr_node.name == name && attr_node.namespace.prefix == prefix
+    end
   expect(attribute).to be
   expect(attribute.value).to eq(value)
 end
@@ -351,8 +339,7 @@ def expect_resource_node(parent_node, resource)
   expect(resource_node.namespace.prefix).to eq('madek')
   expect_attribute(
     resource_node,
-    name: 'about',
-    value: base_url + resource_path(klass_name) + resource.id
+    name: 'about', value: base_url + resource_path(klass_name) + resource.id
   )
 
   meta_key_node = resource_node.parent
