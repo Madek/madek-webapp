@@ -44,42 +44,34 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
     end
 
     it 'returns correct @context node' do
-      expect(json.fetch('@context').keys).to contain_exactly(
-        '@base',
-        'madek',
-        'madek_core',
-        'madek_system',
-        'Keyword',
-        'rdfs',
-        'owl',
-        'test'
+      # MATCH HASH:
+      # compare whole hash, only interpolate strings if absolutely needed
+      # (e.g. the base_url is fixed in this spec, so can stay fixed in the strings as well.)
+      expect(json['@context']).to eq(
+        '@base' => 'http://localhost:1234/',
+        'madek' => 'http://localhost:1234/ns#',
+        'madek_system' => 'http://localhost:1234/vocabulary/madek_system:',
+        'Keyword' => 'http://localhost:1234/vocabulary/keyword/',
+        'rdfs' => 'http://www.w3.org/2000/01/rdf-schema#',
+        'owl' => 'http://www.w3.org/2002/07/owl#',
+        'madek_core' => 'http://localhost:1234/vocabulary/madek_core:',
+        'test' => 'http://localhost:1234/vocabulary/test:'
       )
-      expect(json.dig('@context', '@base')).to eq(base_url + '/')
-      expect(json.dig('@context', 'madek')).to eq(base_url + '/ns#')
-      expect(json.dig('@context', 'madek_core')).to eq(base_url + '/vocabulary/madek_core:')
-      expect(json.dig('@context', 'madek_system')).to eq(base_url + '/vocabulary/madek_system:')
-      expect(json.dig('@context', 'Keyword')).to eq(base_url + '/vocabulary/keyword/')
-      expect(json.dig('@context', 'rdfs')).to eq('http://www.w3.org/2000/01/rdf-schema#')
-      expect(json.dig('@context', 'owl')).to eq('http://www.w3.org/2002/07/owl#')
-      expect(json.dig('@context', 'test')).to eq(base_url + '/vocabulary/test:')
     end
 
     it 'returns correct @graph node' do
       entry_md, *related_md = json.fetch('@graph')
 
       expect(entry_md).to be_a(Hash)
-      expect(entry_md.fetch('@id')).to eq(base_url + '/entries/' + media_entry.id)
-      expect(entry_md.fetch('@type')).to eq('madek:MediaEntry')
-
-      expect(entry_md.fetch('madek_core:title')).to be_a(Hash)
-      expect(entry_md.fetch('madek_core:title').keys).to contain_exactly('@value', '@type')
-      expect(entry_md.dig('madek_core:title', '@value')).to eq(title)
-      expect(entry_md.dig('madek_core:title', '@type')).to eq('madek:MetaDatum::Text')
-
-      expect(entry_md.fetch('test:textdate')).to be_a(Hash)
-      expect(entry_md.fetch('test:textdate').keys).to contain_exactly('@value', '@type')
-      expect(entry_md.dig('test:textdate', '@value')).to eq(meta_datum_text_date.string)
-      expect(entry_md.dig('test:textdate', '@type')).to eq('madek:MetaDatum::TextDate')
+      # MATCH HASH, without sub-arrays!
+      expect(entry_md.except('test:keywords', 'test:people')).to eq(
+        '@id' => (base_url + '/entries/' + media_entry.id),
+        '@type' => 'madek:MediaEntry',
+        'madek_core:title' => { '@value' => title, '@type' => 'madek:MetaDatum::Text' },
+        'test:textdate' => {
+          '@value' => meta_datum_text_date.string, '@type' => 'madek:MetaDatum::TextDate'
+        }
+      )
 
       expect(entry_md.fetch('test:keywords')).to be_an(Array)
       expect(entry_md.fetch('test:keywords')).to match_array(
