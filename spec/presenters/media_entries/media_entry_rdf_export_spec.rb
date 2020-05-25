@@ -205,13 +205,13 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
         turtle,
         "<#{base_url}/people/#{person_1.id}>",
         'madek:Person',
-        %(rdfs:label "#{person_1.first_name} #{person_1.last_name} \\(#{person_1.pseudonym}\\)")
+        "rdfs:label \"#{person_1.first_name} #{person_1.last_name} \\(#{person_1.pseudonym}\\)\""
       )
       expect_entity(
         turtle,
         "<#{base_url}/people/#{person_2.id}>",
         'madek:Person',
-        %(rdfs:label "#{person_2.first_name} #{person_2.last_name} \\(#{person_2.pseudonym}\\)")
+        "rdfs:label \"#{person_2.first_name} #{person_2.last_name} \\(#{person_2.pseudonym}\\)\""
       )
       rdfs_label = "#{person_with_external_uri.first_name} "\
                    "#{person_with_external_uri.last_name} "\
