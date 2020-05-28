@@ -102,14 +102,10 @@ module Madek
     # config.react.server_renderer_pool_size  ||= 1  # ExecJS doesn't allow more than one on MRI
     # config.react.server_renderer_timeout    ||= 20 # seconds
     # config.react.server_renderer = React::ServerRendering::SprocketsRenderer
-    pre_render_js_env = if Rails.env == 'development'
-      'dev-bundle-react-server-side.js'
-    else
-      'bundle-react-server-side.js'
-    end
+    pre_render_js_env = 'bundle-react-server-side.js' # no "dev" version because its never reloaded!
     config.react.server_renderer_options = {
       files: [pre_render_js_env].flatten, # files to load for prerendering
-      replay_console: false,      # if true, console.* will be replayed client-side
+      replay_console: false, # if true, console.* will be replayed client-side
     }
     config.after_initialize do
       # inject (per-instance) app config into react renderer:
@@ -126,9 +122,8 @@ module Madek
     bundles = %w(
       bundle.js
       bundle-embedded-view.js
-      bundle-react-server-side.js
-    ).map {|name| "#{Rails.env.development? ? 'dev-': ''}#{name}" }
-    .concat(['bundle-integration-testbed.js'])
+    ).map { |name| "#{Rails.env.development? ? 'dev-' : ''}#{name}" }
+    .concat(%w( bundle-react-server-side.js bundle-integration-testbed.js ))
 
     # NOTE: override (don't extend) the Rails default (which matches lots of garbage)!
     # 2019 update: overriding the default is not possible anymore, so we need to run after the faulty initializer from here: https://github.com/rails/sprockets-rails/blob/e135984ee2b07e1a67c3fa57f799f40b0830e99a/lib/sprockets/railtie.rb#L108
