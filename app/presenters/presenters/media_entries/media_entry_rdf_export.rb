@@ -99,10 +99,10 @@ module Presenters
                   '@id': full_url("/people/#{mdr.person_id}"),
                   '@type': 'madek:Person'
                 }
-                role_node = mdr.role ? {
+                role_node = {
                   '@id': full_url("/roles/#{mdr.role_id}"),
                   '@type': 'madek:Role'
-                } : nil
+                } if mdr.role
                 node = {
                   '@type': 'madek:MetaDatum::Roles',
                   '@list': [person_node, role_node].compact
