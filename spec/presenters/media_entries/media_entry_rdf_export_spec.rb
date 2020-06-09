@@ -267,23 +267,23 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
       # expect_triple(
       #   turtle,
       #   'test:json',
-      #   meta_datum_json.json.to_json,
+      #   %(\\{\\"seq\\":[1,2,null],\\"zero_point\\":-273.15,\\"some_boolean\\":true\\}),
       #   'madek:MetaDatum::JSON'
       # )
       expect_triple(
         turtle,
         'test:keywords',
-        %W[Keyword:#{keyword_1.id} Keyword:#{keyword_2.id} Keyword:#{keyword_with_external_uri.id}],
+        %W(Keyword:#{keyword_1.id} Keyword:#{keyword_2.id} Keyword:#{keyword_with_external_uri.id}),
         'madek:MetaDatum::Text'
       )
       expect_triple(
         turtle,
         'test:people',
-        %W[
+        %W(
           <#{base_url}/people/#{person_1.id}>
           <#{base_url}/people/#{person_2.id}>
           <#{base_url}/people/#{person_with_external_uri.id}>
-        ]
+        )
       )
       expect_triple(
         turtle,

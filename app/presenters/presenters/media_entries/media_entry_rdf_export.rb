@@ -151,7 +151,7 @@ module Presenters
       def hardcoded_prefixes
         {
           madek: full_url('/ns#'),
-          madek_system: full_url("/vocabulary/madek_system:"),
+          madek_system: full_url('/vocabulary/madek_system:'),
           Keyword: full_url('/vocabulary/keyword/'),
           rdfs: 'http://www.w3.org/2000/01/rdf-schema#',
           owl: 'http://www.w3.org/2002/07/owl#'
