@@ -33,6 +33,15 @@ module.exports = React.createClass
       values: values # keep internal state of entered values
       selectedRole: @defaultRole()
 
+  # NOTE: use a react legacy API to force updates to internal state when props changes.
+  # Using `componentWillReceiveProps` is *generally* not recommended, but in this case this is the most safe workaround for the current setup:
+  # This component is effectivly a fully constrolled, the internal state is only used for "derived state" and logic,
+  # which means its ok to do the "Anti-pattern: Erasing state when props change" here… 🤞
+  # TODO: try refactor away usage of state and only use props…
+  componentWillReceiveProps: (nextProps)->
+    if this.props.values != nextProps.values
+      this.setState({values: nextProps.values})
+
   defaultRole: ->
     if firstRole = f.get(@props.metaKey, 'roles[0]')
       { id: firstRole.uuid, label: firstRole.name }
