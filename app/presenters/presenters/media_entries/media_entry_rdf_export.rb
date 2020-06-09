@@ -52,7 +52,7 @@ module Presenters
 
       def meta_data_graph
         return @_meta_data_graph if @_meta_data_graph
-        related = { keywords: [], people: [] }
+        related = { keywords: [], people: [], roles: [] }
         resource_md = meta_data.map do |md|
           value =
             case md.class.name
@@ -61,6 +61,9 @@ module Presenters
 
             when 'MetaDatum::TextDate'
               { '@value': md.string, '@type': 'madek:MetaDatum::TextDate' }
+
+            when 'MetaDatum::JSON'
+              { '@value' => md.json.to_json, '@type' => 'madek:MetaDatum::JSON' }
 
             when 'MetaDatum::Keywords'
               md.keywords.map do |k|
@@ -87,6 +90,29 @@ module Presenters
                   'rdfs:label': p.to_s,
                   'owl:sameAs': p.external_uris.presence
                 ).compact)
+                node
+              end
+
+            when 'MetaDatum::Roles'
+              md.meta_data_roles.map do |mdr|
+                person_node = {
+                  '@id': full_url("/people/#{mdr.person_id}"),
+                  '@type': 'madek:Person'
+                }
+                role_node = mdr.role ? {
+                  '@id': full_url("/roles/#{mdr.role_id}"),
+                  '@type': 'madek:Role'
+                } : nil
+                node = {
+                  '@type': 'madek:MetaDatum::Roles',
+                  '@list': [person_node, role_node].compact
+                }
+                related[:roles].concat(
+                  [
+                    person_node.merge('rdfs:label': mdr.person.to_s),
+                    role_node&.merge('rdfs:label': mdr.role.to_s)
+                  ].compact
+                )
                 node
               end
 
