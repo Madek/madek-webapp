@@ -80,7 +80,11 @@ module Presenters
             meta_key = MetaKey.find(md['meta_key_id'])
             mk = Presenters::MetaKeys::MetaKeyEdit.new(meta_key)
           rescue ActiveRecord::RecordNotFound
-            next
+            next { meta_key: { uuid: md['meta_key_id'] }, problem: 'NOT_FOUND' }
+          end
+
+          unless auth_policy(@user, meta_key).use_in_md?
+            next { meta_key: { uuid: md['meta_key_id'] }, problem: 'NOT_AUTHORIZED' }
           end
 
           { meta_key: mk, value: meta_data_value(md['value'], meta_key) }.merge(

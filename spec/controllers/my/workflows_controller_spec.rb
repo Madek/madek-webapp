@@ -1,7 +1,16 @@
 require 'spec_helper'
 
 describe My::WorkflowsController do
-  let(:user) { create :user }
+  let(:beta_testers_group) do
+    Group.find_or_create_by(
+      name: 'Beta Testers Workflows',
+      id: Madek::Constants::BETA_TESTERS_WORKFLOWS_GROUP_ID)
+  end
+  let(:user) do
+    user = create :user
+    user.groups << beta_testers_group
+    user
+  end
 
   describe 'action: index' do
     context 'when user is not logged in' do
@@ -13,9 +22,7 @@ describe My::WorkflowsController do
     context 'when user is logged in' do
       context 'when user is a member of the beta-tester group' do
         before do
-          allow_any_instance_of(
-            Group.const_get(:ActiveRecord_Associations_CollectionProxy)
-          ).to receive(:exists?).and_return(true)
+          expect(user.groups.exists? beta_testers_group.id).to be true
           get(:index, session: { user_id: user.id })
         end
 
@@ -30,6 +37,7 @@ describe My::WorkflowsController do
       end
 
       context 'when user is not a member of the beta-tester group' do
+        before { user.groups.delete(beta_testers_group) }
         it 'raises error' do
           expect { get(:index, session: { user_id: user.id }) }
             .to raise_error(Errors::ForbiddenError)
@@ -48,9 +56,7 @@ describe My::WorkflowsController do
     context 'when user is logged in' do
       context 'when user is a member of the beta-tester group' do
         before do
-          allow_any_instance_of(
-            Group.const_get(:ActiveRecord_Associations_CollectionProxy)
-          ).to receive(:exists?).and_return(true)
+          expect(user.groups.exists? beta_testers_group.id).to be true
         end
 
         it 'renders template' do
@@ -68,6 +74,7 @@ describe My::WorkflowsController do
       end
 
       context 'when user is not a member of the beta-tester group' do
+        before { user.groups.delete(beta_testers_group) }
         it 'raises error' do
           expect { get(:new, session: { user_id: user.id }) }
             .to raise_error(Errors::ForbiddenError)
@@ -93,9 +100,7 @@ describe My::WorkflowsController do
     context 'when user is logged in' do
       context 'when user is a member of the beta-tester group' do
         before do
-          allow_any_instance_of(
-            Group.const_get(:ActiveRecord_Associations_CollectionProxy)
-          ).to receive(:exists?).and_return(true)
+          expect(user.groups.exists? beta_testers_group.id).to be true
         end
         before(:all) do
           with_disabled_triggers do

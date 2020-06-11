@@ -7,6 +7,7 @@ module WorkflowLocker
         ids_with_values.each do |id, meta_keys_with_values|
           meta_keys_with_values.each do |meta_key_id, value|
             value = sanitize_value(value, meta_key_id)
+            value = value.uniq # could be duplicated from entries nested in > 1 sets
             next if value.blank? && !allow_blank_values
             resource = find_resource(resource_type, id)
             resource = resource.cast_to_type if resource_type != 'Collection'

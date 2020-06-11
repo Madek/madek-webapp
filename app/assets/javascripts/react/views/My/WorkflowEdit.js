@@ -22,7 +22,6 @@ import labelize from '../../../lib/labelize'
 let AutoComplete = false // client-side only!
 const t = I18nTranslate
 
-// const fakeCallback = (a, b, c) => console.log([a, b, c]) // eslint-disable-line
 const DEBUG_STATE = false // set to true when developing or debugging forms with state!
 const HIDE_OVERRIDABLE_TOGGLE = true
 
@@ -381,15 +380,19 @@ const WorkflowEditor = ({
             <WorkflowCommonPermissions permissions={commonPermissions} />
           )}
 
+          <Explainer>{t('workflow_common_settings_permissions_hint_after')}</Explainer>
+
           <h3 className="title-s mts">
             {t('workflow_common_settings_metadata_title')}
             {'  '}
-            {!isEditingPermissions && canEdit && <EditButton onClick={onToggleEditMetadata} />}
+            {!isEditingMetadata && canEdit && <EditButton onClick={onToggleEditMetadata} />}
           </h3>
 
-          <IfLet txt={t('workflow_common_settings_explain_metadata')}>
-            {txt => <Explainer className="mbs">{txt}</Explainer>}
-          </IfLet>
+          <Explainer className="mbs">
+            {t('workflow_common_settings_explain_metadata')}
+            <br />
+            {t('workflow_common_settings_explain_metadata2')}
+          </Explainer>
 
           {isEditingMetadata ? (
             <MetadataEditor
@@ -400,126 +403,180 @@ const WorkflowEditor = ({
               onSave={onSaveMetadata}
             />
           ) : (
-            <Let firstColStyle={{ width: '18rem' }}>
-              {({ firstColStyle }) => (
-                <table>
-                  <thead>
-                    <tr>
-                      <th className="prs" style={firstColStyle}>
-                        MetaKey
-                      </th>
-                      <th className="prs">Pflichtfeld</th>
-                      <th>Wert</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {commonMetadata.map(
-                      ({ meta_key, value, is_common, is_mandatory /*, is_overridable*/ }) => {
-                        const decoValues = f.isEmpty(value) ? (
-                          false
-                        ) : f.has(value, '0.string') ? (
-                          value[0].string
-                        ) : (
-                          <UI.TagCloud mods="small inline" list={labelize(value)} />
-                        )
+            <Let
+              firstColStyle={{ width: '18rem' }}
+              problems={f.filter(commonMetadata, md => !!md.problem)}>
+              {({ firstColStyle, problems }) => (
+                <div>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th className="prs" style={firstColStyle}>
+                          MetaKey
+                        </th>
+                        <th className="prs">Pflichtfeld</th>
+                        <th className="prs">Wert</th>
+                        <th className="pls">{t('workflow_md_edit_scope')}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {commonMetadata.map(
+                        ({
+                          meta_key,
+                          value,
+                          is_common,
+                          is_mandatory,
+                          problem /*, is_overridable*/
+                        }) => {
+                          if (problem) return false
 
-                        const hasValueError =
-                          is_common && is_mandatory && !isNonEmptyMetaDatumValue(value)
+                          const decoValues = f.isEmpty(value) ? (
+                            false
+                          ) : f.has(value, '0.string') ? (
+                            value[0].string
+                          ) : (
+                            <UI.TagCloud mods="small inline" list={labelize(value)} />
+                          )
+
+                          const hasValueError =
+                            is_common && is_mandatory && !isNonEmptyMetaDatumValue(value)
+
+                          return (
+                            <tr key={meta_key.uuid}>
+                              <th className="prs" style={firstColStyle}>
+                                <span title={meta_key.uuid}>{meta_key.label}</span>
+                              </th>
+                              <th className="prs text-center">
+                                {is_mandatory ? (
+                                  <UI.Icon i="checkmark" title="Pflichtfeld" />
+                                ) : (
+                                  <UI.Icon i="close" />
+                                )}
+                              </th>
+                              <th
+                                className={cx('prs', {
+                                  'bg-error text-error pls ': hasValueError
+                                })}>
+                                {is_common ? (
+                                  decoValues ? (
+                                    <details>
+                                      <summary className="font-italic">
+                                        {t('workflow_md_edit_is_common')}
+                                        <b>{t('workflow_md_edit_is_common_nonempty')}</b>
+                                      </summary>
+                                      {decoValues}
+                                    </details>
+                                  ) : (
+                                    <div>
+                                      {hasValueError && (
+                                        <UI.Icon
+                                          i="bang"
+                                          title={t('workflow_md_edit_value_error_notice')}
+                                          className="prs"
+                                        />
+                                      )}
+                                      <em className="font-italic">
+                                        {t('workflow_md_edit_is_common')}
+                                        <b>{t('workflow_md_edit_is_common_empty')}</b>
+                                      </em>
+                                    </div>
+                                  )
+                                ) : (
+                                  <em className="font-italic">
+                                    {t('workflow_md_edit_is_not_common')}
+                                  </em>
+                                )}
+                              </th>
+                              <th className="pls">
+                                {f.compact(
+                                  f
+                                    .map(meta_key.scope, str =>
+                                      str === 'Entries'
+                                        ? t('workflow_md_edit_scope_entry')
+                                        : str === 'Sets'
+                                        ? t('workflow_md_edit_scope_set')
+                                        : false
+                                    )
+                                    .join(' & ')
+                                )}
+                              </th>
+                            </tr>
+                          )
+                        }
+                      )}
+                    </tbody>
+                  </table>
+                  {!f.isEmpty(problems) && (
+                    <div>
+                      <b style={{ fontWeight: 'bold' }}>Probleme:</b>
+
+                      {f.map(f.groupBy(problems, 'problem'), (items, problem) => {
+                        const problemLabel =
+                          problem === 'NOT_FOUND'
+                            ? t('workflow_mk_error_not_found')
+                            : problem === 'NOT_AUTHORIZED'
+                            ? t('workflow_mk_error_not_authorized')
+                            : t('workflow_mk_error_unknown')
 
                         return (
-                          <tr key={meta_key.uuid}>
-                            <th className="prs" style={firstColStyle}>
-                              <span title={meta_key.uuid}>{meta_key.label}</span>
-                            </th>
-                            <th className="prs text-center">
-                              {is_mandatory ? (
-                                <UI.Icon i="checkmark" title="Pflichtfeld" />
-                              ) : (
-                                <UI.Icon i="close" />
-                              )}
-                            </th>
-                            <th
-                              className={cx('prs', { 'bg-error text-error pls ': hasValueError })}>
-                              {is_common ? (
-                                decoValues ? (
-                                  <details>
-                                    <summary className="font-italic">
-                                      {t('workflow_md_edit_is_common')}
-                                      <b>{t('workflow_md_edit_is_common_nonempty')}</b>
-                                    </summary>
-                                    {decoValues}
-                                  </details>
-                                ) : (
-                                  <div>
-                                    {hasValueError && (
-                                      <UI.Icon
-                                        i="bang"
-                                        title={t('workflow_md_edit_value_error_notice')}
-                                        className="prs"
-                                      />
-                                    )}
-                                    <em className="font-italic">
-                                      {t('workflow_md_edit_is_common')}
-                                      <b>{t('workflow_md_edit_is_common_empty')}</b>
-                                    </em>
-                                  </div>
-                                )
-                              ) : (
-                                <em className="font-italic">
-                                  {t('workflow_md_edit_is_not_common')}
-                                </em>
-                              )}
-                            </th>
-                          </tr>
+                          <div key={problem}>
+                            <em style={{ fontStyle: 'italic' }}>{problemLabel}</em>
+                            <br />
+                            <code>{f.map(items, 'meta_key.uuid').join(', ')}</code>
+                          </div>
                         )
-                      }
-                    )}
-                  </tbody>
-                </table>
+                      })}
+                    </div>
+                  )}
+                </div>
               )}
             </Let>
           )}
         </SubSection>
       </div>
 
-      <div className="ui-actions phl pbl mtl">
-        <a className="link weak" href={get.actions.index.url}>
-          {t('workflow_actions_back')}
-        </a>
-        <a
-          className={cx('button large', { disabled: isProcessing })}
-          href={get.actions.fill_data.url}
-          onClick={handleFillDataClick}>
-          {isProcessing
-            ? t('workflow_edit_actions_processing')
-            : t('workflow_edit_actions_fill_data')}
-        </a>
-        <PreviewButton
-          canPreview={canPreview}
-          isEditing={isEditing}
-          isPreviewing={isPreviewing}
-          previewUrl={get.actions.preview.url}
-          handleClick={handlePreviewClick}
-        />
-        {/*
+      {!(isEditingPermissions || isEditingMetadata) && (
+        <div className="ui-actions phl pbl mtl">
+          <a className="link weak" href={get.actions.index.url}>
+            {t('workflow_actions_back')}
+          </a>
+          <a
+            className={cx('button large', {
+              disabled: isProcessing
+            })}
+            href={get.actions.fill_data.url}
+            onClick={handleFillDataClick}>
+            {isProcessing
+              ? t('workflow_edit_actions_processing')
+              : t('workflow_edit_actions_fill_data')}
+          </a>
+          <PreviewButton
+            canPreview={canPreview}
+            isEditing={isEditing}
+            isPreviewing={isPreviewing}
+            previewUrl={get.actions.preview.url}
+            handleClick={handlePreviewClick}
+          />
+          {/*
         <button className="tertiary-button large" type="button">
           {t('workflow_actions_validate')}
         </button>
         */}
-        {canEdit && false && (
-          <RailsForm
-            action={get.actions.preview.url}
-            method={get.actions.preview.method}
-            name="workflow"
-            style={{ display: 'inline-block' }}
-            authToken={authToken}>
-            {' '}
-            <button className="primary-button large" type="submit" disabled={isEditing}>
-              {t('workflow_actions_finish')}
-            </button>
-          </RailsForm>
-        )}
-      </div>
+          {canEdit && false && (
+            <RailsForm
+              action={get.actions.preview.url}
+              method={get.actions.preview.method}
+              name="workflow"
+              style={{ display: 'inline-block' }}
+              authToken={authToken}>
+              {' '}
+              <button className="primary-button large" type="submit" disabled={isEditing}>
+                {t('workflow_actions_finish')}
+              </button>
+            </RailsForm>
+          )}
+        </div>
+      )}
     </section>
   )
 }
@@ -577,11 +634,11 @@ class MetadataEditor extends React.Component {
           className={isSaving ? 'hidden' : null}
           onSubmit={e => {
             e.preventDefault()
-            onSave(this.state.md)
+            onSave(state.md)
           }}>
           <div>
             <dl className="measure-wide">
-              <span className="font-italic">Legende:</span>
+              <span className="font-italic">{t('workflow_md_edit_legend')}</span>
               {f.flatten(
                 f.map(legendExplains, ([dt, dd], i) => [
                   <dt key={'t' + i} className="font-bold">
@@ -600,18 +657,39 @@ class MetadataEditor extends React.Component {
                 key={i}
                 name={md.meta_key.uuid}
                 inputId={`emk_${md.meta_key.uuid}`}
-                mdValue={this.prepareMdValue(md.value)}>
-                {({ name, inputId, mdValue }) => (
+                mkLabel={f.presence(md.meta_key.label)}
+                mkNiceUUID={md.meta_key.uuid.split(':').join(':\u200B')}
+                mdValue={this.prepareMdValue(md.value)}
+                mkdValueError={
+                  md.is_common &&
+                  md.is_mandatory &&
+                  !isNonEmptyMetaDatumValue(this.prepareMdValue(md.value))
+                }
+                problemDesc={
+                  md.problem === 'NOT_FOUND'
+                    ? t('workflow_md_edit_mk_error_not_found')
+                    : md.problem === 'NOT_AUTHORIZED'
+                    ? t('workflow_md_edit_mk_error_not_authorized')
+                    : false
+                }>
+                {({ name, inputId, mkLabel, mkNiceUUID, mdValue, mkdValueError, problemDesc }) => (
                   <div>
                     <div
                       className={cx('ui-form-group  pvs columned', {
-                        error: md.is_common && md.is_mandatory && !isNonEmptyMetaDatumValue(mdValue)
+                        error: md.problem || mkdValueError
                       })}>
+                      {problemDesc && <p className="text-error mbs">{problemDesc}</p>}
+                      {mkdValueError && (
+                        <p className="text-error mbs">{t('workflow_md_edit_value_error_notice')}</p>
+                      )}
+
                       <div className="form-label">
-                        <label htmlFor={inputId}>{md.meta_key.label}</label>
-                        <span style={{ fontWeight: 'normal', display: 'block' }}>
-                          <small>({md.meta_key.uuid.split(':').join(':\u200B')})</small>
-                        </span>
+                        <label htmlFor={inputId}>{mkLabel || mkNiceUUID}</label>
+                        {!!mkLabel && (
+                          <span style={{ fontWeight: 'normal', display: 'block' }}>
+                            <small>({mkNiceUUID})</small>
+                          </span>
+                        )}
                         <div className="mts">
                           <button
                             type="button"

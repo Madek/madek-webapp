@@ -358,7 +358,7 @@ class WorkflowPreview extends React.Component {
 
 module.exports = WorkflowPreview
 
-class Fieldset extends React.PureComponent {
+class Fieldset extends React.Component {
   render() {
     const { childResource, metaKey, model, hasError, handleValueChange } = this.props
     const {

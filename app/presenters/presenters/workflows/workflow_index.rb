@@ -5,8 +5,11 @@ module Presenters
         @user = user
       end
 
-      def list
-        @user.workflows.map { |w| Presenters::Workflows::WorkflowCommon.new(w, @user) }
+      def by_status
+        @user.workflows
+        .order('updated_at DESC')
+        .map { |w| Presenters::Workflows::WorkflowCommon.new(w, @user) }
+        .group_by(&:status)
       end
     end
   end

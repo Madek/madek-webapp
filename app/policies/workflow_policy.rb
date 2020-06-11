@@ -1,22 +1,22 @@
 class WorkflowPolicy < DefaultPolicy
   def index?
-    member_of_beta_tester_group?
+    beta_tester?
   end
 
   def create?
-    member_of_beta_tester_group?
+    beta_tester?
   end
 
   def edit?
-    creator? || owner?
+    beta_tester? && (creator? || owner?)
   end
 
   def update?
-    edit? && record.is_active
+    beta_tester? && (edit? && record.is_active)
   end
 
   def update_owners?
-    creator? && record.is_active
+    beta_tester? && (creator? && record.is_active)
   end
 
   alias_method :add_resource?, :update?
@@ -34,7 +34,7 @@ class WorkflowPolicy < DefaultPolicy
     record.owners.exists?(id: user.id)
   end
 
-  def member_of_beta_tester_group?
-    user.groups.exists?('e12e1bc0-b29f-5e93-85d6-ff0aae9a9db0')
+  def beta_tester?
+    user.groups.exists?(Madek::Constants::BETA_TESTERS_WORKFLOWS_GROUP_ID)
   end
 end
