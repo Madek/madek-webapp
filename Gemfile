@@ -58,6 +58,6 @@ gem 'zencoder-fetcher', group: %i[development]
 gem 'rails-controller-testing', group: :test
 
 group :development do
-  gem 'better_errors'
+  # gem 'better_errors' # NOTE: including this breaks rails and pry in weird ways…
   gem 'binding_of_caller'
 end
