@@ -53,9 +53,10 @@ PersonShow = React.createClass
       resourceTypeSwitcher(resources, boxUrl, false, null)
 
     actions =
-      <a href={get.actions.edit.url} className='primary-button'>
-        {t('person_show_edit_btn')}
-      </a>
+      if get.actions.edit.url
+        <a href={get.actions.edit.url} className='primary-button'>
+          {t('person_show_edit_btn')}
+        </a>
 
     <PageContent>
       <PageHeader title={title} icon='tag' actions={actions} />

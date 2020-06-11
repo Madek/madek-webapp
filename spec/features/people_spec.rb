@@ -178,11 +178,15 @@ feature 'People' do
   context 'when user is not a person owner' do
     scenario 'Not showing edit button' do
       sign_in_as user.login
-      visit person_path(another_person)
-
+      # show button for myself (protect against false negative in next check)
+      visit person_path(person)
       within('.ui-body-title-actions') do
-        expect(page).to have_no_link(I18n.t(:person_show_edit_btn))
+        expect(page).to have_content(I18n.t(:person_show_edit_btn))
       end
+      # dont show button for other person
+      visit person_path(another_person)
+      expect(page).not_to have_selector('.ui-body-title-actions')
+      expect(page).not_to have_content(I18n.t(:person_show_edit_btn))
     end
   end
 
