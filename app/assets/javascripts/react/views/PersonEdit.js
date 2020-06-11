@@ -74,20 +74,27 @@ class PersonEdit extends React.Component {
                     type="text"
                     className="form-item block"
                     name={'person[first_name]'}
+                    disabled
+                    readOnly
                     defaultValue={get.first_name}
                   />
                 </label>
               </div>
               <div className="ui-form-group rowed pan">
-                <label className="form-label">
+                <label className="form-label pbn">
                   {t('person_show_last_name')}
                   <input
                     type="text"
                     className="form-item block"
                     name={'person[last_name]'}
+                    disabled
+                    readOnly
                     defaultValue={get.last_name}
                   />
                 </label>
+                <p className="pbm" style={{ fontStyle: 'italic' }}>
+                  {t('person_edit_name_readonly_hint')}
+                </p>
               </div>
               <div className="ui-form-group rowed pan">
                 <label className="form-label">

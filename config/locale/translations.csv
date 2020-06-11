@@ -461,6 +461,7 @@ person_edit_editing_header,Bearbeiten,editing,
 person_show_external_uris,Links,Links,
 person_edit_preview,Vorschau,Preview,
 person_edit_save_btn,Speichern,Save,
+person_edit_name_readonly_hint,"Hinweis: Der eigene Name kann nicht geändert werden. Bitte wenden sie sich an den Support.","Notice: Your own name can not be changed .Please contact the support."
 person_show_description,Beschreibung,Description,
 person_show_edit_btn,Bearbeiten,Edit,
 person_show_external_uris,Links,Links,

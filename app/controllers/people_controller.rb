@@ -44,7 +44,7 @@ class PeopleController < ApplicationController
   def person_params
     params
       .require(:person)
-      .permit(:first_name, :last_name, :pseudonym, :description, external_uris: [])
+      .permit(:pseudonym, :description, external_uris: [])
   end
 
   def person_show_presenter(person)

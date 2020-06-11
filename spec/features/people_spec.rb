@@ -46,8 +46,8 @@ feature 'People' do
 
       expect(page).to have_current_path(edit_person_path(person))
 
-      fill_in 'person[first_name]', with: new_values[:first_name]
-      fill_in 'person[last_name]', with: new_values[:last_name]
+      # fill_in 'person[first_name]', with: new_values[:first_name]
+      # fill_in 'person[last_name]', with: new_values[:last_name]
       fill_in 'person[pseudonym]', with: new_values[:pseudonym]
       fill_in 'person[description]', with: new_values[:description]
       new_values[:external_uris].each { |uri| add_uri(uri) }
@@ -58,10 +58,10 @@ feature 'People' do
       expect(page).to have_css('.ui-alert.success')
 
       expect(page).to have_content(
-        new_values[:first_name] + ' ' + new_values[:last_name] + ' (' + new_values[:pseudonym] + ')'
+        person[:first_name] + ' ' + person[:last_name] + ' (' + new_values[:pseudonym] + ')'
       )
-      expect_person_detail(:first_name, new_values)
-      expect_person_detail(:last_name, new_values)
+      # expect_person_detail(:first_name, new_values)
+      # expect_person_detail(:last_name, new_values)
       expect_person_detail(:description, new_values)
       expect(page).to have_content(
         [
