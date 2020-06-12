@@ -13,8 +13,14 @@ module Presenters
 
         def change_date
           if @edit_session.created_at
-            @edit_session.created_at.strftime('%d.%m.%Y, %H:%M')
+            @edit_session.created_at
+              .in_time_zone(AppSetting.first.time_zone)
+              .strftime('%d.%m.%Y, %H:%M')
           end
+        end
+
+        def change_date_iso
+          @edit_session.created_at.iso8601
         end
 
         def user

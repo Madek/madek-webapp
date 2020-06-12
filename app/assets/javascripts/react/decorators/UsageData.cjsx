@@ -71,7 +71,9 @@ module.exports = React.createClass
                         key:  edit_session.user.uuid
                       }]
                       <tr key={edit_session.uuid}>
-                        <td className="ui-summary-label">{edit_session.change_date}</td>
+                        <td className="ui-summary-label" title={edit_session.change_date_iso}>
+                          {edit_session.change_date}
+                        </td>
                         <td className="ui-summary-content">
                           <TagCloud mod='person' mods='small' list={list}></TagCloud>
                         </td>

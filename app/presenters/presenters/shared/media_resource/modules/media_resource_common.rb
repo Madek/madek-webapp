@@ -11,7 +11,9 @@ module Presenters
           end
 
           def created_at_pretty
-            @app_resource.created_at.strftime('%d.%m.%Y')
+            @app_resource.created_at
+              .in_time_zone(AppSetting.first.time_zone)
+              .strftime('%d.%m.%Y')
           end
 
           def portrayed_object_date_pretty

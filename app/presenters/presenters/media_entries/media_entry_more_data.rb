@@ -27,7 +27,9 @@ module Presenters
 
       def import_date
         return unless @media_file
-        @media_file.created_at.strftime('%d.%m.%Y')
+        @media_file.created_at
+          .in_time_zone(AppSetting.first.time_zone)
+          .strftime('%d.%m.%Y')
       end
 
       def activity_log
@@ -41,7 +43,9 @@ module Presenters
 
       def format_edit_session(es)
         [
-          es.created_at.strftime('%d.%m.%Y, %H:%M'),
+          es.created_at
+            .in_time_zone(AppSetting.first.time_zone)
+            .strftime('%d.%m.%Y, %H:%M'),
           ::Presenters::People::PersonIndex.new(es.user.person)
         ]
       end
