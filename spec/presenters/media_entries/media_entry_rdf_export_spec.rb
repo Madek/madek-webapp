@@ -263,13 +263,15 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
         meta_datum_text_date.string,
         'madek:MetaDatum::TextDate'
       )
-      # TODO
-      # expect_triple(
-      #   turtle,
-      #   'test:json',
-      #   %(\\{\\"seq\\":[1,2,null],\\"zero_point\\":-273.15,\\"some_boolean\\":true\\}),
-      #   'madek:MetaDatum::JSON'
-      # )
+      expect(turtle).to match(
+        /
+          ^\s{2}test:json\s
+          "\{\\"seq\\":\[1,2,null\],
+          \\"zero_point\\":-273\.15,
+          \\"some_boolean\\":true\}"
+          \^\^madek:MetaDatum::JSON;
+        /x
+      )
       expect_triple(
         turtle,
         'test:keywords',
