@@ -11,6 +11,7 @@
 # - check if owl:sameAs is correct?
 # - test with data consumers!
 
+# rubocop:disable Metrics/ClassLength,Lint/Void
 module Presenters
   module MediaEntries
     class MediaEntryRdfExport < Presenters::Shared::AppResourceWithUser
@@ -233,3 +234,4 @@ module Presenters
     end
   end
 end
+# rubocop:enable Metrics/ClassLength
