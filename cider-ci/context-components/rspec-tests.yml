@@ -19,6 +19,9 @@ task_defaults:
     config:
       include_match: '^config\/.+\.ya?ml$'
       content_type: text/yaml
+    json:
+      include_match: '^tmp\/spec_artefacts\/.+\.json'
+      content_type: application/json
 
   scripts:
     test:

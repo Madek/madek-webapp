@@ -45,8 +45,8 @@ describe Presenters::MediaEntries::BatchDiffQuery do
                  string: '03.2020',
                  media_entry: media_entry_2)
 
-          expect(result('test:datestring')).to eq(
-            'meta_key_id' => 'test:datestring',
+          expect(result('test:textdate')).to eq(
+            'meta_key_id' => 'test:textdate',
             'max' => 2,
             'count' => 2
           )
@@ -62,8 +62,8 @@ describe Presenters::MediaEntries::BatchDiffQuery do
                  string: '13.07.2019',
                  media_entry: media_entry_2)
 
-          expect(result('test:datestring')).to eq(
-            'meta_key_id' => 'test:datestring',
+          expect(result('test:textdate')).to eq(
+            'meta_key_id' => 'test:textdate',
             'max' => 1,
             'count' => 2
           )

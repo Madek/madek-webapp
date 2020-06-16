@@ -6,18 +6,19 @@
 # TOOLS:
 # * https://json-ld.org/playground/
 
-# TODO: …
-# - support Roles!
-# - check if owl:sameAs is correct?
-# - test with data consumers!
+META_KEY_TYPE = 'madek:MetaKey'.freeze
+MD_ROLE_TYPE = 'madek:Role'.freeze
+MD_JSON_TYPE = 'madek:JSONText'.freeze
+RDF_PROPERTY_TYPE = 'rdf:Property'.freeze
+# MD_JSON_TYPE = 'rdf:JSON' # not stable yet
 
+# rubocop:disable Metrics/ClassLength
 module Presenters
   module MediaEntries
     class MediaEntryRdfExport < Presenters::Shared::AppResourceWithUser
       include Presenters::Shared::Modules::VocabularyConfig
 
       def json_ld
-        # JSON::LD::API.compact(json_ld_graph, json_ld_graph["@context"])
         json_ld_graph.as_json
       end
 
@@ -46,81 +47,90 @@ module Presenters
         @_json_ld_graph ||= \
         {
           '@context': context,
-          '@graph': [entry_md, meta_data_graph[:relateds]].flatten
+          '@graph': [entry_md, meta_data_graph[:relateds], hardcoded_relations].flatten
         }
       end
 
       def meta_data_graph
         return @_meta_data_graph if @_meta_data_graph
-        related = { keywords: [], people: [], roles: [] }
+        related = { meta_keys: [], keywords: [], people: [], roles: [] }
         resource_md = meta_data.map do |md|
-          value =
+          value_node =
             case md.class.name
             when 'MetaDatum::Text'
-              { '@value': md.string, '@type': 'madek:MetaDatum::Text' }
+              val = { '@value': md.string, '@type': 'madek:Text' }
+              { cid_meta_key(md.meta_key) => val }
 
             when 'MetaDatum::TextDate'
-              { '@value': md.string, '@type': 'madek:MetaDatum::TextDate' }
+              val = { '@value': md.string, '@type': 'madek:TextDate' }
+              { cid_meta_key(md.meta_key) => val }
 
             when 'MetaDatum::JSON'
-              { '@value' => md.json.to_json, '@type' => 'madek:MetaDatum::JSON' }
+              val = { '@value' => md.json.to_json, '@type' => MD_JSON_TYPE }
+              { cid_meta_key(md.meta_key) => val }
 
             when 'MetaDatum::Keywords'
               md.keywords.map do |k|
-                node = {
-                  '@id': full_url("/vocabulary/keyword/#{k.id}"),
-                  '@type': 'madek:Keyword'
+                val = {
+                  '@id': full_url("/vocabulary/keyword/#{k.id}")
                 }
-                related[:keywords].push(node.merge(
+                related[:keywords].push(val.merge(
+                  '@type': 'madek:Keyword',
                   'rdfs:label': k.to_s,
-                  # TODO: include those props
+                  # TODO: include those props?
                   # _rdf_class: k.rdf_class,
                   "owl:sameAs": k.external_uris.presence
                 ).compact)
-                node
+                { cid_meta_key(md.meta_key) => val }
               end
 
             when 'MetaDatum::People'
               md.people.map do |p|
-                node = {
-                  '@id': full_url("/people/#{p.id}"),
-                  '@type': 'madek:Person'
-                }
-                related[:people].push(node.merge(
-                  'rdfs:label': p.to_s,
-                  'owl:sameAs': p.external_uris.presence
-                ).compact)
-                node
+                val = { '@id': iri_person(p) }
+                related[:people].push(map_person(p))
+                { cid_meta_key(md.meta_key) => val }
               end
 
+            # NOTE: Roles map to Properties themselves!
             when 'MetaDatum::Roles'
               md.meta_data_roles.map do |mdr|
-                person_node = {
-                  '@id': full_url("/people/#{mdr.person_id}"),
-                  '@type': 'madek:Person'
-                }
-                role_node = {
-                  '@id': full_url("/roles/#{mdr.role_id}"),
-                  '@type': 'madek:Role'
-                } if mdr.role
-                node = {
-                  '@type': 'madek:MetaDatum::Roles',
-                  '@list': [person_node, role_node].compact
-                }
-                related[:roles].concat(
-                  [
-                    person_node.merge('rdfs:label': mdr.person.to_s),
-                    role_node&.merge('rdfs:label': mdr.role.to_s)
-                  ].compact
-                )
-                node
+                val = { '@id': iri_person(mdr.person) }
+
+                related[:people].push(map_person(mdr.person))
+
+                # FIXME: either enforce existence of Role,
+                # or define a "genericRole" to be used if blank…
+                # (could be name "Participant" or like the MK).
+                # For now we treat it like MD:People
+                if !mdr.role
+                  { cid_meta_key(md.meta_key) => val }
+                else
+                  related[:roles].push(
+                    '@id': iri_role(mdr.role),
+                    '@type': MD_ROLE_TYPE,
+                    'rdfs:subPropertyOf': iri_meta_key(md.meta_key)
+                  )
+                  { iri_role(mdr.role) => val }
+                end
+
               end
 
             else
               fail 'not implemented! md type: ' + md.class
             end
-          { md.meta_key_id => value }
-        end.reduce({}, &:merge)
+
+          # also add the MetaKey as a property, so the labels are included for the consumer
+          meta_key = md.meta_key
+          related[:meta_keys].push(
+            '@type': META_KEY_TYPE,
+            '@id': cid_meta_key(meta_key),
+            'rdfs:label': map_languages(meta_key.labels),
+            'rdfs:comment': map_languages(meta_key.descriptions)
+          )
+          value_node
+        end
+        # binding.pry
+        resource_md = resource_md.flatten.compact.reduce({}, &:merge)
 
         systemd_md = system_vocabulary_meta_data.map do |key, md|
           value = md.call
@@ -143,7 +153,8 @@ module Presenters
           .map(&:first)
           .sort_by(&:position)
           .map do |v|
-            { v.id => full_url("/vocabulary/#{v.id}:") }
+            cid = v.id == 'madek_core' ? v.id : "madek_#{v.id}"
+            { cid => full_url("/vocabulary/#{v.id}:") }
           end
           .reduce({}, &:merge)
       end
@@ -153,9 +164,23 @@ module Presenters
           madek: full_url('/ns#'),
           madek_system: full_url('/vocabulary/madek_system:'),
           Keyword: full_url('/vocabulary/keyword/'),
+          Role: full_url('/roles/'),
+          rdf: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
           rdfs: 'http://www.w3.org/2000/01/rdf-schema#',
           owl: 'http://www.w3.org/2002/07/owl#'
         }
+      end
+
+      def hardcoded_relations
+        [
+          # {'@id': MD_JSON_TYPE, '@type': 'rdf:JSON'}, # not stable yet
+          unless META_KEY_TYPE == RDF_PROPERTY_TYPE
+             { '@id': META_KEY_TYPE, '@type': RDF_PROPERTY_TYPE }
+          end,
+          unless MD_ROLE_TYPE == RDF_PROPERTY_TYPE
+             { '@id': MD_ROLE_TYPE, '@type': RDF_PROPERTY_TYPE }
+          end
+        ].compact
       end
 
       def dump_rdf(data, format)
@@ -170,7 +195,7 @@ module Presenters
         # for consistent export.
 
         # keys of this hash are handled like MetaKeys of id `madek_system:${key}`.
-        {
+        _notes = {
           publisher: -> { 'TODO: add string from new system setting' },
           identifier: -> { 'TODO: add own URL (full, absolute, UUID-based)' },
           resource_type: -> { 'TODO: add media type (audio/video/doc/other)' },
@@ -200,13 +225,47 @@ module Presenters
         {}
       end
 
-      # temp
       def full_url(path)
         URI.parse(external_base_url).merge(path).to_s
       end
 
+      def iri_meta_key(mk)
+        full_url("/vocabulary/#{mk.id}")
+      end
+
+      def cid_meta_key(mk)
+        if mk.id.split(':')[0] == 'madek_core'
+          mk.id
+        else
+          "madek_#{mk.id}"
+        end
+      end
+
+      def iri_person(p)
+        full_url("/people/#{p.id}")
+      end
+
+      def iri_role(r)
+        # use prefix because its used as a property
+        "Role:#{r.id}"
+      end
+
+      def map_person(p)
+        {
+          '@type': 'madek:Person',
+          '@id': iri_person(p),
+          'rdfs:label': p.to_s,
+          'owl:sameAs': p.external_uris.presence
+        }.compact
+      end
+
+      def map_languages(strings)
+        strings
+          .map { |l, v| { '@language': l, '@value': v } }
+          .presence
+      end
+
       def external_base_url
-        # binding.pry
         @_external_base_url ||= Settings.madek_external_base_url
       end
 

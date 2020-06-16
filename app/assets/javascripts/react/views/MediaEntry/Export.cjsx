@@ -22,12 +22,12 @@ module.exports = React.createClass
     hasOriginal = get.media_file.original_file_url
     hasNeither = not hasPreviews and not hasOriginal
 
-    section_rdf_export = <div>
-      <h2 className="title-l ui-resource-title"
-        style={{marginTop: '0px', marginLeft: '0px', marginBottom: '20px'}}>
+    sectionRdfExport = <div>
+      <h2 className="title-l ui-resource-title mbs">
         {t('media_entry_export_rdf_title')}{' '}
-        <mark>{t('media_entry_export_rdf_title_hint')}</mark>
+        <span>{t('media_entry_export_rdf_title_hint')}</span>
       </h2>
+      <p className='font-italic mbs'>{t('media_entry_export_rdf_experiment_footnote')}</p>
       <table className="block">
         <thead>
           <tr>
@@ -77,8 +77,7 @@ module.exports = React.createClass
         {
           if hasNeither == false
             <div className="ui-export-block" id="original-meta-data">
-              <h2 className="title-l ui-resource-title"
-                style={{marginTop: '0px', marginLeft: '0px', marginBottom: '20px'}}>
+              <h2 className="title-l ui-resource-title mbs" >
                 {t('media_entry_export_original')}
               </h2>
               {
@@ -109,13 +108,11 @@ module.exports = React.createClass
 
         }
 
-        {section_rdf_export}
-
         {
           if hasPreviews
             f.map get.media_file.previews, (preview, type) ->
-              <div key={type} className="align-left bg-light sg-canvas sg-modifier">
-                <h2 className="title-l ui-resource-title" style={{marginTop: '40px', marginLeft: '0px', marginBottom: '20px'}}>
+              <div key={type} className="align-left bg-light mbm pbs">
+                <h2 className="title-l ui-resource-title mbs">
                   {
                     t('media_entry_export_subtitle_' + type)
                   }
@@ -152,7 +149,7 @@ module.exports = React.createClass
               </div>
         }
 
-
+        {sectionRdfExport}
 
       </div>
 
