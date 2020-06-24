@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+set -eu
+
+FILE=${FILE:-tmp/latest.pgbin}
+RAILS_ENV=development
+bundle exec rake db:environment:set
+bundle exec rails runner "IO.write('tmp/db.conf', Rails.configuration.database_configuration[Rails.env].to_json)"
+DBCONFIG=$(cat 'tmp/db.conf')
+echo $DBCONFIG
+PGDATABASE=$(echo $DBCONFIG | jq -r .database)
+PGPORT=$(echo $DBCONFIG | jq -r .port)
+PGUSER=$(echo $DBCONFIG | jq -r .username)
+PGPASSWORD=$(echo $DBCONFIG | jq -r .password)
+J=$(ruby -e "require 'etc'; print((Etc.nprocessors/2.0).ceil) & STDOUT.flush")
+echo "PGDATABASE=$PGDATABASE"
+echo "PGPORT=$PGPORT"
+echo "PGUSER=$PGUSER"
+echo "PGPASSWORD=$PGPASSWORD"
+echo "J=$J"
+# echo "ENTER to continue; abort with CTRL-C"
+# read
+psql -c "SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = '$PGDATABASE' AND pid <> pg_backend_pid();"
+psql -c "DROP DATABASE IF EXISTS $PGDATABASE"
+psql -c "CREATE DATABASE $PGDATABASE"
+# this is required to restore dumps from PG <= 10 into PG >= 11
+# TODO it might cause problems on dups from PG >= 11
+psql -d $PGDATABASE -c "DROP SCHEMA IF EXISTS \"public\";"
+pg_restore --disable-triggers -j $J -x -O -d $PGDATABASE $FILE
+bundle exec rake db:migrate

@@ -1,0 +1,4 @@
+#!/bin/bash
+mkdir -p tmp
+FILE=${FILE:-tmp/latest.pgbin}
+rsync --progress -vLe ssh root@medienarchiv.zhdk.ch:/opt/madekdata/backups/latest.pgbin $FILE
