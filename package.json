@@ -50,7 +50,7 @@
     "jquery": "2.2.4",
     "linkifyjs": "2.1.4",
     "local-links": "1.4.1",
-    "lodash": "4.17.13",
+    "lodash": "4.17.15",
     "moment": "2.18.1",
     "prop-types": "^15.6.1",
     "qs": "6.4.0",
