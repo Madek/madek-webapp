@@ -22,6 +22,26 @@ module.exports = React.createClass
     hasOriginal = get.media_file.original_file_url
     hasNeither = not hasPreviews and not hasOriginal
 
+    sectionOriginalFile = hasOriginal && [
+      <div className="col1of3" key="1">
+        <p>
+          {t('media_entry_export_original_hint')}
+        </p>
+      </div>,
+      <div className="col1of3 by-center" key="2">
+        <p>
+          {get.media_file.extension}
+        </p>
+      </div>,
+      <div className="col1of3 by-right" key="3">
+        <a href={forceDownload(get.media_file.original_file_url)}
+          target='_blank'
+          className='primary-button'>
+          {t('media_entry_export_download')}
+        </a>
+      </div>
+    ]
+
     sectionRdfExport = <div>
       <h2 className="title-l ui-resource-title mbs">
         {t('media_entry_export_rdf_title')}{' '}
@@ -82,21 +102,7 @@ module.exports = React.createClass
               </h2>
               {
                 if hasOriginal
-                  [
-                    <div className="col1of2">
-                      <p>
-                        {t('media_entry_export_original_hint')}
-                      </p>
-                    </div>
-                    ,
-                    <div className="col1of2 by-right">
-                      <a href={forceDownload(get.media_file.original_file_url)}
-                        target='_blank'
-                        className='primary-button'>
-                        {t('media_entry_export_download')}
-                      </a>
-                    </div>
-                  ]
+                  sectionOriginalFile
                 else
                   <div className="col1of2">
                     <p>
