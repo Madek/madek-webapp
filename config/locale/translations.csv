@@ -818,13 +818,13 @@ workflow_edit_adder_meta_key_already_used,Metadatum wird schon verwendet,Metakey
 workflow_feature_title,Workflow,Workflow,
 workflow_md_edit_form_key_is_managed_a,"Dieser Wert wird im Workflow ","This value is managed by workflow ",
 workflow_md_edit_form_key_is_managed_b," verwaltet.",".",
-workflow_md_edit_is_common_empty," (leer)"," (leer)"
+workflow_md_edit_is_common_empty," (leer)"," (empty)"
 workflow_md_edit_legend,Legende:,Legend:
 workflow_md_edit_is_common_explanation,"Gesetzter Wert soll auf alle enthaltenen Medieneinträge angewendet werden, oder (wenn deaktiviert) einzeln eingegeben werden können","The set value should be applied to all media entries contained, or (if deactivated) can be entered individually"
-workflow_md_edit_is_common_nonempty," (gesetzt)"," (gesetzt)"
-workflow_md_edit_is_common,"Fixer Wert","Fixer Wert"
+workflow_md_edit_is_common_nonempty," (gesetzt)"," (set)"
+workflow_md_edit_is_common,"Fixer Wert","Fixed value"
 workflow_md_edit_is_mandatory_explanation,"Alle enthaltenen Medieneinträge müssen einen Wert gesetzt haben, damit der Workflow abgeschlossen werden kann","All media entries contained must have a value set so that the Workflow can be completed"
-workflow_md_edit_is_mandatory,"Pflichtfeld","Pflichtfeld"
+workflow_md_edit_is_mandatory,"Pflichtfeld","Mandatory field"
 workflow_md_edit_is_not_common,"Individuelle Vergabe","Individuelle Vergabe"
 workflow_md_edit_is_overridable,"…und dabei vorhandene Werte überschreiben","…and overwrite existing values"
 workflow_md_edit_scope,"Geltungsbereich","Scope"
@@ -832,6 +832,7 @@ workflow_md_edit_scope_entry,"Einträge","Entries"
 workflow_md_edit_scope_set,"Sets","Sets"
 workflow_md_edit_remove_btn,"Entfernen","Remove"
 workflow_md_edit_remove_explain,"Nach dem Entfernen wird dieses Metadaten-Feld nicht mehr innerhalb dieses Workflows genutzt. Es kann weiterhin bei den jeweiligen Medienenträgen ausgefüllt werden.","After removal, this metadata field is no longer used within this process. It can still be filled in at the respective media entries."
+workflow_md_edit_value,Wert,Value
 workflow_md_edit_value_error_notice,"Noch kein Fixer Wert vergeben für Pflichtfeld!","No fixed value yet assigned for mandatory field!"
 workflow_mk_error_unknown,Problem:,Problem:,
 workflow_mk_error_not_found,"Die folgenden MetaKeys sind konfiguriert, aber konnten nicht im System gefunden werden: ","The following MetaKeys are configured, but could not be found in the system: ",

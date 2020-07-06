@@ -5,9 +5,10 @@ module WorkflowLocker
     def apply_common_meta_data
       configuration['common_meta_data'].each do |md|
         next unless (md['meta_key_id'].present? and md['is_common'])
-        create_meta_datum!(@workflow.master_collection, md['meta_key_id'], md['value'])
+        meta_key = MetaKey.find(md['meta_key_id']) rescue next
+        create_meta_datum!(@workflow.master_collection, meta_key.id, md['value'])
         nested_resources.each do |resource|
-          create_meta_datum!(resource.cast_to_type, md['meta_key_id'], md['value'])
+          create_meta_datum!(resource.cast_to_type, meta_key.id, md['value'])
         end
       end
     end

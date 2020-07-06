@@ -9,13 +9,11 @@ module WorkflowLocker
       if resource.is_a?(Collection)
         [meta_key_id: 'madek_core:title']
       else
-        @required_context_keys =
-          (
-            app_settings = AppSetting.first
-            context = app_settings.contexts_for_entry_validation.first
-            context.context_keys.where(is_required: true)
-          )
-            .to_a
+        @required_context_keys = (
+          app_settings = AppSetting.first
+          context = app_settings.contexts_for_entry_validation.first
+          context&.context_keys&.where(is_required: true)
+        ).to_a
 
         if (workflow = resource.try(:workflow))
           @required_context_keys.concat(
@@ -25,14 +23,8 @@ module WorkflowLocker
       end
     end
 
-    def error_message(key)
-      label =
-        if key.is_a?(ContextKey)
-          Presenters::ContextKeys::ContextKeyCommon.new(key).label
-        else
-          Presenters::MetaKeys::MetaKeyCommon.new(MetaKey.find_by!(id: key[:meta_key_id])).label
-        end
-      label + ' is missing'
+    def error_message(meta_key)
+      Presenters::MetaKeys::MetaKeyCommon.new(meta_key).label + ' is missing'
     end
 
     def validate_and_publish!
@@ -41,10 +33,11 @@ module WorkflowLocker
         has_errors = false
         required_context_keys(resource).each do |rck|
           next if resource.meta_data.find_by(meta_key_id: rck[:meta_key_id])
+          meta_key = MetaKey.find(rck[:meta_key_id]) rescue next
 
           has_errors = true
           @errors[resource.title] ||= []
-          @errors[resource.title] << error_message(rck)
+          @errors[resource.title] << error_message(meta_key)
         end
 
         resource.update!(is_published: true) if resource.is_a?(MediaEntry) && !has_errors

@@ -24,7 +24,6 @@ module WorkflowLocker
         apply_common_permissions
         apply_common_meta_data
         validate_and_publish!
-        # raise ActiveRecord::Rollback
       end
 
       true
@@ -48,7 +47,9 @@ module WorkflowLocker
     end
 
     def nested_resources
-      @workflow.master_collection.child_media_resources
+      @workflow
+        .master_collection
+        .child_media_resources(media_entries_scope: :descendent_media_entries)
     end
   end
 end

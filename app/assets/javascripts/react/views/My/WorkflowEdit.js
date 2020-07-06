@@ -414,8 +414,8 @@ const WorkflowEditor = ({
                         <th className="prs" style={firstColStyle}>
                           MetaKey
                         </th>
-                        <th className="prs">Pflichtfeld</th>
-                        <th className="prs">Wert</th>
+                        <th className="prs">{t('workflow_md_edit_is_mandatory')}</th>
+                        <th className="prs">{t('workflow_md_edit_value')}</th>
                         <th className="pls">{t('workflow_md_edit_scope')}</th>
                       </tr>
                     </thead>
