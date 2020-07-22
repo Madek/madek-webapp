@@ -58,24 +58,24 @@ class WorkflowPreview extends React.Component {
 
   componentWillMount() {
     const { errors, models, initialErrors } = this.state
+    const { workflow } = this.props.get.master_collection
 
     f.each(this.collectResources(), childResource => {
       const {
         meta_data: { meta_datum_by_meta_key_id },
         uuid: resourceId,
         meta_meta_data: { meta_key_by_meta_key_id },
-        type,
-        workflow
+        type
       } = childResource
 
       errors[resourceId] = []
       initialErrors[resourceId] = []
 
       f.each(meta_key_by_meta_key_id, (meta_key, metaKeyId) => {
-        let metaData = f.get(
-          f.find(workflow.common_settings.meta_data, md => md.meta_key.uuid === metaKeyId),
-          'value'
-        )
+        let metaData = f.find(workflow.common_settings.meta_data, md => md.meta_key.uuid === metaKeyId)
+        if (!metaData) return
+        const position = f.get(metaData, 'position')
+        metaData = f.get(metaData, 'value')
         if (f.has(metaData, '0.string')) {
           metaData = metaData[0].string
         }
@@ -94,10 +94,10 @@ class WorkflowPreview extends React.Component {
         }
         model.originalValues = model.values
 
-        f.set(models, [resourceId, metaKeyId], model)
+        f.set(models, [resourceId, position], model)
 
         const validationModel = {
-          [metaKeyId]: f.get(models, [resourceId, metaKeyId])
+          [metaKeyId]: model
         }
         if (
           validation._validityForAll(childResource.meta_meta_data, validationModel) === 'invalid'
@@ -114,8 +114,11 @@ class WorkflowPreview extends React.Component {
   handleValueChange(values, metaKeyId, childResource) {
     const { errors, models } = this.state
     const { uuid: resourceId, meta_meta_data } = childResource
+    const modelIndex = f.findIndex(models[resourceId], (model) => {
+      return f.get(model, 'meta_key.uuid') === metaKeyId
+    })
 
-    f.set(models, [resourceId, metaKeyId, 'values'], values)
+    f.set(models, [resourceId, modelIndex, 'values'], values)
 
     if (
       f.has(errors, resourceId) &&
@@ -126,7 +129,7 @@ class WorkflowPreview extends React.Component {
     }
 
     const validationModel = {
-      [metaKeyId]: f.get(models, [resourceId, metaKeyId])
+      [metaKeyId]: f.get(models, [resourceId, modelIndex])
     }
     if (validation._validityForAll(meta_meta_data, validationModel) === 'invalid') {
       errors[resourceId].push(metaKeyId)
@@ -204,7 +207,6 @@ class WorkflowPreview extends React.Component {
       type,
       meta_meta_data: { meta_key_by_meta_key_id },
       uuid: resourceId,
-      /*workflow,*/
       child_resources
     } = childResource
     const title = f.presence(f.get(resource, 'title') || '')
@@ -240,9 +242,11 @@ class WorkflowPreview extends React.Component {
             {Renderer._renderThumbnail(resource, false, resource.url)}
           </div>
           <div className="app-body-content table-cell ui-container table-substance ui-container">
-            {f.map(meta_key_by_meta_key_id, (metaKey, metaKeyId) => {
+            {f.map(models[resourceId], (model) => {
+              const metaKey = f.get(model, 'meta_key')
+              if (!metaKey) return
+              const metaKeyId = metaKey.uuid
               const hasError = f.include(errors[resourceId], metaKeyId)
-              const model = f.get(models, [resourceId, metaKeyId])
 
               return (
                 <Fieldset

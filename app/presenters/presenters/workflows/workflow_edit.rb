@@ -73,8 +73,12 @@ module Presenters
         end
       end
 
+      def add_positions(array)
+        array.map.with_index { |item, index| item.tap { |i| i[:position] = index } }
+      end
+
       def common_meta_data
-        @app_resource.configuration['common_meta_data'].map do |md|
+        result = @app_resource.configuration['common_meta_data'].map do |md|
           begin
             # build something like MetaDatumEdit presenter, but from plain JSON
             meta_key = MetaKey.find(md['meta_key_id'])
@@ -91,6 +95,8 @@ module Presenters
             md.slice('is_common', 'is_mandatory', 'is_overridable')
           )
         end
+
+        add_positions(result)
       end
     end
   end
