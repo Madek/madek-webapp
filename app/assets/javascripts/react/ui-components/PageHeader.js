@@ -7,7 +7,9 @@ import Icon from './Icon.cjsx'
 const WORKFLOW_STATES = { IN_PROGRESS: 'IN_PROGRESS', FINISHED: 'FINISHED' }
 
 const WorkflowBanner = ({ workflow, icon }) => {
-  if(workflow.status === WORKFLOW_STATES.FINISHED) { return null }
+  if (workflow.status === WORKFLOW_STATES.FINISHED) {
+    return null
+  }
 
   const linkStyle = {
     color: '#adc671',
@@ -34,9 +36,11 @@ const WorkflowBanner = ({ workflow, icon }) => {
   )
 }
 
-const PageHeader = ({ icon, fa, title, actions, workflow }) => {
+const PageHeader = ({ icon, fa, title, actions, workflow, banner }) => {
   return (
     <div>
+      {banner}
+
       {!!workflow && <WorkflowBanner workflow={workflow} icon={icon} />}
       <div className="ui-body-title">
         <div className="ui-body-title-label">

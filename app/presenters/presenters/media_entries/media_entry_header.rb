@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 module Presenters
   module MediaEntries
     class MediaEntryHeader < Presenters::Shared::AppResource
@@ -59,6 +60,25 @@ module Presenters
           :destroy_button,
           :show_in_admin_button
         ]
+      end
+
+      def new_version_entries
+        ::MetaDatum::MediaEntry
+          .where(other_media_entry_id: @app_resource.id)
+          .joins('INNER JOIN media_entries ON meta_data.other_media_entry_id = media_entries.id')
+          .reorder('media_entries.created_at DESC')
+          .select do |md|
+            # only show if other entry is visible and both entries have same responsible
+            @app_resource.responsible_user_id == md.media_entry.responsible_user_id \
+            && auth_policy(@user, md.media_entry).show?
+          end
+          .map do |md|
+            p = Presenters::MediaEntries::MediaEntryIndex.new(md.media_entry, @user)
+            {
+              entry: { title: p.title, url: p.url, date: p.created_at_pretty },
+              description: md.string
+            }
+          end
       end
 
       private

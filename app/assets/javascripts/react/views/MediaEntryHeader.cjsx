@@ -9,6 +9,7 @@ Dropdown = require('../ui-components/Dropdown.cjsx')
 Menu = Dropdown.Menu
 MenuItem = Dropdown.MenuItem
 Icon = require('../ui-components/Icon.cjsx')
+Link = require('../ui-components/Link.cjsx')
 t = require('../../lib/i18n-translate.js')
 
 
@@ -42,7 +43,24 @@ module.exports = React.createClass
       )
     )
 
-    <PageContentHeader icon={icon} title={get.title} workflow={get.workflow}>
+    banner = if f.any(get.new_version_entries)
+      <div className="ui-alert warning ui-container inverted paragraph-l mbm">
+        {t('media_entry_notice_new_versions')}
+        <ul>
+        {f.map(get.new_version_entries, (i) =>
+          me = i.entry
+          desc = f.present(i.description) ? i.description + ', ' : ''
+          <li>
+            <Link href={me.url} mods="strong" style={{color: '#adc671', textDecoration: 'underline'}}>
+              {me.title}
+            </Link>{' '}
+            <em style={{fontStyle: 'italic'}}>({desc}{me.date})</em>
+          </li>
+        )}
+        </ul>
+      </div>
+
+    <PageContentHeader icon={icon} title={get.title} workflow={get.workflow} banner={banner}>
       {
         f.map(
           buttons,
