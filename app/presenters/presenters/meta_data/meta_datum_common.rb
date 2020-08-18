@@ -52,13 +52,14 @@ module Presenters
         id = value.other_media_entry_id
         return unless id
         entry = value.other_media_entry
-        # NOTE: when not found or authorized for viewing the referenced entry, only reveal the UUID
+        # NOTE: when not found or authorized for viewing the referenced entry, only reveal the UUID.
+        #       key uuid=>id is needed for editing!
         if entry and auth_policy(@user, entry).show?
           Presenters::MediaEntries::MediaEntryIndex.new(entry, @user)
         elsif entry
-          { title: id, url: media_entry_path(id: id), unAuthorized: true }
+          { title: id, url: media_entry_path(id: id), unAuthorized: true, uuid: id }
         else
-          { title: id, url: media_entry_path(id: id), notFound: true }
+          { title: id, url: media_entry_path(id: id), notFound: true, uuid: id }
         end
       end
 

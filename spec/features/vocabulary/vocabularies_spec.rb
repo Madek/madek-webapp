@@ -29,7 +29,7 @@ feature 'Resource: Vocabularies' do
             'Projekttitel', 'Dozierende/Projektleitung'] },
         { title: 'Werk',
           description: nil,
-          meta_keys:                                                   [
+          meta_keys: [
             'Gattung',
             'Bildlegende',
             'Bemerkung',
@@ -47,7 +47,7 @@ feature 'Resource: Vocabularies' do
           'Bearbeitet durch', 'Geändert am', 'Enthalten in', 'Enthält'] },
         { title: 'Credits',
           description: nil,
-          meta_keys:                                                   [
+          meta_keys: [
             'Copyright-Status',
             'Nutzungsbedingungen',
             'URL für Copyright-Informationen',
@@ -57,7 +57,7 @@ feature 'Resource: Vocabularies' do
             'Beschreibung durch (vor dem Hochladen ins Medienarchiv)'] },
         { title: 'Medium',
           description: nil,
-          meta_keys:                                                   [
+          meta_keys: [
             'Medienersteller/in',
             'Adresse',
             'Stadt',
@@ -82,8 +82,8 @@ feature 'Resource: Vocabularies' do
             'Madek. Es enthält die wichtigsten Metadaten für die Beschreibung '\
             'von Medieninhalten und ist vordefiniert und unveränderbar.',
           meta_keys: [
-            'Titel', 'Untertitel', 'Autor/in', 'Datierung',
-            'Schlagworte', 'Beschreibung', 'Urheberrechtshinweis'
+            'Titel', 'Untertitel', 'Autor/in', 'Datierung', 'Schlagworte',
+            'Beschreibung', 'Urheberrechtshinweis', 'ist neue Version von'
           ]
         }
       ]
@@ -132,7 +132,15 @@ feature 'Resource: Vocabularies' do
           table: [
             ['ID', 'madek_core:copyright_notice'],
             ['type', 'Text'],
-            ['scope', 'Entries, Sets']] }
+            ['scope', 'Entries, Sets']] },
+        { title: 'ist neue Version von',
+          table: [
+            ['ID', 'madek_core:is_new_version_of'],
+            ['type', 'MediaEntry'],
+            ['description', 'Dieser Medieneintrag ist eine neue Version eines älteren Eintrags. ' \
+              'Geben Sie zusätzlichen Text ein, um die Art der Aktualisierung anzugeben.'],
+            ['hint', 'Geben Sie die UUID eines anderen MediaEntry ein.'],
+            ['scope', 'Entries']] }
       ]
     end
 
