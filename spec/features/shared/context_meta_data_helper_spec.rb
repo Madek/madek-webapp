@@ -6,7 +6,7 @@ module ContextMetaDataHelper
 
   def find_context_text_field(context_id, meta_key_id)
     find_context_meta_key_form_by_id(context_id, meta_key_id)
-      .find('input, textarea')
+      .find('input[name], textarea[name]')
   end
 
   def update_context_text_field(context_id, meta_key_id, value)

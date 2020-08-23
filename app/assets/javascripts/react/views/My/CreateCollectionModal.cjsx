@@ -1,18 +1,7 @@
 React = require('react')
 ReactDOM = require('react-dom')
-getRailsCSRFToken = require('../../../lib/rails-csrf-token.coffee')
-ampersandReactMixin = require('ampersand-react-mixin')
-f = require('active-lodash')
-t = require('../../../lib/i18n-translate.js')
-RailsForm = require('../../lib/forms/rails-form.cjsx')
-InputFieldText = require('../../lib/forms/input-field-text.cjsx')
-FormButton = require('../../ui-components/FormButton.cjsx')
-ToggableLink = require('../../ui-components/ToggableLink.cjsx')
 Modal = require('../../ui-components/Modal.cjsx')
-xhr = require('xhr')
-formXhr = require('../../../lib/form-xhr.coffee')
 loadXhr = require('../../../lib/load-xhr.coffee')
-Preloader = require('../../ui-components/Preloader.cjsx')
 CreateCollection = require('./CreateCollection.cjsx')
 
 module.exports = React.createClass
