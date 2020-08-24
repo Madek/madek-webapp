@@ -49,16 +49,17 @@ module.exports = React.createClass
       key: 'usage_data'
       className: 'ui-resource-extension ui-metadata-box',
       list: [
-        {
-          key: 'responsible',
-          type: 'text',
-          label: t('usage_data_responsible'),
-          value: <TagCloud mod='person' mods='small' list={[{
-              href: get.responsible.url
-              children: get.responsible.name
-              key:  get.responsible.uuid
-            }]}></TagCloud>
-        },
+        # NOTE: <https://github.com/Madek/madek/issues/260>
+        # {
+        #   key: 'responsible',
+        #   type: 'text',
+        #   label: t('usage_data_responsible'),
+        #   value: <TagCloud mod='person' mods='small' list={[{
+        #       href: get.responsible.url
+        #       children: get.responsible.name
+        #       key:  get.responsible.uuid
+        #     }]}></TagCloud>
+        # },
         {
           key: 'created_at',
           type: 'text',

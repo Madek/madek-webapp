@@ -30,14 +30,17 @@ module.exports = React.createClass
                 <td className="ui-summary-label">{t('usage_data_responsible')}</td>
                 <td className="ui-summary-content">
                   {
-                    list = [
-                      {
-                        children: responsible.name,
-                        href: responsible.url,
-                        key: responsible.uuid
-                      }
-                    ]
-                    <TagCloud mod='person' mods='small' list={list}></TagCloud>
+                    # NOTE: <https://github.com/Madek/madek/issues/260>
+                    # list = [
+                    #   {
+                    #     children: responsible.name,
+                    #     href: responsible.url,
+                    #     key: responsible.uuid
+                    #   }
+                    # ]
+                    # <TagCloud mod='person' mods='small' list={list}></TagCloud>
+
+                    responsible.name
                   }
                 </td>
               </tr>
@@ -75,7 +78,11 @@ module.exports = React.createClass
                           {edit_session.change_date}
                         </td>
                         <td className="ui-summary-content">
-                          <TagCloud mod='person' mods='small' list={list}></TagCloud>
+                          {
+                            # NOTE: <https://github.com/Madek/madek/issues/260>
+                            # <TagCloud mod='person' mods='small' list={list}></TagCloud>
+                            edit_session.user.name
+                          }
                         </td>
                       </tr>
                     )

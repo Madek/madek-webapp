@@ -1,11 +1,19 @@
 module Presenters
   module MediaEntries
     class MediaEntryMoreData < Presenters::Shared::AppResource
-      include Presenters::Shared::MediaResource::Modules::Responsible
 
       def initialize(app_resource)
         super(app_resource)
         @media_file = @app_resource.media_file
+      end
+
+      def responsible
+        return unless (responsible = @app_resource.try(:responsible_user))
+        ::Presenters::Users::UserIndex.new(responsible)
+      end
+
+      def responsible_user_uuid
+        @app_resource.responsible_user.id if @app_resource.responsible_user
       end
 
       def file_information
@@ -46,7 +54,7 @@ module Presenters
           es.created_at
             .in_time_zone(AppSetting.first.time_zone)
             .strftime('%d.%m.%Y, %H:%M'),
-          ::Presenters::People::PersonIndex.new(es.user.person)
+          ::Presenters::Users::UserIndex.new(es.user)
         ]
       end
 
