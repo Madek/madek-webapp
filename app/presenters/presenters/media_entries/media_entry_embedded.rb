@@ -16,6 +16,7 @@ module Presenters
         {
           title: title,
           link: url,
+          logoTitle: ::AppSetting.first.brand_text,
           subtitle: [
             resource.authors.presence,
             resource.copyright_notice.presence

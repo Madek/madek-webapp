@@ -61,6 +61,7 @@ class VideoJS extends Component {
           titleBar: {
             hideOnPlay: props.mode === 'video',
             title: props.captionConf.title,
+            logoTitle: props.captionConf.logoTitle,
             subtitle: props.captionConf.subtitle,
             link: props.captionConf.link,
             logo: 'Z'
@@ -129,12 +130,16 @@ export default VideoJS
 
 // plugins
 
-function titleBarPlugin({ logo, title, subtitle, link, hideOnPlay = true }) {
+function titleBarPlugin({ logo, logoTitle, title, subtitle, link, hideOnPlay = true }) {
   const Dom = document.createElement.bind(document)
   const player = this
+
+  const logoEl = Dom('span')
+  logoEl.title = logoTitle
+
   const overlay = {
     el: Dom('a'),
-    logo: Dom('span'),
+    logo: logoEl,
     caption: Dom('span'),
     title: Dom('span'),
     subtitle: Dom('span')
