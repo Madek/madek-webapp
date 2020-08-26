@@ -2,17 +2,16 @@
 
   - if defined? brand
     .ui-header-brand
-      - brand_content = capture do
-        - if (logo = brand[:logo])
-          %img.ui-header-logo{alt: logo[:alt], src: logo[:src]}/
-        %h1.ui-header-brand-name= brand[:name]
-        %h2.ui-header-instance-name= brand[:instance_name]
-
-      - if brand[:href].nil?
-        = brand_content
-      - else
-        %a{href: brand[:href]}
-          = brand_content
+      - if (logo = brand[:logo])
+        %a.ui-header-logo{href: brand[:href], style: "background-image: url(#{logo[:src].html_safe})"}
+      .ui-header-brand-text
+        %h1.ui-header-instance-name
+          %a{href: brand[:href]}
+            = brand[:instance_name]
+        %h2.ui-header-brand-name
+          %a{href: brand[:href]}
+            = brand[:name]
+      %a.stretched-link{href: brand[:href]}
 
   - if defined? menu
     .ui-header-menu
