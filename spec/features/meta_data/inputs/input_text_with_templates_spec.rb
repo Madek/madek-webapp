@@ -9,7 +9,9 @@ feature 'Resource: MetaDatum' do
     @user = User.find_by(login: 'normin')
     @media_entry = create(:media_entry_with_image_media_file,
                           creator: @user, responsible_user: @user)
-    @context_key = ContextKey.find_by!(meta_key_id: 'madek_core:copyright_notice')
+    context = create(:context)
+    @context_key = create(
+      :context_key, context: context, meta_key_id: 'madek_core:copyright_notice')
   end
 
   context 'MetaDatum::Text' do
@@ -19,6 +21,7 @@ feature 'Resource: MetaDatum' do
           copyright_notice_default_text: 'Default Text',
           copyright_notice_templates: ['foo', 'bar', 'xoxo']
         )
+        configure_as_only_input(@context_key)
       end
 
       context 'when default text is specified' do
@@ -45,7 +48,7 @@ feature 'Resource: MetaDatum' do
               expect(input.value).to eq('foo')
             end
 
-            expect(page).to have_content 'Rechte foo'
+            expect(page).to have_content "#{@context_key.label} foo"
           end
         end
 
@@ -93,7 +96,7 @@ feature 'Resource: MetaDatum' do
               input.set('custom copyright value')
             end
 
-            expect(page).to have_content 'Rechte custom copyright value'
+            expect(page).to have_content "#{@context_key.label}  custom copyright value"
           end
         end
       end
