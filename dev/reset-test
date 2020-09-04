@@ -4,15 +4,18 @@ echo "This does a complete reset/setup of the local test environment"
 ################################################################################
 set -exu # be verbose and fail on any error
 
+export RAILS_ENV=test
 export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
 
-git submodule update --init --force
+git submodule update --init --force --quiet
 
-for ENV in test; do
-  RAILS_ENV=$ENV bundle exec rake db:pg:terminate_connections db:drop || true # ignore error if not exists yet
-  RAILS_ENV=$ENV time bundle exec rake db:create db:pg:structure_and_data:restore FILE="datalayer/db/personas.pgbin"
-  RAILS_ENV=$ENV time bundle exec rake db:migrate
-done
+DB_NAME="$(ruby -e 'require "yaml";puts YAML.load_file("config/database.yml")["test"]["database"]')"
+
+bundle exec rake db:pg:terminate_connections db:drop || true # ignore error if not exists yet
+bundle exec rake db:create
+psql -d "$DB_NAME" -f "datalayer/db/structure.sql"
+pg_restore -j4 --data-only -N "public" -d "$DB_NAME" "datalayer/db/personas.pgbin"
+bundle exec rake db:migrate
 
 echo ""
 echo "Now run a clean test!"
