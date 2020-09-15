@@ -52,7 +52,7 @@ class VideoJS extends Component {
     // make library available to our plugins and other extensions:
     window.videojs = videojs
     if (props.mode === 'video') {
-      require('videojs-resolution-switcher')
+      require('../../lib/videojs-resolution-switcher')
     }
 
     if (!this.props.isInternal) {
@@ -113,7 +113,10 @@ class VideoJS extends Component {
         height={options.height}
         width={options.width}
         className={classes}>
-        {children || sources.map(src => <source key={src.key} {...omit(src, 'res')} />)}
+        {children ||
+          sources.map(src => (
+            <source key={src.key} {...omit(src, 'res')} data-resolution={src.res} />
+          ))}
       </MediaTag>
     )
 

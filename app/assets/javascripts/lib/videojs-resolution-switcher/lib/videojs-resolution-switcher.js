@@ -1,6 +1,7 @@
 /*! videojs-resolution-switcher - 2015-7-26
  * Copyright (c) 2016 Kasper Moskwiak
  * Modified by Pierre Kraft
+ * Modified by Madek Project (https://madek.zhdk.ch)
  * Licensed under the Apache-2.0 license. */
 
 ;(function() {
@@ -191,6 +192,11 @@
           player.controlBar.resolutionSwitcher.dispose()
           delete player.controlBar.resolutionSwitcher
         }
+        // read resolution from data attribute
+        src = src.map(function(source) {
+          source.res = source['data-resolution']
+          return source
+        })
         //Sort sources
         src = src.sort(compareResolutions)
         groupedSrc = bucketSources(src)
