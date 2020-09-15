@@ -65,7 +65,6 @@
     "underscore.string": "3.3.5",
     "uuid-validate": "0.0.2",
     "video.js": "5.16.0",
-    "videojs-resolution-switcher": "^0.4.2",
     "xhr": "2.4.0"
   },
   "devDependencies": {
