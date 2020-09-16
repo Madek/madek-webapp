@@ -13,7 +13,7 @@ let videojs = null
 const defaultProps = {
   mode: 'video',
   controls: true,
-  preload: 'auto',
+  preload: 'none',
   onMount: noop,
   onReady: noop
 }

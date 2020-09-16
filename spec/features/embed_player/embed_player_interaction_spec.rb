@@ -14,6 +14,8 @@ feature 'Embed aka. "Madek-Player"', with_db: :test_media do
         play_btn = find('.vjs-big-play-button')
         play_btn.click
 
+        # binding.pry
+
         within('.vjs-control-bar') do
           res_btn = find('.vjs-resolution-button')
           expect(res_btn.text).to eq 'Quality SD'
@@ -21,6 +23,7 @@ feature 'Embed aka. "Madek-Player"', with_db: :test_media do
           hd_btn = res_btn.find('.vjs-menu-content li', text: 'HD')
           hd_btn.click
         end
+        find('.vjs-poster').click
         expect(find('.vjs-control-bar .vjs-resolution-button').text).to eq 'Quality HD'
       end
     end
