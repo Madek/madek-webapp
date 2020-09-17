@@ -15,7 +15,7 @@ module.exports = (resources, forUrl, showAll, onClick) ->
   listConfig = resources.config
   currentType = qs.parse(libUrl.parse(forUrl).query).type
   typeBbtns = f.compact([
-    {key: 'all', name: 'Alle'} if showAll,
+    {key: 'all', name: t('resources_type_all')} if showAll,
     {key: 'entries', name: t('sitemap_entries')},
     {key: 'collections', name: t('sitemap_collections')}])
 

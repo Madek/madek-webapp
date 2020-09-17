@@ -27,7 +27,8 @@ module.exports = React.createClass
       deleteProps,
       statusProps,
       selectProps,
-      textProps} = @props
+      textProps,
+      positionProps} = @props
   ) ->
 
     if statusProps
@@ -63,6 +64,57 @@ module.exports = React.createClass
         buttonClass='ui-thumbnail-action-favorite' />
       actionsLeft.push(
         <li key='favorite' className='ui-thumbnail-action'>{favorButton}</li>)
+
+    # change position buttons
+    if f.get(positionProps, 'changeable', false) and resourceType is 'MediaEntry'
+      { handlePositionChange } = positionProps
+      commonCss =
+        cursor: (if positionProps.disabled then 'not-allowed' else 'pointer')
+      iconCssClass = cx({ mid: positionProps.disabled })
+
+      actionsLeft.push(
+        <li
+          className='ui-thumbnail-action mrn'
+          style={commonCss}
+          title='Move to the beginning'
+          onClick={(e) -> handlePositionChange(get.uuid, -2, e)}
+        >
+          <Icon i='move-left-first' className={iconCssClass} />
+        </li>
+      )
+
+      actionsLeft.push(
+        <li
+          className='ui-thumbnail-action mhn'
+          style={commonCss}
+          title='Move left'
+          onClick={(e) -> handlePositionChange(get.uuid, -1, e)}
+        >
+          <Icon i='move-left' className={iconCssClass} />
+        </li>
+      )
+
+      actionsLeft.push(
+        <li
+          className='ui-thumbnail-action mhn'
+          style={commonCss}
+          title='Move right'
+          onClick={(e) -> handlePositionChange(get.uuid, 1, e)}
+        >
+          <Icon i='move-right' className={iconCssClass} />
+        </li>
+      )
+
+      actionsLeft.push(
+        <li
+          className='ui-thumbnail-action mln'
+          style={commonCss}
+          title='Move to the end'
+          onClick={(e) -> handlePositionChange(get.uuid, 2, e)}
+        >
+          <Icon i='move-right-last' className={iconCssClass} />
+        </li>
+      )
 
 
     if get.editable

@@ -16,7 +16,6 @@ appRequest = require('../../lib/app-request.coffee')
 
 Waypoint = require('react-waypoint')
 RailsForm = require('../lib/forms/rails-form.cjsx')
-ResourceThumbnail = require('./ResourceThumbnail.cjsx')
 { Button, ButtonGroup, Icon, Link, Preloader, Dropdown, ActionsBar
 } = require('../ui-components/index.coffee')
 MenuItem = Dropdown.MenuItem
@@ -42,7 +41,6 @@ simpleXhr = require('../../lib/simple-xhr.coffee')
 LoadXhr = require('../../lib/load-xhr.coffee')
 Preloader = require('../ui-components/Preloader.cjsx')
 
-SortDropdown = require('./resourcesbox/SortDropdown.cjsx')
 ActionsDropdown = require('./resourcesbox/ActionsDropdown.cjsx')
 Clipboard = require('./resourcesbox/Clipboard.cjsx')
 
@@ -107,10 +105,6 @@ module.exports = React.createClass
     batchRemoveFromSet: false,
     savedLayout: @props.collectionData.layout if @props.collectionData
     savedOrder: @props.collectionData.order if @props.collectionData
-    listMetadata: {}
-    loadingListMetadataResource: null
-    loadingNextPage: false
-    modelReloading: false
     showBatchTransferResponsibility: false
     batchTransferResponsibilityResources: []
     batchDestroyResourcesModal: false
@@ -365,6 +359,52 @@ module.exports = React.createClass
     else
       this.triggetRootEvent({ action: 'toggle-resource-selection', resourceUuid: resource.uuid})
 
+  handlePositionChange: (resourceId, direction, event) ->
+    event.preventDefault()
+
+    return if @state.boxState.data.loadingNextPage
+
+    currentOrder = f.get(@state.config, 'order', @props.collectionData.order)
+
+    targetOrder =
+      if f.includes(['manual ASC', 'manual DESC'], currentOrder)
+        currentOrder
+      else
+        'manual ASC'
+
+    newConfig = f.extend({}, @state.config)
+    prevOrder = newConfig.order
+
+    newConfig.positionChange =
+      prevOrder: prevOrder
+      resourceId: resourceId
+      direction: direction
+
+    persistPosition = () =>
+      simpleXhr(
+        {
+          method: 'PATCH',
+          url: @props.collectionData.changePositionUrl,
+          body: "positionChange=#{JSON.stringify(@state.config.positionChange)}"
+        },
+        (error) =>
+          if error
+            alert(error)
+          else
+            @_persistListConfig(list_config: {order: targetOrder})
+            @forceFetchNextPage()
+      )
+
+    href = parseUrl(BoxSetUrlParams(@_currentUrl(), {list: {order: targetOrder}}))
+    routerGoto(href)
+
+    @setState(
+      config: f.merge(newConfig, {order: targetOrder})#,
+      windowHref: href
+      ,
+      persistPosition
+    )
+
   _showSelectionLimit: (version) ->
     @setState(showSelectionLimit: version)
 
@@ -592,7 +632,6 @@ module.exports = React.createClass
       windowHref: href
       ,
       () =>
-        url = parseUrl(BoxSetUrlParams(@_currentUrl(), {list: {order: itemKey}}))
         # @state.resources.clearPages({
         #   pathname: url.pathname,
         #   query: url.query
@@ -848,6 +887,11 @@ module.exports = React.createClass
               />
             else
               BoxRenderResources = require('./BoxRenderResources.jsx')
+              positionProps =
+                handlePositionChange: @handlePositionChange
+                changeable: f.get(@props, 'collectionData.position_changeable', false)
+                disabled: @state.boxState.data.loadingNextPage
+
               <BoxRenderResources
                 resources={
                   f.map(
@@ -862,6 +906,7 @@ module.exports = React.createClass
                 showSelectionLimit={@_showSelectionLimit}
                 selectionLimit={@_selectionLimit()}
                 onSelectResource={@_onSelectResource}
+                positionProps={positionProps}
                 config={config}
                 hoverMenuId={@state.hoverMenuId}
                 authToken={authToken}

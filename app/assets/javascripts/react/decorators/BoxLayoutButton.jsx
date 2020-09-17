@@ -12,7 +12,6 @@ import t from '../../lib/i18n-translate.js'
 import cx from 'classnames/dedupe'
 import ButtonGroup from '../ui-components/ButtonGroup.cjsx'
 import Icon from '../ui-components/Icon.cjsx'
-import SortDropdown from './resourcesbox/SortDropdown.cjsx'
 
 class BoxLayoutButton extends React.Component {
 

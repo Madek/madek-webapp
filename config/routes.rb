@@ -146,6 +146,8 @@ Madek::Application.routes.draw do
 
       get 'select_collection', action: :select_collection, as: 'select_collection'
       patch 'add_remove_collection', to: 'collections#add_remove_collection'
+
+      patch 'change_position'
     end
 
     collection do

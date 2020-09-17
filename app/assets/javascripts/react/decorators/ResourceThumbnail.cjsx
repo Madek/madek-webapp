@@ -95,7 +95,7 @@ module.exports = React.createClass
   _onModalCancel: () ->
     @setState(deleteModal: false)
 
-  render: ({get, elm, isSelected, fetchRelations, authToken} = @props, state = @state)->
+  render: ({get, elm, isSelected, fetchRelations, authToken, positionProps} = @props, state = @state)->
 
     if fetchRelations
       parentRelations = @state.relationsState.relations.parents
@@ -210,7 +210,6 @@ module.exports = React.createClass
       getMediaType(f.get(@props.get, 'media_file.content_type'))
 
     if @props.pinThumb
-      do -> console.log get
       <li style={@props.style} className={cx('ui-resource', {
         'is-video': get.media_type == 'video', 'ui-selected': (selectProps and selectProps.isSelected)})
       }>
@@ -253,6 +252,7 @@ module.exports = React.createClass
           get={get}
           onPictureClick={this.props.onPictureClick}
           pictureLinkStyle={this.props.pictureLinkStyle}
+          positionProps={positionProps}
         />
       </li>
     else
@@ -277,6 +277,7 @@ module.exports = React.createClass
           style={@props.style}
           onPictureClick={this.props.onPictureClick}
           pictureLinkStyle={this.props.pictureLinkStyle}
+          positionProps={positionProps}
           />
       </Element>
 

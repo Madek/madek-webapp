@@ -205,6 +205,85 @@ class CollectionsController < ApplicationController
     advanced_shared_meta_data_update
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/PerceivedComplexity
+  def change_position
+    collection = get_authorized_resource
+
+    position_change = JSON.parse(params.fetch('positionChange', '{}'))
+    (head :bad_request and return) if position_change.blank?
+
+    prev_order, resource_id, direction = position_change.values_at('prevOrder',
+                                                                   'resourceId',
+                                                                   'direction')
+    prev_order ||= collection.sorting
+
+    (head :bad_request and return) if [prev_order, resource_id].any?(&:blank?)
+
+    if prev_order == 'manual DESC'
+      direction = {
+        -2 => 2,
+        -1 => 1,
+        1 => -1,
+        2 => -2
+      }[direction]
+
+      prev_order = 'manual ASC'
+    end
+
+    media_entry_ids =
+      user_scopes_for_collection(collection)[:child_media_entries]
+        .custom_order_by(prev_order)
+        .to_a
+        .map(&:id)
+
+    arcs = media_entry_ids.map do |media_entry_id|
+      Arcs::CollectionMediaEntryArc.find_by(collection: collection, media_entry_id: media_entry_id)
+    end
+
+    resource_index = media_entry_ids.find_index do |media_entry_id|
+      media_entry_id == resource_id
+    end
+
+    # continue with at least 2 entries
+    (head :ok and return) if arcs.size < 2
+
+    ActiveRecord::Base.transaction do
+      # reset ids
+      arcs.each_with_index do |arc, index|
+        arc.update!(position: index)
+      end
+
+      last_index = arcs.size - 1
+
+      # update position
+      case direction
+      when -2
+        arcs[0...resource_index].each { |arc| arc.increment!(:position) }
+        arcs[resource_index].update!(position: 0)
+      when -1
+        if (previous_resource = arcs[resource_index - 1])
+          previous_resource.increment!(:position)
+          arcs[resource_index].decrement!(:position)
+        end
+      when 1
+        if (next_resource = arcs[resource_index + 1])
+          next_resource.decrement!(:position)
+          arcs[resource_index].increment!(:position)
+        end
+      when 2
+        arcs[(resource_index + 1)..last_index].each { |arc| arc.decrement!(:position) }
+        arcs[resource_index].update!(position: last_index)
+      end
+    end
+
+    head :ok
+  end
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/PerceivedComplexity
+
   private
 
   def determine_list_conf(collection)

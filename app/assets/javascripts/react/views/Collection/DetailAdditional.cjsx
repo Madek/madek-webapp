@@ -17,6 +17,16 @@ module.exports = React.createClass
 
   render: ({get, authToken} = @props) ->
 
+    collectionData =
+      uuid: get.uuid
+      layout: get.layout
+      editable: get.editable
+      order: get.sorting
+      position_changeable: get.position_changeable
+      url: get.url
+      batchEditUrl: get.batch_edit_url
+      changePositionUrl: get.change_position_url
+
     renderSwitcher = (boxUrl) =>
       resourceTypeSwitcher(get.child_media_resources, boxUrl, true, null)
 
@@ -24,7 +34,7 @@ module.exports = React.createClass
       <MediaResourcesBox
         get={get.child_media_resources} authToken={authToken}
         initial={ { show_filter: true } } mods={ [ {bordered: false}, 'rounded-bottom' ] }
-        collectionData={{uuid: get.uuid, layout: get.layout, editable: get.editable, order: get.sorting, url: get.url, batchEditUrl: get.batch_edit_url}}
+        collectionData={collectionData}
         renderSwitcher={renderSwitcher}
         enableOrdering={true} enableOrderByTitle={true}
         showAllButton={true}

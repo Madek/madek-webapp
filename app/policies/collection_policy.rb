@@ -60,4 +60,6 @@ class CollectionPolicy < Shared::MediaResources::MediaResourcePolicy
 
   alias_method :batch_add_to_set?, :update?
   alias_method :batch_remove_from_set?, :update?
+
+  alias_method :change_position?, :update?
 end

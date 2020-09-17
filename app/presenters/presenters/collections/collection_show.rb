@@ -211,6 +211,14 @@ module Presenters
         relation_siblings_collection_path(@app_resource)
       end
 
+      def change_position_url
+        change_position_collection_path(@app_resource)
+      end
+
+      def position_changeable
+        policy_for(@user).change_position?
+      end
+
       private
 
       # NOTE: this is only needed for fetching MetaData in Box ListView
