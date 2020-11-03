@@ -88,6 +88,9 @@
         // loadedmetadata doesn't work right now for flash.
         // Probably because of https://github.com/videojs/video-js-swf/issues/124
         // If player preload is 'none' and then loadeddata not fired. So, we need timeupdate event for seek handle (timeupdate doesn't work properly with flash)
+        // NOTE: "timeupdate" event is not triggered in safari when media has preload=none,
+        // workaround by forcing the player to play again if it was not triggered.
+
         var handleSeekEvent = 'loadeddata'
         if (
           this.player_.techName_ !== 'Youtube' &&
@@ -96,18 +99,28 @@
         ) {
           handleSeekEvent = 'timeupdate'
         }
-        setSourcesSanitized(this.player_, this.src, this.options_.label, customSourcePicker).one(
-          handleSeekEvent,
-          function() {
-            this.player_.currentTime(currentTime)
-            this.player_.handleTechSeeked_()
-            if (!isPaused) {
-              // Start playing and hide loadingSpinner (flash issue ?)
-              this.player_.play().handleTechSeeked_()
-            }
-            this.player_.trigger('resolutionchange')
+        var player = this.player_
+        var handlerTriggered = false
+
+        var handler = function() {
+          if (handlerTriggered) return
+          handlerTriggered = true
+          player.currentTime(currentTime)
+          player.handleTechSeeked_()
+          if (!isPaused) {
+            // Start playing and hide loadingSpinner (flash issue ?)
+            player.play().handleTechSeeked_()
           }
-        )
+          player.trigger('resolutionchange')
+        }
+        player.one(handleSeekEvent, handler)
+        setSourcesSanitized(player, this.src, this.options_.label, customSourcePicker)
+
+        // force trigger the change on next loop when not preloaded
+        if (player.preload() === 'none')
+          setTimeout(function() {
+            player.trigger(handleSeekEvent)
+          }, 100)
       }
     })
 
