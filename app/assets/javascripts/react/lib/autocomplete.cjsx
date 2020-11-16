@@ -27,8 +27,14 @@ searchResources = require('../../lib/search.coffee')
 
 initTypeahead = (domNode, resourceType, params, conf, existingValues, valueFilter, onSelect, onAdd, positionRelative, existingValueHint)->
   {minLength, localData} = conf
-  unless (searchBackend = searchResources(resourceType, params, localData))
-    throw new Error "No search backend for '#{resourceType}'!"
+
+  resourceTypes = if f.isArray(resourceType) then resourceType else [resourceType]
+  searchBackends = f.map(resourceTypes, (resourceType) ->
+    unless (searchBackend = searchResources(resourceType, params, localData))
+      throw new Error "No search backend for '#{resourceType}'!"
+
+    searchBackend
+  )
 
   typeaheadConfig = {
     hint: false,
@@ -44,29 +50,37 @@ initTypeahead = (domNode, resourceType, params, conf, existingValues, valueFilte
     }
   }
 
-  dataSet = f.merge(searchBackend, {
-    # HTML (not React!) templates
-    templates: {
-      pending: '<div class="ui-preloader small" style="height: 1.5em"></div>',
-      notFound: '<div class="paragraph-l by-center">' + t('app_autocomplete_no_results') + '</div>',
-      suggestion: (value) ->
-        content = f.get(value, searchBackend.displayKey)
-        # NOTE: use `text` to correctly escape given content
-        line = jQuery('<span>').text(content)
+  notFoundPrefix = (searchBackend) ->
+    if searchBackends.length > 1
+      searchBackend.name.split('Search')[0] + ' - '
+    else
+      ''
 
-        # set as disabled if existing value
-        if existingValues && f.includes(existingValues(), content) || valueFilter && valueFilter(value)
-          line.attr(
-            class: 'ui-autocomplete-disabled',
-            title: (f.presence(existingValueHint) || t('meta_data_input_keywords_existing')))
+  dataSets = f.map(searchBackends, (searchBackend) ->
+    f.merge(searchBackend, {
+      # HTML (not React!) templates
+      templates: {
+        pending: '<div class="ui-preloader small" style="height: 1.5em"></div>',
+        notFound: '<div class="paragraph-l by-center">' + notFoundPrefix(searchBackend) + t('app_autocomplete_no_results') + '</div>',
+        suggestion: (value) ->
+          content = f.get(value, searchBackend.displayKey)
+          # NOTE: use `text` to correctly escape given content
+          line = jQuery('<span>').text(content)
 
-        jQuery('<div>').append(line)
-    }
-  })
+          # set as disabled if existing value
+          if existingValues && f.includes(existingValues(), content) || valueFilter && valueFilter(value)
+            line.attr(
+              class: 'ui-autocomplete-disabled',
+              title: (f.presence(existingValueHint) || t('meta_data_input_keywords_existing')))
+
+          jQuery('<div>').append(line)
+      }
+    })
+  )
 
   # init typeahead.js plugin via jQuery
   $input = jQuery(domNode)
-  typeahead = $input.typeahead(typeaheadConfig, dataSet)
+  typeahead = $input.typeahead(typeaheadConfig, dataSets...)
 
   # add events (browser/jquery events, NOT from react!):
   typeahead.on 'keypress', (event)->

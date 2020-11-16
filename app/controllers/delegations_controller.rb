@@ -1,4 +1,4 @@
-class GroupsController < ApplicationController
+class DelegationsController < ApplicationController
   include Concerns::JSONSearch
 
   def index

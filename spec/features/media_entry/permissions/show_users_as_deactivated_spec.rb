@@ -36,8 +36,10 @@ feature 'Resource: MediaEntry' do
     visit permissions_media_entry_path(@entry)
 
     expect(
-      find('.ui-info-box', text: 'Verantwortliche Person')
-        .find('.person-tag', text: deactivated_user_string)
+      find(
+        '.ui-info-box',
+        text: I18n.t(:permissions_responsible_user_and_responsibility_group_title)
+      ).find('.person-tag', text: deactivated_user_string)
     ).to be
   end
 

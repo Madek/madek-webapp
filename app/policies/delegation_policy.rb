@@ -1,0 +1,2 @@
+class DelegationPolicy < DefaultPolicy
+end

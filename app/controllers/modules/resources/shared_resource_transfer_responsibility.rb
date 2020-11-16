@@ -5,19 +5,28 @@ module Modules
 
       private
 
-      def update_permissions_resource(new_user, resource)
-        remove_existing_permissions_for_new_user(resource, new_user)
+      def update_permissions_resource(new_entity, resource)
+        remove_existing_permissions_for_new_user(resource, new_entity)
 
         send(
           "update_permissions_#{resource.class.name.underscore}",
           resource)
 
-        resource.responsible_user = new_user
+        case new_entity.class.name
+        when 'User'
+          resource.responsible_user = new_entity
+          resource.responsible_delegation = nil
+        when 'Delegation'
+          resource.responsible_delegation = new_entity
+          resource.responsible_user = nil
+        end
         resource.save!
       end
 
-      def remove_existing_permissions_for_new_user(resource, new_user)
-        resource.user_permissions.where(user: new_user).destroy_all
+      def remove_existing_permissions_for_new_user(resource, new_entity)
+        if new_entity.instance_of?(User)
+          resource.user_permissions.where(user: new_entity).destroy_all
+        end
       end
 
       def update_permissions_media_entry(resource)

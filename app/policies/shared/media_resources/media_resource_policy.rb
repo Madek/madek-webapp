@@ -76,11 +76,11 @@ module Shared
       end
 
       def destroy?
-        logged_in? and record.responsible_user == user
+        logged_in? and responsible_user_or_member_of_delegation?
       end
 
       def update_transfer_responsibility?
-        logged_in? and record.responsible_user == user
+        logged_in? and responsible_user_or_member_of_delegation?
       end
 
       def edit_transfer_responsibility?
@@ -123,8 +123,8 @@ module Shared
           record.accessed_by_confidential_link)
       end
 
-      def owner?
-        record.responsible_user == user
+      def responsible_user_or_member_of_delegation?
+        record.responsible_user == user or record.delegation_with_user?(user)
       end
     end
   end

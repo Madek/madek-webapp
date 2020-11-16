@@ -48,9 +48,9 @@ module.exports = React.createClass
                   if section.partial == 'media_resources'
                     <DashboardSectionResources section={section} url={@props.get.url} />
                   else if section.partial == 'groups'
-                    <DashboardSectionGroups section={section} sectionResources={get.user_dashboard[section.id]} />
+                    <DashboardSectionGroups section={section} sectionResources={user_dashboard['groups_and_delegations']} />
                   else if section.partial == 'keywords'
-                    <DashboardSectionKeywords section={section} sectionResources={get.user_dashboard[section.id]} />
+                    <DashboardSectionKeywords section={section} sectionResources={user_dashboard[section.id]} />
                   ,
                   if index < visible_sections.length - 1
                     <hr className='separator mbm' />

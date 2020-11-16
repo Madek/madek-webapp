@@ -17,12 +17,6 @@ module TransferResponsibilityShared
     end
   end
 
-  def unpublish(media_entry)
-    media_entry.is_published = false
-    media_entry.save!
-    media_entry.reload
-  end
-
   def give_all_permissions(resource, user)
     permissions = {
       user: user,
@@ -41,8 +35,7 @@ module TransferResponsibilityShared
   end
 
   def user_to_string(user)
-    person = user.person
-    "#{person.first_name} #{person.last_name} (#{person.pseudonym})"
+    user.person.to_s
   end
 
   def check_error_message(message_key)
@@ -54,31 +47,26 @@ module TransferResponsibilityShared
     expect(resource.user_permissions.where(user: user).length).to eq(0)
   end
 
-  def check_permissions(user, resource, type, view, download, edit, manage)
+  def check_permissions(user, resource, view, download, edit, manage)
     permissions = resource.user_permissions.where(user: user).first
-    if type == MediaEntry
+    resource_type = resource.class
+    if resource_type == MediaEntry
       expect(permissions[:get_metadata_and_previews]).to eq(view)
       expect(permissions[:get_full_size]).to eq(download)
       expect(permissions[:edit_metadata]).to eq(edit)
       expect(permissions[:edit_permissions]).to eq(manage)
-    elsif type == Collection
+    elsif resource_type == Collection
       expect(permissions[:get_metadata_and_previews]).to eq(view)
       expect(download).to eq(nil)
       expect(permissions[:edit_metadata_and_relations]).to eq(edit)
       expect(permissions[:edit_permissions]).to eq(manage)
     else
-      raise 'Type not supported: ' + type
+      raise 'Type not supported: ' + resource_type
     end
   end
 
   def check_on_dashboard_after_loosing_view_rights
     expect(current_path).to eq('/my')
-  end
-
-  def wait_until_form_disappeared
-    wait_until do
-      all('form[name="transfer_responsibility"]').empty?
-    end
   end
 
   def click_submit_button
@@ -89,6 +77,11 @@ module TransferResponsibilityShared
   def click_cancel_button
     find('form[name="transfer_responsibility"]').find(
       'a', text: I18n.t(:transfer_responsibility_cancel)).click
+  end
+
+  def choose_delegation(delegation)
+    form = find('form[name="transfer_responsibility"]')
+    autocomplete_and_choose_first(form, delegation.name)
   end
 
   def choose_user(user)
@@ -134,11 +127,17 @@ module TransferResponsibilityShared
       .click
   end
 
-  def check_responsible_and_link(user, visible)
+  def check_responsible_and_link(responsible, visible)
+    responsible_text =
+      case responsible
+      when Delegation then "#{responsible.name} (Delegation)"
+      when User then user_to_string(responsible)
+      end
+
     within '.tab-content' do
 
       find('form[name="ui-rights-management"]').find(
-        '.ui-info-box', text: user_to_string(user))
+        '.ui-info-box', text: responsible_text)
 
       expect(page).to have_selector(
         'a',
@@ -147,14 +146,10 @@ module TransferResponsibilityShared
     end
   end
 
-  def create_user
-    FactoryGirl.create(:user)
-  end
-
-  def create_collection(user, title = nil)
+  def create_collection(user, title: nil, public_rights: true)
     collection = FactoryGirl.create(
       :collection,
-      get_metadata_and_previews: true,
+      get_metadata_and_previews: public_rights,
       responsible_user: user,
       creator: user)
     if title
@@ -167,10 +162,10 @@ module TransferResponsibilityShared
     collection
   end
 
-  def create_media_entry(user, title = nil)
+  def create_media_entry(user, title: nil, public_rights: true)
     media_entry = FactoryGirl.create(
       :media_entry,
-      get_metadata_and_previews: true,
+      get_metadata_and_previews: public_rights,
       responsible_user: user,
       creator: user)
     FactoryGirl.create(

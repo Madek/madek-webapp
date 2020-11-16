@@ -21,7 +21,6 @@ class BoxTransfer extends React.Component {
 
     var resource_ids = f.map(transferResources, 'uuid')
 
-    var responsible_uuid = transferResources[0].responsible_user_uuid
     var responsible = transferResources[0].responsible
     var batch_type = transferResources[0].type
 
@@ -34,7 +33,6 @@ class BoxTransfer extends React.Component {
           singleResource={null}
           batchResourceIds={resource_ids}
           batchActionUrls={this.props.actionUrls}
-          responsibleUuid={responsible_uuid}
           responsible={responsible}
           onClose={this.props.onClose}
           onSaved={this.props.onSaved} />

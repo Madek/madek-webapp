@@ -11,14 +11,20 @@ module Modules
         resource = type.find(resource_id)
         auth_authorize(resource)
 
-        new_user_uuid = params.require(:transfer_responsibility).require(:user)
-        new_user = User.find(new_user_uuid)
+        new_entity_uuid = params.require(:transfer_responsibility).require(:entity)
+        new_entity_type = params.require(:transfer_responsibility).require(:type)
 
-        ActiveRecord::Base.transaction do
-          update_permissions_resource(new_user, resource)
+        if allowed_entity_type?(new_entity_type)
+          new_entity = new_entity_type.constantize.find(new_entity_uuid)
+
+          ActiveRecord::Base.transaction do
+            update_permissions_resource(new_entity, resource)
+          end
+
+          transfer_responsibility_respond(resource.class)
+        else
+          raise 'Unsupported entity type! ' + new_entity_type.inspect
         end
-
-        transfer_responsibility_respond(resource.class)
       end
 
       def transfer_responsibility_respond(type)
@@ -31,6 +37,10 @@ module Modules
             render(json: { result: 'success', viewable: viewable })
           end
         end
+      end
+
+      def allowed_entity_type?(type)
+        %w(Delegation User).include?(type)
       end
     end
   end

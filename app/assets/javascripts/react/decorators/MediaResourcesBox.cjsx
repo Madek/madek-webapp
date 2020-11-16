@@ -22,9 +22,6 @@ MenuItem = Dropdown.MenuItem
 SideFilter = require('../ui-components/ResourcesBox/SideFilter.cjsx')
 BoxToolBar = require('../ui-components/ResourcesBox/BoxToolBar.cjsx')
 
-Modal = require('../ui-components/Modal.cjsx')
-EditTransferResponsibility = require('../views/Shared/EditTransferResponsibility.cjsx')
-
 # models
 MediaEntries = require('../../models/media-entries.coffee')
 Collections = require('../../models/collections.coffee')

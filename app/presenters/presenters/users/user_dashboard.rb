@@ -89,6 +89,16 @@ module Presenters
         presenterify @user_scopes[:content_filter_sets]
       end
 
+      def content_delegated_media_entries
+        return unless @is_async_attribute
+        presenterify @user_scopes[:content_delegated_media_entries]
+      end
+
+      def content_delegated_collections
+        return unless @is_async_attribute
+        presenterify @user_scopes[:content_delegated_collections]
+      end
+
       def latest_imports
         return unless @is_async_attribute
         presenterify @user_scopes[:latest_imports]
@@ -133,7 +143,7 @@ module Presenters
       #   end
       # end
 
-      def groups
+      def groups_and_delegations
         groups = {
           internal: select_groups(:Group),
           external: select_groups(:InstitutionalGroup),
@@ -146,7 +156,8 @@ module Presenters
           empty?: groups.values.flatten.empty?,
           internal: groups[:internal],
           authentication: groups[:authentication],
-          external: groups[:external]
+          external: groups[:external],
+          delegations: delegations
         )
       end
 
@@ -199,6 +210,11 @@ module Presenters
         end
       end
 
+      def delegations
+        @user_scopes[:user_delegations].order(:name).map do |delegation|
+          Presenters::Delegations::DelegationIndex.new(delegation)
+        end
+      end
     end
   end
 end

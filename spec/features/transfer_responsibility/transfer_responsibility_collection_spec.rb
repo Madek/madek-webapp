@@ -8,10 +8,10 @@ include BatchSelectionHelper
 require_relative './transfer_responsibility_shared'
 include TransferResponsibilityShared
 
-feature 'transfer responsibility media entry' do
+feature 'Collection - transfer responsibility' do
 
   scenario 'check collection checkbox behaviour' do
-    user = create_user
+    user = create(:user)
     collection = create_collection(user)
     login_user(user)
     open_permissions(collection)
@@ -30,8 +30,8 @@ feature 'transfer responsibility media entry' do
   end
 
   scenario 'transfer responsibility for collection without new permissions' do
-    user1 = create_user
-    user2 = create_user
+    user1 = create(:user)
+    user2 = create(:user)
     collection = create_collection(user1)
     login_user(user1)
     open_permissions(collection)
@@ -40,7 +40,6 @@ feature 'transfer responsibility media entry' do
     choose_user(user2)
     click_checkbox(:view)
     click_submit_button
-    wait_until_form_disappeared
     check_on_dashboard_after_loosing_view_rights
     open_permissions(collection)
     check_responsible_and_link(user2, false)
@@ -48,8 +47,8 @@ feature 'transfer responsibility media entry' do
   end
 
   scenario 'successful transfer responsibility for collection' do
-    user1 = create_user
-    user2 = create_user
+    user1 = create(:user)
+    user2 = create(:user)
     collection = create_collection(user1)
     login_user(user1)
     open_permissions(collection)
@@ -58,17 +57,114 @@ feature 'transfer responsibility media entry' do
     choose_user(user2)
     click_checkbox(:manage)
     click_submit_button
-    wait_until_form_disappeared
     check_responsible_and_link(user2, false)
-    check_permissions(user1, collection, Collection, true, nil, true, false)
+    check_permissions(user1, collection, true, nil, true, false)
+  end
+
+  scenario 'transfer responsibility to delegation and leave user with view & edit permissions' do
+    user = create(:user)
+    delegation = create(:delegation)
+    collection = create_collection(user)
+    login_user(user)
+    open_permissions(collection)
+    check_responsible_and_link(user, true)
+    click_transfer_link
+    choose_delegation(delegation)
+    click_checkbox(:manage)
+    click_submit_button
+    check_responsible_and_link(delegation, false)
+    open_permissions(collection)
+    check_permissions(user, collection, true, nil, true, false)
+  end
+
+  scenario 'transfer responsibility to delegation and leave user with no permissions' do
+    user = create(:user)
+    delegation = create(:delegation)
+    collection = create_collection(user)
+    login_user(user)
+    open_permissions(collection)
+    check_responsible_and_link(user, true)
+    click_transfer_link
+    choose_delegation(delegation)
+    click_checkbox(:view)
+    click_submit_button
+    check_on_dashboard_after_loosing_view_rights
+    open_permissions(collection)
+    check_no_permissions(user, collection)
+  end
+
+  context 'collection without public rights' do
+    let(:user) { create(:user) }
+    let(:collection) { create_collection(user, public_rights: false) }
+    let(:delegation) { create(:delegation) }
+
+    scenario 'transfer responsibility to delegation and leave user with no permissions' do
+      login_user(user)
+      open_permissions(collection)
+      click_transfer_link
+      choose_delegation(delegation)
+      click_checkbox(:view)
+      click_submit_button
+      check_on_dashboard_after_loosing_view_rights
+      open_permissions(collection)
+      expect(page).to have_content(I18n.t(:error_403_title))
+    end
+
+    scenario 'transfer responsibility to delegation and leave user with view permission' do
+      login_user(user)
+      open_permissions(collection)
+      click_transfer_link
+      choose_delegation(delegation)
+      click_checkbox(:edit)
+      click_submit_button
+      open_permissions(collection)
+      check_permissions(user, collection, true, nil, false, false)
+    end
+
+    scenario 'transfer responsibility to delegation and leave user with view & edit permissions' do
+      login_user(user)
+      open_permissions(collection)
+      click_transfer_link
+      choose_delegation(delegation)
+      click_checkbox(:manage)
+      click_submit_button
+      open_permissions(collection)
+      check_permissions(user, collection, true, nil, true, false)
+    end
+
+    scenario 'transfer responsibility to delegation and leave user with all permissions' do
+      login_user(user)
+      open_permissions(collection)
+      click_transfer_link
+      choose_delegation(delegation)
+      click_submit_button
+      open_permissions(collection)
+      check_permissions(user, collection, true, nil, true, true)
+    end
+
+    context 'when user belongs to the delegation' do
+      before { delegation.users << user }
+
+      scenario 'transfer responsibility to delegation and leave user with no permissions' do
+        login_user(user)
+        open_permissions(collection)
+        click_transfer_link
+        choose_delegation(delegation)
+        click_checkbox(:view)
+        click_submit_button
+        check_on_dashboard_after_loosing_view_rights
+        open_permissions(collection)
+        check_responsible_and_link(delegation, true)
+      end
+    end
   end
 
   scenario 'batch transfer responsibility for collections' do
-    user1 = create_user
-    user2 = create_user
-    collection1 = create_collection(user1, 'Collection 1')
-    collection2 = create_collection(user2, 'Collection 2')
-    collection3 = create_collection(user1, 'Collection 3')
+    user1 = create(:user)
+    user2 = create(:user)
+    collection1 = create_collection(user1, title: 'Collection 1')
+    collection2 = create_collection(user2, title: 'Collection 2')
+    collection3 = create_collection(user1, title: 'Collection 3')
     parent = create_collection(user1)
 
     all_collections = [collection1, collection2, collection3]
@@ -87,7 +183,6 @@ feature 'transfer responsibility media entry' do
 
     choose_user(user2)
     click_submit_button
-    wait_until_form_disappeared
 
     open_resource(parent)
     click_select_all_on_first_page

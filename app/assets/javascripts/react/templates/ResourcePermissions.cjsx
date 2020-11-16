@@ -119,7 +119,6 @@ module.exports = React.createClass
               singleResourcePermissionsUrl={@props.get.permissions_url}
               singleResourceActionUrl={@props.get.update_transfer_responsibility_url}
               batchResourceIds={null}
-              responsibleUuid={@props.get.responsible_user_uuid}
               responsible={@props.get.responsible}
               onClose={(event) => @_showTransferModal(false, event)} />
           </Modal>
@@ -154,11 +153,11 @@ PermissionsOverview = React.createClass
       <div className='col1of2'>
         <div className='ui-info-box'>
           <h2 className='ui-rights-user-title mbs' style={{fontWeight: '700'}}>
-            {t('permissions_responsible_user_title')}
+            {t('permissions_responsible_user_and_responsibility_group_title')}
           </h2>
 
           <p className='ui-info-box-intro prm'>
-            {t('permissions_responsible_user_msg')}
+            {t('permissions_responsible_user_and_responsibility_group_msg')}
           </p>
 
           <ul className='inline'>

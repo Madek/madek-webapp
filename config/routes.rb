@@ -219,6 +219,7 @@ Madek::Application.routes.draw do
 
   resources :users, only: :index
   resources :api_clients, only: :index
+  resources :delegations, only: :index
 
   # Static App routes ##########################################################
   get '/id/:uuid', to: 'uuid#redirect_to_canonical_url'
@@ -252,7 +253,7 @@ Madek::Application.routes.draw do
     root action: 'dashboard', as: 'dashboard'
 
     # scope some resources here. order is important, they override 'plain' sections
-    resources :groups, except: ['show']
+    resources :groups
 
     # tokens (get index is one of the 'sections' below)
     get 'tokens/new', controller: '/api_tokens', action: 'new_api_token', as: 'new_api_token'
@@ -270,11 +271,7 @@ Madek::Application.routes.draw do
     get ':section', action: 'dashboard_section', as: 'dashboard_section'
   end
 
-  get 'my/groups/:id', controller: 'groups', to: 'groups#show', as: 'group'
-
-
-  resources :groups
-
+  resources :groups, only: :index
 
   post '/session/sign_in', to: 'sessions#sign_in', as: 'sign_in'
   post '/session/sign_out', to: 'sessions#sign_out', as: 'sign_out'

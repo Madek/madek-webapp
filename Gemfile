@@ -57,7 +57,7 @@ gem 'uglifier'
 # TEST or DEVELOPMENT only
 #####################################################################
 
-gem 'capybara', '~> 2.4', group: %i[test]
+gem 'capybara', '~> 2.18', group: %i[test]
 gem 'poltergeist', group: %i[test development personas]
 gem 'rest-client', group: %i[test development personas]
 gem 'ruby-prof', group: %i[development], platform: :mri

@@ -11,7 +11,7 @@ include TransferResponsibilityShared
 feature 'transfer responsibility shared' do
 
   scenario 'check link visible if responsible' do
-    user = create_user
+    user = create(:user)
     media_entry = create_media_entry(user)
     login_user(user)
     open_permissions(media_entry)
@@ -19,8 +19,8 @@ feature 'transfer responsibility shared' do
   end
 
   scenario  'check link not visible if not responsible' do
-    user1 = create_user
-    user2 = create_user
+    user1 = create(:user)
+    user2 = create(:user)
     media_entry = create_media_entry(user1)
     login_user(user2)
     open_permissions(media_entry)
@@ -28,8 +28,8 @@ feature 'transfer responsibility shared' do
   end
 
   scenario 'check clear user' do
-    user1 = create_user
-    user2 = create_user
+    user1 = create(:user)
+    user2 = create(:user)
     media_entry = create_media_entry(user1)
     login_user(user1)
     open_permissions(media_entry)
@@ -42,19 +42,19 @@ feature 'transfer responsibility shared' do
   end
 
   scenario 'check selecting responsible user' do
-    user = create_user
+    user = create(:user)
     media_entry = create_media_entry(user)
     login_user(user)
     open_permissions(media_entry)
     click_transfer_link
     check_submit(false)
     choose_user(user)
-    check_submit(false)
+    check_submit(true)
   end
 
   scenario 'transfer responsibility for not responsible media entry' do
-    user1 = create_user
-    user2 = create_user
+    user1 = create(:user)
+    user2 = create(:user)
     media_entry = create_media_entry(user1)
     login_user(user1)
     open_permissions(media_entry)
@@ -73,9 +73,9 @@ feature 'transfer responsibility shared' do
   end
 
   scenario 'check remove existing permissions for new user' do
-    user1 = create_user
-    user2 = create_user
-    user3 = create_user
+    user1 = create(:user)
+    user2 = create(:user)
+    user3 = create(:user)
     media_entry = create_media_entry(user1)
     give_all_permissions(media_entry, user2)
     give_all_permissions(media_entry, user3)
@@ -96,14 +96,14 @@ feature 'transfer responsibility shared' do
   end
 
   scenario 'check batch selection' do
-    user1 = create_user
-    user2 = create_user
-    media_entry1 = create_media_entry(user1, 'Media Entry 1')
-    media_entry2 = create_media_entry(user2, 'Media Entry 2')
-    media_entry3 = create_media_entry(user2, 'Media Entry 3')
-    collection1 = create_collection(user1, 'Collection 1')
-    collection2 = create_collection(user2, 'Collection 2')
-    collection3 = create_collection(user2, 'Collection 3')
+    user1 = create(:user)
+    user2 = create(:user)
+    media_entry1 = create_media_entry(user1, title: 'Media Entry 1')
+    media_entry2 = create_media_entry(user2, title: 'Media Entry 2')
+    media_entry3 = create_media_entry(user2, title: 'Media Entry 3')
+    collection1 = create_collection(user1, title: 'Collection 1')
+    collection2 = create_collection(user2, title: 'Collection 2')
+    collection3 = create_collection(user2, title: 'Collection 3')
     parent = create_collection(user1)
 
     all_media_entries = [media_entry1, media_entry2, media_entry3]

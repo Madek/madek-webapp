@@ -16,6 +16,10 @@ module Concerns
             user.responsible_collections,
           content_filter_sets: \
             user.responsible_filter_sets,
+          content_delegated_media_entries: \
+            user.delegated_media_entries,
+          content_delegated_collections: \
+            user.delegated_collections,
           latest_imports: \
             user.created_media_entries,
           favorite_media_entries: \
@@ -30,8 +34,8 @@ module Concerns
             Collection.entrusted_to_user(user),
           entrusted_filter_sets: \
             FilterSet.entrusted_to_user(user),
-          user_groups: \
-            user.groups,
+          user_groups: user.groups,
+          user_delegations: user.delegations,
           used_keywords: \
             user
             .used_keywords

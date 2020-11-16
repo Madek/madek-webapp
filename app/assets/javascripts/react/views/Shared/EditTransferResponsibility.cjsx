@@ -17,7 +17,7 @@ module.exports = React.createClass
     {
       saving: false
       permissionLevel: 4
-      selectedUser: null
+      selectedEntity: null
     }
 
   # NOTE: just to be save, block *implicit* form submits
@@ -48,12 +48,12 @@ module.exports = React.createClass
     )
 
 
-  _onSelectUser: (user) ->
-    if user.uuid != @props.responsibleUuid
-      @setState(selectedUser: user)
+  handleEntitySelect: (entity) ->
+    if entity.uuid != @props.responsible?.uuid
+      @setState(selectedEntity: entity)
 
-  _onClearUser: (user) ->
-    @setState(selectedUser: null)
+  handleEntityClear: () ->
+    @setState(selectedEntity: null)
 
   _onToggleCheckbox: (level, event) ->
     if level > @state.permissionLevel
@@ -104,81 +104,87 @@ module.exports = React.createClass
 
         <h2 className='title-l ui-info-box-title mbm'>{t('transfer_responsibility_title')}</h2>
 
-        <div className='ui-rights-user' style={@_displayBlockIf(@state.selectedUser)}>
-          <a onClick={@_onClearUser}
+        <div className='ui-rights-user' style={@_displayBlockIf(@state.selectedEntity)}>
+          <a onClick={@handleEntityClear}
             className='button small ui-rights-remove icon-close small'
             title={t('permissions_table_remove_subject_btn')} />
-          <input type='hidden' name='transfer_responsibility[user]'
-            value={if @state.selectedUser then @state.selectedUser.uuid else ''} />
+          <input type='hidden' name='transfer_responsibility[entity]'
+            value={if @state.selectedEntity then @state.selectedEntity.uuid else ''} />
+          <input type='hidden' name='transfer_responsibility[type]'
+            value={if @state.selectedEntity then @state.selectedEntity.type else ''} />
           <span className='text'>
-            {@state.selectedUser.name if @state.selectedUser}
+            {@state.selectedEntity.name if @state.selectedEntity}
           </span>
         </div>
 
-        <div style={@_displayBlockIf(!@state.selectedUser)}>
+        <div style={@_displayBlockIf(!@state.selectedEntity)}>
           <AutoComplete
-            valueFilter={(value) => value.uuid == @props.responsibleUuid}
+            valueFilter={(value) => value.uuid == @props.responsible?.uuid}
             className='block'
-            name={'transfer_responsibility[unused_look_at_the_hidden_user]'} resourceType={'Users'}
-            onSelect={@_onSelectUser} searchParams={{search_also_in_person: true}}
+            name={'transfer_responsibility[unused_look_at_the_hidden_user]'} resourceType={['Delegations', 'Users']}
+            onSelect={@handleEntitySelect} searchParams={{search_also_in_person: true}}
             positionRelative={true} />
         </div>
 
-        <h2 className='title-m ui-info-box-title mtl mbm separated light'>
-          {t('transfer_responsibility_person_will_receive_1')}
-          {@props.responsible.name}
-          {t('transfer_responsibility_person_will_receive_2')}
-        </h2>
-        <table className='ui-rights-group'>
-          <tbody>
-            <tr>
-              <td style={{textAlign: 'center', border: '0px'}}>
-                {t('permission_name_get_metadata_and_previews')}
-              </td>
-              {
-                if resourceType == 'MediaEntry'
+        {f.includes(['Person', 'User'], @props.responsible?.type) and (
+          <div>
+            <h2 className='title-m ui-info-box-title mtl mbm separated light'>
+              {t('transfer_responsibility_person_will_receive_1')}
+              {@props.responsible.name}
+              {t('transfer_responsibility_person_will_receive_2')}
+            </h2>
+            <table className='ui-rights-group'>
+              <tbody>
+                <tr>
                   <td style={{textAlign: 'center', border: '0px'}}>
-                    {t('permission_name_get_full_size')}
+                    {t('permission_name_get_metadata_and_previews')}
                   </td>
-              }
-              <td style={{textAlign: 'center', border: '0px'}}>
-                {if @props.resourceType == 'Collection' then t('permission_name_edit_metadata_and_relations') else t('permission_name_edit_metadata')}
-              </td>
-              <td style={{textAlign: 'center', border: '0px'}}>
-                {t('permission_name_edit_permissions')}
-              </td>
-            </tr>
-            <tr>
-              <td style={{textAlign: 'center', border: '0px'}}>
-                <input type='checkbox'
-                  name={'transfer_responsibility[permissions][view]'}
-                  checked={@state.permissionLevel >= 1} onChange={(event) => @_onToggleCheckbox(1, event)} />
-              </td>
-              {
-                if resourceType == 'MediaEntry'
+                  {
+                    if resourceType == 'MediaEntry'
+                      <td style={{textAlign: 'center', border: '0px'}}>
+                        {t('permission_name_get_full_size')}
+                      </td>
+                  }
+                  <td style={{textAlign: 'center', border: '0px'}}>
+                    {if @props.resourceType == 'Collection' then t('permission_name_edit_metadata_and_relations') else t('permission_name_edit_metadata')}
+                  </td>
+                  <td style={{textAlign: 'center', border: '0px'}}>
+                    {t('permission_name_edit_permissions')}
+                  </td>
+                </tr>
+                <tr>
                   <td style={{textAlign: 'center', border: '0px'}}>
                     <input type='checkbox'
-                      name={'transfer_responsibility[permissions][download]'}
-                      checked={@state.permissionLevel >= 2} onChange={(event) => @_onToggleCheckbox(2, event)} />
+                      name={'transfer_responsibility[permissions][view]'}
+                      checked={@state.permissionLevel >= 1} onChange={(event) => @_onToggleCheckbox(1, event)} />
                   </td>
-              }
-              <td style={{textAlign: 'center', border: '0px'}}>
-                <input type='checkbox'
-                  name={'transfer_responsibility[permissions][edit]'}
-                  checked={@state.permissionLevel >= 3} onChange={(event) => @_onToggleCheckbox(3, event)} />
-              </td>
-              <td style={{textAlign: 'center', border: '0px'}}>
-                <input type='checkbox'
-                  name={'transfer_responsibility[permissions][manage]'}
-                  checked={@state.permissionLevel >= 4} onChange={(event) => @_onToggleCheckbox(4, event)} />
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                  {
+                    if resourceType == 'MediaEntry'
+                      <td style={{textAlign: 'center', border: '0px'}}>
+                        <input type='checkbox'
+                          name={'transfer_responsibility[permissions][download]'}
+                          checked={@state.permissionLevel >= 2} onChange={(event) => @_onToggleCheckbox(2, event)} />
+                      </td>
+                  }
+                  <td style={{textAlign: 'center', border: '0px'}}>
+                    <input type='checkbox'
+                      name={'transfer_responsibility[permissions][edit]'}
+                      checked={@state.permissionLevel >= 3} onChange={(event) => @_onToggleCheckbox(3, event)} />
+                  </td>
+                  <td style={{textAlign: 'center', border: '0px'}}>
+                    <input type='checkbox'
+                      name={'transfer_responsibility[permissions][manage]'}
+                      checked={@state.permissionLevel >= 4} onChange={(event) => @_onToggleCheckbox(4, event)} />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
 
         <div className='ui-actions phl pbl mtl'>
           <a className='link weak' onClick={@props.onClose}> {t('transfer_responsibility_cancel')} </a>
-          <button disabled={(not @state.selectedUser) || @state.saving}
+          <button disabled={(not @state.selectedEntity) || @state.saving}
             className='primary-button large' onClick={@_onExplicitSubmit} type='button'>
             {t('transfer_responsibility_submit')}
           </button>

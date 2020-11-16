@@ -74,7 +74,7 @@ module MediaEntryPermissionsShared
   def interact_with_page_so_we_dont_look_like_spammers
     # NOTE: needs at least *some* interaction with the page,
     # or the browser will ignore us (because it looks like a spam popup)
-    find('h2', text: I18n.t(:permissions_responsible_user_title)).click
+    find('h2', text: I18n.t(:permissions_responsible_user_and_responsibility_group_title)).click
   end
 
   def expect_permission(perm, name, bool)

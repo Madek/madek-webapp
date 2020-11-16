@@ -12,16 +12,22 @@ module Modules
         resources = type.unscoped.where(id: resources_ids_param)
         authorize_resources_for_batch_transfer_responsibility!(resources)
 
-        new_user_uuid = params.require(:transfer_responsibility).require(:user)
-        new_user = User.find(new_user_uuid)
+        new_entity_uuid = params.require(:transfer_responsibility).require(:entity)
+        new_entity_type = params.require(:transfer_responsibility).require(:type)
 
-        ActiveRecord::Base.transaction do
-          resources.each do |resource|
-            update_permissions_resource(new_user, resource)
+        if allowed_entity_type?(new_entity_type)
+          new_entity = new_entity_type.constantize.find(new_entity_uuid)
+
+          ActiveRecord::Base.transaction do
+            resources.each do |resource|
+              update_permissions_resource(new_entity, resource)
+            end
           end
-        end
 
-        batch_transfer_responsibility_respond(type, resources.count)
+          batch_transfer_responsibility_respond(type, resources.count)
+        else
+          raise 'Unsupported entity type! ' + new_entity_type.inspect
+        end
       end
 
       def batch_transfer_responsibility_respond(type, count)
@@ -53,6 +59,10 @@ module Modules
 
       def resources_ids_param
         params.require(:id)
+      end
+
+      def allowed_entity_type?(type)
+        %w(Delegation User).include?(type)
       end
     end
   end

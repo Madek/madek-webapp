@@ -65,7 +65,7 @@ class MediaEntryPolicy < Shared::MediaResources::MediaResourcePolicy
   end
 
   def confidential_links?
-    logged_in? and owner? and record.is_published
+    logged_in? and responsible_user_or_member_of_delegation? and record.is_published
   end
 
   def show_by_confidential_link?

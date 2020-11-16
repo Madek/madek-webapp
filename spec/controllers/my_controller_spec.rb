@@ -18,12 +18,14 @@ describe MyController do
         :activity_stream,
         :unpublished_entries,
         :content_media_entries,
+        :content_delegated_media_entries,
         :dashboard_header,
         :content_collections, :content_filter_sets,
+        :content_delegated_collections,
         :latest_imports,
         :favorite_media_entries, :favorite_collections, :favorite_filter_sets,
         :entrusted_media_entries, :entrusted_collections, :entrusted_filter_sets,
-        :groups,
+        :groups_and_delegations,
         :used_keywords,
         :action,
         :tokens,
@@ -118,7 +120,7 @@ describe MyController do
       create_data
       open_dashboard_section(:groups)
 
-      groups = @get.user_dashboard.groups
+      groups = @get.user_dashboard.groups_and_delegations
       expect(groups[:internal].count).to be == 20
     end
   end

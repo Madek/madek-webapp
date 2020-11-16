@@ -18,6 +18,7 @@ module.exports = React.createClass
 
     group_types = f.zipObject(f.map({
       internal: t('internal_groups')
+      delegations: t('responsibility_groups')
       authentication: t('authentication_groups')
       external: t('external_groups')
     }, (label, type) ->

@@ -436,7 +436,7 @@ DEPENDENCIES
   bcrypt
   bcrypt-ruby
   binding_of_caller
-  capybara (~> 2.4)
+  capybara (~> 2.18)
   chronic_duration
   cider_ci-open_session (>= 1.0.0, < 2.0.0)
   cider_ci-support (= 3.2)

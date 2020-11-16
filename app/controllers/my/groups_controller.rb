@@ -24,14 +24,13 @@ class My::GroupsController < ApplicationController
     )
 
     @get = Presenters::Users::DashboardSection.new(
-      get.groups,
+      get.groups_and_delegations,
       sections,
       nil
     )
 
     respond_with @get, layout: 'app_with_sidebar', template: 'my/groups/index'
   end
-  # rubocop:enable Metrics/MethodLength
 
   def show
     group = find_group_and_authorize

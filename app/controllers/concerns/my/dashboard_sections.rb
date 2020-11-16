@@ -69,6 +69,22 @@ module Concerns
           #   partial: :media_resources,
           #   href: my_dashboard_section_path(:content_filter_sets)
           # },
+          content_delegated_media_entries: {
+            title: I18n.t(:sitemap_my_delegated_media_entries),
+            icon: 'icon-media-entry',
+            partial: :media_resources,
+            allowed_filter_params:
+              Concerns::ResourceListParams::ENTRIES_ALLOWED_FILTER_PARAMS,
+            href: my_dashboard_section_path(:content_delegated_media_entries)
+          },
+          content_delegated_collections: {
+            title: I18n.t(:sitemap_my_delegated_collections),
+            icon: 'icon-set',
+            partial: :media_resources,
+            allowed_filter_params:
+              Concerns::ResourceListParams::COLLECTIONS_ALLOWED_FILTER_PARAMS,
+            href: my_dashboard_section_path(:content_delegated_collections)
+          },
           latest_imports: {
             title: I18n.t(:sitemap_my_latest_imports),
             icon: 'icon-media-entry',
