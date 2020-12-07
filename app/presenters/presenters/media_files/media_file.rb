@@ -92,7 +92,8 @@ module Presenters
       end
 
       def get_previews_by_type(type)
-        @app_resource.previews.where(media_type: type).map do |preview|
+        @app_resource.previews.where(media_type: type)
+          .reorder(created_at: :desc).uniq(&:filename).map do |preview|
           Presenters::Previews::Preview.new(preview, @access_token) if preview.present?
         end.compact.presence
       end
