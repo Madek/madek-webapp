@@ -68,6 +68,7 @@ Madek::Application.routes.draw do
       get 'relations/parents', action: :relation_parents, as: 'relation_parents'
 
       get 'browse'
+      get 'siblings'
       get 'export'
 
       get 'embedded'

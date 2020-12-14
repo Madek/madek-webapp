@@ -80,6 +80,10 @@ module Presenters
         _relations
       end
 
+      def siblings_url
+        prepend_url_context(siblings_media_entry_path(@app_resource))
+      end
+
       def meta_data
         return unless %w(
           show export more_data usage_data show_by_confidential_link

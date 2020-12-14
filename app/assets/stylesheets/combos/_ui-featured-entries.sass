@@ -10,6 +10,7 @@
 /**
  *  NORMAL variation
  *-----------------------------------------
+ */
 
 .ui-featured-entries
   height: 400px
@@ -103,11 +104,13 @@
 /**
  *  SMALL variation
  *-----------------------------------------
+ */
 
 .ui-featured-entries.small
   height: 200px
   .ui-featured-entry
     +dimension(auto, 170px)
+    +min-dimension(100px)
     margin-right: $space-x
   .ui-featured-entry img
     +dimension(auto, 170px)
@@ -117,6 +120,7 @@
 /**
  *  ACTIVE variation
  *-----------------------------------------
+ */
 
 .ui-featured-entries.active
   .ui-featured-entries-item:hover
@@ -124,7 +128,6 @@
     .ui-featured-entry-actions
       +border-radius($border-radius-m)
       +dimension(100px, 20px)
-      +position-bottom-left(70px, 50%)
       +position-bottom-right(70px, 50%)
       background: $darken-more
       display: block
@@ -141,4 +144,4 @@
       &:hover
         text-decoration: none
   &.small .ui-featured-entries-item:hover .ui-featured-entry-actions
-    bottom: 15px
+    +position-bottom-left(15px, calc(50% - (#{$space-x} / 2)))

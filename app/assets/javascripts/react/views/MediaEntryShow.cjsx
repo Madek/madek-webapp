@@ -1,5 +1,4 @@
 React = require('react')
-classList = require('classnames')
 f = require('active-lodash')
 t = require('../../lib/i18n-translate.js')
 appRequest = require('../../lib/app-request.coffee')
@@ -11,6 +10,7 @@ MediaEntryPreview = require('../decorators/MediaEntryPreview.jsx')
 MetaDataByListing = require('../decorators/MetaDataByListing.cjsx')
 ResourceShowOverview = require('../templates/ResourceShowOverview.cjsx')
 BrowseEntriesList = require('./MediaEntry/BrowseEntriesList.cjsx')
+MediaEntrySiblings = require('./MediaEntry/MediaEntrySiblings.jsx').default
 
 module.exports = React.createClass
   displayName: 'Views.MediaEntryShow'
@@ -34,12 +34,13 @@ module.exports = React.createClass
   }
 
   componentDidMount: ()->
+    @_isMounted = true
     @setState(active: true)
     return unless !!@props.get.browse_url
     @_fetchingBrowseEntries = appRequest(
       { url: @props.get.browse_url, sparse: { browse_resources: {} } },
       (err, res, data) =>
-        return if !@isMounted()
+        return if not @_isMounted
         if err && !data && !data.browse_resources
           console.error('Error while fetching browsable entries data!\n\n', err)
           @setState(fetchedBrowseEntries: false)
@@ -47,6 +48,7 @@ module.exports = React.createClass
           @setState(fetchedBrowseEntries: data.browse_resources))
 
   componentWillUnmount: ()->
+    @_isMounted = false
     if @_fetchingBrowseEntries then @_fetchingBrowseEntries.abort()
 
   render: ({get, authToken} = @props, state = @state)->
@@ -109,6 +111,8 @@ module.exports = React.createClass
             </a>
           </div>
           <div className='js-only'>
+            <MediaEntrySiblings url={get.siblings_url}/>
+
             <div className='ui-container midtone bordered rounded mbh pam'>
 
               <BrowseEntriesList

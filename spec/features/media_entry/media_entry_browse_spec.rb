@@ -106,7 +106,7 @@ def browse_list_ui_entries(row)
 end
 
 def browse_list_ui
-  all('.ui-container.rounded-right.pbm').map do |row|
+  all('.ui-container.pbm').map do |row|
     {
       text: row.text,
       entries: browse_list_ui_entries(row)

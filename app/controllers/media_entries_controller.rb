@@ -71,6 +71,12 @@ class MediaEntriesController < ApplicationController
     respond_with(@get)
   end
 
+  def siblings
+    media_entry = get_authorized_resource
+    @get = Presenters::MediaEntries::MediaEntrySiblings.new(media_entry, current_user)
+    respond_with(@get)
+  end
+
   def destroy
     media_entry = MediaEntry.unscoped.find(id_param)
     auth_authorize media_entry
