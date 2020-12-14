@@ -80,6 +80,7 @@ class MediaEntryPolicy < Shared::MediaResources::MediaResourcePolicy
   alias_method :more_data?, :_via_personal_access?
   alias_method :relations?, :_via_personal_access?
   alias_method :browse?, :_via_personal_access?
+  alias_method :siblings?, :_via_personal_access?
   alias_method :export?, :_via_personal_access?
 
   alias_method :edit?, :update?

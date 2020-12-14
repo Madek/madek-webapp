@@ -1,14 +1,19 @@
 import React, { Component } from 'react'
-import f from 'lodash'
+import _ from 'lodash'
 import t from '../../../lib/i18n-translate'
-import UI from '../../ui-components/index.coffee'
+import { Icon } from '../../ui-components/index.coffee'
+import appRequest from '../../../lib/app-request.coffee'
 import MediaResourcesLine from './MediaResourcesLine.jsx'
+import Preloader from '../../ui-components/Preloader.cjsx'
 
 class MediaEntrySiblings extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      resourcesByCollection: []
+      parentCollections: props.parentCollections || [],
+      resourcesByCollection: [],
+      isFetching: false,
+      fetched: false
     }
   }
 
@@ -21,13 +26,31 @@ class MediaEntrySiblings extends Component {
     this._isMounted = false
   }
 
+  prepareResources(data) {
+    return _.filter(data, ({ media_entries }) => !_.isEmpty(media_entries))
+  }
+
   fetchSiblings() {
-    this.setState({ resourcesByCollection: this.props.siblings })
+    this.setState({ isFetching: true })
+    this._fetching = appRequest(
+      { url: this.props.get.siblings_url, sparse: { siblings: {} } },
+      (err, res, data) => {
+        if (!this._isMounted) return
+        if (err && !data) {
+          console.error('Error while fetching sibling entries data!\n\n', err)
+          this.setState({ resourcesByCollection: false, isFetching: false })
+        } else {
+          this.setState({
+            resourcesByCollection: this.prepareResources(data.siblings),
+            isFetching: false,
+            fetched: true
+          })
+        }
+    })
   }
 
   render() {
-    const { resourcesByCollection } = this.state
-    const { authToken } = this.props
+    const { resourcesByCollection, isFetching, fetched } = this.state
 
     return (
       <div className='ui-container midtone bordered rounded mbh pam'>
@@ -35,19 +58,24 @@ class MediaEntrySiblings extends Component {
           Other media entries in the same set
         </h3>
 
-        {f.map(resourcesByCollection, (obj) =>
-          <div key={obj.collection.uuid}>
-            <h4 className='title-m pbs'>
-              Parent set: {obj.collection.title} {' '}
-              <a href={obj.collection.url} style={{textDecoration: 'none'}}>
-                <UI.Icon i='link' />
-              </a>
-            </h4>
+        {isFetching && <Preloader />}
+        {fetched && _.isEmpty(resourcesByCollection) ? (
+          <div className='by-center'>{t('no_content_fallback')}</div>
+        ) : (
+          _.map(resourcesByCollection, ({ collection, media_entries }) =>
+            <div key={collection.uuid}>
+              <h4 className='title-s pbs'>
+                Parent set: {collection.title} {' '}
+                <a href={collection.url} style={{textDecoration: 'none'}}>
+                  <Icon i='link' />
+                </a>
+              </h4>
 
-            <MediaResourcesLine
-              resources={obj.media_entries}
-            />
-          </div>
+              <MediaResourcesLine
+                resources={media_entries}
+              />
+            </div>
+          )
         )}
       </div>
     )

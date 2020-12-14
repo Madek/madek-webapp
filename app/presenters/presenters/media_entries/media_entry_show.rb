@@ -86,14 +86,8 @@ module Presenters
         end
       end
 
-      def siblings
-        @app_resource.sibling_media_entries.map do |entry|
-          entry[:collection] = Presenters::Collections::CollectionIndex.new(entry[:collection], @user)
-          entry[:media_entries] = entry[:media_entries].map do |me|
-            Presenters::MediaEntries::MediaEntryIndex.new(me, @user)
-          end
-          entry
-        end
+      def siblings_url
+        prepend_url_context(siblings_media_entry_path(@app_resource))
       end
 
       def meta_data

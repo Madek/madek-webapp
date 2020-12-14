@@ -113,7 +113,7 @@ module.exports = React.createClass
             </a>
           </div>
           <div className='js-only'>
-            <MediaEntrySiblings siblings={get.siblings} authToken={authToken} />
+            <MediaEntrySiblings parentCollections={get.parent_collections} get={get}/>
 
             <div className='ui-container midtone bordered rounded mbh pam'>
 
