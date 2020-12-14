@@ -34,12 +34,13 @@ module.exports = React.createClass
   }
 
   componentDidMount: ()->
+    @_isMounted = true
     @setState(active: true)
     return unless !!@props.get.browse_url
     @_fetchingBrowseEntries = appRequest(
       { url: @props.get.browse_url, sparse: { browse_resources: {} } },
       (err, res, data) =>
-        return if !@isMounted()
+        return if not @_isMounted
         if err && !data && !data.browse_resources
           console.error('Error while fetching browsable entries data!\n\n', err)
           @setState(fetchedBrowseEntries: false)
@@ -47,6 +48,7 @@ module.exports = React.createClass
           @setState(fetchedBrowseEntries: data.browse_resources))
 
   componentWillUnmount: ()->
+    @_isMounted = false
     if @_fetchingBrowseEntries then @_fetchingBrowseEntries.abort()
 
   render: ({get, authToken} = @props, state = @state)->
@@ -77,6 +79,7 @@ module.exports = React.createClass
         <div className='ui-container midtone rounded-bottom pal well'>
           <MetaDataByListing list={listContexts} /></div>
 
+    f.map(get.siblings[0], (args...) -> console.log(args))
     # TODO: use <AppResourceLayout…/>, fake the boxes for now:
 
     {# complete box (under the title):}
@@ -110,6 +113,25 @@ module.exports = React.createClass
           </div>
           <div className='js-only'>
             <div className='ui-container midtone bordered rounded mbh pam'>
+              <h3 className='title-l pbm'>
+                Other media entries in the same set
+              </h3>
+
+              {f.map(get.siblings, (obj) ->
+                <div>
+                  <h4 className='title-m pbs'>
+                    Parent set: {obj.collection.title} {' '}
+                    <a href={obj.collection.url} style={{textDecoration: 'none'}}>
+                      <UI.Icon i='link' />
+                    </a>
+                  </h4>
+
+                  <SiblingsLine resources={obj.media_entries} authToken={authToken} />
+                </div>
+              )}
+            </div>
+
+            <div className='ui-container midtone bordered rounded mbh pam'>
 
               <BrowseEntriesList
                 isLoading={!state.fetchedBrowseEntries}
@@ -123,3 +145,38 @@ module.exports = React.createClass
       }
 
     </div>
+
+SiblingsLine = ({resources, children, authToken} = props) ->
+  <div className='ui-container rounded-right pbm'>
+    <div className='ui-container rounded-right'>
+      {children && <div className='mbm'>{children}</div>}
+      <div className='ui-featured-entries small active'>
+        <ul
+          className='ui-featured-entries-list'
+        >
+          {f.map(resources, ({uuid, url, image_url, media_type}) ->
+            <li key={uuid} className='ui-featured-entries-item'>
+              <a
+                className={classList('ui-featured-entry', {"is-#{media_type}": !!media_type})}
+                href={url}
+              >
+                <img src={image_url} />
+              </a>
+              <ul className='ui-featured-entry-actions'>
+                <li className='ui-featured-entry-action'>
+                  <a
+                    className='block'
+                    href={url}
+                    title={t('browse_entries_browse_link_title')}
+                  >
+                    <UI.Icon i='eye' />
+                  </a>
+                </li>
+              </ul>
+            </li>
+          )}
+        </ul>
+      </div>
+    </div>
+    <hr className='separator' />
+  </div>

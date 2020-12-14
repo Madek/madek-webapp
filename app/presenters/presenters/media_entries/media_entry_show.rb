@@ -80,6 +80,22 @@ module Presenters
         _relations
       end
 
+      def parent_collections
+        @app_resource.parent_collections.map do |pc|
+          Presenters::Collections::CollectionIndex.new(pc, @user)
+        end
+      end
+
+      def siblings
+        @app_resource.sibling_media_entries.map do |entry|
+          entry[:collection] = Presenters::Collections::CollectionIndex.new(entry[:collection], @user)
+          entry[:media_entries] = entry[:media_entries].map do |me|
+            Presenters::MediaEntries::MediaEntryIndex.new(me, @user)
+          end
+          entry
+        end
+      end
+
       def meta_data
         return unless %w(
           show export more_data usage_data show_by_confidential_link
