@@ -11,6 +11,7 @@ MediaEntryPreview = require('../decorators/MediaEntryPreview.jsx')
 MetaDataByListing = require('../decorators/MetaDataByListing.cjsx')
 ResourceShowOverview = require('../templates/ResourceShowOverview.cjsx')
 BrowseEntriesList = require('./MediaEntry/BrowseEntriesList.cjsx')
+MediaResourcesLine = require('./MediaEntry/MediaResourcesLine.jsx').default
 
 module.exports = React.createClass
   displayName: 'Views.MediaEntryShow'
@@ -126,7 +127,10 @@ module.exports = React.createClass
                     </a>
                   </h4>
 
-                  <SiblingsLine resources={obj.media_entries} authToken={authToken} />
+                  <MediaResourcesLine
+                    resources={obj.media_entries}
+                    authToken={authToken}
+                  />
                 </div>
               )}
             </div>
@@ -145,38 +149,3 @@ module.exports = React.createClass
       }
 
     </div>
-
-SiblingsLine = ({resources, children, authToken} = props) ->
-  <div className='ui-container rounded-right pbm'>
-    <div className='ui-container rounded-right'>
-      {children && <div className='mbm'>{children}</div>}
-      <div className='ui-featured-entries small active'>
-        <ul
-          className='ui-featured-entries-list'
-        >
-          {f.map(resources, ({uuid, url, image_url, media_type}) ->
-            <li key={uuid} className='ui-featured-entries-item'>
-              <a
-                className={classList('ui-featured-entry', {"is-#{media_type}": !!media_type})}
-                href={url}
-              >
-                <img src={image_url} />
-              </a>
-              <ul className='ui-featured-entry-actions'>
-                <li className='ui-featured-entry-action'>
-                  <a
-                    className='block'
-                    href={url}
-                    title={t('browse_entries_browse_link_title')}
-                  >
-                    <UI.Icon i='eye' />
-                  </a>
-                </li>
-              </ul>
-            </li>
-          )}
-        </ul>
-      </div>
-    </div>
-    <hr className='separator' />
-  </div>
