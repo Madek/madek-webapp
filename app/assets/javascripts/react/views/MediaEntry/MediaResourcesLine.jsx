@@ -1,12 +1,12 @@
 import React from 'react'
 import f from 'lodash'
 import classList from 'classnames'
-import { parse } from 'url'
+import { parse as parseUrl } from 'url'
 import qs from 'qs'
 import t from '../../../lib/i18n-translate'
 import UI from '../../ui-components/index.coffee'
 
-const MediaResourcesLine = ({ resources, children, authToken }) =>
+const MediaResourcesLine = ({ children, resources }) =>
   <div className='ui-container rounded-right pbm'>
     <div className='ui-container rounded-right'>
       {children && <div className='mbm'>{children}</div>}
@@ -44,7 +44,7 @@ const MediaResourcesLine = ({ resources, children, authToken }) =>
 export default MediaResourcesLine
 
 const makeBrowseUrl = (url) => {
-  const parsedUrl = parse(url)
+  const parsedUrl = parseUrl(url)
   const params = qs.parse(parsedUrl.query)
   return parsedUrl.pathname.replace(/\/*$/, '') + '/browse?' + qs.stringify(params);
 }

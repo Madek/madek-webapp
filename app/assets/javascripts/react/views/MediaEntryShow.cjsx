@@ -11,6 +11,7 @@ MediaEntryPreview = require('../decorators/MediaEntryPreview.jsx')
 MetaDataByListing = require('../decorators/MetaDataByListing.cjsx')
 ResourceShowOverview = require('../templates/ResourceShowOverview.cjsx')
 BrowseEntriesList = require('./MediaEntry/BrowseEntriesList.cjsx')
+MediaEntrySiblings = require('./MediaEntry/MediaEntrySiblings.jsx').default
 MediaResourcesLine = require('./MediaEntry/MediaResourcesLine.jsx').default
 
 module.exports = React.createClass
@@ -80,7 +81,6 @@ module.exports = React.createClass
         <div className='ui-container midtone rounded-bottom pal well'>
           <MetaDataByListing list={listContexts} /></div>
 
-    f.map(get.siblings[0], (args...) -> console.log(args))
     # TODO: use <AppResourceLayout…/>, fake the boxes for now:
 
     {# complete box (under the title):}
@@ -113,27 +113,7 @@ module.exports = React.createClass
             </a>
           </div>
           <div className='js-only'>
-            <div className='ui-container midtone bordered rounded mbh pam'>
-              <h3 className='title-l pbm'>
-                Other media entries in the same set
-              </h3>
-
-              {f.map(get.siblings, (obj) ->
-                <div>
-                  <h4 className='title-m pbs'>
-                    Parent set: {obj.collection.title} {' '}
-                    <a href={obj.collection.url} style={{textDecoration: 'none'}}>
-                      <UI.Icon i='link' />
-                    </a>
-                  </h4>
-
-                  <MediaResourcesLine
-                    resources={obj.media_entries}
-                    authToken={authToken}
-                  />
-                </div>
-              )}
-            </div>
+            <MediaEntrySiblings siblings={get.siblings} authToken={authToken} />
 
             <div className='ui-container midtone bordered rounded mbh pam'>
 
