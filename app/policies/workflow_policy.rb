@@ -8,7 +8,7 @@ class WorkflowPolicy < DefaultPolicy
   end
 
   def edit?
-    beta_tester? && (creator? || owner?)
+    beta_tester? && (creator? || owner? || member_of_delegation?)
   end
 
   def update?
@@ -36,5 +36,9 @@ class WorkflowPolicy < DefaultPolicy
 
   def beta_tester?
     user.groups.exists?(Madek::Constants::BETA_TESTERS_WORKFLOWS_GROUP_ID)
+  end
+
+  def member_of_delegation?
+    record.delegation_with_user?(user)
   end
 end

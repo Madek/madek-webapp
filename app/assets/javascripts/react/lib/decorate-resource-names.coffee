@@ -13,6 +13,7 @@ decorators =
   Keyword: (o)-> o.label
   # TMP!
   ApiClient: (o)-> "[API] #{o.login}"
+  Delegation: (o) -> o.label
 
 module.exports = (o)->
   unless f.isObject(o) and f.isFunction(decorate = decorators[o.type])

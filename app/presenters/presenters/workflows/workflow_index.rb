@@ -6,7 +6,7 @@ module Presenters
       end
 
       def by_status
-        @user.workflows
+        @user.with_delegated_workflows
         .order('updated_at DESC')
         .map { |w| Presenters::Workflows::WorkflowCommon.new(w, @user) }
         .group_by(&:status)

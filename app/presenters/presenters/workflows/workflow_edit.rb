@@ -6,7 +6,11 @@ module Presenters
       end
 
       def workflow_owners
-        @app_resource.owners.map { |owner| Presenters::Users::UserIndex.new(owner) }
+        owners = @app_resource.owners.map { |owner| Presenters::Users::UserIndex.new(owner) }
+        delegations = @app_resource.delegations.map do |delegation|
+          Presenters::Delegations::DelegationIndex.new(delegation)
+        end
+        owners.concat(delegations)
       end
 
       def common_settings

@@ -115,7 +115,10 @@ module.exports = React.createClass
   displayName: 'AutoComplete'
   propTypes:
     name: PropTypes.string.isRequired
-    resourceType: PropTypes.string.isRequired
+    resourceType: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.array
+    ]).isRequired,
     onSelect: PropTypes.func.isRequired
     onAddValue: PropTypes.func
     value: PropTypes.string

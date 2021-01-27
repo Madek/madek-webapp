@@ -2,12 +2,6 @@ import React from 'react'
 import f from 'active-lodash'
 import cx from 'classnames'
 
-// import setUrlParams from '../../../lib/set-params-for-url.coffee'
-// import AppRequest from '../../../lib/app-request.coffee'
-// import asyncWhile from 'async/whilst'
-// import { parse as parseUrl } from 'url'
-// import { parse as parseQuery } from 'qs'
-// import Moment from 'moment'
 import currentLocale from '../../../lib/current-locale'
 const UI = require('../../ui-components/index.coffee')
 import SubSection from '../../ui-components/SubSection'
@@ -74,7 +68,7 @@ class WorkflowEdit extends React.Component {
 
     const body = {
       workflow: {
-        owners: f.map(owners, 'uuid')
+        owners: f.map(owners, (o) => f.pick(o, ['uuid', 'type']))
       }
     }
 
@@ -1016,9 +1010,9 @@ class OwnersEditor extends React.Component {
           />
           <div className="row">
             <div className="col1of3">
-              {t('workflow_common_settings_permissions_select_user')}:{' '}
+              {t('workflow_common_settings_permissions_select_owner')}:{' '}
               <AutocompleteAdder
-                type="Users"
+                type={['Delegations', 'Users']}
                 onSelect={this.onAddOwner}
                 valueFilter={({ uuid }) => f.includes(f.map(this.state.owners, 'uuid'), uuid)}
               />

@@ -54,8 +54,8 @@ class My::WorkflowsController < ApplicationController
   def update_owners
     workflow = Workflow.find(params[:id])
     auth_authorize workflow
-    users_or_people_ids = params.require(:workflow).fetch(:owners, [])
-    workflow.owners = User.where(id: users_or_people_ids)
+    next_owners = params.require(:workflow).fetch(:owners, [])
+    Workflow::UpdateOwners.new(workflow, next_owners).call
     respond_with(workflow_edit_data(workflow))
   end
 
