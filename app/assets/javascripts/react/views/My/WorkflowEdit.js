@@ -769,17 +769,15 @@ class MetadataEditor extends React.Component {
 
           <div>
             {t('workflow_add_md_by_metakey')}
-            <span style={{ position: 'relative' }}>
-              <AutoComplete
-                className="block mbs"
-                name="add-meta-key"
-                resourceType="MetaKeys"
-                searchParams={langParam}
-                onSelect={this.onAddMdByMk}
-                existingValueHint={t('workflow_adder_meta_key_already_used')}
-                valueFilter={val => f.any(state.md, md => f.get(val, 'uuid') === md.meta_key.uuid)}
-              />
-            </span>
+            <AutoComplete
+              className="block mbs"
+              name="add-meta-key"
+              resourceType="MetaKeys"
+              searchParams={langParam}
+              onSelect={this.onAddMdByMk}
+              existingValueHint={t('workflow_adder_meta_key_already_used')}
+              valueFilter={val => f.any(state.md, md => f.get(val, 'uuid') === md.meta_key.uuid)}
+            />
           </div>
 
           <div className="pts pbs">

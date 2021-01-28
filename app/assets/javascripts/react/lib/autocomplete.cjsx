@@ -61,7 +61,7 @@ initTypeahead = (domNode, resourceType, params, conf, existingValues, valueFilte
       # HTML (not React!) templates
       templates: {
         pending: '<div class="ui-preloader small" style="height: 1.5em"></div>',
-        notFound: '<div class="paragraph-l by-center">' + notFoundPrefix(searchBackend) + t('app_autocomplete_no_results') + '</div>',
+        notFound: '<div class="ui-autocomplete-empty">' + notFoundPrefix(searchBackend) + t('app_autocomplete_no_results') + '</div>',
         suggestion: (value) ->
           content = f.get(value, searchBackend.displayKey)
           # NOTE: use `text` to correctly escape given content
@@ -81,6 +81,17 @@ initTypeahead = (domNode, resourceType, params, conf, existingValues, valueFilte
   # init typeahead.js plugin via jQuery
   $input = jQuery(domNode)
   typeahead = $input.typeahead(typeaheadConfig, dataSets...)
+  typeahead.on('typeahead:render', ->
+    container = jQuery(this).closest('.ui-autocomplete-holder')
+    container.find('.tt-dataset-CompoundSearch').remove()
+
+    if dataSets.length > 1 and container.find('.ui-autocomplete-empty').length is dataSets.length
+      container.find('.tt-dataset').empty()
+      dataSetEl = jQuery('<div>').addClass('tt-dataset tt-dataset-CompoundSearch')
+      emptyEl = jQuery('<div>').addClass('ui-autocomplete-empty')
+      emptyEl.text(t('app_autocomplete_no_results'))
+      container.find('.ui-autocomplete').append(dataSetEl.append(emptyEl))
+  )
 
   # add events (browser/jquery events, NOT from react!):
   typeahead.on 'keypress', (event)->
