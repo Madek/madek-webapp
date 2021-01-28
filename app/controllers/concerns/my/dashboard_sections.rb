@@ -12,6 +12,7 @@ module Concerns
 
       # rubocop:disable Metrics/MethodLength
       def sections_definition
+        user_is_member_of_delegations = current_user.delegations.any?
         {
           activity_stream: {
             title: I18n.t(:sitemap_activities),
@@ -69,7 +70,7 @@ module Concerns
           #   partial: :media_resources,
           #   href: my_dashboard_section_path(:content_filter_sets)
           # },
-          content_delegated_media_entries: {
+          content_delegated_media_entries: !user_is_member_of_delegations ? nil : {
             title: I18n.t(:sitemap_my_delegated_media_entries),
             icon: 'icon-media-entry',
             partial: :media_resources,
@@ -77,7 +78,7 @@ module Concerns
               Concerns::ResourceListParams::ENTRIES_ALLOWED_FILTER_PARAMS,
             href: my_dashboard_section_path(:content_delegated_media_entries)
           },
-          content_delegated_collections: {
+          content_delegated_collections: !user_is_member_of_delegations ? nil : {
             title: I18n.t(:sitemap_my_delegated_collections),
             icon: 'icon-set',
             partial: :media_resources,
