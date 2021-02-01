@@ -121,3 +121,13 @@ tasks:
 
   spec/features/embed_player/embed_player_interaction_spec.rb: *EMBED_PLAYER_CONFIG
   spec/features/embed_player/embed_error_ui_spec.rb: *EMBED_PLAYER_CONFIG
+
+  spec/features/errors/errors_spec.rb:
+    scripts:
+      configure_madek_support_email:
+        body: |
+          echo 'madek_support_email: support@example.com' >> config/settings.local.yml
+      test:
+        start_when:
+          madek support email has been configured:
+            script_key: configure_madek_support_email

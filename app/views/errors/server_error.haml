@@ -1,5 +1,9 @@
 :ruby
   title = t("error_#{@get.status_code}_title")
+  message = case @get.status_code
+            when 500 then error_500_message
+            else t("error_#{@get.status_code}_message")
+            end
 
 - content_for(:title_head) do
   = title
@@ -18,7 +22,7 @@
 
           .error-message.col4of6{data: { hashviz_target: 'errvis' }}
             %p.paragraph-m
-              = t("error_#{@get.status_code}_message")
+              = message
             %br
             %hr
             %br
