@@ -2,7 +2,7 @@ module Presenters
   module Delegations
     class DelegationIndex < Presenters::Shared::AppResource
       def name
-        "#{@app_resource.name} (Delegation)"
+        "#{@app_resource.name}#{I18n.t(:app_autocomplete_user_delegation_postfix)}"
       end
 
       def url

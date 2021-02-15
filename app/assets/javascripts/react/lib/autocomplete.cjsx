@@ -52,7 +52,7 @@ initTypeahead = (domNode, resourceType, params, conf, existingValues, valueFilte
 
   notFoundPrefix = (searchBackend) ->
     if searchBackends.length > 1
-      searchBackend.name.split('Search')[0] + ' - '
+      (searchBackend.displayName || searchBackend.name.split('Search')[0]) + ' - '
     else
       ''
 

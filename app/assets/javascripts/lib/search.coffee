@@ -1,16 +1,18 @@
 url = require('url')
 f = require('active-lodash')
 Bloodhound = require('@eins78/typeahead.js/dist/bloodhound.js').noConflict()
+ui = require('../react/lib/ui.coffee')
+t = ui.t
 
 # FIXME: ignores RAILS_RELATIVE_URL_ROOT
 resourcesConfig = # JSON API Endpoints:
-  Users: { url: '/users', key: 'autocomplete_label' }
+  Users: { url: '/users', key: 'autocomplete_label', displayName: t('app_autocomplete_displayname_users') }
   Groups: { url: '/groups', key: 'detailed_name', params: ['scope'] }
   ApiClients: { url: '/api_clients', key: 'login' }
   People: { url: '/people', params: ['meta_key_id'] }
   Keywords: { url: '/keywords', key: 'label', params: ['meta_key_id'] }
   MetaKeys: { url: '/meta_keys', key: 'autocomplete_label' }
-  Delegations: { url: '/delegations', key: 'autocomplete_label' }
+  Delegations: { url: '/delegations', key: 'autocomplete_label', displayName: t('app_autocomplete_displayname_delegations') }
 
 module.exports = (resourceType, parameters = null, localData)->
   unless (baseConfig = resourcesConfig[resourceType])?
@@ -23,6 +25,7 @@ module.exports = (resourceType, parameters = null, localData)->
     name: "#{resourceType}Search",
     key: baseConfig.key or 'name',
     displayKey: baseConfig.displayKey or baseConfig.key or 'name',
+    displayName: baseConfig.displayName,
     source: BloodhoundFactory(baseConfig, parameters, localData),
     limit: 100
   }

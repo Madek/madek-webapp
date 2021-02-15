@@ -130,7 +130,7 @@ module TransferResponsibilityShared
   def check_responsible_and_link(responsible, visible)
     responsible_text =
       case responsible
-      when Delegation then "#{responsible.name} (Delegation)"
+      when Delegation then "#{responsible.name}#{I18n.t(:app_autocomplete_user_delegation_postfix)}"
       when User then user_to_string(responsible)
       end
 
