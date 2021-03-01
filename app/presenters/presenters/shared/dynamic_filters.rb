@@ -45,7 +45,8 @@ module Presenters
           permissions_visibility(scope),
           permissions_responsible_user(scope),
           permissions_entrusted_to_user(scope),
-          permissions_entrusted_to_group(scope)
+          permissions_entrusted_to_group(scope),
+          permissions_entrusted_to_api_client(scope)
         ].compact
 
         unless children.empty?
@@ -65,7 +66,6 @@ module Presenters
         filters = [
           permissions_visibility_private(scope),
           permissions_visibility_user_or_group(scope),
-          permissions_visibility_api(scope),
           permissions_visibility_public(scope)
         ].compact
 
@@ -94,15 +94,6 @@ module Presenters
           uuid: 'user_or_group',
           count: user_or_group_count
         } if user_or_group_count > 0
-      end
-
-      def permissions_visibility_api(scope)
-        api_count = scope.filter_by_visibility_api.count
-        {
-          label: I18n.t(:permission_subject_title_apiapps),
-          uuid: 'api',
-          count: api_count
-        } if api_count > 0
       end
 
       def permissions_visibility_public(scope)
@@ -153,6 +144,19 @@ module Presenters
         }
       end
 
+      def permissions_entrusted_to_api_client(scope)
+        api_clients = entrusted_api_clients_for_scope(scope)
+          .map { |ac| Presenters::ApiClients::ApiClientIndex.new(ac) }
+
+        return if api_clients.count == 0
+
+        {
+          label: I18n.t(:permission_entrusted_to_api_client),
+          uuid: 'entrusted_to_api_client',
+          children: api_clients
+        }
+      end
+
       def responsible_users_for_scope(scope)
         user_ids_sql = responsible_user_ids(scope)
         User.where(
@@ -171,6 +175,12 @@ module Presenters
           "groups.id IN (#{group_ids_sql})")
       end
 
+      def entrusted_api_clients_for_scope(scope)
+        api_client_ids_sql = entrusted_api_client_ids(scope)
+        ApiClient.where(
+          "api_clients.id IN (#{api_client_ids_sql})")
+      end
+
       def responsible_user_ids(scope)
         <<-SQL
 
@@ -182,7 +192,7 @@ module Presenters
           select distinct
             resources.responsible_user_id
           from
-          	resources
+            resources
 
         SQL
       end
@@ -190,58 +200,71 @@ module Presenters
       def entrusted_user_ids(scope)
         singular = @resource_type.name.underscore
         <<-SQL
-
           with
             resource_ids as (
               select scope.id from (#{scope.to_sql}) as scope
             ),
             group_ids as (
               select distinct
-              	group_id as id
+                group_id as id
               from
-              	#{singular}_group_permissions, resource_ids
+                #{singular}_group_permissions, resource_ids
               where
-              	#{singular}_group_permissions.get_metadata_and_previews = true
-              	and #{singular}_group_permissions.#{singular}_id = resource_ids.id
+                #{singular}_group_permissions.get_metadata_and_previews = true
+                and #{singular}_group_permissions.#{singular}_id = resource_ids.id
 
             )
 
           select distinct
-          	groups_users.user_id
+            groups_users.user_id
           from
-          	groups_users, group_ids
+            groups_users, group_ids
           where
-          	groups_users.group_id = group_ids.id
+            groups_users.group_id = group_ids.id
 
           union
 
           select distinct
-          	#{singular}_user_permissions.user_id
+            #{singular}_user_permissions.user_id
           from
-          	resource_ids, #{singular}_user_permissions
+            resource_ids, #{singular}_user_permissions
           where
             #{singular}_user_permissions.get_metadata_and_previews = true
             and #{singular}_user_permissions.#{singular}_id = resource_ids.id
-
         SQL
       end
 
       def entrusted_group_ids(scope)
         singular = @resource_type.name.underscore
         <<-SQL
-
           with resource_ids as (
             select scope.id from (#{scope.to_sql}) as scope
           )
 
           select distinct
-        		#{singular}_group_permissions.group_id
-        	from
+            #{singular}_group_permissions.group_id
+          from
             resource_ids, #{singular}_group_permissions
           where
             #{singular}_group_permissions.get_metadata_and_previews = true
             and #{singular}_group_permissions.#{singular}_id = resource_ids.id
+        SQL
+      end
 
+      def entrusted_api_client_ids(scope)
+        singular = @resource_type.name.underscore
+        <<-SQL
+          with resource_ids as (
+            select scope.id from (#{scope.to_sql}) as scope
+          )
+
+          select distinct
+            #{singular}_api_client_permissions.api_client_id
+          from
+            resource_ids, #{singular}_api_client_permissions
+          where
+            #{singular}_api_client_permissions.get_metadata_and_previews = true
+            and #{singular}_api_client_permissions.#{singular}_id = resource_ids.id
         SQL
       end
 

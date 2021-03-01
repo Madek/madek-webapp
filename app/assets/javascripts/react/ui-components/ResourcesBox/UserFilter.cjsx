@@ -16,10 +16,6 @@ jQuery = null
 module.exports = React.createClass
   displayName: 'UserFilter'
 
-  getInitialState: () ->
-    {
-    }
-
   componentDidMount: () ->
 
     jQuery = require('jquery')
@@ -73,13 +69,10 @@ module.exports = React.createClass
     onSelect = (value) =>
       @props.userChanged(value, 'add')
 
-
     typeahead.on 'typeahead:select typeahead:autocomplete', (event, item)->
       event.preventDefault()
       jNode.typeahead('val', '')
       onSelect(item)
-
-
 
   render: ({node, placeholder} = @props)->
 
@@ -91,9 +84,7 @@ module.exports = React.createClass
       event.preventDefault()
       @props.userChanged(selected, 'remove')
 
-
     <ul className={@props.togglebodyClass}>
-
       <li key='input' className={css('ui-side-filter-lvl3-item')}>
         <div style={{position: 'relative'}}>
           <input ref='testInput' type='text' placeholder={placeholder}
@@ -101,8 +92,6 @@ module.exports = React.createClass
             style={{display: (if !hasMore then 'none' else 'block')}} />
         </div>
       </li>
-
-
       {
         f.map(selection, (selected) ->
           <li key={'uuid_' + selected.uuid} className={css('ui-side-filter-lvl3-item', {active: true})}>
@@ -114,9 +103,6 @@ module.exports = React.createClass
               }
             </a>
           </li>
-
         )
       }
-
-
     </ul>

@@ -14,11 +14,8 @@ UserFilter = require('./UserFilter.cjsx')
 
 Preloader = require('../Preloader.cjsx')
 
-parseUrl = require('url').parse
 parseQuery = require('qs').parse
 setUrlParams = require('../../../lib/set-params-for-url.coffee')
-libUrl = require('url')
-qs = require('qs')
 
 loadXhr = require('../../../lib/load-xhr.coffee')
 
@@ -263,7 +260,7 @@ module.exports = React.createClass
       }
 
       {
-        if parent.uuid == 'permissions' && (child.uuid == 'responsible_user' || child.uuid == 'entrusted_to_user' || child.uuid == 'entrusted_to_group')
+        if parent.uuid == 'permissions' && f.includes(['responsible_user', 'entrusted_to_user', 'entrusted_to_group', 'entrusted_to_api_client'], child.uuid)
           if isOpen
             @renderResponsibleUser(child, parent.uuid, current, child, filterType, togglebodyClass)
           else
@@ -296,9 +293,10 @@ module.exports = React.createClass
         @addItemFilter(onChange, current, parent, user, filterType)
 
     placeholders = {
-      responsible_user: 'Suche nach User...',
-      entrusted_to_user: 'Suche nach User...',
-      entrusted_to_group: 'Suche nach Gruppe...',
+      responsible_user: t('dynamic_filters_search_for_user_placeholder'),
+      entrusted_to_user: t('dynamic_filters_search_for_user_placeholder'),
+      entrusted_to_group: t('dynamic_filters_search_for_group_placeholder'),
+      entrusted_to_api_client: t('dynamic_filters_search_for_api_client_placeholder')
     }
 
     placeholder = placeholders[parent.uuid]
@@ -345,7 +343,7 @@ module.exports = React.createClass
 
     multiSelectBox = undefined
     if showRemoveAll
-      title = 'Alle entfernen'
+      title = t('dynamic_filters_remove_all_title')
       onChange = @props.onChange
       removeClick = () =>
         @removeSubSectionFilter(onChange, current, child, filterType)
@@ -355,7 +353,7 @@ module.exports = React.createClass
       </Link>
 
     if showSelectAll && allowSelectAll
-      title = 'Jegliche Werte'
+      title = t('dynamic_filters_any_values_title')
       icon = 'checkbox'
       iclass = 'active' if child.selected
       onChange = @props.onChange
