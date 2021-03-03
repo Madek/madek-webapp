@@ -85,13 +85,18 @@ module.exports = React.createClass
       @props.userChanged(selected, 'remove')
 
     <ul className={@props.togglebodyClass}>
-      <li key='input' className={css('ui-side-filter-lvl3-item')}>
-        <div style={{position: 'relative'}}>
-          <input ref='testInput' type='text' placeholder={placeholder}
-            className='typeahead block'
-            style={{display: (if !hasMore then 'none' else 'block')}} />
-        </div>
-      </li>
+      {hasMore && (
+        <li key='input' className='ui-side-filter-lvl3-item'>
+          <div style={{position: 'relative'}}>
+            <input
+              ref='testInput'
+              type='text'
+              placeholder={placeholder}
+              className='typeahead block'
+            />
+          </div>
+        </li>
+      )}
       {
         f.map(selection, (selected) ->
           <li key={'uuid_' + selected.uuid} className={css('ui-side-filter-lvl3-item', {active: true})}>

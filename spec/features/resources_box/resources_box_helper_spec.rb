@@ -150,6 +150,7 @@ module ResourcesBoxHelper
   def create_resources_ordered(config)
     create_users(config)
     create_groups(config)
+    create_delegations(config)
     create_apis(config)
     create_vocabularies(config)
     create_keywords(config)
@@ -164,26 +165,34 @@ module ResourcesBoxHelper
 
   def create_users(config)
     config
-    .select { |entry| entry[:type] == User }
-    .each do |entry|
-      entry[:resource] = create_user
-    end
+      .select { |entry| entry[:type] == User }
+      .each do |entry|
+        entry[:resource] = create_user
+      end
   end
 
   def create_groups(config)
     config
-    .select { |entry| entry[:type] == Group }
-    .each do |entry|
-      entry[:resource] = create_group
-    end
+      .select { |entry| entry[:type] == Group }
+      .each do |entry|
+        entry[:resource] = create_group
+      end
+  end
+
+  def create_delegations(config)
+    config
+      .select { |entry| entry[:type] == Delegation }
+      .each do |entry|
+        entry[:resource] = create_delegation
+      end
   end
 
   def create_apis(config)
     config
-    .select { |entry| entry[:type] == ApiClient }
-    .each do |entry|
-      entry[:resource] = create_api
-    end
+      .select { |entry| entry[:type] == ApiClient }
+      .each do |entry|
+        entry[:resource] = create_api
+      end
   end
 
   def create_clipboard_collection_lazy(user)
@@ -221,27 +230,32 @@ module ResourcesBoxHelper
 
   def create_resources(config)
     config
-    .select { |entry| [MediaEntry, Collection].include?(entry[:type]) }
-    .sort_by { |entry| entry[:created_at] }.each do |entry|
-      underscore = entry[:type].name.underscore
+      .select { |entry| [MediaEntry, Collection].include?(entry[:type]) }
+      .sort_by { |entry| entry[:created_at] }
+      .each do |entry|
+        underscore = entry[:type].name.underscore
 
-      user =
-        if entry[:user]
-          resource_by_id(config, entry[:user])
-        else
-          default_user(config)
+        user =
+          if entry[:user]
+            resource_by_id(config, entry[:user])
+          else
+            default_user(config)
+          end
+
+        delegation = if entry[:responsible_delegation]
+          resource_by_id(config, entry[:responsible_delegation])
         end
 
-      get_metadata_and_previews = (entry[:visibility] != :private)
+        get_metadata_and_previews = (entry[:visibility] != :private)
 
-      resource = send(
-        "create_#{underscore}",
-        'Initial ' + entry[:title],
-        user,
-        get_metadata_and_previews)
-      entry[:resource] = resource.reload
-      sleep 0.01
-    end
+        resource = send(
+          "create_#{underscore}",
+          'Initial ' + entry[:title],
+          user,
+          get_metadata_and_previews,
+          delegation: delegation)
+        entry[:resource] = resource.reload
+      end
   end
 
   def meta_key_data_type(data_type)
@@ -762,11 +776,15 @@ module ResourcesBoxHelper
     FactoryGirl.create(:group)
   end
 
+  def create_delegation
+    FactoryGirl.create(:delegation)
+  end
+
   def create_api
     FactoryGirl.create(:api_client)
   end
 
-  def create_collection(title, user, get_metadata_and_previews)
+  def create_collection(title, user, get_metadata_and_previews, **_opts)
     collection = Collection.create!(
       get_metadata_and_previews: get_metadata_and_previews,
       responsible_user: user,
@@ -779,12 +797,15 @@ module ResourcesBoxHelper
     collection
   end
 
-  def create_media_entry(title, user, get_metadata_and_previews)
+  def create_media_entry(title, user, get_metadata_and_previews, **opts)
+    delegation = opts.fetch(:delegation, nil)
+    responsible_user = delegation ? nil : user
     media_entry = FactoryGirl.create(
       :media_entry,
       get_metadata_and_previews: get_metadata_and_previews,
-      responsible_user: user,
-      creator: user)
+      responsible_user: responsible_user,
+      creator: user,
+      responsible_delegation: delegation)
     FactoryGirl.create(
       :media_file_for_image,
       media_entry: media_entry)

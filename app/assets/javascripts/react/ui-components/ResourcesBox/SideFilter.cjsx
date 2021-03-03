@@ -249,6 +249,13 @@ module.exports = React.createClass
   renderSubSection: (current, filterType, parent, child) ->
 
     isOpen = @getAccordionSubSection(filterType + '-' + parent.uuid, child.uuid).isOpen
+    showSearchField = f.includes([
+      'responsible_user',
+      'responsible_delegation',
+      'entrusted_to_user',
+      'entrusted_to_group',
+      'entrusted_to_api_client'
+    ], child.uuid)
 
     keyClass = 'ui-side-filter-lvl2-item'
     togglebodyClass = css('ui-accordion-body', 'ui-side-filter-lvl3', open: isOpen)
@@ -260,7 +267,7 @@ module.exports = React.createClass
       }
 
       {
-        if parent.uuid == 'permissions' && f.includes(['responsible_user', 'entrusted_to_user', 'entrusted_to_group', 'entrusted_to_api_client'], child.uuid)
+        if parent.uuid == 'permissions' and showSearchField
           if isOpen
             @renderResponsibleUser(child, parent.uuid, current, child, filterType, togglebodyClass)
           else
@@ -294,6 +301,7 @@ module.exports = React.createClass
 
     placeholders = {
       responsible_user: t('dynamic_filters_search_for_user_placeholder'),
+      responsible_delegation: t('dynamic_filters_search_for_delegation_placeholder'),
       entrusted_to_user: t('dynamic_filters_search_for_user_placeholder'),
       entrusted_to_group: t('dynamic_filters_search_for_group_placeholder'),
       entrusted_to_api_client: t('dynamic_filters_search_for_api_client_placeholder')
@@ -477,43 +485,40 @@ forCurrentFiltersSelectItemsInTree = (tree, current) ->
   return tree
 
 initializeSections = (dynamicFilters) ->
-  tree = []
-  for i, filter of dynamicFilters
-    section = {
-      filterType: filter.filter_type or filter.uuid
-      children: initializeSubSections(filter.children)
-      label: filter.label
-      uuid: filter.uuid
+  f.map(dynamicFilters, (filter) ->
+    { filter_type, label, uuid, children } = filter
+    {
+      filterType: filter_type or uuid
+      children: initializeSubSections(children)
+      label
+      uuid
     }
-    tree.push(section)
-  return tree
+  )
 
 initializeSubSections = (filters) ->
-  subSections = []
-  for i, filter of filters
-    subSection = {
-      children: initializeItems(filter.children)
-      label: filter.label
-      uuid: filter.uuid
+  f.map(filters, (filter) ->
+    { children, label, uuid, multi, has_roles } = filter
+    {
+      children: initializeItems(children)
+      label
+      uuid
       # The default value of multi is true. This means, we only
       # check if the presenter has set the value to false explicitely.
       # If the presenter does not set the value at all, it is undefined,
       # and therefore it is set to true here.
-      multi: true unless filter.multi is false
-      hasRoles: filter.has_roles
+      multi: true unless multi is false
+      hasRoles: has_roles
     }
-    subSections.push(subSection)
-  return subSections
+  )
 
 initializeItems = (filters) ->
-  items = []
-  for i, filter of filters
-    item = {
-      label: (if filter.detailed_name then filter.detailed_name else filter.label)
-      uuid: filter.uuid
-      count: filter.count
+  f.map(filters, (filter) ->
+    { uuid, count, type, label, detailed_name } = filter
+    {
+      label: (if detailed_name then detailed_name else label)
+      uuid
+      count
       selected: false
-      type: filter.type
+      type
     }
-    items.push(item)
-  return items
+  )

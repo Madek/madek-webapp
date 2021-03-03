@@ -77,6 +77,26 @@ feature 'set show box' do
         order: 'title ASC',
         filter: {
           permissions: [
+            key: 'responsible_delegation',
+            value: config.detect { |entry| entry[:id] == :delegation }.fetch(:resource).id
+          ]
+        }.to_json
+      }
+    )
+    check_content_by_ids(
+      config,
+      'title ASC',
+      [:media_entry_5]
+    )
+
+    visit_resource(
+      parent,
+      type: 'entries',
+      list: {
+        show_filter: 'true',
+        order: 'title ASC',
+        filter: {
+          permissions: [
             key: 'entrusted_to_group',
             value: config.detect { |entry| entry[:id] == :group_1 }.fetch(:resource).id
           ]
@@ -168,6 +188,10 @@ feature 'set show box' do
         id: :group_1
       },
       {
+        type: Delegation,
+        id: :delegation
+      },
+      {
         type: ApiClient,
         id: :api_1
       },
@@ -216,7 +240,8 @@ feature 'set show box' do
         title: 'MediaEntry5',
         user: :user_1,
         created_at: 5,
-        last_change: 5
+        last_change: 5,
+        responsible_delegation: :delegation
       },
       {
         type: Collection,

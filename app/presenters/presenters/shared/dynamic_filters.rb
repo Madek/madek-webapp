@@ -44,6 +44,7 @@ module Presenters
         children = [
           permissions_visibility(scope),
           permissions_responsible_user(scope),
+          permissions_responsible_delegation(scope),
           permissions_entrusted_to_user(scope),
           permissions_entrusted_to_group(scope),
           permissions_entrusted_to_api_client(scope)
@@ -118,6 +119,19 @@ module Presenters
         }
       end
 
+      def permissions_responsible_delegation(scope)
+        delegations = responsible_delegations_for_scope(scope)
+          .map { |d| Presenters::Delegations::DelegationIndex.new(d) }
+
+        return if delegations.count == 0
+
+        {
+          label: I18n.t(:permissions_responsible_delegation_title),
+          uuid: 'responsible_delegation',
+          children: delegations
+        }
+      end
+
       def permissions_entrusted_to_user(scope)
         users = entrusted_users_for_scope(scope)
           .map { |u| Presenters::Users::UserIndex.new(u) }
@@ -158,27 +172,23 @@ module Presenters
       end
 
       def responsible_users_for_scope(scope)
-        user_ids_sql = responsible_user_ids(scope)
-        User.where(
-          "users.id IN (#{user_ids_sql})")
+        User.where("users.id IN (#{responsible_user_ids(scope)})")
+      end
+
+      def responsible_delegations_for_scope(scope)
+        Delegation.where("delegations.id IN (#{responsible_delegation_ids(scope)})")
       end
 
       def entrusted_users_for_scope(scope)
-        user_ids_sql = entrusted_user_ids(scope)
-        User.where(
-          "users.id IN (#{user_ids_sql})")
+        User.where("users.id IN (#{entrusted_user_ids(scope)})")
       end
 
       def entrusted_groups_for_scope(scope)
-        group_ids_sql = entrusted_group_ids(scope)
-        Group.where(
-          "groups.id IN (#{group_ids_sql})")
+        Group.where("groups.id IN (#{entrusted_group_ids(scope)})")
       end
 
       def entrusted_api_clients_for_scope(scope)
-        api_client_ids_sql = entrusted_api_client_ids(scope)
-        ApiClient.where(
-          "api_clients.id IN (#{api_client_ids_sql})")
+        ApiClient.where("api_clients.id IN (#{entrusted_api_client_ids(scope)})")
       end
 
       def responsible_user_ids(scope)
@@ -191,6 +201,22 @@ module Presenters
 
           select distinct
             resources.responsible_user_id
+          from
+            resources
+
+        SQL
+      end
+
+      def responsible_delegation_ids(scope)
+        <<-SQL
+
+          with
+            resources as (
+              #{scope.to_sql}
+            )
+
+          select distinct
+            resources.responsible_delegation_id
           from
             resources
 
