@@ -17,6 +17,7 @@ module Concerns
         [:search, :meta_data, :permissions].freeze
       ENTRIES_ALLOWED_FILTER_PARAMS =
         [:search, :meta_data, :media_files, :permissions].freeze
+      ALLOWED_PERMISSION_FILTER_KEYS = [:visibility].freeze
 
       def both_list_params
         resource_list_params(params, BOTH_ALLOWED_FILTER_PARAMS)
@@ -62,6 +63,7 @@ module Concerns
         list_params.permit! if list_params.empty?
         list_params = process_list_params(
           list_params, coerced_types, allowed_filter_params)
+        list_params = restrict_permission_filter_keys(list_params)
 
         # side effect: persist list config to session
         persist_list_config_to_session(list_params)
@@ -101,6 +103,18 @@ module Concerns
             raise ActionController::UnpermittedParameters, not_allowed_given
           end
         end
+      end
+
+      def restrict_permission_filter_keys(list_params)
+        unless current_user
+          unless (permissions = list_params.fetch(:filter, {}).fetch(:permissions, [])).empty?
+            allowed_permissions_params = permissions.select do |p|
+              ALLOWED_PERMISSION_FILTER_KEYS.include?(p[:key].to_sym)
+            end
+            list_params[:filter][:permissions] = allowed_permissions_params
+          end
+        end
+        list_params
       end
 
       # NOTE: there is no "private in private", so helper methods are underscored

@@ -41,14 +41,19 @@ module Presenters
       def permissions(scope)
         return nil if scope.count == 0
 
-        children = [
-          permissions_visibility(scope),
-          permissions_responsible_user(scope),
-          permissions_responsible_delegation(scope),
-          permissions_entrusted_to_user(scope),
-          permissions_entrusted_to_group(scope),
-          permissions_entrusted_to_api_client(scope)
-        ].compact
+        children = [permissions_visibility(scope)]
+        if @user
+          children.concat(
+            [
+              permissions_responsible_user(scope),
+              permissions_responsible_delegation(scope),
+              permissions_entrusted_to_user(scope),
+              permissions_entrusted_to_group(scope),
+              permissions_entrusted_to_api_client(scope)
+            ]
+          )
+        end
+        children = children.compact
 
         unless children.empty?
           [

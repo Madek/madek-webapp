@@ -2,11 +2,11 @@ require_relative '../../../resources_box_helper_spec'
 include ResourcesBoxHelper
 
 feature 'set show box' do
+  given(:config) { create_data(create_config) }
+  given(:parent) { resource_by_id(config, :parent) }
 
   scenario 'check visibility permissions' do
-    config = create_data(create_config)
     user = resource_by_id(config, :user_1)
-    parent = resource_by_id(config, :parent)
 
     login(user)
 
@@ -168,6 +168,30 @@ feature 'set show box' do
       'title ASC',
       [:media_entry_5]
     )
+  end
+
+  context 'when user is not logged in' do
+    scenario 'only Accessability filter is visible' do
+      visit_resource(
+        parent,
+        type: 'entries',
+        list: { show_filter: 'true', order: 'title ASC' }
+      )
+
+      section = open_section('Berechtigung')
+
+      expect(find_sub_section(section, I18n.t(:dynamic_filters_visibility))).to be
+      expect { find_sub_section(section, I18n.t(:permissions_responsible_user_title)) }
+        .to raise_error(Capybara::ElementNotFound)
+      expect { find_sub_section(section, I18n.t(:permissions_responsible_delegation_title)) }
+        .to raise_error(Capybara::ElementNotFound)
+      expect { find_sub_section(section, I18n.t(:permission_entrusted_to_user)) }
+        .to raise_error(Capybara::ElementNotFound)
+      expect { find_sub_section(section, I18n.t(:permission_entrusted_to_group)) }
+        .to raise_error(Capybara::ElementNotFound)
+      expect { find_sub_section(section, I18n.t(:permission_entrusted_to_api_client)) }
+        .to raise_error(Capybara::ElementNotFound)
+    end
   end
 
   private

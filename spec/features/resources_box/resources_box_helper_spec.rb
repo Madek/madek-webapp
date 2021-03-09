@@ -535,9 +535,14 @@ module ResourcesBoxHelper
       "[.//a[contains(., '#{name}')]]")
   end
 
-  def open_dynamic_filter(section, sub_section)
+  def open_section(section)
     section_el = find_section(section)
     section_el.click
+    section_el
+  end
+
+  def open_dynamic_filter(section, sub_section)
+    section_el = open_section(section)
     sub_section_el = find_sub_section(section_el, sub_section)
     sub_section_el.click
   end
