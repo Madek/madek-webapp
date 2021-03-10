@@ -1,2 +1,2 @@
 ---
-BUNDLE_DISABLE_SHARED_GEMS: "true"
+BUNDLE_BUILD__FFI: "--with-cflags=-Wno-error=implicit-function-declaration"

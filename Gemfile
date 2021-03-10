@@ -11,7 +11,7 @@ ruby '2.6.6'
 # Engines
 gem 'configuration_management_backdoor',
     '= 4.0.0',
-    git: 'https://github.com/michalpodlecki/rails_configuration-management-backdoor'
+    git: 'https://github.com/Madek/rails_configuration-management-backdoor'
 
 # API
 gem 'responders'
@@ -32,8 +32,6 @@ gem 'sass-rails'
 gem 'coffee-rails'
 
 # LINKED DATA
-# WTF: including this breaks Active record o_O - check with `bin/rails runner 'puts UsageTerms.most_recent.id === nil'` => true!
-# gem 'linkeddata'
 gem 'json-ld'
 gem 'rdf'
 gem 'rdf-rdfxml'
@@ -41,7 +39,6 @@ gem 'rdf-turtle'
 gem 'equivalent-xml'
 
 # The rest
-gem 'bcrypt-ruby'
 gem 'cider_ci-open_session', '>= 1.0.0', '< 2.0.0'
 gem 'execjs'
 gem 'exiftool_vendored'
@@ -50,22 +47,27 @@ gem 'json'
 gem 'kaminari'
 gem 'pundit'
 gem 'rubyzip'
-gem 'therubyracer', platform: :mri
 gem 'uglifier'
+
+# fixes
+gem 'unf_ext', '>= 0.0.7.4' # indirect dependcy, but define here to force version new enough to run on ARM processors
 
 ####################################################################
 # TEST or DEVELOPMENT only
 #####################################################################
 
-gem 'capybara', '~> 2.18', group: %i[test]
-gem 'poltergeist', group: %i[test development personas]
-gem 'rest-client', group: %i[test development personas]
-gem 'ruby-prof', group: %i[development], platform: :mri
-gem 'selenium-webdriver', group: %i[test]
-gem 'zencoder-fetcher', group: %i[development]
-gem 'rails-controller-testing', group: :test
+group :test do
+  gem 'capybara', '~> 2.18'
+  gem 'rails-controller-testing'
+  gem 'selenium-webdriver'
+end
+
+gem 'poltergeist', groups: [:test, :development]
+gem 'rest-client', groups: [:test, :development]
 
 group :development do
-  # gem 'better_errors' # NOTE: including this breaks rails and pry in weird ways…
   gem 'binding_of_caller'
+  gem 'ruby-prof'
+  gem 'zencoder-fetcher'
+  # gem 'better_errors' # NOTE: including this breaks rails and pry in weird ways…
 end
