@@ -1,5 +1,4 @@
 jobs:
-
   rspec-tests:
     name: "RSpec Tests"
     run_when: &DEFAULT_TRIGGERS
@@ -31,17 +30,17 @@ jobs:
           - path: cider-ci/context-components/lint/ruby-lint.yml
 
   precompilation-checks:
-    name: "Precompilation"
+    name: 'Precompilation'
     run_when: *DEFAULT_TRIGGERS
     context:
       include: cider-ci/context-components/precompilation.yml
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# META JOBS (only depend on other jobs)                                           #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+  # META JOBS (only depend on other jobs)                                           #
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
   all-tests:
-    name: "All tests"
+    name: 'All tests'
     description: |
       This job depends on all unit jobs that need to pass.
       It is depended upon by the super-project!
@@ -64,17 +63,18 @@ jobs:
         job_key: precompilation-checks
         states: [passed]
     depends_on:
-      lint: {job_key: lint, type: job, states: [passed]}
-      rspec-tests: {job_key: rspec-tests, type: job, states: [passed]}
-      precompilation-checks: {job_key: precompilation-checks, type: job, states: [passed]}
-      all-tests of the datalayer: {job_key: all-tests, type: job, submodule: [datalayer], states: [passed]}
+      lint: { job_key: lint, type: job, states: [passed] }
+      rspec-tests: { job_key: rspec-tests, type: job, states: [passed] }
+      precompilation-checks: { job_key: precompilation-checks, type: job, states: [passed] }
+      all-tests of the datalayer:
+        { job_key: all-tests, type: job, submodule: [datalayer], states: [passed] }
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# GITHUB BRANCH PROTECTION                                                        #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+  # GITHUB BRANCH PROTECTION                                                        #
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
   good-to-merge:
-    name: "⚑ Good To Merge"
+    name: '⚑ Good To Merge'
     description: |
       This job depends on all jobs that need to pass for "Delivery".
       It is depended upon by GitHub's branch protection (for `master`)!
@@ -84,15 +84,16 @@ jobs:
         - path: cider-ci/context-components/merge-checks.yml
           submodule: [datalayer]
     depends_on:
-      all-tests: {job_key: all-tests, type: job, states: [passed]}
-      good to merge of the datalayer: {job_key: good-to-merge, type: job, submodule: [datalayer], states: [passed]}
+      all-tests: { job_key: all-tests, type: job, states: [passed] }
+      good to merge of the datalayer:
+        { job_key: good-to-merge, type: job, submodule: [datalayer], states: [passed] }
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# OTHER JOBS (not strictly needed for development process/delivery)
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+  # OTHER JOBS (not strictly needed for development process/delivery)
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
   wip-rspec-tests:
-    name: "⟨⟨⟨WIP⟩⟩⟩ RSpec Tests"
+    name: '⟨⟨⟨WIP⟩⟩⟩ RSpec Tests'
     description: |
       Run RSpec Tests in "Work-in-Progress" mode (i.e. compile assets on the fly).
     priority: -1337
@@ -115,12 +116,11 @@ jobs:
               export PATH=~/.rubies/$RUBY/bin:$PATH
               cider-ci/bin/precompile-assets-with-caching.sh
             start_when:
-              database has been configured: {script_key: configure-database}
+              database has been configured: { script_key: configure-database }
 
           test:
             start_when:
-              assets are precompiled: {script_key: precompile-assets }
-
+              assets are precompiled: { script_key: precompile-assets }
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # JOBS THAT DO SOMETHING /o\
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -129,49 +129,49 @@ jobs:
 # and immediatly pushes to github. This gets rid of the common timing problem
 # while merging (by using the CI as a "global lock")
 
-  # do-merge:
-  #   name: "\uD83D\uDE4C Do Push and Merge"
-  #   description: |
-  #     *This job can be run instead of manually delivering and then re-trying the 'Merge-Checks'.*
-  #
-  #     It checks if the current commit can be automatically merged,
-  #     then executes the neccessary actions and finally pushes it to origin/master.
-  #
-  #   priority: 999
-  #
-  #   # same dependencies like "good to merge", but without the "merge-checks"
-  #   depends_on:
-  #     all-tests: {job_key: all-tests, type: job, states: [passed]}
-  #     good to merge of the datalayer: {job_key: good-to-merge, type: job, submodule: [datalayer], states: [passed]}
-  #
-  #   context:
-  #     tasks:
-  #       "Do Merge":
-  #
-  #         traits:
-  #           ci-executor.madek: yes
-  #
-  #         exclusive_global_resources:
-  #           'webapp_do_merge.ci.madek.zhdk.ch': true
-  #
-  #         git_options: { submodules: { include_match: ^.*$ } }
-  #         aggregate_state: satisfy-last
-  #         eager_trials: 1
-  #         max_trials: 1
-  #
-  #         scripts:
-  #           main:
-  #             body: |
-  #               #!/usr/bin/env bash
-  #               set -exu
-  #
-  #               git fetch origin
-  #
-  #               cider-ci/bin/check-git-branch-current
-  #               cider-ci/bin/check-git-submodules-current
-  #
-  #               # TODO: check all commits betwen origin/master...HEAD are signed
-  #
-  #               # push all submodules that reside in the 'Madek' org:
-  #               git submodule foreach --recursive '{ git config remote.origin.url | grep -qe 'github\.com.Madek' ;} && git push origin HEAD:master || exit 0'
-  #               git push origin HEAD:master
+# do-merge:
+#   name: "\uD83D\uDE4C Do Push and Merge"
+#   description: |
+#     *This job can be run instead of manually delivering and then re-trying the 'Merge-Checks'.*
+#
+#     It checks if the current commit can be automatically merged,
+#     then executes the neccessary actions and finally pushes it to origin/master.
+#
+#   priority: 999
+#
+#   # same dependencies like "good to merge", but without the "merge-checks"
+#   depends_on:
+#     all-tests: {job_key: all-tests, type: job, states: [passed]}
+#     good to merge of the datalayer: {job_key: good-to-merge, type: job, submodule: [datalayer], states: [passed]}
+#
+#   context:
+#     tasks:
+#       "Do Merge":
+#
+#         traits:
+#           ci-executor.madek: yes
+#
+#         exclusive_global_resources:
+#           'webapp_do_merge.ci.madek.zhdk.ch': true
+#
+#         git_options: { submodules: { include_match: ^.*$ } }
+#         aggregate_state: satisfy-last
+#         eager_trials: 1
+#         max_trials: 1
+#
+#         scripts:
+#           main:
+#             body: |
+#               #!/usr/bin/env bash
+#               set -exu
+#
+#               git fetch origin
+#
+#               cider-ci/bin/check-git-branch-current
+#               cider-ci/bin/check-git-submodules-current
+#
+#               # TODO: check all commits betwen origin/master...HEAD are signed
+#
+#               # push all submodules that reside in the 'Madek' org:
+#               git submodule foreach --recursive '{ git config remote.origin.url | grep -qe 'github\.com.Madek' ;} && git push origin HEAD:master || exit 0'
+#               git push origin HEAD:master

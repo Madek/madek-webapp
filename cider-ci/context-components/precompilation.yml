@@ -23,12 +23,11 @@ contexts:
   'npm':
     tasks:
       node-modules:
-        name: "npm: node_modules are checked in"
+        name: 'npm: node_modules are checked in'
         git_options: { submodules: { include_match: ^node_modules$ } }
         scripts:
           test:
-            body:
-              cider-ci/bin/check-node-modules
+            body: cider-ci/bin/check-node-modules
 
   'Docs/Specs':
     include: cider-ci/context-components/rails-setup.yml
@@ -40,13 +39,24 @@ contexts:
         tree_attachments:
           feature-specs:
             content_type: text/html
-            include_match: "^tmp/feature.*.(html|json)$"
+            include_match: '^tmp/feature.*.(html|json)$'
         scripts:
           test:
             body: |
               #!/usr/bin/env bash
               set -eux
               export PATH=~/.rubies/$RUBY/bin:$PATH
-              node_modules/.bin/rspec-to-docs spec/features > ./tmp/features.html
+
+
+              # NOTE: quickfix for a problem only in the CI: in the JSON output, there is a line prepended with just the string "true"
+              # this is strange but no really worth investigation, just remove the string with `sed`.
+              # (This started when upgrading from ruby 2.6 to ruby 2.7 which seems nosensical).
+              node_modules/.bin/rspec-to-json spec/features \
+                | sed -e 's/^true//' \
+                | node_modules/.bin/rspec-render-docs > ./tmp/features.html
+
+              # original version:
+              # node_modules/.bin/rspec-to-docs spec/features > ./tmp/features.html
+
               # sanity check as long as the cli does not correctly exit:
               grep -q "$CIDER_CI_TREE_ID" tmp/features.html

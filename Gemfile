@@ -2,7 +2,7 @@
 SHARED_GEMFILE = './datalayer/Gemfile'
 eval_gemfile(SHARED_GEMFILE) if File.exists?(SHARED_GEMFILE)
 
-ruby '2.6.6'
+ruby '2.7.2'
 
 ####################################################################
 # required in production PRODUCTION
@@ -30,6 +30,9 @@ gem 'react-rails', '= 1.9.0'
 gem 'sass'
 gem 'sass-rails'
 gem 'coffee-rails'
+gem 'mini_racer'
+# NOTE: if this fails, maybe try libv8 from source?
+# gem "libv8", github: "rubyjs/libv8", submodules: true
 
 # LINKED DATA
 gem 'json-ld'
