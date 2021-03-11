@@ -4,7 +4,7 @@ require_relative './_shared'
 #       this only tests the HTML output that is served from oEmbed (iframe etc)
 feature 'Embed aka. "Madek-Player"', with_db: :test_media do
   let(:video_entry) { MediaEntry.find('29b7522c-84eb-4abd-89e0-9285075813ac') }
-  VIDEO_CAPTION = 'madek-test-video Madek Team — Public Domain'.freeze
+  VIDEO_EMBED_CAPTION = 'madek-test-video Madek Team — Public Domain'.freeze
 
   let(:the_support_url) { 'https://madek.example.com/help' }
 

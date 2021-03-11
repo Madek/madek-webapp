@@ -195,7 +195,7 @@ feature 'People' do
       visit edit_person_path(person)
     end
 
-    EXAMPLES = [
+    PEOPLE_EXAMPLES = [
       { input: 'https://example.com', output: nil },
 
       { input: 'https://another.example.com/viaf/75121530', output: nil },
@@ -317,7 +317,7 @@ feature 'People' do
       }
     ].freeze
 
-    EXAMPLES.each do |item|
+    PEOPLE_EXAMPLES.each do |item|
       scenario "detects correct data for URI: <#{item[:input]}>" do
         click_button I18n.t(:person_edit_add_uri_btn)
         fill_in 'person[pseudonym]', with: Faker::Name.title
