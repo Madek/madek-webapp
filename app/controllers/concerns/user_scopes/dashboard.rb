@@ -35,7 +35,7 @@ module Concerns
           entrusted_filter_sets: \
             FilterSet.entrusted_to_user(user),
           user_groups: user.groups,
-          user_delegations: user.delegations,
+          user_delegations: user.all_delegations,
           used_keywords: \
             user
             .used_keywords

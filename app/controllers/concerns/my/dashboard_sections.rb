@@ -12,7 +12,7 @@ module Concerns
 
       # rubocop:disable Metrics/MethodLength
       def sections_definition
-        user_is_member_of_delegations = current_user.delegations.any?
+        user_is_member_of_delegations = current_user.all_delegations.any?
         {
           activity_stream: {
             title: I18n.t(:sitemap_activities),
