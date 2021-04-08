@@ -4,12 +4,9 @@ import f from 'active-lodash'
 import t from '../../../lib/i18n-translate'
 import cx from 'classnames'
 
-// import MetaDataByListing from '../../decorators/MetaDataByListing.cjsx'
-// import ResourceThumbnail from '../../decorators/ResourceThumbnail.cjsx'
 import Renderer from '../../decorators/metadataedit/MetadataEditRenderer.cjsx'
 import WorkflowCommonPermissions from '../../decorators/WorkflowCommonPermissions'
 import SubSection from '../../ui-components/SubSection'
-// import Link from '../../ui-components/Link.cjsx'
 import RailsForm from '../../lib/forms/rails-form.cjsx'
 import validation from '../../../lib/metadata-edit-validation.coffee'
 
@@ -72,12 +69,15 @@ class WorkflowPreview extends React.Component {
       initialErrors[resourceId] = []
 
       f.each(meta_key_by_meta_key_id, (meta_key, metaKeyId) => {
-        let metaData = f.find(workflow.common_settings.meta_data, md => md.meta_key.uuid === metaKeyId)
+        const metaData = f.find(workflow.common_settings.meta_data, md => md.meta_key.uuid === metaKeyId)
         if (!metaData) return
         const position = f.get(metaData, 'position')
-        metaData = f.get(metaData, 'value')
-        if (f.has(metaData, '0.string')) {
-          metaData = metaData[0].string
+        let metaDataValue = f.get(metaData, 'value')
+        if (f.has(metaDataValue, '0.string')) {
+          metaDataValue = metaDataValue[0].string
+        }
+        if (!metaData.is_common) {
+          metaDataValue = ''
         }
         const model = {
           meta_key: meta_key,
@@ -88,7 +88,7 @@ class WorkflowPreview extends React.Component {
             meta_key.value_type == 'MetaDatum::JSON'
           ),
           values: f.flatten(
-            f.remove([meta_datum_by_meta_key_id[metaKeyId].values, metaData]),
+            f.remove([meta_datum_by_meta_key_id[metaKeyId].values, metaDataValue]),
             arr => f.isEmpty(f.compact(arr))
           )
         }

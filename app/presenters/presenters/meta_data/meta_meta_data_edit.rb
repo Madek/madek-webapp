@@ -12,7 +12,9 @@ module Presenters
 
       def mandatory_by_meta_key_id
         if @resource_class == Collection
-          { 'madek_core:title' => { meta_key_id: 'madek_core:title', context_id: 'hardcoded' } }
+          apply_mandatory_meta_keys_from_workflow_if_possible(
+            [['madek_core:title', { meta_key_id: 'madek_core:title', context_id: 'hardcoded' }]]
+          )
         else
           result =
             ContextKey.where(
@@ -25,15 +27,7 @@ module Presenters
               ]
             end
 
-          if (workflow = @resource.try(:workflow))
-            result.concat(
-              workflow.mandatory_meta_key_ids.map do |mk|
-                [mk, { meta_key_id: mk, context_id: 'madek_workflow' }]
-              end
-            )
-          end
-
-          result.to_h
+          apply_mandatory_meta_keys_from_workflow_if_possible(result)
         end
       end
 
@@ -134,6 +128,18 @@ module Presenters
         else
           fail 'Invalid resource_class!'
         end
+      end
+
+      def apply_mandatory_meta_keys_from_workflow_if_possible(arr)
+        if (workflow = @resource.try(:workflow))
+          arr.concat(
+            workflow.mandatory_meta_key_ids.map do |mk|
+              [mk, { meta_key_id: mk, context_id: 'madek_workflow' }]
+            end
+          )
+        end
+
+        arr.to_h
       end
     end
   end

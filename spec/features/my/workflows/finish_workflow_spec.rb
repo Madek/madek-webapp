@@ -1,6 +1,9 @@
 require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
+require_relative '_shared'
+
+include Helpers
 
 feature 'Finishing Workflow' do
   given(:user) { create(:user) }
@@ -44,7 +47,7 @@ feature 'Finishing Workflow' do
 
     expand_section(:workflow_common_settings_metadata_title)
 
-    required_meta_data.each { |meta_key_id| uncheck_is_mandatory(meta_key_id) }
+    mandatory_meta_data.each { |meta_key_id| uncheck_is_mandatory(meta_key_id) }
 
     click_button(I18n.t(:workflow_edit_actions_save_data))
     click_link(I18n.t(:workflow_actions_validate))
@@ -61,25 +64,15 @@ feature 'Finishing Workflow' do
   end
 end
 
-def expand_section(translation_key)
-  within(find('h3', text: I18n.t(translation_key))) { click_button }
-end
-
-def required_meta_data
+def mandatory_meta_data
   %w(
-    zhdk_bereich:​project_title
-    madek_core:​title
-    madek_core:​authors
-    madek_core:​copyright_notice
-    copyright:​copyright_usage
-    copyright:​license
+    zhdk_bereich:project_title
+    madek_core:title
+    madek_core:authors
+    madek_core:copyright_notice
+    copyright:copyright_usage
+    copyright:license
   )
-end
-
-def uncheck_is_mandatory(meta_key_id)
-  find('span', text: meta_key_id, visible: :all)
-    .ancestor('.ui-form-group')
-    .uncheck('is_mandatory')
 end
 
 def expect_delegation_for(resource, delegation)
