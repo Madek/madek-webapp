@@ -58,8 +58,12 @@ module WorkflowLocker
     end
 
     def update_responsible!(resource)
-      if user = User.find_by(id: configuration['common_permissions']['responsible'])
-        resource.update!(responsible_user_id: user.id)
+      responsible_id = configuration['common_permissions']['responsible']
+      resource.reload
+      if (user = User.find_by(id: responsible_id))
+        resource.update!(responsible_delegation: nil, responsible_user: user)
+      elsif (delegation = Delegation.find_by(id: responsible_id))
+        resource.update!(responsible_delegation: delegation, responsible_user: nil)
       end
     end
 

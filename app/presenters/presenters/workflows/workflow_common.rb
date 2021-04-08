@@ -30,7 +30,7 @@ module Presenters
             permission,
             case permission
             when 'responsible'
-              presenterify(User.find(value))
+              presenterify(determine_user_or_delegation(value))
             when 'write', 'read'
               presenterify(
                 value
@@ -46,12 +46,20 @@ module Presenters
         end.to_h
       end
 
+      def determine_user_or_delegation(id)
+        User.find(id)
+      rescue ActiveRecord::RecordNotFound
+        Delegation.find(id)
+      end
+
       def presenterify(obj)
         return obj.map { |item| presenterify(item) } if obj.is_a?(Array)
 
         case obj
         when User
           Presenters::Users::UserIndex.new(obj)
+        when Delegation
+          Presenters::Delegations::DelegationIndex.new(obj)
         when Group, InstitutionalGroup
           Presenters::Groups::GroupIndex.new(obj)
         when ApiClient

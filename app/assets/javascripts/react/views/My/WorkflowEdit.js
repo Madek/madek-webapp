@@ -534,16 +534,18 @@ const WorkflowEditor = ({
           <a className="link weak" href={get.actions.index.url}>
             {t('workflow_actions_back')}
           </a>
-          <a
-            className={cx('button large', {
-              disabled: isProcessing
-            })}
-            href={get.actions.fill_data.url}
-            onClick={handleFillDataClick}>
-            {isProcessing
-              ? t('workflow_edit_actions_processing')
-              : t('workflow_edit_actions_fill_data')}
-          </a>
+          {canPreview && (
+            <a
+              className={cx('button large', {
+                disabled: isProcessing
+              })}
+              href={get.actions.fill_data.url}
+              onClick={handleFillDataClick}>
+              {isProcessing
+                ? t('workflow_edit_actions_processing')
+                : t('workflow_edit_actions_fill_data')}
+            </a>)
+          }
           <PreviewButton
             canPreview={canPreview}
             isEditing={isEditing}
@@ -667,99 +669,97 @@ class MetadataEditor extends React.Component {
                     : false
                 }>
                 {({ name, inputId, mkLabel, mkNiceUUID, mdValue, mkdValueError, problemDesc }) => (
-                  <div>
-                    <div
-                      className={cx('ui-form-group  pvs columned', {
-                        error: md.problem || mkdValueError
-                      })}>
-                      {problemDesc && <p className="text-error mbs">{problemDesc}</p>}
-                      {mkdValueError && (
-                        <p className="text-error mbs">{t('workflow_md_edit_value_error_notice')}</p>
+                  <div
+                    className={cx('ui-form-group  pvs columned', {
+                      error: md.problem || mkdValueError
+                    })}>
+                    {problemDesc && <p className="text-error mbs">{problemDesc}</p>}
+                    {mkdValueError && (
+                      <p className="text-error mbs">{t('workflow_md_edit_value_error_notice')}</p>
+                    )}
+
+                    <div className="form-label">
+                      <label htmlFor={inputId}>{mkLabel || mkNiceUUID}</label>
+                      {!!mkLabel && (
+                        <span style={{ fontWeight: 'normal', display: 'block' }}>
+                          <small>({mkNiceUUID})</small>
+                        </span>
                       )}
+                      <div className="mts">
+                        <button
+                          type="button"
+                          className="button small db mts"
+                          onClick={() => this.onRemoveMd(md)}>
+                          {t('workflow_md_edit_remove_btn')}
+                        </button>{' '}
+                      </div>
+                    </div>
 
-                      <div className="form-label">
-                        <label htmlFor={inputId}>{mkLabel || mkNiceUUID}</label>
-                        {!!mkLabel && (
-                          <span style={{ fontWeight: 'normal', display: 'block' }}>
-                            <small>({mkNiceUUID})</small>
-                          </span>
+                    <div className="form-item">
+                      <div className={cx('mbs', !!md.is_common && 'separated pbs')}>
+                        <label>
+                          <input
+                            type="checkbox"
+                            name="is_common"
+                            checked={!!md.is_common}
+                            onChange={e =>
+                              this.onChangeMdAttr(name, 'is_common', f.get(e, 'target.checked'))
+                            }
+                          />{' '}
+                          {t('workflow_md_edit_is_common')}
+                        </label>
+                        <br />
+                        {!HIDE_OVERRIDABLE_TOGGLE && (
+                          <div>
+                            <label>
+                              <input
+                                type="checkbox"
+                                name="is_overridable"
+                                checked={!!md.is_overridable}
+                                onChange={e =>
+                                  this.onChangeMdAttr(
+                                    name,
+                                    'is_overridable',
+                                    f.get(e, 'target.checked')
+                                  )
+                                }
+                              />{' '}
+                              {t('workflow_md_edit_is_overridable')}
+                            </label>
+                            <br />
+                          </div>
                         )}
-                        <div className="mts">
-                          <button
-                            type="button"
-                            className="button small db mts"
-                            onClick={() => this.onRemoveMd(md)}>
-                            {t('workflow_md_edit_remove_btn')}
-                          </button>{' '}
-                        </div>
+                        <label>
+                          <input
+                            type="checkbox"
+                            name="is_mandatory"
+                            checked={!!md.is_mandatory}
+                            onChange={e =>
+                              this.onChangeMdAttr(
+                                name,
+                                'is_mandatory',
+                                f.get(e, 'target.checked')
+                              )
+                            }
+                          />{' '}
+                          {t('workflow_md_edit_is_mandatory')}
+                        </label>
                       </div>
 
-                      <div className="form-item">
-                        <div className={cx('mbs', !!md.is_common && 'separated pbs')}>
-                          <label>
-                            <input
-                              type="checkbox"
-                              name="is_common"
-                              checked={!!md.is_common}
-                              onChange={e =>
-                                this.onChangeMdAttr(name, 'is_common', f.get(e, 'target.checked'))
-                              }
-                            />{' '}
-                            {t('workflow_md_edit_is_common')}
-                          </label>
-                          <br />
-                          {!HIDE_OVERRIDABLE_TOGGLE && (
-                            <div>
-                              <label>
-                                <input
-                                  type="checkbox"
-                                  name="is_overridable"
-                                  checked={!!md.is_overridable}
-                                  onChange={e =>
-                                    this.onChangeMdAttr(
-                                      name,
-                                      'is_overridable',
-                                      f.get(e, 'target.checked')
-                                    )
-                                  }
-                                />{' '}
-                                {t('workflow_md_edit_is_overridable')}
-                              </label>
-                              <br />
-                            </div>
-                          )}
-                          <label>
-                            <input
-                              type="checkbox"
-                              name="is_mandatory"
-                              checked={!!md.is_mandatory}
-                              onChange={e =>
-                                this.onChangeMdAttr(
-                                  name,
-                                  'is_mandatory',
-                                  f.get(e, 'target.checked')
-                                )
-                              }
-                            />{' '}
-                            {t('workflow_md_edit_is_mandatory')}
-                          </label>
-                        </div>
-
-                        {!!md.is_common && (
-                          <fieldset title="wert">
-                            <legend className="font-italic">Fixen Wert vergeben:</legend>
-                            <InputMetaDatum
-                              key="item"
-                              id={inputId}
-                              metaKey={md.meta_key}
-                              // NOTE: with plural values this array around value should be removed
-                              model={{ values: mdValue }}
-                              name={name}
-                              onChange={val => this.onChangeMdAttr(name, 'value', f.compact(val))}
-                            />
-                          </fieldset>
-                        )}
-                      </div>
+                      {!!md.is_common && (
+                        <fieldset title="wert">
+                          <legend className="font-italic">Fixen Wert vergeben:</legend>
+                          <InputMetaDatum
+                            key="item"
+                            id={inputId}
+                            metaKey={md.meta_key}
+                            // NOTE: with plural values this array around value should be removed
+                            model={{ values: mdValue }}
+                            name={name}
+                            onChange={val => this.onChangeMdAttr(name, 'value', f.compact(val))}
+                          />
+                        </fieldset>
+                      )}
                     </div>
                   </div>
                 )}
@@ -782,10 +782,10 @@ class MetadataEditor extends React.Component {
 
           <div className="pts pbs">
             <button type="submit" className="button primary-button">
-              SAVE
+              {t('workflow_edit_actions_save_data')}
             </button>{' '}
             <button type="button" className="button" onClick={onCancel}>
-              CANCEL
+              {t('workflow_edit_actions_cancel')}
             </button>
           </div>
         </form>
@@ -855,7 +855,7 @@ class PermissionsEditor extends React.Component {
                 <div className="col1of3">
                   {t('workflow_common_settings_permissions_select_user')}:{' '}
                   <AutocompleteAdder
-                    type="Users"
+                    type={["Delegations", "Users"]}
                     onSelect={this.onSetResponsible}
                     valueFilter={val => f.get(state.responsible, 'uuid') === f.get(val, 'uuid')}
                   />
@@ -911,10 +911,10 @@ class PermissionsEditor extends React.Component {
 
           <div className="pts pbs">
             <button type="submit" className="button primary-button">
-              SAVE
+              {t('workflow_edit_actions_save_data')}
             </button>{' '}
             <button type="button" className="button" onClick={onCancel}>
-              CANCEL
+              {t('workflow_edit_actions_cancel')}
             </button>
           </div>
         </form>
@@ -959,10 +959,10 @@ class NameEditor extends React.Component {
 
           <div className="pts pbs">
             <button type="submit" className="button primary-button">
-              SAVE
+              {t('workflow_edit_actions_save_data')}
             </button>{' '}
             <button type="button" className="button" onClick={onCancel}>
-              CANCEL
+              {t('workflow_edit_actions_cancel')}
             </button>
           </div>
         </form>
