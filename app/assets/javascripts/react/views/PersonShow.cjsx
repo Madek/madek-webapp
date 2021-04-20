@@ -13,15 +13,12 @@ infotable = (p) ->
   autority_links = f.filter(p.external_uris, 'authority_control.kind')
   external_links = f.difference(p.external_uris, autority_links)
 
-  f.compact([
-    [
-      t('person_show_first_name'),
-      p.first_name
-    ],
-    [
-      t('person_show_last_name'),
-      p.last_name
-    ],
+  nameFields = [[
+      t('person_show_only_name'),
+      p.label
+    ]]
+
+  f.compact([].concat(nameFields).concat([
     if f.isEmpty(external_links) then null else [
       t('person_show_external_uris'),
       deco_external_uris(external_links)
@@ -34,7 +31,7 @@ infotable = (p) ->
       t('person_show_description'),
       p.description
     ]
-  ])
+  ]))
 
 
 PersonShow = React.createClass

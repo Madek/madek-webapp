@@ -495,6 +495,7 @@ person_show_external_uris,Links,Links,
 person_show_external_uris_autority_control,Verzeichnis(se),Register,
 person_show_first_name,Vorname,First name,
 person_show_last_name,Nachname,Last name,
+person_show_only_name,Name,Name,
 person_show_pseudonym,Pseudonym,Pseudonym,
 picture_alt_fallback,(unbekannt),(unkown),
 picture_alt_prefix,Bild: ,Picture:,Prefix für Titel von Bildern (hover-titel/Screenreader)
