@@ -131,9 +131,9 @@ class OembedController < ApplicationController
     <<-HTML.strip_heredoc.tr("\n", ' ').strip
       <div class="#{wrapper_cls}">
         <iframe
-        width="#{width}px"
-        height="#{height}px"
-        src="#{url}"
+        width="#{width}"
+        height="#{height}"
+        src="#{ERB::Util.html_escape(url)}"
         frameborder="0"
         style="margin:0;padding:0;border:0"
         allowfullscreen
