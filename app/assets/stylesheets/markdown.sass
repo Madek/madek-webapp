@@ -1,7 +1,17 @@
+// NOTE: no automatic test, but example content can be found in `webapp/spec/_support/about-pages-example-content.markdown`
+
 .ui-markdown
 
   h1, h2, h3, h3, h4, h5, h6
-    line-height: 2em
+    line-height: 1.25em
+    margin-bottom: .75em
+
+  h1, h2, h3
+    font-weight: bolder
+
+  h1, h2
+    padding-bottom: .25em
+    border-bottom: 1px solid $mono-light
 
   h1
     font-size: 1.5em
@@ -14,3 +24,22 @@
 
   em, i
     font-style: italic !important
+
+  p
+    margin-bottom: 1em
+
+  ul, ol
+    margin-bottom: 1em
+    padding: 0 1em
+
+  blockquote
+    margin-bottom: 1em
+    padding: 0 1em
+    border-left: .25em solid $mono-mid
+    &, p
+      color: $mono-strong
+
+  img
+    margin-bottom: 1em
+    border-style: none
+    max-width: 100%
