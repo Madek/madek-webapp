@@ -291,7 +291,7 @@ Madek::Application.routes.draw do
 
   get '/release', controller: 'release', action: 'show'
 
-  get '/about', controller: 'about_pages', action: 'index'
+  resources :about, path: 'about', only: [:index, :show], controller: :about_pages
 
   # STYLEGUIDE #################################################################
   get '/styleguide', to: 'styleguide#index', as: 'styleguide'
