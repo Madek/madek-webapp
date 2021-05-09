@@ -4,23 +4,27 @@ module WorkflowLocker
 
     private
 
-    def required_context_keys(resource)
-      return @required_context_keys if @required_context_keys
-      if resource.is_a?(Collection)
-        [meta_key_id: 'madek_core:title']
+    def required_meta_key_ids_for(resource)
+      case resource
+      when Collection
+        ['madek_core:title']
+      when MediaEntry
+        required_meta_key_ids_for_media_entry
       else
-        @required_context_keys = (
-          app_settings = AppSetting.first
-          context = app_settings.contexts_for_entry_validation.first
-          context&.context_keys&.where(is_required: true)
-        ).to_a
-
-        if (workflow = resource.try(:workflow))
-          @required_context_keys.concat(
-            workflow.mandatory_meta_key_ids.map { |mk| { meta_key_id: mk } }
-          )
-        end
+        raise "Resource of #{resource.class} class not supported!"
       end
+    end
+
+    def required_meta_key_ids_for_media_entry
+      return @_required_meta_key_ids_for_media_entry if @_required_meta_key_ids_for_media_entry
+      @_required_meta_key_ids_for_media_entry =
+        ContextKey.where(
+          context: AppSetting.first.contexts_for_entry_validation,
+          is_required: true
+        ).pluck(:meta_key_id)
+
+      @_required_meta_key_ids_for_media_entry.concat(@workflow.mandatory_meta_key_ids)
+      @_required_meta_key_ids_for_media_entry = @_required_meta_key_ids_for_media_entry.uniq
     end
 
     def error_message(meta_key)
@@ -31,9 +35,9 @@ module WorkflowLocker
       nested_resources.each do |nested_resource|
         resource = nested_resource.cast_to_type.reload
         has_errors = false
-        required_context_keys(resource).each do |rck|
-          next if resource.meta_data.find_by(meta_key_id: rck[:meta_key_id])
-          meta_key = MetaKey.find(rck[:meta_key_id]) rescue next
+        required_meta_key_ids_for(resource).each do |meta_key_id|
+          next if resource.meta_data.find_by(meta_key_id: meta_key_id)
+          meta_key = MetaKey.find(meta_key_id) rescue next
 
           has_errors = true
           @errors[resource.title] ||= []
