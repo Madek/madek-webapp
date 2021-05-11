@@ -42,7 +42,7 @@
 
   - if defined?(copy)
     .ui-footer-copy
-      %a{href: '/release'}
+      = link_to release_path do
         %b{style: "font-weight: 600;font-family: \"Open Sans\";font-size: 16px; color: #f3f3f3"}
           = "Madek"
         %span.version
