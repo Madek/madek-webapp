@@ -3,10 +3,10 @@ require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
 feature 'Resource: MediaEntry' do
+  given(:user) { create(:user, password: 'password') }
 
   background do
-    @user = FactoryGirl.create(:user, password: 'password')
-    sign_in_as @user.login
+    sign_in_as user.login
   end
 
   describe 'Action: create (upload/import)' do
@@ -51,7 +51,7 @@ feature 'Resource: MediaEntry' do
 
       visit new_media_entry_path
       select_file_and_submit('images', 'grumpy_cat_new.jpg')
-      media_entry = @user.unpublished_media_entries.first
+      media_entry = user.unpublished_media_entries.first
 
       md_license = media_entry.meta_data
         .find_by_meta_key_id(settings.media_entry_default_license_meta_key)
@@ -81,7 +81,7 @@ feature 'Resource: MediaEntry' do
 
       visit new_media_entry_path
       select_file_and_submit('images', 'grumpy_cat_new.jpg')
-      media_entry = @user.unpublished_media_entries.first
+      media_entry = user.unpublished_media_entries.first
 
       # media file #############################################################
       media_file = media_entry.media_file
@@ -119,6 +119,28 @@ feature 'Resource: MediaEntry' do
       end
     end
 
+  end
+
+  describe 'Copying meta datum from another media entry' do
+    given(:media_entry) { create(:media_entry_with_image_media_file) }
+
+    context 'when user has no relation with media entry' do
+      scenario 'the user is not allowed to make a copy' do
+        visit new_media_entry_path('copy-md-from-id': media_entry.id)
+
+        expect(page).to have_selector('#app-client-error', text: I18n.t(:error_403_title))
+      end
+    end
+
+    context 'when user is a responsible for media entry' do
+      given!(:media_entry) { create(:media_entry_with_image_media_file, responsible_user: user) }
+
+      scenario 'Display header with configuration options', browser: false do
+        visit new_media_entry_path('copy-md-from-id': media_entry.id)
+
+        select_file_and_submit('images', 'grumpy_cat_new.jpg')
+      end
+    end
   end
 end
 

@@ -8,31 +8,31 @@ include FavoriteHelper
 
 feature 'Resource: MediaEntry' do
 describe 'Action: show' do
-  background do
+  given(:entry) do
     # TODO: factory
-    @entry = MediaEntry.find 'e157bedd-c2ba-41d8-8ece-82d73066a11e'
+    MediaEntry.find 'e157bedd-c2ba-41d8-8ece-82d73066a11e'
   end
 
   context '(for public/no user logged in)' do
 
-    it 'is rendered and shows title', browser: false do
-      visit media_entry_path(@entry)
+    scenario 'is rendered and shows title', browser: false do
+      visit media_entry_path(entry)
       expect(page.status_code).to eq 200
       expect(page.find('.ui-body-title')).to have_content 'Ausstellung Photo 1'
     end
 
     scenario "Tab: 'Permissions'. Not shown for public." do
-      visit media_entry_path(@entry)
+      visit media_entry_path(entry)
       expect(page).not_to have_content I18n.t(:media_entry_tab_permissions)
     end
 
     scenario "Tab: 'Temporary URLs'. Not shown for public." do
-      visit media_entry_path(@entry)
+      visit media_entry_path(entry)
       expect(page).not_to have_content 'Temporary URLs'
     end
 
-    it 'does not display link to admin' do
-      visit media_entry_path(@entry)
+    scenario 'does not display link to admin' do
+      visit media_entry_path(entry)
 
       within '.ui-body-title-actions .dropdown' do
         find('a').click
@@ -42,17 +42,30 @@ describe 'Action: show' do
       end
     end
 
+    scenario 'does not display link to update file (make a copy)' do
+      visit media_entry_path(entry)
+
+      find('.ui-body-title-actions .ui-dropdown').click
+
+      within '.dropdown.open' do
+        expect(page).to have_no_link(
+          I18n.t(:resource_action_media_entry_update_file),
+          href: new_media_entry_path('copy-md-from-id': entry.id)
+        )
+      end
+    end
+
   end
 
   context '(for logged in user)' do
+    given(:user) { User.find_by(login: 'normin') }
 
     background do
-      @user = User.find_by(login: 'normin')
-      sign_in_as @user.login
-      visit media_entry_path(@entry)
+      sign_in_as user.login
+      visit media_entry_path(entry)
     end
 
-    it 'is rendered', browser: false do
+    scenario 'is rendered', browser: false do
       expect(page.status_code).to eq 200
     end
 
@@ -82,21 +95,21 @@ describe 'Action: show' do
 
       within('.ui-metadata-box .media-data') do
         expect(page).to have_selector('.media-data-title', text: 'Titel')
-        expect(page).to have_selector('.media-data-content', text: @entry.title)
+        expect(page).to have_selector('.media-data-content', text: entry.title)
       end
     end
 
     scenario "Tab: 'More Data'. Vocabularies shown in configured order" do
       ['copyright:source', 'media_content:patron'].each do |mkid|
-        create(:meta_datum_text, media_entry: @entry, meta_key_id: mkid)
+        create(:meta_datum_text, media_entry: entry, meta_key_id: mkid)
       end
 
-      visit media_entry_path(@entry)
+      visit media_entry_path(entry)
       click_on_tab I18n.t(:media_entry_tab_more_data)
 
       within('.media-entry-metadata') do
         shown_voc_titles = all('.ui-metadata-box .title-l').map(&:text)
-        ordered_voc_titles = @entry.meta_data.map(&:vocabulary).uniq
+        ordered_voc_titles = entry.meta_data.map(&:vocabulary).uniq
           .sort_by(&:position).map(&:label)
         expect(shown_voc_titles).to eq ordered_voc_titles
       end
@@ -118,13 +131,11 @@ describe 'Action: show' do
          I18n.t(:permission_name_edit_permissions)].join('')
     end
 
-    it 'Favorite button is working when logged in.' do
-      favorite_check_logged_in(@user, @entry)
+    scenario 'Favorite button is working when logged in.' do
+      favorite_check_logged_in(user, entry)
     end
 
-    it 'does not display link to admin' do
-      visit media_entry_path(@entry)
-
+    scenario 'does not display link to admin' do
       within '.ui-body-title-actions .dropdown' do
         find('a').click
       end
@@ -133,17 +144,24 @@ describe 'Action: show' do
       end
     end
 
+    scenario 'displays link to update file (make a copy)' do
+      find('.ui-body-title-actions .ui-dropdown').click
+      within '.dropdown.open' do
+        expect(page).to have_link(
+          I18n.t(:resource_action_media_entry_update_file),
+          href: new_media_entry_path('copy-md-from-id': entry.id)
+        )
+      end
+    end
   end
 
   context '(for logged in admin user)' do
-    background do
-      @user = User.find_by(login: 'adam')
-      sign_in_as @user.login
-      visit media_entry_path(@entry)
-    end
+    given(:user) { User.find_by(login: 'adam') }
 
-    it 'displays link to admin' do
-      visit media_entry_path(@entry)
+    background { sign_in_as user.login }
+
+    scenario 'displays link to admin' do
+      visit media_entry_path(entry)
 
       within '.ui-body-title-actions .dropdown' do
         find('a').click
@@ -151,14 +169,26 @@ describe 'Action: show' do
       within '.dropdown.open' do
         expect(page).to have_link(
           I18n.t(:resource_action_show_in_admin),
-          href: admin_entry_path(@entry)
+          href: admin_entry_path(entry)
+        )
+      end
+    end
+
+    scenario 'does not display link to update file (make a copy)' do
+      visit media_entry_path(entry)
+
+      find('.ui-body-title-actions .ui-dropdown').click
+      within '.dropdown.open' do
+        expect(page).to have_no_link(
+          I18n.t(:resource_action_media_entry_update_file),
+          href: new_media_entry_path('copy-md-from-id': entry.id)
         )
       end
     end
   end
 
-  it 'Favorite button is not visible for media entry whenn not logged in.' do
-    visit media_entry_path(@entry)
+  scenario 'Favorite button is not visible for media entry whenn not logged in.' do
+    visit media_entry_path(entry)
     favorite_check_logged_out
   end
 

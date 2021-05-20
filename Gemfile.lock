@@ -71,7 +71,7 @@ GEM
       babel-source (>= 4.0, < 6)
       execjs (~> 2.0)
     base32-crockford (0.1.0)
-    bcrypt (3.1.11)
+    bcrypt (3.1.16)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     builder (3.2.4)
@@ -412,7 +412,7 @@ PLATFORMS
 
 DEPENDENCIES
   base32-crockford
-  bcrypt
+  bcrypt (~> 3.1.13)
   binding_of_caller
   capybara (~> 2.18)
   chronic_duration

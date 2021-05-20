@@ -19,13 +19,15 @@
           = t(:workflow_uploader_notice_pre)
           &rarr; #{link_to @get.workflow.name, @get.workflow.actions.dig(:edit, :url), class: 'strong'}
           = t(:workflow_uploader_notice_post)
-
+ 
       .js-only
         = react('Views.My.Uploader', get: @get)
 
       .no-js
         = form_for :media_entry, url: media_entries_path do |f|
           .ui-container.clearfix.mvl.bordered.midtone.rounded.media-import-content
+          - if @get.copy_md_from
+            = hidden_field_tag 'copy_md_from[id]', @get.copy_md_from.uuid
 
           = combo('form-group', mods: 'columned.by-center',
             label: { text: 'Set'}) do

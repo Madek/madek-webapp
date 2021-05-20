@@ -44,6 +44,7 @@ module Presenters
           custom_urls_button,
           confidential_link_button,
           browse_button,
+          update_file_button,
           show_in_admin_button
         ]
         buttons.select do |tab|
@@ -54,6 +55,7 @@ module Presenters
       def dropdown_actions
         [
           :browse_button,
+          :update_file_button,
           :custom_urls_button,
           :confidential_link_button,
           :export_button,
@@ -176,6 +178,18 @@ module Presenters
             raise: false),
           action: browse_media_entry_path(@app_resource),
           allowed: policy_for(@user).browse?
+        }
+      end
+
+      def update_file_button
+        {
+          id: :update_file_button,
+          async_action: nil,
+          method: 'get',
+          icon: 'upload',
+          title: I18n.t(:resource_action_media_entry_update_file),
+          action: new_media_entry_path('copy-md-from-id': @app_resource.id),
+          allowed: policy_for(@user).update_file?
         }
       end
     end

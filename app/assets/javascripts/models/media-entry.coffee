@@ -96,6 +96,10 @@ module.exports = AppResource.extend(
     formData = new FormData()
     formData.append('media_entry[media_file]', @uploading.file)
     formData.append('media_entry[workflow_id]', @uploading.workflowId) if @uploading.workflowId
+    if f.has(@uploading, 'copyMdFrom.id') and f.has(@uploading, 'copyMdFrom.configuration')
+      formData.append('media_entry[copy_md_from][id]', @uploading.copyMdFrom.id)
+      formData.append('media_entry[copy_md_from][configuration]',
+                      JSON.stringify(@uploading.copyMdFrom.configuration))
 
     @merge('uploading', started: (new Date()).getTime())
 

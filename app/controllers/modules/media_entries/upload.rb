@@ -9,36 +9,18 @@ module Modules
         workflow_presenter = if workflow
           Presenters::Workflows::WorkflowCommon.new(workflow, current_user)
         end
-        @get = Presenters::MediaEntries::MediaEntryNew.new(workflow_presenter)
+        @get = Presenters::MediaEntries::MediaEntryNew.new(
+          current_user,
+          workflow: workflow_presenter,
+          copy_md_from: copy_md_from
+        )
       end
 
       def create
-        media_entry = MediaEntry.new(
-          media_file: MediaFile.new(media_file_attributes),
-          responsible_user: current_user,
-          creator: current_user,
-          is_published: false)
+        media_entry =
+          copy_md_from_id_param ? copy_media_entry(copy_md_from_id_param) : create_media_entry
 
-        auth_authorize media_entry
-
-        workflow = find_workflow_and_authorize
-
-        ActiveRecord::Base.transaction do
-          media_entry.save!
-          store_uploaded_file!(file, media_entry.media_file)
-        end
-
-        # optional steps, errors are ignored but logged:
-        begin
-          add_default_license(media_entry)
-          extract_and_store_metadata(media_entry)
-          add_to_collection(media_entry,
-                            collection_id_param || workflow&.master_collection&.id)
-        rescue => e
-          Rails.logger.warn "Upload Soft-Error: #{e.inspect}, #{e.backtrace}"
-        end
-
-        # NOTE: creating previews must come last, because in we try to detect
+        # NOTE: creating previews must come last, because we try to detect
         #       a correct media type in `extract_and_store_metadata`
         create_previews!(media_entry.media_file)
 
@@ -120,6 +102,77 @@ module Modules
           auth_authorize workflow, perm_name
           workflow
         end
+      end
+
+      def copy_md_from_param
+        params.fetch(:media_entry, {}).fetch(:copy_md_from, {})
+      end
+
+      def copy_md_from_id_param
+        copy_md_from_param.fetch(:id, nil)
+      end
+
+      def copy_md_from_configuration_param
+        copy_md_from_param.fetch(:configuration, '')
+      end
+
+      def copy_md_from
+        if (resource_id = params['copy-md-from-id']).present?
+          resource = MediaEntry.with_unpublished.find(resource_id)
+          auth_authorize resource, :update_file?
+          resource
+        end
+      end
+
+      def rescue_errors_silently
+        yield
+      rescue => e
+        Rails.logger.warn "Upload Soft-Error: #{e.inspect}, #{e.backtrace}"
+      end
+
+      def duplicator_configuration
+        JSON.parse(copy_md_from_configuration_param, max_nesting: 1)
+      rescue JSON::ParserError
+        {}
+      end
+
+      def copy_media_entry(copy_md_from_id)
+        origin_media_entry = MediaEntry.with_unpublished.find(copy_md_from_id)
+        auth_authorize origin_media_entry, :update_file?
+        media_entry = ::MediaEntries::Duplicator
+                        .new(origin_media_entry, current_user, duplicator_configuration)
+                        .call
+        media_entry.media_file = MediaFile.new(media_file_attributes)
+        store_uploaded_file!(file, media_entry.media_file)
+        rescue_errors_silently { extract_and_store_metadata(media_entry) }
+        media_entry
+      end
+
+      def create_media_entry
+        media_entry = MediaEntry.new(
+          media_file: MediaFile.new(media_file_attributes),
+          responsible_user: current_user,
+          creator: current_user,
+          is_published: false)
+
+        auth_authorize media_entry
+
+        workflow = find_workflow_and_authorize
+
+        ActiveRecord::Base.transaction do
+          media_entry.save!
+          store_uploaded_file!(file, media_entry.media_file)
+        end
+
+        # optional steps, errors are ignored but logged:
+        rescue_errors_silently do
+          add_default_license(media_entry)
+          extract_and_store_metadata(media_entry)
+          add_to_collection(media_entry,
+                            collection_id_param || workflow&.master_collection&.id)
+        end
+
+        media_entry
       end
     end
   end

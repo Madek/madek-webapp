@@ -25,6 +25,10 @@ module Presenters
       def set_primary_custom_url
         set_primary_custom_url_media_entry_path(@app_resource.id, @app_resource.id)
       end
+
+      def custom_urls?
+        !@app_resource.custom_urls.empty?
+      end
     end
   end
 end
