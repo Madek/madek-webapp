@@ -1,0 +1,7 @@
+- content_for(:title_head) do
+  = @get['title']
+
+- content_for(:body) do
+  = react('Views.MediaEntry.MediaEntryEmbedded', get: @get)
+
+= render template: 'layouts/_fullscreen'

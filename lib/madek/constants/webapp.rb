@@ -21,6 +21,7 @@ module Madek
         image: :rich
       }.freeze
       EMBED_SUPPORTED_MEDIA = EMBED_MEDIA_TYPES_MAP.keys.map(&:to_s).freeze
+      FULLSCREEN_SUPPORTED_MEDIA = ['video', 'audio'].freeze
       # pixels:
       EMBED_UI_DEFAULT_WIDTH = 640
       EMBED_UI_DEFAULT_RATIO = (16 / 9.to_f)

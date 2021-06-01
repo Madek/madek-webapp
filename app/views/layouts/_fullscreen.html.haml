@@ -1,19 +1,20 @@
--# Base template for embedded player, only used inside an iframe (inside webapp and externally)
--# NOTE: when changing this, also see `_fullscreen.html.haml` if the same changes should be applied there as well
+-# Base template for "Fullscreen" detail view
+-# NOTE: based on `_embedded.html.haml`, if changing something here see if the same changes should be applied there as well
 
 :ruby
   # NOTE: careful with access to `settings` comes from DB and can fail hard
   extra_content = begin; settings.webapp_html_extra_content; rescue; end || {}
   site_title = begin; localize(settings.site_titles); rescue; end
   site_title ||= 'Madek' # fallback
-  title = begin; @get[:title]; rescue; end
+  title = begin; @get[:title]; rescue nil; end
   lang = 'de-CH'
-  body_data = begin; { 'referer-host': @get[:embed_config]['referer_info']['host'] }; rescue; end || {}
 
 !!!
 %html{lang: lang}
   %head
     %meta{charset: 'utf-8'}
+    %meta{'http-equiv' => 'X-UA-Compatible', 'content' => 'IE=edge'}
+    %meta{'name' => 'viewport', 'content' => 'width=device-width', 'initial-scale' => '1.0'}
 
     -# configured extra tags for head start:
     = find_and_preserve(extra_content[:head_start].html_safe) if extra_content[:head_start].present?
@@ -29,7 +30,7 @@
     -# configured extra tags for head end:
     = find_and_preserve(extra_content[:head_end].html_safe) if extra_content[:head_end].present?
 
-  %body{data: ({embedded_view: true}).merge(body_data)}
+  %body{data: { fullscreen_view: true }}
 
     -# configured extra content for body start:
     = find_and_preserve(extra_content[:body_start].html_safe) if extra_content[:body_start].present?
