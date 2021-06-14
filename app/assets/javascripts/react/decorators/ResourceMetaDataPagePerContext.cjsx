@@ -331,6 +331,12 @@ module.exports = React.createClass
     else
       @props.get.published
 
+  contextDescription: ({ get } = @props) ->
+    { currentTab } = @state
+    currentContext = currentTab?.byContext
+    description = f.get(get, ['meta_meta_data', 'contexts_by_context_id', currentContext, 'description'])
+
+    <div className="context-description mbm">{description}</div> if description
 
   render: ({get, authToken} = @props) ->
 
@@ -382,6 +388,7 @@ module.exports = React.createClass
 
 
           <div className="ui-container phl ptl">
+            {@contextDescription()}
 
             {
               unless @props.batch
