@@ -195,8 +195,16 @@ feature 'Resource: Vocabularies' do
     end.flatten
   end
 
+  def with_disabled_constraints
+    ActiveRecord::Base.connection.execute 'SET session_replication_role = REPLICA;'
+    yield
+    ActiveRecord::Base.connection.execute 'SET session_replication_role = DEFAULT;'
+  end
+
   def clean_db
-    Vocabulary.all.reject { |v| v.id == 'madek_core' }.each(&:destroy!)
+    with_disabled_constraints do
+      Vocabulary.all.reject { |v| v.id == 'madek_core' }.each(&:destroy!)
+    end
     IoMapping.delete_all
     Keyword.delete_all
   end
