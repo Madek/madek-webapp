@@ -35,6 +35,12 @@ module Shared
         end
       end
 
+      class ActiveWorkflowScope < Scope
+        def resolve
+          scope.viewable_by_user_or_public(user, join_from_active_workflow: true)
+        end
+      end
+
       def new?
         logged_in?
       end

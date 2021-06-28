@@ -15,17 +15,25 @@ module Concerns
       end
 
       def user_scopes_for_collection(collection, user = current_user)
+        special_scope = active_workflow_scope(collection)
+
         user_scopes_for_media_resource(collection).merge \
           highlighted_media_entries: \
             auth_policy_scope(user, collection.highlighted_media_entries),
           highlighted_collections: \
             auth_policy_scope(user, collection.highlighted_collections),
           child_media_resources: \
-            auth_policy_scope(user, collection.child_media_resources),
+            auth_policy_scope(user, collection.child_media_resources, special_scope),
           child_media_entries: \
-            auth_policy_scope(user, collection.media_entries),
+            auth_policy_scope(user, collection.media_entries, special_scope),
           child_collections: \
             auth_policy_scope(user, collection.collections)
+      end
+
+      private
+
+      def active_workflow_scope(collection)
+        collection.part_of_workflow?(active: true) ? MediaResourcePolicy::ActiveWorkflowScope : nil
       end
     end
   end

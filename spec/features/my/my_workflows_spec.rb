@@ -118,18 +118,47 @@ feature 'My: Workflows' do
       end
     end
   end
+
+  describe 'Adding media entry to a workflow' do
+    given!(:workflow) { create_workflow_for(user, logout_after: false) }
+
+    scenario 'Media entry is listed only in incomplete list' do
+      visit edit_my_workflow_path(workflow)
+      click_link I18n.t(:workflow_associated_collections_upload)
+
+      expect(page).to have_content(I18n.t(:workflow_uploader_notice_pre) + ' → ' + workflow.name)
+
+      upload_file
+      click_link I18n.t(:sitemap_my_archive)
+
+      expect(page).to have_css('#unpublished_entries', text: 'Grumpy Cat')
+      expect(page).to have_no_css('#content_media_entries', text: 'Grumpy Cat')
+      expect(page).to have_css('#content_media_entries', text: I18n.t(:dashboard_none_exist))
+      expect(page).to have_no_css('#latest_imports', text: 'Grumpy Cat')
+      expect(page).to have_css('#latest_imports', text: I18n.t(:dashboard_none_exist))
+    end
+  end
 end
 
-def create_workflow_for(user)
+def create_workflow_for(user, logout_after: true)
   name = 'My Test Workflow'
-  sign_in_as user
   beta_tester_group.users << user
-  visit my_workflows_path
+  sign_in_as user
+  within('.ui-side-navigation') { click_link 'Workflows' }
   click_link I18n.t(:workflows_index_actions_new)
   fill_in 'Name', with: name
   click_button I18n.t(:workflows_index_action_save)
-  logout
+  logout if logout_after
   Workflow.find_by(name: name)
+end
+
+def upload_file
+  select_file_and_submit(
+    'images',
+    'grumpy_cat_new.jpg',
+    input_name: 'media_entry[media_file][]',
+    make_visible: true
+  )
 end
 
 def expect_workflow(name)
