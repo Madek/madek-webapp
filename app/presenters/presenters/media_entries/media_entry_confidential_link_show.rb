@@ -58,10 +58,10 @@ module Presenters
       def oembed_iframe(url)
         <<-HTML.strip_heredoc.tr("\n", ' ').strip
           <div class="___madek-embed ___madek-confidential-link"><iframe
-          src="#{url}"
+          src="#{ERB::Util.html_escape(url)}"
           frameborder="0"
-          width="#{DEFAULT_WIDTH}px"
-          height="#{DEFAULT_HEIGHT}px"
+          width="#{DEFAULT_WIDTH}"
+          height="#{DEFAULT_HEIGHT}"
           style="margin:0;padding:0;border:0"
           allowfullscreen webkitallowfullscreen mozallowfullscreen
           ></iframe></div>

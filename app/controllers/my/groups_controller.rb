@@ -33,7 +33,7 @@ class My::GroupsController < ApplicationController
   end
 
   def show
-    group = find_group_and_authorize
+    group = get_authorized_resource
 
     resources_type = params.permit(:type).fetch(:type, nil)
 
@@ -44,6 +44,8 @@ class My::GroupsController < ApplicationController
         resources_type,
         resource_list_by_type_param)
     )
+  rescue ActiveRecord::RecordNotFound
+    try_redirect_to_subsequent_resource { |resource| my_group_path(resource) }
   end
 
   def new
@@ -76,7 +78,7 @@ class My::GroupsController < ApplicationController
     end.to_h
 
     @get = Presenters::Users::DashboardSection.new(
-      presenterify(find_group_and_authorize, Presenters::Groups::GroupEdit),
+      presenterify(get_authorized_resource, Presenters::Groups::GroupEdit),
       sections,
       nil
     )
@@ -114,12 +116,6 @@ class My::GroupsController < ApplicationController
   end
 
   private
-
-  def find_group_and_authorize
-    group = Group.find(params[:id])
-    auth_authorize group
-    group
-  end
 
   def group_params
     params.require(:group).permit(:name)

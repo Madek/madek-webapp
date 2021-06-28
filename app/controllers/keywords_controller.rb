@@ -20,10 +20,7 @@ class KeywordsController < ApplicationController
   end
 
   def show
-    keyword = Keyword.find(params.require(:keyword_id))
-    vocabulary = keyword.meta_key.vocabulary
-    # NOTE: only need to authorize the vocab, no more granualar permissions!
-    auth_authorize(vocabulary)
+    keyword = get_authorized_resource
 
     contents_path = filtered_index_path(
       meta_data: [{
@@ -34,16 +31,22 @@ class KeywordsController < ApplicationController
 
     respond_with(
       @get = Presenters::Vocabularies::VocabularyTerm.new(
-        vocabulary,
+        keyword.meta_key.vocabulary,
         keyword,
         contents_path,
         current_user,
         resources_type,
         resource_list_by_type_param)
     )
+  rescue ActiveRecord::RecordNotFound
+    try_redirect_to_subsequent_resource { |resource| vocabulary_meta_key_term_show_path(resource) }
   end
 
   private
+
+  def id_param
+    params[:keyword_id]
+  end
 
   def meta_key_id_param
     params.require(:meta_key_id)

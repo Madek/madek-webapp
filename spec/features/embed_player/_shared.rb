@@ -58,7 +58,9 @@ def do_manual_embed(url)
   html_string =
     <<-HTML
     <div class="___madek-embed __madek-embed-manual">
-      <iframe src="#{url}" width="640px" height="360px"
+      <iframe
+      src="#{ERB::Util.html_escape(url)}"
+      width="640px" height="360px"
       frameborder="0" style="margin:0;padding:0;border:0"
       sandox=""
     ></iframe></div>

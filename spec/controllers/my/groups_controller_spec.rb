@@ -4,6 +4,57 @@ describe My::GroupsController do
   let(:user) { create :user }
   let(:group) { create :group }
 
+  describe '#show' do
+    context 'when user has access to the group' do
+      before do
+        group.users << user
+        get(:show, params: { id: group.id }, session: { user_id: user.id })
+      end
+
+      it 'responds with 200 status code' do
+        expect(response).to be_successful
+        expect(response).to have_http_status(200)
+      end
+
+      it 'renders template' do
+        expect(response).to render_template(:show)
+      end
+    end
+
+    context 'when user has no access to the group' do
+      it 'raises error' do
+        expect { get(:show, params: { id: group.id }, session: { user_id: user.id }) }
+          .to raise_error(Errors::ForbiddenError)
+      end
+    end
+
+    context 'when previous id was passed' do
+      it 'redirects to current group page' do
+        previous_obj = create(:group)
+        current_obj = create(:group)
+
+        previous_obj.merge_to(current_obj)
+
+        get(:show, params: { id: previous_obj.id }, session: { user_id: user.id })
+
+        expect(response).to redirect_to(my_group_path(current_obj))
+      end
+    end
+
+    context 'when previous id does not exist for some reason' do
+      it 'raises ActiveRecord::RecordNotFound error' do
+        previous_obj = create(:group)
+        current_obj = create(:group)
+
+        previous_obj.merge_to(current_obj)
+        current_obj.previous.first.update_column(:group_id, SecureRandom.uuid)
+
+        expect { get(:show, params: { id: previous_obj.id }, session: { user_id: user.id }) }
+          .to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+  end
+
   describe '#create' do
     context 'when name is not used' do
       it 'creates a new group' do

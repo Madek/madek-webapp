@@ -42,6 +42,44 @@ feature 'Resource: MediaEntry' do
       expect(find('.ui-body-title-label')).to have_content @resource.title
     end
 
+    describe 'context description' do
+      given(:description) { Faker::Lorem.sentence }
+
+      context 'when description is present' do
+        background do
+          Context
+            .find('core')
+            .update(descriptions: { de: description })
+        end
+
+        it 'displays decription' do
+          prepare_data
+          login
+          visit edit_context_path('core')
+
+          expect(page)
+            .to have_css('.app-body-ui-container .ui-container .ui-container .context-description',
+                         text: description)
+        end
+      end
+
+      context 'when description is missing' do
+        background do
+          Context
+            .find('core')
+            .update(descriptions: { de: nil })
+        end
+
+        it 'does not display description' do
+          prepare_data
+          login
+          visit edit_context_path('core')
+
+          expect(page).to have_no_css('.context-description')
+        end
+      end
+    end
+
     it 'does not submit on Enter key' do
       # input plain text and press enter, then wait for 15 seconds
       # and check that the URL hasn't changed and the submit button isn't disabled

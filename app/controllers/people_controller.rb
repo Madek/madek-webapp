@@ -11,6 +11,8 @@ class PeopleController < ApplicationController
     respond_with(
       @get = person_show_presenter(person)
     )
+  rescue ActiveRecord::RecordNotFound
+    try_redirect_to_subsequent_resource
   end
 
   def edit

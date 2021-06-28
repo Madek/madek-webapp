@@ -1,16 +1,16 @@
 jobs:
   rspec-tests:
-    name: "RSpec Tests"
+    name: 'RSpec Tests'
     run_when: &DEFAULT_TRIGGERS
       the branch does not match no-ci or _wip_:
         type: branch
-        include_match: &default_branch_match    ^.+$
-        exclude_match: &default_branch_exclude  ^(.*no-ci.*)|((greenkeeper|dependabot)\/.*)|([a-z]*(_|\/)wip_.*)$
+        include_match: &default_branch_match ^.+$
+        exclude_match: &default_branch_exclude ^(.*no-ci.*)|((greenkeeper|dependabot)\/.*)|([a-z]*(_|\/)wip_.*)$
     context:
       include: cider-ci/context-components/rspec-tests.yml
 
   lint:
-    name: "Linting"
+    name: 'Linting'
     description: |
       Code checks: static checks and metrics: complexity, duplication, and format,
       also other consistency checks.
@@ -29,9 +29,10 @@ jobs:
           - path: cider-ci/context-components/lint/javascript-lint.yml
           - path: cider-ci/context-components/lint/ruby-lint.yml
 
-  precompilation-checks:
+  precompilation:
     name: 'Precompilation'
     run_when: *DEFAULT_TRIGGERS
+    priority: 99 # superproject build depends on some assets, so make them fast
     context:
       include: cider-ci/context-components/precompilation.yml
 
@@ -58,14 +59,14 @@ jobs:
         type: job
         job_key: lint
         states: [passed]
-      'precompilation-checks':
+      'precompilation':
         type: job
-        job_key: precompilation-checks
+        job_key: precompilation
         states: [passed]
     depends_on:
       lint: { job_key: lint, type: job, states: [passed] }
       rspec-tests: { job_key: rspec-tests, type: job, states: [passed] }
-      precompilation-checks: { job_key: precompilation-checks, type: job, states: [passed] }
+      precompilation: { job_key: precompilation, type: job, states: [passed] }
       all-tests of the datalayer:
         { job_key: all-tests, type: job, submodule: [datalayer], states: [passed] }
 

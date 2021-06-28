@@ -18,6 +18,10 @@ class MediaEntryPolicy < Shared::MediaResources::MediaResourcePolicy
      accessed_by_confidential_link?
   end
 
+  def fullscreen?
+    embedded_internally?
+  end
+
   def update?
     super or allow_for_creator_if_unpublished(record, user)
   end
