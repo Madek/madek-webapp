@@ -25,8 +25,9 @@ module Presenters
         @app_resource.try(:updated_at)
       end
 
-      def self.delegate_to_app_resource(*args)
+      def self.delegate_to_app_resource(*args, as_private_method: false)
         delegate_to :@app_resource, *args
+        private *args if as_private_method
       end
 
       def policy_for(user)

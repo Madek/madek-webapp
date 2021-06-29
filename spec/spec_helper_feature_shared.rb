@@ -148,6 +148,14 @@ def submit_form
   submit.click
 end
 
+def select_file_and_submit(*path, input_name: 'media_entry_media_file', make_visible: false)
+  files = Madek::Constants::DATALAYER_ROOT_DIR.join('spec', 'data')
+  within('.app-body') do
+    attach_file(input_name, File.absolute_path(files.join(*path)), make_visible: make_visible)
+    submit_form
+  end
+end
+
 def js_integration_test(name, data)
   visit '/styleguide/Scratchpad?'
   script = "runTest('#{name}', #{data.to_json})"

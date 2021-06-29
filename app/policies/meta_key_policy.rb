@@ -9,7 +9,9 @@ class MetaKeyPolicy < DefaultPolicy
     if logged_in?
       vocabulary.usable_by_user?(user)
     else
-      vocabulary.usable_by_user_or_public?(user)
+      Vocabulary
+        .usable_by_user_or_public(user)
+        .exists?(vocabulary.id)
     end
   end
 

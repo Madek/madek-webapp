@@ -35,7 +35,7 @@ class WorkflowPolicy < DefaultPolicy
   end
 
   def beta_tester?
-    user.groups.exists?(Madek::Constants::BETA_TESTERS_WORKFLOWS_GROUP_ID)
+    user&.groups&.exists?(Madek::Constants::BETA_TESTERS_WORKFLOWS_GROUP_ID)
   end
 
   def member_of_delegation?

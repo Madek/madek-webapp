@@ -124,14 +124,6 @@ end
 
 private
 
-def select_file_and_submit(*path)
-  files = Madek::Constants::DATALAYER_ROOT_DIR.join('spec', 'data')
-  within('.app-body') do
-    attach_file('media_entry_media_file', File.absolute_path(files.join(*path)))
-    submit_form
-  end
-end
-
 def only_relevant_metadata(hash)
   ignored = ['System:FileAccessDate']
   hash.except(*ignored)

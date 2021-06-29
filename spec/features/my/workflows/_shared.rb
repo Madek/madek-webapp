@@ -12,4 +12,14 @@ module Helpers
     find_section(meta_key_id)
       .uncheck('is_mandatory')
   end
+
+  def check_is_common(meta_key_id)
+    find_section(meta_key_id)
+      .check('is_common')
+  end
+
+  def set_fixed_value(meta_key_id, value)
+    check_is_common(meta_key_id)
+    fill_in meta_key_id, with: value
+  end
 end
