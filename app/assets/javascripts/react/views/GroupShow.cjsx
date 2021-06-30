@@ -7,7 +7,7 @@ PageContent = require('./PageContent.cjsx')
 MediaResourcesBox = require('../decorators/MediaResourcesBox.cjsx')
 libUrl = require('url')
 f = require('lodash')
-resourceTypeSwitcher = require('../lib/resource-type-switcher.cjsx')
+resourceTypeSwitcher = require('../lib/resource-type-switcher.cjsx').resourceTypeSwitcher
 parseUrl = require('url').parse
 parseQuery = require('qs').parse
 setUrlParams = require('../../lib/set-params-for-url.coffee')
@@ -69,7 +69,7 @@ GroupShow = React.createClass
     title = group.name
 
     renderSwitcher = (boxUrl) =>
-      resourceTypeSwitcher(get.resources, boxUrl, false, null)
+      resourceTypeSwitcher(boxUrl, false, null)
 
     headerActions = if get.group.edit_url
       <a href={get.group.edit_url} className='primary-button'>

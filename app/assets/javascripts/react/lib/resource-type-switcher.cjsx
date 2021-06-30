@@ -11,8 +11,7 @@ qs = require('qs')
 Button = require('../ui-components/Button.cjsx')
 ButtonGroup = require('../ui-components/ButtonGroup.cjsx')
 
-module.exports = (resources, forUrl, showAll, onClick) ->
-  listConfig = resources.config
+resourceTypeSwitcher = (forUrl, showAll, onClick) ->
   currentType = qs.parse(libUrl.parse(forUrl).query).type
   typeBbtns = f.compact([
     {key: 'all', name: t('resources_type_all')} if showAll,
@@ -67,3 +66,7 @@ urlByType = (url, currentType, newType) ->
     {list: newParams.list},
     {type: newType}
   )
+
+module.exports =
+  resourceTypeSwitcher: resourceTypeSwitcher
+  urlByType: urlByType

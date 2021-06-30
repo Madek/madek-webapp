@@ -1,7 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import l from 'lodash'
-import ResourceThumbnail from './ResourceThumbnail.cjsx'
 import Preloader from '../ui-components/Preloader.cjsx'
 import Button from '../ui-components/Button.cjsx'
 import Link from '../ui-components/Link.cjsx'
@@ -9,6 +7,7 @@ import SideFilter from '../ui-components/ResourcesBox/SideFilter.cjsx'
 import RailsForm from '../lib/forms/rails-form.cjsx'
 import setUrlParams from '../../lib/set-params-for-url.coffee'
 import t from '../../lib/i18n-translate.js'
+import { urlByType } from '../lib/resource-type-switcher.cjsx'
 
 class BoxSidebar extends React.Component {
 
@@ -221,10 +220,33 @@ class BoxSidebar extends React.Component {
     }
   }
 
+  renderFiltersNote() {
+    const { currentUrl, parentState } = this.props
+
+    if (l.get(parentState, 'boxState.props.get.content_type') !== 'MediaResource') {
+      return null
+    }
+
+    return (
+      <div className='mtm'>
+        {t('resources_box_filters_note_pre')}
+        {' '}
+        <Link href={urlByType(currentUrl, null, 'entries')}>{t('sitemap_entries')}</Link>
+        {' '}
+        {t('resources_box_filters_note_or')}
+        {' '}
+        <Link href={urlByType(currentUrl, null, 'collections')}>{t('sitemap_collections')}</Link>
+        {' '}
+        {t('resources_box_filters_note_post')}
+      </div>
+    )
+  }
+
   render() {
     return (
       <div className='filter-panel ui-side-filter'>
         {this.renderJsSwitch()}
+        {this.renderFiltersNote()}
       </div>
     )
   }

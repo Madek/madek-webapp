@@ -6,7 +6,7 @@ PageContent = require('./PageContent.cjsx')
 MediaResourcesBox = require('../decorators/MediaResourcesBox.cjsx')
 libUrl = require('url')
 f = require('active-lodash')
-resourceTypeSwitcher = require('../lib/resource-type-switcher.cjsx')
+resourceTypeSwitcher = require('../lib/resource-type-switcher.cjsx').resourceTypeSwitcher
 decorateExternalURI = require('../../lib/URIAuthorityControl').decorateExternalURI
 
 infotable = (p) ->
@@ -47,7 +47,7 @@ PersonShow = React.createClass
     get.external_uris = f.map(get.external_uris, (uri) -> decorateExternalURI(uri))
 
     renderSwitcher = (boxUrl) =>
-      resourceTypeSwitcher(resources, boxUrl, false, null)
+      resourceTypeSwitcher(boxUrl, false, null)
 
     actions =
       if get.actions.edit.url

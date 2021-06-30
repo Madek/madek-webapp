@@ -794,6 +794,7 @@ module.exports = React.createClass
         dynamic_filters={dynamic_filters}
         isClient={isClient}
         currentQuery={currentQuery}
+        currentUrl={@_currentUrl()}
         onSearch={@_onSearch}
         supportsFilesearch={@_supportsFilesearch()}
         onlyFilterSearch={get.only_filter_search}

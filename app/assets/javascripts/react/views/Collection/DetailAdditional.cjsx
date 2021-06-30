@@ -6,7 +6,7 @@ t = require('../../../lib/i18n-translate.js')
 MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
 TabContent = require('../TabContent.cjsx')
 LoadXhr = require('../../../lib/load-xhr.coffee')
-resourceTypeSwitcher = require('../../lib/resource-type-switcher.cjsx')
+resourceTypeSwitcher = require('../../lib/resource-type-switcher.cjsx').resourceTypeSwitcher
 libUrl = require('url')
 
 module.exports = React.createClass
@@ -28,7 +28,7 @@ module.exports = React.createClass
       changePositionUrl: get.change_position_url
 
     renderSwitcher = (boxUrl) =>
-      resourceTypeSwitcher(get.child_media_resources, boxUrl, true, null)
+      resourceTypeSwitcher(boxUrl, true, null)
 
     <div className="ui-container rounded-bottom">
       <MediaResourcesBox

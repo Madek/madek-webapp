@@ -12,7 +12,7 @@ parseUrl = require('url').parse
 VocabularyPage = require('./VocabularyPage.cjsx')
 MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
 libUrl = require('url')
-resourceTypeSwitcher = require('../../lib/resource-type-switcher.cjsx')
+resourceTypeSwitcher = require('../../lib/resource-type-switcher.cjsx').resourceTypeSwitcher
 
 
 module.exports = React.createClass
@@ -24,7 +24,7 @@ module.exports = React.createClass
   render: ({get, authToken, for_url} = @props) ->
 
     renderSwitcher = (boxUrl) =>
-      resourceTypeSwitcher(get.resources, boxUrl, false, null)
+      resourceTypeSwitcher(boxUrl, false, null)
 
     <VocabularyPage page={get.page} for_url={for_url}>
       <div className='ui-container pal'>
