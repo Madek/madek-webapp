@@ -37,7 +37,7 @@ module Shared
 
       class ActiveWorkflowScope < Scope
         def resolve
-          scope.viewable_by_user(user, join_from_active_workflow: true)
+          scope.viewable_by_user_or_public(user, join_from_active_workflow: true)
         end
       end
 
