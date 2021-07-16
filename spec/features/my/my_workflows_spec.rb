@@ -134,6 +134,8 @@ feature 'My: Workflows' do
       expect(page).to have_css('#unpublished_entries', text: 'Grumpy Cat')
       expect(page).to have_no_css('#content_media_entries', text: 'Grumpy Cat')
       expect(page).to have_css('#content_media_entries', text: I18n.t(:dashboard_none_exist))
+      expect(page).to have_no_css('#latest_imports', text: 'Grumpy Cat')
+      expect(page).to have_css('#latest_imports', text: I18n.t(:dashboard_none_exist))
     end
   end
 end

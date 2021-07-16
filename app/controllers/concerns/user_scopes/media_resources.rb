@@ -21,11 +21,17 @@ module Concerns
           highlighted_collections: \
             auth_policy_scope(user, collection.highlighted_collections),
           child_media_resources: \
-            auth_policy_scope(user, collection.child_media_resources),
+            auth_policy_scope(user, collection.child_media_resources, active_workflow_scope(collection)),
           child_media_entries: \
-            auth_policy_scope(user, collection.media_entries),
+            auth_policy_scope(user, collection.media_entries, active_workflow_scope(collection)),
           child_collections: \
             auth_policy_scope(user, collection.collections)
+      end
+
+      private
+
+      def active_workflow_scope(collection)
+        collection.part_of_workflow?(active: true) ? MediaResourcePolicy::ActiveWorkflowScope : nil
       end
     end
   end
