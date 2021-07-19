@@ -43,12 +43,12 @@ end
 def version_from_archive
   return unless deploy_info.present?
   semver = releases_info.try(:first).try(:[], :semver) || 'v0.0.0'
-  name = releases_info.try(:first).try(:[], 'name') || '???'
+  name = releases_info.try(:first).try(:[], 'name') || ''
   {
     type: 'archive',
     deploy_info: deploy_info,
     semver: semver,
-    version_name: "#{semver} #{name}"
+    version_name: "#{semver} #{name}".strip
   }
 end
 

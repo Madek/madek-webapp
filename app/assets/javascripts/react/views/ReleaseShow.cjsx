@@ -72,7 +72,13 @@ DeploymentInfo = ({tree_id, commit_id, build_time, deployed, changes_since_relea
 ReleasesInfo = ({releases, children}) =>
   current = releases[0]
   past = releases.slice(1)
-  name = (r) => <span>Madek {r.semver} "<a href={r.info_url}>{r.name}</a>"</span>
+  name = (r) =>
+    if r.name and r.info_url
+      <span>Madek {r.semver} "<a href={r.info_url}>{r.name}</a>"</span>
+    else if r.name
+      <span>Madek {r.semver} "{r.name}"</span>
+    else
+      <span>Madek {r.semver}</span>
 
   <div>
     <div className='ui-container pbm'>
