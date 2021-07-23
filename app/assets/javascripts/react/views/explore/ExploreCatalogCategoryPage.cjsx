@@ -3,15 +3,10 @@ ReactDOM = require('react-dom')
 t = require('../../../lib/i18n-translate.js')
 f = require('lodash')
 classnames = require('classnames')
-CatalogThumbnailShifted = require('./partials/CatalogThumbnailShifted.cjsx')
-LoginMenu = require('../_layouts/LoginMenu.js').default
-ResourcesSection = require('./partials/ResourcesSection.cjsx')
-ResourceThumbnail = require('../../decorators/ResourceThumbnail.cjsx')
 UI = require('../../ui-components/index.coffee')
 Preloader = require('../../ui-components/Preloader.cjsx')
 loadXhr = require('../../../lib/load-xhr.coffee')
 libUrl = require('url')
-qs = require('qs')
 setUrlParams = require('../../../lib/set-params-for-url.coffee')
 
 

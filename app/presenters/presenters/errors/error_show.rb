@@ -2,13 +2,14 @@ module Presenters
   module Errors
     class ErrorShow < Presenter
 
-      def initialize(exception, for_url:)
+      def initialize(exception, for_url:, return_to:)
         @exception = exception
         @error_class = exception.class.name
         @for_url = for_url
+        @return_to = return_to
       end
 
-      attr_reader :for_url
+      attr_reader :for_url, :return_to
 
       # get status code and corresponding message from Rails
       # (these fall back to 500/'Internal Server Error' if nothing is specified):

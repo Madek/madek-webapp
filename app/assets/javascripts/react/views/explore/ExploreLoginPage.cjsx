@@ -2,7 +2,6 @@ React = require('react')
 ReactDOM = require('react-dom')
 f = require('active-lodash')
 classnames = require('classnames')
-CatalogThumbnailShifted = require('./partials/CatalogThumbnailShifted.cjsx')
 LoginMenu = require('../_layouts/LoginMenu.js').default
 ResourcesSection = require('./partials/ResourcesSection.cjsx')
 

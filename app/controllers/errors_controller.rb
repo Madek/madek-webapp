@@ -17,7 +17,7 @@ class ErrorsController < ApplicationController
     skip_authorization
     exception = request.env['action_dispatch.exception']
     for_url = request.original_fullpath
-    err = Presenters::Errors::ErrorShow.new(exception, for_url: for_url)
+    err = Presenters::Errors::ErrorShow.new(exception, for_url: for_url, return_to: for_url)
     # Select type (show server errors as plain page, client error in app):
     type = (err.status_code < 500) ? 'client_error' : 'server_error'
     # keep flash around for next request

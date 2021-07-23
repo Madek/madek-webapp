@@ -44,7 +44,7 @@ class LoginMenu extends React.Component {
                 } else {
                   return (
                     <Tab.Pane eventKey={id} key={id}>
-                      {providerLogin({ ...loginProps, authToken })}
+                      {providerLogin({ ...loginProps })}
                     </Tab.Pane>
                   )
                 }
@@ -59,12 +59,12 @@ class LoginMenu extends React.Component {
 
 export default LoginMenu
 
-const providerLogin = ({ title, description, href, buttonTxt, authToken }) => (
+const providerLogin = ({ description, href, buttonTxt }) => (
   <div className="form-body">
     <div className="ui-form-group rowed">
       <p className="mbm">
-        {description.split('\n').map(line => (
-          <span>
+        {description.split('\n').map((line, index) => (
+          <span key={index}>
             {line}
             <br />
           </span>
@@ -80,7 +80,7 @@ const providerLogin = ({ title, description, href, buttonTxt, authToken }) => (
 const systemLogin = ({ url, authToken }) => {
   if (f.isEmpty(url)) throw new Error('Missing URL!')
   return (
-    <RailsForm action={url} authToken={authToken}>
+    <RailsForm action={url} authToken={authToken} name="login_form">
       <div className="form-body">
         <div className="ui-form-group rowed compact">
           <input

@@ -1,5 +1,5 @@
 :ruby
-  login_link = '/#login_form'
+  login_link = root_path(anchor: 'login_form', return_to: request.original_fullpath)
 
 = component('button.tertiary', href: login_link) do
   = component('icon.user')

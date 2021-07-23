@@ -42,7 +42,9 @@ class ApplicationController < ActionController::Base
   def init_layout_data_presenter
     # NOTE: data for application layout.
     #       it's already a presenter, but we can't `include` it everyhwere.
-    @app_layout_data = Presenters::AppView::LayoutData.new(user: current_user)
+    @app_layout_data = Presenters::AppView::LayoutData.new(
+      user: current_user,
+      return_to: params[:return_to].presence || request.original_fullpath)
   end
 
   def root

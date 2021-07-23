@@ -11,9 +11,10 @@ module Presenters
       # end
       # attr_accessor :resource
 
-      def initialize(user:)
+      def initialize(user:, return_to:)
         fail 'TypeError!' unless (user.nil? or user.is_a?(User))
         @user = user
+        @return_to = return_to
       end
 
       def user_menu
@@ -69,7 +70,7 @@ module Presenters
           id: 'zhdk',
           title: I18n.t(:login_provider_zhdk_title),
           description: I18n.t(:login_provider_zhdk_hint),
-          href: with_extra_params('/login/zhdk', default_url_options))
+          href: with_extra_params('/login/zhdk', default_url_options.merge(return_to: return_to)))
         end
 
         if switch_aai then logins.push(
@@ -84,13 +85,15 @@ module Presenters
         logins.push(
           id: 'system',
           title: I18n.t(:login_box_internal),
-          url: sign_in_path
+          url: sign_in_path(return_to: return_to)
         )
 
         @_login_providers = logins
       end
 
       private
+
+      attr_reader :return_to
 
       def uberadmin_mode
         @user.admin.webapp_session_uberadmin_mode
@@ -99,7 +102,10 @@ module Presenters
       def shibboleth_sign_in_url
         target_url = with_extra_params(
           Settings.shibboleth_sign_in_url_target,
-          default_url_options)
+          default_url_options.merge(
+            redirect_to: (return_to.present? and (Settings.madek_external_base_url + return_to))
+          )
+        )
 
         with_extra_params(
           Settings.shibboleth_sign_in_url_base,
@@ -109,7 +115,7 @@ module Presenters
       def with_extra_params(url, extra_params = {})
         u = URI.parse(url)
         query = u.query ? Rack::Utils::parse_query(u.query) : {}
-        u.query = query.to_h.merge(extra_params).to_query
+        u.query = query.to_h.merge(extra_params.compact).to_query
         u.to_s
       end
 
