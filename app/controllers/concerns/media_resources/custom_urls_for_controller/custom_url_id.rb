@@ -54,7 +54,7 @@ module Concerns
         end
 
         def after_query_params
-          @after_query_params ||= request_fullpath.split('?').second
+          @_after_query_params ||= request_fullpath.split('?').second
         end
 
         def media_resource_id
@@ -69,16 +69,18 @@ module Concerns
         end
 
         def fullpath_with_media_resource_id(id)
-          fp_parts_before_query_params = request_fullpath.split('/')
+          fp_parts_before_query_params = request_fullpath.split('?').first
+          fp_parts_before_query_params = fp_parts_before_query_params.split('/')
           fp_parts_before_query_params[2] = id
           fp_parts_before_query_params = fp_parts_before_query_params.join('/')
-          if @after_query_params
-            url = if @format
-                    fp_parts_before_query_params + '.' + @format
-            else
-              fp_parts_before_query_params
-            end
-            url + '?' + @after_query_params
+          if after_query_params
+            url =
+              if @format
+                fp_parts_before_query_params + '.' + @format
+              else
+                fp_parts_before_query_params
+              end
+            url + '?' + after_query_params
           else
             fp_parts_before_query_params
           end
