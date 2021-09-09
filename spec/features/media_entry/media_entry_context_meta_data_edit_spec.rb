@@ -24,7 +24,7 @@ feature 'Resource: MediaEntry' do
 
         expected_url = preview_path(
           @resource.media_file.previews.where(thumbnail: :large).first)
-        expect(URI.parse(link).path).to eq(expected_url)
+        expect(URI.parse(link).path).to eq(expected_url + '.jpg')
       end
     end
 

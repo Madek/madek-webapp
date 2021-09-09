@@ -21,7 +21,7 @@ feature 'Resource: MediaEntry' do
       largest_preview = entry.media_file.previews.reorder(width: :DESC).first
       largest_previews = entry.media_file.previews
         .where(width: largest_preview.width)
-        .map { |p| preview_path(p) }
+        .map { |p| preview_path(p) + '.jpg' }
 
       visit media_entry_path(entry)
 
@@ -29,7 +29,7 @@ feature 'Resource: MediaEntry' do
       preview_link = preview.find('a:not(.ui-magnifier)')
       preview_img = preview_link.find('img')
 
-      expect(URI.parse(preview_img[:src]).path).to eq(large_preview)
+      expect(URI.parse(preview_img[:src]).path).to eq(large_preview + '.jpg')
       expect(largest_previews) # see above
         .to include(URI.parse(preview_link[:href]).path)
     end
@@ -54,7 +54,7 @@ feature 'Resource: MediaEntry' do
       preview_link = preview.find('a')
       preview_img = preview_link.find('img')
 
-      expect(URI.parse(preview_img[:src]).path).to eq(large_preview)
+      expect(URI.parse(preview_img[:src]).path).to eq(large_preview + '.jpg')
       expect(URI.parse(preview_link[:href]).path).to eq(original_file)
     end
 

@@ -10,7 +10,7 @@ RSpec.shared_examples 'image_url' do |response_type|
     when 'with preview image'
       expect(presenter.image_url).to be == \
         Rails.application.routes.url_helpers
-          .preview_path(media_entry.media_file.preview(:medium))
+          .preview_path(media_entry.media_file.preview(:medium)) + '.jpg'
     when 'with no image'
       expect(presenter.image_url).to be_nil
     end

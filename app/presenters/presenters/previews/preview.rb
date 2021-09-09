@@ -29,7 +29,9 @@ module Presenters
       end
 
       def url
-        preview_path(@app_resource, accessToken: @access_token)
+        # NOTE: set `format` to force the url to have a nice extension,
+        # as a workaround when the HTTP content-type header is not handled correctly by clients
+        preview_path(@app_resource, format: self.extension, accessToken: @access_token)
       end
     end
   end
