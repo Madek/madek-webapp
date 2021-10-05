@@ -480,7 +480,7 @@ permission_subject_title_users,Nutzer/innen,Users,
 permissions_batch_success,Berechtigungen wurden erfolgreich aktualisiert.,Permissions have been updated succesfully.,
 permissions_batch_title_post, Inhalten., Items.,
 permissions_batch_title_pre,Berechtigungen ändern von ,Edit permissions of ,
-permissions_overview_yours_msg_end,", haben gegenwärtig als Nutzer/in oder als Mitglied einer VerantowrtungsGruppe oder Arbeitsgruppe folgende Berechtigungen:",", currently have the following permissions (either directly or as a member of a
+permissions_overview_yours_msg_end,", haben gegenwärtig als Nutzer/in oder als Mitglied einer Verantwortungs-Gruppe oder Arbeitsgruppe folgende Berechtigungen:",", currently have the following permissions (either directly or as a member of a
 responsibility group or as a member of a work group):",
 permissions_overview_yours_msg_start,"Sie, ","You, ",
 permissions_overview_yours_title,Ihre Berechtigungen,Your permissions,
