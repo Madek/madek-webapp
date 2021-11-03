@@ -10,20 +10,26 @@ module Modules
         def transform_permissions(type, perm_array)
           perm_array
             .map do |p|
-              if p.key?('subject')
-                uuid = p.delete('subject')['uuid']
-                p.merge Hash["#{type}_id", uuid]
-              end
+              next unless p.key?('subject')
+
+              resource_type = p.dig('subject', 'resource_type')&.downcase
+              uuid = p.delete('subject')['uuid']
+              fk_prefix = resource_type.presence || type
+
+              p.merge Hash["#{fk_prefix}_id", uuid]
             end
             .compact
         end
 
-        def filter_permissions(type, perm_array)
+        def filter_permissions(perm_array)
           perm_array
             .select do |p|
-              p.key?("#{type}_id") \
-                and not p.fetch("#{type}_id").blank? \
-                and p.to_h.size > 1
+              hashed_params = p.to_h
+              receiver_id = hashed_params.keys.detect do |k|
+                k.to_s != model_klass.to_s.foreign_key && k.ends_with?('_id')
+              end
+
+              valid_uuid?(p[receiver_id]) && hashed_params.size > 1
             end
         end
 
@@ -38,15 +44,14 @@ module Modules
 
         def check_and_filter_and_transform(type, perm_array)
           raise_if_not_an_array!(perm_array)
-          filter_permissions(type,
-                             transform_permissions(type, perm_array))
+          filter_permissions(transform_permissions(type, perm_array))
         end
 
         def associated_entity_permissions_helper(type, *perms)
           check_and_filter_and_transform \
             type,
             send("#{model_klass.model_name.singular}_params")
-              .permit(Hash["#{type}_permissions", [{ subject: [:uuid] }, *perms]])
+              .permit(Hash["#{type}_permissions", [{ subject: [:uuid, :resource_type] }, *perms]])
               .fetch("#{type}_permissions", [])
         end
 

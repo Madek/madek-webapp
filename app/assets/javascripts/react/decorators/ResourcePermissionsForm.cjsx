@@ -24,6 +24,10 @@ defaultSubjectDecos = {
   Public: ({subject})-> <span>{subject}</span>
 }
 
+doOptionalsInclude = (optionals, type) ->
+  types = if f.isArray(type) then type else [type]
+  f.some(types, (t) => f.contains(optionals, t))
+
 module.exports = React.createClass
   displayName: 'ResourcePermissionsForm'
   mixins: [ampersandReactMixin]
@@ -36,17 +40,25 @@ module.exports = React.createClass
 
   # this will only ever run on the client:
   componentDidMount: ()->
+    @_isMounted = true
     # init autocompletes, then force re-render:
     AutoComplete = require('../lib/autocomplete.cjsx')
-    @forceUpdate() if @isMounted
+    @forceUpdate() if @_isMounted
+
+  componentWillUnmount: () ->
+    @_isMounted = false
 
   render: ({get, children, editing, saving, onEdit, onSubmit, onCancel, optionals, decos} = @props)->
     editable = get.can_edit
+    user_permissions_title = if get.type is 'Vocabulary'
+      t('permission_subject_title_users')
+    else
+      t('permission_subject_title_users_or_delegations')
 
     rows = [
       { # User permissions
-        type: 'Users'
-        title: t('permission_subject_title_users')
+        type: ['Users', 'Delegations']
+        title: user_permissions_title
         icon: 'privacy-private-alt'
         SubjectDeco: decos.Users || defaultSubjectDecos.User
         permissionsList: get.user_permissions
@@ -84,7 +96,7 @@ module.exports = React.createClass
     ]
     rows = f.reject(rows, ({type, permissionsList})->
       # optionals: hidden on show if empty; always visible on edit
-      !editing && type && f.contains(optionals, type) && (permissionsList.length < 1)
+      !editing && type && doOptionalsInclude(optionals, type) && (permissionsList.length < 1)
     )
 
     <form name='ui-rights-management' onSubmit={onSubmit}>
@@ -171,7 +183,8 @@ PermissionsBySubjectType = React.createClass
               {if type? and AutoComplete
                 <AutoComplete
                   className='block'
-                  name={"add_#{type}"} resourceType={type}
+                  name={"add_#{type}"}
+                  resourceType={type}
                   valueFilter={({uuid}) ->
                     f.includes(f.map(permissionsList.models, 'subject.uuid'), uuid)
                   }

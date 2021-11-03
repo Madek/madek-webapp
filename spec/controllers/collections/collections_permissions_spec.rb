@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'controllers/shared/media_resources/permissions/user_permissions_with_delegation'
 
 describe CollectionsController do
   before :example do
@@ -130,4 +131,6 @@ describe CollectionsController do
     expect(collection.group_permissions.count).to be == 0
     expect(collection.api_client_permissions.count).to be == 0
   end
+
+  include_examples 'user permissions with delegation', 'collection'
 end

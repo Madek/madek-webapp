@@ -19,15 +19,15 @@ module Modules
         end
 
         def user_permissions_params
-          associated_entity_permissions_helper(:user, *perms)
+          associated_entity_permissions_helper(:user, *perms.push(:user_id, :delegation_id))
         end
 
         def group_permissions_params
-          associated_entity_permissions_helper(:group, *perms.first(3))
+          associated_entity_permissions_helper(:group, *perms.first(3).push(:group_id))
         end
 
         def api_client_permissions_params
-          associated_entity_permissions_helper(:api_client, *perms.first(2))
+          associated_entity_permissions_helper(:api_client, *perms.first(2).push(:api_client_id))
         end
 
         def public_permissions_params

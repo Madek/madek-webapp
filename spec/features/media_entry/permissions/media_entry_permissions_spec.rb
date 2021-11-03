@@ -6,6 +6,21 @@ require_relative './_shared'
 include MediaEntryPermissionsShared
 
 feature 'Resource: MediaEntry' do
+  given(:delegation) { create(:delegation) }
+  given(:searchable_delegation) { create(:delegation, name: 'Awesome Group') }
+  given(:direct_delegation_member) do
+    user = create(:user, password: 'password')
+    delegation.users << user
+    user
+  end
+  given(:delegation_member_through_group) do
+    user = create(:user)
+    group = create(:group)
+    group.users << user
+    delegation.groups << group
+    user
+  end
+
   background do
     @user = User.find_by(login: 'normin')
     @entry = FactoryGirl.create(:media_entry_with_image_media_file,
@@ -42,9 +57,7 @@ feature 'Resource: MediaEntry' do
     expect(@entry.api_client_permissions.first[other_perm]).to be false
   end
 
-  example \
-    'edit permissions as entrusted user (full perms for user, group, client)' \
-  do
+  scenario 'edit permissions as entrusted user (full perms for user, group, client)' do
     @another_user = User.find_by(login: 'adam')
     create(
       :media_entry_user_permission,
@@ -90,7 +103,82 @@ feature 'Resource: MediaEntry' do
     expect(@entry.api_client_permissions.length).to eq (api_permissions_count + 1)
     expect(@entry.api_client_permissions.first.attributes.slice(*permission_types))
       .to eq api_perms.map { |k| [k, true] }.to_h
+  end
 
+  scenario 'edit permissions as a direct member of delegation '\
+           '(some perms for user, group, client)' do
+    create(
+      :media_entry_user_permission,
+      media_entry: @entry, delegation: delegation, user: nil,
+      get_metadata_and_previews: true, get_full_size: true,
+      edit_metadata: true, edit_permissions: true)
+    searchable_delegation
+
+    sign_in_as direct_delegation_member
+    open_permission_editable
+
+    test_perm = permission_types[0]
+    other_perm = permission_types[1]
+
+    add_subject_with_permission(@node_people, 'Awesome', test_perm)
+    add_subject_with_permission(@node_groups, 'Diplomarbeitsg', test_perm)
+    add_subject_with_permission(@node_apiapps, 'fancy', test_perm)
+
+    @node_form.click_on(I18n.t(:permissions_table_save_btn))
+    @entry.reload
+
+    expect(current_path).to eq permissions_media_entry_path(@entry)
+
+    expect(@entry.user_permissions.length).to eq 2
+    new_user_permission = @entry.user_permissions.find_by(delegation: searchable_delegation)
+    expect(new_user_permission[test_perm]).to be true
+    expect(new_user_permission[other_perm]).to be false
+
+    expect(@entry.group_permissions.length).to eq 1
+    expect(@entry.group_permissions.first[test_perm]).to be true
+    expect(@entry.group_permissions.first[other_perm]).to be false
+
+    expect(@entry.api_client_permissions.length).to eq 1
+    expect(@entry.api_client_permissions.first[test_perm]).to be true
+    expect(@entry.api_client_permissions.first[other_perm]).to be false
+  end
+
+  scenario 'edit permissions as a member of delegation through a group '\
+           '(some perms for user, group, client)' do
+    create(
+      :media_entry_user_permission,
+      media_entry: @entry, delegation: delegation, user: nil,
+      get_metadata_and_previews: true, get_full_size: true,
+      edit_metadata: true, edit_permissions: true)
+    searchable_delegation
+
+    sign_in_as delegation_member_through_group
+    open_permission_editable
+
+    test_perm = permission_types[0]
+    other_perm = permission_types[1]
+
+    add_subject_with_permission(@node_people, 'Awesome', test_perm)
+    add_subject_with_permission(@node_groups, 'Diplomarbeitsg', test_perm)
+    add_subject_with_permission(@node_apiapps, 'fancy', test_perm)
+
+    @node_form.click_on(I18n.t(:permissions_table_save_btn))
+    @entry.reload
+
+    expect(current_path).to eq permissions_media_entry_path(@entry)
+
+    expect(@entry.user_permissions.length).to eq 2
+    new_user_permission = @entry.user_permissions.find_by(delegation: searchable_delegation)
+    expect(new_user_permission[test_perm]).to be true
+    expect(new_user_permission[other_perm]).to be false
+
+    expect(@entry.group_permissions.length).to eq 1
+    expect(@entry.group_permissions.first[test_perm]).to be true
+    expect(@entry.group_permissions.first[other_perm]).to be false
+
+    expect(@entry.api_client_permissions.length).to eq 1
+    expect(@entry.api_client_permissions.first[test_perm]).to be true
+    expect(@entry.api_client_permissions.first[other_perm]).to be false
   end
 
   scenario 'weaker permissions are set by higher ones' do

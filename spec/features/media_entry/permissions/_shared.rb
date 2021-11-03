@@ -25,7 +25,7 @@ module MediaEntryPermissionsShared
     group_permissions_count = @entry.group_permissions.count
     api_client_permissions_count = @entry.api_client_permissions.count
     @node_people = subject_row(
-      @node_form, I18n.t(:permission_subject_title_users))
+      @node_form, I18n.t(:permission_subject_title_users_or_delegations))
     @node_groups = subject_row(
       @node_form, I18n.t(:permission_subject_title_groups))
 
@@ -54,8 +54,8 @@ module MediaEntryPermissionsShared
   end
 
   def subject_row(form, title)
-    header = form.first('table thead', text: title)
-    header.find(:xpath, '../../..') if header
+    header = form.first('thead td', exact_text: title)
+    header.find(:xpath, '../../../..') if header
   end
 
   def subject_items(node)

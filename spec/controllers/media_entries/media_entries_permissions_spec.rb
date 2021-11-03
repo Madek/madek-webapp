@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'controllers/shared/media_resources/permissions/user_permissions_with_delegation'
 
 describe MediaEntriesController do
   before :example do
@@ -208,4 +209,6 @@ describe MediaEntriesController do
       put :permissions_update, params: update_params, session: { user_id: @user.id }
     end.to change { media_entry.reload.edit_sessions.count }.by 1
   end
+
+  include_examples 'user permissions with delegation', 'media_entry'
 end

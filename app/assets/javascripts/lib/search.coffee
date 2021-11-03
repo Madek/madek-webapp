@@ -35,6 +35,9 @@ module.exports = (resourceType, parameters = null, localData)->
 tokenizer = (string)-> # trims leading and trailing whitespace
   Bloodhound.tokenizers.whitespace(f.trim(string))
 
+langQueryParam = () ->
+  f.pick(url.parse(location.href, true).query, 'lang')
+
 BloodhoundFactory = (config, parameters, localData)->
   engine = new Bloodhound({
     datumTokenizer: tokenizer,
@@ -44,7 +47,7 @@ BloodhoundFactory = (config, parameters, localData)->
       wildcard: '__QUERY__'
       url: url.format
         pathname: config.url
-        query: f.assign({search_term: '__QUERY__'}, parameters)
+        query: f.assign({search_term: '__QUERY__'}, parameters, langQueryParam())
   })
 
   # return *all* (possibly local) suggestions on empty query:

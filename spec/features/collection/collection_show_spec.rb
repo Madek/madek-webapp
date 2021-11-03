@@ -72,11 +72,11 @@ feature 'Resource: Collections' do
         click_on_tab I18n.t(:media_entry_tab_permissions)
         find('.primary-button', text: 'Bearbeiten').click
 
-        person_row = subject_row find_form, I18n.t(:permission_subject_title_users)
+        person_row = subject_row find_form, I18n.t(:permission_subject_title_users_or_delegations)
         autocomplete_and_choose_first(person_row, @user.login)
         find('.primary-button', text: 'Speichern').click
 
-        person_row = subject_row find_form, I18n.t(:permission_subject_title_users)
+        person_row = subject_row find_form, I18n.t(:permission_subject_title_users_or_delegations)
         expect(person_row).to have_content(
           @user.person.first_name + ' ' + @user.person.last_name)
       end

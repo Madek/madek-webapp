@@ -4,7 +4,12 @@ module Presenters
       class ResourceUserPermission < Presenters::Shared::AppResourceWithUser
 
         def subject
-          Presenters::Users::UserIndex.new(@app_resource.user)
+          case
+          when @app_resource.user
+            Presenters::Users::UserIndex.new(@app_resource.user)
+          when @app_resource&.delegation
+            Presenters::Delegations::DelegationIndex.new(@app_resource.delegation)
+          end
         end
 
       end

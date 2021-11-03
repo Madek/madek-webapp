@@ -14,11 +14,14 @@ class MediaFilePolicy < DefaultPolicy
 
     # … by user permission
     return true if Permissions::MediaEntryUserPermission
-      .find_by(user_id: user.id, get_full_size: true, media_entry_id: entry.id)
+      .permitted_for?(
+        :get_full_size,
+        user: user,
+        resource: entry)
 
     # … by group permission
     return true if Permissions::MediaEntryGroupPermission
-      .find_by(
+      .exists?(
         group_id: user.groups.map(&:id),
         get_full_size: true,
         media_entry_id: entry.id)

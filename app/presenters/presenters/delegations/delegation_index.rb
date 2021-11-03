@@ -18,6 +18,7 @@ module Presenters
       alias_method :label,              :name
       alias_method :autocomplete_label, :name
       alias_method :detailed_name,      :name
+      alias_method :resource_type,      :type
     end
   end
 end
