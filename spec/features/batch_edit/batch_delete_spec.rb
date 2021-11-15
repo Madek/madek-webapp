@@ -40,6 +40,7 @@ feature 'batch delete' do
     click_select_all_on_first_page
     click_dropdown
     check_full_dropdown(
+      create_set: {},
       add_to_clipboard: { count: 5, all: false },
       add_to_set: { count: 5 },
       remove_from_set: { count: 5 },

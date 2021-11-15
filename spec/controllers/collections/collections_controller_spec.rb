@@ -122,4 +122,93 @@ describe CollectionsController do
       expect(@coll.highlighted_media_entries).to include me_h
     end
   end
+
+  describe '#create' do
+    let(:user) { create(:user) }
+    before(:all) do
+      with_disabled_triggers do
+        MetaKey.find_by(id: 'madek_core:title') || create(:meta_key_core_title)
+      end
+    end
+
+    context 'when there was passed parent_id param' do
+      let(:perform_request) do
+        post :create,
+             params: { collection_title: 'Nested Collection Title', parent_id: parent_id },
+             session: { user_id: user.id },
+             format: :json
+      end
+
+      context 'and was valid' do
+        context 'and user has access to it' do
+          let(:parent_id) do
+            collection = create(:collection, responsible_user: user)
+            collection.id
+          end
+
+          before { perform_request }
+
+          it 'returns 200 status code' do
+            expect(response.status).to eq(200)
+          end
+
+          it 'responds with forward_url corresponding to parent collection' do
+            expect(JSON.parse(response.body))
+              .to eq('forward_url' => collection_path(parent_id))
+          end
+        end
+
+        context 'and user has no access to it' do
+          let(:parent_id) do
+            collection = create(:collection)
+            collection.id
+          end
+
+          it 'raises error' do
+            expect { perform_request }.to raise_error(Errors::ForbiddenError)
+          end
+        end
+      end
+
+      context 'and was invalid' do
+        let(:parent_id) { :invalid_parent_id }
+
+        before { perform_request }
+
+        it 'returns 200 status code' do
+          expect(response.status).to eq(200)
+        end
+
+        it 'responds with forward_url corresponding to just created collection' do
+          new_collection = user.responsible_collections.first!
+
+          expect(JSON.parse(response.body))
+            .to eq('forward_url' => collection_path(new_collection.id))
+        end
+      end
+    end
+
+    context 'when there was no passed parent_id' do
+      let(:perform_request) do
+        post :create,
+             params: { collection_title: 'New Collection' },
+             session: { user_id: user.id },
+             format: :json
+      end
+
+      before { perform_request }
+
+      it 'returns 200 status code' do
+        expect(response.status).to eq(200)
+      end
+
+      it 'responds with forward_url corresponding to just created collection' do
+        new_collection = user.responsible_collections.first!
+
+        expect(new_collection.title).to eq('New Collection')
+        expect(JSON.parse(response.body))
+          .to eq('forward_url' => collection_path(new_collection.id))
+      end
+    end
+  end
 end

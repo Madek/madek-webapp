@@ -1,7 +1,4 @@
 React = require('react')
-ReactDOM = require('react-dom')
-getRailsCSRFToken = require('../../../lib/rails-csrf-token.coffee')
-ampersandReactMixin = require('ampersand-react-mixin')
 f = require('active-lodash')
 t = require('../../../lib/i18n-translate.js')
 RailsForm = require('../../lib/forms/rails-form.cjsx')
@@ -9,9 +6,7 @@ InputFieldText = require('../../lib/forms/input-field-text.cjsx')
 FormButton = require('../../ui-components/FormButton.cjsx')
 ToggableLink = require('../../ui-components/ToggableLink.cjsx')
 Modal = require('../../ui-components/Modal.cjsx')
-xhr = require('xhr')
 formXhr = require('../../../lib/form-xhr.coffee')
-loadXhr = require('../../../lib/load-xhr.coffee')
 Preloader = require('../../ui-components/Preloader.cjsx')
 
 module.exports = React.createClass
@@ -86,6 +81,11 @@ module.exports = React.createClass
       </div>
 
       <div className='ui-modal-body' style={{maxHeight: 'none'}}>
+        {if get.parent_collection_title
+          <div className='ui-alert warning mbx'>
+            {t('collection_new_dialog_parent_warning')}
+            <code style={{display: 'block'}}>{get.parent_collection_title}</code>
+          </div>}
         {
           if @state.saving
             <Preloader/>

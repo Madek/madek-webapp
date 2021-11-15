@@ -58,6 +58,7 @@ BoxRedux = require('./BoxRedux.js')
 BoxState = require('./BoxState.js')
 
 BoxFilterButton = require('./BoxFilterButton.jsx')
+CreateCollectionModal = require('../views/My/CreateCollectionModal.cjsx')
 
 # Props/Config overview:
 # - props.get.has_user = should the UI offer any interaction
@@ -108,6 +109,7 @@ module.exports = React.createClass
     batchDestroyResourcesWaiting: false
     showSelectionLimit: false
     boxState: this.initialBoxState({})
+    showCreateCollectionModal: false
   }
 
   doOnUnmount: [] # to be filled with functions to be called on unmount
@@ -762,6 +764,7 @@ module.exports = React.createClass
           onBatchTransferResponsibilitySetsEdit: @_onBatchTransferResponsibilitySetsEdit
           onHoverMenu: @_onHoverMenu
           onQuickBatch: @onBatchButton
+          onShowCreateCollectionModal: () => @setState(showCreateCollectionModal: true)
         }}
       />
 
@@ -849,6 +852,13 @@ module.exports = React.createClass
 
       {boxTitleBar()}
       {boxToolBar()}
+      { if @state.showCreateCollectionModal
+        <CreateCollectionModal
+          get={get.new_collection}
+          async={false}
+          authToken={authToken}
+          onClose={() => @setState(showCreateCollectionModal: false)}
+          newCollectionUrl={f.get(@props, 'collectionData.newCollectionUrl')} />}
 
       <div className='ui-resources-holder pam'>
         <div className='ui-container table auto'>

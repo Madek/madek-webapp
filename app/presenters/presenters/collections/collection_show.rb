@@ -219,6 +219,10 @@ module Presenters
         policy_for(@user).change_position?
       end
 
+      def new_collection_url
+        my_new_collection_path(parent_id: @app_resource.id)
+      end
+
       private
 
       # NOTE: this is only needed for fetching MetaData in Box ListView

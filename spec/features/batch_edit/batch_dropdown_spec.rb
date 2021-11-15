@@ -21,6 +21,7 @@ feature 'Batch dropdown' do
 
     click_dropdown
     check_full_dropdown(
+      create_set: {},
       add_to_clipboard: { count: 6, all: true },
       add_to_set: { count: 0, active: false },
       remove_from_set: { count: 0, active: false },
@@ -39,6 +40,7 @@ feature 'Batch dropdown' do
 
     click_dropdown
     check_full_dropdown(
+      create_set: {},
       add_to_clipboard: { count: 6, all: false },
       add_to_set: { count: 6, highlights: all_resources },
       remove_from_set: { count: 6, highlights: all_resources },
@@ -58,6 +60,7 @@ feature 'Batch dropdown' do
 
     click_dropdown
     check_full_dropdown(
+      create_set: {},
       add_to_clipboard: { count: 2, all: false },
       add_to_set: { count: 2, highlights: media_entries_1_3 },
       remove_from_set: { count: 2, highlights: media_entries_1_3 },
@@ -79,6 +82,7 @@ feature 'Batch dropdown' do
 
     click_dropdown
     check_full_dropdown(
+      create_set: {},
       add_to_clipboard: { count: 2, all: false },
       add_to_set: { count: 2, highlights: collections_1_3 },
       remove_from_set: { count: 2, highlights: collections_1_3 },
@@ -108,6 +112,7 @@ feature 'Batch dropdown' do
 
     click_dropdown
     check_full_dropdown(
+      create_set: {},
       add_to_clipboard: { count: 6, all: true },
       add_to_set: { count: 0, active: false },
       remove_from_set: { count: 0, active: false },
@@ -126,6 +131,7 @@ feature 'Batch dropdown' do
 
     click_dropdown
     check_full_dropdown(
+      create_set: {},
       add_to_clipboard: { count: 6, all: false },
       add_to_set: { count: 6, highlights: all_resources },
       remove_from_set: { count: 6, highlights: all_resources },
@@ -145,6 +151,7 @@ feature 'Batch dropdown' do
 
     click_dropdown
     check_full_dropdown(
+      create_set: {},
       add_to_clipboard: { count: 2, all: false },
       add_to_set: { count: 2, highlights: media_entries_1_3 },
       remove_from_set: { count: 2, highlights: media_entries_1_3 },

@@ -49,6 +49,17 @@ module.exports = React.createClass
 
         <Dropdown.Menu className='ui-drop-menu'>
 
+          <MenuItem onClick={callbacks.onShowCreateCollectionModal}>
+            <Icon
+              i='plus'
+              mods='ui-drop-icon'
+              style={{display: 'inline-block', minWidth: '20px', marginLeft: '5px'}} />
+            <span style={{display: 'inline', marginLeft: '5px'}}>
+              {t('resource_action_collection_create')}
+            </span>
+          </MenuItem>
+          <MenuItem className='separator' />
+
           {if showActions.addToSet
             createHoverActionItem(
               if selection.length > 0 then f.curry(callbacks.onBatchAddToSet)(selection),

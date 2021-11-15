@@ -118,6 +118,7 @@ feature 'transfer responsibility shared' do
 
     click_dropdown
     check_full_dropdown(
+      create_set: {},
       add_to_clipboard: { count: 6, all: true },
       add_to_set: { count: 0, active: false },
       remove_from_set: { count: 0, active: false },
@@ -136,6 +137,7 @@ feature 'transfer responsibility shared' do
 
     click_dropdown
     check_full_dropdown(
+      create_set: {},
       add_to_clipboard: {
         count: 6,
         all: false,

@@ -37,6 +37,7 @@ feature 'clipboard' do
     )
     click_dropdown
     check_full_dropdown(
+      create_set: {},
       add_to_clipboard: { count: 4, all: true },
       add_to_set: { count: 0, active: false },
       remove_from_set: { count: 0, active: false },
@@ -69,6 +70,7 @@ feature 'clipboard' do
     select_mixed([data[:media_entry_2], data[:collection_1]])
     click_dropdown
     check_full_dropdown(
+      create_set: {},
       add_to_clipboard: { count: 2, all: false },
       add_to_set: { count: 2 },
       remove_from_set: { count: 2 },

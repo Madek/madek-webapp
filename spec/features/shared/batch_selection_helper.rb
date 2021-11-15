@@ -107,7 +107,7 @@ module BatchSelectionHelper
   def check_label_and_count(key, menu_config, text, count)
     within '[data-test-id=resources_box_dropdown]' do
       item = find('.ui-drop-item', text: text)
-      if count
+      if count.present?
         expect(item).to(
           have_css('.ui-count', text: count),
           'Wrong count for: ' + key.to_s
@@ -229,6 +229,7 @@ module BatchSelectionHelper
 
   def all_logical_menu_keys
     [
+      :create_set,
       :add_to_clipboard,
       :add_to_set,
       :remove_from_set,
@@ -245,6 +246,7 @@ module BatchSelectionHelper
 
   def text_keys
     {
+      create_set: :resource_action_collection_create,
       add_to_set: :resources_box_batch_actions_addtoset,
       remove_from_set: :resources_box_batch_actions_removefromset,
       media_entries_metadata: :resources_box_batch_actions_edit,

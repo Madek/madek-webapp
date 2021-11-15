@@ -26,6 +26,7 @@ module.exports = React.createClass
       url: get.url
       batchEditUrl: get.batch_edit_url
       changePositionUrl: get.change_position_url
+      newCollectionUrl: get.new_collection_url
 
     renderSwitcher = (boxUrl) =>
       resourceTypeSwitcher(boxUrl, true, null)

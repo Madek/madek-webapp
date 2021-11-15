@@ -20,9 +20,10 @@ module Modules
 
       def create_render_success(title)
         collection = store_collection(title)
+        parent_collection = add_to_parent_collection(collection)
         respond_to do |format|
           format.json do
-            render(json: { forward_url: collection_path(collection) })
+            render(json: { forward_url: collection_path(parent_collection || collection) })
           end
           format.html do
             redirect_to(
@@ -52,6 +53,14 @@ module Modules
         end
       end
 
+      def add_to_parent_collection(child)
+        parent_collection = Collection.find(params[:parent_id])
+        auth_authorize parent_collection, :add_remove_collection?
+        parent_collection.collections << child
+        parent_collection
+      rescue ActiveRecord::RecordNotFound # rubocop:disable Lint/HandleExceptions
+        # do nothing
+      end
     end
   end
 end
