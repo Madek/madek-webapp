@@ -5,29 +5,19 @@ setUrlParams = require('../../lib/set-params-for-url.coffee')
 parseUrl = require('url').parse
 formatUrl = require('url').format
 
-Button = require('../ui-components/Button.cjsx')
-Icon = require('../ui-components/Icon.cjsx')
 Modal = require('../ui-components/Modal.cjsx')
-ResourceIcon = require('../ui-components/ResourceIcon.cjsx')
-Picture = require('../ui-components/Picture.cjsx')
 BatchHintBox = require('./BatchHintBox.cjsx')
 ResourcesBatchBox = require('./ResourcesBatchBox.cjsx')
 PageContent = require('../views/PageContent.cjsx')
 PageContentHeader = require('../views/PageContentHeader.cjsx')
 TabContent = require('../views/TabContent.cjsx')
-Tabs = require('../views/Tabs.cjsx')
-Tab = require('../views/Tab.cjsx')
 
 batchDiff = require('../../lib/batch-diff.coffee')
 
-PropTypes = React.PropTypes
 xhr = require('xhr')
 cx = require('classnames')
 RailsForm = require('../lib/forms/rails-form.cjsx')
 getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
-MadekPropTypes = require('../lib/madek-prop-types.coffee')
-
-MetaKeyFormLabel = require('../lib/forms/form-label.cjsx')
 
 validation = require('../../lib/metadata-edit-validation.coffee')
 Renderer = require('./metadataedit/MetadataEditRenderer.cjsx')

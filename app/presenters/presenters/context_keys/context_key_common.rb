@@ -1,7 +1,6 @@
 module Presenters
   module ContextKeys
     class ContextKeyCommon < Presenters::Shared::AppResource
-
       def initialize(app_resource)
         super(app_resource)
         @meta_key = Presenters::MetaKeys::MetaKeyCommon.new(@app_resource.meta_key)
@@ -39,6 +38,13 @@ module Presenters
           or @app_resource.meta_key.hint(I18n.locale) \
           or @app_resource.hint \
           or @meta_key.hint
+      end
+
+      def documentation_url
+        @app_resource.sanitize_documentation_url(I18n.locale) \
+          or @app_resource.meta_key.sanitize_documentation_url(I18n.locale) \
+          or @app_resource.sanitize_documentation_url \
+          or @meta_key.documentation_url
       end
     end
   end

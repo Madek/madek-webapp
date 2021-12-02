@@ -44,6 +44,11 @@ module Presenters
           @app_resource.hint(I18n.default_locale)
       end
 
+      def documentation_url
+        @app_resource.sanitize_documentation_url(I18n.locale) or
+          @app_resource.sanitize_documentation_url(I18n.default_locale)
+      end
+
       def value_type
         @app_resource.meta_datum_object_type
       end

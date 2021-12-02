@@ -428,6 +428,7 @@ meta_data_input_new_person_toggle,Neue Person oder Gruppe anlegen,Add new person
 meta_data_input_person_save,Speichern,Save,
 meta_data_input_json_err_prefix,Eingabefehler: ,Input error: ,
 meta_data_input_json_err_no_object,Wert ist nicht vom Typ 'Object'!,Value is not an 'Object'!,
+meta_data_meta_key_documentation_url,> Online-Hilfe,click link for details,
 meta_data_meta_key_label,Schlüssel,Key,
 meta_data_role_add_another_btn,Weitere Funktion hinzufügen,Add another function,
 meta_data_role_add_btn,Funktion hinzufügen,Add a function,
