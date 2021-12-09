@@ -86,7 +86,7 @@ module Concerns
           )
           .merge(
             for_url: { # context of current request (for building new links):
-              pathname: url_for({ only_path: true }.merge(_nilify_url_options)),
+              pathname: request.path,
               query: request.query_parameters.deep_symbolize_keys })
       end
 
@@ -133,12 +133,6 @@ module Concerns
           JSON.parse(val).deep_symbolize_keys
         rescue => e
           raise Errors::InvalidParameterValue, "'#{key}' must be valid JSON!\n#{e}"
-        end
-      end
-
-      def _nilify_url_options
-        {}.tap do |options|
-          default_url_options.keys.each { |key| options[key] = nil }
         end
       end
 

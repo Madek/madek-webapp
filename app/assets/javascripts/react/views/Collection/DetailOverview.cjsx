@@ -1,13 +1,6 @@
 React = require('react')
-ReactDOM = require('react-dom')
-f = require('active-lodash')
-t = require('../../../lib/i18n-translate.js')
-classnames = require('classnames')
-
 MetaDataList = require('../../decorators/MetaDataList.cjsx')
 ResourceShowOverview = require('../../templates/ResourceShowOverview.cjsx')
-TabContent = require('../TabContent.cjsx')
-
 SimpleResourceThumbnail = require('../../decorators/SimpleResourceThumbnail.cjsx')
 
 module.exports = React.createClass
@@ -15,7 +8,9 @@ module.exports = React.createClass
 
   render: ({authToken, get} = @props) ->
     # NOTE: there is only 1 context (summary) allowed/possible for Sets!
-    summary_context = get.summary_meta_data
+    summary_context = switch get.action
+                      when 'show' then get.summary_meta_data
+                      when 'context' then get.context_meta_data
 
     overview =
       content: <MetaDataList list={summary_context}

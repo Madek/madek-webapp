@@ -48,6 +48,8 @@ module Presenters
       attr_reader :action
       attr_reader :active_tab
 
+      delegate_to_app_resource :default_context_id
+
       # <mainTab>
 
       def collection_selection
@@ -61,28 +63,31 @@ module Presenters
       end
 
       def layout
-        # NOTE: only needed for main tab bc layout is for the children
-        return unless @active_tab == 'show'
+        return unless active_tab == 'show' || action == 'context'
         @app_resource.layout
       end
 
       def summary_meta_data
-        return unless @action == 'show'
-        Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
-          .collection_summary_context
+        return unless action == 'show'
+        if @app_resource.default_context_id?
+          build_meta_data_context(@app_resource,
+                                  @user,
+                                  Context.find(default_context_id))
+        else
+          Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
+            .collection_summary_context
+        end
       end
 
       # for relations tabs
       def relation_resources
-        return unless @active_tab == 'relations'
+        return unless active_tab == 'relations'
 
-        _relations_resources(@action)
+        _relations_resources(action)
       end
 
       def child_media_resources
-        return unless ['show', 'usage_data'].include?(@active_tab)
-
-        # return unless @action == 'show'
+        return unless ['show', 'usage_data'].include?(active_tab) || action == 'context'
 
         # NOTE: filtering is not implemented (needs spec)
         mr_scope = \
@@ -116,7 +121,7 @@ module Presenters
       end
 
       def highlighted_media_resources
-        return unless @action == 'show'
+        return unless action == 'show'
         resources = @user_scopes[:highlighted_media_entries] +
           @user_scopes[:highlighted_collections]
         Presenters::Shared::MediaResource::IndexResources.new(
@@ -126,38 +131,38 @@ module Presenters
       end
 
       def sorting
-        return unless @action == 'show'
+        return unless action.presence_in %w(show context)
         @app_resource.sorting
       end
       # </mainTab>
 
       # <otherTabs>
       def relations
-        is_relations = ('relations' == @active_tab && @action == 'relations')
-        is_usage_data = ('usage_data' == @active_tab)
+        is_relations = ('relations' == active_tab && action == 'relations')
+        is_usage_data = ('usage_data' == active_tab)
         return unless (is_relations || is_usage_data)
         _relations_overview
       end
 
       def permissions
-        return unless ['permissions', 'permissions_edit'].include?(@action)
+        return unless ['permissions', 'permissions_edit'].include?(action)
         Presenters::Collections::CollectionPermissions.new(
           @app_resource, @user)
       end
 
       def all_meta_data
-        return unless ['more_data'].include?(@action)
+        return unless ['more_data'].include?(action)
         Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
           .by_vocabulary
       end
 
       def edit_sessions
-        return unless ['usage_data'].include?(@action)
+        return unless ['usage_data'].include?(action)
         super
       end
 
       def relation_counts
-        return unless ['usage_data'].include?(@action)
+        return unless ['usage_data'].include?(action)
         Presenters::MediaResources::RelationCounts.new(@app_resource, @user)
       end
       # </otherTabs>
@@ -183,7 +188,7 @@ module Presenters
 
       # context
       def context_meta_data
-        return unless @action == 'context'
+        return unless action == 'context'
         build_meta_data_context(@app_resource, @user, Context.find(@context_id))
       end
 
@@ -273,8 +278,19 @@ module Presenters
         end
       end
 
+      def prepend_summary_context?
+        _collection_summary_context.present? &&
+          @app_resource.default_context_id? &&
+          default_context_id != _collection_summary_context.first.id
+      end
+
+      def prepend_summary_context(contexts)
+        return contexts unless prepend_summary_context?
+        _collection_summary_context + contexts
+      end
+
       def contexts_for_tabs
-        _contexts_for_collection_extra.select do |context|
+        prepend_summary_context(_contexts_for_collection_extra).select do |context|
           meta_data_for_context(@app_resource, @user, context).any?
         end
       end

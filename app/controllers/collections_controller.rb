@@ -316,7 +316,10 @@ class CollectionsController < ApplicationController
   end
 
   def update_params
-    collection_params.permit(:layout, :sorting)
+    default_params = ActionController::Parameters.new(default_context_id: nil)
+    default_params
+      .permit(:default_context_id)
+      .merge(collection_params.permit(:layout, :sorting, :default_context_id))
   end
 
   def type_param

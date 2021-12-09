@@ -92,10 +92,13 @@ module.exports = React.createClass
 
 
   componentDidMount: () ->
+    @_isMounted = true
     @setState(javascript: true)
 
     @_loadData()
 
+  componentWillUnmount: () ->
+    @_isMounted = false
 
   _loadData: () ->
 
@@ -132,7 +135,7 @@ module.exports = React.createClass
             )
           },
           (result, json) =>
-            return unless @isMounted()
+            return unless @_isMounted
             if result == 'success'
 
               newSectionGroups = f.clone(@state.sectionGroups)

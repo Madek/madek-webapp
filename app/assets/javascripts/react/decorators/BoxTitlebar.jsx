@@ -94,7 +94,11 @@ class BoxTitlebar extends React.Component {
   }
 
   getLayoutChanged() {
-    return (this.props.savedLayout !== this.props.layout || this.props.savedOrder !== this.props.order)
+    const { actionName, savedContextId } = this.props
+    return (this.props.savedLayout !== this.props.layout ||
+      this.props.savedOrder !== this.props.order ||
+      actionName === 'context' && savedContextId !== this.props.collectionData.contextId
+    )
   }
 
   getCenterActions() {

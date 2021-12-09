@@ -103,6 +103,7 @@ module.exports = React.createClass
     batchRemoveFromSet: false,
     savedLayout: @props.collectionData.layout if @props.collectionData
     savedOrder: @props.collectionData.order if @props.collectionData
+    savedContextId: f.get(@props, 'collectionData.defaultContextId')
     showBatchTransferResponsibility: false
     batchTransferResponsibilityResources: []
     batchDestroyResourcesModal: false
@@ -660,17 +661,24 @@ module.exports = React.createClass
     config = @_mergeGet(@props, @state).config
     layout = config.layout
     order = config.order
+    contextId = f.get(@props, 'collectionData.contextId')
+
+    requestBody = []
+    requestBody.push('collection[layout]=' + layout)
+    requestBody.push('collection[sorting]=' + order)
+    requestBody.push('collection[default_context_id]=' + contextId) if contextId
+
     simpleXhr(
       {
         method: 'PATCH',
         url: @props.collectionData.url,
-        body: 'collection[layout]=' + layout + '\&collection[sorting]=' + order
+        body: requestBody.join('&')
       },
       (error) =>
         if error
           alert(error)
         else
-          @setState(savedLayout: layout, savedOrder: order)
+          @setState(savedLayout: layout, savedOrder: order, savedContextId: contextId)
     )
     return false
 
@@ -708,11 +716,13 @@ module.exports = React.createClass
 
       BoxTitlebar = require('./BoxTitlebar.jsx')
       <BoxTitlebar
+        actionName={@props.actionName}
         enableOrderByTitle={@props.enableOrderByTitle}
         layout={layout}
         order={order}
         savedLayout={@state.savedLayout}
         savedOrder={@state.savedOrder}
+        savedContextId={@state.savedContextId}
         layoutSave={@layoutSave}
         collectionData={@props.collectionData}
         heading={heading}

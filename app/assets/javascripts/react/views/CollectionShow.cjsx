@@ -1,5 +1,4 @@
 React = require('react')
-ReactDOM = require('react-dom')
 f = require('lodash')
 parseUrl = require('url').parse
 buildUrl = require('url').format
@@ -192,18 +191,9 @@ module.exports = React.createClass
             </TabContent>
 
           when 'context'
-            MetaDataList = require('../decorators/MetaDataList.cjsx')
-            cx = require('classnames')
-
             <TabContent testId={contentTestId('context_' + urlState.argument)}>
-              <div className="bright  pal rounded-top-right ui-container">
-                <div className={cx('ui-resource-overview')}>
-
-                  <MetaDataList list={get.context_meta_data}
-                    type='table' showTitle={false} showFallback={true}/>
-
-                </div>
-              </div>
+              <CollectionDetailOverview get={get} authToken={authToken} />
+              <CollectionDetailAdditional get={get} authToken={authToken} />
             </TabContent>
 
           # main tab:

@@ -12,9 +12,6 @@ libUrl = require('url')
 module.exports = React.createClass
   displayName: 'CollectionDetailAdditional'
 
-  forUrl: () ->
-    libUrl.format(@props.get.child_media_resources.config.for_url)
-
   render: ({get, authToken} = @props) ->
 
     collectionData =
@@ -27,6 +24,8 @@ module.exports = React.createClass
       batchEditUrl: get.batch_edit_url
       changePositionUrl: get.change_position_url
       newCollectionUrl: get.new_collection_url
+      contextId: f.get(get, 'context_meta_data.context.uuid') or f.get(get, 'summary_meta_data.context.uuid')
+      defaultContextId: f.get(get, 'default_context_id')
 
     renderSwitcher = (boxUrl) =>
       resourceTypeSwitcher(boxUrl, true, null)
@@ -39,5 +38,6 @@ module.exports = React.createClass
         renderSwitcher={renderSwitcher}
         enableOrdering={true} enableOrderByTitle={true}
         showAllButton={true}
+        actionName={@props.get.action}
         />
     </div>
