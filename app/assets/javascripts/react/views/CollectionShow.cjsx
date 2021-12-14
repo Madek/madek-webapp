@@ -36,12 +36,6 @@ parseUrlState = (location) ->
       argument: urlParts[3] if urlParts.length > 3
     }
 
-activeTabId = (urlState) ->
-  if urlState.action == 'context'
-    urlState.action + '/' + urlState.argument
-  else
-    urlState.action
-
 contentTestId = (id) ->
   'set_tab_content_' + id
 
@@ -133,7 +127,7 @@ module.exports = React.createClass
           <Tab key={tab.id}
             href={tab.href} testId={tabTestId(tab.id)}
             iconType={tab.icon_type} privacyStatus={get.privacy_status}
-            label={tab.label} active={tab.id == activeTabId(urlState)} />
+            label={tab.label} active={tab.id == get.active_tab} />
         }
       </Tabs>
         {switch urlState.action

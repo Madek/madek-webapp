@@ -35,9 +35,9 @@ feature 'Collection tabs' do
     visit edit_permissions_collection_path(@collection)
     check_tabs('permissions', 'permissions')
     visit context_collection_path(@collection, 'core')
-    check_tabs('context/core', 'context_core')
+    check_tabs('show', 'context_core')
     visit context_collection_path(@collection, 'media_content')
-    check_tabs('context/media_content', 'context_media_content')
+    check_tabs('context_media_content', 'context_media_content')
   end
 
   def check_tabs(tab_id, tab_content_id)

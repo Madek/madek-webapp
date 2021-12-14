@@ -32,17 +32,9 @@ module Presenters
         @load_meta_data = load_meta_data
         # NOTE: this is just a hack to help separating the methods by action/tab
         #       modal actions are all still on top of 'show'
-        @active_tab =
-          if ['relation_siblings', 'relation_children', 'relation_parents']
-              .include?(action)
-            'relations'
-          elsif action == 'context'
-            'context_' + context_id
-          else
-            action
-          end
         @action = action
         @context_id = context_id
+        @active_tab = determine_active_tab
       end
 
       attr_reader :action
@@ -63,20 +55,14 @@ module Presenters
       end
 
       def layout
-        return unless active_tab == 'show' || action == 'context'
+        return unless %w(show context).include?(action)
         @app_resource.layout
       end
 
       def summary_meta_data
-        return unless action == 'show'
-        if @app_resource.default_context_id?
-          build_meta_data_context(@app_resource,
-                                  @user,
-                                  Context.find(default_context_id))
-        else
-          Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
-            .collection_summary_context
-        end
+        return unless %w(show context).include?(action)
+        Presenters::MetaData::MetaDataShow.new(@app_resource, @user)
+          .collection_summary_context
       end
 
       # for relations tabs
@@ -87,7 +73,7 @@ module Presenters
       end
 
       def child_media_resources
-        return unless ['show', 'usage_data'].include?(active_tab) || action == 'context'
+        return unless %(show usage_data).include?(active_tab) || active_tab.start_with?('context_')
 
         # NOTE: filtering is not implemented (needs spec)
         mr_scope = \
@@ -188,8 +174,9 @@ module Presenters
 
       # context
       def context_meta_data
-        return unless action == 'context'
-        build_meta_data_context(@app_resource, @user, Context.find(@context_id))
+        return unless %w(show context).include?(action)
+        return unless context_id
+        build_meta_data_context(@app_resource, @user, Context.find(context_id))
       end
 
       def batch_edit_url
@@ -229,6 +216,30 @@ module Presenters
       end
 
       private
+
+      attr_reader :context_id
+
+      # rubocop:disable CyclomaticComplexity
+      # rubocop:disable PerceivedComplexity
+      def determine_active_tab
+        if ['relation_siblings', 'relation_children', 'relation_parents'].include?(action)
+          'relations'
+        elsif %(permissions permissions_edit).include?(action)
+          'permissions'
+        elsif action == 'context' && context_id
+          'context_' + context_id
+        elsif action == 'show' && context_id && \
+          _collection_summary_context.map(&:id).include?(context_id)
+          action
+        elsif action == 'show' && context_id && \
+              @app_resource.default_context_id? && default_context_id == context_id
+          'context_' + context_id
+        else
+          action
+        end
+      end
+      # rubocop:enable CyclomaticComplexity
+      # rubocop:enable PerceivedComplexity
 
       # NOTE: this is only needed for fetching MetaData in Box ListView
       #       MUST be consistent with the MediaEntry!
@@ -278,41 +289,44 @@ module Presenters
         end
       end
 
-      def prepend_summary_context?
-        _collection_summary_context.present? &&
-          @app_resource.default_context_id? &&
-          default_context_id != _collection_summary_context.first.id
-      end
-
-      def prepend_summary_context(contexts)
-        return contexts unless prepend_summary_context?
-        _collection_summary_context + contexts
-      end
-
       def contexts_for_tabs
-        prepend_summary_context(_contexts_for_collection_extra).select do |context|
+        _contexts_for_collection_extra.select do |context|
           meta_data_for_context(@app_resource, @user, context).any?
         end
       end
 
       def context_tabs
         contexts_for_tabs.map do |c|
+          next if c.id == 'set_summary'
           cp = Presenters::Contexts::ContextCommon.new(c)
-          next if cp.uuid == 'set_summary'
+          href = if @app_resource.default_context_id? && default_context_id == cp.uuid
+            collection_path(@app_resource)
+          else
+            context_collection_path(@app_resource, cp.uuid)
+          end
           {
-            id: 'context/' + cp.uuid,
+            id: 'context_' + cp.uuid,
             label: cp.label,
-            href: context_collection_path(@app_resource, cp.uuid)
+            href: href
           }
         end
       end
 
       def show_tab
+        href =
+          if @app_resource.default_context_id? && \
+             _collection_summary_context.first && \
+             _collection_summary_context.first.id != default_context_id
+            context_collection_path(@app_resource, _collection_summary_context.first.id)
+          else
+            collection_path(@app_resource)
+          end
+
         [
           {
             id: 'show',
             label: I18n.t(:collection_tab_main),
-            href: collection_path(@app_resource)
+            href: href
           }
         ]
       end

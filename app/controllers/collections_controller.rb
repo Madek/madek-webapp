@@ -47,11 +47,11 @@ class CollectionsController < ApplicationController
         collection,
         current_user,
         user_scopes_for_collection(collection),
-        action: action_name,
+        action: determine_action,
         type_filter: type_param,
         list_conf: resource_list_by_type_param,
         children_list_conf: children_list_conf,
-        context_id: (params[:context_id] if action_name == 'context'),
+        context_id: determine_context_id(collection),
         load_meta_data: false
     respond_with @get
   end
@@ -324,6 +324,17 @@ class CollectionsController < ApplicationController
 
   def type_param
     params.permit(:type).fetch(:type, nil)
+  end
+
+  def determine_action
+    return 'show' if action_name == 'context' && params[:context_id] && \
+                     params[:context_id] == settings.context_for_collection_summary
+    action_name
+  end
+
+  def determine_context_id(collection)
+    return params[:context_id] if action_name == 'context'
+    collection.default_context_id if action_name == 'show' && collection.default_context_id?
   end
 end
 # rubocop:enable Metrics/ClassLength

@@ -13,6 +13,10 @@ module.exports = React.createClass
   displayName: 'CollectionDetailAdditional'
 
   render: ({get, authToken} = @props) ->
+    contextId = if f.startsWith(get.active_tab, 'context_')
+      f.get(get, 'context_meta_data.context.uuid')
+    else
+      f.get(get, 'summary_meta_data.context.uuid')
 
     collectionData =
       uuid: get.uuid
@@ -24,8 +28,8 @@ module.exports = React.createClass
       batchEditUrl: get.batch_edit_url
       changePositionUrl: get.change_position_url
       newCollectionUrl: get.new_collection_url
-      contextId: f.get(get, 'context_meta_data.context.uuid') or f.get(get, 'summary_meta_data.context.uuid')
-      defaultContextId: f.get(get, 'default_context_id')
+      contextId: contextId
+      defaultContextId: f.get(get, 'default_context_id') or f.get(get, 'summary_meta_data.context.uuid')
 
     renderSwitcher = (boxUrl) =>
       resourceTypeSwitcher(boxUrl, true, null)
@@ -38,6 +42,5 @@ module.exports = React.createClass
         renderSwitcher={renderSwitcher}
         enableOrdering={true} enableOrderByTitle={true}
         showAllButton={true}
-        actionName={@props.get.action}
         />
     </div>

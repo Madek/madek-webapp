@@ -5,6 +5,7 @@ require 'spec_helper_feature_shared'
 feature 'Collection default Context' do
   given(:user) { create(:user, password: 'password') }
   given(:collection) { create(:collection_with_title, responsible_user: user) }
+  given(:main_context_id) { 'core' }
 
   background do
     prepare_contexts_for_collection
@@ -12,11 +13,12 @@ feature 'Collection default Context' do
     visit_collection
   end
 
-  scenario 'Choosing default Context' do
+  scenario 'Choosing default Context to Credits and then back to the main one' do
     expect_active_tab(I18n.t(:collection_tab_main))
+    expect_tab_with_href(I18n.t(:collection_tab_main), collection_path(collection))
     expect_disabled_save_button
-    expect_no_tab('Core')
 
+    expect_tab_with_href('Credits', context_collection_path(collection, 'copyright'))
     click_tab('Credits')
     expect_active_tab('Credits')
     expect_enabled_save_button
@@ -24,40 +26,43 @@ feature 'Collection default Context' do
     expect_disabled_save_button
 
     visit_collection
-    expect_active_tab(I18n.t(:collection_tab_main))
-    expect_tab('Credits')
-    expect_tab('Core')
-    expect_disabled_save_button
-
-    click_tab('Credits')
+    expect_tab_with_href(I18n.t(:collection_tab_main),
+                         context_collection_path(collection, main_context_id))
+    expect_tab_with_href('Credits', collection_path(collection))
     expect_active_tab('Credits')
     expect_disabled_save_button
 
-    click_tab('Werk')
-    expect_active_tab('Werk')
-    expect_tab('Core')
-    expect_enabled_save_button
-    save_layout
-    expect_disabled_save_button
-    page_reload
-    expect_active_tab('Werk')
-    expect_tab('Core')
+    visit_context('copyright')
+    expect_tab_with_href(I18n.t(:collection_tab_main),
+                         context_collection_path(collection, main_context_id))
+    expect_tab_with_href('Credits', collection_path(collection))
+    expect_active_tab('Credits')
     expect_disabled_save_button
 
-    click_tab('Core')
-    expect_active_tab('Core')
+    click_tab(I18n.t(:collection_tab_main))
+    expect_active_tab(I18n.t(:collection_tab_main))
     expect_enabled_save_button
     save_layout
     expect_disabled_save_button
 
     visit_collection
     expect_active_tab(I18n.t(:collection_tab_main))
+    expect_tab_with_href(I18n.t(:collection_tab_main), collection_path(collection))
     expect_disabled_save_button
-    expect_no_tab('Core')
+
+    visit_context(main_context_id)
+    expect_active_tab(I18n.t(:collection_tab_main))
+    expect_tab_with_href(I18n.t(:collection_tab_main), collection_path(collection))
+    expect_tab_with_href('Credits', context_collection_path(collection, 'copyright'))
+    expect_disabled_save_button
   end
 
   def visit_collection
     visit collection_path(collection)
+  end
+
+  def visit_context(context_id)
+    visit context_collection_path(collection, context_id)
   end
 
   def prepare_contexts_for_collection
@@ -81,20 +86,18 @@ def save_layout
   end
 end
 
-def page_reload
-  page.evaluate_script('window.location.reload(true)')
-end
-
-def expect_tab(label)
-  expect(page).to have_css('.ui-tabs .ui-tabs-item a', exact_text: label)
-end
-
-def expect_no_tab(label)
-  expect(page).not_to have_css('.ui-tabs .ui-tabs-item a', text: label)
-end
-
 def expect_active_tab(label)
   expect(page).to have_css('.ui-tabs .ui-tabs-item.active a', exact_text: label)
+end
+
+def generate_href(href)
+  server = Capybara.current_session.server
+  "http://#{server.host}:#{server.port}#{href}"
+end
+
+def expect_tab_with_href(label, href)
+  tab = find('.ui-tabs .ui-tabs-item a', exact_text: label)
+  expect(tab[:href]).to eq(generate_href(href))
 end
 
 def expect_enabled_save_button

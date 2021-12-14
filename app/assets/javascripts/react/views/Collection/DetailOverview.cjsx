@@ -7,7 +7,6 @@ module.exports = React.createClass
   displayName: 'CollectionDetailOverview'
 
   render: ({authToken, get} = @props) ->
-    # NOTE: there is only 1 context (summary) allowed/possible for Sets!
     summary_context = switch get.action
                       when 'show' then get.summary_meta_data
                       when 'context' then get.context_meta_data
