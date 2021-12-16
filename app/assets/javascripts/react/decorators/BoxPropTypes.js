@@ -1,7 +1,5 @@
 import React from 'react'
-import t from '../../lib/i18n-translate.js'
-import cx from 'classnames/dedupe'
-import f from 'active-lodash'
+import { pick } from 'active-lodash'
 
 module.exports = {
 
@@ -57,13 +55,14 @@ module.exports = {
       authToken: React.PropTypes.string.isRequired,
       draftsView: React.PropTypes.bool,
       disableListMode: React.PropTypes.bool,
+      showAddSetButton: React.PropTypes.bool,
       get: React.PropTypes.shape({
         // resources: React.PropTypes.array # TODO: array of ampersandCollection
         type: React.PropTypes.oneOf(['MediaEntries', 'Collections', 'FilterSets', 'MediaResources']),
         has_user: React.PropTypes.bool, // toggles actions, hover, flyout
         can_filter: React.PropTypes.bool, // if true, get.resources can be filtered
         config: React.PropTypes.shape(viewConfigProps), // <- config that is part of the URL!
-        user_config: React.PropTypes.shape(f.pick(viewConfigProps, 'layout', 'order', 'show_filter')) // <- subset that is *also* stored per session
+        user_config: React.PropTypes.shape(pick(viewConfigProps, 'layout', 'order', 'show_filter')) // <- subset that is *also* stored per session
       })
     }
 

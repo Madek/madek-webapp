@@ -749,6 +749,7 @@ module.exports = React.createClass
       featureToggles: get.feature_toggles
       isClipboard: if @props.initial then @props.initial.is_clipboard else false
       content_type: @props.get.content_type
+      showAddSetButton: f.get(@props, 'showAddSetButton', false)
     }
 
 

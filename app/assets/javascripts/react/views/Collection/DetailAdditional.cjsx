@@ -42,5 +42,6 @@ module.exports = React.createClass
         renderSwitcher={renderSwitcher}
         enableOrdering={true} enableOrderByTitle={true}
         showAllButton={true}
+        showAddSetButton={true}
         />
     </div>

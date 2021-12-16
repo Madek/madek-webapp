@@ -24,7 +24,7 @@ module.exports = React.createClass
 
     return null unless f.any(f.values(showActions))
 
-    {totalCount, withActions, selection, saveable, draftsView, isClient, collectionData, config, isClipboard, content_type} = parameters
+    {totalCount, withActions, selection, saveable, draftsView, isClient, collectionData, config, isClipboard, content_type, showAddSetButton} = parameters
 
 
     createHoverActionItem = (enableEntryByOnClick, hoverId, count, icon, text) ->
@@ -49,16 +49,17 @@ module.exports = React.createClass
 
         <Dropdown.Menu className='ui-drop-menu'>
 
-          <MenuItem onClick={callbacks.onShowCreateCollectionModal}>
-            <Icon
-              i='plus'
-              mods='ui-drop-icon'
-              style={{display: 'inline-block', minWidth: '20px', marginLeft: '5px'}} />
-            <span style={{display: 'inline', marginLeft: '5px'}}>
-              {t('resource_action_collection_create')}
-            </span>
-          </MenuItem>
-          <MenuItem className='separator' />
+          {showAddSetButton and (
+            <MenuItem onClick={callbacks.onShowCreateCollectionModal}>
+              <Icon
+                i='plus'
+                mods='ui-drop-icon'
+                style={{display: 'inline-block', minWidth: '20px', marginLeft: '5px'}} />
+              <span style={{display: 'inline', marginLeft: '5px'}}>
+                {t('resource_action_collection_create')}
+              </span>
+            </MenuItem>)}
+          {showAddSetButton and <MenuItem className='separator' />}
 
           {if showActions.addToSet
             createHoverActionItem(
