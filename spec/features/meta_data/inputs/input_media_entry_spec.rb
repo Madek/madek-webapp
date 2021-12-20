@@ -6,6 +6,8 @@ require_relative './_shared'
 include MetaDatumInputsHelper
 
 feature 'Resource: MetaDatum' do
+  given(:description) { Faker::Lorem.sentence }
+
   background do
     @user = User.find_by(login: 'normin')
     @media_entry = create(:media_entry_with_image_media_file,
@@ -25,7 +27,6 @@ feature 'Resource: MetaDatum' do
 
     scenario 'add new valid ID with description' do
       valid_id = @other_media_entry.id
-      description = Faker::Lorem.sentence
 
       edit_in_meta_data_form_and_save do
         hidden_input = find('input[type="hidden"]', visible: :hidden)
@@ -56,8 +57,7 @@ feature 'Resource: MetaDatum' do
     end
 
     context 'when invalid ID is passed' do
-      let(:invalid_id) { @other_media_entry.id + '_invalid' }
-      let(:description) { Faker::Lorem.sentence }
+      given(:invalid_id) { @other_media_entry.id + '_invalid' }
 
       scenario 'display alert with error message' do
         edit_in_meta_data_form_and_save do
@@ -102,5 +102,66 @@ feature 'Resource: MetaDatum' do
         end
       end
     end
+
+    describe 'deletion' do
+      background do
+        @media_entry.meta_data << create(:meta_datum_media_entry,
+                                         other_media_entry: @other_media_entry,
+                                         string: description)
+      end
+
+      context 'when empty ID is passed' do
+        context 'when description is left untouched' do
+          scenario 'delete the meta data' do
+            edit_in_meta_data_form_and_save do
+              expect(uuid_input.value).to eq(@other_media_entry.id)
+              expect(description_input.value).to eq(description)
+              expect(hidden_input.value).to eq("#{@other_media_entry.id};#{description}")
+
+              uuid_input.set('')
+              expect(hidden_input.value).to eq(";#{description}")
+            end
+
+            expect(page).not_to have_css('.ui-media-overview-metadata .media-data-content')
+            expect(page).not_to have_link(@other_media_entry.title,
+                                          href: media_entry_path(@other_media_entry))
+            expect(page).not_to have_content(description)
+            expect(@media_entry.meta_data.find_by(type: 'MetaDatum::MediaEntry')).not_to be
+          end
+        end
+
+        context 'when description is set to empty' do
+          scenario 'delete the meta data' do
+            edit_in_meta_data_form_and_save do
+              expect(uuid_input.value).to eq(@other_media_entry.id)
+              expect(description_input.value).to eq(description)
+              expect(hidden_input.value).to eq("#{@other_media_entry.id};#{description}")
+
+              uuid_input.set('')
+              description_input.set('')
+              expect(hidden_input.value).to eq(';')
+            end
+
+            expect(page).not_to have_css('.ui-media-overview-metadata .media-data-content')
+            expect(page).not_to have_link(@other_media_entry.title,
+                                          href: media_entry_path(@other_media_entry))
+            expect(page).not_to have_content(description)
+            expect(@media_entry.meta_data.find_by(type: 'MetaDatum::MediaEntry')).not_to be
+          end
+        end
+      end
+    end
   end
+end
+
+def hidden_input
+  find('input[type="hidden"]', visible: :hidden)
+end
+
+def uuid_input
+  all('input[type="text"]').first
+end
+
+def description_input
+  all('input[type="text"]').last
 end

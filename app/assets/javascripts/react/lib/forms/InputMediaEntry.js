@@ -12,7 +12,6 @@ class InputMediaEntry extends React.Component {
     const uuidError = !this.isValidUuid(uuid)
 
     this.state = {
-      preparedValue: this.prepareValue({ uuid, description }),
       values: { uuid, description },
       uuidError
     }
@@ -21,7 +20,8 @@ class InputMediaEntry extends React.Component {
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this)
   }
 
-  prepareValue(values) {
+  prepareValue() {
+    const { values } = this.state
     return `${values.uuid || ''};${values.description || ''}`
   }
 
@@ -36,28 +36,28 @@ class InputMediaEntry extends React.Component {
 
   handleResourceIdChange(e) {
     const values = f.extend({}, this.state.values, { uuid: e.target.value })
-    const preparedValue = this.prepareValue(values)
     const uuidError = !this.isValidUuid(values.uuid)
 
-    this.setState({ preparedValue, values, uuidError })
+    this.setState({ values, uuidError })
     this.props.onChange([[{ uuid: values.uuid }, values.description]])
   }
 
   handleDescriptionChange(e) {
     const values = f.extend({}, this.state.values, { description: e.target.value })
-    const preparedValue = this.prepareValue(values)
 
-    this.setState({ preparedValue, values })
+    this.setState({ values })
     this.props.onChange([[{ uuid: values.uuid }, values.description]])
   }
 
-  render({ name } = this.props) {
-    const { uuidError, preparedValue } = this.state
-    const { uuid, description } = this.state.values
+  render({ name, isPersisted } = this.props) {
+    const {
+      uuidError,
+      values: { uuid, description }
+    } = this.state
 
     return (
       <div className="form-item">
-        <input type="hidden" name={name} value={preparedValue} />
+        <input type="hidden" name={name} value={this.prepareValue()} />
         <label>
           {t('meta_datum_media_entry_label_id')}
           <input
