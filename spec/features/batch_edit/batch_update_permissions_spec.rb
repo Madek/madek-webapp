@@ -143,6 +143,9 @@ def edit_permission_form_cases(_resource_class)
   add_subject(@case_10_api_client)
   set_permission(@case_10_api_client, 'get_metadata_and_previews', true)
 
+  add_subject(@case_10_delegation)
+  set_permission(@case_10_delegation, 'get_metadata_and_previews', true)
+
   remove_subject(@case_11_user)
   remove_subject(@case_11_group)
   set_permission('Internet', 'get_metadata_and_previews', true)
@@ -175,11 +178,13 @@ end
 
 def add_subject(subject)
   adders = all('.ui-add-subject')
-  adder = case subject.class.name
-          when 'User' then adders[0]
-          when 'Group' then adders[1]
-          when 'ApiClient' then adders[2]
-  end
+  adder =
+    case subject.class.name
+    when 'User' then adders[0]
+    when 'Delegation' then adders[0]
+    when 'Group' then adders[1]
+    when 'ApiClient' then adders[2]
+    end
 
   autocomplete_and_choose_first(adder, subject_search_name(subject))
 end
@@ -201,7 +206,8 @@ def subject_name(subject)
   when 'User' then subject.person.to_s
   when 'Group' then subject.name
   when 'ApiClient' then subject.login
-  else subject
+  when 'Delegation' then subject.name
+  when 'String' then subject
   end
 end
 

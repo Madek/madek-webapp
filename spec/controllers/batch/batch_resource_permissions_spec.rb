@@ -27,7 +27,12 @@ describe BatchController do
                 get_metadata_and_previews: true,
                 get_full_size: true,
                 edit_metadata: true,
-                edit_permissions: true }
+                edit_permissions: true },
+              { subject: @case_10_delegation.id,
+                get_metadata_and_previews: true,
+                get_full_size: false,
+                edit_metadata: false,
+                edit_permissions: false }
             ],
             group_permissions: [
               { subject: @case_2_group.id },
@@ -120,7 +125,11 @@ describe BatchController do
               { subject: @case_10_user.id,
                 get_metadata_and_previews: true,
                 edit_metadata_and_relations: true,
-                edit_permissions: true }
+                edit_permissions: true },
+              { subject: @case_10_delegation.id,
+                get_metadata_and_previews: true,
+                edit_metadata_and_relations: false,
+                edit_permissions: false }
             ],
             group_permissions: [
               { subject: @case_2_group.id },

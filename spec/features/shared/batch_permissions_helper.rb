@@ -140,6 +140,7 @@ module BatchPermissionsHelper
     @case_10_user = FactoryGirl.create(:user)
     @case_10_group = FactoryGirl.create(:group)
     @case_10_api_client = FactoryGirl.create(:api_client)
+    @case_10_delegation = FactoryGirl.create(:delegation)
 
     # CASE 11
     @case_11_user = FactoryGirl.create(:user)
@@ -295,6 +296,24 @@ module BatchPermissionsHelper
                get_full_size: false)
         .first
       ).to be
+      expect(
+        @resource_1.user_permissions
+        .where(delegation_id: @case_10_delegation,
+               get_metadata_and_previews: true,
+               get_full_size: false,
+               edit_metadata: false,
+               edit_permissions: false)
+        .first
+      ).to be
+      expect(
+        @resource_2.user_permissions
+        .where(delegation_id: @case_10_delegation,
+               get_metadata_and_previews: true,
+               get_full_size: false,
+               edit_metadata: false,
+               edit_permissions: false)
+        .first
+      ).to be
     else
       expect(
         @resource_1.user_permissions
@@ -310,6 +329,22 @@ module BatchPermissionsHelper
                get_metadata_and_previews: true,
                edit_metadata_and_relations: true,
                edit_permissions: true)
+        .first
+      ).to be
+      expect(
+        @resource_1.user_permissions
+        .where(delegation_id: @case_10_delegation,
+               get_metadata_and_previews: true,
+               edit_metadata_and_relations: false,
+               edit_permissions: false)
+        .first
+      ).to be
+      expect(
+        @resource_2.user_permissions
+        .where(delegation_id: @case_10_delegation,
+               get_metadata_and_previews: true,
+               edit_metadata_and_relations: false,
+               edit_permissions: false)
         .first
       ).to be
       expect(
@@ -349,8 +384,8 @@ module BatchPermissionsHelper
       .to raise_error ActiveRecord::RecordNotFound
     expect { @case_11_group_permission_2.reload }
       .to raise_error ActiveRecord::RecordNotFound
-    expect(@resource_1.user_permissions.reload.count).to be == 7
-    expect(@resource_2.user_permissions.reload.count).to be == 6
+    expect(@resource_1.user_permissions.reload.count).to be == 8
+    expect(@resource_2.user_permissions.reload.count).to be == 7
     expect(@resource_1.group_permissions.reload.count).to be == 4
     expect(@resource_2.group_permissions.reload.count).to be == 4
     expect(@resource_1.api_client_permissions.reload.count).to be == 4

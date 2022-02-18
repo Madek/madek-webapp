@@ -149,10 +149,21 @@ module Modules
           sanitized_attributes = \
             sanitize_attributes p_data, resource.class, :user
           next if sanitized_attributes.empty?
+
+          subject_id = p_data[:subject]
+          subject_type_id_key =
+            if Delegation.find_by_id(subject_id)
+              :delegation_id
+            elsif User.find_by_id(subject_id)
+              :user_id
+            else
+              raise('Unknown subject type!')
+            end
+
           p = \
             resource
             .user_permissions
-            .find_or_create_by! user_id: p_data[:subject]
+            .find_or_create_by! subject_type_id_key => subject_id
           p.update_attributes! sanitized_attributes
         end
       end
