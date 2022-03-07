@@ -147,6 +147,7 @@ def edit_permission_form_cases(_resource_class)
   set_permission(@case_10_delegation, 'get_metadata_and_previews', true)
 
   remove_subject(@case_11_user)
+  remove_subject(@case_11_delegation)
   remove_subject(@case_11_group)
   set_permission('Internet', 'get_metadata_and_previews', true)
 end

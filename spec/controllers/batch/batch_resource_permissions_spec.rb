@@ -18,6 +18,7 @@ describe BatchController do
           permissions: {
             user_permissions: [
               { subject: @case_1_user.id },
+              { subject: @case_1_delegation.id, get_metadata_and_previews: true },
               { subject: @case_3_user.id },
               { subject: @case_4_user.id, edit_permissions: true },
               { subject: @case_6_user.id, get_metadata_and_previews: false },
@@ -117,6 +118,7 @@ describe BatchController do
           permissions: {
             user_permissions: [
               { subject: @case_1_user.id },
+              { subject: @case_1_delegation.id, get_metadata_and_previews: true },
               { subject: @case_3_user.id },
               { subject: @case_4_user.id, edit_permissions: true },
               { subject: @case_6_user.id, get_metadata_and_previews: false },

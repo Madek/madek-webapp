@@ -125,8 +125,10 @@ module Modules
       end
 
       def destroy_user_permissions_for_resource!(resource, user_permissions)
+        subject_ids = user_permissions.map { |p| p[:subject] }
         resource.user_permissions
-          .where.not(user_id: user_permissions.map { |p| p[:subject] })
+          .where.not(user_id: subject_ids)
+          .or(resource.user_permissions.where.not(delegation_id: subject_ids))
           .each(&:destroy!)
       end
 

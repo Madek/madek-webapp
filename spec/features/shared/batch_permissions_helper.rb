@@ -53,10 +53,15 @@ module BatchPermissionsHelper
 
     # CASE 1
     @case_1_user = FactoryGirl.create(:user)
+    @case_1_delegation = FactoryGirl.create(:delegation)
     @case_1_user_permission_1 = _create_perm(
       @resource_1, @case_1_user, get_metadata_and_previews: true)
     @case_1_user_permission_2 = _create_perm(
       @resource_2, @case_1_user, get_metadata_and_previews: true)
+    @case_1_user_permission_3 = _create_perm(
+      @resource_1, @case_1_delegation, get_metadata_and_previews: true)
+    @case_1_user_permission_4 = _create_perm(
+      @resource_2, @case_1_delegation, get_metadata_and_previews: true)
 
     # CASE 2
     @case_2_group = FactoryGirl.create(:group)
@@ -144,8 +149,11 @@ module BatchPermissionsHelper
 
     # CASE 11
     @case_11_user = FactoryGirl.create(:user)
+    @case_11_delegation = FactoryGirl.create(:delegation)
     @case_11_user_permission_1 = _create_perm(@resource_1, @case_11_user)
     @case_11_user_permission_2 = _create_perm(@resource_2, @case_11_user)
+    @case_11_user_delegation_permission_3 = _create_perm(@resource_1, @case_11_delegation)
+    @case_11_user_delegation_permission_4 = _create_perm(@resource_2, @case_11_delegation)
     @case_11_group = FactoryGirl.create(:group)
     @case_11_group_permission_1 = _create_perm(@resource_1, @case_11_group)
     @case_11_group_permission_2 = _create_perm(@resource_2, @case_11_group)
@@ -155,12 +163,20 @@ module BatchPermissionsHelper
     # CASE 1
     case_1_user_permission_1_dup = @case_1_user_permission_1.dup
     case_1_user_permission_2_dup = @case_1_user_permission_2.dup
+    case_1_user_permission_3_dup = @case_1_user_permission_1.dup
+    case_1_user_permission_4_dup = @case_1_user_permission_2.dup
     @case_1_user_permission_1.reload
     @case_1_user_permission_2.reload
+    @case_1_user_permission_3.reload
+    @case_1_user_permission_4.reload
     expect(@case_1_user_permission_1.get_metadata_and_previews)
       .to be == case_1_user_permission_1_dup.get_metadata_and_previews
     expect(@case_1_user_permission_2.get_metadata_and_previews)
       .to be == case_1_user_permission_2_dup.get_metadata_and_previews
+    expect(@case_1_user_permission_3.get_metadata_and_previews)
+      .to be == case_1_user_permission_3_dup.get_metadata_and_previews
+    expect(@case_1_user_permission_4.get_metadata_and_previews)
+      .to be == case_1_user_permission_4_dup.get_metadata_and_previews
 
     # CASE 2
     if resource_class == MediaEntry
@@ -380,12 +396,16 @@ module BatchPermissionsHelper
       .to raise_error ActiveRecord::RecordNotFound
     expect { @case_11_user_permission_2.reload }
       .to raise_error ActiveRecord::RecordNotFound
+    expect { @case_11_user_delegation_permission_3.reload }
+      .to raise_error ActiveRecord::RecordNotFound
+    expect { @case_11_user_delegation_permission_4.reload }
+      .to raise_error ActiveRecord::RecordNotFound
     expect { @case_11_group_permission_1.reload }
       .to raise_error ActiveRecord::RecordNotFound
     expect { @case_11_group_permission_2.reload }
       .to raise_error ActiveRecord::RecordNotFound
-    expect(@resource_1.user_permissions.reload.count).to be == 8
-    expect(@resource_2.user_permissions.reload.count).to be == 7
+    expect(@resource_1.user_permissions.reload.count).to be == 9
+    expect(@resource_2.user_permissions.reload.count).to be == 8
     expect(@resource_1.group_permissions.reload.count).to be == 4
     expect(@resource_2.group_permissions.reload.count).to be == 4
     expect(@resource_1.api_client_permissions.reload.count).to be == 4
