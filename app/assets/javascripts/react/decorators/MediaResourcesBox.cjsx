@@ -732,6 +732,7 @@ module.exports = React.createClass
         onSortItemClick={@onSortItemClick}
         selectedSort={order}
         enableOrdering={@props.enableOrdering}
+        enableOrderByManual={@props.enableOrderByManual}
         currentUrl={currentUrl}
         onLayoutClick={@onLayoutClick}
       />

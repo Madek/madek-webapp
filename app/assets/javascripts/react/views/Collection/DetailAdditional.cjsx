@@ -40,7 +40,9 @@ module.exports = React.createClass
         initial={ { show_filter: true } } mods={ [ {bordered: false}, 'rounded-bottom' ] }
         collectionData={collectionData}
         renderSwitcher={renderSwitcher}
-        enableOrdering={true} enableOrderByTitle={true}
+        enableOrdering={true}
+        enableOrderByTitle={true}
+        enableOrderByManual={true}
         showAllButton={true}
         showAddSetButton={true}
         />
