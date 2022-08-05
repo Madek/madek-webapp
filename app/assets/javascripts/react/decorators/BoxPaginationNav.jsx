@@ -9,6 +9,7 @@ import ActionsBar from '../ui-components/ActionsBar.cjsx'
 import Button from '../ui-components/Button.cjsx'
 import ButtonGroup from '../ui-components/ButtonGroup.cjsx'
 import Waypoint from 'react-waypoint'
+import Preloader from '../ui-components/Preloader.cjsx'
 
 class BoxPaginationNav extends React.Component {
 
@@ -32,21 +33,14 @@ class BoxPaginationNav extends React.Component {
       )
     }
 
-    var renderLoading = () => {
-      if(!isLoading) {
-        return t('pagination_nav_loadnext')
-      }
-      else {
-        return t('pagination_nav_nextloading')
-      }
-    }
-
     return (
       <div className='ui-actions'>
         {renderWaypoint()}
-        <Button onClick={this.props.onFetchNextPage}>
-          {renderLoading()}
-        </Button>
+        {isLoading ? (
+          <Preloader />
+        ) : (
+          <Button onClick={this.props.onFetchNextPage}>{t('pagination_nav_loadnext')}</Button>
+        )}
       </div>
     )
   }

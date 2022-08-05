@@ -25,6 +25,6 @@ psql -c "SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity
 psql -c "DROP DATABASE IF EXISTS $PGDATABASE"
 psql -c "CREATE DATABASE $PGDATABASE"
 # this is required to restore dumps from PG <= 10 into PG >= 11
-{ pg_restore --version | grep -q '11.' ;} && psql -d $PGDATABASE -c "DROP SCHEMA IF EXISTS \"public\";"
+{ pg_restore --version | grep -q -E '(11\.|12\.|13\.|14|.)' ;} && psql -d $PGDATABASE -c "DROP SCHEMA IF EXISTS \"public\";"
 pg_restore --disable-triggers -j $J -x -O -d $PGDATABASE $FILE
 bundle exec rake db:migrate
