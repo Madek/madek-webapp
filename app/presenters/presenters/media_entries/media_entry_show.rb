@@ -138,6 +138,12 @@ module Presenters
         relation_siblings_media_entry_path(@app_resource)
       end
 
+      def export_url
+        if policy_for(@user).export?
+          export_media_entry_path(@app_resource)
+        end
+      end
+
       def rdf_export_urls
         [
           {

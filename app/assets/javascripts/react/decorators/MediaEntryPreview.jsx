@@ -30,8 +30,8 @@ module.exports = React.createClass({
 
   render() {
     const { get, mediaProps, withLink, withZoomLink, isEmbedded } = this.props
-    const { image_url, title, media_type, type } = get
-    const { previews } = get.media_file
+    const { image_url, title, media_type, type, export_url } = get
+    const { previews, original_file_url } = get.media_file
 
     const classes = cx(this.props.mods)
 
@@ -56,14 +56,10 @@ module.exports = React.createClass({
         <ResourceIcon mediaType={media_type} thumbnail={false} type={type} />
       )
 
-    let originalUrl = null
-    if (this.props.get.media_file && this.props.get.media_file.original_file_url)
-      originalUrl = this.props.get.media_file.original_file_url
-
     const mediaPlayerConfig = f.merge(
       {
         poster: imageHref || image_url,
-        originalUrl: originalUrl
+        originalUrl: original_file_url
       },
       mediaProps
     )
@@ -98,17 +94,19 @@ module.exports = React.createClass({
       url={get.url} accessToken={get.used_confidential_access_token}
     />
 
-    const downloadRef = originalUrl ? originalUrl : get.url + '/export'
+    const downloadRef = original_file_url ? original_file_url : export_url
 
     const content =
       // PDF
       this.props.get.media_type == 'document' ? (
         <div className="ui-has-magnifier">
-          <a href={downloadRef}>{picture}</a>
-          <a href={downloadRef} className="ui-magnifier">
-            <Icon i="magnifier" mods="bright" />
-          </a>
-        </div>
+          {downloadRef ? <a href={downloadRef}>{picture}</a> : picture}
+          {downloadRef && (
+            <a href={downloadRef} className="ui-magnifier">
+              <Icon i="magnifier" mods="bright" />
+            </a>
+          )}
+         </div>
       ) : // video player
       previews.videos ? (
         <MediaPlayer
