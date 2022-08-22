@@ -30,9 +30,6 @@ gem 'react-rails', '= 1.9.0'
 gem 'sass'
 gem 'sass-rails'
 gem 'coffee-rails'
-gem 'mini_racer'
-# NOTE: if this fails, maybe try libv8 from source?
-# gem "libv8", github: "rubyjs/libv8", submodules: true
 
 # LINKED DATA
 gem 'json-ld'
