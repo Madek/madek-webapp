@@ -101,7 +101,7 @@ module.exports = {
     return null if mandatory
 
 
-    style = {float: 'right'}
+    style = {float: 'right', maxWidth: '195px'}
 
     _onChange = (event) ->
       event.preventDefault()
