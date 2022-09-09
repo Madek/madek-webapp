@@ -16,7 +16,7 @@ flyoutProps = React.PropTypes.shape({
 module.exports = React.createClass
   displayName: 'Thumbnail'
   propTypes:
-    type: React.PropTypes.oneOf(['MediaEntry', 'FilterSet', 'Collection']).isRequired
+    type: React.PropTypes.oneOf(['MediaEntry', 'Collection']).isRequired
     src: React.PropTypes.string
     mediaType: React.PropTypes.string
     mods: PropTypes.arrayOf(PropTypes.oneOf(['video']))

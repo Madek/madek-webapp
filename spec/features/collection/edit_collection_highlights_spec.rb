@@ -23,7 +23,6 @@ feature 'Collection: Edit Highlights' do
       check_row(rows, @media_entry2, false)
       check_row(rows, @media_entry3, false)
       check_row(rows, @collection1, false)
-      # check_row(rows, @filter_set1, false)
       expect(@collection.highlighted_media_entries.length).to eq(0)
     end
 
@@ -41,12 +40,10 @@ feature 'Collection: Edit Highlights' do
       check_row(rows, @media_entry2, false)
       check_row(rows, @media_entry3, false)
       check_row(rows, @collection1, false)
-      # check_row(rows, @filter_set1, false)
       expect(@collection.highlighted_media_entries.length).to eq(0)
 
       click_row(rows, @media_entry2)
       click_row(rows, @collection1)
-      # click_row(rows, @filter_set1)
 
       click_save
 
@@ -55,7 +52,6 @@ feature 'Collection: Edit Highlights' do
       @collection = Collection.find(@collection.id)
       check_media_entries([@media_entry2])
       check_collections([@collection1])
-      # check_filter_sets([@filter_set1])
 
       open_dialog(true)
       # rows = get_table_rows(5)
@@ -65,17 +61,14 @@ feature 'Collection: Edit Highlights' do
       check_row(rows, @media_entry2, true)
       check_row(rows, @media_entry3, false)
       check_row(rows, @collection1, true)
-      # check_row(rows, @filter_set1, true)
 
       click_row(rows, @media_entry2)
       click_row(rows, @collection1)
-      # click_row(rows, @filter_set1)
 
       click_save
       @collection = Collection.find(@collection.id)
       check_media_entries([])
       check_collections([])
-      check_filter_sets([])
 
       open_collection
     end
@@ -99,7 +92,6 @@ feature 'Collection: Edit Highlights' do
       check_show_highlights(true, [@media_entry])
       check_media_entries([@media_entry])
       check_collections([])
-      check_filter_sets([])
 
       @media_entry.get_metadata_and_previews = false
       @media_entry.save
@@ -114,7 +106,6 @@ feature 'Collection: Edit Highlights' do
       check_show_highlights(false, [])
       check_media_entries([@media_entry])
       check_collections([])
-      check_filter_sets([])
     end
 
     scenario 'do not show not viewable entries in edit dialog' do
@@ -174,10 +165,6 @@ feature 'Collection: Edit Highlights' do
 
   def check_collections(collections)
     check_shared(@collection.highlighted_collections, collections)
-  end
-
-  def check_filter_sets(filter_sets)
-    check_shared(@collection.highlighted_filter_sets, filter_sets)
   end
 
   def get_table_rows(expected_count)
@@ -251,13 +238,11 @@ feature 'Collection: Edit Highlights' do
     @media_entry2 = create_media_entry('MediaEntry2')
     @media_entry3 = create_media_entry('MediaEntry3')
     @collection1 = create_collection('Collection1')
-    # @filter_set1 = create_filter_set('FilterSet1')
     @collection = create_collection('Collection')
     @collection.media_entries << @media_entry1
     @collection.media_entries << @media_entry2
     @collection.media_entries << @media_entry3
     @collection.collections << @collection1
-    # @collection.filter_sets << @filter_set1
   end
 
 end

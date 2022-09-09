@@ -94,7 +94,6 @@ module Presenters
              session_list_config
              batch_edit_permissions_media_entries
              batch_edit_permissions_collections
-             filter_sets
              batch_update_transfer_responsibility_media_entries
              batch_update_transfer_responsibility_collections).map do |path_name|
                [path_name, send("#{path_name}_path")]

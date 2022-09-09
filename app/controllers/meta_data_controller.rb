@@ -46,7 +46,7 @@ class MetaDataController < ApplicationController
     meta_datum.destroy!
 
     subject_id = meta_datum.media_entry_id or \
-    meta_datum.collection_id or meta_datum.filter_set_id
+    meta_datum.collection_id
 
     redirect_to url_for(UuidHelper.find_resource_by_uuid(subject_id)),
                 status: 303, notice: 'Meta datum destroyed successfully'
@@ -66,14 +66,9 @@ class MetaDataController < ApplicationController
     params[:collection_id]
   end
 
-  def filter_set_id_param
-    params[:filter_set_id]
-  end
-
   def create_params
     { media_entry_id: media_entry_id_param,
       collection_id: collection_id_param,
-      filter_set_id: filter_set_id_param,
       meta_key_id: meta_key_id_param,
       type: type_param,
       value: raise_if_all_blanks_or_return_unchanged(value_param),

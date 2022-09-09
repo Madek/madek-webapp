@@ -20,11 +20,11 @@ describe MyController do
         :content_media_entries,
         :content_delegated_media_entries,
         :dashboard_header,
-        :content_collections, :content_filter_sets,
+        :content_collections,
         :content_delegated_collections,
         :latest_imports,
-        :favorite_media_entries, :favorite_collections, :favorite_filter_sets,
-        :entrusted_media_entries, :entrusted_collections, :entrusted_filter_sets,
+        :favorite_media_entries, :favorite_collections,
+        :entrusted_media_entries, :entrusted_collections,
         :groups_and_delegations,
         :used_keywords,
         :action,
@@ -65,11 +65,6 @@ describe MyController do
       expect(presented_entity my.content_collections.resources.first)
         .to eq @user.responsible_collections.reorder('created_at DESC').first
 
-      expect(my.content_filter_sets.resources.length)
-        .to be == @limit_for_dashboard
-      expect(my.content_filter_sets.resources.first.is_a?(Presenter)).to be true
-      expect(presented_entity my.content_filter_sets.resources.first)
-        .to eq @user.responsible_filter_sets.reorder('created_at DESC').first
     end
 
     it 'Meine letzten Importe' do
@@ -109,11 +104,6 @@ describe MyController do
       expect(presented_entity my.entrusted_collections.resources.first)
         .to eq Collection.entrusted_to_user(@user).reorder('created_at DESC').first
 
-      expect(my.entrusted_filter_sets.resources.length)
-        .to be == @limit_for_dashboard
-      expect(my.entrusted_filter_sets.resources.first.is_a?(Presenter)).to be
-      expect(presented_entity my.entrusted_filter_sets.resources.first)
-        .to eq FilterSet.entrusted_to_user(@user).reorder('created_at DESC').first
     end
 
     it 'Meine Gruppen' do
@@ -187,10 +177,6 @@ def create_data
     FactoryGirl.create :collection,
                        responsible_user: @user
   end
-  fake_many.times do
-    FactoryGirl.create :filter_set,
-                       responsible_user: @user
-  end
 
   # Imported Content
   fake_many.times do
@@ -227,26 +213,10 @@ def create_data
                      collection: FactoryGirl.create(:collection))
   end
 
-  fake_many.times do
-    FactoryGirl.create \
-      :filter_set_user_permission,
-      arg_hash.merge(user: @user,
-                     filter_set: FactoryGirl.create(:filter_set))
-  end
-
-  fake_many.times do
-    FactoryGirl.create \
-      :filter_set_group_permission,
-      arg_hash.merge(group: group,
-                     filter_set: FactoryGirl.create(:filter_set))
-  end
-
   @user.responsible_media_entries.sample(@limit_for_app_resources + 1)
     .each { |me| me.favor_by @user }
   @user.responsible_collections.sample(@limit_for_app_resources + 1)
     .each { |c| c.favor_by @user }
-  @user.responsible_filter_sets.sample(@limit_for_app_resources + 1)
-    .each { |fs| fs.favor_by @user }
 
   ##############################################################################
   # make keywords and use them in a meta_datum

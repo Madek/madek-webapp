@@ -28,7 +28,7 @@ module.exports = React.createClass
     fetchRelations: React.PropTypes.bool
     elm: React.PropTypes.string # type of html node of outer wrapper
     get: React.PropTypes.shape
-      type: React.PropTypes.oneOf(['MediaEntry', 'Collection', 'FilterSet'])
+      type: React.PropTypes.oneOf(['MediaEntry', 'Collection'])
     # TODO: consilidate with `get` (when used in uploader)
     resource: React.PropTypes.shape
       type: React.PropTypes.oneOf(['MediaEntry'])

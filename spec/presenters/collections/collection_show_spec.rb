@@ -89,8 +89,6 @@ describe Presenters::Collections::CollectionShow do
       expect(select_media_entries(@p.child_media_resources.resources).map(&:uuid))
         .to include @media_entry_1.id
 
-      expect(select_filter_sets(@p.child_media_resources.resources))
-        .to be_empty
     end
 
     it 'context collection_B' do
@@ -112,8 +110,6 @@ describe Presenters::Collections::CollectionShow do
       expect(select_media_entries(@p.child_media_resources.resources).map(&:uuid))
         .to include @media_entry_3.id
 
-      expect(select_filter_sets(@p.child_media_resources.resources))
-        .to be_empty
     end
 
     it 'context collection_C' do
@@ -135,8 +131,6 @@ describe Presenters::Collections::CollectionShow do
       expect(select_media_entries(@p.child_media_resources.resources).map(&:uuid))
         .to include @media_entry_4.id
 
-      expect(select_filter_sets(@p.child_media_resources.resources))
-        .to be_empty
     end
 
     it 'context collection_D' do
@@ -149,8 +143,6 @@ describe Presenters::Collections::CollectionShow do
       expect(select_media_entries(@p.child_media_resources.resources))
         .to be_empty
       expect(select_collections(@p.child_media_resources.resources))
-        .to be_empty
-      expect(select_filter_sets(@p.child_media_resources.resources))
         .to be_empty
     end
   end

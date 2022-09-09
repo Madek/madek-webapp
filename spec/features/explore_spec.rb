@@ -256,9 +256,6 @@ feature 'Page: Explore' do
       end
     end
 
-    pending 'shows simple lists of Entries, Collections and FilterSets' \
-      'with links to their indexes'
-
     specify 'Featured Set section contains "show all" link' do
       visit explore_path
 

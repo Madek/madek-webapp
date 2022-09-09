@@ -5,7 +5,6 @@ module Concerns
 
       include Concerns::Clipboard
 
-      # rubocop:disable Metrics/MethodLength
       def build_hash(user)
         {
           unpublished_media_entries: \
@@ -14,8 +13,6 @@ module Concerns
             user.responsible_media_entries,
           content_collections: \
             user.responsible_collections,
-          content_filter_sets: \
-            user.responsible_filter_sets,
           content_delegated_media_entries: \
             user.delegated_media_entries,
           content_delegated_collections: \
@@ -26,14 +23,10 @@ module Concerns
             user.favorite_media_entries,
           favorite_collections: \
             user.favorite_collections,
-          favorite_filter_sets: \
-            user.favorite_filter_sets,
           entrusted_media_entries: \
             MediaEntry.entrusted_to_user(user),
           entrusted_collections: \
             Collection.entrusted_to_user(user),
-          entrusted_filter_sets: \
-            FilterSet.entrusted_to_user(user),
           user_groups: user.groups,
           user_delegations: user.all_delegations,
           used_keywords: \
@@ -44,7 +37,6 @@ module Concerns
           clipboard: clipboard_collection(user).try(:child_media_resources)
         }
       end
-      # rubocop:enable Metrics/MethodLength
 
       def user_scopes_for_dashboard(user)
         @user_scopes ||= apply_policy_scope_on_hash \

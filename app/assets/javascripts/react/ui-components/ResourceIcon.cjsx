@@ -9,7 +9,7 @@ cx = require('classnames')
 module.exports = React.createClass
   displayName: 'ResourceIcon'
   propTypes:
-    type: React.PropTypes.oneOf(['MediaEntry', 'FilterSet', 'Collection']).isRequired
+    type: React.PropTypes.oneOf(['MediaEntry', 'Collection']).isRequired
     mediaType: React.PropTypes.string
 
   render: ({type, mediaType, overrideClasses} = @props)->
@@ -38,8 +38,6 @@ module.exports = React.createClass
           mediaTypeIcon = mediaTypeIconMapping(mediaType)
           <i className={cx('ui_media-type-icon', mediaTypeIcon, overrideClasses)} style={style} />
         when type is 'Collection'
-          <Icon i='set' mods={cx('ui_media-type-icon', overrideClasses)} style={style} />
-        when type is 'FilterSet'
           <Icon i='set' mods={cx('ui_media-type-icon', overrideClasses)} style={style} />
         else
           <Icon i='bang' mods={cx('ui_media-type-icon', overrideClasses)} style={style} />

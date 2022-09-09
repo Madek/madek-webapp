@@ -11,7 +11,6 @@ module Presenters
             case klass.name
             when 'MediaEntry' then Presenters::MediaEntries::MediaEntryIndex
             when 'Collection' then Presenters::Collections::CollectionIndex
-            when 'FilterSet' then Presenters::FilterSets::FilterSetIndex
             when 'MediaResource' then nil
             else
               raise 'Unknown resource type!'

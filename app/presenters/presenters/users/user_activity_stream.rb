@@ -49,7 +49,6 @@ module Presenters
 
       def edited_contents
         time_range_query(UserActivityStream.edits(@user)).map do |es|
-          # NOTE: ignores FilterSet
           resource = es.collection \
             || MediaEntry.unscoped.find_by_id(es.media_entry_id)
           next unless resource

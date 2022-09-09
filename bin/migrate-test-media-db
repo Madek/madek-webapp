@@ -1,0 +1,11 @@
+#!/bin/bash
+set -eux
+
+PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
+cd $PROJECT_DIR
+
+FILE="${PROJECT_DIR}/spec/_support/test_media/madek_test_media.pgbin"
+
+BINDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+FILE=$FILE $BINDIR/db-restore
+FILE=$FILE $BINDIR/db-dump

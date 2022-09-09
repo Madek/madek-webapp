@@ -32,7 +32,6 @@ class MetaDatumPolicy < DefaultPolicy
 
   def media_resource
     record.media_entry or
-      record.collection or
-      record.filter_set
+      record.collection
   end
 end

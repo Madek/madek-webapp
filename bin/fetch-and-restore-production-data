@@ -3,5 +3,5 @@ set -eu
 BINDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 FILE="tmp/latest.pgbin"
 FILE=$FILE $BINDIR/fetch-prod-dump
-FILE=$FILE $BINDIR/restore-dump
+FILE=$FILE $BINDIR/db-restore
 

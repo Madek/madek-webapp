@@ -167,13 +167,6 @@ Madek::Application.routes.draw do
     end
   end
 
-  resources :filter_sets, only: [:index, :show, :create] do
-    member do
-      get 'permissions', action: :permissions_show, as: 'permissions'
-      get 'permissions/edit', action: :permissions_edit, as: 'edit_permissions'
-    end
-  end
-
   resources :media_files, path: :files, only: :show
   resources :previews, path: 'media', only: :show
 

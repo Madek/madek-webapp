@@ -7,7 +7,6 @@ module Madek
       UI_GENERIC_THUMBNAIL = {
         # relative to `app/assets/images`
         collection: 'thumbnails/set.png',
-        filter_set: 'thumbnails/dev_todo.png',
         incomplete: 'thumbnails/dev_todo.png',
         unknown: 'thumbnails/document_unknown.png'
       }

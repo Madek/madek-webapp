@@ -42,22 +42,11 @@ describe Presenters::Collections::ChildMediaResources do
                            responsible_user: FactoryGirl.create(:user),
                            get_metadata_and_previews: false)
 
-      filter_set_1 = \
-        FactoryGirl.create(:filter_set,
-                           responsible_user: FactoryGirl.create(:user),
-                           get_metadata_and_previews: true)
-      filter_set_2 = \
-        FactoryGirl.create(:filter_set,
-                           responsible_user: FactoryGirl.create(:user),
-                           get_metadata_and_previews: false)
-
       p = described_class.new(
         MediaResource.where(id: [media_entry_1.id,
                                  media_entry_2.id,
                                  collection_1.id,
-                                 collection_2.id,
-                                 filter_set_1.id,
-                                 filter_set_2.id])
+                                 collection_2.id])
           .viewable_by_user_or_public(@user),
         @user,
         list_conf: {})
@@ -68,9 +57,6 @@ describe Presenters::Collections::ChildMediaResources do
       expect(select_collections(p.resources).length).to be == 1
       expect(select_collections(p.resources).map(&:uuid))
         .to include collection_1.id
-      expect(select_filter_sets(p.resources).length).to be == 1
-      expect(select_filter_sets(p.resources).map(&:uuid))
-        .to include filter_set_1.id
     end
 
     it 'user permission' do
@@ -92,15 +78,6 @@ describe Presenters::Collections::ChildMediaResources do
                            responsible_user: FactoryGirl.create(:user),
                            get_metadata_and_previews: false)
 
-      filter_set_1 = \
-        FactoryGirl.create(:filter_set,
-                           responsible_user: FactoryGirl.create(:user),
-                           get_metadata_and_previews: false)
-      filter_set_2 = \
-        FactoryGirl.create(:filter_set,
-                           responsible_user: FactoryGirl.create(:user),
-                           get_metadata_and_previews: false)
-
       FactoryGirl.create(:media_entry_user_permission,
                          media_entry: media_entry_1,
                          user: @user,
@@ -109,18 +86,12 @@ describe Presenters::Collections::ChildMediaResources do
                          collection: collection_1,
                          user: @user,
                          get_metadata_and_previews: true)
-      FactoryGirl.create(:filter_set_user_permission,
-                         filter_set: filter_set_1,
-                         user: @user,
-                         get_metadata_and_previews: true)
 
       p = described_class.new(
         MediaResource.where(id: [media_entry_1.id,
                                  media_entry_2.id,
                                  collection_1.id,
-                                 collection_2.id,
-                                 filter_set_1.id,
-                                 filter_set_2.id])
+                                 collection_2.id])
           .viewable_by_user_or_public(@user),
         @user,
         list_conf: {})
@@ -131,9 +102,6 @@ describe Presenters::Collections::ChildMediaResources do
       expect(select_collections(p.resources).length).to be == 1
       expect(select_collections(p.resources).map(&:uuid))
         .to include collection_1.id
-      expect(select_filter_sets(p.resources).length).to be == 1
-      expect(select_filter_sets(p.resources).map(&:uuid))
-        .to include filter_set_1.id
     end
 
     it 'group permission' do
@@ -155,15 +123,6 @@ describe Presenters::Collections::ChildMediaResources do
                            responsible_user: FactoryGirl.create(:user),
                            get_metadata_and_previews: false)
 
-      filter_set_1 = \
-        FactoryGirl.create(:filter_set,
-                           responsible_user: FactoryGirl.create(:user),
-                           get_metadata_and_previews: false)
-      filter_set_2 = \
-        FactoryGirl.create(:filter_set,
-                           responsible_user: FactoryGirl.create(:user),
-                           get_metadata_and_previews: false)
-
       group = FactoryGirl.create(:group)
       @user.groups << group
 
@@ -175,18 +134,12 @@ describe Presenters::Collections::ChildMediaResources do
                          collection: collection_1,
                          user: @user,
                          get_metadata_and_previews: true)
-      FactoryGirl.create(:filter_set_user_permission,
-                         filter_set: filter_set_1,
-                         user: @user,
-                         get_metadata_and_previews: true)
 
       p = described_class.new(
         MediaResource.where(id: [media_entry_1.id,
                                  media_entry_2.id,
                                  collection_1.id,
-                                 collection_2.id,
-                                 filter_set_1.id,
-                                 filter_set_2.id])
+                                 collection_2.id])
           .viewable_by_user_or_public(@user),
         @user,
         list_conf: {})
@@ -197,9 +150,6 @@ describe Presenters::Collections::ChildMediaResources do
       expect(select_collections(p.resources).length).to be == 1
       expect(select_collections(p.resources).map(&:uuid))
         .to include collection_1.id
-      expect(select_filter_sets(p.resources).length).to be == 1
-      expect(select_filter_sets(p.resources).map(&:uuid))
-        .to include filter_set_1.id
     end
 
     it 'responsible user' do
@@ -221,22 +171,11 @@ describe Presenters::Collections::ChildMediaResources do
                            responsible_user: FactoryGirl.create(:user),
                            get_metadata_and_previews: false)
 
-      filter_set_1 = \
-        FactoryGirl.create(:filter_set,
-                           responsible_user: @user,
-                           get_metadata_and_previews: false)
-      filter_set_2 = \
-        FactoryGirl.create(:filter_set,
-                           responsible_user: FactoryGirl.create(:user),
-                           get_metadata_and_previews: false)
-
       p = described_class.new(
         MediaResource.where(id: [media_entry_1.id,
                                  media_entry_2.id,
                                  collection_1.id,
-                                 collection_2.id,
-                                 filter_set_1.id,
-                                 filter_set_2.id])
+                                 collection_2.id])
           .viewable_by_user_or_public(@user),
         @user,
         list_conf: {})
@@ -247,9 +186,6 @@ describe Presenters::Collections::ChildMediaResources do
       expect(select_collections(p.resources).length).to be == 1
       expect(select_collections(p.resources).map(&:uuid))
         .to include collection_1.id
-      expect(select_filter_sets(p.resources).length).to be == 1
-      expect(select_filter_sets(p.resources).map(&:uuid))
-        .to include filter_set_1.id
     end
   end
 end

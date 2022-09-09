@@ -56,19 +56,6 @@ module BasicDataHelper
     collection
   end
 
-  def create_filter_set(title)
-    filter_set = FactoryGirl.create(
-      :filter_set,
-      responsible_user: @user,
-      creator: @user)
-    MetaDatum::Text.create!(
-      filter_set: filter_set,
-      string: title,
-      meta_key: meta_key_title,
-      created_by: @user)
-    filter_set
-  end
-
   def meta_key_title
     MetaKey.find_by(id: 'madek_core:title')
   end

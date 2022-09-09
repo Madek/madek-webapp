@@ -64,12 +64,6 @@ module Concerns
               Concerns::ResourceListParams::COLLECTIONS_ALLOWED_FILTER_PARAMS,
             href: my_dashboard_section_path(:content_collections)
           },
-          # content_filter_sets: {
-          #   title: I18n.t(:sitemap_my_content_filter_sets),
-          #   icon: 'icon-privacy-private',
-          #   partial: :media_resources,
-          #   href: my_dashboard_section_path(:content_filter_sets)
-          # },
           content_delegated_media_entries: !user_is_member_of_delegations ? nil : {
             title: I18n.t(:sitemap_my_delegated_media_entries),
             icon: 'icon-media-entry',
@@ -110,12 +104,6 @@ module Concerns
               Concerns::ResourceListParams::COLLECTIONS_ALLOWED_FILTER_PARAMS,
             href: my_dashboard_section_path(:favorite_collections)
           },
-          # favorite_filter_sets: {
-          #   title: I18n.t(:sitemap_my_favorite_filter_sets),
-          #   icon: 'icon-privacy-private',
-          #   partial: :media_resources,
-          #   href: my_dashboard_section_path(:favorite_filter_sets)
-          # },
           used_keywords: {
             title: I18n.t(:sitemap_my_used_keywords),
             section_title: I18n.t(:section_title_keywords),
@@ -139,12 +127,6 @@ module Concerns
               Concerns::ResourceListParams::COLLECTIONS_ALLOWED_FILTER_PARAMS,
             href: my_dashboard_section_path(:entrusted_collections)
           },
-          # entrusted_filter_sets: {
-          #   title: I18n.t(:sitemap_my_entrusted_filter_sets),
-          #   icon: 'icon-privacy-group',
-          #   partial: :media_resources,
-          #   href: my_dashboard_section_path(:entrusted_filter_sets)
-          # },
           groups: {
             title: I18n.t(:sitemap_my_groups),
             icon: 'icon-privacy-group',

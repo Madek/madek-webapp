@@ -9,9 +9,7 @@
     { get: Presenters::MediaEntries::MediaEntryIndex.new(
         MediaEntry.first, current_user) },
     { get: Presenters::Collections::CollectionIndex.new(
-        Collection.first, current_user) },
-    { get: Presenters::FilterSets::FilterSetIndex.new(
-        FilterSet.first, current_user) } ]
+        Collection.first, current_user) } ]
   }
 
 = render_partial('element', element) do

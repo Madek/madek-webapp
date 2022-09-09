@@ -17,9 +17,6 @@ module Concerns
           collection_highlights.each do |h|
             update_highlight_collection(h, collection)
           end
-          filter_set_highlights.each do |h|
-            update_highlight_filter_set(h, collection)
-          end
 
         end
 
@@ -43,15 +40,6 @@ module Concerns
           Arcs::CollectionCollectionArc,
           :child_id,
           :parent_id,
-          collection.id)
-      end
-
-      def update_highlight_filter_set(h, collection)
-        update_highlight(
-          h,
-          Arcs::CollectionFilterSetArc,
-          :filter_set_id,
-          :collection_id,
           collection.id)
       end
 
@@ -81,9 +69,6 @@ module Concerns
         highlights_params.select { |h| h[:type] == 'Collection' }
       end
 
-      def filter_set_highlights
-        highlights_params.select { |h| h[:type] == 'FilterSet' }
-      end
     end
   end
 end

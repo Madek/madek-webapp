@@ -6,8 +6,4 @@ RSpec.shared_context 'select media resources' do
   def select_collections(arr)
     arr.select { |el| el.is_a? Presenters::Collections::CollectionIndex }
   end
-
-  def select_filter_sets(arr)
-    arr.select { |el| el.is_a? Presenters::FilterSets::FilterSetIndex }
-  end
 end

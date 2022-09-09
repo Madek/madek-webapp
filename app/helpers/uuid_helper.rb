@@ -2,7 +2,6 @@ module UuidHelper
   SUPPORTED_REDIRECTION_CLASSES = [
     MediaEntry,
     Collection,
-    FilterSet,
     Person
   ]
 

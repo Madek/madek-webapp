@@ -45,13 +45,9 @@ describe CollectionsController do
       child_coll = create(:collection)
       @coll.collections << child_coll
 
-      fs = create(:filter_set)
-      @coll.filter_sets << fs
-
       # highlighted resources before:
       # media_entries: [me_h, me_h_2]
       # collections: []
-      # filter_sets: []
 
       put :update_highlights,
           params: {
@@ -73,17 +69,12 @@ describe CollectionsController do
                 id: child_coll.id,
                 type: 'Collection',
                 selected: true
-              }, {
-                id: fs.id,
-                type: 'FilterSet',
-                selected: true
               }] },
           session: { user_id: @user.id }
 
       # highlighted resources after:
       # media_entries: [me, me_h]
       # collections: [child_coll]
-      # filter_sets: [fs]
 
       expect(response).to be_redirect
       @coll.reload
@@ -91,7 +82,6 @@ describe CollectionsController do
       expect(@coll.highlighted_media_entries).to include me_h
       expect(@coll.highlighted_media_entries).not_to include me_h_2
       expect(@coll.highlighted_collections).to include child_coll
-      expect(@coll.highlighted_filter_sets).to include fs
     end
 
     it 'raises if resource not in arcs' do

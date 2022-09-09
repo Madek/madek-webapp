@@ -1,24 +1,15 @@
 #!/usr/bin/env bash
 
-set -eu
+set -eux
+
+PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
+cd $PROJECT_DIR
 
 FILE=${FILE:-tmp/latest.pgbin}
 RAILS_ENV=development
 bundle exec rake db:create || true
 bundle exec rake db:environment:set
-bundle exec rails runner "IO.write('tmp/db.conf', Rails.configuration.database_configuration[Rails.env].to_json)"
-DBCONFIG=$(cat 'tmp/db.conf')
-echo $DBCONFIG
-PGDATABASE=$(echo $DBCONFIG | jq -r .database)
-PGPORT=$(echo $DBCONFIG | jq -r .port)
-PGUSER=$(echo $DBCONFIG | jq -r .username)
-PGPASSWORD=$(echo $DBCONFIG | jq -r .password)
-J=$(ruby -e "require 'etc'; print((Etc.nprocessors/2.0).ceil) & STDOUT.flush")
-echo "PGDATABASE=$PGDATABASE"
-echo "PGPORT=$PGPORT"
-echo "PGUSER=$PGUSER"
-echo "PGPASSWORD=$PGPASSWORD"
-echo "J=$J"
+source $PROJECT_DIR/bin/pg_env
 # echo "ENTER to continue; abort with CTRL-C"
 # read
 psql -c "SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = '$PGDATABASE' AND pid <> pg_backend_pid();"

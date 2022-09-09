@@ -1,0 +1,18 @@
+PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
+cd $PROJECT_DIR
+
+bundle exec rails runner "IO.write('tmp/db.conf', Rails.configuration.database_configuration[Rails.env].to_json)"
+DBCONFIG=$(cat 'tmp/db.conf')
+echo $DBCONFIG
+PGDATABASE=$(echo $DBCONFIG | jq -r .database)
+PGPORT=$(echo $DBCONFIG | jq -r .port)
+PGUSER=$(echo $DBCONFIG | jq -r .username)
+PGPASSWORD=$(echo $DBCONFIG | jq -r .password)
+J=$(ruby -e "require 'etc'; print((Etc.nprocessors/2.0).ceil) & STDOUT.flush")
+echo "PGDATABASE=$PGDATABASE"
+echo "PGPORT=$PGPORT"
+echo "PGUSER=$PGUSER"
+echo "PGPASSWORD=$PGPASSWORD"
+echo "J=$J"
+
+# vim: filetype=sh

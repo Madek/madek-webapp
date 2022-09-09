@@ -58,7 +58,7 @@ module.exports = {
       showAddSetButton: React.PropTypes.bool,
       get: React.PropTypes.shape({
         // resources: React.PropTypes.array # TODO: array of ampersandCollection
-        type: React.PropTypes.oneOf(['MediaEntries', 'Collections', 'FilterSets', 'MediaResources']),
+        type: React.PropTypes.oneOf(['MediaEntries', 'Collections', 'MediaResources']),
         has_user: React.PropTypes.bool, // toggles actions, hover, flyout
         can_filter: React.PropTypes.bool, // if true, get.resources can be filtered
         config: React.PropTypes.shape(viewConfigProps), // <- config that is part of the URL!

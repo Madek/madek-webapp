@@ -4,8 +4,7 @@ module Presenters
 
       def subject_media_resource
         resource = @app_resource.media_entry or
-                    @app_resource.collection or
-                    @app_resource.filter_set
+                    @app_resource.collection
         presenter = "Presenters::MediaEntries::#{resource.class.name}Index"
         presenter.constantize.new(resource, @user)
       end

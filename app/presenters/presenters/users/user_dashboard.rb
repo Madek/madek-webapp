@@ -84,11 +84,6 @@ module Presenters
           @user_scopes[:content_collections], disable_file_search: true)
       end
 
-      def content_filter_sets
-        return unless @is_async_attribute
-        presenterify @user_scopes[:content_filter_sets]
-      end
-
       def content_delegated_media_entries
         return unless @is_async_attribute
         presenterify @user_scopes[:content_delegated_media_entries]
@@ -115,11 +110,6 @@ module Presenters
           @user_scopes[:favorite_collections], disable_file_search: true)
       end
 
-      def favorite_filter_sets
-        return unless @is_async_attribute
-        presenterify @user_scopes[:favorite_filter_sets]
-      end
-
       def entrusted_media_entries
         return unless @is_async_attribute
         presenterify @user_scopes[:entrusted_media_entries]
@@ -129,11 +119,6 @@ module Presenters
         return unless @is_async_attribute
         presenterify(
           @user_scopes[:entrusted_collections], disable_file_search: true)
-      end
-
-      def entrusted_filter_sets
-        return unless @is_async_attribute
-        presenterify @user_scopes[:entrusted_filter_sets]
       end
 
       # def clipboard

@@ -216,12 +216,6 @@ module.exports = React.createClass
 
 
           {
-            # {if showActions.save
-            #   <MenuItem className="separator"/>}
-            # {if showActions.save
-            #   <MenuItem onClick={(if f.present(config.filter) then f.curry(callbacks.onCreateFilterSet)(config))}>
-            #     <Icon i="filter" mods="ui-drop-icon"/> {t('resources_box_batch_actions_save')}
-            #   </MenuItem>}
             null
           }
 

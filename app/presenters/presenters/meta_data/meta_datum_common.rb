@@ -9,8 +9,7 @@ module Presenters
       delegate_to_app_resource(:meta_key_id,
                                :type,
                                :media_entry_id,
-                               :collection_id,
-                               :filter_set_id)
+                               :collection_id)
 
       def meta_key
         Presenters::MetaKeys::MetaKeyCommon.new(@app_resource.meta_key)

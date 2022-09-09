@@ -6,12 +6,11 @@ examples:
   props:
     get:
       fixed_selection: false
-      url: 
+      url:
       meta_key_id: madek_core:keywords
       type: MetaDatum::Keywords
-      media_entry_id: 
-      collection_id: 
-      filter_set_id: 
+      media_entry_id:
+      collection_id:
       values: []
       literal_values: []
       meta_key:
@@ -27,9 +26,9 @@ examples:
         type: MetaKey
         uuid: madek_core:keywords
         _presenter: Presenters::MetaKeys::MetaKeyCommon
-      uuid: 
-      created_at: 
-      updated_at: 
+      uuid:
+      created_at:
+      updated_at:
       _presenter: Presenters::MetaData::MetaDatumEdit
 - name: core_keywords_with_existing_values
   description: "Core Keywords, with existing value | madek_core:keywords\nextensible,
@@ -37,12 +36,11 @@ examples:
   props:
     get:
       fixed_selection: false
-      url: 
+      url:
       meta_key_id: madek_core:keywords
       type: MetaDatum::Keywords
-      media_entry_id: 
-      collection_id: 
-      filter_set_id: 
+      media_entry_id:
+      collection_id:
       values:
       - label: Kunst
         url: "/vocabulary/madek_core:keywords/Kunst"
@@ -66,9 +64,9 @@ examples:
         type: MetaKey
         uuid: madek_core:keywords
         _presenter: Presenters::MetaKeys::MetaKeyCommon
-      uuid: 
-      created_at: 
-      updated_at: 
+      uuid:
+      created_at:
+      updated_at:
       _presenter: Presenters::MetaData::MetaDatumEdit
 - name: keywords_fresh
   description: "Keywords, with no keywords | example:keywords_fresh\nextensible, keyword_count:
@@ -76,12 +74,11 @@ examples:
   props:
     get:
       fixed_selection: false
-      url: 
+      url:
       meta_key_id: example:keywords_fresh
       type: MetaDatum::Keywords
-      media_entry_id: 
-      collection_id: 
-      filter_set_id: 
+      media_entry_id:
+      collection_id:
       values: []
       literal_values: []
       meta_key:
@@ -96,9 +93,9 @@ examples:
         type: MetaKey
         uuid: example:keywords_fresh
         _presenter: Presenters::MetaKeys::MetaKeyCommon
-      uuid: 
-      created_at: 
-      updated_at: 
+      uuid:
+      created_at:
+      updated_at:
       _presenter: Presenters::MetaData::MetaDatumEdit
 - name: keywords_fixed_few
   description: "Keyword, fixed with few keywords  | example:keywords_fixed_few\nwith
@@ -192,12 +189,11 @@ examples:
         created_at: '2016-11-04T19:30:01.941Z'
         updated_at: '2016-11-04T19:30:01.941Z'
         _presenter: Presenters::Keywords::KeywordIndex
-      url: 
+      url:
       meta_key_id: example:keywords_fixed_few
       type: MetaDatum::Keywords
-      media_entry_id: 
-      collection_id: 
-      filter_set_id: 
+      media_entry_id:
+      collection_id:
       values:
       - label: A
         url: "/vocabulary/example:keywords_fixed_few/A"
@@ -236,9 +232,9 @@ examples:
         type: MetaKey
         uuid: example:keywords_fixed_few
         _presenter: Presenters::MetaKeys::MetaKeyCommon
-      uuid: 
-      created_at: 
-      updated_at: 
+      uuid:
+      created_at:
+      updated_at:
       _presenter: Presenters::MetaData::MetaDatumEdit
 - name: keywords_fixed_many
   description: "Keyword, fixed with more than 16 keywords  | example:keywords_fixed_many\nwith
@@ -431,12 +427,11 @@ examples:
         created_at: '2016-11-04T19:30:01.941Z'
         updated_at: '2016-11-04T19:30:01.941Z'
         _presenter: Presenters::Keywords::KeywordIndex
-      url: 
+      url:
       meta_key_id: example:keywords_fixed_many
       type: MetaDatum::Keywords
-      media_entry_id: 
-      collection_id: 
-      filter_set_id: 
+      media_entry_id:
+      collection_id:
       values:
       - label: A
         url: "/vocabulary/example:keywords_fixed_many/A"
@@ -475,7 +470,7 @@ examples:
         type: MetaKey
         uuid: example:keywords_fixed_many
         _presenter: Presenters::MetaKeys::MetaKeyCommon
-      uuid: 
-      created_at: 
-      updated_at: 
+      uuid:
+      created_at:
+      updated_at:
       _presenter: Presenters::MetaData::MetaDatumEdit
