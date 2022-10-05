@@ -64,20 +64,6 @@ describe KeywordsController do
         expect(response).to redirect_to(vocabulary_meta_key_term_show_path(current_obj))
       end
     end
-
-    context 'when previous id does not exist for some reason' do
-      it 'raises ActiveRecord::RecordNotFound error' do
-        previous_obj = create(:keyword)
-        current_obj = create(:keyword)
-
-        previous_obj.merge_to(current_obj)
-        current_obj.previous.first.update_column(:keyword_id, SecureRandom.uuid)
-
-        expect do
-          get(:show, params: { keyword_id: previous_obj.id }, session: { user_id: user.id })
-        end.to raise_error(ActiveRecord::RecordNotFound)
-      end
-    end
   end
 
   context 'responds to search with json' do

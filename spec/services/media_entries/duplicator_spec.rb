@@ -143,7 +143,7 @@ describe MediaEntries::Duplicator do
                 expect(
                   new_md
                     .meta_data_keywords
-                    .find_by(keyword: mdk.keyword, created_by: mdk.created_by)
+                    .find_by(keyword: mdk.keyword)
                 ).to be
               end
             end
@@ -184,7 +184,6 @@ describe MediaEntries::Duplicator do
                   new_md.meta_data_roles.find_by(
                     person: mdr.person,
                     role: mdr.role,
-                    created_by: mdr.created_by,
                     position: mdr.position
                   )
                 ).to be
@@ -387,7 +386,6 @@ def find_new_md_for(resource, like:)
       type: like.type,
       meta_key: like.meta_key,
       string: like.string,
-      json: like.json,
-      created_by: like.created_by
+      json: like.json
     )
 end

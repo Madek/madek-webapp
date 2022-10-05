@@ -31,19 +31,6 @@ describe PeopleController do
         expect(response).to redirect_to(person_path(current_obj))
       end
     end
-
-    context 'when previous id does not exist for some reason' do
-      it 'raises ActiveRecord::RecordNotFound error' do
-        previous_obj = create(:person)
-        current_obj = create(:person)
-
-        previous_obj.merge_to(current_obj)
-        current_obj.previous.first.update_column(:person_id, SecureRandom.uuid)
-
-        expect { get(:show, params: { id: previous_obj.id }, session: { user_id: user.id }) }
-          .to raise_error(ActiveRecord::RecordNotFound)
-      end
-    end
   end
 
   context 'Resource: People - responds to search with json' do

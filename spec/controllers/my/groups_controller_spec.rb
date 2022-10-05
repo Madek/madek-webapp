@@ -40,19 +40,6 @@ describe My::GroupsController do
         expect(response).to redirect_to(my_group_path(current_obj))
       end
     end
-
-    context 'when previous id does not exist for some reason' do
-      it 'raises ActiveRecord::RecordNotFound error' do
-        previous_obj = create(:group)
-        current_obj = create(:group)
-
-        previous_obj.merge_to(current_obj)
-        current_obj.previous.first.update_column(:group_id, SecureRandom.uuid)
-
-        expect { get(:show, params: { id: previous_obj.id }, session: { user_id: user.id }) }
-          .to raise_error(ActiveRecord::RecordNotFound)
-      end
-    end
   end
 
   describe '#create' do
