@@ -94,8 +94,8 @@ feature 'Resource: MediaEntry' do
 
       expect(only_relevant_metadata(media_file.meta_data))
         .to eq only_relevant_metadata(extractor)
-      expect(media_file.width).to be == extractor[:image_width]
-      expect(media_file.height).to be == extractor[:image_height]
+      expect(media_file.width).to be == 480
+      expect(media_file.height).to be == 360
 
       # file and previews ######################################################
       original_dir = Madek::Constants::FILE_STORAGE_DIR.join(media_file.guid.first)
