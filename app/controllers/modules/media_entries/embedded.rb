@@ -91,7 +91,7 @@ module Modules
           .dump.merge(authToken: nil)
 
         has_player = ['audio', 'video'].include?(@get[:media_type])
-        render(has_player ? 'embedded' : 'embedded_tiled')
+        render(has_player ? 'embedded' : 'embedded_image')
       rescue StandardError
         return embedded_error_message # ensure all errors are handled with custom view
       end

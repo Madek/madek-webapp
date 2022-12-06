@@ -1,4 +1,4 @@
-// NOTE: only for images (old design with tile, part of main style)
+// NOTE: only for embedded images
 
 body[data-r="media_entries"][data-a="embedded"]
   background: transparent
@@ -10,10 +10,46 @@ body[data-r="media_entries"][data-a="embedded"]
   width: 100%
   min-width: initial
 
-  .ui-tile
-    +box-shadow(none)
-    .ui-tile__flags
-      .ui-tile__flag
-        margin-top: 8px
-      &:hover
-        color: inherit
+.embed-box 
+  display: flex
+  flex-direction: column
+
+  &__img-container
+    flex: auto 1 0
+    position: relative
+
+  &__img
+    display: block
+    position: absolute
+    max-height: 100%
+    max-width: 100%
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+    margin: auto
+
+  &__caption
+    flex: auto 0 0
+
+  &--responsive-height
+    .embed-box__img
+      position: static
+
+.embed-box-caption 
+  box-sizing: border-box
+  height: 55px
+  padding: 6px 12px
+  text-decoration: none !important
+  &__icon
+    float: right
+    padding: 6px 0 12px 0
+  &__title
+    font-weight: 600
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+  &__subtitle
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
