@@ -1,0 +1,18 @@
+traits:
+  asdf: true
+scripts:
+  geckodriver-asdf-install:
+    exclusive_executor_resource: asdf-geckodriver
+    body: |
+      #!/usr/bin/env bash
+      set -euxo pipefail
+      if [[ ! -d ~/.asdf/plugins/geckodriver ]]; then
+        asdf plugin add geckodriver https://github.com/DrTom/asdf-geckodriver.git
+      else
+        asdf plugin update geckodriver
+      fi
+      asdf install geckodriver
+  test:
+    start_when:
+      geckodriver is installed:
+        script_key: geckodriver-asdf-install

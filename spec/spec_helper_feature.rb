@@ -31,6 +31,9 @@ def truncate_tables
   PgTasks.truncate_tables
 end
 
+firefox_bin_path = Pathname.new(`asdf where firefox`.strip).join('bin/firefox').expand_path.to_s
+Selenium::WebDriver::Firefox.path = firefox_bin_path
+
 RSpec.configure do |config|
   config.use_transactional_fixtures = false
   config.infer_base_class_for_anonymous_controllers = true
@@ -42,10 +45,6 @@ RSpec.configure do |config|
       browser: :firefox,
       desired_capabilities:
         Selenium::WebDriver::Remote::Capabilities.firefox(marionette: false))
-  end
-
-  if ENV['FIREFOX_ESR_45_PATH'].present?
-    Selenium::WebDriver::Firefox.path = ENV['FIREFOX_ESR_45_PATH']
   end
 
   Capybara.register_driver :selenium_ff do |app|

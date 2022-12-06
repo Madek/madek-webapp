@@ -1,7 +1,9 @@
 # Delivery Tests
 
 task_defaults:
-  traits: { g2016: yes } # only compile on fastest machines
+  include:
+    - cider-ci/task-components/firefox.yml
+    - cider-ci/task-components/nodejs.yml
 
 contexts:
   'Assets':
@@ -9,13 +11,11 @@ contexts:
     tasks:
       assets_manifest:
         name: 'Assets are precompiled and checked in'
-        traits: { npm: yes }
         scripts:
           test:
             timeout: 10 Minutes
             body: |
               set -exu
-              export PATH=~/.rubies/$RUBY/bin:$PATH
               mv public/assets tmp/static_assets
               bin/precompile-assets
               cider-ci/bin/check-precompiled-assets tmp/static_assets public/assets
@@ -45,9 +45,6 @@ contexts:
             body: |
               #!/usr/bin/env bash
               set -eux
-              export PATH=~/.rubies/$RUBY/bin:$PATH
-
-
               # NOTE: quickfix for a problem only in the CI: in the JSON output, there is a line prepended with just the string "true"
               # this is strange but no really worth investigation, just remove the string with `sed`.
               # (This started when upgrading from ruby 2.6 to ruby 2.7 which seems nosensical).

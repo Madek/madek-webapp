@@ -3,6 +3,9 @@
 include: cider-ci/context-components/rails-setup.yml
 
 task_defaults:
+  include:
+    - cider-ci/task-components/firefox.yml
+    - cider-ci/task-components/nodejs.yml
   environment_variables:
     # timezone. must be non-UTC, chosen to be local time for devs
     TZ: 'CET'
@@ -16,12 +19,6 @@ task_defaults:
     logs:
       include_match: '^logs?\/.+\.log$'
       content_type: text/plain
-    config:
-      include_match: '^config\/.+\.ya?ml$'
-      content_type: text/yaml
-    json:
-      include_match: '^tmp\/spec_artefacts\/.+\.json'
-      content_type: application/json
 
   scripts:
     test:
@@ -29,7 +26,6 @@ task_defaults:
       body: |
         #!/usr/bin/env bash
         set -eux
-        export PATH=~/.rubies/$RUBY/bin:$PATH
         mkdir -p log
         xvfb-run -a -e log/xvfb.log \
           -s "-ac -screen 0 $XVFB_SCREEN_CONF" \

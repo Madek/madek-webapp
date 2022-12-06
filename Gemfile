@@ -47,8 +47,6 @@ gem 'pundit'
 gem 'rubyzip'
 gem 'uglifier'
 
-# fixes
-gem 'unf_ext', '>= 0.0.7.4' # indirect dependcy, but define here to force version new enough to run on ARM processors
 
 ####################################################################
 # TEST or DEVELOPMENT only

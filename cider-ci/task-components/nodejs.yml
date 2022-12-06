@@ -1,0 +1,18 @@
+traits:
+  asdf: true
+scripts:
+  nodejs-asdf-install:
+    exclusive_executor_resource: asdf-nodejs
+    body: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      if [[ ! -d ~/.asdf/plugins/nodejs ]]; then
+        asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+      else
+        asdf plugin update nodejs
+      fi
+      asdf install nodejs
+  test:
+    start_when:
+      nodejs is installed:
+        script_key: nodejs-asdf-install
