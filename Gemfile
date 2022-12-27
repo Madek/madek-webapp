@@ -8,8 +8,8 @@ eval_gemfile(SHARED_GEMFILE) if File.exists?(SHARED_GEMFILE)
 
 # Engines
 gem 'configuration_management_backdoor',
-    '= 4.0.0',
-    git: 'https://github.com/Madek/rails_configuration-management-backdoor'
+    git: 'https://github.com/Madek/rails_configuration-management-backdoor',
+    branch: 'mk/master'
 
 # API
 gem 'responders'
@@ -44,7 +44,7 @@ gem 'git'
 gem 'json'
 gem 'kaminari'
 gem 'pundit'
-gem 'rubyzip'
+gem 'rubyzip', '~> 1.0'
 gem 'uglifier'
 
 
@@ -55,7 +55,7 @@ gem 'uglifier'
 group :test do
   gem 'capybara', '~> 2.18'
   gem 'rails-controller-testing'
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '2.53.4'
 end
 
 gem 'poltergeist', groups: [:test, :development]

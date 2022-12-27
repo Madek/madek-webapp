@@ -81,7 +81,7 @@ describe KeywordsController do
           session: { user_id: user.id }
 
       assert_response :success
-      expect(response.content_type).to be == 'application/json'
+      expect(response.content_type).to be == 'application/json; charset=utf-8'
       result = JSON.parse(response.body)
 
       expect(result.size).to be == 1
@@ -165,7 +165,7 @@ describe KeywordsController do
           session: { user_id: user.id }
 
       assert_response :success
-      expect(response.content_type).to be == 'application/json'
+      expect(response.content_type).to be == 'application/json; charset=utf-8'
       result = JSON.parse(response.body)
 
       expect(result.size).to be == 3
@@ -181,7 +181,7 @@ describe KeywordsController do
           session: { user_id: user.id }
 
       assert_response :success
-      expect(response.content_type).to be == 'application/json'
+      expect(response.content_type).to be == 'application/json; charset=utf-8'
       result = JSON.parse(response.body)
       expect(result.size).to be == 1
     end
@@ -194,7 +194,7 @@ describe KeywordsController do
           session: { user_id: user.id }
 
       assert_response :success
-      expect(response.content_type).to be == 'application/json'
+      expect(response.content_type).to be == 'application/json; charset=utf-8'
       result = JSON.parse(response.body)
       expect(result.size).to be == 100
     end

@@ -26,7 +26,7 @@ describe MediaEntriesController do
             session: { user_id: user.id }
           )
 
-          expect(response.content_type).to eq('text/plain')
+          expect(response.content_type).to eq('text/plain; charset=utf-8')
         end
       end
 
@@ -59,7 +59,7 @@ describe MediaEntriesController do
             session: { user_id: user.id }
           )
 
-          expect(response.content_type).to eq('text/plain')
+          expect(response.content_type).to eq('text/plain; charset=utf-8')
         end
       end
 
@@ -92,7 +92,7 @@ describe MediaEntriesController do
             session: { user_id: user.id }
           )
 
-          expect(response.content_type).to eq('text/plain')
+          expect(response.content_type).to eq('text/plain; charset=utf-8')
         end
       end
 
@@ -104,7 +104,7 @@ describe MediaEntriesController do
             session: { user_id: user.id }
           )
 
-          expect(response.content_type).to start_with('application/json')
+          expect(response.content_type).to start_with('application/json; charset=utf-8')
           expect(response.headers['Content-Disposition'])
             .to eq("attachment; filename=#{media_entry.id}.ld.json")
         end

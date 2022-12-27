@@ -14,7 +14,7 @@ describe UsersController do
             format: :json }
 
       assert_response :success
-      expect(response.content_type).to be == 'application/json'
+      expect(response.content_type).to be == 'application/json; charset=utf-8'
       result = JSON.parse(response.body)
       expect(result.size).to be == 1
       expect(result.first['login']).to be == user.login
@@ -28,7 +28,7 @@ describe UsersController do
             format: :json }
 
       assert_response :success
-      expect(response.content_type).to be == 'application/json'
+      expect(response.content_type).to be == 'application/json; charset=utf-8'
       result = JSON.parse(response.body)
       expect(result.size).to be == 1
       expect(result.first['login']).to be == user.login
@@ -48,7 +48,7 @@ describe UsersController do
               format: :json }
 
         assert_response :success
-        expect(response.content_type).to be == 'application/json'
+        expect(response.content_type).to be == 'application/json; charset=utf-8'
         result = JSON.parse(response.body)
         expect(result.size).to be == 1
         expect(result.first['uuid']).to eq user.id
@@ -66,7 +66,7 @@ describe UsersController do
               format: :json }
 
         assert_response :success
-        expect(response.content_type).to be == 'application/json'
+        expect(response.content_type).to be == 'application/json; charset=utf-8'
         result = JSON.parse(response.body)
         expect(result.size).to be == 1
         expect(result.first['uuid']).to eq user.id
@@ -84,7 +84,7 @@ describe UsersController do
               format: :json }
 
         assert_response :success
-        expect(response.content_type).to be == 'application/json'
+        expect(response.content_type).to be == 'application/json; charset=utf-8'
         result = JSON.parse(response.body)
         expect(result.size).to be == 1
         expect(result.first['uuid']).to eq user.id
@@ -101,8 +101,8 @@ describe UsersController do
               search_term: user.login,
               format: :json }
 
-        expect(response).to be_success
-        expect(response.content_type).to eq 'application/json'
+        expect(response).to be_successful
+        expect(response.content_type).to eq 'application/json; charset=utf-8'
         result = JSON.parse(response.body)
         expect(result).to eq []
       end
@@ -114,8 +114,8 @@ describe UsersController do
               search_also_in_person: true,
               format: :json }
 
-        expect(response).to be_success
-        expect(response.content_type).to eq 'application/json'
+        expect(response).to be_successful
+        expect(response.content_type).to eq 'application/json; charset=utf-8'
         result = JSON.parse(response.body)
         expect(result).to eq []
       end

@@ -10,8 +10,11 @@ Bundler.require(*Rails.groups)
 module Madek
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.2
+    config.load_defaults 6.0
+    config.autoloader = :classic
+
     config.active_record.belongs_to_required_by_default = false
+    config.active_record.yaml_column_permitted_classes = [Time]
     config.assets.unknown_asset_fallback = true
 
     # Use the responders controller from the responders gem

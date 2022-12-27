@@ -14,7 +14,7 @@ describe ConfidentialLinksController do
         it 'renders template' do
           get :new, params: { id: resource.id }, session: { user_id: user.id }
 
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response)
             .to render_template 'media_entries/new_confidential_link'
         end

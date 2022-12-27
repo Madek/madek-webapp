@@ -22,7 +22,7 @@ describe ApiTokensController do
           session: { user_id: user.id })
 
         assert_response :success
-        expect(response.content_type).to be == 'application/json'
+        expect(response.content_type).to be == 'application/json; charset=utf-8'
 
         token = ApiToken.where(user: user).last
         expect(token.user.id).to eq user.id
@@ -67,7 +67,7 @@ describe ApiTokensController do
         expect(token.revoked).to be true
 
         assert_response :success
-        expect(response.content_type).to be == 'application/json'
+        expect(response.content_type).to be == 'application/json; charset=utf-8'
 
         result = JSON.parse(response.body)
         expect(result['type']).to eq 'ApiToken'

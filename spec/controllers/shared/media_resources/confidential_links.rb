@@ -12,7 +12,7 @@ shared_examples 'confidential urls' do
         get action_name,
             params: confidential_link_params(action_name, cf_link.token)
 
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response).to render_template(action_name)
       end
 
@@ -74,7 +74,7 @@ shared_examples 'confidential urls' do
               params: { id: resource.id },
               session: { user_id: @user.id }
 
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response).to render_template :confidential_links
         end
       end
