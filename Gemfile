@@ -8,8 +8,7 @@ eval_gemfile(SHARED_GEMFILE) if File.exists?(SHARED_GEMFILE)
 
 # Engines
 gem 'configuration_management_backdoor',
-    git: 'https://github.com/Madek/rails_configuration-management-backdoor',
-    branch: 'mk/master'
+    git: 'https://github.com/Madek/rails_configuration-management-backdoor'
 
 # API
 gem 'responders'
