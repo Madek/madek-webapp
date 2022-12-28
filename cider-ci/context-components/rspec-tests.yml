@@ -105,18 +105,16 @@ tasks:
         min: 31000
         max: 31337
     scripts:
-      configure_file_storage:
+      configure_server_port:
         body: |
           echo "madek_external_base_url: 'http://localhost:${CAPYBARA_SERVER_PORT}'" >> config/settings.local.yml
-          echo "default_storage_dir: 'spec/_support/test_media/file_storage'" >> config/settings.local.yml
-          echo "file_storage_dir: 'spec/_support/test_media/file_storage/originals'" >> config/settings.local.yml
-          echo "thumbnail_storage_dir: 'spec/_support/test_media/file_storage/thumbnails'" >> config/settings.local.yml
       test:
         start_when:
-          file_storage has been configured: { script_key: configure_file_storage }
+          server port has been configured: { script_key: configure_server_port }
 
   spec/features/embed_player/embed_player_interaction_spec.rb: *EMBED_PLAYER_CONFIG
   spec/features/embed_player/embed_error_ui_spec.rb: *EMBED_PLAYER_CONFIG
+  spec/features/embed_player/embed_image_player_spec.rb: *EMBED_PLAYER_CONFIG
 
   spec/features/errors/errors_spec.rb:
     scripts:

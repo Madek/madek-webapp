@@ -1,7 +1,9 @@
 require_relative './_shared'
 
-feature 'Embed aka. "Madek-Player"', with_db: :test_media do
-  let(:video_entry) { MediaEntry.find('29b7522c-84eb-4abd-89e0-9285075813ac') }
+feature 'Embed aka. "Madek-Player"' do
+  let :video_entry do
+    FactoryGirl.create(:embed_test_video_entry)
+  end
 
   context 'video player interaction' do
     it 'starts with SD resolution and can change to HD' do

@@ -2,11 +2,15 @@ require_relative './_shared'
 
 # NOTE: there is also a spec for the oEmbed API!
 #       this only tests the HTML output that is served from oEmbed (iframe etc)
-feature 'Embed aka. "Madek-Player"', with_db: :test_media do
-  let(:video_entry) { MediaEntry.find('29b7522c-84eb-4abd-89e0-9285075813ac') }
+feature 'Embed aka. "Madek-Player"' do
+  let :video_entry do
+    FactoryGirl.create(:embed_test_video_entry)
+  end
   VIDEO_CAPTION = 'madek-test-video Madek Team — Public Domain'.freeze
 
-  let(:audio_entry) { MediaEntry.find('103034cd-badd-4299-aef0-d414a606d4e5') }
+  let :audio_entry do
+    FactoryGirl.create(:embed_test_audio_entry)
+  end
   AUDIO_CAPTION = 'madek-test-audio Madek Team — Public Domain'.freeze
 
   context 'video embed with size config' do

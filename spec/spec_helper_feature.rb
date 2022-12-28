@@ -9,15 +9,6 @@ DEFAULT_BROWSER_TIMEOUT = 180 # instead of the default 60
 BROWSER_DONWLOAD_DIR = Rails.root.join('tmp', 'test_driver_browser_downloads')
 `rm -rf #{BROWSER_DONWLOAD_DIR} && mkdir -p #{BROWSER_DONWLOAD_DIR}`
 
-TEST_DBS = {
-  personas: { dump: Rails.root.join('db', 'personas.pgbin') },
-  test_media: {
-    dump: Rails.root.join(
-      'spec', '_support', 'test_media', 'madek_test_media.pgbin'),
-    files: 'spec/_support/test_media/file_storage'
-  }
-}.freeze
-
 # set fixed port if given
 if ENV['CAPYBARA_SERVER_PORT'].present?
   Capybara.server_port = ENV['CAPYBARA_SERVER_PORT']
@@ -69,21 +60,11 @@ RSpec.configure do |config|
   end
 
   def prepare_db(example)
-    # default: personas!
     truncate_tables
-    test_db = \
-      case example.metadata[:with_db]
-      when nil, true, :personas then TEST_DBS[:personas]
-      when :test_media then TEST_DBS[:test_media]
-      when false then nil
-      else fail "unknown database dump! '#{example.metadata[:with_db]}'"
-      end
-    # TODO: must run migrations??? or should we update the dump?
-    if test_db then PgTasks.data_restore test_db[:dump] end
-    # NOTE: config must be set from outside. but do verify:
-    if test_db[:files] && Settings.default_storage_dir != test_db[:files]
-      fail 'Missing storage config! Look up the CI config for this spec.'
-    end
+
+    # Restore personas db (specs can disable this by setting the `with_db: false` metadata)
+    db_dump_path = Rails.root.join('db', 'personas.pgbin')
+    PgTasks.data_restore db_dump_path unless example.metadata[:with_db] == false
   end
 
   def maximize_window_if_possible
