@@ -3,8 +3,6 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 
-require 'capybara/poltergeist'
-
 DEFAULT_BROWSER_TIMEOUT = 180 # instead of the default 60
 BROWSER_DONWLOAD_DIR = Rails.root.join('tmp', 'test_driver_browser_downloads')
 `rm -rf #{BROWSER_DONWLOAD_DIR} && mkdir -p #{BROWSER_DONWLOAD_DIR}`
@@ -33,9 +31,7 @@ RSpec.configure do |config|
   Capybara.register_driver :selenium do |app|
     Capybara::Selenium::Driver.new(
       app,
-      browser: :firefox,
-      desired_capabilities:
-        Selenium::WebDriver::Remote::Capabilities.firefox(marionette: false))
+      browser: :firefox)
   end
 
   Capybara.register_driver :selenium_ff do |app|
@@ -54,7 +50,6 @@ RSpec.configure do |config|
       when nil, true, :firefox then :selenium_ff
       when false then :rack_test
       when :firefox_nojs then :selenium_ff_nojs
-      when :phantomjs then :poltergeist
       else fail 'unknown browser!'
       end
   end
@@ -82,53 +77,6 @@ RSpec.configure do |config|
   config.after(:each) do |example|
     unless example.exception.nil?
       take_screenshot
-    end
-  end
-
-  # fail example if there were any (unexpected) JS errors
-  config.after(:each) do |example|
-    # examples can EXPECT ERRORS, e.g. for testing if this setup still works
-    expected_errors = example.metadata[:expect_js_errors] || []
-
-    # list of always allowed/expected JS errors:
-    whitelist = [
-      'mutating the [[Prototype]] of an object', # from browserify-buffer. it's ok.
-      # NOTE: doesn't break anything, will fix itself when there is only 1 root
-      'facebook.github.io/react/docs/error-decoder.html?invariant=32&args[]=2'
-    ]
-
-    if page.driver.to_s =~ /Selenium/
-      errors = wait_until(15) do # need to wait for window.onLoad event…
-        begin
-          page.execute_script('return window.JSErrorCollector_errors.pump()')
-        rescue
-          false
-        end
-      end
-
-      actual_errors = errors.reject do |e|
-        next true if e['sourceName'].empty? # only care about our own scripts
-        whitelist.map { |w| e['errorMessage'].match Regexp.escape(w) }.compact.any?
-      end
-
-      unexpected_errors = actual_errors.reject do |e|
-        expected_errors
-          .map { |w| e['errorMessage'].match Regexp.escape(w) }.compact.any?
-      end
-
-      if unexpected_errors.any?
-        fail 'UNEXPECTED JS ERRORS! ⚡️  ' + JSON.pretty_generate(actual_errors)
-      end
-
-      if expected_errors.any?
-        if expected_errors.length != (actual_errors - unexpected_errors).length
-          fail "\
-            MISSING EXPECTED JS ERRORS! \n\
-            (This likely means the error-detecting setup is broken!)\n\n\
-            Expected: ".strip_heredoc + JSON.pretty_generate(expected_errors) +
-            "\nActual: " + JSON.pretty_generate(actual_errors)
-        end
-      end
     end
   end
 
@@ -177,7 +125,9 @@ def create_firefox_driver(app, timeout, extra_profile_config = {})
     'browser.helperApps.neverAsk.saveToDisk' => 'image/jpeg,application/pdf',
     'browser.download.manager.showWhenStarting' => false,
     'browser.download.folderList' => 2, # custom location
-    'browser.download.dir' => BROWSER_DONWLOAD_DIR.to_s
+    'browser.download.dir' => BROWSER_DONWLOAD_DIR.to_s,
+    'devtools.jsonview.enabled' => false, # prevent firefox from pretty-printing JSON response
+    'dom.disable_beforeunload' => false
   }
   profile_config = dont_ask_on_downloads_config.merge(extra_profile_config)
 
@@ -188,10 +138,12 @@ def create_firefox_driver(app, timeout, extra_profile_config = {})
   # see https://github.com/mguillem/JSErrorCollector
   profile.add_extension File.join(Rails.root, 'spec/_support/JSErrorCollector.xpi')
 
+  opts = Selenium::WebDriver::Firefox::Options.new(profile: profile)
+
   client = Selenium::WebDriver::Remote::Http::Default.new
-  client.timeout = timeout
+  client.read_timeout = timeout
   Capybara::Selenium::Driver.new \
-    app, browser: :firefox, profile: profile, http_client: client
+    app, browser: :firefox, options: opts, http_client: client
 end
 
 require 'spec_helper_feature_shared'

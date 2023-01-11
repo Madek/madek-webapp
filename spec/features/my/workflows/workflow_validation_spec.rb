@@ -147,7 +147,7 @@ def check_validation_errors
                       "and contains(text(), '#{MetaKey.find(meta_key_id).label} *')]")
 
         fieldset = label.ancestor('fieldset')
-        expect(fieldset).to have_css('.error')
+        expect(fieldset[:class]).to match /error/
       end
     end
   end
@@ -166,10 +166,10 @@ def mandatory_meta_data_for(resource_type)
     )
   when 'Collection'
     %w(
-      madek_core:title
       madek_core:authors
       madek_core:copyright_notice
     )
+    # note: "madek_core:title" is mandatory too, but prefilled
   else
     raise "Unknown resource type: '#{resource_type}'!"
   end

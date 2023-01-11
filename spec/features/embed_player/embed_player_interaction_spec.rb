@@ -14,13 +14,13 @@ feature 'Embed aka. "Madek-Player"' do
 
         within('.vjs-control-bar') do
           res_btn = find('.vjs-resolution-button')
-          expect(res_btn.text).to eq 'Quality SD'
+          expect(res_btn.text).to eq "Quality\nSD"
           res_btn.click
           hd_btn = res_btn.find('.vjs-menu-content li', text: 'HD')
           hd_btn.click
         end
         find('.vjs-tech').click
-        expect(find('.vjs-control-bar .vjs-resolution-button').text).to eq 'Quality HD'
+        expect(find('.vjs-control-bar .vjs-resolution-button').text).to eq "Quality\nHD"
       end
     end
   end

@@ -218,7 +218,7 @@ end
 def save_first_time(async)
   expect(@resource.meta_data.length).to eq(1)
   save_button.click
-  wait_until { current_path == media_entry_path(@resource) }
+  expect(page).to have_current_path media_entry_path(@resource)
 
   expect(page).to have_content(
     I18n.t(:meta_data_edit_media_entry_saved_missing))
@@ -237,7 +237,7 @@ def save_second_time(async)
 
   save_button.click
 
-  expect(current_path).to eq(media_entry_path(@resource))
+  expect(page).to have_current_path media_entry_path(@resource)
 
   # if async
   #   expect(page).to have_content(
@@ -284,7 +284,7 @@ def save_third_time(async)
 
   save_button.click
 
-  expect(current_path).to eq(media_entry_path(@resource))
+  expect(page).to have_current_path media_entry_path(@resource)
 
   # if async
   #   expect(page).to have_content(

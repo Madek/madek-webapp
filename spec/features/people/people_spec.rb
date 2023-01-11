@@ -65,7 +65,7 @@ feature 'People' do
         [
           I18n.t(:person_show_external_uris),
           *new_values[:external_uris]
-        ].join(' ')
+        ].join("\n")
       )
     end
 

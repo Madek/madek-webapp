@@ -15,7 +15,7 @@ def check_delete_question(media_entries_count, collections_count)
     + ' ' + media_entries_count.to_s + I18n.t(:batch_destroy_resources_ask_2) \
     + ' ' + collections_count.to_s + I18n.t(:batch_destroy_resources_ask_3) \
     + ' ' + I18n.t(:batch_destroy_resources_ask_4)
-  find('.modal', text: text)
+  find('.modal', text: text, normalize_ws: true)
 end
 
 def all_media_entry_permissions(user)

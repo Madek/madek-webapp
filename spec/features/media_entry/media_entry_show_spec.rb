@@ -79,7 +79,7 @@ describe 'Action: show' do
       # - parents
       expect(page).to have_content 'Ausstellungen'
       # - siblings
-      expect(page).to have_content 'Ausstellung Gallerie Limatquai '
+      expect(page).to have_content 'Ausstellung Gallerie Limatquai'
     end
 
     scenario "Tab: 'Usage Data'. Shows import date and File Information" do

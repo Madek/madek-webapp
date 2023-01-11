@@ -52,12 +52,11 @@ gem 'uglifier'
 #####################################################################
 
 group :test do
-  gem 'capybara', '~> 2.18'
+  gem 'capybara', '~> 3.8'
   gem 'rails-controller-testing'
-  gem 'selenium-webdriver', '2.53.4'
+  gem 'selenium-webdriver'
 end
 
-gem 'poltergeist', groups: [:test, :development]
 gem 'rest-client', groups: [:test, :development]
 
 group :development do

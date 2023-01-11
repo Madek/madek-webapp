@@ -18,7 +18,7 @@ feature 'Embed image player' do
       do_oembed_client(url: url)
 
       within_frame(find('iframe')) do
-        expect(page).to have_text 'madek-test-image-landscape Madek Team — Public Domain'
+        expect(page).to have_text "madek-test-image-landscape\nMadek Team — Public Domain"
         size = get_actual_size('document.body')
         expect(size).to eq expected_size
       end
@@ -31,7 +31,7 @@ feature 'Embed image player' do
       do_oembed_client(url: url)
 
       within_frame(find('iframe')) do
-        expect(page).to have_text 'madek-test-image-portrait Madek Team — Public Domain'
+        expect(page).to have_text "madek-test-image-portrait\nMadek Team — Public Domain"
         size = get_actual_size('document.body')
         expect(size).to eq expected_size
       end

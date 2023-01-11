@@ -6,12 +6,12 @@ feature 'Embed aka. "Madek-Player"' do
   let :video_entry do
     FactoryGirl.create(:embed_test_video_entry)
   end
-  VIDEO_CAPTION = 'madek-test-video Madek Team — Public Domain'.freeze
+  VIDEO_CAPTION = "madek-test-video\nMadek Team — Public Domain".freeze
 
   let :audio_entry do
     FactoryGirl.create(:embed_test_audio_entry)
   end
-  AUDIO_CAPTION = 'madek-test-audio Madek Team — Public Domain'.freeze
+  AUDIO_CAPTION = "madek-test-audio\nMadek Team — Public Domain".freeze
 
   context 'video embed with size config' do
     it 'gives default sizes if no sizes requested' do

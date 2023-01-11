@@ -8,7 +8,11 @@ module TransferResponsibilityShared
   def check_submit(active)
     button = find('form[name="transfer_responsibility"]').find(
       'button', text: I18n.t(:transfer_responsibility_submit))
-    expect(button[:disabled]).to eq(active ? nil : 'true')
+    if active
+      expect(button).not_to be_disabled
+    else
+      expect(button).to be_disabled
+    end
   end
 
   def add_all_to_parent(resources, parent)

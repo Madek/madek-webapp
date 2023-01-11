@@ -30,7 +30,7 @@ RSpec.shared_examples '"naughty strings"' do |range|
     strings = \
       JSON.parse \
         File.read \
-          "#{Rails.root}/node_modules/big-list-of-naughty-strings/blns.json"
+          "#{Rails.root}/spec/_support/naughty_strings/blns-reduced.json"
 
     strings[range].each do |s|
       visit meta_datum_path(@meta_datum)
@@ -39,7 +39,7 @@ RSpec.shared_examples '"naughty strings"' do |range|
       click_on I18n.t(:meta_data_form_save)
 
       puts s
-      unless Madek::Constants::SPECIAL_WHITESPACE_CHARS.include? s
+      unless s.blank? or s.match Madek::Constants::VALUE_WITH_ONLY_WHITESPACE_REGEXP
         expect(find('.app-body', match: :first)).to have_content s
       else
         expect(page.text).to match /Error 4\d\d/

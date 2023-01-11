@@ -37,11 +37,14 @@ feature 'Collection: Index' do
     area = thumbnail
       .find('.ui-thumbnail-level-' + up_down + '-items', visible: false)
 
-    # there *migth* be a (hidden) preloader
+    # hover thumbnail to open the flyout
     if (area.all('.ui-preloader', visible: false)[0])
-      # hovering starts async loading of content, wait until the preloader is gone
+      # 1st time hover, triggering async loading of content
       thumbnail.hover
+      # wait until the preloader is gone (i.e. the content has been loaded)
       expect(area).not_to have_css('.ui-preloader', visible: false)
+    else
+      thumbnail.hover
     end
 
     # now hover over flyout itself for good measure, and then return the element

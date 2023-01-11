@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
+cd $PROJECT_DIR
+./bin/env/firefox-setup
+./bin/env/geckodriver-setup
+./bin/env/ruby-setup
+
+# clean-up the mess the ruby geckodriver gem might have created by placing it in ruby/bin/geckodriver
+rm -rf ~/.asdf/installs/ruby/$(asdf current ruby | awk '{print $2; }')/bin/gecko*
+asdf reshim
+
+bundle exec rspec "$@"
+# vi: ft=sh

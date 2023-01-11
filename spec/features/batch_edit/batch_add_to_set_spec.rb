@@ -169,7 +169,7 @@ feature 'batch edit' do
     title = I18n.t(:batch_add_to_collection_pre) +
       count.to_s + I18n.t(:batch_add_to_collection_post)
 
-    expect(page).to have_content(title)
+    expect(page).to have_content(title, normalize_ws: true)
   end
 
   def check_initial_hint
@@ -251,7 +251,7 @@ feature 'batch edit' do
 
   def cancel_button
     within('.ui-modal-footer') do
-      find('.primary-button', I18n.t(:resource_select_collection_cancel))
+      find('.primary-button', text: I18n.t(:resource_select_collection_cancel))
     end
   end
 

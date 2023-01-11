@@ -29,7 +29,7 @@ task_defaults:
         mkdir -p log
         xvfb-run -a -e log/xvfb.log \
           -s "-ac -screen 0 $XVFB_SCREEN_CONF" \
-          bundle exec rspec $CIDER_CI_TASK_FILE
+          ./bin/rspec $CIDER_CI_TASK_FILE
 
 generate_tasks:
   include_match: spec/.*_spec.rb

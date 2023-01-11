@@ -98,6 +98,7 @@ feature 'Collection manual sorting' do
       reload_page
       expect(media_entry_titles).to eq(['Entry A', 'Entry C', 'Entry B'])
 
+      sleep 1 # patch weird issue with collection_1 showing the entry order of collection_2
       visit_collection(collection_1, order: 'manual ASC')
       expect(media_entry_titles).to eq(['Entry C', 'Entry A', 'Entry B'])
       move_entry('Entry B', to: :end)

@@ -105,7 +105,7 @@ module MetaDataHelper
       submit_form
     end
 
-    expect(current_path).to eq resource_path
+    expect(page).to have_current_path resource_path
     @resource.reload
 
     check.call
@@ -117,7 +117,7 @@ module MetaDataHelper
   end
 
   def check_context_url(context_id)
-    expect(current_path).to eq(edit_context_path(context_id))
+    expect(page).to have_current_path edit_context_path(context_id)
   end
 
   def check_selected_tab(context_id)
@@ -138,7 +138,7 @@ module MetaDataHelper
     login
     visit resource_path
     click_action_button('pen')
-    expect(current_path).to eq edit_context_path(nil)
+    expect(page).to have_current_path(edit_context_path(nil), ignore_query: true)
   end
 
   def open_full

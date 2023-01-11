@@ -48,7 +48,7 @@ feature 'Resource: MetaDatum' do
               expect(input.value).to eq('foo')
             end
 
-            expect(page).to have_content "#{@context_key.label} foo"
+            expect(page).to have_content "#{@context_key.label}\nfoo"
           end
         end
 
@@ -96,7 +96,7 @@ feature 'Resource: MetaDatum' do
               input.set('custom copyright value')
             end
 
-            expect(page).to have_content "#{@context_key.label}  custom copyright value"
+            expect(page).to have_content "#{@context_key.label}\ncustom copyright value"
           end
         end
       end

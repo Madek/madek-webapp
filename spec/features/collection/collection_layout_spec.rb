@@ -99,7 +99,10 @@ feature 'determine collection layout ' do
     elsif expected == :disabled
       button = find('.ui-toolbar').find(
         'a', text: I18n.t(:collection_layout_saved))
-      expect(button[:disabled]).to eq('true')
+      expect(button[:disabled]).to eq ''
+      # The "button" is an `<a>` element, which does not officially support the `disabled`
+      # attribute. This is why it's not treated as a binary attribute and can not be
+      # tested with `expect(button).to be_disabled`.
     else
       fail
     end

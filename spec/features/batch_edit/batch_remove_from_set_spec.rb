@@ -176,13 +176,13 @@ feature 'batch edit' do
 
   def remove_button
     within('.ui-modal-footer') do
-      find('.primary-button', I18n.t(:batch_remove_from_collection_remove))
+      find('.primary-button', text: I18n.t(:batch_remove_from_collection_remove))
     end
   end
 
   def cancel_button
     within('.ui-modal-footer') do
-      find('.link', I18n.t(:batch_remove_from_collection_cancel))
+      find('.link', text: I18n.t(:batch_remove_from_collection_cancel))
     end
   end
 

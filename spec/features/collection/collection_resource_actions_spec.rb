@@ -44,5 +44,5 @@ def expect_modal
   expect(page).to have_css('.modal', text: I18n.t('collection_new_dialog_title'))
   expect(page).to have_css('.modal', text: I18n.t('collection_new_dialog_parent_warning') +
                                            ' ' +
-                                           collection.title)
+                                           collection.title, normalize_ws: true)
 end

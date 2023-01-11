@@ -33,7 +33,7 @@ feature 'Resource: Collections' do
       # page title:
       expect(page.find('.ui-body-title')).to have_content @collection.title
       # meta data:
-      expect(page).to have_content "Titel #{@collection.title}"
+      expect(page).to have_content("Titel #{@collection.title}", normalize_ws: true)
     end
 
     context 'Tab: Relations' do

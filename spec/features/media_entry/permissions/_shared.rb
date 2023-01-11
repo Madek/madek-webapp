@@ -54,7 +54,7 @@ module MediaEntryPermissionsShared
   end
 
   def subject_row(form, title)
-    header = form.first('thead td', exact_text: title)
+    header = form.all('thead td', exact_text: title)[0]
     header.find(:xpath, '../../../..') if header
   end
 
