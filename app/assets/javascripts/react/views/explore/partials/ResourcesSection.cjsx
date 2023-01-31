@@ -59,7 +59,7 @@ module.exports = React.createClass
                 if n < f.size(section.data.list) - 1
                   comma = <span style={{marginRight: '5px'}}>,</span>
 
-                <span>
+                <span key={n}>
                   <a href={resource.url} style={{color: '#4c4c4c', fontSize: '14px'}}>
                     {resource.label}
                   </a>

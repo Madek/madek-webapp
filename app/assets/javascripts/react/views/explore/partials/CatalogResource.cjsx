@@ -27,7 +27,7 @@ module.exports = React.createClass
             if index < f.size(resource.examples.meta_key_values.values) - 1
               comma = <span style={{marginRight: '5px'}}>,</span>
 
-            <span style={{display: 'inline-block', whiteSpace: 'nowrap', fontSize: '14px'}}>
+            <span key={index} style={{display: 'inline-block', whiteSpace: 'nowrap', fontSize: '14px'}}>
               <a href={example.url} style={{color: '#4c4c4c'}}>
                 {label}
               </a>
