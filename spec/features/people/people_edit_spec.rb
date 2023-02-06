@@ -8,7 +8,7 @@ feature 'People' do
     {
       first_name: Faker::Name.first_name,
       last_name: Faker::Name.last_name,
-      pseudonym: Faker::Name.title,
+      pseudonym: Faker::Artist.name,
       description: Faker::Lorem.paragraph,
       external_uris: 2.times.map { Faker::Internet.url }
     }

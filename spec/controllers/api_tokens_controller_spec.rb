@@ -3,7 +3,7 @@ require 'spec_helper'
 describe ApiTokensController do
   context 'ApiTokens' do
 
-    let(:user) { FactoryGirl.create :user }
+    let(:user) { FactoryBot.create :user }
 
     context 'creates' do
       it 'not ok when not logged in' do
@@ -92,7 +92,7 @@ describe ApiTokensController do
 
       it 'can not be edited by other users' do
         token = ApiToken.create(user: user)
-        another_user = FactoryGirl.create :user
+        another_user = FactoryBot.create :user
         new_attrs = { revoked: true }
 
         expect do

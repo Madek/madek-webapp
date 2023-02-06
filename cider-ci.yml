@@ -27,7 +27,6 @@ jobs:
           - path: cider-ci/context-components/lint/rspec-lint.yml
             submodule: [datalayer]
           - path: cider-ci/context-components/lint/javascript-lint.yml
-          - path: cider-ci/context-components/lint/ruby-lint.yml
 
   precompilation:
     name: 'Precompilation'

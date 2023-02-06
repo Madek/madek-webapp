@@ -3,11 +3,11 @@ require_relative './_shared'
 feature 'Embed image player' do
 
   let :image_landscape_entry do
-    FactoryGirl.create(:embed_test_image_landscape_entry)
+    FactoryBot.create(:embed_test_image_landscape_entry)
   end
 
   let :image_portrait_entry do
-    FactoryGirl.create(:embed_test_image_portrait_entry)
+    FactoryBot.create(:embed_test_image_portrait_entry)
   end
 
   context 'basic render tests' do

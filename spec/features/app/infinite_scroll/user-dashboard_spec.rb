@@ -6,7 +6,7 @@ feature 'App: Infinite Scroll for ResourceLists' do
 
   example 'user dashboard section' do
     100.times do
-      FactoryGirl.create(:media_entry_with_title, responsible_user: user)
+      FactoryBot.create(:media_entry_with_title, responsible_user: user)
     end
 
     open_view_and_check_loading_on_scroll(

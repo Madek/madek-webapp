@@ -4,49 +4,49 @@ require 'spec_helper_feature_shared'
 
 feature 'Batch update media entries' do
   let(:vocabulary) do
-    FactoryGirl.create(:vocabulary,
-                       id: Faker::Lorem.characters(10),
+    FactoryBot.create(:vocabulary,
+                       id: Faker::Lorem.characters(number: 10),
                        enabled_for_public_view: true,
                        enabled_for_public_use: true)
   end
   let(:meta_key_text_1) do
-    FactoryGirl.create(:meta_key_text,
+    FactoryBot.create(:meta_key_text,
                        vocabulary: vocabulary,
-                       id: "#{vocabulary.id}:#{Faker::Lorem.characters(10)}")
+                       id: "#{vocabulary.id}:#{Faker::Lorem.characters(number: 10)}")
   end
   let(:meta_key_text_2) do
-    FactoryGirl.create(:meta_key_text,
+    FactoryBot.create(:meta_key_text,
                        vocabulary: vocabulary,
-                       id: "#{vocabulary.id}:#{Faker::Lorem.characters(10)}")
+                       id: "#{vocabulary.id}:#{Faker::Lorem.characters(number: 10)}")
   end
   let(:meta_key_text_3) do
-    FactoryGirl.create(:meta_key_text,
+    FactoryBot.create(:meta_key_text,
                        vocabulary: vocabulary,
-                       id: "#{vocabulary.id}:#{Faker::Lorem.characters(10)}")
+                       id: "#{vocabulary.id}:#{Faker::Lorem.characters(number: 10)}")
   end
   let(:meta_key_keywords) do
-    FactoryGirl.create(:meta_key_keywords,
+    FactoryBot.create(:meta_key_keywords,
                        is_extensible_list: true,
                        vocabulary: vocabulary,
-                       id: "#{vocabulary.id}:#{Faker::Lorem.characters(10)}")
+                       id: "#{vocabulary.id}:#{Faker::Lorem.characters(number: 10)}")
   end
   let(:meta_key_people) do
-    FactoryGirl.create(:meta_key_people,
+    FactoryBot.create(:meta_key_people,
                        vocabulary: vocabulary,
-                       id: "#{vocabulary.id}:#{Faker::Lorem.characters(10)}")
+                       id: "#{vocabulary.id}:#{Faker::Lorem.characters(number: 10)}")
   end
 
   it 'successfully updates meta_data for all entries' do
     # NOTE: create more than 16 Keywords total to trigger the autocomplete!
-    20.times { FactoryGirl.create(:keyword, meta_key: meta_key_keywords) }
+    20.times { FactoryBot.create(:keyword, meta_key: meta_key_keywords) }
 
-    user = FactoryGirl.create :user
+    user = FactoryBot.create :user
 
-    me1 = FactoryGirl.create :media_entry_with_image_media_file, :fat
-    me2 = FactoryGirl.create :media_entry_with_image_media_file, :fat
+    me1 = FactoryBot.create :media_entry_with_image_media_file, :fat
+    me2 = FactoryBot.create :media_entry_with_image_media_file, :fat
 
     [me1, me2].each do |me|
-      me.user_permissions << FactoryGirl.create(:media_entry_user_permission,
+      me.user_permissions << FactoryBot.create(:media_entry_user_permission,
                                                 get_metadata_and_previews: true,
                                                 get_full_size: true,
                                                 edit_metadata: true,
@@ -55,45 +55,45 @@ feature 'Batch update media entries' do
 
     # case 1: same value for meta key present in both entries,
     # which will not be changed
-    me1.meta_data << FactoryGirl.create(:meta_datum_text,
+    me1.meta_data << FactoryBot.create(:meta_datum_text,
                                         meta_key: meta_key_text_1,
                                         string: 'Meta Datum Text 1')
-    me2.meta_data << FactoryGirl.create(:meta_datum_text,
+    me2.meta_data << FactoryBot.create(:meta_datum_text,
                                         meta_key: meta_key_text_1,
                                         string: 'Meta Datum Text 1')
 
     # case 2: value for a meta_key present only in one entry,
     # which will be changed
-    me1.meta_data << FactoryGirl.create(:meta_datum_text,
+    me1.meta_data << FactoryBot.create(:meta_datum_text,
                                         meta_key: meta_key_text_2,
                                         string: 'Meta Datum Text 2')
 
     # case 3: value for a meta_key present only in one entry,
     # which will not be changed
-    me1.meta_data << FactoryGirl.create(:meta_datum_text,
+    me1.meta_data << FactoryBot.create(:meta_datum_text,
                                         meta_key: meta_key_text_3,
                                         string: 'Meta Datum Text 3')
 
     # case 4: different values for a meta_key present in both entries,
     # which will be changed
-    keyword_1 = FactoryGirl.create(:keyword, meta_key: meta_key_keywords)
-    keyword_2 = FactoryGirl.create(:keyword, meta_key: meta_key_keywords)
-    FactoryGirl.create(:meta_datum_keywords,
+    keyword_1 = FactoryBot.create(:keyword, meta_key: meta_key_keywords)
+    keyword_2 = FactoryBot.create(:keyword, meta_key: meta_key_keywords)
+    FactoryBot.create(:meta_datum_keywords,
                        media_entry: me1,
                        meta_key: meta_key_keywords,
                        keywords: [keyword_1])
-    FactoryGirl.create(:meta_datum_keywords,
+    FactoryBot.create(:meta_datum_keywords,
                        media_entry: me2,
                        meta_key: meta_key_keywords,
                        keywords: [keyword_2])
 
     # case 5: same value for meta key present in both entries,
     # which will be deleted
-    @person = FactoryGirl.create(:person)
-    me1.meta_data << FactoryGirl.create(:meta_datum_people,
+    @person = FactoryBot.create(:person)
+    me1.meta_data << FactoryBot.create(:meta_datum_people,
                                         meta_key: meta_key_people,
                                         people: [@person])
-    me2.meta_data << FactoryGirl.create(:meta_datum_people,
+    me2.meta_data << FactoryBot.create(:meta_datum_people,
                                         meta_key: meta_key_people,
                                         people: [@person])
 
@@ -114,7 +114,7 @@ feature 'Batch update media entries' do
       # case 1: do nothing
 
       # case 2
-      @new_value_for_meta_key_text_2 = Faker::Lorem.words(3).join(' ')
+      @new_value_for_meta_key_text_2 = Faker::Lorem.words(number: 3).join(' ')
       find('fieldset', text: meta_key_text_2.label)
         .find('input')
         .set @new_value_for_meta_key_text_2
@@ -123,7 +123,7 @@ feature 'Batch update media entries' do
 
       # case 4
       @new_value_for_meta_key_keywords = \
-        [FactoryGirl.create(:keyword, meta_key: meta_key_keywords).term]
+        [FactoryBot.create(:keyword, meta_key: meta_key_keywords).term]
       @new_value_for_meta_key_keywords.each do |val|
         autocomplete_and_choose_first \
           find('fieldset', text: meta_key_keywords.label),

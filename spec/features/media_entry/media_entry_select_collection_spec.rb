@@ -52,16 +52,16 @@ feature 'MediaEntry: Select Collection' do
   end
 
   def prepare_resource
-    @resource = FactoryGirl.create(
+    @resource = FactoryBot.create(
       :media_entry,
       responsible_user: @user,
       creator: @user)
 
-    @media_file = FactoryGirl.create(
+    @media_file = FactoryBot.create(
       :media_file_for_image,
       media_entry: @resource)
 
-    FactoryGirl.create(
+    FactoryBot.create(
       :meta_datum_text,
       created_by: @user,
       meta_key: meta_key_title,

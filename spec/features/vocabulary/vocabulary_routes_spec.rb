@@ -4,12 +4,12 @@ require 'spec_helper_feature'
 # NOTE: extracted from KeywordsController spec, need to test as "feature"!
 
 describe 'Resource: Keywords', type: :feature do
-  let(:meta_key) { FactoryGirl.create :meta_key_keywords }
+  let(:meta_key) { FactoryBot.create :meta_key_keywords }
 
   example 'redirect route works with special characters in terms' do
     terms = ['01.01.2011', '1:1', '1 : 1', 'http://example.com/foo?bar', '~~😎~~']
     terms.each do |term|
-      keyword = FactoryGirl.create :keyword, meta_key: meta_key, term: term
+      keyword = FactoryBot.create :keyword, meta_key: meta_key, term: term
       keyword_link = vocabulary_meta_key_term_redirect_path(
         meta_key_id: keyword.meta_key.id, term: keyword.term)
 

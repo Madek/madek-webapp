@@ -8,7 +8,7 @@ include MetaDatumInputsHelper
 feature 'Resource: MetaDatum' do
   background do
     @user = User.find_by(login: 'normin')
-    @media_entry = FactoryGirl.create :media_entry_with_image_media_file,
+    @media_entry = FactoryBot.create :media_entry_with_image_media_file,
                                       creator: @user, responsible_user: @user
 
   end
@@ -29,7 +29,7 @@ feature 'Resource: MetaDatum' do
 
     example 'autocomplete prefills values' do
       meta_key = create_meta_key_keywords(is_extensible_list: false)
-      24.times.map { FactoryGirl.create(:keyword, meta_key: meta_key) }
+      24.times.map { FactoryBot.create(:keyword, meta_key: meta_key) }
       existing_terms = meta_key.keywords.map(&:term) # order from model
 
       in_the_edit_field(meta_key.label) do
@@ -43,8 +43,8 @@ feature 'Resource: MetaDatum' do
 
     example 'autocomplete styles existing values' do
       meta_key = create_meta_key_keywords(is_extensible_list: true)
-      100.times { FactoryGirl.create(:keyword, meta_key: meta_key) }
-      meta_datum = FactoryGirl.create(
+      100.times { FactoryBot.create(:keyword, meta_key: meta_key) }
+      meta_datum = FactoryBot.create(
         :meta_datum_keywords, meta_key: meta_key, media_entry: @media_entry)
       existing_term = meta_datum.keywords.sample.term
 
@@ -58,8 +58,8 @@ feature 'Resource: MetaDatum' do
 
     example 'autocomplete (prefilled) styles existing values' do
       meta_key = create_meta_key_keywords(is_extensible_list: false)
-      24.times.map { FactoryGirl.create(:keyword, meta_key: meta_key) }
-      meta_datum = FactoryGirl.create(
+      24.times.map { FactoryBot.create(:keyword, meta_key: meta_key) }
+      meta_datum = FactoryBot.create(
         :meta_datum_keywords, meta_key: meta_key, media_entry: @media_entry)
       existing_term = meta_datum.keywords.sample.term
 
@@ -73,7 +73,7 @@ feature 'Resource: MetaDatum' do
 
     example 'show checkboxes if not extensible and n <= 16' do
       meta_key = create_meta_key_keywords(is_extensible_list: false)
-      16.times.map { FactoryGirl.create(:keyword, meta_key: meta_key) }
+      16.times.map { FactoryBot.create(:keyword, meta_key: meta_key) }
 
       in_the_edit_field(meta_key.label) do
         expect(page).to have_selector('input[type=checkbox]', count: 16)
@@ -82,7 +82,7 @@ feature 'Resource: MetaDatum' do
 
     example 'show autocomplete n prefilled if not extensible and n > 16' do
       meta_key = create_meta_key_keywords(is_extensible_list: false)
-      24.times.map { FactoryGirl.create(:keyword, meta_key: meta_key) }
+      24.times.map { FactoryBot.create(:keyword, meta_key: meta_key) }
 
       in_the_edit_field(meta_key.label) do
         expect(page).to have_selector('.ui-autocomplete-holder', count: 1)
@@ -93,7 +93,7 @@ feature 'Resource: MetaDatum' do
 
     example 'show autocomplete 50 prefilled if not extensible and n > 50' do
       meta_key = create_meta_key_keywords(is_extensible_list: false)
-      70.times.map { FactoryGirl.create(:keyword, meta_key: meta_key) }
+      70.times.map { FactoryBot.create(:keyword, meta_key: meta_key) }
       in_the_edit_field(meta_key.label) do
         expect(page).to have_selector('.ui-autocomplete-holder', count: 1)
         find('input').click
@@ -103,7 +103,7 @@ feature 'Resource: MetaDatum' do
 
     example 'show autocomplete n prefilled if extensible and n > 16' do
       meta_key = create_meta_key_keywords(is_extensible_list: true)
-      24.times.map { FactoryGirl.create(:keyword, meta_key: meta_key) }
+      24.times.map { FactoryBot.create(:keyword, meta_key: meta_key) }
 
       in_the_edit_field(meta_key.label) do
         expect(page).to have_selector('.ui-autocomplete-holder', count: 1)
@@ -114,7 +114,7 @@ feature 'Resource: MetaDatum' do
 
     example 'show autocomplete 50 prefilled if extensible and n > 50' do
       meta_key = create_meta_key_keywords(is_extensible_list: true)
-      70.times.map { FactoryGirl.create(:keyword, meta_key: meta_key) }
+      70.times.map { FactoryBot.create(:keyword, meta_key: meta_key) }
       in_the_edit_field(meta_key.label) do
         expect(page).to have_selector('.ui-autocomplete-holder', count: 1)
         find('input').click
@@ -135,8 +135,8 @@ feature 'Resource: MetaDatum' do
 
   # create a metakey and set it as the only input field:
   def create_meta_key_keywords(attrs = {})
-    meta_key = FactoryGirl.create(:meta_key_keywords, **attrs)
-    context_key = FactoryGirl.create(
+    meta_key = FactoryBot.create(:meta_key_keywords, **attrs)
+    context_key = FactoryBot.create(
       :context_key,
       meta_key: meta_key,
       labels: { de: nil })

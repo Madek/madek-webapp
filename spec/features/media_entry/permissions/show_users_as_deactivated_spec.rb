@@ -9,17 +9,17 @@ feature 'Resource: MediaEntry' do
   let(:deactivated_user_string) { I18n.t(:user_name_deactivated) }
   background do
     @user = User.find_by(login: 'normin')
-    @entry = FactoryGirl.create(:media_entry_with_image_media_file,
+    @entry = FactoryBot.create(:media_entry_with_image_media_file,
                                 responsible_user: @user)
 
     sign_in_as @user.login
   end
 
   it 'shows users as deactivated' do
-    user = FactoryGirl.create(:user)
-    FactoryGirl.create(
+    user = FactoryBot.create(:user)
+    FactoryBot.create(
       :media_entry_user_permission, media_entry: @entry, user: user)
-    user.update_attributes!(is_deactivated: true)
+    user.update!(is_deactivated: true)
 
     visit permissions_media_entry_path(@entry)
 
@@ -31,7 +31,7 @@ feature 'Resource: MediaEntry' do
 
   it 'shows responsible user as deactivated' do
     user = @entry.responsible_user
-    user.update_attributes!(is_deactivated: true)
+    user.update!(is_deactivated: true)
 
     visit permissions_media_entry_path(@entry)
 

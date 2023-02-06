@@ -23,7 +23,7 @@ feature 'Resource: MediaEntry' do
 
   background do
     @user = User.find_by(login: 'normin')
-    @entry = FactoryGirl.create(:media_entry_with_image_media_file,
+    @entry = FactoryBot.create(:media_entry_with_image_media_file,
                                 responsible_user: @user)
 
   end

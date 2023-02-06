@@ -18,7 +18,7 @@ module Modules
     def extract_and_store_metadata_for_media_file(extractor, media_file)
       hash_for_media_file = extractor.hash_for_media_file
       detect_and_set_media_type(extractor, media_file)
-      media_file.update_attributes(meta_data: hash_for_media_file)
+      media_file.update(meta_data: hash_for_media_file)
       if media_file.media_type == 'image'
         begin
           dimensions = FileConversion.get_dimensions(media_file.original_store_location)
@@ -26,7 +26,7 @@ module Modules
           Rails.logger.warn 'Silently ignored exception getting dimensions '\
             "of original image file. Class: #{e.class}. Message: #{e.message}"
         end
-        media_file.update_attributes(dimensions) unless dimensions.nil?
+        media_file.update(dimensions) unless dimensions.nil?
       end
     end
 

@@ -6,12 +6,12 @@ feature 'Resource: MetaDatum' do
   background do
     @user = User.find_by(login: 'normin')
     sign_in_as @user.login
-    @media_entry = FactoryGirl.create :media_entry_with_image_media_file,
+    @media_entry = FactoryBot.create :media_entry_with_image_media_file,
                                       creator: @user, responsible_user: @user
 
     # this key always exists; in personas it is used in 'summary context'
     meta_key = MetaKey.find 'madek_core:title'
-    @meta_datum = FactoryGirl.create(
+    @meta_datum = FactoryBot.create(
       :meta_datum_text,
       meta_key: meta_key,
       media_entry: @media_entry)

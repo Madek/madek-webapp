@@ -147,7 +147,7 @@ def edit_and_publish_entry(entry, meta_data:, created_at:)
   end
   create(:edit_session, media_entry: entry, user: @user, created_at: created_at)
   unless entry.is_published
-    entry.update_attributes!(is_published: true, updated_at: created_at)
+    entry.update!(is_published: true, updated_at: created_at)
   end
   entry.reload
 end
@@ -177,7 +177,7 @@ def _set_meta_datum(res, meta_key_id:, string:)
     res.class.name.singularize.underscore => res
   )
   if existing_md.present?
-    existing_md.update_attributes!(string: string)
+    existing_md.update!(string: string)
     existing_md.reload
   else
     md = create(

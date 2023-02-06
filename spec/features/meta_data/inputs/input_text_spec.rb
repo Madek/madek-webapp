@@ -8,15 +8,15 @@ include MetaDatumInputsHelper
 feature 'Resource: MetaDatum' do
   background do
     @user = User.find_by(login: 'normin')
-    @media_entry = FactoryGirl.create :media_entry_with_image_media_file,
+    @media_entry = FactoryBot.create :media_entry_with_image_media_file,
                                       creator: @user, responsible_user: @user
   end
 
   context 'MetaDatum::Text' do
     background do
-      @vocabulary = FactoryGirl.create(:vocabulary)
-      @meta_key = FactoryGirl.create(:meta_key_text)
-      @context_key = FactoryGirl.create(:context_key, meta_key: @meta_key)
+      @vocabulary = FactoryBot.create(:vocabulary)
+      @meta_key = FactoryBot.create(:meta_key_text)
+      @context_key = FactoryBot.create(:context_key, meta_key: @meta_key)
       configure_as_only_input(@context_key)
     end
 
@@ -44,7 +44,7 @@ feature 'Resource: MetaDatum' do
       TEST_STRING_BLOCK_OUT =
         "  Hello World\n<br>\nWelcome to the World of tomorrow! \n<br>\n ".freeze
 
-      @context_key.meta_key.update_attributes!(text_type: :block)
+      @context_key.meta_key.update!(text_type: :block)
       @context_key.reload
       edit_in_meta_data_form_and_save do
         expect(input = find('textarea')).to be

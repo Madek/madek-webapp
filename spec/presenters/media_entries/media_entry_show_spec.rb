@@ -5,7 +5,7 @@ describe Presenters::MediaEntries::MediaEntryShow do
   # TODO: fix CI bug and finish the test (relations, media_file)
   # it_can_be 'dumped' do
 
-  #   media_entry = FactoryGirl.create(:media_entry_with_image_media_file)
+  #   media_entry = FactoryBot.create(:media_entry_with_image_media_file)
 
   #   unless MetaKey.find_by_id('madek_core:title')
   #     with_disabled_triggers do
@@ -27,10 +27,10 @@ describe Presenters::MediaEntries::MediaEntryShow do
   #   meta_keys << MetaKey.find_by_id('madek_core:copyright_notice')
   #   meta_keys << \
   #     (MetaKey.find_by_id('description') \
-  #       || FactoryGirl.create(:meta_key_text, id: 'description'))
+  #       || FactoryBot.create(:meta_key_text, id: 'description'))
 
   #   meta_keys.each do |meta_key|
-  #     FactoryGirl.create :meta_datum_text,
+  #     FactoryBot.create :meta_datum_text,
   #                        meta_key: meta_key,
   #                        media_entry: media_entry
   #   end
@@ -38,7 +38,7 @@ describe Presenters::MediaEntries::MediaEntryShow do
   #   #############################################
 
   #   meta_key = MetaKey.find_by_id('madek_core:portrayed_object_date')
-  #   FactoryGirl.create :meta_datum_text_date,
+  #   FactoryBot.create :meta_datum_text_date,
   #                      meta_key: meta_key,
   #                      media_entry: media_entry
 
@@ -46,14 +46,14 @@ describe Presenters::MediaEntries::MediaEntryShow do
 
   #   meta_key = MetaKey.find_by_id('madek_core:keywords')
   #   meta_datum = \
-  #     FactoryGirl.create :meta_datum_keywords,
+  #     FactoryBot.create :meta_datum_keywords,
   #                        meta_key: meta_key,
   #                        media_entry: media_entry
-  #   FactoryGirl.create(:keyword, meta_datum: meta_datum)
+  #   FactoryBot.create(:keyword, meta_datum: meta_datum)
 
   #   #############################################
 
-  #   3.times { FactoryGirl.create(:edit_session, media_entry: media_entry) }
+  #   3.times { FactoryBot.create(:edit_session, media_entry: media_entry) }
 
   #   #############################################
 

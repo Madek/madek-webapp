@@ -3,7 +3,7 @@ require 'spec_helper_no_tx'
 
 def create_vocabulary_permissions(vocab)
   vocab.user_permissions << \
-    FactoryGirl.create(:vocabulary_user_permission,
+    FactoryBot.create(:vocabulary_user_permission,
                        user: @user,
                        view: true,
                        use: true)
@@ -11,17 +11,17 @@ end
 
 describe MetaDataController do
   before :each do
-    @user = FactoryGirl.create :user
-    @media_entry = FactoryGirl.create :media_entry
+    @user = FactoryBot.create :user
+    @media_entry = FactoryBot.create :media_entry
     @media_entry.user_permissions << \
-      FactoryGirl.create(:media_entry_user_permission,
+      FactoryBot.create(:media_entry_user_permission,
                          user: @user,
                          edit_metadata: true)
   end
 
   context 'update OK' do
     it 'replace MetaDatum::Text' do
-      meta_key = FactoryGirl.create(:meta_key_text)
+      meta_key = FactoryBot.create(:meta_key_text)
       create_vocabulary_permissions(meta_key.vocabulary)
       meta_datum = create(:meta_datum_text,
                           meta_key: meta_key,
@@ -43,7 +43,7 @@ describe MetaDataController do
     end
 
     it 'replace MetaDatum::TextDate' do
-      meta_key = FactoryGirl.create(:meta_key_text_date)
+      meta_key = FactoryBot.create(:meta_key_text_date)
       create_vocabulary_permissions(meta_key.vocabulary)
       meta_datum = create(:meta_datum_text_date,
                           meta_key: meta_key,
@@ -64,14 +64,14 @@ describe MetaDataController do
     end
 
     it 'add MetaDatum::People' do
-      meta_key = FactoryGirl.create(:meta_key_people)
+      meta_key = FactoryBot.create(:meta_key_people)
       create_vocabulary_permissions(meta_key.vocabulary)
       meta_datum = create(:meta_datum_people,
                           meta_key: meta_key,
                           media_entry: @media_entry)
 
       new_people_ids = \
-        meta_datum.people.map(&:id) + [FactoryGirl.create(:person).id]
+        meta_datum.people.map(&:id) + [FactoryBot.create(:person).id]
 
       patch :update,
             params: {
@@ -87,13 +87,13 @@ describe MetaDataController do
     end
 
     it 'replace MetaDatum::People' do
-      meta_key = FactoryGirl.create(:meta_key_people)
+      meta_key = FactoryBot.create(:meta_key_people)
       create_vocabulary_permissions(meta_key.vocabulary)
       meta_datum = create(:meta_datum_people,
                           meta_key: meta_key,
                           media_entry: @media_entry)
 
-      new_people_ids = [FactoryGirl.create(:person).id]
+      new_people_ids = [FactoryBot.create(:person).id]
 
       patch :update,
             params: {
@@ -110,14 +110,14 @@ describe MetaDataController do
     end
 
     it 'add MetaDatum::Keywords' do
-      meta_key = FactoryGirl.create(:meta_key_keywords)
+      meta_key = FactoryBot.create(:meta_key_keywords)
       create_vocabulary_permissions(meta_key.vocabulary)
       meta_datum = create(:meta_datum_keywords,
                           meta_key: meta_key,
                           media_entry: @media_entry)
 
       new_keyword_ids = \
-        meta_datum.keywords.map(&:id) + [FactoryGirl.create(:keyword).id]
+        meta_datum.keywords.map(&:id) + [FactoryBot.create(:keyword).id]
 
       patch :update,
             params: {
@@ -133,7 +133,7 @@ describe MetaDataController do
     end
 
     it 'add NEW MetaDatum::Keywords' do
-      meta_key = FactoryGirl.create(:meta_key_keywords)
+      meta_key = FactoryBot.create(:meta_key_keywords)
       create_vocabulary_permissions(meta_key.vocabulary)
       meta_datum = create(:meta_datum_keywords,
                           meta_key: meta_key,
@@ -158,13 +158,13 @@ describe MetaDataController do
     end
 
     it 'replace MetaDatum::Keywords' do
-      meta_key = FactoryGirl.create(:meta_key_keywords)
+      meta_key = FactoryBot.create(:meta_key_keywords)
       create_vocabulary_permissions(meta_key.vocabulary)
       meta_datum = create(:meta_datum_keywords,
                           meta_key: meta_key,
                           media_entry: @media_entry)
 
-      new_keyword_ids = [FactoryGirl.create(:keyword).id]
+      new_keyword_ids = [FactoryBot.create(:keyword).id]
 
       patch :update,
             params: {
@@ -181,7 +181,7 @@ describe MetaDataController do
 
     context 'empty update deletes meta_datum' do
       it 'empty value array' do
-        meta_key = FactoryGirl.create(:meta_key_people)
+        meta_key = FactoryBot.create(:meta_key_people)
         create_vocabulary_permissions(meta_key.vocabulary)
         meta_datum = create(:meta_datum_people,
                             meta_key: meta_key,
@@ -201,7 +201,7 @@ describe MetaDataController do
       end
 
       it 'value array with empty values' do
-        meta_key = FactoryGirl.create(:meta_key_people)
+        meta_key = FactoryBot.create(:meta_key_people)
         create_vocabulary_permissions(meta_key.vocabulary)
         meta_datum = create(:meta_datum_people,
                             meta_key: meta_key,

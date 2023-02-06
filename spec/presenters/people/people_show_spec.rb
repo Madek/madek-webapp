@@ -3,8 +3,8 @@ require Rails.root.join 'spec', 'presenters', 'shared', 'dump'
 
 describe Presenters::People::PersonShow do
   before :example do
-    @user = FactoryGirl.create(:user)
-    @person = FactoryGirl.create(
+    @user = FactoryBot.create(:user)
+    @person = FactoryBot.create(
       :person,
       user: @user,
       first_name: 'Albert',
@@ -31,9 +31,9 @@ describe Presenters::People::PersonShow do
   end
 
   it 'has correct data' do
-    entry = FactoryGirl.create(
+    entry = FactoryBot.create(
       :media_entry_with_title, get_metadata_and_previews: true)
-    FactoryGirl.create(
+    FactoryBot.create(
       :meta_datum_people, media_entry: entry, people: [@person])
 
     presenter = described_class.new(@person, @user, nil, {})

@@ -18,7 +18,7 @@ require Rails.root.join 'spec',
 describe MediaEntriesController do
 
   before :example do
-    @user = FactoryGirl.create :user
+    @user = FactoryBot.create :user
   end
 
   it_performs 'authorization'

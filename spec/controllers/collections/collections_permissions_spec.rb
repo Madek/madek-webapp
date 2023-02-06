@@ -7,25 +7,25 @@ describe CollectionsController do
   end
 
   it 'updates successfully' do
-    collection = FactoryGirl.create(:collection,
+    collection = FactoryBot.create(:collection,
                                     responsible_user: @user)
     collection.user_permissions << \
-      (up1 = FactoryGirl.create(:collection_user_permission,
+      (up1 = FactoryBot.create(:collection_user_permission,
                                 user: create(:user)))
     collection.user_permissions << \
-      (up2 = FactoryGirl.create(:collection_user_permission,
+      (up2 = FactoryBot.create(:collection_user_permission,
                                 user: create(:user)))
     collection.group_permissions << \
-      (gp1 = FactoryGirl.create(:collection_group_permission,
+      (gp1 = FactoryBot.create(:collection_group_permission,
                                 group: create(:group)))
     collection.group_permissions << \
-      (gp2 = FactoryGirl.create(:collection_group_permission,
+      (gp2 = FactoryBot.create(:collection_group_permission,
                                 group: create(:group)))
     collection.api_client_permissions << \
-      (apc1 = FactoryGirl.create(:collection_api_client_permission,
+      (apc1 = FactoryBot.create(:collection_api_client_permission,
                                  api_client: create(:api_client)))
     collection.api_client_permissions << \
-      (apc2 = FactoryGirl.create(:collection_api_client_permission,
+      (apc2 = FactoryBot.create(:collection_api_client_permission,
                                  api_client: create(:api_client)))
 
     update_params = \
@@ -105,16 +105,16 @@ describe CollectionsController do
   end
 
   it 'deletes old permissions if no new provided' do
-    collection = FactoryGirl.create(:collection,
+    collection = FactoryBot.create(:collection,
                                     responsible_user: @user)
     collection.user_permissions << \
-      FactoryGirl.create(:collection_user_permission,
+      FactoryBot.create(:collection_user_permission,
                          user: create(:user))
     collection.group_permissions << \
-      FactoryGirl.create(:collection_group_permission,
+      FactoryBot.create(:collection_group_permission,
                          group: create(:group))
     collection.api_client_permissions << \
-      FactoryGirl.create(:collection_api_client_permission,
+      FactoryBot.create(:collection_api_client_permission,
                          api_client: create(:api_client))
 
     update_params = \

@@ -8,18 +8,18 @@ include MetaDatumInputsHelper
 feature 'Resource: MetaDatum' do
   background do
     @user = User.find_by(login: 'normin')
-    @media_entry = FactoryGirl.create :media_entry_with_image_media_file,
+    @media_entry = FactoryBot.create :media_entry_with_image_media_file,
                                       creator: @user, responsible_user: @user
 
   end
 
   context 'MetaDatumPeople' do
     background do
-      @vocabulary = FactoryGirl.create(:vocabulary)
-      @meta_key = FactoryGirl.create(:meta_key_people)
-      @context_key = FactoryGirl.create(:context_key, meta_key: @meta_key)
+      @vocabulary = FactoryBot.create(:vocabulary)
+      @meta_key = FactoryBot.create(:meta_key_people)
+      @context_key = FactoryBot.create(:context_key, meta_key: @meta_key)
       configure_as_only_input(@context_key)
-      FactoryGirl.create(
+      FactoryBot.create(
         :meta_datum_people,
         meta_key: @meta_key,
         media_entry: @media_entry)
@@ -52,14 +52,14 @@ feature 'Resource: MetaDatum' do
     end
 
     example 'add PeopleInstitutionalGroup' do
-      @group_person = FactoryGirl.create(:people_instgroup)
+      @group_person = FactoryBot.create(:people_instgroup)
       group_label = @group_person.last_name
 
-      @meta_key = FactoryGirl.create(:meta_key_people_instgroup)
-      @context_key = FactoryGirl.create(:context_key, meta_key: @meta_key)
+      @meta_key = FactoryBot.create(:meta_key_people_instgroup)
+      @context_key = FactoryBot.create(:context_key, meta_key: @meta_key)
       configure_as_only_input(@context_key)
 
-      FactoryGirl.create(
+      FactoryBot.create(
         :meta_datum_people,
         meta_key: @meta_key, media_entry: @media_entry)
 

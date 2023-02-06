@@ -3,9 +3,9 @@ module MetaDatumInputsHelper
 
   def configure_as_only_input(context_key)
     # ensure at least 2 tabs:
-    other_context = FactoryGirl.create(:context)
-    FactoryGirl.create(:context_key, context: other_context, meta_key_id: 'madek_core:title')
-    AppSetting.first.update_attributes!(
+    other_context = FactoryBot.create(:context)
+    FactoryBot.create(:context_key, context: other_context, meta_key_id: 'madek_core:title')
+    AppSetting.first.update!(
       contexts_for_entry_edit: [context_key.context_id, other_context.id],
       context_for_entry_summary: context_key.context_id
     )

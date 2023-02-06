@@ -5,9 +5,9 @@ feature 'App: Infinite Scroll for ResourceLists' do
   let(:user) { User.find_by!(login: 'normin') }
 
   example 'collection children - as public' do
-    col = FactoryGirl.create(:collection, get_metadata_and_previews: true)
+    col = FactoryBot.create(:collection, get_metadata_and_previews: true)
     100.times do
-      col.media_entries << FactoryGirl.create(
+      col.media_entries << FactoryBot.create(
         :media_entry_with_title, get_metadata_and_previews: true)
     end
 
@@ -15,9 +15,9 @@ feature 'App: Infinite Scroll for ResourceLists' do
   end
 
   example 'collection children - as user' do
-    col = FactoryGirl.create(:collection, responsible_user: user)
+    col = FactoryBot.create(:collection, responsible_user: user)
     100.times do
-      col.media_entries << FactoryGirl.create(
+      col.media_entries << FactoryBot.create(
         :media_entry_with_title, responsible_user: user)
     end
 

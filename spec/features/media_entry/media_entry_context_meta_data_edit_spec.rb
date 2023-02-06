@@ -85,7 +85,7 @@ feature 'Resource: MediaEntry' do
       # and check that the URL hasn't changed and the submit button isn't disabled
       initialize_and_check_show
       expect(
-        AppSetting.first.update_attributes!(contexts_for_entry_validation: [])
+        AppSetting.first.update!(contexts_for_entry_validation: [])
       ).to be
 
       visit edit_context_path(nil)
@@ -112,18 +112,18 @@ feature 'Resource: MediaEntry' do
     it 'does not display meta datum if no usable permission existing',
        browser: :firefox do
       prepare_user
-      media_entry = FactoryGirl.create(:media_entry_with_image_media_file, :fat,
+      media_entry = FactoryBot.create(:media_entry_with_image_media_file, :fat,
                                        responsible_user: @user)
-      vocabulary = FactoryGirl.create(:vocabulary,
-                                      id: Faker::Lorem.characters(8),
+      vocabulary = FactoryBot.create(:vocabulary,
+                                      id: Faker::Lorem.characters(number: 8),
                                       enabled_for_public_view: true,
                                       enabled_for_public_use: false)
       meta_key = \
-        FactoryGirl.create(:meta_key_text,
-                           id: "#{vocabulary.id}:#{Faker::Lorem.characters(8)}",
+        FactoryBot.create(:meta_key_text,
+                           id: "#{vocabulary.id}:#{Faker::Lorem.characters(number: 8)}",
                            vocabulary: vocabulary)
-      FactoryGirl.create(:context_key,
-                         labels: { de: (@ck_label = Faker::Lorem.characters(8)) },
+      FactoryBot.create(:context_key,
+                         labels: { de: (@ck_label = Faker::Lorem.characters(number: 8)) },
                          meta_key: meta_key,
                          context_id: 'core')
 
@@ -131,11 +131,11 @@ feature 'Resource: MediaEntry' do
       visit edit_meta_data_by_context_media_entry_path(media_entry, 'core')
       expect(page).not_to have_content @ck_label
 
-      vocabulary.update_attributes(enabled_for_public_use: true)
+      vocabulary.update(enabled_for_public_use: true)
       visit edit_meta_data_by_context_media_entry_path(media_entry, 'core')
       expect(page).to have_content @ck_label
       find('fieldset', text: @ck_label).find('input')
-        .set (@value = Faker::Lorem.characters(8))
+        .set (@value = Faker::Lorem.characters(number: 8))
       find('button.primary-button').click
       expect(find('.media-data', text: @ck_label)).to have_content @value
     end

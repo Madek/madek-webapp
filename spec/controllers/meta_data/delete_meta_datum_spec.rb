@@ -3,7 +3,7 @@ require 'spec_helper_no_tx'
 
 def create_vocabulary_permissions(vocab)
   vocab.user_permissions << \
-    FactoryGirl.create(:vocabulary_user_permission,
+    FactoryBot.create(:vocabulary_user_permission,
                        user: @user,
                        view: true,
                        use: true)
@@ -18,17 +18,17 @@ end
 
 describe MetaDataController do
   before :each do
-    @user = FactoryGirl.create :user
-    @media_entry = FactoryGirl.create :media_entry
+    @user = FactoryBot.create :user
+    @media_entry = FactoryBot.create :media_entry
     @media_entry.user_permissions << \
-      FactoryGirl.create(:media_entry_user_permission,
+      FactoryBot.create(:media_entry_user_permission,
                          user: @user,
                          edit_metadata: true)
   end
 
   context 'delete success' do
     it 'MetaDatum::People' do
-      meta_key = FactoryGirl.create(:meta_key_people)
+      meta_key = FactoryBot.create(:meta_key_people)
       create_vocabulary_permissions(meta_key.vocabulary)
       meta_datum = create(:meta_datum_people,
                           meta_key: meta_key,
@@ -37,7 +37,7 @@ describe MetaDataController do
     end
 
     it 'MetaDatum::Keywords with RdfClass=License' do
-      meta_key = FactoryGirl.create(:meta_key_keywords_license)
+      meta_key = FactoryBot.create(:meta_key_keywords_license)
       create_vocabulary_permissions(meta_key.vocabulary)
       meta_datum = create(:meta_datum_keywords,
                           keywords: [create(:keyword, :license)],
@@ -47,7 +47,7 @@ describe MetaDataController do
     end
 
     it 'MetaDatum::Keywords' do
-      meta_key = FactoryGirl.create(:meta_key_keywords)
+      meta_key = FactoryBot.create(:meta_key_keywords)
       create_vocabulary_permissions(meta_key.vocabulary)
       meta_datum = create(:meta_datum_keywords,
                           meta_key: meta_key,
@@ -56,7 +56,7 @@ describe MetaDataController do
     end
 
     it 'MetaDatum::Text' do
-      meta_key = FactoryGirl.create(:meta_key_text)
+      meta_key = FactoryBot.create(:meta_key_text)
       create_vocabulary_permissions(meta_key.vocabulary)
       meta_datum = create(:meta_datum_text,
                           meta_key: meta_key,
@@ -66,7 +66,7 @@ describe MetaDataController do
     end
 
     it 'MetaDatum::TextDate' do
-      meta_key = FactoryGirl.create(:meta_key_text_date)
+      meta_key = FactoryBot.create(:meta_key_text_date)
       create_vocabulary_permissions(meta_key.vocabulary)
       meta_datum = create(:meta_datum_text_date,
                           meta_key: meta_key,

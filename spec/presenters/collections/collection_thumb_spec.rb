@@ -5,19 +5,19 @@ require Rails.root.join 'spec', 'presenters', 'shared', 'dump'
 describe Presenters::Collections::CollectionIndex do
 
   it_can_be 'dumped' do
-    collection = FactoryGirl.create(:collection)
+    collection = FactoryBot.create(:collection)
 
     unless MetaKey.find_by_id('madek_core:title')
       with_disabled_triggers do
         # TODO: remove as soon as the madek_core meta data is part of the test db
         MetaKey.find_by(id: 'madek_core:title') \
-          || FactoryGirl.create(:meta_key_core_title)
+          || FactoryBot.create(:meta_key_core_title)
       end
     end
 
     meta_key = MetaKey.find_by_id('madek_core:title')
 
-    FactoryGirl.create :meta_datum_text,
+    FactoryBot.create :meta_datum_text,
                        meta_key: meta_key,
                        collection: collection
 
@@ -31,9 +31,9 @@ describe Presenters::Collections::CollectionIndex do
 
   context 'image url' do
     it_responds_to 'image_url', 'with preview image' do
-      collection = FactoryGirl.create(:collection)
+      collection = FactoryBot.create(:collection)
       user = collection.responsible_user
-      media_entry = FactoryGirl.create(
+      media_entry = FactoryBot.create(
         :media_entry_with_image_media_file,
         creator: user, responsible_user: user)
       collection.media_entries << media_entry
@@ -43,9 +43,9 @@ describe Presenters::Collections::CollectionIndex do
     end
 
     it_responds_to 'image_url', 'with no image' do
-      collection = FactoryGirl.create(:collection)
+      collection = FactoryBot.create(:collection)
       user = collection.responsible_user
-      media_entry = FactoryGirl.create(
+      media_entry = FactoryBot.create(
         :media_entry_with_audio_media_file,
         creator: user, responsible_user: user)
       collection.media_entries << media_entry

@@ -138,20 +138,20 @@ feature 'Collection: Index' do
   def prepare_user
     @login = 'user'
     @password = '1234'
-    @user = FactoryGirl.create(:user, login: @login, password: @password)
+    @user = FactoryBot.create(:user, login: @login, password: @password)
   end
 
   def prepare_media_entry
-    @media_entry = FactoryGirl.create(
+    @media_entry = FactoryBot.create(
       :media_entry,
       responsible_user: @user,
       creator: @user)
 
-    @media_file = FactoryGirl.create(
+    @media_file = FactoryBot.create(
       :media_file_for_image,
       media_entry: @media_entry)
 
-    FactoryGirl.create(
+    FactoryBot.create(
       :meta_datum_text,
       created_by: @user,
       meta_key: meta_key_title,

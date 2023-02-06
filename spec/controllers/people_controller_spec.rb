@@ -1,16 +1,16 @@
 require 'spec_helper'
 
 describe PeopleController do
-  let(:user) { FactoryGirl.create :user }
+  let(:user) { FactoryBot.create :user }
   let(:person) { user.person }
   let(:meta_key_people) do
-    FactoryGirl.create(:meta_key_people,
+    FactoryBot.create(:meta_key_people,
                        allowed_people_subtypes: ['Person'])
   end
 
   context 'Resource: People' do
     example 'Action: show - inits corresponding presenter' do
-      person = FactoryGirl.create :person
+      person = FactoryBot.create :person
       get :show, params: { id: person.id }, session: { user_id: user.id }
 
       expect(response).to have_http_status(:success)
@@ -35,7 +35,7 @@ describe PeopleController do
 
   context 'Resource: People - responds to search with json' do
     it 'filtering with params[:search_term] by first name' do
-      2.times { FactoryGirl.create :person }
+      2.times { FactoryBot.create :person }
       person = Person.first
 
       get :index,
@@ -53,7 +53,7 @@ describe PeopleController do
     end
 
     it 'limiting with params[:limit]' do
-      2.times { FactoryGirl.create :person }
+      2.times { FactoryBot.create :person }
 
       get :index,
           params: {
@@ -69,7 +69,7 @@ describe PeopleController do
     end
 
     it 'with default limit of 100' do
-      101.times { FactoryGirl.create :person }
+      101.times { FactoryBot.create :person }
 
       get :index,
           params: {
@@ -86,7 +86,7 @@ describe PeopleController do
     context 'prefers exact matches' do
 
       example 'by id' do
-        2.times { FactoryGirl.create :person }
+        2.times { FactoryBot.create :person }
         person = Person.first
         # this person should not be returned even with the ID as a name:
         Person.last.last_name = person.id
@@ -106,7 +106,7 @@ describe PeopleController do
       end
 
       example 'by url' do
-        2.times { FactoryGirl.create :person }
+        2.times { FactoryBot.create :person }
         person = Person.first
         # this person should not be returned even with the ID as a name:
         Person.last.last_name = person.id
@@ -178,7 +178,7 @@ describe PeopleController do
         person: {
           first_name: Faker::Name.first_name,
           last_name: Faker::Name.last_name,
-          pseudonym: Faker::Name.title,
+          pseudonym: Faker::Artist.name,
           description: Faker::Lorem.paragraph,
           external_uris: [
             Faker::Internet.url,

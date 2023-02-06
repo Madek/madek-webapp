@@ -98,11 +98,11 @@ feature 'Vocabulary people' do
   end
 
   def create_vocabulary(vocabulary_id)
-    FactoryGirl.create(:vocabulary, id: vocabulary_id)
+    FactoryBot.create(:vocabulary, id: vocabulary_id)
   end
 
   def create_person(firstname: nil, lastname: nil)
-    FactoryGirl.create(:person, first_name: firstname, last_name: lastname)
+    FactoryBot.create(:person, first_name: firstname, last_name: lastname)
   end
 
   def create_resource_with_person_meta_data(
@@ -110,13 +110,13 @@ feature 'Vocabulary people' do
     first_and_last_names: nil
   )
     meta_key = MetaKey.find(person_meta_key)
-    media_entry = FactoryGirl.create(:media_entry)
+    media_entry = FactoryBot.create(:media_entry)
 
     persons = first_and_last_names.map do |fl|
       Person.find_by(first_name: fl[:firstname], last_name: fl[:lastname])
     end
 
-    FactoryGirl.create(
+    FactoryBot.create(
       :meta_datum_people,
       media_entry: media_entry,
       meta_key: meta_key,
@@ -124,7 +124,7 @@ feature 'Vocabulary people' do
   end
 
   def create_people_meta_key(vocabulary_id, meta_key_id)
-    FactoryGirl.create(
+    FactoryBot.create(
       :meta_key_people,
       id: vocabulary_id + ':' + meta_key_id,
       labels: { de: meta_key_id })

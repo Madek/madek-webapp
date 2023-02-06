@@ -11,7 +11,7 @@ module Presenters
         private
 
         def run(query)
-          connection.exec_query(query).to_hash
+          connection.exec_query(query).to_a
         end
 
         def check_meta_data_coverage(klass, base, covered_types)

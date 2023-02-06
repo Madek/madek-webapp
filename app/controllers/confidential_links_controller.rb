@@ -13,7 +13,7 @@ class ConfidentialLinksController < ApplicationController
   def create
     attrs = confidential_link_params(:description, :expires_at)
     cf_link = @resource.confidential_links.create(user: current_user)
-    cf_link.update_attributes!(attrs) && cf_link.reload
+    cf_link.update!(attrs) && cf_link.reload
 
     redirect_to \
       confidential_link_path(@resource, cf_link, just_created: true)
@@ -23,7 +23,7 @@ class ConfidentialLinksController < ApplicationController
     attrs = confidential_link_params(:revoked)
     cf_link = ConfidentialLink.find(params.require(:confidential_link_id))
     auth_authorize cf_link
-    cf_link.update_attributes!(attrs) && cf_link.reload
+    cf_link.update!(attrs) && cf_link.reload
 
     respond_with(@resource, location: confidential_links_path(@resource))
   end

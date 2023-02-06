@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe ApiClientsController do
-  let(:user) { FactoryGirl.create :user }
+  let(:user) { FactoryBot.create :user }
 
   context 'responds to search with json' do
     it 'filtering by params[:search_term]' do
-      2.times { FactoryGirl.create :api_client }
+      2.times { FactoryBot.create :api_client }
 
       api_client = ApiClient.first
 
@@ -21,7 +21,7 @@ describe ApiClientsController do
     end
 
     it 'limiting with params[:limit]' do
-      2.times { FactoryGirl.create :api_client }
+      2.times { FactoryBot.create :api_client }
 
       get(
         :index,
@@ -35,7 +35,7 @@ describe ApiClientsController do
     end
 
     it 'with default limit of 100' do
-      101.times { FactoryGirl.create :api_client }
+      101.times { FactoryBot.create :api_client }
 
       get :index, params: { format: :json }, session: { user_id: user.id }
 

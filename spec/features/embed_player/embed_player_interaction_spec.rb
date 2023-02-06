@@ -2,7 +2,7 @@ require_relative './_shared'
 
 feature 'Embed aka. "Madek-Player"' do
   let :video_entry do
-    FactoryGirl.create(:embed_test_video_entry)
+    FactoryBot.create(:embed_test_video_entry)
   end
 
   context 'video player interaction' do

@@ -4,14 +4,14 @@ describe BatchController do
   context 'Action: Batch Resource Destroy (Entries and Collections)' do
 
     before :example do
-      @alice = FactoryGirl.create :user
-      @bob = FactoryGirl.create :user
-      @chuck = FactoryGirl.create :user
+      @alice = FactoryBot.create :user
+      @bob = FactoryBot.create :user
+      @chuck = FactoryBot.create :user
       @alice_contents = [
         100.times.map do
           entry = create(:media_entry, creator: @alice, responsible_user: @alice)
           up = entry.user_permissions.find_or_create_by!(user: @bob)
-          up.update_attributes!(
+          up.update!(
             get_metadata_and_previews: true,
             get_full_size: true,
             edit_metadata: true,
@@ -22,7 +22,7 @@ describe BatchController do
         100.times.map do
           col = create(:collection, creator: @alice, responsible_user: @alice)
           up = col.user_permissions.find_or_create_by!(user: @bob)
-          up.update_attributes!(
+          up.update!(
             get_metadata_and_previews: true,
             edit_metadata_and_relations: true,
             edit_permissions: true

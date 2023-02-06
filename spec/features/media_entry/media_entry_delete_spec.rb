@@ -4,7 +4,7 @@ require 'spec_helper_feature_shared'
 
 feature 'Resource: MediaEntry' do
   background do
-    @user = FactoryGirl.create(:user, password: 'password')
+    @user = FactoryBot.create(:user, password: 'password')
     sign_in_as @user.login
   end
 

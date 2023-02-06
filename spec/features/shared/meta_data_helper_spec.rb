@@ -9,7 +9,7 @@ module MetaDataHelper
     if keyword
       keyword
     else
-      FactoryGirl.create(
+      FactoryBot.create(
         :keyword,
         term: term,
         meta_key: MetaKey.find_by(id: 'madek_core:keywords'))
@@ -21,7 +21,7 @@ module MetaDataHelper
     if person
       person
     else
-      FactoryGirl.create(
+      FactoryBot.create(
         :person,
         pseudonym: pseudonym)
     end
@@ -32,14 +32,14 @@ module MetaDataHelper
     if group
       group
     else
-      FactoryGirl.create(
+      FactoryBot.create(
         :group,
         name: name)
     end
   end
 
   def add_authors_datum(resource, people)
-    FactoryGirl.create(
+    FactoryBot.create(
       :meta_datum_people,
       people: people,
       meta_key: MetaKey.find_by(id: 'madek_core:authors'),
@@ -47,7 +47,7 @@ module MetaDataHelper
   end
 
   def add_creators_datum(resource, creators)
-    FactoryGirl.create(
+    FactoryBot.create(
       :meta_datum_people,
       people: creators,
       meta_key: MetaKey.find_by(id: 'media_object:creator'),
@@ -55,7 +55,7 @@ module MetaDataHelper
   end
 
   def add_roles_datum(resource, meta_key_id)
-    FactoryGirl.create(
+    FactoryBot.create(
       :meta_datum_roles,
       meta_key: MetaKey.find_by(id: meta_key_id),
       media_entry: resource)

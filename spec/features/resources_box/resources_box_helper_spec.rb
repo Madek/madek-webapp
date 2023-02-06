@@ -282,7 +282,7 @@ module ResourcesBoxHelper
     config
     .select { |e| e[:type] == Keyword }
     .each do |keyword_config|
-      keyword = FactoryGirl.create(
+      keyword = FactoryBot.create(
         :keyword,
         meta_key_id: full_meta_key_id(config, keyword_config[:meta_key])
       )
@@ -294,12 +294,12 @@ module ResourcesBoxHelper
     config
     .select { |entry| entry[:type] == Vocabulary }
     .each do |entry|
-      resource = FactoryGirl.create(:vocabulary, id: entry[:id].to_s)
+      resource = FactoryBot.create(:vocabulary, id: entry[:id].to_s)
 
       entry[:meta_keys].each do |mk|
         meta_key_id = entry[:id].to_s + ':' + mk.to_s
         MetaKey.where(id: meta_key_id).first ||
-          FactoryGirl.create(
+          FactoryBot.create(
             :meta_key,
             id: meta_key_id,
             meta_datum_object_type: meta_key_data_type(
@@ -321,7 +321,7 @@ module ResourcesBoxHelper
   end
 
   def create_text_meta_datum(resource, meta_key_id, value)
-    FactoryGirl.create(
+    FactoryBot.create(
       :meta_datum_text,
       "#{resource.class.name.underscore}_id" => resource.id,
       meta_key: MetaKey.find(meta_key_id),
@@ -339,7 +339,7 @@ module ResourcesBoxHelper
       keyword_entry(config, keyword_sym)[:resource]
     end
 
-    FactoryGirl.create(
+    FactoryBot.create(
       :meta_datum_keywords,
       "#{resource.class.name.underscore}_id" => resource.id,
       meta_key: MetaKey.find(meta_key_id),
@@ -429,7 +429,7 @@ module ResourcesBoxHelper
 
   def add_group_permission(resource, group)
     underscore = resource.class.name.underscore
-    FactoryGirl.create(
+    FactoryBot.create(
       "#{underscore}_group_permission".to_sym,
       get_metadata_and_previews: true,
       group: group,
@@ -438,7 +438,7 @@ module ResourcesBoxHelper
 
   def add_api_client_permission(resource, api_client)
     underscore = resource.class.name.underscore
-    FactoryGirl.create(
+    FactoryBot.create(
       "#{underscore}_api_client_permission".to_sym,
       get_metadata_and_previews: true,
       api_client: api_client,
@@ -447,7 +447,7 @@ module ResourcesBoxHelper
 
   def add_user_permission(resource, user)
     underscore = resource.class.name.underscore
-    FactoryGirl.create(
+    FactoryBot.create(
       "#{underscore}_user_permission".to_sym,
       get_metadata_and_previews: true,
       user: user,
@@ -490,7 +490,7 @@ module ResourcesBoxHelper
 
   def create_keyword(user, term)
     meta_key = MetaKey.find('madek_core:keywords')
-    FactoryGirl.create(:keyword, meta_key: meta_key, term: term, creator: user)
+    FactoryBot.create(:keyword, meta_key: meta_key, term: term, creator: user)
   end
 
   def append_keywords(user, resource, keywords)
@@ -770,23 +770,23 @@ module ResourcesBoxHelper
   end
 
   def create_user
-    person = FactoryGirl.create(:person)
-    FactoryGirl.create(
+    person = FactoryBot.create(:person)
+    FactoryBot.create(
       :user,
       person: person
     )
   end
 
   def create_group
-    FactoryGirl.create(:group)
+    FactoryBot.create(:group)
   end
 
   def create_delegation
-    FactoryGirl.create(:delegation)
+    FactoryBot.create(:delegation)
   end
 
   def create_api
-    FactoryGirl.create(:api_client)
+    FactoryBot.create(:api_client)
   end
 
   def create_collection(title, user, get_metadata_and_previews, **_opts)
@@ -805,13 +805,13 @@ module ResourcesBoxHelper
   def create_media_entry(title, user, get_metadata_and_previews, **opts)
     delegation = opts.fetch(:delegation, nil)
     responsible_user = delegation ? nil : user
-    media_entry = FactoryGirl.create(
+    media_entry = FactoryBot.create(
       :media_entry,
       get_metadata_and_previews: get_metadata_and_previews,
       responsible_user: responsible_user,
       creator: user,
       responsible_delegation: delegation)
-    FactoryGirl.create(
+    FactoryBot.create(
       :media_file_for_image,
       media_entry: media_entry)
     MetaDatum::Text.create!(

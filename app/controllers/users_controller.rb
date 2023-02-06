@@ -16,7 +16,7 @@ class UsersController < ApplicationController
     usage_term_id = params.require(:usage_term_id)
     return_to = params.fetch(:return_to).presence || my_dashboard_path
 
-    current_user.update_attributes!(
+    current_user.update!(
       accepted_usage_terms_id: UsageTerms.find(usage_term_id).id)
 
     flash.keep

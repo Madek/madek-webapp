@@ -151,7 +151,7 @@ module SelectCollectionHelper
       created_by: creator)
 
     if is_allowed
-      FactoryGirl.create(
+      FactoryBot.create(
         :collection_user_permission,
         user: @user,
         updator: @user,
@@ -174,7 +174,7 @@ module SelectCollectionHelper
 
   def prepare_data
     prepare_user
-    @other = FactoryGirl.create(:user, login: 'login', password: 'password')
+    @other = FactoryBot.create(:user, login: 'login', password: 'password')
     prepare_resource
     prepare_collections
   end

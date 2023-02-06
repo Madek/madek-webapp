@@ -6,8 +6,8 @@ feature 'App: UsageTerms' do
 
   # If a user has not accepted the latest usage terms and is logged in,
   # every action result in an Error prompting to accept those terms.
-  let(:user) { FactoryGirl.create :user }
-  let(:latest_usage_terms) { FactoryGirl.create :usage_terms }
+  let(:user) { FactoryBot.create :user }
+  let(:latest_usage_terms) { FactoryBot.create :usage_terms }
 
   describe 'App: enforcing acceptance of latest usage terms for logged in users' do
 

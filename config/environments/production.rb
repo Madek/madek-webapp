@@ -1,4 +1,5 @@
-require 'active_support/core_ext/numeric/bytes'
+require "active_support/core_ext/integer/time"
+require "active_support/core_ext/numeric/bytes"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -59,8 +60,8 @@ Rails.application.configure do
   config.react.server_renderer_pool_size = 12
   config.react.server_renderer_timeout   = 10 # seconds
 
-  # Use the lowest log level to ensure availability of diagnostic information
-  # when problems arise.
+  # Include generic and useful information about system operation, but avoid logging too much
+  # information to avoid inadvertent exposure of personally identifiable information (PII).
   # config.log_level = :debug
 
   # Prepend all log lines with the following tags.
@@ -86,11 +87,17 @@ Rails.application.configure do
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
 
+  # Log disallowed deprecations.
+  # config.active_support.disallowed_deprecation = :log
+
+  # Tell Active Support which deprecation messages to disallow.
+  # config.active_support.disallowed_deprecation_warnings = []
+
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
   # Use a different logger for distributed setups.
-  # require 'syslog/logger'
+  # require "syslog/logger"
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?

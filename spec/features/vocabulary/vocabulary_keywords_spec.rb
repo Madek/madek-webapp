@@ -60,7 +60,7 @@ feature 'Vocabulary keywords' do
     vocabulary.enabled_for_public_view = false
     vocabulary.save
 
-    FactoryGirl.create(
+    FactoryBot.create(
       :vocabulary_user_permission,
       user: @user,
       vocabulary: vocabulary,
@@ -115,8 +115,8 @@ feature 'Vocabulary keywords' do
     prepare_user
     vocabulary = create_vocabulary('vocabulary', ['keyword'], [])
 
-    media_entry = FactoryGirl.create(:media_entry)
-    meta_datum = FactoryGirl.create(
+    media_entry = FactoryBot.create(:media_entry)
+    meta_datum = FactoryBot.create(
       :meta_datum_keywords,
       meta_key_id: 'vocabulary:keyword')
     media_entry.meta_data << meta_datum
@@ -188,17 +188,17 @@ feature 'Vocabulary keywords' do
   end
 
   def create_vocabulary(vocabulary_id, keyword_ids, other_ids)
-    vocabulary = FactoryGirl.create(:vocabulary, id: vocabulary_id)
+    vocabulary = FactoryBot.create(:vocabulary, id: vocabulary_id)
 
     keyword_meta_keys = keyword_ids.map do |index|
-      FactoryGirl.create(
+      FactoryBot.create(
         :meta_key_keywords,
         id: vocabulary_id + ':' + index,
         keywords_alphabetical_order: [true, false].sample)
     end
 
     other_meta_keys = other_ids.map do |index|
-      FactoryGirl.create(:meta_key_text, id: vocabulary_id + ':' + index)
+      FactoryBot.create(:meta_key_text, id: vocabulary_id + ':' + index)
     end
 
     keyword_meta_keys.concat(other_meta_keys).each do |meta_key|

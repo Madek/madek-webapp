@@ -11,7 +11,7 @@ feature 'Media Entry edit - tooltip' do
   end
 
   describe 'Context Key\'s documentation url' do
-    given(:valid_url) { Faker::Internet.url('example.com') }
+    given(:valid_url) { Faker::Internet.url(host: 'example.com') }
     given(:invalid_url) { 'invalid_url' }
     given(:meta_key) do
       create(:meta_key_text, id: 'media_content:test', labels: { de: 'Test Meta Key' })
@@ -115,8 +115,8 @@ feature 'Media Entry edit - tooltip' do
         background { I18n.locale = :en }
 
         context 'when Context Key has no url for english locale' do
-          let(:german_url) { Faker::Internet.url('example.com', '?lang=de') }
-          let(:english_url) { Faker::Internet.url('example.com', '?lang=en') }
+          let(:german_url) { Faker::Internet.url(host: 'example.com', path: '?lang=de') }
+          let(:english_url) { Faker::Internet.url(host: 'example.com', path: '?lang=en') }
 
           context 'but Meta Key has' do
             let(:valid_url) { english_url }

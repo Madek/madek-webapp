@@ -8,7 +8,7 @@ feature 'People' do
     {
       first_name: Faker::Name.first_name,
       last_name: Faker::Name.last_name,
-      pseudonym: Faker::Name.title,
+      pseudonym: Faker::Artist.name,
       description: Faker::Lorem.paragraph,
       external_uris: 2.times.map { Faker::Internet.url }
     }
@@ -320,7 +320,7 @@ feature 'People' do
     PEOPLE_EXAMPLES.each do |item|
       scenario "detects correct data for URI: <#{item[:input]}>" do
         click_button I18n.t(:person_edit_add_uri_btn)
-        fill_in 'person[pseudonym]', with: Faker::Name.title
+        fill_in 'person[pseudonym]', with: Faker::Artist.name
         fill_in 'person[external_uris][]', with: item[:input]
         submit_form
 

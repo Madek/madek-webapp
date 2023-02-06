@@ -55,8 +55,8 @@ class SessionsController < ActionController::Base
     @user = User.find_or_initialize_by email: @email
     @user.password ||= SecureRandom.base64
     @person = shib_sign_in_person
-    @person.update_attributes! last_name: @last_name, first_name: @first_name
-    @user.update_attributes! person: @person, email: @email
+    @person.update! last_name: @last_name, first_name: @first_name
+    @user.update! person: @person, email: @email
     set_madek_session @user, true
     redirect_to(
       my_dashboard_path(shib_extra_params), success: I18n.t(:app_notice_logged_in))

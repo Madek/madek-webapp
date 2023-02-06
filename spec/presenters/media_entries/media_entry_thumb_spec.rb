@@ -4,18 +4,18 @@ require Rails.root.join 'spec', 'presenters', 'shared', 'dump'
 
 describe Presenters::MediaEntries::MediaEntryIndex do
   it_can_be 'dumped' do
-    media_entry = FactoryGirl.create(:media_entry_with_image_media_file)
+    media_entry = FactoryBot.create(:media_entry_with_image_media_file)
 
     unless MetaKey.find_by_id('madek_core:title')
       with_disabled_triggers do
         # TODO: remove as soon as the madek_core meta data is part of the test db
-        FactoryGirl.create :meta_key_core_title
+        FactoryBot.create :meta_key_core_title
       end
     end
 
     meta_key = MetaKey.find_by_id('madek_core:title')
 
-    FactoryGirl.create :meta_datum_text,
+    FactoryBot.create :meta_datum_text,
                        meta_key: meta_key,
                        media_entry: media_entry
 
@@ -29,13 +29,13 @@ describe Presenters::MediaEntries::MediaEntryIndex do
 
   context 'image_url' do
     it_responds_to 'image_url', 'with preview image' do
-      media_entry = FactoryGirl.create(:media_entry_with_image_media_file)
+      media_entry = FactoryBot.create(:media_entry_with_image_media_file)
       let(:resource) { media_entry }
       let(:media_entry) { media_entry }
     end
 
     it_responds_to 'image_url', 'with no image' do
-      media_entry = FactoryGirl.create(:media_entry_with_audio_media_file)
+      media_entry = FactoryBot.create(:media_entry_with_audio_media_file)
       let(:resource) { media_entry }
       let(:media_entry) { media_entry }
     end

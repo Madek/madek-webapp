@@ -11,7 +11,7 @@ feature 'Resource: MediaEntry' do
     let(:user) { User.find_by(login: 'normin') }
 
     example 'Image: shows "large" image preview and links to "largest" image' do
-      entry = FactoryGirl.create(
+      entry = FactoryBot.create(
         :media_entry_with_image_media_file,
         get_metadata_and_previews: true)
 
@@ -37,12 +37,12 @@ feature 'Resource: MediaEntry' do
     example 'PDF: shows image preview and links to (original) PDF' do
       # NOTE: need to use Personas DB as there is no factory with a real PDF!
 
-      # entry = FactoryGirl.create(
+      # entry = FactoryBot.create(
       #   :media_entry_with_document_media_file,
       #   get_metadata_and_previews: true,
       #   get_full_size: true)
       entry = MediaEntry.find('c50bc33d-626b-43ac-b297-8725ac8a152b')
-      entry.update_attributes!(get_full_size: true)
+      entry.update!(get_full_size: true)
 
       large_preview = preview_path(
         entry.media_file.previews.where(thumbnail: :large).first)

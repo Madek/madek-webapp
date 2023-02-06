@@ -1,23 +1,23 @@
 require 'spec_helper'
 
 describe MediaEntriesController do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
   let(:vocabulary) do
-    FactoryGirl.create(:vocabulary,
-                       id: Faker::Lorem.characters(10),
+    FactoryBot.create(:vocabulary,
+                       id: Faker::Lorem.characters(number: 10),
                        enabled_for_public_view: true,
                        enabled_for_public_use: true)
   end
   let(:meta_key_text_1) do
-    FactoryGirl.create(:meta_key_text,
+    FactoryBot.create(:meta_key_text,
                        vocabulary: vocabulary,
-                       id: "#{vocabulary.id}:#{Faker::Lorem.characters(10)}")
+                       id: "#{vocabulary.id}:#{Faker::Lorem.characters(number: 10)}")
   end
   let(:media_entry_1) do
-    FactoryGirl.create(:media_entry, responsible_user: user)
+    FactoryBot.create(:media_entry, responsible_user: user)
   end
   let(:media_entry_2) do
-    FactoryGirl.create(:media_entry, responsible_user: user)
+    FactoryBot.create(:media_entry, responsible_user: user)
   end
 
   context 'batch meta data update' do

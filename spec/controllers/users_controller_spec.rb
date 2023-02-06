@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe UsersController do
-  let(:user) { FactoryGirl.create :user }
+  let(:user) { FactoryBot.create :user }
   before(:example) do
-    5.times { FactoryGirl.create :user }
+    5.times { FactoryBot.create :user }
   end
 
   context 'Resource: Users - responds to search with json' do
@@ -37,7 +37,7 @@ describe UsersController do
     context 'prefers exact match' do
 
       it 'by id' do
-        2.times { FactoryGirl.create :user }
+        2.times { FactoryBot.create :user }
         user = User.first
         # this user should not be returned even with the ID as a login:
         User.last.login = user.id
@@ -55,7 +55,7 @@ describe UsersController do
       end
 
       it 'by url' do
-        2.times { FactoryGirl.create :user }
+        2.times { FactoryBot.create :user }
         user = User.first
         # this user should not be returned even with the ID as a login:
         User.last.login = user.id
@@ -73,7 +73,7 @@ describe UsersController do
       end
 
       it 'by email' do
-        2.times { FactoryGirl.create :user }
+        2.times { FactoryBot.create :user }
         user = User.first
         # this user should not be returned even with the email as a login:
         User.last.login = user.email.split('@').join(' ')

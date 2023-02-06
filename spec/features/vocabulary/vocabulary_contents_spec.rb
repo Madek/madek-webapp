@@ -60,16 +60,16 @@ feature 'Vocabulary keywords' do
   end
 
   def create_media_entry(title, published, viewable)
-    media_entry = FactoryGirl.create(:media_entry)
+    media_entry = FactoryBot.create(:media_entry)
     if published
       title_key = MetaKey.find('madek_core:title')
       rights_key = MetaKey.find('madek_core:copyright_notice')
-      FactoryGirl.create(
+      FactoryBot.create(
         :meta_datum_text,
         meta_key: title_key,
         media_entry: media_entry,
         string: title)
-      FactoryGirl.create(
+      FactoryBot.create(
         :meta_datum_text,
         meta_key: rights_key,
         media_entry: media_entry)
@@ -85,7 +85,7 @@ feature 'Vocabulary keywords' do
     media_entry = create_media_entry(title, published, viewable)
     meta_key_id = vocabulary_id + ':' + meta_key_id
     meta_key = MetaKey.find(meta_key_id)
-    FactoryGirl.create(
+    FactoryBot.create(
       :meta_datum_keywords,
       meta_key: meta_key,
       media_entry: media_entry)
@@ -96,21 +96,21 @@ feature 'Vocabulary keywords' do
     media_entry = create_media_entry(title, published, viewable)
     meta_key_id = vocabulary_id + ':' + meta_key_id
     meta_key = MetaKey.find(meta_key_id)
-    FactoryGirl.create(
+    FactoryBot.create(
       :meta_datum_text,
       meta_key: meta_key,
       media_entry: media_entry)
   end
 
   def create_vocabulary(vocabulary_id, keyword_ids, other_ids)
-    vocabulary = FactoryGirl.create(:vocabulary, id: vocabulary_id)
+    vocabulary = FactoryBot.create(:vocabulary, id: vocabulary_id)
 
     keyword_meta_keys = keyword_ids.map do |index|
-      FactoryGirl.create(:meta_key_keywords, id: vocabulary_id + ':' + index)
+      FactoryBot.create(:meta_key_keywords, id: vocabulary_id + ':' + index)
     end
 
     other_meta_keys = other_ids.map do |index|
-      FactoryGirl.create(:meta_key_text, id: vocabulary_id + ':' + index)
+      FactoryBot.create(:meta_key_text, id: vocabulary_id + ':' + index)
     end
 
     keyword_meta_keys.concat(other_meta_keys).each do |meta_key|

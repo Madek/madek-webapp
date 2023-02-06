@@ -116,7 +116,7 @@ module Presenters
           SQL
 
           @_related_entries_by_shared_keywords = \
-            ActiveRecord::Base.connection.exec_query(query).to_hash
+            ActiveRecord::Base.connection.exec_query(query).to_a
         end
 
         def ignored_keywords_subquery

@@ -7,7 +7,7 @@ include BasicDataHelper
 feature 'determine collection layout ' do
 
   scenario 'not logged in' do
-    @collection = FactoryGirl.create(:collection)
+    @collection = FactoryBot.create(:collection)
     @collection.get_metadata_and_previews = true
     @collection.save
     @collection.reload
@@ -116,8 +116,8 @@ feature 'determine collection layout ' do
   end
 
   def prepare_data
-    @collection = FactoryGirl.create(:collection, responsible_user: @user)
-    @media_entry = FactoryGirl.create(:media_entry, responsible_user: @user)
+    @collection = FactoryBot.create(:collection, responsible_user: @user)
+    @media_entry = FactoryBot.create(:media_entry, responsible_user: @user)
     @collection.media_entries << @media_entry
   end
 end

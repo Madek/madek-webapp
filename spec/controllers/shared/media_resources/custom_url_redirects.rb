@@ -17,7 +17,7 @@ RSpec.shared_examples 'redirection' do
 
   before :example do
     @resource = \
-      FactoryGirl.create(model_name.singular,
+      FactoryBot.create(model_name.singular,
                          get_metadata_and_previews: true)
   end
 

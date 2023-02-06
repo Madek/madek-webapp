@@ -34,7 +34,7 @@ describe SessionsController do
       before :each do
         @person = Person.create last_name: 'OLD_LASTNAME',
                                 first_name: 'OLD_FIRSTNAME', subtype: 'Person'
-        @user = FactoryGirl.create \
+        @user = FactoryBot.create \
           :user, person: @person, email: 'FIRSTNAME.LASTNAME@example.com'.downcase
       end
 

@@ -2,16 +2,16 @@ require 'spec_helper'
 require 'spec_helper_shared'
 
 describe KeywordsController do
-  let(:user) { FactoryGirl.create :user }
-  let(:meta_key) { FactoryGirl.create :meta_key_keywords }
+  let(:user) { FactoryBot.create :user }
+  let(:meta_key) { FactoryBot.create :meta_key_keywords }
   let(:meta_datum_keywords) do
-    FactoryGirl.create(:meta_datum_keywords, meta_key: meta_key)
+    FactoryBot.create(:meta_datum_keywords, meta_key: meta_key)
   end
 
   context 'Resource: Keywords' do
     example \
       'action redirect_by_term works if user is authorized' do
-      keyword = FactoryGirl.create :keyword, meta_key: meta_key
+      keyword = FactoryBot.create :keyword, meta_key: meta_key
       get(
         :redirect_by_term,
         params: { term: keyword.term, meta_key_id: meta_key },
@@ -24,7 +24,7 @@ describe KeywordsController do
 
     example \
       'action show works if user is authorized' do
-      keyword = FactoryGirl.create :keyword, meta_key: meta_key
+      keyword = FactoryBot.create :keyword, meta_key: meta_key
       get(
         :show,
         params: { keyword_id: keyword.id },
@@ -33,14 +33,14 @@ describe KeywordsController do
     end
 
     it 'action show responds with 403 if user not authorized' do
-      vocab = FactoryGirl.create(:vocabulary,
-                                 id: Faker::Lorem.characters(8),
+      vocab = FactoryBot.create(:vocabulary,
+                                 id: Faker::Lorem.characters(number: 8),
                                  enabled_for_public_view: false)
       meta_key_keywords = \
-        FactoryGirl.create(:meta_key_keywords,
-                           id: "#{vocab.id}:#{Faker::Lorem.characters(8)}")
+        FactoryBot.create(:meta_key_keywords,
+                           id: "#{vocab.id}:#{Faker::Lorem.characters(number: 8)}")
       meta_datum_keywords = \
-        FactoryGirl.create(:meta_datum_keywords,
+        FactoryBot.create(:meta_datum_keywords,
                            meta_key: meta_key_keywords)
       keyword = meta_datum_keywords.keywords.first
 
@@ -68,7 +68,7 @@ describe KeywordsController do
 
   context 'responds to search with json' do
     it 'filtering by params[:search_term]' do
-      keywords = (1..2).map { FactoryGirl.create :keyword, meta_key: meta_key }
+      keywords = (1..2).map { FactoryBot.create :keyword, meta_key: meta_key }
       keyword = keywords.sample
       keyword.meta_key.vocabulary.user_permissions << \
         create(:vocabulary_user_permission, user: user)
@@ -97,12 +97,12 @@ describe KeywordsController do
       # 5. in case of same position then alphabetic
 
       truncate_tables
-      vocab = FactoryGirl.create(:vocabulary,
-                                 id: Faker::Lorem.characters(5),
+      vocab = FactoryBot.create(:vocabulary,
+                                 id: Faker::Lorem.characters(number: 5),
                                  enabled_for_public_view: true)
       meta_key = \
-        FactoryGirl.create(:meta_key,
-                           id: "#{vocab.id}:#{Faker::Lorem.characters(8)}")
+        FactoryBot.create(:meta_key,
+                           id: "#{vocab.id}:#{Faker::Lorem.characters(number: 8)}")
       labels = %w(Pinsir
                   Pidgeot
                   Rapidash
@@ -115,7 +115,7 @@ describe KeywordsController do
                   pi
                   Pidgeotto)
       labels.map do |label|
-        FactoryGirl.create(:keyword, meta_key: meta_key, term: label)
+        FactoryBot.create(:keyword, meta_key: meta_key, term: label)
       end
       sorted_labels = %w(pi
                          Pi
@@ -142,20 +142,20 @@ describe KeywordsController do
       meta_key.vocabulary.user_permissions << \
         create(:vocabulary_user_permission, user: user)
 
-      mdk1 = FactoryGirl.create(:meta_datum_keyword,
+      mdk1 = FactoryBot.create(:meta_datum_keyword,
                                 meta_datum: meta_datum_keywords,
                                 created_by: user,
                                 created_at: Date.today)
-      mdk2 = FactoryGirl.create(:meta_datum_keyword,
+      mdk2 = FactoryBot.create(:meta_datum_keyword,
                                 meta_datum: meta_datum_keywords,
                                 created_by: user,
                                 created_at: Date.yesterday)
-      mdk3 = FactoryGirl.create(:meta_datum_keyword,
+      mdk3 = FactoryBot.create(:meta_datum_keyword,
                                 meta_datum: meta_datum_keywords,
                                 created_by: user,
                                 created_at: Date.today - 1.week)
 
-      (1..2).map { FactoryGirl.create :meta_datum_keyword }
+      (1..2).map { FactoryBot.create :meta_datum_keyword }
 
       get :index,
           params: {
@@ -174,7 +174,7 @@ describe KeywordsController do
     end
 
     it 'limiting with params[:limit]' do
-      2.times { FactoryGirl.create :keyword, meta_key: meta_key }
+      2.times { FactoryBot.create :keyword, meta_key: meta_key }
 
       get :index,
           params: { meta_key_id: meta_key.id, limit: 1, format: :json },
@@ -187,7 +187,7 @@ describe KeywordsController do
     end
 
     it 'with default limit of 100' do
-      101.times { FactoryGirl.create :keyword, meta_key: meta_key }
+      101.times { FactoryBot.create :keyword, meta_key: meta_key }
 
       get :index,
           params: { meta_key_id: meta_key.id, format: :json },

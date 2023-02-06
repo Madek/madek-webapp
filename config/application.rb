@@ -1,7 +1,7 @@
 require_relative 'boot'
 $:.push File.expand_path('../../datalayer/lib', __FILE__)
 
-require 'rails/all'
+require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -10,7 +10,7 @@ Bundler.require(*Rails.groups)
 module Madek
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.0
+    config.load_defaults 6.1
     config.autoloader = :classic
 
     config.active_record.belongs_to_required_by_default = false
@@ -20,6 +20,14 @@ module Madek
     # Use the responders controller from the responders gem
     config.app_generators.scaffold_controller :responders_controller
     config.responders.flash_keys = [ :success, :error ]
+
+    # Configuration for the application, engines, and railties goes here.
+    #
+    # These settings can be overridden in specific environments using the files
+    # in config/environments, which are processed later.
+    #
+    # config.time_zone = "Central Time (US & Canada)"
+    # config.eager_load_paths << Rails.root.join("extras")
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers

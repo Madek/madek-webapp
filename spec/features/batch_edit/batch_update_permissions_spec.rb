@@ -11,7 +11,7 @@ feature 'Batch update media entries permissions' do
     #        for this scenario we also don't really need the "big setup"…
     setup_batch_permissions_test_data(MediaEntry) # from BatchPermissionsHelper
 
-    @collection = FactoryGirl.create(
+    @collection = FactoryBot.create(
       :collection, responsible_user: @logged_in_user)
     @collection.media_entries << [@resource_1, @resource_2]
     sign_in_as @logged_in_user.login

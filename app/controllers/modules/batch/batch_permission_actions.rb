@@ -120,7 +120,7 @@ module Modules
       end
 
       def update_public_permission!(resource, public_permission)
-        resource.update_attributes! \
+        resource.update! \
           sanitize_attributes public_permission, resource.class, :public
       end
 
@@ -166,7 +166,7 @@ module Modules
             resource
             .user_permissions
             .find_or_create_by! subject_type_id_key => subject_id
-          p.update_attributes! sanitized_attributes
+          p.update! sanitized_attributes
         end
       end
 
@@ -180,7 +180,7 @@ module Modules
             resource
             .group_permissions
             .find_or_create_by! group_id: p_data[:subject]
-          p.update_attributes! sanitized_attributes
+          p.update! sanitized_attributes
         end
       end
 
@@ -195,7 +195,7 @@ module Modules
             resource
             .api_client_permissions
             .find_or_create_by! api_client_id: p_data[:subject]
-          p.update_attributes! sanitized_attributes
+          p.update! sanitized_attributes
         end
       end
 

@@ -4,12 +4,12 @@ require_relative './_shared'
 #       this only tests the HTML output that is served from oEmbed (iframe etc)
 feature 'Embed aka. "Madek-Player"' do
   let :video_entry do
-    FactoryGirl.create(:embed_test_video_entry)
+    FactoryBot.create(:embed_test_video_entry)
   end
   VIDEO_CAPTION = "madek-test-video\nMadek Team — Public Domain".freeze
 
   let :audio_entry do
-    FactoryGirl.create(:embed_test_audio_entry)
+    FactoryBot.create(:embed_test_audio_entry)
   end
   AUDIO_CAPTION = "madek-test-audio\nMadek Team — Public Domain".freeze
 
@@ -49,7 +49,7 @@ feature 'Embed aka. "Madek-Player"' do
     it 'works with a ConfidentialLink / accessToken' do
       expected_size = { height: 360, width: 640 }
       entry = video_entry
-      entry.update_attributes!(get_metadata_and_previews: false, get_full_size: false)
+      entry.update!(get_metadata_and_previews: false, get_full_size: false)
       sikrit = create(:confidential_link, resource: entry)
 
       url_without_access_token = media_entry_path(video_entry)

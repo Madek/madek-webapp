@@ -29,31 +29,31 @@ module BatchPermissionsHelper
     # main resource, also CASE 12+13
     case resource_class.name
     when 'MediaEntry'
-      @resource_1 = FactoryGirl.create(
+      @resource_1 = FactoryBot.create(
         :media_entry,
         responsible_user: @logged_in_user,
         get_full_size: true,
         get_metadata_and_previews: false)
-      @resource_2 = FactoryGirl.create(
+      @resource_2 = FactoryBot.create(
         :media_entry,
         responsible_user: @logged_in_user,
         get_full_size: false,
         get_metadata_and_previews: true)
 
     when 'Collection'
-      @resource_1 = FactoryGirl.create(
+      @resource_1 = FactoryBot.create(
         :collection,
         responsible_user: @logged_in_user,
         get_metadata_and_previews: true)
-      @resource_2 = FactoryGirl.create(
+      @resource_2 = FactoryBot.create(
         :collection,
         responsible_user: @logged_in_user,
         get_metadata_and_previews: false)
     end
 
     # CASE 1
-    @case_1_user = FactoryGirl.create(:user)
-    @case_1_delegation = FactoryGirl.create(:delegation)
+    @case_1_user = FactoryBot.create(:user)
+    @case_1_delegation = FactoryBot.create(:delegation)
     @case_1_user_permission_1 = _create_perm(
       @resource_1, @case_1_user, get_metadata_and_previews: true)
     @case_1_user_permission_2 = _create_perm(
@@ -64,26 +64,26 @@ module BatchPermissionsHelper
       @resource_2, @case_1_delegation, get_metadata_and_previews: true)
 
     # CASE 2
-    @case_2_group = FactoryGirl.create(:group)
+    @case_2_group = FactoryBot.create(:group)
     @case_2_group_permission_1 = _create_perm(
       @resource_1, @case_2_group, get_metadata_and_previews: false)
     @case_2_group_permission_2 = _create_perm(
       @resource_2, @case_2_group, get_metadata_and_previews: false)
-    @case_2_api_client = FactoryGirl.create(:api_client)
+    @case_2_api_client = FactoryBot.create(:api_client)
     @case_2_api_client_permission_1 = _create_perm(
       @resource_1, @case_2_api_client, get_metadata_and_previews: false)
     @case_2_api_client_permission_2 = _create_perm(
       @resource_2, @case_2_api_client, get_metadata_and_previews: false)
 
     # CASE 3
-    @case_3_user = FactoryGirl.create(:user)
+    @case_3_user = FactoryBot.create(:user)
     @case_3_user_permission_1 = _create_perm(
       @resource_1, @case_3_user, get_metadata_and_previews: true)
     @case_3_user_permission_2 = _create_perm(
       @resource_2, @case_3_user, get_metadata_and_previews: false)
 
     # CASE 4
-    @case_4_user = FactoryGirl.create(:user)
+    @case_4_user = FactoryBot.create(:user)
     @case_4_user_permission_1 = _create_perm(
       @resource_1, @case_4_user,
       edit_permissions: true)
@@ -92,7 +92,7 @@ module BatchPermissionsHelper
       edit_permissions: false)
 
     # CASE 5
-    @case_5_group = FactoryGirl.create(:group)
+    @case_5_group = FactoryBot.create(:group)
     @case_5_group_permission_1 = _create_perm(
       @resource_1, @case_5_group,
       get_metadata_and_previews: true)
@@ -100,7 +100,7 @@ module BatchPermissionsHelper
       @resource_2, @case_5_group,
       get_metadata_and_previews: false)
 
-    @case_5_api_client = FactoryGirl.create(:api_client)
+    @case_5_api_client = FactoryBot.create(:api_client)
     @case_5_api_client_permission_1 = _create_perm(
       @resource_1, @case_5_api_client,
       get_metadata_and_previews: true)
@@ -109,7 +109,7 @@ module BatchPermissionsHelper
       get_metadata_and_previews: false)
 
     # CASE 6
-    @case_6_user = FactoryGirl.create(:user)
+    @case_6_user = FactoryBot.create(:user)
     @case_6_user_permission_1 = _create_perm(
       @resource_1, @case_6_user,
       get_metadata_and_previews: true)
@@ -118,7 +118,7 @@ module BatchPermissionsHelper
       get_metadata_and_previews: true)
 
     # CASE 7
-    @case_7_user = FactoryGirl.create(:user)
+    @case_7_user = FactoryBot.create(:user)
     @case_7_user_permission_1 = _create_perm(
       @resource_1, @case_7_user,
       get_metadata_and_previews: false)
@@ -127,34 +127,34 @@ module BatchPermissionsHelper
       get_metadata_and_previews: false)
 
     # CASE 8:
-    @case_8_user = FactoryGirl.create(:user)
+    @case_8_user = FactoryBot.create(:user)
     @case_8_user_permission_1 = _create_perm(@resource_1, @case_8_user)
 
     # CASE 9:
-    @case_9_group = FactoryGirl.create(:group)
+    @case_9_group = FactoryBot.create(:group)
     @case_9_group_permission_1 = _create_perm(
       @resource_1, @case_9_group,
       get_metadata_and_previews: true)
 
-    @case_9_api_client = FactoryGirl.create(:api_client)
+    @case_9_api_client = FactoryBot.create(:api_client)
     @case_9_api_client_permission_1 = _create_perm(
       @resource_1, @case_9_api_client,
       get_metadata_and_previews: true)
 
     # CASE 10:
-    @case_10_user = FactoryGirl.create(:user)
-    @case_10_group = FactoryGirl.create(:group)
-    @case_10_api_client = FactoryGirl.create(:api_client)
-    @case_10_delegation = FactoryGirl.create(:delegation)
+    @case_10_user = FactoryBot.create(:user)
+    @case_10_group = FactoryBot.create(:group)
+    @case_10_api_client = FactoryBot.create(:api_client)
+    @case_10_delegation = FactoryBot.create(:delegation)
 
     # CASE 11
-    @case_11_user = FactoryGirl.create(:user)
-    @case_11_delegation = FactoryGirl.create(:delegation)
+    @case_11_user = FactoryBot.create(:user)
+    @case_11_delegation = FactoryBot.create(:delegation)
     @case_11_user_permission_1 = _create_perm(@resource_1, @case_11_user)
     @case_11_user_permission_2 = _create_perm(@resource_2, @case_11_user)
     @case_11_user_delegation_permission_3 = _create_perm(@resource_1, @case_11_delegation)
     @case_11_user_delegation_permission_4 = _create_perm(@resource_2, @case_11_delegation)
-    @case_11_group = FactoryGirl.create(:group)
+    @case_11_group = FactoryBot.create(:group)
     @case_11_group_permission_1 = _create_perm(@resource_1, @case_11_group)
     @case_11_group_permission_2 = _create_perm(@resource_2, @case_11_group)
   end
@@ -426,7 +426,7 @@ module BatchPermissionsHelper
     res_klass = resource.class.name.underscore
     subj_klass = subject.class.name.underscore
 
-    FactoryGirl.create(
+    FactoryBot.create(
       "#{res_klass}_#{subj_klass}_permission".to_sym,
       opts.merge(res_klass => resource, subj_klass => subject))
   end

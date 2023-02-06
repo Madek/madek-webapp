@@ -46,7 +46,7 @@ def open_filterbar(inside = page)
 end
 
 def prepare_data
-  @user = FactoryGirl.create(:user, login: @login, password: @password)
+  @user = FactoryBot.create(:user, login: @login, password: @password)
 
   @meta_key_keywords = MetaKey.find_by(id: 'madek_core:keywords')
   @meta_key_authors = MetaKey.find_by(id: 'madek_core:authors')
@@ -81,28 +81,28 @@ end
 
 def create_media_file(use_movie)
   if use_movie
-    FactoryGirl.create(:media_file_for_movie)
+    FactoryBot.create(:media_file_for_movie)
   else
-    FactoryGirl.create(:media_file_for_image)
+    FactoryBot.create(:media_file_for_image)
   end
 end
 
 def create_media_entry(keywords, title, use_movie)
   media_file = create_media_file(use_movie)
-  media_entry = FactoryGirl.create(
+  media_entry = FactoryBot.create(
     :media_entry,
     responsible_user: @user,
     creator: @user,
     media_file: media_file)
 
-  FactoryGirl.create(
+  FactoryBot.create(
     :meta_datum_text,
     created_by: @user,
     meta_key: @meta_key_title,
     media_entry: media_entry,
     value: title)
 
-  FactoryGirl.create(
+  FactoryBot.create(
     :meta_datum_keywords,
     created_by: @user,
     meta_key: @meta_key_keywords,

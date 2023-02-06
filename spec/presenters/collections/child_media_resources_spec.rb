@@ -10,7 +10,7 @@ describe Presenters::Collections::ChildMediaResources do
   include_context 'select media resources'
 
   before :example do
-    @user = FactoryGirl.create(:user)
+    @user = FactoryBot.create(:user)
   end
 
   it_can_be 'dumped' do
@@ -25,21 +25,21 @@ describe Presenters::Collections::ChildMediaResources do
   context 'visibility' do
     it 'public permission' do
       media_entry_1 = \
-        FactoryGirl.create(:media_entry,
-                           responsible_user: FactoryGirl.create(:user),
+        FactoryBot.create(:media_entry,
+                           responsible_user: FactoryBot.create(:user),
                            get_metadata_and_previews: true)
       media_entry_2 = \
-        FactoryGirl.create(:media_entry,
-                           responsible_user: FactoryGirl.create(:user),
+        FactoryBot.create(:media_entry,
+                           responsible_user: FactoryBot.create(:user),
                            get_metadata_and_previews: false)
 
       collection_1 = \
-        FactoryGirl.create(:collection,
-                           responsible_user: FactoryGirl.create(:user),
+        FactoryBot.create(:collection,
+                           responsible_user: FactoryBot.create(:user),
                            get_metadata_and_previews: true)
       collection_2 = \
-        FactoryGirl.create(:collection,
-                           responsible_user: FactoryGirl.create(:user),
+        FactoryBot.create(:collection,
+                           responsible_user: FactoryBot.create(:user),
                            get_metadata_and_previews: false)
 
       p = described_class.new(
@@ -61,28 +61,28 @@ describe Presenters::Collections::ChildMediaResources do
 
     it 'user permission' do
       media_entry_1 = \
-        FactoryGirl.create(:media_entry,
-                           responsible_user: FactoryGirl.create(:user),
+        FactoryBot.create(:media_entry,
+                           responsible_user: FactoryBot.create(:user),
                            get_metadata_and_previews: false)
       media_entry_2 = \
-        FactoryGirl.create(:media_entry,
-                           responsible_user: FactoryGirl.create(:user),
+        FactoryBot.create(:media_entry,
+                           responsible_user: FactoryBot.create(:user),
                            get_metadata_and_previews: false)
 
       collection_1 = \
-        FactoryGirl.create(:collection,
-                           responsible_user: FactoryGirl.create(:user),
+        FactoryBot.create(:collection,
+                           responsible_user: FactoryBot.create(:user),
                            get_metadata_and_previews: false)
       collection_2 = \
-        FactoryGirl.create(:collection,
-                           responsible_user: FactoryGirl.create(:user),
+        FactoryBot.create(:collection,
+                           responsible_user: FactoryBot.create(:user),
                            get_metadata_and_previews: false)
 
-      FactoryGirl.create(:media_entry_user_permission,
+      FactoryBot.create(:media_entry_user_permission,
                          media_entry: media_entry_1,
                          user: @user,
                          get_metadata_and_previews: true)
-      FactoryGirl.create(:collection_user_permission,
+      FactoryBot.create(:collection_user_permission,
                          collection: collection_1,
                          user: @user,
                          get_metadata_and_previews: true)
@@ -106,31 +106,31 @@ describe Presenters::Collections::ChildMediaResources do
 
     it 'group permission' do
       media_entry_1 = \
-        FactoryGirl.create(:media_entry,
-                           responsible_user: FactoryGirl.create(:user),
+        FactoryBot.create(:media_entry,
+                           responsible_user: FactoryBot.create(:user),
                            get_metadata_and_previews: false)
       media_entry_2 = \
-        FactoryGirl.create(:media_entry,
-                           responsible_user: FactoryGirl.create(:user),
+        FactoryBot.create(:media_entry,
+                           responsible_user: FactoryBot.create(:user),
                            get_metadata_and_previews: false)
 
       collection_1 = \
-        FactoryGirl.create(:collection,
-                           responsible_user: FactoryGirl.create(:user),
+        FactoryBot.create(:collection,
+                           responsible_user: FactoryBot.create(:user),
                            get_metadata_and_previews: false)
       collection_2 = \
-        FactoryGirl.create(:collection,
-                           responsible_user: FactoryGirl.create(:user),
+        FactoryBot.create(:collection,
+                           responsible_user: FactoryBot.create(:user),
                            get_metadata_and_previews: false)
 
-      group = FactoryGirl.create(:group)
+      group = FactoryBot.create(:group)
       @user.groups << group
 
-      FactoryGirl.create(:media_entry_user_permission,
+      FactoryBot.create(:media_entry_user_permission,
                          media_entry: media_entry_1,
                          user: @user,
                          get_metadata_and_previews: true)
-      FactoryGirl.create(:collection_user_permission,
+      FactoryBot.create(:collection_user_permission,
                          collection: collection_1,
                          user: @user,
                          get_metadata_and_previews: true)
@@ -154,21 +154,21 @@ describe Presenters::Collections::ChildMediaResources do
 
     it 'responsible user' do
       media_entry_1 = \
-        FactoryGirl.create(:media_entry,
+        FactoryBot.create(:media_entry,
                            responsible_user: @user,
                            get_metadata_and_previews: false)
       media_entry_2 = \
-        FactoryGirl.create(:media_entry,
-                           responsible_user: FactoryGirl.create(:user),
+        FactoryBot.create(:media_entry,
+                           responsible_user: FactoryBot.create(:user),
                            get_metadata_and_previews: false)
 
       collection_1 = \
-        FactoryGirl.create(:collection,
+        FactoryBot.create(:collection,
                            responsible_user: @user,
                            get_metadata_and_previews: false)
       collection_2 = \
-        FactoryGirl.create(:collection,
-                           responsible_user: FactoryGirl.create(:user),
+        FactoryBot.create(:collection,
+                           responsible_user: FactoryBot.create(:user),
                            get_metadata_and_previews: false)
 
       p = described_class.new(

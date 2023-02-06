@@ -152,65 +152,65 @@ end
 
 # rubocop:disable Metrics/MethodLength
 def create_data
-  @user = FactoryGirl.create :user
+  @user = FactoryBot.create :user
   @limit_for_dashboard = 6
   @limit_for_app_resources = 12
   fake_many = 2 * @limit_for_app_resources
 
-  fake_many.times { @user.groups << FactoryGirl.create(:group) }
+  fake_many.times { @user.groups << FactoryBot.create(:group) }
   group = @user.groups.first
   # FIXME: no factory for InstitutionalGroup in datalayer
-  # fake_many.times { @user.groups << FactoryGirl.create(:institutional_group) }
+  # fake_many.times { @user.groups << FactoryBot.create(:institutional_group) }
 
   # Unfinished Uploads:
   fake_many.times do
-    FactoryGirl.create :media_entry, is_published: false,
+    FactoryBot.create :media_entry, is_published: false,
                                      responsible_user: @user, creator: @user
   end
 
   # Regular Content
   fake_many.times do
-    FactoryGirl.create :media_entry,
+    FactoryBot.create :media_entry,
                        responsible_user: @user
   end
   fake_many.times do
-    FactoryGirl.create :collection,
+    FactoryBot.create :collection,
                        responsible_user: @user
   end
 
   # Imported Content
   fake_many.times do
-    FactoryGirl.create(:media_entry,
+    FactoryBot.create(:media_entry,
                        creator: @user,
                        get_metadata_and_previews: true)
   end
 
   arg_hash = { get_metadata_and_previews: true }
   4.times do
-    FactoryGirl.create \
+    FactoryBot.create \
       :media_entry_user_permission,
       arg_hash.merge(user: @user,
-                     media_entry: FactoryGirl.create(:media_entry))
+                     media_entry: FactoryBot.create(:media_entry))
   end
   fake_many.times do
-    FactoryGirl.create \
+    FactoryBot.create \
       :media_entry_group_permission,
       arg_hash.merge(group: group,
-                     media_entry: FactoryGirl.create(:media_entry))
+                     media_entry: FactoryBot.create(:media_entry))
   end
 
   fake_many.times do
-    FactoryGirl.create \
+    FactoryBot.create \
       :collection_user_permission,
       arg_hash.merge(user: @user,
-                     collection: FactoryGirl.create(:collection))
+                     collection: FactoryBot.create(:collection))
   end
 
   fake_many.times do
-    FactoryGirl.create \
+    FactoryBot.create \
       :collection_group_permission,
       arg_hash.merge(group: group,
-                     collection: FactoryGirl.create(:collection))
+                     collection: FactoryBot.create(:collection))
   end
 
   @user.responsible_media_entries.sample(@limit_for_app_resources + 1)
@@ -223,30 +223,30 @@ def create_data
   unless @meta_key_core_keywords = MetaKey.find_by_id('madek_core:keywords')
     with_disabled_triggers do
       @meta_key_core_keywords = \
-        FactoryGirl.create(:meta_key,
+        FactoryBot.create(:meta_key,
                            id: 'madek_core:keywords',
                            meta_datum_object_type: 'MetaDatum::Keywords')
     end
   end
-  @keyword_1 = FactoryGirl.create(:keyword,
+  @keyword_1 = FactoryBot.create(:keyword,
                                   meta_key_id: 'madek_core:keywords',
                                   creator: @user)
-  @keyword_2 = FactoryGirl.create(:keyword,
+  @keyword_2 = FactoryBot.create(:keyword,
                                   meta_key_id: 'madek_core:keywords',
                                   creator: @user)
-  @keyword_3 = FactoryGirl.create(:keyword,
+  @keyword_3 = FactoryBot.create(:keyword,
                                   meta_key_id: 'madek_core:keywords',
                                   creator: @user)
 
   unless @meta_key_other_keywords = MetaKey.find_by_id('test:keywords')
-    @meta_key_other_keywords = FactoryGirl.create(:meta_key_keywords)
+    @meta_key_other_keywords = FactoryBot.create(:meta_key_keywords)
   end
 
   # create a meta_datum type keywords for a meta_key other than
   # 'madek_core:keywords' and use a keyword there
   # (this should be excluded in the result then)
   keyword_other_meta_key = \
-    FactoryGirl.create(:keyword,
+    FactoryBot.create(:keyword,
                        meta_key: @meta_key_other_keywords,
                        creator: @user)
   create(:meta_datum_keyword,
@@ -259,7 +259,7 @@ def create_data
   # create a meta_datum type keywords for a unpublished media entries
   # and use a keyword there (this should be excluded in the result then)
   keyword_xxx = \
-    FactoryGirl.create(:keyword,
+    FactoryBot.create(:keyword,
                        meta_key: @meta_key_core_keywords,
                        creator: @user)
   create(:meta_datum_keyword,

@@ -8,6 +8,11 @@
 # min_threads_count = ENV.fetch("RAILS_MIN_THREADS") { max_threads_count }
 # threads min_threads_count, max_threads_count
 
+# Specifies the `worker_timeout` threshold that Puma will use to wait before
+# terminating a worker in development environments.
+#
+worker_timeout 3600 if ENV.fetch("RAILS_ENV", "development") == "development"
+
 # to be configured via environment variables in the systemd-service-file,
 # provided default values are for development.
 # example:
@@ -28,7 +33,7 @@ preload_app!
 
 # Specifies the `environment` that Puma will run in.
 #
-environment ENV['RAILS_ENV'] || 'development'
+environment ENV.fetch("RAILS_ENV") { "development" }
 
 on_worker_boot do
   ActiveRecord::Base.establish_connection

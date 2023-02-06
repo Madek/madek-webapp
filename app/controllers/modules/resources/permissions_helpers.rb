@@ -74,8 +74,8 @@ module Modules
         end
 
         def update_public_permissions!(resource)
-          resource.update_attributes!(self.class::PUBLIC_PERMISSIONS_RESET)
-          resource.update_attributes!(public_permissions_params)
+          resource.update!(self.class::PUBLIC_PERMISSIONS_RESET)
+          resource.update!(public_permissions_params)
         end
       end
     end

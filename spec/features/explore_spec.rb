@@ -59,7 +59,7 @@ feature 'Page: Explore' do
       it 'doesn\'t show catalog section at all if the count of all is 0' do
         context_key = create(:context_key, meta_key: create(:meta_key_keywords))
         app_setting = AppSetting.first
-        app_setting.update_attributes!(catalog_context_keys: [context_key.id],
+        app_setting.update!(catalog_context_keys: [context_key.id],
                                        catalog_titles: { de: 'Catalog Title' })
         media_entry = create(:media_entry,
                              get_metadata_and_previews: false,
@@ -79,7 +79,7 @@ feature 'Page: Explore' do
         @context_key = create(:context_key, meta_key: @meta_key)
         @keyword = create(:keyword, meta_key: @meta_key)
         app_setting = AppSetting.first
-        app_setting.update_attributes!(catalog_context_keys: [@context_key.id],
+        app_setting.update!(catalog_context_keys: [@context_key.id],
                                        catalog_titles: { de: 'Catalog Title' })
 
         media_entry_with_image = create(:media_entry_with_image_media_file,
@@ -185,7 +185,7 @@ feature 'Page: Explore' do
         @context_key = create(:context_key, meta_key: @meta_key_people)
         @person = create(:people_instgroup)
         app_setting = AppSetting.first
-        app_setting.update_attributes!(
+        app_setting.update!(
           catalog_context_keys: [@context_key.id],
           catalog_titles: { de: 'Catalog Title' }
         )

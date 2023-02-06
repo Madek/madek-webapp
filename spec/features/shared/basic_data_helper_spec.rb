@@ -7,8 +7,8 @@ module BasicDataHelper
   def prepare_user(admin: false)
     @login = 'User'
     @password = '1234'
-    person = FactoryGirl.create(:person, first_name: @login)
-    @user = FactoryGirl.create(
+    person = FactoryBot.create(:person, first_name: @login)
+    @user = FactoryBot.create(
       :user,
       person: person,
       login: @login,
@@ -27,12 +27,12 @@ module BasicDataHelper
   end
 
   def create_media_entry(title)
-    media_entry = FactoryGirl.create(
+    media_entry = FactoryBot.create(
       :media_entry,
       get_metadata_and_previews: true,
       responsible_user: @user,
       creator: @user)
-    FactoryGirl.create(
+    FactoryBot.create(
       :media_file_for_image,
       media_entry: media_entry)
     MetaDatum::Text.create!(

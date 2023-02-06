@@ -151,7 +151,7 @@ module TransferResponsibilityShared
   end
 
   def create_collection(user, title: nil, public_rights: true)
-    collection = FactoryGirl.create(
+    collection = FactoryBot.create(
       :collection,
       get_metadata_and_previews: public_rights,
       responsible_user: user,
@@ -167,12 +167,12 @@ module TransferResponsibilityShared
   end
 
   def create_media_entry(user, title: nil, public_rights: true)
-    media_entry = FactoryGirl.create(
+    media_entry = FactoryBot.create(
       :media_entry,
       get_metadata_and_previews: public_rights,
       responsible_user: user,
       creator: user)
-    FactoryGirl.create(
+    FactoryBot.create(
       :media_file_for_image,
       media_entry: media_entry)
     if title

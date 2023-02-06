@@ -4,7 +4,7 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
   before { truncate_tables }
   let(:base_url) { 'https://madek.example.org' }
   let(:user) { create :user }
-  let(:title) { Faker::Name.title }
+  let(:title) { Faker::Artist.name }
   let(:media_entry) { create(:media_entry_with_title, responsible_user: user, title: title) }
   let(:vocabulary) { create(:vocabulary) }
   let!(:meta_datum_text_date) do

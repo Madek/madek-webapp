@@ -19,7 +19,7 @@ class ApiTokensController < ApplicationController
     disallow_insecure_http(callback_url)
 
     token = ApiToken.create(user_id: current_user.id)
-    token.update_attributes!(attrs) && token.reload
+    token.update!(attrs) && token.reload
 
     # NOTE: don't use `respond_with`! we render content in reponse to POST,
     #       which goes against the convention (normally a redirect to GET)
@@ -37,7 +37,7 @@ class ApiTokensController < ApplicationController
     attrs = params.permit(api_token: props).fetch(:api_token, {})
     token = ApiToken.find(params.require(:id))
     auth_authorize(token)
-    token.update_attributes!(attrs) && token.reload
+    token.update!(attrs) && token.reload
 
     @get = presenterify_api_token(token)
     respond_with(@get, location: my_dashboard_section_path(:tokens))

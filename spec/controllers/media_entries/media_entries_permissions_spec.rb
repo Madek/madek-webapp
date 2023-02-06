@@ -32,25 +32,25 @@ describe MediaEntriesController do
   end
 
   it 'updates successfully' do
-    media_entry = FactoryGirl.create(:media_entry,
+    media_entry = FactoryBot.create(:media_entry,
                                      responsible_user: @user)
     media_entry.user_permissions << \
-      (up1 = FactoryGirl.create(:media_entry_user_permission,
+      (up1 = FactoryBot.create(:media_entry_user_permission,
                                 user: create(:user)))
     media_entry.user_permissions << \
-      (up2 = FactoryGirl.create(:media_entry_user_permission,
+      (up2 = FactoryBot.create(:media_entry_user_permission,
                                 user: create(:user)))
     media_entry.group_permissions << \
-      (gp1 = FactoryGirl.create(:media_entry_group_permission,
+      (gp1 = FactoryBot.create(:media_entry_group_permission,
                                 group: create(:group)))
     media_entry.group_permissions << \
-      (gp2 = FactoryGirl.create(:media_entry_group_permission,
+      (gp2 = FactoryBot.create(:media_entry_group_permission,
                                 group: create(:group)))
     media_entry.api_client_permissions << \
-      (apc1 = FactoryGirl.create(:media_entry_api_client_permission,
+      (apc1 = FactoryBot.create(:media_entry_api_client_permission,
                                  api_client: create(:api_client)))
     media_entry.api_client_permissions << \
-      (apc2 = FactoryGirl.create(:media_entry_api_client_permission,
+      (apc2 = FactoryBot.create(:media_entry_api_client_permission,
                                  api_client: create(:api_client)))
 
     update_params = \
@@ -134,16 +134,16 @@ describe MediaEntriesController do
   end
 
   it 'deletes permissions if no new provided for subject' do
-    media_entry = FactoryGirl.create(:media_entry,
+    media_entry = FactoryBot.create(:media_entry,
                                      responsible_user: @user)
     media_entry.user_permissions << \
-      FactoryGirl.create(:media_entry_user_permission,
+      FactoryBot.create(:media_entry_user_permission,
                          user: create(:user))
     media_entry.group_permissions << \
-      FactoryGirl.create(:media_entry_group_permission,
+      FactoryBot.create(:media_entry_group_permission,
                          group: create(:group))
     media_entry.api_client_permissions << \
-      FactoryGirl.create(:media_entry_api_client_permission,
+      FactoryBot.create(:media_entry_api_client_permission,
                          api_client: create(:api_client))
 
     update_params = \
@@ -162,16 +162,16 @@ describe MediaEntriesController do
   end
 
   pending 'deletes permissions if only false for subject' do
-    media_entry = FactoryGirl.create(:media_entry,
+    media_entry = FactoryBot.create(:media_entry,
                                      responsible_user: @user)
     media_entry.user_permissions << \
-      up = FactoryGirl.create(:media_entry_user_permission,
+      up = FactoryBot.create(:media_entry_user_permission,
                               user: create(:user))
     media_entry.group_permissions << \
-      FactoryGirl.create(:media_entry_group_permission,
+      FactoryBot.create(:media_entry_group_permission,
                          group: create(:group))
     media_entry.api_client_permissions << \
-      FactoryGirl.create(:media_entry_api_client_permission,
+      FactoryBot.create(:media_entry_api_client_permission,
                          api_client: create(:api_client))
 
     update_params = \
@@ -195,7 +195,7 @@ describe MediaEntriesController do
   end
 
   it 'creates log entry in edit_sessions' do
-    media_entry = FactoryGirl.create(:media_entry,
+    media_entry = FactoryBot.create(:media_entry,
                                      get_metadata_and_previews: false,
                                      responsible_user: @user)
     update_params = \

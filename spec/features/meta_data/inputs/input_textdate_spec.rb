@@ -8,7 +8,7 @@ include MetaDatumInputsHelper
 feature 'Resource: MetaDatum' do
   background do
     @user = User.find_by(login: 'normin')
-    @media_entry = FactoryGirl.create :media_entry_with_image_media_file,
+    @media_entry = FactoryBot.create :media_entry_with_image_media_file,
                                       creator: @user, responsible_user: @user
 
     TEST_DATE = (Date.new( # some day in the ~5 months ago:
@@ -23,9 +23,9 @@ feature 'Resource: MetaDatum' do
 
   context 'MetaDatumTextDate' do
     background do
-      @vocabulary = FactoryGirl.create(:vocabulary)
-      @meta_key = FactoryGirl.create(:meta_key_text_date)
-      @context_key = FactoryGirl.create(:context_key, meta_key: @meta_key)
+      @vocabulary = FactoryBot.create(:vocabulary)
+      @meta_key = FactoryBot.create(:meta_key_text_date)
+      @context_key = FactoryBot.create(:context_key, meta_key: @meta_key)
       configure_as_only_input(@context_key)
     end
 
@@ -220,9 +220,9 @@ feature 'Resource: MetaDatum' do
 
     example 'edit date and switch tabs' do
       # prepare second tab:
-      @context_key2 = FactoryGirl.create(
+      @context_key2 = FactoryBot.create(
         :context_key, meta_key: MetaKey.find('madek_core:title'))
-      AppSetting.first.update_attributes!(
+      AppSetting.first.update!(
         contexts_for_entry_edit: [
           @context_key.context_id, @context_key2.context_id])
 
@@ -241,7 +241,7 @@ end
 private
 
 def given_an_exisiting_meta_datum_text_date(string)
-  FactoryGirl.create(
+  FactoryBot.create(
     :meta_datum_text_date,
     media_entry: @media_entry,
     meta_key: @meta_key,

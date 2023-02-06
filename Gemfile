@@ -44,6 +44,7 @@ gem 'json'
 gem 'kaminari'
 gem 'pundit'
 gem 'rubyzip', '~> 1.0'
+gem 'sorted_set'
 gem 'uglifier'
 
 
@@ -60,7 +61,11 @@ end
 gem 'rest-client', groups: [:test, :development]
 
 group :development do
-  gem 'binding_of_caller'
+  # gem 'binding_of_caller'
+  gem 'listen'
+  gem 'pry'
+  gem 'pry-nav'
+  gem 'pry-rails'
   gem 'ruby-prof'
   gem 'zencoder-fetcher'
   # gem 'better_errors' # NOTE: including this breaks rails and pry in weird ways…

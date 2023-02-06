@@ -118,14 +118,14 @@ feature 'batch remove meta data' do
       if result
         result
       else
-        FactoryGirl.create(
+        FactoryBot.create(
           :keyword,
           term: keyword,
           meta_key: meta_key('madek_core:keywords'))
       end
     end
 
-    FactoryGirl.create(
+    FactoryBot.create(
       :meta_datum_keywords,
       keywords: keywords,
       resource.class.name.underscore => resource,

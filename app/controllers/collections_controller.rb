@@ -65,7 +65,7 @@ class CollectionsController < ApplicationController
   def update
     collection = Collection.find(id_param)
     auth_authorize collection
-    collection.update_attributes! update_params
+    collection.update! update_params
     respond_to do |format|
       format.json { head :no_content }
     end

@@ -69,7 +69,7 @@ feature 'Resource: MediaEntry' do
              browser: false do
 
       unless MetaKey.where(id: 'madek_core:title').exists?
-        FactoryGirl.create(:meta_key_text, id: 'madek_core:title')
+        FactoryBot.create(:meta_key_text, id: 'madek_core:title')
       end
       IoInterface.find_or_create_by(id: 'default')
       IoMapping.create(io_interface_id: 'default',

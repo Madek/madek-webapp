@@ -9,14 +9,14 @@ feature 'Resource: MetaDatum' do
   background do
     @user = User.find_by(login: 'normin')
     @media_entry =
-      FactoryGirl.create :media_entry_with_image_media_file, creator: @user, responsible_user: @user
+      FactoryBot.create :media_entry_with_image_media_file, creator: @user, responsible_user: @user
   end
 
   context 'MetaDatum::JSON' do
     background do
-      @vocabulary = FactoryGirl.create(:vocabulary)
-      @meta_key = FactoryGirl.create(:meta_key_json)
-      @context_key = FactoryGirl.create(:context_key, meta_key: @meta_key)
+      @vocabulary = FactoryBot.create(:vocabulary)
+      @meta_key = FactoryBot.create(:meta_key_json)
+      @context_key = FactoryBot.create(:context_key, meta_key: @meta_key)
       configure_as_only_input(@context_key)
     end
 

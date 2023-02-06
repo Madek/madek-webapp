@@ -1,18 +1,6 @@
 #!/bin/sh
 RES=1
 
-printf 'rubocop... '
-bundle exec rubocop . --auto-correct \
-  && RES=0
-
-echo ''; printf 'flog... '
-bundle exec cider-ci_flog app/ \
-  || RES=1
-
-echo ''; printf 'flay... '
-bundle exec cider-ci_flay app/ \
-  || RES=1
-
 echo ''; printf 'haml-lint... '
 # tmp refactor
 ./dev/test/haml-lint >/dev/null \

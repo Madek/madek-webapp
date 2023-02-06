@@ -3,12 +3,12 @@ require 'spec_helper'
 describe MetaDataController do
   it 'show' do
     # not logged in and no public view permission for the vocabulary
-    media_entry = FactoryGirl.create(:media_entry)
-    vocabulary = FactoryGirl.create(:vocabulary,
+    media_entry = FactoryBot.create(:media_entry)
+    vocabulary = FactoryBot.create(:vocabulary,
                                     enabled_for_public_view: false)
-    meta_key = FactoryGirl.create(:meta_key_text)
+    meta_key = FactoryBot.create(:meta_key_text)
     meta_key.vocabulary = vocabulary
-    meta_datum = FactoryGirl.create(:meta_datum_text,
+    meta_datum = FactoryBot.create(:meta_datum_text,
                                     media_entry: media_entry,
                                     meta_key: meta_key)
 
@@ -18,11 +18,11 @@ describe MetaDataController do
 
   it 'create' do
     # logged in but no edit data permission for media entry
-    user = FactoryGirl.create(:user)
-    media_entry = FactoryGirl.create(:media_entry,
-                                     responsible_user: FactoryGirl.create(:user))
-    vocabulary = FactoryGirl.create(:vocabulary)
-    meta_key = FactoryGirl.create(:meta_key_text)
+    user = FactoryBot.create(:user)
+    media_entry = FactoryBot.create(:media_entry,
+                                     responsible_user: FactoryBot.create(:user))
+    vocabulary = FactoryBot.create(:vocabulary)
+    meta_key = FactoryBot.create(:meta_key_text)
     meta_key.vocabulary = vocabulary
 
     expect do

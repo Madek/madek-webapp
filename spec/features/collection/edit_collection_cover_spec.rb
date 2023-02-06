@@ -52,7 +52,7 @@ feature 'Collection: Edit Cover' do
     @collection.media_entries << @media_entry
 
     @media_entry.get_metadata_and_previews = false
-    @media_entry.responsible_user = FactoryGirl.create(:user)
+    @media_entry.responsible_user = FactoryBot.create(:user)
     @media_entry.save
     @media_entry.reload
     @collection.reload

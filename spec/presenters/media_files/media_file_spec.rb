@@ -3,11 +3,11 @@ require Rails.root.join 'spec', 'presenters', 'shared', 'dump'
 
 describe Presenters::MediaFiles::MediaFile do
   before :example do
-    @user = FactoryGirl.create(:user)
+    @user = FactoryBot.create(:user)
   end
 
   it_can_be 'dumped' do
-    media_entry = FactoryGirl.create(:media_entry_with_video_media_file)
+    media_entry = FactoryBot.create(:media_entry_with_video_media_file)
 
     let(:presenter) do
       described_class.new(
@@ -18,8 +18,8 @@ describe Presenters::MediaFiles::MediaFile do
 
   describe '#conversion_progress' do
     let(:media_entry) do
-      FactoryGirl.create(:media_entry_with_video_media_file,
-                         responsible_user: FactoryGirl.create(:user))
+      FactoryBot.create(:media_entry_with_video_media_file,
+                         responsible_user: FactoryBot.create(:user))
     end
 
     context 'when zencoder job has pending state' do
@@ -28,7 +28,7 @@ describe Presenters::MediaFiles::MediaFile do
       end
 
       it 'returns 0.0' do
-        FactoryGirl.create(:zencoder_job, media_file: media_entry.media_file)
+        FactoryBot.create(:zencoder_job, media_file: media_entry.media_file)
         p = described_class.new(media_entry, @user)
 
         allow(Zencoder::Job).to receive(:progress).and_return zencoder_response
@@ -44,7 +44,7 @@ describe Presenters::MediaFiles::MediaFile do
       end
 
       it 'returns 10.0' do
-        FactoryGirl.create(:zencoder_job, media_file: media_entry.media_file)
+        FactoryBot.create(:zencoder_job, media_file: media_entry.media_file)
         p = described_class.new(media_entry, @user)
 
         allow(Zencoder::Job).to receive(:progress).and_return zencoder_response

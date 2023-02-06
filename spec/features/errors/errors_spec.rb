@@ -40,7 +40,7 @@ feature 'Errors' do
   end
 
   scenario '403' do
-    media_entry = FactoryGirl.create(:media_entry,
+    media_entry = FactoryBot.create(:media_entry,
                                      is_published: true,
                                      get_metadata_and_previews: false)
     sign_in_as(user)

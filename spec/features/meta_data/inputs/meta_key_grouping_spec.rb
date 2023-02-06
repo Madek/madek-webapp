@@ -117,8 +117,8 @@ feature 'Meta key grouping' do
   end
 
   def create_context_key(data, id, position)
-    meta_key = FactoryGirl.create(:meta_key, id: id)
-    FactoryGirl.create(
+    meta_key = FactoryBot.create(:meta_key, id: id)
+    FactoryBot.create(
       :context_key,
       labels: { de: id },
       context: data[:context],
@@ -133,9 +133,9 @@ feature 'Meta key grouping' do
   end
 
   def prepare_data
-    user = FactoryGirl.create(:user)
-    context = FactoryGirl.create(:context)
-    media_entry = FactoryGirl.create(:media_entry, responsible_user: user)
+    user = FactoryBot.create(:user)
+    context = FactoryBot.create(:context)
+    media_entry = FactoryBot.create(:media_entry, responsible_user: user)
 
     app_setting = AppSetting.first
     app_setting[:contexts_for_entry_edit] << context.id

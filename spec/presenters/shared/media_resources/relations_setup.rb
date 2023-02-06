@@ -12,30 +12,30 @@ RSpec.shared_context 'relations' do
   # me_5
 
   before do
-    @user = FactoryGirl.create(:user)
+    @user = FactoryBot.create(:user)
 
     # rubocop:disable Style/VariableName
     # rubocop thinks: Use snake_case for variable names
     # I find it OK in this case
-    @collection_A = FactoryGirl.create(:collection,
+    @collection_A = FactoryBot.create(:collection,
                                        responsible_user: @user)
-    @collection_B = FactoryGirl.create(:collection,
+    @collection_B = FactoryBot.create(:collection,
                                        responsible_user: @user)
-    @collection_C = FactoryGirl.create(:collection,
+    @collection_C = FactoryBot.create(:collection,
                                        responsible_user: @user)
-    @collection_D = FactoryGirl.create(:collection,
+    @collection_D = FactoryBot.create(:collection,
                                        responsible_user: @user)
     # rubocop:enable Style/VariableName
 
-    @media_entry_1 = FactoryGirl.create(:media_entry_with_image_media_file,
+    @media_entry_1 = FactoryBot.create(:media_entry_with_image_media_file,
                                         responsible_user: @user)
-    @media_entry_2 = FactoryGirl.create(:media_entry_with_image_media_file,
+    @media_entry_2 = FactoryBot.create(:media_entry_with_image_media_file,
                                         responsible_user: @user)
-    @media_entry_3 = FactoryGirl.create(:media_entry_with_image_media_file,
+    @media_entry_3 = FactoryBot.create(:media_entry_with_image_media_file,
                                         responsible_user: @user)
-    @media_entry_4 = FactoryGirl.create(:media_entry_with_image_media_file,
+    @media_entry_4 = FactoryBot.create(:media_entry_with_image_media_file,
                                         responsible_user: @user)
-    @media_entry_5 = FactoryGirl.create(:media_entry_with_image_media_file,
+    @media_entry_5 = FactoryBot.create(:media_entry_with_image_media_file,
                                         responsible_user: @user)
 
     @collection_A.collections << @collection_B

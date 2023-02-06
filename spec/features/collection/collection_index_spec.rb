@@ -22,10 +22,10 @@ feature 'Resource: Collection' do
 
     it 'is filtered with search param' do
       @user = User.find_by(login: 'normin')
-      collection = FactoryGirl.create(:collection,
+      collection = FactoryBot.create(:collection,
                                       get_metadata_and_previews: true)
-      search_string = Faker::Lorem.characters(10)
-      FactoryGirl.create(:meta_datum_text,
+      search_string = Faker::Lorem.characters(number: 10)
+      FactoryBot.create(:meta_datum_text,
                          meta_key: MetaKey.find('madek_core:title'),
                          string: search_string,
                          collection: collection)

@@ -6,12 +6,12 @@ feature 'Batch edit media entries' do
   describe 'authorize entries' do
 
     it 'returns 403 in case of any unauthorized entry' do
-      user = FactoryGirl.create :user
+      user = FactoryBot.create :user
 
-      me1 = FactoryGirl.create :media_entry
-      me2 = FactoryGirl.create :media_entry
+      me1 = FactoryBot.create :media_entry
+      me2 = FactoryBot.create :media_entry
 
-      me1.user_permissions << FactoryGirl.create(:media_entry_user_permission,
+      me1.user_permissions << FactoryBot.create(:media_entry_user_permission,
                                                  edit_metadata: true,
                                                  user: user)
 

@@ -14,20 +14,20 @@ class ZencoderJobsController < ApplicationController
       details = Zencoder::Job.details(params[:job][:id]).body
 
       if @zencoder_job.state == 'submitted'
-        @zencoder_job.update_attributes(
+        @zencoder_job.update(
           notification: details
         )
         import_thumbnails(details)
         import_previews(details)
         collect_finished_profiles(details)
-        @zencoder_job.update_attributes(
+        @zencoder_job.update(
           state: 'finished',
           progress: 100.0
         )
       end
 
     rescue => e
-      @zencoder_job.update_attributes(state: 'failed', error: e.to_s)
+      @zencoder_job.update(state: 'failed', error: e.to_s)
     ensure
       head :ok
     end

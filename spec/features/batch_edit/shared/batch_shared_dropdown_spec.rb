@@ -86,8 +86,8 @@ def login(user)
 end
 
 def create_user
-  person = FactoryGirl.create(:person)
-  FactoryGirl.create(
+  person = FactoryBot.create(:person)
+  FactoryBot.create(
     :user,
     person: person
   )
@@ -107,12 +107,12 @@ def create_collection(title, user)
 end
 
 def create_media_entry(title, user)
-  media_entry = FactoryGirl.create(
+  media_entry = FactoryBot.create(
     :media_entry,
     get_metadata_and_previews: true,
     responsible_user: user,
     creator: user)
-  FactoryGirl.create(
+  FactoryBot.create(
     :media_file_for_image,
     media_entry: media_entry)
   MetaDatum::Text.create!(

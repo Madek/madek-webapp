@@ -37,16 +37,16 @@ feature 'Resource: Vocabulary' do
     end
 
     example 'custom Vocabulary' do
-      v = FactoryGirl.create(
+      v = FactoryBot.create(
         :vocabulary, enabled_for_public_use: false, enabled_for_public_view: false)
 
-      v.user_permissions << FactoryGirl.create(
+      v.user_permissions << FactoryBot.create(
         :vocabulary_user_permission, user: user, view: true)
       3.times do
-        v.user_permissions << FactoryGirl.create(:vocabulary_user_permission)
+        v.user_permissions << FactoryBot.create(:vocabulary_user_permission)
       end
       7.times do
-        v.group_permissions << FactoryGirl.create(:vocabulary_group_permission)
+        v.group_permissions << FactoryBot.create(:vocabulary_group_permission)
         group = v.group_permissions.last.group
         if (FactoryHelper.rand_bool 1 / 2.0) && !group.users.exists?(user.id)
           group.users << user
@@ -54,7 +54,7 @@ feature 'Resource: Vocabulary' do
       end
       3.times do
         v.api_client_permissions <<
-          FactoryGirl.create(:vocabulary_api_client_permission)
+          FactoryBot.create(:vocabulary_api_client_permission)
       end
 
       visit vocabulary_permissions_path(vocab_id: v)

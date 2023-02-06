@@ -130,7 +130,7 @@ def scenario_transfer_not_allowed(resource1, resource2)
   fill_in_address('address_shared')
   click_submit_button
 
-  resource1.responsible_user = FactoryGirl.create(:user)
+  resource1.responsible_user = FactoryBot.create(:user)
   resource1.save
   resource1.reload
 
