@@ -18,7 +18,7 @@ feature 'App: Responders' do
 
     it 'sparse response (MediaEntries index)' do
       sparse_spec = { resources: [{ uuid: {} }], pagination: {} }
-      sparse_param = '&___sparse=' + URI.escape(JSON.generate(sparse_spec))
+      sparse_param = '&___sparse=' + CGI.escape(JSON.generate(sparse_spec))
 
       result = get_json_url(media_entries_path(REQUEST_ARGS) + sparse_param)
       # check if sparse (top level)
