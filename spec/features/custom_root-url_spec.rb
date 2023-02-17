@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
-feature 'Feature: Server under a Custom Root-URL (e.g. "example.com/mymadek/")' do
+feature 'Feature: Server under a Custom Root-URL (e.g. "example.com/mymadek/")', ci_group: :custom_path do
 
   it 'shows correct homepage' do
 

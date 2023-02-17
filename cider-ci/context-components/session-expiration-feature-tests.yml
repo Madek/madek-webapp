@@ -1,0 +1,22 @@
+include: 
+  - path: cider-ci/context-components/env.yml
+  - path: cider-ci/context-components/rails-setup.yml
+
+tasks:
+  include: 
+    -  cider-ci/generators/session_expiration_features.yml
+
+task_defaults:
+  include:
+    - cider-ci/task-components/rspec.yml
+
+  scripts:
+    configure_session_validity_duration:
+      body: |
+        echo 'madek_session_validity_duration: 10 Seconds' >> config/settings.local.yml
+    test:
+      start_when:
+        validity duration has been configured:
+          script_key: configure_session_validity_duration
+
+

@@ -15,7 +15,6 @@ if [ -d "$ASSETS_CACHE_DIR" ]; then
   rm -rf node_modules
   rm -rf public/assets
 else
-  npm install
   bin/precompile-assets
   mv node_modules "${NODE_MODULES_CACHE_DIR}"
   mv public/assets "${ASSETS_CACHE_DIR}"

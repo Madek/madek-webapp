@@ -1,0 +1,8 @@
+---
+"./spec/features/custom_root-url_spec.rb[1:1]":
+  name: "./spec/features/custom_root-url_spec.rb[1:1]"
+  description: 'Feature: Server under a Custom Root-URL (e.g. "example.com/mymadek/")
+    shows correct homepage'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/custom_root-url_spec.rb:7"
+    RSPEC_TEST: "./spec/features/custom_root-url_spec.rb[1:1]"

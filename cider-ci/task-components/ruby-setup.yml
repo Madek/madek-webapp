@@ -1,0 +1,18 @@
+traits:
+  asdf: true
+
+scripts:
+
+  webapp-bundle-ruby:
+    exclusive_executor_resource: asdf-ruby
+    timeout: 20 Minutes
+    body: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      cd $WEBAPP_DIR
+      ./bin/env/ruby-setup 
+
+  test:
+    start_when:
+      webapp-bundle-ruby has passed:
+        script_key: webapp-bundle-ruby

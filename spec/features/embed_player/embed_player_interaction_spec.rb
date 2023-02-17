@@ -6,7 +6,7 @@ feature 'Embed aka. "Madek-Player"' do
   end
 
   context 'video player interaction' do
-    it 'starts with SD resolution and can change to HD' do
+    it 'starts with SD resolution and can change to HD', ci_group: :embed do
       do_oembed_client(url: media_entry_url(video_entry), maxwidth: 550)
       page.within_frame(page.find('iframe')) do
         play_btn = find('.vjs-big-play-button')

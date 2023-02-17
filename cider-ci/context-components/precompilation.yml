@@ -2,12 +2,13 @@
 
 task_defaults:
   include:
-    - cider-ci/task-components/firefox.yml
     - cider-ci/task-components/nodejs.yml
 
 contexts:
   'Assets':
-    include: cider-ci/context-components/rails-setup.yml
+    include: 
+      - cider-ci/context-components/rails-setup.yml
+      - cider-ci/context-components/env.yml
     tasks:
       assets_manifest:
         name: 'Assets are precompiled and checked in'
@@ -15,7 +16,8 @@ contexts:
           test:
             timeout: 10 Minutes
             body: |
-              set -exu
+              #!/usr/bin/env bash
+              set -euo pipefail
               mv public/assets tmp/static_assets
               bin/precompile-assets
               cider-ci/bin/check-precompiled-assets tmp/static_assets public/assets
@@ -30,7 +32,9 @@ contexts:
             body: cider-ci/bin/check-node-modules
 
   'Docs/Specs':
-    include: cider-ci/context-components/rails-setup.yml
+    include: 
+      - cider-ci/context-components/rails-setup.yml
+      - cider-ci/context-components/env.yml
     tasks:
       spec-docs:
         name: 'Docs: Render Overview from rspec feature specs'
@@ -44,7 +48,7 @@ contexts:
           test:
             body: |
               #!/usr/bin/env bash
-              set -eux
+              set -euo pipefail
               # NOTE: quickfix for a problem only in the CI: in the JSON output, there is a line prepended with just the string "true"
               # this is strange but no really worth investigation, just remove the string with `sed`.
               # (This started when upgrading from ruby 2.6 to ruby 2.7 which seems nosensical).

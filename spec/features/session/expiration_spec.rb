@@ -3,7 +3,8 @@ require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
 feature 'Feature: Session' do
-describe 'Expiration of Session after configured timeout' do
+describe 'Expiration of Session after configured timeout', 
+  ci_group: :session_expiration do
 
   describe 'when application has a session timeout 10 seconds' do
 

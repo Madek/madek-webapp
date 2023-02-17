@@ -1,6 +1,6 @@
 require_relative './_shared'
 
-feature 'Embed image player' do
+feature 'Embed image player', ci_group: :embed do
 
   let :image_landscape_entry do
     FactoryBot.create(:embed_test_image_landscape_entry)

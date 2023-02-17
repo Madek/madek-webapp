@@ -2,7 +2,7 @@ require_relative './_shared'
 
 # NOTE: there is also a spec for the oEmbed API!
 #       this only tests the HTML output that is served from oEmbed (iframe etc)
-feature 'Embed aka. "Madek-Player"' do
+feature 'Embed aka. "Madek-Player"', ci_group: :embed  do
   let :video_entry do
     FactoryBot.create(:embed_test_video_entry)
   end

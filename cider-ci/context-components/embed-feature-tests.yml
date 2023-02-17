@@ -1,0 +1,24 @@
+include: 
+  - path: cider-ci/context-components/env.yml
+  - path: cider-ci/context-components/rails-setup.yml
+
+tasks:
+  include: 
+    - cider-ci/generators/embed_features.yml
+
+task_defaults:
+
+  include:
+    - cider-ci/task-components/rspec.yml
+
+  ports:
+    CAPYBARA_SERVER_PORT:
+      min: 31000
+      max: 31337
+  scripts:
+    configure_server_port:
+      body: |
+        echo "madek_external_base_url: 'http://localhost:${CAPYBARA_SERVER_PORT}'" >> config/settings.local.yml
+    test:
+      start_when:
+        server port has been configured: { script_key: configure_server_port }

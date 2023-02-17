@@ -1,0 +1,32 @@
+include:
+  - cider-ci/task-components/firefox.yml
+  - cider-ci/task-components/nodejs.yml
+environment_variables:
+  # timezone. must be non-UTC, chosen to be local time for devs
+  TZ: 'CET'
+  # set screensize like Firefox Dev "Responsive Design Mode" small Laptop preset
+  XVFB_SCREEN_CONF: '1366x768x24'
+
+trial_attachments:
+  screenshots:
+    include_match: '^tmp\/.+\.png$'
+    content_type: image/png
+  logs:
+    include_match: '^logs?\/.+\.log$'
+    content_type: text/plain
+
+scripts:
+  test:
+    timeout: 15 Minutes
+    body: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      echo "# RSPEC_NAME: $RSPEC_NAME"
+      echo "# RSPEC_TEST: $RSPEC_TEST"
+      mkdir -p log
+      unset PGPORT; unset PGUSER
+      PGPORT=${PG10PORT} PGUSER=${PG10USER} \
+        xvfb-run -a -e log/xvfb.log \
+        -s "-ac -screen 0 $XVFB_SCREEN_CONF" \
+        ./bin/rspec "${RSPEC_TEST}"
+

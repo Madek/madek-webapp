@@ -1,0 +1,22 @@
+include: 
+  - path: cider-ci/context-components/env.yml
+  - path: cider-ci/context-components/rails-setup.yml
+
+tasks:
+  include: 
+    - cider-ci/generators/error_support_features.yml
+
+task_defaults:
+
+  include:
+    - cider-ci/task-components/rspec.yml
+
+  scripts:
+    configure_madek_support_email:
+      body: |
+        echo 'madek_support_email: support@example.com' >> config/settings.local.yml
+    test:
+      start_when:
+        madek support email has been configured:
+          script_key: configure_madek_support_email
+

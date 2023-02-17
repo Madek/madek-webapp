@@ -5,13 +5,8 @@ scripts:
     exclusive_executor_resource: asdf-firefox
     body: |
       #!/usr/bin/env bash
-      set -euxo pipefail
-      if [[ ! -d ~/.asdf/plugins/firefox ]]; then
-        asdf plugin add firefox https://github.com/DrTom/asdf-firefox.git
-      else
-        asdf plugin update firefox
-      fi
-      asdf install firefox
+      set -euo pipefail
+      ./bin/env/firefox-setup
   test:
     start_when:
       firefox is installed:

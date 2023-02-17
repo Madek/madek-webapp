@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd ../../.. > /dev/null 2>&1 && pwd -P)"
+cd $PROJECT_DIR
+
+function echoerr { echo "$@" 1>&2; }
+FEATURE_TASKS_PATTERN="cider-ci/generators/*features.yml"
+
+rm $FEATURE_TASKS_PATTERN
+
+if [ "$(git status --porcelain $FEATURE_TASKS_PATTERN)" ]; then
+  echo "$FEATURE_TASKS_PATTERN has been applied"
+else
+  echoerr "$FEATURE_TASKS_PATTERN seems not to match"
+  echoerr "call ./cider-ci/generators/bin/feature-tasks-create and commit"
+  exit 1
+fi
+
+
+./cider-ci/generators/bin/feature-tasks-create
+
+
+if [ -z "$(git status --porcelain $FEATURE_TASKS_PATTERN)" ]; then
+  echo "$FEATURE_TASKS_PATTERN is up to date"
+else
+  echoerr "$FEATURE_TASKS_PATTERN is not up to date"
+  echoerr "call ./cider-ci/generators/bin/feature-tasks-create and commit"
+  exit 1
+fi
+
+#vi: ft=sh

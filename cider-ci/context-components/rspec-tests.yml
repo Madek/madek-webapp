@@ -1,127 +1,14 @@
-# RSpec Tests
-
-include: cider-ci/context-components/rails-setup.yml
+include: 
+  - path: cider-ci/context-components/env.yml
+  - path: cider-ci/context-components/rails-setup.yml
 
 task_defaults:
   include:
-    - cider-ci/task-components/firefox.yml
-    - cider-ci/task-components/nodejs.yml
+    - cider-ci/task-components/rspec.yml
   environment_variables:
-    # timezone. must be non-UTC, chosen to be local time for devs
-    TZ: 'CET'
-    # set screensize like Firefox Dev "Responsive Design Mode" small Laptop preset
-    XVFB_SCREEN_CONF: '1366x768x24'
-
-  trial_attachments:
-    screenshots:
-      include_match: '^tmp\/.+\.png$'
-      content_type: image/png
-    logs:
-      include_match: '^logs?\/.+\.log$'
-      content_type: text/plain
-
-  scripts:
-    test:
-      timeout: 15 Minutes
-      body: |
-        #!/usr/bin/env bash
-        set -eux
-        mkdir -p log
-        xvfb-run -a -e log/xvfb.log \
-          -s "-ac -screen 0 $XVFB_SCREEN_CONF" \
-          ./bin/rspec $CIDER_CI_TASK_FILE
+    RSPEC_TEST:  '{{CIDER_CI_TASK_FILE}}'
+    RSPEC_NAME:  '{{CIDER_CI_TASK_FILE}}'
 
 generate_tasks:
-  include_match: spec/.*_spec.rb
-
-tasks:
-  # manually prioritize slow tests higher
-  spec/features/batch_edit/batch_update_permissions_spec.rb: { priority: 2 }
-  spec/features/batch_edit/form_values_and_appearance_spec.rb: { priority: 1 }
-  spec/features/collection/collection_destroy_spec.rb: { priority: 1 }
-  spec/features/collection/collection_meta_data_edit_spec.rb: { priority: 1 }
-  spec/features/collection/collection_select_collection_spec.rb: { priority: 3 }
-  spec/features/collection/collection_show_spec.rb: { priority: 2 }
-  spec/features/collection/edit_collection_cover_spec.rb: { priority: 2 }
-  spec/features/collection/edit_collection_highlights_spec.rb: { priority: 1 }
-  spec/features/flyout_actions_spec.rb: { priority: 2 }
-  spec/features/manage_custom_urls/check-table-and-uuid_spec.rb: { priority: 2 }
-  spec/features/manage_custom_urls/transfer-without-primary_spec.rb: { priority: 2 }
-  spec/features/media_entry/media_entry_context_meta_data_edit_spec.rb: { priority: 3 }
-  spec/features/media_entry/media_entry_export_spec.rb: { priority: 2 }
-  spec/features/media_entry/media_entry_index_spec.rb: { priority: 1 }
-  spec/features/media_entry/media_entry_select_collection_spec.rb: { priority: 2 }
-  spec/features/media_entry/media_entry_show_spec.rb: { priority: 2 }
-  spec/features/media_entry/permissions/media_entry_permissions_spec.rb: { priority: 1 }
-  spec/features/meta_data/inputs/input_keywords_spec.rb: { priority: 2 }
-  spec/features/meta_data/inputs/input_textdate_spec.rb: { priority: 2 }
-  spec/features/meta_data/meta_data_spec.rb: { priority: 1 }
-  spec/features/meta_data/naughty_strings/naughty_strings_10_spec.rb: { priority: 2 }
-  spec/features/meta_data/naughty_strings/naughty_strings_11_spec.rb: { priority: 2 }
-  spec/features/meta_data/naughty_strings/naughty_strings_12_spec.rb: { priority: 2 }
-  spec/features/meta_data/naughty_strings/naughty_strings_13_spec.rb: { priority: 2 }
-  spec/features/meta_data/naughty_strings/naughty_strings_14_spec.rb: { priority: 2 }
-  spec/features/meta_data/naughty_strings/naughty_strings_3_spec.rb: { priority: 2 }
-  spec/features/my/my_groups_spec.rb: { priority: 2 }
-  spec/features/search_spec.rb: { priority: 2 }
-  # this 1 is really flacky:
-  spec/features/side_filter/side_filter_spec.rb: { priority: 3, max_trials: 5 }
-
-  spec/features/styleguide_spec.rb:
-    priority: 2
-    scripts:
-      test:
-        body: echo "disabled till it's faster and/or do we work on CSS."
-
-  # some tests need special treatment or custom configuration
-
-  spec/features/custom_root-url_spec.rb:
-    environment_variables:
-      RAILS_RELATIVE_URL_ROOT: /my-test
-
-  spec/features/session/expiration_spec.rb:
-    scripts:
-      configure_session_validity_duration:
-        body: |
-          echo 'madek_session_validity_duration: 10 Seconds' >> config/settings.local.yml
-      test:
-        start_when:
-          validity duration has been configured:
-            script_key: configure_session_validity_duration
-
-  spec/controllers/my/zhdk_groups_controller_spec.rb:
-    scripts:
-      configure_zhdk_integration:
-        body: |
-          echo 'zhdk_integration: true' >> config/settings.local.yml
-      test:
-        start_when:
-          zhdk integration has been configured:
-            script_key: configure_zhdk_integration
-
-  spec/features/embed_player/embed_player_spec.rb: &EMBED_PLAYER_CONFIG
-    ports:
-      CAPYBARA_SERVER_PORT:
-        min: 31000
-        max: 31337
-    scripts:
-      configure_server_port:
-        body: |
-          echo "madek_external_base_url: 'http://localhost:${CAPYBARA_SERVER_PORT}'" >> config/settings.local.yml
-      test:
-        start_when:
-          server port has been configured: { script_key: configure_server_port }
-
-  spec/features/embed_player/embed_player_interaction_spec.rb: *EMBED_PLAYER_CONFIG
-  spec/features/embed_player/embed_error_ui_spec.rb: *EMBED_PLAYER_CONFIG
-  spec/features/embed_player/embed_image_player_spec.rb: *EMBED_PLAYER_CONFIG
-
-  spec/features/errors/errors_spec.rb:
-    scripts:
-      configure_madek_support_email:
-        body: |
-          echo 'madek_support_email: support@example.com' >> config/settings.local.yml
-      test:
-        start_when:
-          madek support email has been configured:
-            script_key: configure_madek_support_email
+  include_match: spec\/.*_spec.rb
+  exclude_match: spec\/features.*

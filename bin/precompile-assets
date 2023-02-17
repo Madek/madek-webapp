@@ -1,12 +1,14 @@
-#!/usr/bin/env bash
-set -exu
+ #!/usr/bin/env bash
+set -euo pipefail
 
-# TODO: https://devcenter.heroku.com/articles/rails-4-asset-pipeline#dependencies-improperly-used
+PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
+cd $PROJECT_DIR
 
-# ENV
+./bin/env/ruby-setup --quiet
+./bin/env/nodejs-setup
+
 export RAILS_ENV=production
 export RAILS_LOG_LEVEL=debug
-export RAILS_RELATIVE_URL_ROOT='' # OMG this somehow affects sprockets asset hashes
 export DISABLE_SECRETS_STRENGTH_CHECK=true
 
 # build locale files

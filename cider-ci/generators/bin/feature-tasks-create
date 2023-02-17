@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd ../../.. > /dev/null 2>&1 && pwd -P)"
+
+cd $PROJECT_DIR
+
+
+./bin/rspec --require ./cider-ci/generators/bin/generator.rb \
+  spec/features/
+
+exit 0
+
+./bin/rspec -f j -o tmp/features.json --dry-run spec/features/  
+bundle exec ruby -e "require 'json'; IO.write('tmp/features.json',JSON.pretty_generate(JSON.parse(IO.read('tmp/features.json'))))"
+bundle exec ruby cider-ci/generators/bin/feature-tasks-create.rb
+
+#vi: ft=sh

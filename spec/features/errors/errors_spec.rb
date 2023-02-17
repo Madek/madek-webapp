@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
-feature 'Errors' do
+feature 'Errors', ci_group: :error_support do
   let(:user) { create(:user) }
 
   context 'when support email is configured' do

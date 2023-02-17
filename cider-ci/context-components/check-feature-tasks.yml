@@ -1,0 +1,13 @@
+include: 
+  - path: cider-ci/context-components/env.yml
+  - path: cider-ci/context-components/rails-setup.yml
+
+tasks:
+  check:
+    scripts:
+      test: 
+        body: |
+          #!/usr/bin/env bash
+          set -euo pipefail
+          ./cider-ci/generators/bin/feature-tasks-check
+

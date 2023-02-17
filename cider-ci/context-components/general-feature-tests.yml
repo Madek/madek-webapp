@@ -1,0 +1,11 @@
+include: 
+  - path: cider-ci/context-components/env.yml
+  - path: cider-ci/context-components/rails-setup.yml
+
+tasks:
+  include: 
+    - cider-ci/generators/plain_features.yml
+
+task_defaults:
+  include:
+    - cider-ci/task-components/rspec.yml

@@ -1,6 +1,6 @@
 jobs:
-  rspec-tests:
-    name: 'RSpec Tests'
+  basic-rspec-tests:
+    name: 'Basic Tests: Model, Controllers, ... '
     run_when: &DEFAULT_TRIGGERS
       the branch does not match no-ci or _wip_:
         type: branch
@@ -8,6 +8,62 @@ jobs:
         exclude_match: &default_branch_exclude ^(.*no-ci.*)|((greenkeeper|dependabot)\/.*)|([a-z]*(_|\/)wip_.*)$
     context:
       include: cider-ci/context-components/rspec-tests.yml
+
+
+  check-feature-tasks:
+    name: Check if feature tasks are up to date
+    run_when: *DEFAULT_TRIGGERS
+    context:
+      include: cider-ci/context-components/check-feature-tasks.yml
+
+
+  general-feature-tests:
+    name: 'General Feature Tests'
+    depends_on: &PLAIN_DEP
+      basic-rspec-tests:
+        job_key: basic-rspec-tests
+        type: job
+        states: [passed] 
+      check-feature_tasks:
+        job_key: check-feature-tasks
+        type: job
+        states: [passed] 
+    run_when: *PLAIN_DEP
+    context:
+      include: cider-ci/context-components/general-feature-tests.yml
+
+  embed-feature-tests:
+    name: 'Embed Feature Tests'
+    priority: 2
+    depends_on: *PLAIN_DEP
+    run_when: *PLAIN_DEP
+    context:
+      include: cider-ci/context-components/embed-feature-tests.yml
+
+  error-support-feature-tests:
+    name: 'Error-Support Feature Tests'
+    priority: 2
+    depends_on: *PLAIN_DEP
+    run_when: *PLAIN_DEP
+    context:
+      include: cider-ci/context-components/error-support-feature-tests.yml
+
+
+  custom-path-feature-tests:
+    name: 'Custom-Path Feature Tests'
+    priority: 2
+    depends_on: *PLAIN_DEP
+    run_when: *PLAIN_DEP
+    context:
+      include: cider-ci/context-components/custom-path-feature-tests.yml
+
+  session-expiration-feature-tests:
+    name: 'Session-Expiration Feature Tests'
+    priority: 2
+    depends_on: *PLAIN_DEP
+    run_when: *PLAIN_DEP
+    context:
+      include: cider-ci/context-components/session-expiration-feature-tests.yml
 
   lint:
     name: 'Linting'
@@ -49,10 +105,26 @@ jobs:
     priority: 999 # "empty" job = high priority
     context:
       task: "echo '✔︎ All dependencies have passed' ; exit 0"
-    run_when:
-      'rspec-tests passed':
+    depends_on: &ALL_DEPS
+      'basic-tests passed':
         type: job
-        job_key: rspec-tests
+        job_key: basic-rspec-tests
+        states: [passed]
+      'general-feature-tests passed':
+        type: job
+        job_key: general-feature-tests
+        states: [passed]
+      'custom-path-feature-tests passed':
+        type: job
+        job_key: custom-path-feature-tests
+        states: [passed]
+      'embed-feature-tests passed':
+        type: job
+        job_key: embed-feature-tests
+        states: [passed]
+      'error-support-feature-tests passed':
+        type: job
+        job_key: error-support-feature-tests
         states: [passed]
       'lint passed':
         type: job
@@ -62,12 +134,9 @@ jobs:
         type: job
         job_key: precompilation
         states: [passed]
-    depends_on:
-      lint: { job_key: lint, type: job, states: [passed] }
-      rspec-tests: { job_key: rspec-tests, type: job, states: [passed] }
-      precompilation: { job_key: precompilation, type: job, states: [passed] }
       all-tests of the datalayer:
         { job_key: all-tests, type: job, submodule: [datalayer], states: [passed] }
+    run_when: *ALL_DEPS
 
   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
   # GITHUB BRANCH PROTECTION                                                        #
@@ -88,89 +157,3 @@ jobs:
       good to merge of the datalayer:
         { job_key: good-to-merge, type: job, submodule: [datalayer], states: [passed] }
 
-  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-  # OTHER JOBS (not strictly needed for development process/delivery)
-  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-  wip-rspec-tests:
-    name: '⟨⟨⟨WIP⟩⟩⟩ RSpec Tests'
-    description: |
-      Run RSpec Tests in "Work-in-Progress" mode (i.e. compile assets on the fly).
-    priority: -1337
-    run_when:
-      is on a WIP branch:
-        type: branch
-        include_match: ^((greenkeeper|dependabot)\/.*)|([a-z]*(_|\/)wip_.*)$
-    context:
-      include: cider-ci/context-components/rspec-tests.yml
-      task_defaults:
-        max_trials: 5
-        environment_variables:
-          MADEK_WIP_BRANCH: ✔︎
-        scripts:
-          precompile-assets:
-            timeout: '5 minutes'
-            exclusive_executor_resource: 'Madek-webapp-precompile-assets'
-            body: |
-              export PATH=~/.rubies/$RUBY/bin:$PATH
-              cider-ci/bin/precompile-assets-with-caching.sh
-            start_when:
-              database has been configured: { script_key: configure-database }
-
-          test:
-            start_when:
-              assets are precompiled: { script_key: precompile-assets }
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# JOBS THAT DO SOMETHING /o\
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-# TODO: make a job that *does* the things neccessary for `Merge-Checks` to pass
-# and immediatly pushes to github. This gets rid of the common timing problem
-# while merging (by using the CI as a "global lock")
-
-# do-merge:
-#   name: "\uD83D\uDE4C Do Push and Merge"
-#   description: |
-#     *This job can be run instead of manually delivering and then re-trying the 'Merge-Checks'.*
-#
-#     It checks if the current commit can be automatically merged,
-#     then executes the neccessary actions and finally pushes it to origin/master.
-#
-#   priority: 999
-#
-#   # same dependencies like "good to merge", but without the "merge-checks"
-#   depends_on:
-#     all-tests: {job_key: all-tests, type: job, states: [passed]}
-#     good to merge of the datalayer: {job_key: good-to-merge, type: job, submodule: [datalayer], states: [passed]}
-#
-#   context:
-#     tasks:
-#       "Do Merge":
-#
-#         traits:
-#           ci-executor.madek: yes
-#
-#         exclusive_global_resources:
-#           'webapp_do_merge.ci.madek.zhdk.ch': true
-#
-#         git_options: { submodules: { include_match: ^.*$ } }
-#         aggregate_state: satisfy-last
-#         eager_trials: 1
-#         max_trials: 1
-#
-#         scripts:
-#           main:
-#             body: |
-#               #!/usr/bin/env bash
-#               set -exu
-#
-#               git fetch origin
-#
-#               cider-ci/bin/check-git-branch-current
-#               cider-ci/bin/check-git-submodules-current
-#
-#               # TODO: check all commits betwen origin/master...HEAD are signed
-#
-#               # push all submodules that reside in the 'Madek' org:
-#               git submodule foreach --recursive '{ git config remote.origin.url | grep -qe 'github\.com.Madek' ;} && git push origin HEAD:master || exit 0'
-#               git push origin HEAD:master

@@ -1,17 +1,17 @@
 "JavaScript Lint":
 
   task_defaults:
-    traits:
-      nodejs: yes
-    # en lieu of 'npm install':
     git_options:
       submodules:
         include_match: ^.*$
 
   tasks:
-
     lint-coffee-and-javascript:
       name: 'JS: Lint/Stylecheck with `standard` and Coffeelint'
       scripts:
         test:
-          body: npm run lint
+          body: |
+            #!/usr/bin/env bash
+            set -euo pipefail
+            ./bin/env/nodejs-setup
+            npm run lint
