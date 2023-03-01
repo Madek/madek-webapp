@@ -1,7 +1,7 @@
 # Be sure to restart your server when you modify this file.
 
 Madek::Application.config.session_store :cookie_store,
-  key: '_Madek_session',
+  key: Madek::Constants::Webapp::SESSION_NAME,
   httponly: true,
   secure: (Rails.env == 'production' && !Madek::Constants::MADEK_DISABLE_HTTPS)
 

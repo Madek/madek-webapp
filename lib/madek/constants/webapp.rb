@@ -1,6 +1,8 @@
 module Madek
   module Constants
     module Webapp
+      SESSION_NAME = '_Madek_session'
+
       FILE_UTIL_PATH = '/usr/bin/file -b --mime-type'
 
       # UI constants

@@ -1,6 +1,14 @@
 require 'application_responder'
 
 class ApplicationController < ActionController::Base
+  before_action do
+    begin
+      session.exists?
+    rescue JSON::ParserError
+      cookies.delete(Madek::Constants::Webapp::SESSION_NAME)
+    end
+  end
+
   include AuthorizationSetup
   include Modules::VerifyAuthorized
   include Concerns::ControllerHelpers
