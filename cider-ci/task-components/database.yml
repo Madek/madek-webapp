@@ -1,0 +1,14 @@
+scripts:
+  webapp-configure-rails-db:
+    start_when:
+      datalayer-configure-rails-db passed:
+        script_key: datalayer-configure-rails-db
+    body: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      ln -s $DATALAYER_DIR/config/database.yml  $WEBAPP_DIR/config/database.yml
+  test:
+    start_when:
+      webapp-configure-rails-db has passed:
+        script_key: webapp-configure-rails-db
+
