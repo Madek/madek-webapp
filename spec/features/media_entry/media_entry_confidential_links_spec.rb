@@ -10,8 +10,11 @@ feature 'Media Entry - Managing Confidential Links' do
   end
 
   scenario 'Listing Confidential Links' do
-    confidential_links = 3.times.map do
-      create(:confidential_link, user: @user, resource: @entry)
+    confidential_links = 3.times.map do |i|
+      create(:confidential_link, 
+             created_at: Time.now - i.minutes, 
+             user: @user, 
+             resource: @entry)
     end
 
     sign_in_as @user.login
@@ -33,7 +36,7 @@ feature 'Media Entry - Managing Confidential Links' do
         I18n.t(:confidential_links_list_show_url),
         'icon: fa fa-ban'
       ]
-    end.reverse
+    end
 
     expect(displayed_ui).to eq(data_table)
   end

@@ -24,9 +24,8 @@ scripts:
       echo "# RSPEC_NAME: $RSPEC_NAME"
       echo "# RSPEC_TEST: $RSPEC_TEST"
       mkdir -p log
-      unset PGPORT; unset PGUSER
-      PGPORT=${PG10PORT} PGUSER=${PG10USER} \
-        xvfb-run -a -e log/xvfb.log \
+      source $DATALAYER_DIR/cider-ci/bin/pg_env_set
+      xvfb-run -a -e log/xvfb.log \
         -s "-ac -screen 0 $XVFB_SCREEN_CONF" \
         ./bin/rspec "${RSPEC_TEST}"
 

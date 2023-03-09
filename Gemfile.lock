@@ -6,8 +6,8 @@ GIT
       rails (>= 6.1, < 7.0)
 
 GIT
-  remote: https://github.com/leihs/rails_pg-tasks
-  revision: 24479792612728e27bce429da6a64cb2dbce8600
+  remote: https://github.com/drtom/rails_pg-tasks
+  revision: a1fa04ff62b4319c4775cfc458d4cc89b9a6b79e
   specs:
     pg_tasks (2.2.0.pre.0)
       rails (~> 6.1.0)
