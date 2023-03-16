@@ -10,13 +10,17 @@ module Presenters
       def initialize(
         app_resource,
         user,
-        search_term: ''
+        search_term: '',
+        section_labels: nil
       )
 
         super(app_resource)
         @user = user
         @search_term = search_term
+        @section_labels = section_labels
       end
+
+      attr_reader :section_labels
 
       delegate_to_app_resource :title
 

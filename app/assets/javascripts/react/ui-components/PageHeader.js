@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import cx from 'classnames'
 import Link from './Link.cjsx'
 import Icon from './Icon.cjsx'
+import SectionLabels from './SectionLabels.js'
 
 const WORKFLOW_STATES = { IN_PROGRESS: 'IN_PROGRESS', FINISHED: 'FINISHED' }
 
@@ -36,9 +37,11 @@ const WorkflowBanner = ({ workflow, icon }) => {
   )
 }
 
-const PageHeader = ({ icon, fa, title, actions, workflow, banner }) => {
+const PageHeader = ({ icon, fa, title, actions, workflow, banner, sectionLabels }) => {
   return (
     <div>
+      {sectionLabels && <SectionLabels items={sectionLabels} />}
+
       {banner}
 
       {!!workflow && <WorkflowBanner workflow={workflow} icon={icon} />}

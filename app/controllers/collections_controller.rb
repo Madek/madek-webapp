@@ -52,7 +52,8 @@ class CollectionsController < ApplicationController
         list_conf: resource_list_by_type_param,
         children_list_conf: children_list_conf,
         context_id: determine_context_id(collection),
-        load_meta_data: false
+        load_meta_data: false,
+        section_meta_key_id: settings.section_meta_key_id
     respond_with @get
   end
 

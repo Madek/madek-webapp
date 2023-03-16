@@ -48,7 +48,8 @@ class MediaEntriesController < ApplicationController
       current_user,
       user_scopes_for_media_resource(media_entry),
       action: action_name,
-      list_conf: resource_list_params)
+      list_conf: resource_list_params,
+      section_meta_key_id: settings.section_meta_key_id)
     respond_with(@get)
   end
 

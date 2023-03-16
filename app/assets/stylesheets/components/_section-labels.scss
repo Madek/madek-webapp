@@ -1,0 +1,43 @@
+.section-labels {
+  // TODO: its own positioning should not be part of the component
+  position: absolute;
+  //right: 105px;
+  left: 71.5%;
+  top: -34px;
+  z-index: 301;
+
+  width: 140px;
+  height: 56px;
+
+  &__item {
+    position: absolute;
+
+    height: 56px;
+    width: 56px;
+    border-radius: 100%;
+    overflow: hidden;
+    box-shadow: -2px 2px 3px rgba(black, 0.75);
+
+    @include box-sizing(border-box);
+    padding: 2px 4px 4px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transform: rotate(-31deg);
+    //transition: transform 0.1s;
+
+    background-color: gray;
+    color: white;
+    text-align: center;
+    font-size: 10px;
+    line-height: 1.2;
+
+    text-decoration: none !important;
+
+    &:hover {
+      filter: brightness(96%);
+      z-index: 1;
+    }
+  }
+}

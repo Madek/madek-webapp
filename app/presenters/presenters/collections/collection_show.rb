@@ -6,6 +6,7 @@ module Presenters
       include Presenters::Collections::Modules::CollectionCommon
       include Presenters::Shared::MediaResource::Modules::PrivacyStatus
       include Presenters::Shared::MediaResource::Modules::EditSessions
+      include Presenters::Shared::MediaResource::Modules::SectionLabels
       include Presenters::Shared::Modules::VocabularyConfig
       include Presenters::Shared::Modules::MetaDataPerContexts
       include Presenters::Shared::Modules::PartOfWorkflow
@@ -20,7 +21,8 @@ module Presenters
                      type_filter: nil,
                      show_collection_selection: false,
                      search_term: '',
-                     load_meta_data: false)
+                     load_meta_data: false,
+                     section_meta_key_id: nil)
         super(app_resource, user)
         @user_scopes = user_scopes
         @type_filter = type_filter
@@ -30,6 +32,7 @@ module Presenters
         @show_collection_selection = show_collection_selection
         @search_term = search_term
         @load_meta_data = load_meta_data
+        @section_labels = section_labels(section_meta_key_id, app_resource)
         # NOTE: this is just a hack to help separating the methods by action/tab
         #       modal actions are all still on top of 'show'
         @action = action
@@ -158,7 +161,8 @@ module Presenters
         Presenters::Collections::CollectionHeader.new(
           @app_resource,
           @user,
-          search_term: @search_term)
+          search_term: @search_term,
+          section_labels: @section_labels)
       end
 
       def logged_in

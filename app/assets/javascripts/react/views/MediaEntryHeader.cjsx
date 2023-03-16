@@ -60,7 +60,13 @@ module.exports = React.createClass
         </ul>
       </div>
 
-    <PageContentHeader icon={icon} title={get.title} workflow={get.workflow} banner={banner}>
+    <PageContentHeader
+      icon={icon}
+      title={get.title}
+      workflow={get.workflow}
+      banner={banner}
+      sectionLabels={get.section_labels}
+    >
       {
         f.map(
           buttons,

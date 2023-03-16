@@ -6,6 +6,7 @@ module Presenters
       include Presenters::MediaEntries::Modules::MediaEntryCommon
       include Presenters::Shared::MediaResource::Modules::PrivacyStatus
       include Presenters::Shared::MediaResource::Modules::EditSessions
+      include Presenters::Shared::MediaResource::Modules::SectionLabels
       include Presenters::Shared::Modules::PartOfWorkflow
 
       def initialize(
@@ -15,13 +16,15 @@ module Presenters
         action: 'show',
         list_conf: nil,
         show_collection_selection: false,
-        search_term: '')
+        search_term: '',
+        section_meta_key_id: nil)
 
         super(app_resource, user)
         @user_scopes = user_scopes
         @list_conf = list_conf
         @show_collection_selection = show_collection_selection
         @search_term = search_term
+        @section_labels = section_labels(section_meta_key_id, app_resource)
         # NOTE: this is just a hack to help separating the methods by action/tab
         #       modal actions are all still on top of 'show'
         @active_tab =
@@ -116,7 +119,8 @@ module Presenters
         Presenters::MediaEntries::MediaEntryHeader.new(
           @app_resource,
           @user,
-          search_term: @search_term)
+          search_term: @search_term,
+          section_labels: @section_labels)
       end
 
       def image_url
