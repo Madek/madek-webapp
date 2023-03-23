@@ -11,7 +11,7 @@ module.exports = React.createClass
   displayName: 'HighlightedContents'
   render: ({get, authToken} = @props) ->
 
-    if f.isEmpty(get.highlighted_media_resources.resources)
+    if f.isEmpty(get.highlighted_media_resources?.resources)
       return null
 
     <div className='ui-container midtone-darker bordered'>

@@ -187,6 +187,7 @@ module.exports = React.createClass
           when 'context'
             <TabContent testId={contentTestId('context_' + urlState.argument)}>
               <CollectionDetailOverview get={get} authToken={authToken} />
+              <HighlightedContents get={get} authToken={authToken} />
               <CollectionDetailAdditional get={get} authToken={authToken} />
             </TabContent>
 

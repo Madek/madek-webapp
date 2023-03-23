@@ -107,7 +107,6 @@ module Presenters
       end
 
       def highlighted_media_resources
-        return unless action == 'show'
         resources = @user_scopes[:highlighted_media_entries] +
           @user_scopes[:highlighted_collections]
         Presenters::Shared::MediaResource::IndexResources.new(
