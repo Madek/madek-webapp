@@ -214,6 +214,7 @@ Madek::Application.routes.draw do
   resources :users, only: :index
   resources :api_clients, only: :index
   resources :delegations, only: :index
+  resources :roles, only: :index
 
   # Static App routes ##########################################################
   get '/id/:uuid', to: 'uuid#redirect_to_canonical_url'

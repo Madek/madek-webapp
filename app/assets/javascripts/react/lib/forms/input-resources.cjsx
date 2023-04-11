@@ -26,12 +26,12 @@ module.exports = React.createClass
 
   getInitialState: ()-> {}
 
-  componentDidMount: ({values} = @props)->
+  componentDidMount: ({values, metaKey} = @props)->
     AutoComplete = require('../autocomplete.cjsx')
     # TODO: make selection a collection to keep track of persistent vs on the fly values
     @setState
       values: values # keep internal state of entered values
-      selectedRole: @defaultRole()
+      roles: if metaKey and metaKey.roles then [metaKey.roles...] else []
 
   # NOTE: use a react legacy API to force updates to internal state when props changes.
   # Using `componentWillReceiveProps` is *generally* not recommended, but in this case this is the most safe workaround for the current setup:
@@ -41,10 +41,6 @@ module.exports = React.createClass
   componentWillReceiveProps: (nextProps)->
     if this.props.values != nextProps.values
       this.setState({values: nextProps.values})
-
-  defaultRole: ->
-    if firstRole = f.get(@props.metaKey, 'roles[0]')
-      { id: firstRole.uuid, label: firstRole.name }
 
   _onItemAdd: (item)->
     @_adding = true
@@ -94,7 +90,7 @@ module.exports = React.createClass
       editedItemIndex: null
       addingRole: null
       editedRole: null
-      selectedRole: @defaultRole()
+      selectedRole: null
     )
 
     if @props.onChange
@@ -120,37 +116,37 @@ module.exports = React.createClass
 
     editedItem = @state.values[index]
     @setState(editedItem: editedItem, editedItemIndex: index, addingRole: true)
+    
+    refs = @refs
+    setTimeout (-> refs.roleSelect.focus()), 100
 
-  _renderRoleSelect: ->
-    selectedRoleId = f.get(@state, 'selectedRole.id')
-
-    <select
-      name='role_id'
-      onChange={@_onRoleSelect}
-      value={selectedRoleId}>
-      {@props.metaKey.roles.map (role) ->
-        <option value={role.uuid} key={role.uuid}>
-          {role.name}
-        </option>
-      }
-    </select>
-
-  _onRoleSelect: (e) ->
-    roleId = e.target.value
-    role = f.find(@props.metaKey.roles, (r) -> r.id is roleId)
-
-    @setState(selectedRole: role)
-
-  _onRoleEdit: (roleId, itemIndex, e) ->
+  _onRoleEdit: (role, itemIndex, e) ->
     e.preventDefault()
-    role = f.find(@props.metaKey.roles, (r) -> r.id is roleId)
 
     @setState(
       editedItem: @state.values[itemIndex]
-      editedRole: { id: roleId, itemIndex: itemIndex }
+      editedRole: { id: role.id, itemIndex: itemIndex }
       selectedRole: role
     )
 
+    refs = @refs
+    setTimeout (-> refs.roleSelect.focus()), 100
+
+  _onRoleSelect: (role)->
+    @setState(selectedRole: role)
+    @refs.saveRoleButton.focus()
+
+  _onNewRole: (label)->
+    {roles} = @state
+    # assign existing if one by the same name already exists
+    r = f.find(roles, (x) -> x.label == label)
+    if r
+      @setState(selectedRole: r)
+    else
+      r = {id: undefined, uuid: undefined, label: label, type: 'Role'}
+      @setState(selectedRole: r, roles: [r, roles...])
+    @refs.saveRoleButton.focus()
+    
   _onRoleRemove: (itemIndex, e) ->
     e.preventDefault()
 
@@ -166,7 +162,7 @@ module.exports = React.createClass
       editedRole: null
       editedItemIndex: null
       editedItem: null
-      selectedRole: @defaultRole()
+      selectedRole: null
     )
 
   _handleMoveUp: (itemIndex, e) ->
@@ -203,9 +199,9 @@ module.exports = React.createClass
   render: ()->
     {_onItemAdd, _onItemRemove, _onNewKeyword, _onNewPerson} = @
     { name, resourceType, values, multiple, extensible, allowedTypes
-      searchParams, autocompleteConfig, withRoles } = @props
-    state = @state
-    values = f.compact(state.values or values)
+      searchParams, autocompleteConfig, withRoles, metaKey } = @props
+    values = f.compact(@state.values or values)
+    {selectedRole, roles} = @state
 
     # NOTE: this is only supposed to be used client side,
     # but we need to wait until AutoComplete is loaded
@@ -253,18 +249,36 @@ module.exports = React.createClass
                   onAddValue={_onNewPerson}/>}
 
               {if withRoles and f.present(@state.editedItem)
+                {_onRoleSelect, _onNewRole} = @
                 <div className='multi-select mts'>
-                  <label className="form-label pas">
+                  <label className="form-label pvs phn">
                     {if f.present(@state.editedRole) then t('meta_data_role_edit_heading') else t('meta_data_role_add_heading')}
                     <strong> {decorateResource(@state.editedItem, false)}</strong>
                   </label>
-                  <hr/>
-                  <div className='ui-form-group'>
-                    <label className='form-label mrs'>{t('meta_data_role_choose_label')}</label>
-                    {@_renderRoleSelect()}
+                  <div>{t('meta_data_role_choose_label')}:</div>
+                  <div className='ui-role-select mbs' style={{maxWidth: '300px'}}>
+                    {# role select}
+                    {
+                      if selectedRole
+                        <div style={{backgroundImage: 'linear-gradient(to top, #eeeeee, #f3f3f3)', border: '1px solid #eeeeee', borderRadius: '5px', padding: '0 5px'}}>
+                          {selectedRole.label}
+                        </div>
+                    }
+                    <div className='multi-select-input-holder mtn'>
+                      <AutoComplete className='multi-select-input mbx'
+                        name='role_id'
+                        resourceType='Roles'
+                        searchParams={searchParams}
+                        onSelect={_onRoleSelect}
+                        config={{ minLength: 0, localData: roles }}
+                        onAddValue={if metaKey.is_extensible then _onNewRole else undefined}
+                        ref='roleSelect'
+                      />
+                      <a className='multi-select-input-toggle icon-arrow-down'/>
+                    </div>
                   </div>
                   <div className='ui-form-group limited-width-s pan'>
-                    <button className='add-person button' onClick={@_onRoleSave}>
+                    <button className='add-person button' onClick={@_onRoleSave} ref="saveRoleButton">
                       {t('meta_data_input_person_save')}
                     </button>
                     <button className='update-person button mls' onClick={@_onRoleCancel}>
@@ -285,7 +299,7 @@ module.exports = React.createClass
                         {if f.present(item.role)
                           (role = item.role)
                           <span className="mbs" style={{float: 'right'}} key={role.id}>
-                            <a href="#" onClick={(e) => @_onRoleEdit(role.id, i, e)} className='mls button small'>{t('meta_data_role_edit_btn')}</a>
+                            <a href="#" onClick={(e) => @_onRoleEdit(role, i, e)} className='mls button small'>{t('meta_data_role_edit_btn')}</a>
                             <a href="#" onClick={(e) => @_onRoleRemove(i, e)} className='mlx button small'>{t('meta_data_role_remove_btn')}</a>
                           </span>
                         }
@@ -342,8 +356,11 @@ module.exports = React.createClass
           f(newItem).omit(['type', 'isNew'])
             .map((val, key)-> # pairs; build keys; clean & stringify values:
               val = val.map((v) => v.id).join(',') if f.isArray(val)
-              val = val.id if f.isPlainObject(val) and f.has(val, 'id')
-              if f.present(val) then ["#{name}[#{key}]", (val + '')])
+              if key == 'role' and !val.id and val.label
+                ["#{name}[#{key}][term]", (val.label)]
+              else
+                val = val.id if f.isPlainObject(val) and f.has(val, 'id')
+                if f.present(val) then ["#{name}[#{key}]", (val + '')])
             .compact().value()
 
         # normal text fields are always just values:

@@ -11,7 +11,7 @@ module Presenters
 
         # props for special types
 
-        if @app_resource.can_have_keywords?
+        if @app_resource.can_have_keywords? || @app_resource.can_have_roles?
           define_singleton_method :is_extensible do
             @app_resource.is_extensible_list? ? true : false # coerce to bool
           end

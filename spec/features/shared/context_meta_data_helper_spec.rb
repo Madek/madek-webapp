@@ -46,7 +46,7 @@ module ContextMetaDataHelper
 
     within form do
       form.find('table a', text: 'Funktion hinzufügen').click
-      select random_role, from: 'role_id'
+      autocomplete_and_choose_first(find(".ui-role-select"), random_role, press_escape: true)
       click_button I18n.t(:meta_data_input_person_save)
     end
   end

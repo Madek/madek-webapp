@@ -179,6 +179,37 @@ describe MetaDataController do
         .to match_array new_keyword_ids
     end
 
+    it 'add NEW MetaDatum::Roles' do
+      meta_key = FactoryBot.create(:meta_key_roles)
+      create_vocabulary_permissions(meta_key.vocabulary)
+      meta_datum = create(:meta_datum_roles,
+                          meta_key: meta_key,
+                          media_entry: @media_entry)
+
+      new_role = FactoryBot.create(:role, meta_key: meta_key,
+                                   labels: { de: 'Nitai', en: 'Nitai' })
+      new_person = FactoryBot.create(:person)
+
+      new_role_2_term = { term: 'Sweeper' }
+      new_person_2 = FactoryBot.create(:person)
+
+      patch(:update,
+            params: { id: meta_datum.id,
+                      media_entry_id: @media_entry.id,
+                      meta_key: meta_key.id,
+                      type: 'MetaDatum::Roles',
+                      values: [{ uuid: new_person.id, role: new_role.id },
+                               { uuid: new_person_2.id, role: new_role_2_term }] },
+            session: { user_id: @user.id })
+
+      assert_response 303
+
+      expect(meta_datum.reload.meta_data_roles.map(&:role_id))
+        .to match_array [new_role.id, Role.find { |r| r.labels['en'] == new_role_2_term[:term] }.id]
+      expect(meta_datum.reload.meta_data_roles.map(&:person_id))
+        .to match_array [new_person.id, new_person_2.id]
+    end
+
     context 'empty update deletes meta_datum' do
       it 'empty value array' do
         meta_key = FactoryBot.create(:meta_key_people)

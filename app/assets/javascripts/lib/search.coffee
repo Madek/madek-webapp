@@ -13,6 +13,7 @@ resourcesConfig = # JSON API Endpoints:
   Keywords: { url: '/keywords', key: 'label', params: ['meta_key_id'] }
   MetaKeys: { url: '/meta_keys', key: 'autocomplete_label' }
   Delegations: { url: '/delegations', key: 'autocomplete_label', displayName: t('app_autocomplete_displayname_delegations') }
+  Roles: { url: '/roles', key: 'label', params: ['meta_key_id'] }
 
 module.exports = (resourceType, parameters = null, localData)->
   unless (baseConfig = resourcesConfig[resourceType])?
