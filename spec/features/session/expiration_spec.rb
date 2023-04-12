@@ -3,31 +3,25 @@ require 'spec_helper_feature'
 require 'spec_helper_feature_shared'
 
 feature 'Feature: Session' do
-describe 'Expiration of Session after configured timeout', 
-  ci_group: :session_expiration do
+  describe 'Expiration of Session after configured timeout' do
+    describe 'when application has a session timeout 10 seconds' do
 
-  describe 'when application has a session timeout 10 seconds' do
-
-    background do
-      unless (Madek::Constants::MADEK_SESSION_VALIDITY_DURATION == 10.seconds)
-        raise 'SET the MADEK_SESSION_VALIDITY_DURATION to "10 seconds" ' \
-          'to run this test'
+      background do
+        user = create(:user)
+        sign_in_as user.login, user.password
       end
-      user = create(:user)
-      sign_in_as user.login, user.password
-    end
 
-    specify 'the user is logged out after 12 seconds' do
-      visit '/my'
-      expect(page).to have_content I18n.t(:sitemap_my_groups)
-      expect(page).not_to have_content I18n.t(:error_401_title)
-      expect(sleep 12).to be >= 10
-      visit current_path
-      expect(page).not_to have_content I18n.t(:sitemap_my_groups)
-      expect(page).to have_content I18n.t(:error_401_title)
+      specify 'the user is logged out after 12 seconds' do
+        visit '/my'
+        expect(page).to have_content I18n.t(:sitemap_my_groups)
+        expect(page).not_to have_content I18n.t(:error_401_title)
+        AuthSystem.all.update(session_max_lifetime_minutes: 0)
+        visit current_path
+        expect(page).not_to have_content I18n.t(:sitemap_my_groups)
+        expect(page).to have_content I18n.t(:error_401_title)
+      end
+
     end
 
   end
-
-end
 end

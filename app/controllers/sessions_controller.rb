@@ -7,7 +7,9 @@ class SessionsController < ActionController::Base
     @user = User.find_by(login: params[:login].try(&:downcase))
 
     if @user and @user.authenticate params[:password]
-      set_madek_session @user, params[:remember_me].present?
+      set_madek_session @user, 
+        AuthSystem.find_by!(id: 'password'), 
+        params[:remember_me].present?
       redirect_back_or my_dashboard_path, success: I18n.t(:app_notice_logged_in)
     else
       destroy_madek_session
@@ -57,7 +59,10 @@ class SessionsController < ActionController::Base
     @person = shib_sign_in_person
     @person.update! last_name: @last_name, first_name: @first_name
     @user.update! person: @person, email: @email
-    set_madek_session @user, true
+    auth_system = AuthSystem.find_or_create_by(id: "shibboleth") do |auth_system|
+      auth_system.name = "Shibboleth"
+    end
+    set_madek_session @user, auth_system
     redirect_to(
       my_dashboard_path(shib_extra_params), success: I18n.t(:app_notice_logged_in))
   end

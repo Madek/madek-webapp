@@ -1,8 +1,1 @@
----
-"./spec/features/session/expiration_spec.rb[1:1:1:1]":
-  name: "./spec/features/session/expiration_spec.rb[1:1:1:1]"
-  description: 'Feature: Session Expiration of Session after configured timeout when
-    application has a session timeout 10 seconds the user is logged out after 12 seconds'
-  environment_variables:
-    RSPEC_NAME: "./spec/features/session/expiration_spec.rb:20"
-    RSPEC_TEST: "./spec/features/session/expiration_spec.rb[1:1:1:1]"
+--- {}

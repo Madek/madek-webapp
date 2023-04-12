@@ -57,14 +57,6 @@ jobs:
     context:
       include: cider-ci/context-components/custom-path-feature-tests.yml
 
-  session-expiration-feature-tests:
-    name: 'Session-Expiration Feature Tests'
-    priority: 2
-    depends_on: *PLAIN_DEP
-    run_when: *PLAIN_DEP
-    context:
-      include: cider-ci/context-components/session-expiration-feature-tests.yml
-
   lint:
     name: 'Linting'
     description: |

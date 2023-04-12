@@ -3537,6 +3537,20 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/section_labels_spec.rb:20"
     RSPEC_TEST: "./spec/features/section_labels_spec.rb[1:1]"
+"./spec/features/session/expiration_spec.rb[1:1:1:1]":
+  name: "./spec/features/session/expiration_spec.rb[1:1:1:1]"
+  description: 'Feature: Session Expiration of Session after configured timeout when
+    application has a session timeout 10 seconds the user is logged out after 12 seconds'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/session/expiration_spec.rb:14"
+    RSPEC_TEST: "./spec/features/session/expiration_spec.rb[1:1:1:1]"
+"./spec/features/session/info_spec.rb[1:1:1]":
+  name: "./spec/features/session/info_spec.rb[1:1:1]"
+  description: Session session info the user_session contains http_user_agent and
+    remote_addr info
+  environment_variables:
+    RSPEC_NAME: "./spec/features/session/info_spec.rb:11"
+    RSPEC_TEST: "./spec/features/session/info_spec.rb[1:1:1]"
 "./spec/features/session/session_spec.rb[1:1:1:1:1:1]":
   name: "./spec/features/session/session_spec.rb[1:1:1:1:1:1]"
   description: Session Signing in redirecting to the previous page when previous page

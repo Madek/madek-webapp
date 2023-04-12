@@ -54,6 +54,8 @@ module Madek
     config.eager_load_paths += [
       Rails.root.join('datalayer', 'lib'),
       Rails.root.join('datalayer', 'app', 'models', 'concerns'),
+      Rails.root.join('datalayer', 'app', 'controllers'),
+      Rails.root.join('datalayer', 'app', 'controllers', 'concerns'),
       Rails.root.join('datalayer', 'app', 'models'),
       Rails.root.join('datalayer', 'app', 'lib'),
       Rails.root.join('datalayer', 'app', 'queries'),
