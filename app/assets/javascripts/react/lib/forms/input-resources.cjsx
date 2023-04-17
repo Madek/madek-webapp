@@ -255,26 +255,30 @@ module.exports = React.createClass
                     {if f.present(@state.editedRole) then t('meta_data_role_edit_heading') else t('meta_data_role_add_heading')}
                     <strong> {decorateResource(@state.editedItem, false)}</strong>
                   </label>
-                  <div>{t('meta_data_role_choose_label')}:</div>
-                  <div className='ui-role-select mbs' style={{maxWidth: '300px'}}>
-                    {# role select}
-                    {
-                      if selectedRole
-                        <div style={{backgroundImage: 'linear-gradient(to top, #eeeeee, #f3f3f3)', border: '1px solid #eeeeee', borderRadius: '5px', padding: '0 5px'}}>
-                          {selectedRole.label}
-                        </div>
-                    }
-                    <div className='multi-select-input-holder mtn'>
-                      <AutoComplete className='multi-select-input mbx'
-                        name='role_id'
-                        resourceType='Roles'
-                        searchParams={searchParams}
-                        onSelect={_onRoleSelect}
-                        config={{ minLength: 0, localData: roles }}
-                        onAddValue={if metaKey.is_extensible then _onNewRole else undefined}
-                        ref='roleSelect'
-                      />
-                      <a className='multi-select-input-toggle icon-arrow-down'/>
+                  <div className="mbs" style={{display: 'flex', gap: '1.5rem'}}>
+                    <div style={{flex: '40% 1 0'}} className='ptx ui-role-select mbs'>
+                      {# role select}
+                      {
+                        if selectedRole
+                          <div style={{backgroundImage: 'linear-gradient(to top, #eeeeee, #f3f3f3)', border: '1px solid #eeeeee', borderRadius: '5px', padding: '0 5px'}}>
+                            {selectedRole.label}
+                          </div>
+                      }
+                      <div className='multi-select-input-holder mtn'>
+                        <AutoComplete className='multi-select-input mbx'
+                          name='role_id'
+                          resourceType='Roles'
+                          searchParams={searchParams}
+                          onSelect={_onRoleSelect}
+                          config={{ minLength: 0, localData: roles }}
+                          onAddValue={if metaKey.is_extensible then _onNewRole else undefined}
+                          ref='roleSelect'
+                        />
+                        <a className='multi-select-input-toggle icon-arrow-down'/>
+                      </div>
+                    </div>
+                    <div style={{flex: '60% 0 1'}}>
+                      {if metaKey.is_extensible then t('meta_data_extensible_role_choose_label') else t('meta_data_role_choose_label')}
                     </div>
                   </div>
                   <div className='ui-form-group limited-width-s pan'>

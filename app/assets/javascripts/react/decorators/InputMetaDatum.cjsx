@@ -57,7 +57,7 @@ module.exports = React.createClass
         multiple={multiple}
         values={values}
         subForms={@props.subForms}
-        withRoles={f.present(@props.metaKey.roles)}/>
+        withRoles={resourceType == 'Roles'}/>
 
     else if resourceType == 'Keywords'
 
