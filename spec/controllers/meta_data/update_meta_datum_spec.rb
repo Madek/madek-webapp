@@ -192,6 +192,7 @@ describe MetaDataController do
 
       new_role_2_term = { term: 'Sweeper' }
       new_person_2 = FactoryBot.create(:person)
+      new_person_3 = FactoryBot.create(:person)
 
       patch(:update,
             params: { id: meta_datum.id,
@@ -199,15 +200,18 @@ describe MetaDataController do
                       meta_key: meta_key.id,
                       type: 'MetaDatum::Roles',
                       values: [{ uuid: new_person.id, role: new_role.id },
-                               { uuid: new_person_2.id, role: new_role_2_term }] },
+                               { uuid: new_person_2.id, role: new_role_2_term },
+                               { uuid: new_person_3.id, role: new_role_2_term }] },
             session: { user_id: @user.id })
 
       assert_response 303
 
       expect(meta_datum.reload.meta_data_roles.map(&:role_id))
-        .to match_array [new_role.id, Role.find { |r| r.labels['en'] == new_role_2_term[:term] }.id]
+        .to match_array [new_role.id,
+                         Role.find { |r| r.labels['en'] == new_role_2_term[:term] }.id,
+                         Role.find { |r| r.labels['en'] == new_role_2_term[:term] }.id]
       expect(meta_datum.reload.meta_data_roles.map(&:person_id))
-        .to match_array [new_person.id, new_person_2.id]
+        .to match_array [new_person.id, new_person_2.id, new_person_3.id]
     end
 
     context 'empty update deletes meta_datum' do

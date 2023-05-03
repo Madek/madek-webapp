@@ -62,7 +62,6 @@ gem 'rest-client', groups: [:test, :development]
 
 group :development do
   # gem 'binding_of_caller'
-  gem 'listen'
   gem 'ruby-prof'
   gem 'zencoder-fetcher'
   # gem 'better_errors' # NOTE: including this breaks rails and pry in weird ways…
