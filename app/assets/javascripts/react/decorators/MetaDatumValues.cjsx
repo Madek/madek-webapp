@@ -7,6 +7,7 @@ MadekPropTypes = require('../lib/madek-prop-types.coffee')
 resourceName = require('../lib/decorate-resource-names.coffee')
 t = require('../../lib/i18n-translate.js')
 UI = require('../ui-components/index.coffee')
+MetaDatumRolesCloud = require('./MetaDatumRolesCloud.js').default
 labelize = UI.labelize
 
 # Decorator for each type is single stateless-function-component,
@@ -51,8 +52,8 @@ DecoratorsByType =
   People: ({values, tagMods} = @props)->
     <UI.TagCloud mod='person' mods='small' list={labelize(values)}/>
 
-  Roles: ({values, tagMods} = @props)->
-    <UI.TagCloud mod='role' mods='small' list={labelize(values)}/>
+  Roles: ({values, tagMods, metaKeyId} = @props)->
+    <MetaDatumRolesCloud personRoleTuples={values} metaKeyId={metaKeyId} />
 
   Groups: ({values, tagMods} = @props)->
     <UI.TagCloud mod='group' mods='small' list={labelize(values)}/>
@@ -77,12 +78,13 @@ module.exports = React.createClass
     tagMods: React.PropTypes.any # TODO: mods
 
   render: (props = @props)->
-    {type, values, api_data_stream_url, tagMods} = props.metaDatum
+    {type, values, api_data_stream_url, tagMods, meta_key_id} = props.metaDatum
     DecoratorByType = DecoratorsByType[f.last(type.split('::'))]
     <DecoratorByType
       values={values}
       tagMods={tagMods}
       apiUrl={api_data_stream_url}
+      metaKeyId={meta_key_id}
     />
 
 
