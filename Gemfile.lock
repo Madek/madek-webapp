@@ -442,7 +442,7 @@ DEPENDENCIES
   execjs
   exiftool_vendored
   factory_bot
-  faker (~> 3.0.0)
+  faker
   git
   haml-rails
   json
@@ -451,7 +451,7 @@ DEPENDENCIES
   kramdown
   listen
   madek_zhdk_integration!
-  mimemagic (= 0.3.10)
+  mimemagic
   pg
   pg_tasks!
   pry
