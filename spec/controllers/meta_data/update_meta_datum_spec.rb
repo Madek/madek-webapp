@@ -1,5 +1,13 @@
 require 'spec_helper'
 
+before :each do
+  ActiveRecord::Base.execute(
+    <<-SQL.strip_heredoc
+      TRUNCATE TABLE vocabularies CASCADE
+    SQL
+  )
+end
+
 def create_vocabulary_permissions(vocab)
   vocab.user_permissions << \
     FactoryBot.create(:vocabulary_user_permission,
