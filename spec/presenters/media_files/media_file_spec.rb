@@ -1,25 +1,25 @@
 require 'spec_helper'
 require Rails.root.join 'spec', 'presenters', 'shared', 'dump'
 
-describe Presenters::MediaFiles::MediaFile,  transact_check_or_seed_broken: true do
+describe Presenters::MediaFiles::MediaFile   do
+
   before :example do
     @user = FactoryBot.create(:user)
   end
 
-  it_can_be 'dumped' do
-    media_entry = FactoryBot.create(:media_entry_with_video_media_file)
-
+  describe 'it can be dumped' do
+  
     let(:presenter) do
-      described_class.new(
-        media_entry,
-        @user)
-    end
+      media_entry = FactoryBot.create(:media_entry_with_video_media_file)
+      described_class.new( media_entry, @user) end
+
+    include_examples 'dumped'
   end
 
   describe '#conversion_progress' do
     let(:media_entry) do
       FactoryBot.create(:media_entry_with_video_media_file,
-                         responsible_user: FactoryBot.create(:user))
+                        responsible_user: FactoryBot.create(:user))
     end
 
     context 'when zencoder job has pending state' do

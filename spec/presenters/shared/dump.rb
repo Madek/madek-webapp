@@ -11,7 +11,7 @@ RSpec.shared_examples 'dumped' do
     end
   end
 
-  it 'dump' do
+  it 'dumps' do
     dump = presenter.dump
 
     # NOTE: right now some attributes for wrapped AR objects

@@ -10,6 +10,7 @@ end
 
 describe MetaDataController do
   before :each do
+
     @user = FactoryBot.create :user
     @media_entry = FactoryBot.create :media_entry
     @media_entry.user_permissions << \

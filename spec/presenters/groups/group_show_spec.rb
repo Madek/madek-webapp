@@ -20,10 +20,19 @@ describe Presenters::Groups::GroupShow do
 
   end
 
-  it_can_be 'dumped' do
-    user = FactoryBot.create(:user)
-    group = FactoryBot.create(:group)
-    3.times { group.users << FactoryBot.create(:user) }
-    let(:presenter) { described_class.new(group, user, 'entries', list_conf: {}) }
+
+  describe "dump" do
+
+    before :each do
+      @user = FactoryBot.create(:user)
+      @group = FactoryBot.create(:group)
+      3.times { @group.users << FactoryBot.create(:user) }
+    end
+    let(:presenter) { described_class.new(@group, @user, 'entries', list_conf: {}) }
+
+    include_examples 'dumped'
+
   end
+
+
 end
