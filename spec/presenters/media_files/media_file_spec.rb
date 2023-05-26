@@ -1,7 +1,7 @@
 require 'spec_helper'
 require Rails.root.join 'spec', 'presenters', 'shared', 'dump'
 
-describe Presenters::MediaFiles::MediaFile do
+describe Presenters::MediaFiles::MediaFile,  transact_check_or_seed_broken: true do
   before :example do
     @user = FactoryBot.create(:user)
   end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Presenters::MediaEntries::MediaEntryRdfExport do
+describe Presenters::MediaEntries::MediaEntryRdfExport, transact_check_or_seed_broken: true do
   before { truncate_tables }
   let(:base_url) { 'https://madek.example.org' }
   let(:user) { create :user }

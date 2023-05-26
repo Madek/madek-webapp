@@ -46,7 +46,7 @@ describe MediaEntriesController do
                meta_key_id: @meta_key_text, string: 'original_value')
     end
 
-    it 'create & update success' do
+    it 'create & update success', transact_check_or_seed_broken: true do
       # there is no MetaDatum for this MetaKey yet, create it on the fly:
       put_meta_data(
         @meta_key_keywords => [@new_keyword.id],
@@ -98,7 +98,7 @@ describe MediaEntriesController do
       ).to match_array [person, onthefly_person, onthefly_bunch]
     end
 
-    it 'update success' do
+    it 'update success', transact_check_or_seed_broken: true do
       # add a MetaDatumKeyword
       add_meta_datum_keywords
       # change that MetaDatumKeyword to a new Keyword
@@ -120,7 +120,7 @@ describe MediaEntriesController do
       expect(md_keywords(@media_entry)).to be == [@new_keyword]
     end
 
-    it 'update error' do
+    it 'update error', transact_check_or_seed_broken: true do
       unknown_keyword_id = UUIDTools::UUID.random_create.to_s
 
       add_meta_datum_keywords

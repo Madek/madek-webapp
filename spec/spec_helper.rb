@@ -20,10 +20,22 @@ end
 
 RSpec.configure do |config|
 
-  # If you're not using ActiveRecord, or you'd prefer not to run each of your
-  # examples within a transaction, remove the following line or assign false
-  # instead of true.
-  config.use_transactional_fixtures = true
+  # NEVER EVER use transactional_fixutures
+  # among many problems it effectively disables defered trigger checks
+  config.use_transactional_fixtures = false
+
+  config.before :each do
+    PgTasks.truncate_tables
+    PgTasks.data_restore Rails.root.join('datalayer', 'db', 'seeds.pgbin')
+  end
+
+  config.around do |example|
+    if example.metadata[:transact_check_or_seed_broken]
+      Rails.logger.warn("DISABLED because of transact_check_or_seed_broken")
+    else
+      example.run()
+    end
+  end
 
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
