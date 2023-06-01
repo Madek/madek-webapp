@@ -6,7 +6,6 @@ t = require('../../../lib/i18n-translate.js')
 MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
 TabContent = require('../TabContent.cjsx')
 LoadXhr = require('../../../lib/load-xhr.coffee')
-resourceTypeSwitcher = require('../../lib/resource-type-switcher.cjsx').resourceTypeSwitcher
 libUrl = require('url')
 
 module.exports = React.createClass
@@ -30,16 +29,16 @@ module.exports = React.createClass
       newCollectionUrl: get.new_collection_url
       contextId: contextId
       defaultContextId: f.get(get, 'default_context_id') or f.get(get, 'summary_meta_data.context.uuid')
-
-    renderSwitcher = (boxUrl) =>
-      resourceTypeSwitcher(boxUrl, true, null)
-
+      typeFilter: get.type_filter,
+      defaultTypeFilter: get.default_type_filter,
+      defaultResourceType: get.default_resource_type
+    
     <div className="ui-container rounded-bottom">
       <MediaResourcesBox
         get={get.child_media_resources} authToken={authToken}
         initial={ { show_filter: true } } mods={ [ {bordered: false}, 'rounded-bottom' ] }
         collectionData={collectionData}
-        renderSwitcher={renderSwitcher}
+        resourceTypeSwitcherConfig={{ showAll: true }}
         enableOrdering={true}
         enableOrderByTitle={true}
         enableOrderByManual={true}

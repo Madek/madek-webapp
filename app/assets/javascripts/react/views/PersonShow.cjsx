@@ -6,7 +6,6 @@ PageContent = require('./PageContent.cjsx')
 MediaResourcesBox = require('../decorators/MediaResourcesBox.cjsx')
 libUrl = require('url')
 f = require('active-lodash')
-resourceTypeSwitcher = require('../lib/resource-type-switcher.cjsx').resourceTypeSwitcher
 decorateExternalURI = require('../../lib/URIAuthorityControl').decorateExternalURI
 
 infotable = (p) ->
@@ -46,9 +45,6 @@ PersonShow = React.createClass
     { resources } = get
     get.external_uris = f.map(get.external_uris, (uri) -> decorateExternalURI(uri))
 
-    renderSwitcher = (boxUrl) =>
-      resourceTypeSwitcher(boxUrl, false, null)
-
     actions =
       if get.actions.edit.url
         <a href={get.actions.edit.url} className='primary-button'>
@@ -81,7 +77,7 @@ PersonShow = React.createClass
           for_url={@forUrl()}
           get={resources} authToken={@props.authToken}
           mods={[ {bordered: false}, 'rounded-bottom' ]}
-          renderSwitcher={renderSwitcher}
+          resourceTypeSwitcherConfig={{ showAll: false }}
           enableOrdering={true}
           enableOrderByTitle={true} />
       </div>

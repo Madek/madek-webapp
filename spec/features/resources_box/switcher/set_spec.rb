@@ -29,12 +29,16 @@ feature 'set switcher' do
 
     check_switcher_link(
       :all,
-      type: 'all',
       list: {
         show_filter: 'true',
-        page: '1',
         filter: {
-          'search': 'Media Entry 1'
+          'search': 'Media Entry 1',
+           meta_data: [
+             {
+               key: keyword.meta_key_id,
+               value: keyword.id
+             }
+           ]
         }.to_json
       }
     )

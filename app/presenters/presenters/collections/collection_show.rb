@@ -19,6 +19,7 @@ module Presenters
                      list_conf: nil,
                      children_list_conf: nil,
                      type_filter: nil,
+                     default_type_filter: nil,
                      show_collection_selection: false,
                      search_term: '',
                      load_meta_data: false,
@@ -26,6 +27,7 @@ module Presenters
         super(app_resource, user)
         @user_scopes = user_scopes
         @type_filter = type_filter
+        @default_type_filter = default_type_filter
         @list_conf = list_conf
         # TMP!
         @children_list_conf = children_list_conf || list_conf
@@ -42,8 +44,11 @@ module Presenters
 
       attr_reader :action
       attr_reader :active_tab
+      attr_reader :type_filter
+      attr_reader :default_type_filter
 
       delegate_to_app_resource :default_context_id
+      delegate_to_app_resource :default_resource_type
 
       # <mainTab>
 

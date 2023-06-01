@@ -4,7 +4,6 @@ t = ui.t
 libUrl = require('url')
 
 MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
-resourceTypeSwitcher = require('../../lib/resource-type-switcher.cjsx').resourceTypeSwitcher
 
 
 module.exports = React.createClass
@@ -27,7 +26,4 @@ module.exports = React.createClass
         </div>
       )
 
-    renderSwitcher = (boxUrl) =>
-      resourceTypeSwitcher(boxUrl, true, null)
-
-    <MediaResourcesBox {...@props} get={@props.get.resources} renderSwitcher={renderSwitcher} collectionData={{uuid: @props.get.clipboard_id}} />
+    <MediaResourcesBox {...@props} get={@props.get.resources} resourceTypeSwitcherConfig={{ showAll: true }} collectionData={{uuid: @props.get.clipboard_id}} />

@@ -11,8 +11,8 @@ qs = require('qs')
 Button = require('../ui-components/Button.cjsx')
 ButtonGroup = require('../ui-components/ButtonGroup.cjsx')
 
-resourceTypeSwitcher = (forUrl, showAll, onClick) ->
-  currentType = qs.parse(libUrl.parse(forUrl).query).type
+resourceTypeSwitcher = (forUrl, defaultType, showAll, onClick) ->
+  currentType = qs.parse(libUrl.parse(forUrl).query).type || defaultType
   typeBbtns = f.compact([
     {key: 'all', name: t('resources_type_all')} if showAll,
     {key: 'entries', name: t('sitemap_entries')},

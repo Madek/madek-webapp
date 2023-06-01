@@ -42,13 +42,15 @@ class CollectionsController < ApplicationController
 
     children_list_conf = determine_list_conf(collection)
 
+    default_type_filter = determine_default_type_filter(collection)
     @get = \
       Presenters::Collections::CollectionShow.new \
         collection,
         current_user,
         user_scopes_for_collection(collection),
         action: determine_action,
-        type_filter: type_param,
+        type_filter: type_param ? type_param : default_type_filter,
+        default_type_filter: default_type_filter,
         list_conf: resource_list_by_type_param,
         children_list_conf: children_list_conf,
         context_id: determine_context_id(collection),
@@ -320,7 +322,7 @@ class CollectionsController < ApplicationController
     default_params = ActionController::Parameters.new(default_context_id: nil)
     default_params
       .permit(:default_context_id)
-      .merge(collection_params.permit(:layout, :sorting, :default_context_id))
+      .merge(collection_params.permit(:layout, :sorting, :default_context_id, :default_resource_type))
   end
 
   def type_param
@@ -336,6 +338,16 @@ class CollectionsController < ApplicationController
   def determine_context_id(collection)
     return params[:context_id] if action_name == 'context'
     collection.default_context_id if action_name == 'show' && collection.default_context_id?
+  end
+
+  def determine_default_type_filter(collection)
+    return collection.default_resource_type if collection.default_resource_type != "all"
+
+    relation_counts = Presenters::MediaResources::RelationCounts.new(collection, current_user)
+    return "entries" if relation_counts.child_collections_count == 0 and relation_counts.child_media_entries_count > 0
+    return "collections" if relation_counts.child_collections_count > 0 and relation_counts.child_media_entries_count == 0
+
+    return "all"
   end
 end
 # rubocop:enable Metrics/ClassLength

@@ -103,12 +103,15 @@ class BoxTitlebar extends React.Component {
   getLayoutChanged() {
     const {
       savedContextId,
-      collectionData: { contextId }
+      savedResourceType,
+      defaultTypeFilter,
+      collectionData: { contextId, typeFilter }
     } = this.props
 
     return (this.props.savedLayout !== this.props.layout ||
       this.props.savedOrder !== this.props.order ||
-      savedContextId !== contextId
+      savedContextId !== contextId ||
+      (defaultTypeFilter !== typeFilter && savedResourceType !== typeFilter)
     )
   }
 

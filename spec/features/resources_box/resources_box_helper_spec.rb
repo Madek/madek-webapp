@@ -718,6 +718,12 @@ module ResourcesBoxHelper
     end
   end
 
+  def check_switcher_active(active_button)
+    group = find_switcher
+    text = switcher_texts[active_button]
+    expect(group).to have_selector('.button.active', text: text)
+  end
+
   def check_params(params, button)
     check_type(params, button)
     check_page(params)

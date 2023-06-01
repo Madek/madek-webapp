@@ -7,7 +7,6 @@ PageContent = require('../PageContent.cjsx')
 MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
 libUrl = require('url')
 f = require('lodash')
-resourceTypeSwitcher = require('../../lib/resource-type-switcher.cjsx').resourceTypeSwitcher
 
 link = (c, h) -> <a href={h}>{c}</a>
 
@@ -64,9 +63,6 @@ VocabulariesShow = React.createClass
 
     title = '"' + keyword.label + '"'
 
-    renderSwitcher = (boxUrl) =>
-      resourceTypeSwitcher(boxUrl, false, null)
-
     <PageContent>
       <PageHeader title={title} icon='tag' />
       <div className='ui-container tab-content bordered bright rounded-right rounded-bottom'>
@@ -93,7 +89,7 @@ VocabulariesShow = React.createClass
           for_url={@props.for_url}
           get={get.keyword.resources} authToken={@props.authToken}
           mods={[ {bordered: false}, 'rounded-bottom' ]}
-          renderSwitcher={renderSwitcher}
+          resourceTypeSwitcherConfig={{ showAll: false }}
           enableOrdering={true}
           enableOrderByTitle={true} />
       </div>

@@ -3432,6 +3432,41 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/resources_box/sorting/vocabulary_spec.rb:6"
     RSPEC_TEST: "./spec/features/resources_box/sorting/vocabulary_spec.rb[1:1]"
+"./spec/features/resources_box/switcher/default_resource_type_spec.rb[1:1]":
+  name: "./spec/features/resources_box/switcher/default_resource_type_spec.rb[1:1]"
+  description: collection default resource type filter automatic default is "all"
+    when collection contains both entries and collections
+  environment_variables:
+    RSPEC_NAME: "./spec/features/resources_box/switcher/default_resource_type_spec.rb:6"
+    RSPEC_TEST: "./spec/features/resources_box/switcher/default_resource_type_spec.rb[1:1]"
+"./spec/features/resources_box/switcher/default_resource_type_spec.rb[1:2]":
+  name: "./spec/features/resources_box/switcher/default_resource_type_spec.rb[1:2]"
+  description: collection default resource type filter automatic default is "entries"
+    when collection contains entries only
+  environment_variables:
+    RSPEC_NAME: "./spec/features/resources_box/switcher/default_resource_type_spec.rb:19"
+    RSPEC_TEST: "./spec/features/resources_box/switcher/default_resource_type_spec.rb[1:2]"
+"./spec/features/resources_box/switcher/default_resource_type_spec.rb[1:3]":
+  name: "./spec/features/resources_box/switcher/default_resource_type_spec.rb[1:3]"
+  description: collection default resource type filter automatic default is "collections"
+    when collection contains collections only
+  environment_variables:
+    RSPEC_NAME: "./spec/features/resources_box/switcher/default_resource_type_spec.rb:30"
+    RSPEC_TEST: "./spec/features/resources_box/switcher/default_resource_type_spec.rb[1:3]"
+"./spec/features/resources_box/switcher/default_resource_type_spec.rb[1:4]":
+  name: "./spec/features/resources_box/switcher/default_resource_type_spec.rb[1:4]"
+  description: collection default resource type filter saving default resource type
+    setting
+  environment_variables:
+    RSPEC_NAME: "./spec/features/resources_box/switcher/default_resource_type_spec.rb:41"
+    RSPEC_TEST: "./spec/features/resources_box/switcher/default_resource_type_spec.rb[1:4]"
+"./spec/features/resources_box/switcher/default_resource_type_spec.rb[1:5]":
+  name: "./spec/features/resources_box/switcher/default_resource_type_spec.rb[1:5]"
+  description: collection default resource type filter saving default resource type
+    setting (when collection has entries only)
+  environment_variables:
+    RSPEC_NAME: "./spec/features/resources_box/switcher/default_resource_type_spec.rb:75"
+    RSPEC_TEST: "./spec/features/resources_box/switcher/default_resource_type_spec.rb[1:5]"
 "./spec/features/resources_box/switcher/keyword_spec.rb[1:1]":
   name: "./spec/features/resources_box/switcher/keyword_spec.rb[1:1]"
   description: keyword switcher from entries
@@ -3448,13 +3483,13 @@
   name: "./spec/features/resources_box/switcher/set_spec.rb[1:2]"
   description: set switcher from entries
   environment_variables:
-    RSPEC_NAME: "./spec/features/resources_box/switcher/set_spec.rb:68"
+    RSPEC_NAME: "./spec/features/resources_box/switcher/set_spec.rb:72"
     RSPEC_TEST: "./spec/features/resources_box/switcher/set_spec.rb[1:2]"
 "./spec/features/resources_box/switcher/set_spec.rb[1:3]":
   name: "./spec/features/resources_box/switcher/set_spec.rb[1:3]"
   description: set switcher from sets
   environment_variables:
-    RSPEC_NAME: "./spec/features/resources_box/switcher/set_spec.rb:155"
+    RSPEC_NAME: "./spec/features/resources_box/switcher/set_spec.rb:159"
     RSPEC_TEST: "./spec/features/resources_box/switcher/set_spec.rb[1:3]"
 "./spec/features/search_spec.rb[1:1:1]":
   name: "./spec/features/search_spec.rb[1:1:1]"

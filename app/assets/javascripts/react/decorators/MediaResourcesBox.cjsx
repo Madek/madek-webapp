@@ -60,6 +60,8 @@ BoxState = require('./BoxState.js')
 BoxFilterButton = require('./BoxFilterButton.jsx')
 CreateCollectionModal = require('../views/My/CreateCollectionModal.cjsx')
 
+resourceTypeSwitcher = require('../lib/resource-type-switcher.cjsx').resourceTypeSwitcher
+
 # Props/Config overview:
 # - props.get.has_user = should the UI offer any interaction
 # - state.isClient = is component in client-side mode
@@ -104,6 +106,7 @@ module.exports = React.createClass
     savedLayout: @props.collectionData.layout if @props.collectionData
     savedOrder: @props.collectionData.order if @props.collectionData
     savedContextId: f.get(@props, 'collectionData.defaultContextId')
+    savedResourceType: @props.collectionData?.defaultResourceType
     showBatchTransferResponsibility: false
     batchTransferResponsibilityResources: []
     batchDestroyResourcesModal: false
@@ -662,11 +665,13 @@ module.exports = React.createClass
     layout = config.layout
     order = config.order
     contextId = f.get(@props, 'collectionData.contextId')
+    typeFilter = f.get(@props, 'collectionData.typeFilter')
 
     requestBody = []
     requestBody.push('collection[layout]=' + layout)
     requestBody.push('collection[sorting]=' + order)
     requestBody.push('collection[default_context_id]=' + contextId) if contextId
+    requestBody.push('collection[default_resource_type]=' + typeFilter)
 
     simpleXhr(
       {
@@ -678,7 +683,7 @@ module.exports = React.createClass
         if error
           alert(error)
         else
-          @setState(savedLayout: layout, savedOrder: order, savedContextId: contextId)
+          @setState(savedLayout: layout, savedOrder: order, savedContextId: contextId, savedResourceType: typeFilter)
     )
     return false
 
@@ -723,6 +728,8 @@ module.exports = React.createClass
         savedLayout={@state.savedLayout}
         savedOrder={@state.savedOrder}
         savedContextId={@state.savedContextId}
+        savedResourceType={@state.savedResourceType}
+        defaultTypeFilter={@props.collectionData?.defaultTypeFilter}
         layoutSave={@layoutSave}
         collectionData={@props.collectionData}
         heading={heading}
@@ -796,8 +803,11 @@ module.exports = React.createClass
           <div>{actionsDropdown}</div>
 
 
-        middle: if @props.renderSwitcher
-          @props.renderSwitcher(currentUrl)
+        middle: if @props.resourceTypeSwitcherConfig
+          if @props.resourceTypeSwitcherConfig.customRenderer
+            @props.resourceTypeSwitcherConfig.customRenderer(currentUrl)
+          else
+            resourceTypeSwitcher(currentUrl, @props.collectionData?.defaultTypeFilter, @props.resourceTypeSwitcherConfig.showAll, null)
 
       <BoxToolBar {...filterBarProps}/>
 

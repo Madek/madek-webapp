@@ -52,7 +52,7 @@ module.exports = React.createClass
     return (
       <ResourcesBox
         {...props}
-        renderSwitcher={renderSwitcher}
+        resourceTypeSwitcherConfig={{customRenderer: renderSwitcher}}
       />
     )
 
