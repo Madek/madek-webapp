@@ -10,6 +10,10 @@ def truncate_tables
   PgTasks.truncate_tables
 end
 
+def restore_seeds
+  PgTasks.data_restore Rails.root.join('datalayer', 'db', 'seeds.pgbin')
+end
+
 def with_disabled_triggers
   ActiveRecord::Base.connection.execute  \
     'SET session_replication_role = REPLICA;'
@@ -25,16 +29,8 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
 
   config.before :each do
-    PgTasks.truncate_tables
-    PgTasks.data_restore Rails.root.join('datalayer', 'db', 'seeds.pgbin')
-  end
-
-  config.around do |example|
-    if example.metadata[:transact_check_or_seed_broken]
-      Rails.logger.warn("DISABLED because of transact_check_or_seed_broken")
-    else
-      example.run()
-    end
+    truncate_tables
+    restore_seeds
   end
 
   # If true, the base class of anonymous controllers will be inferred

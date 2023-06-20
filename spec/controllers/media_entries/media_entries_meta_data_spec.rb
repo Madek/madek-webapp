@@ -17,10 +17,10 @@ describe MediaEntriesController do
                user: @user,
                edit_metadata: true)
       @vocab = create(:vocabulary)
-      @keyword = create(:keyword)
-      @new_keyword = create(:keyword)
       @meta_key_keywords = create(:meta_key_keywords,
                                   id: "#{@vocab.id}:mk_keywords").id
+      @keyword = create(:keyword, meta_key_id: @meta_key_keywords)
+      @new_keyword = create(:keyword, meta_key_id: @meta_key_keywords)
       @meta_key_text = create(:meta_key_text,
                               id: "#{@vocab.id}:mk_text").id
       @unused_meta_key_text = create(:meta_key_text,
@@ -46,7 +46,7 @@ describe MediaEntriesController do
                meta_key_id: @meta_key_text, string: 'original_value')
     end
 
-    it 'create & update success', transact_check_or_seed_broken: true do
+    it 'create & update success' do
       # there is no MetaDatum for this MetaKey yet, create it on the fly:
       put_meta_data(
         @meta_key_keywords => [@new_keyword.id],
@@ -98,7 +98,7 @@ describe MediaEntriesController do
       ).to match_array [person, onthefly_person, onthefly_bunch]
     end
 
-    it 'update success', transact_check_or_seed_broken: true do
+    it 'update success' do
       # add a MetaDatumKeyword
       add_meta_datum_keywords
       # change that MetaDatumKeyword to a new Keyword
@@ -120,7 +120,7 @@ describe MediaEntriesController do
       expect(md_keywords(@media_entry)).to be == [@new_keyword]
     end
 
-    it 'update error', transact_check_or_seed_broken: true do
+    it 'update error' do
       unknown_keyword_id = UUIDTools::UUID.random_create.to_s
 
       add_meta_datum_keywords
