@@ -45,13 +45,8 @@ module.exports = React.createClass
     titleTxt = title or t('picture_alt_fallback')
     altTxt = "#{t('picture_alt_prefix')} #{titleTxt}"
 
-    # get URL of the largest preview image
-    imageHref = f
-      .chain(previews.images)
-      .sortBy('width')
-      .last()
-      .get('url')
-      .run()
+    # get URL of the x_large preview image
+    imageHref = previews.images["x_large"].url
 
     <div className={cx("embed-box", if !style.height then "embed-box--responsive-height")} style={style}>
       <a className="embed-box__img-container" href={url} target="_blank">

@@ -1,16 +1,4 @@
 ---
-"./spec/features/embed_player/embed_image_player_spec.rb[1:1:1]":
-  name: "./spec/features/embed_player/embed_image_player_spec.rb[1:1:1]"
-  description: Embed image player basic render tests landscape image renders
-  environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/embed_image_player_spec.rb:14"
-    RSPEC_TEST: "./spec/features/embed_player/embed_image_player_spec.rb[1:1:1]"
-"./spec/features/embed_player/embed_image_player_spec.rb[1:1:2]":
-  name: "./spec/features/embed_player/embed_image_player_spec.rb[1:1:2]"
-  description: Embed image player basic render tests portrait image renders
-  environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/embed_image_player_spec.rb:27"
-    RSPEC_TEST: "./spec/features/embed_player/embed_image_player_spec.rb[1:1:2]"
 "./spec/features/embed_player/embed_player_interaction_spec.rb[1:1:1]":
   name: "./spec/features/embed_player/embed_player_interaction_spec.rb[1:1:1]"
   description: Embed aka. "Madek-Player" video player interaction starts with SD resolution
@@ -81,3 +69,342 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:91"
     RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:2:4]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:1:1]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:1:1]"
+  description: Embed aka. "Madek-Player" image embed landscape format, known size
+    (1024 x 709) no parameters -> default width
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:107"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:1:1]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:1:2]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:1:2]"
+  description: Embed aka. "Madek-Player" image embed landscape format, known size
+    (1024 x 709) maxwidth 400 -> width 400
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:118"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:1:2]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:1:3]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:1:3]"
+  description: Embed aka. "Madek-Player" image embed landscape format, known size
+    (1024 x 709) maxwidth 2000 -> width 1024 (avoiding left/right gutter)
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:128"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:1:3]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:1:4]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:1:4]"
+  description: Embed aka. "Madek-Player" image embed landscape format, known size
+    (1024 x 709) maxwidth 1 -> width 1 (no minimum size is enforced)
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:138"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:1:4]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:1:5]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:1:5]"
+  description: Embed aka. "Madek-Player" image embed landscape format, known size
+    (1024 x 709) maxwidth 400, maxheight 400 -> maxheight has no effect
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:148"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:1:5]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:1:6]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:1:6]"
+  description: Embed aka. "Madek-Player" image embed landscape format, known size
+    (1024 x 709) maxwidth 1000, maxheight 400 -> maxheight will be applied
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:158"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:1:6]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:2:1]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:2:1]"
+  description: Embed aka. "Madek-Player" image embed portrait format, known size (532
+    x 768) no parameters -> default width, but height constrained to media height
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:174"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:2:1]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:2:2]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:2:2]"
+  description: Embed aka. "Madek-Player" image embed portrait format, known size (532
+    x 768) maxwidth 400 -> width 400
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:185"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:2:2]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:2:3]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:2:3]"
+  description: Embed aka. "Madek-Player" image embed portrait format, known size (532
+    x 768) maxwidth 1000 -> width 1000, but height constrained to media height
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:195"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:2:3]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:2:4]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:2:4]"
+  description: Embed aka. "Madek-Player" image embed portrait format, known size (532
+    x 768) maxwidth 1 -> width 1 (no minimum size is enforced)
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:205"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:2:4]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:2:5]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:2:5]"
+  description: Embed aka. "Madek-Player" image embed portrait format, known size (532
+    x 768) maxwidth 400, maxheight 1000 -> maxheight has no effect
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:215"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:2:5]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:2:6]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:2:6]"
+  description: Embed aka. "Madek-Player" image embed portrait format, known size (532
+    x 768) maxwidth 400, maxheight 400 -> height is set to maxheight
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:225"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:2:6]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:2:7]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:2:7]"
+  description: Embed aka. "Madek-Player" image embed portrait format, known size (532
+    x 768) maxheight 400 -> default width, height set to maxheight
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:235"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:2:7]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:3:1]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:3:1]"
+  description: Embed aka. "Madek-Player" image embed landscape format, unknown size
+    (assumes 1024 x 768) no parameters -> default width, vertical gutter
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:251"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:3:1]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:3:2]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:3:2]"
+  description: Embed aka. "Madek-Player" image embed landscape format, unknown size
+    (assumes 1024 x 768) maxwidth 400 -> width 400
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:261"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:3:2]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:3:3]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:3:3]"
+  description: Embed aka. "Madek-Player" image embed landscape format, unknown size
+    (assumes 1024 x 768) maxwidth 2000 -> width 1024 (avoiding left/right gutter)
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:271"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:3:3]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:3:4]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:3:4]"
+  description: Embed aka. "Madek-Player" image embed landscape format, unknown size
+    (assumes 1024 x 768) maxwidth 1 -> width 1 (no minimum size is enforced)
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:281"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:3:4]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:3:5]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:3:5]"
+  description: Embed aka. "Madek-Player" image embed landscape format, unknown size
+    (assumes 1024 x 768) maxwidth 400, maxheight 400 -> maxheight has no effect
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:291"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:3:5]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:3:6]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:3:6]"
+  description: Embed aka. "Madek-Player" image embed landscape format, unknown size
+    (assumes 1024 x 768) maxwidth 1000, maxheight 400 -> maxheight will be applied
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:301"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:3:6]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:4:1]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:4:1]"
+  description: Embed aka. "Madek-Player" image embed portrait format, unknown size
+    (assumes 1024 x 768) no parameters -> default width, but height constrained to
+    media height
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:317"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:4:1]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:4:2]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:4:2]"
+  description: Embed aka. "Madek-Player" image embed portrait format, unknown size
+    (assumes 1024 x 768) maxwidth 400 -> width 400
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:327"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:4:2]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:4:3]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:4:3]"
+  description: Embed aka. "Madek-Player" image embed portrait format, unknown size
+    (assumes 1024 x 768) maxwidth 1000 -> width 1000, but height constrained to media
+    height
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:337"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:4:3]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:4:4]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:4:4]"
+  description: Embed aka. "Madek-Player" image embed portrait format, unknown size
+    (assumes 1024 x 768) maxwidth 1 -> width 1 (no minimum size is enforced)
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:347"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:4:4]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:4:5]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:4:5]"
+  description: Embed aka. "Madek-Player" image embed portrait format, unknown size
+    (assumes 1024 x 768) maxwidth 400, maxheight 1000 -> maxheight has no effect
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:357"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:4:5]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:4:6]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:4:6]"
+  description: Embed aka. "Madek-Player" image embed portrait format, unknown size
+    (assumes 1024 x 768) maxwidth 400, maxheight 400 -> height is set to maxheight
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:367"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:4:6]"
+"./spec/features/embed_player/embed_player_spec.rb[1:3:4:7]":
+  name: "./spec/features/embed_player/embed_player_spec.rb[1:3:4:7]"
+  description: Embed aka. "Madek-Player" image embed portrait format, unknown size
+    (assumes 1024 x 768) maxheight 400 -> default width, height set to maxheight
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/embed_player_spec.rb:377"
+    RSPEC_TEST: "./spec/features/embed_player/embed_player_spec.rb[1:3:4:7]"
+"./spec/features/embed_player/oembed_spec.rb[1:1]":
+  name: "./spec/features/embed_player/oembed_spec.rb[1:1]"
+  description: 'App: oEmbed endpoint oEmbed discovery link from Resource detail page'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:18"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:1]"
+"./spec/features/embed_player/oembed_spec.rb[1:2:1]":
+  name: "./spec/features/embed_player/oembed_spec.rb[1:2:1]"
+  description: 'App: oEmbed endpoint oEmbed API: `video` type'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:49"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:2:1]"
+"./spec/features/embed_player/oembed_spec.rb[1:2:2]":
+  name: "./spec/features/embed_player/oembed_spec.rb[1:2:2]"
+  description: 'App: oEmbed endpoint oEmbed API: supports the `maxwidth` param'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:71"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:2:2]"
+"./spec/features/embed_player/oembed_spec.rb[1:2:3]":
+  name: "./spec/features/embed_player/oembed_spec.rb[1:2:3]"
+  description: 'App: oEmbed endpoint oEmbed API: supports the `maxheight` param'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:81"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:2:3]"
+"./spec/features/embed_player/oembed_spec.rb[1:2:4]":
+  name: "./spec/features/embed_player/oembed_spec.rb[1:2:4]"
+  description: 'App: oEmbed endpoint oEmbed API: does support XML format'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:92"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:2:4]"
+"./spec/features/embed_player/oembed_spec.rb[1:2:5]":
+  name: "./spec/features/embed_player/oembed_spec.rb[1:2:5]"
+  description: 'App: oEmbed endpoint oEmbed API: returns error when URL in url `param`
+    is not supported'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:109"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:2:5]"
+"./spec/features/embed_player/oembed_spec.rb[1:2:6]":
+  name: "./spec/features/embed_player/oembed_spec.rb[1:2:6]"
+  description: 'App: oEmbed endpoint oEmbed API: returns error when resource is not
+    found by url `param`'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:115"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:2:6]"
+"./spec/features/embed_player/oembed_spec.rb[1:2:7]":
+  name: "./spec/features/embed_player/oembed_spec.rb[1:2:7]"
+  description: 'App: oEmbed endpoint oEmbed API: only supports "public" resources,
+    returns correct error'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:121"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:2:7]"
+"./spec/features/embed_player/oembed_spec.rb[1:3:1:1]":
+  name: "./spec/features/embed_player/oembed_spec.rb[1:3:1:1]"
+  description: 'App: oEmbed endpoint oembed API for images basics responds with status
+    OK and all oEmbed values are there'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:135"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:1:1]"
+"./spec/features/embed_player/oembed_spec.rb[1:3:2:1]":
+  name: "./spec/features/embed_player/oembed_spec.rb[1:3:2:1]"
+  description: 'App: oEmbed endpoint oembed API for images iframe size calculation
+    for landscape format (1024 x 709) no parameters -> default width'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:159"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:2:1]"
+"./spec/features/embed_player/oembed_spec.rb[1:3:2:2]":
+  name: "./spec/features/embed_player/oembed_spec.rb[1:3:2:2]"
+  description: 'App: oEmbed endpoint oembed API for images iframe size calculation
+    for landscape format (1024 x 709) maxwidth 400 -> width 400'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:168"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:2:2]"
+"./spec/features/embed_player/oembed_spec.rb[1:3:2:3]":
+  name: "./spec/features/embed_player/oembed_spec.rb[1:3:2:3]"
+  description: 'App: oEmbed endpoint oembed API for images iframe size calculation
+    for landscape format (1024 x 709) maxwidth 2000 -> width 1024 (avoiding left/right
+    gutter)'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:177"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:2:3]"
+"./spec/features/embed_player/oembed_spec.rb[1:3:2:4]":
+  name: "./spec/features/embed_player/oembed_spec.rb[1:3:2:4]"
+  description: 'App: oEmbed endpoint oembed API for images iframe size calculation
+    for landscape format (1024 x 709) maxwidth 1 -> width 1 (no minimum size is enforced)'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:186"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:2:4]"
+"./spec/features/embed_player/oembed_spec.rb[1:3:2:5]":
+  name: "./spec/features/embed_player/oembed_spec.rb[1:3:2:5]"
+  description: 'App: oEmbed endpoint oembed API for images iframe size calculation
+    for landscape format (1024 x 709) maxwidth 400, maxheight 400 -> maxheight has
+    no effect'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:195"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:2:5]"
+"./spec/features/embed_player/oembed_spec.rb[1:3:2:6]":
+  name: "./spec/features/embed_player/oembed_spec.rb[1:3:2:6]"
+  description: 'App: oEmbed endpoint oembed API for images iframe size calculation
+    for landscape format (1024 x 709) maxwidth 1000, maxheight 400 -> maxheight will
+    be applied'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:204"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:2:6]"
+"./spec/features/embed_player/oembed_spec.rb[1:3:3:1]":
+  name: "./spec/features/embed_player/oembed_spec.rb[1:3:3:1]"
+  description: 'App: oEmbed endpoint oembed API for images iframe size calculation
+    for portrait format (532 x 768) no parameters -> default width, but height constrained
+    to media height'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:219"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:3:1]"
+"./spec/features/embed_player/oembed_spec.rb[1:3:3:2]":
+  name: "./spec/features/embed_player/oembed_spec.rb[1:3:3:2]"
+  description: 'App: oEmbed endpoint oembed API for images iframe size calculation
+    for portrait format (532 x 768) maxwidth 400 -> width 400'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:228"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:3:2]"
+"./spec/features/embed_player/oembed_spec.rb[1:3:3:3]":
+  name: "./spec/features/embed_player/oembed_spec.rb[1:3:3:3]"
+  description: 'App: oEmbed endpoint oembed API for images iframe size calculation
+    for portrait format (532 x 768) maxwidth 1000 -> width 1000, but height constrained
+    to media height'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:237"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:3:3]"
+"./spec/features/embed_player/oembed_spec.rb[1:3:3:4]":
+  name: "./spec/features/embed_player/oembed_spec.rb[1:3:3:4]"
+  description: 'App: oEmbed endpoint oembed API for images iframe size calculation
+    for portrait format (532 x 768) maxwidth 1 -> width 1 (no minimum size is enforced)'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:246"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:3:4]"
+"./spec/features/embed_player/oembed_spec.rb[1:3:3:5]":
+  name: "./spec/features/embed_player/oembed_spec.rb[1:3:3:5]"
+  description: 'App: oEmbed endpoint oembed API for images iframe size calculation
+    for portrait format (532 x 768) maxwidth 400, maxheight 1000 -> maxheight has
+    no effect'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:255"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:3:5]"
+"./spec/features/embed_player/oembed_spec.rb[1:3:3:6]":
+  name: "./spec/features/embed_player/oembed_spec.rb[1:3:3:6]"
+  description: 'App: oEmbed endpoint oembed API for images iframe size calculation
+    for portrait format (532 x 768) maxwidth 400, maxheight 400 -> height is set maxheight'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:264"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:3:6]"
+"./spec/features/embed_player/oembed_spec.rb[1:3:3:7]":
+  name: "./spec/features/embed_player/oembed_spec.rb[1:3:3:7]"
+  description: 'App: oEmbed endpoint oembed API for images iframe size calculation
+    for portrait format (532 x 768) maxheight 400 -> default width x maxheight'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:273"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:3:7]"

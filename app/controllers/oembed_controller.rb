@@ -61,7 +61,11 @@ class OembedController < ApplicationController
 
     presenter = presenter_by_class(resource_class).new(resource, current_user)
 
-    response = oembed_response(resource, presenter, params, access_token)
+    if (resource.media_file.media_type == 'image')
+      response = oembed_response_for_image(resource, params[:maxwidth], params[:maxheight], access_token)
+    else
+      response = oembed_response_for_audio_video(resource, presenter, params, access_token)
+    end
 
     # no caching of confidential links!
     if (access_token.present? && !resource.get_metadata_and_previews)
@@ -76,14 +80,14 @@ class OembedController < ApplicationController
 
   private
 
-  def oembed_response(resource, presenter, params, access_token = nil)
+  def oembed_response_for_audio_video(resource, presenter, params, access_token = nil)
     # NOTE: MUST set fixed sizes on iframe, so we need to proportionally scale it!
     # also respect params given in the resource URL itself.
     # those come from the user, not from the oEmbed client they are using.
     user_params = Rack::Utils
       .parse_query(URI.parse(params[:url]).query).symbolize_keys
 
-    scaled = scale_preview_sizes(
+    scaled = get_iframe_size_for_audio_video(
       maxwidth: user_params[:width] || params[:maxwidth] || params[:width],
       ratio: user_params[:ratio] || params[:ratio]
     )
@@ -111,6 +115,39 @@ class OembedController < ApplicationController
     }
   end
 
+  def oembed_response_for_image(resource, maxwidth, maxheight, access_token)
+    media_size = get_media_size_of(resource)
+
+    size = get_iframe_size_for_image(
+      maxwidth: maxwidth, 
+      maxheight: maxheight,
+      media_size: media_size
+    )
+    
+    target_url = absolute_url(
+      embedded_media_entry_path(
+        resource.id,
+        accessToken: access_token,
+        height: size[:height], 
+        width: size[:width]
+      )
+    )
+
+    response = {
+      version: OEMBED_VERSION,
+      type: :rich,
+      width: size[:width],
+      height: size[:height],
+      title: resource.title.presence || '', # always include
+      author_name: [
+        resource.authors.presence, resource.copyright_notice.presence
+      ].compact.join(' / '),
+      provider_name: localize(settings.site_titles),
+      provider_url: absolute_url(''),
+      html: oembed_iframe(target_url, size[:width], size[:height], access_token.present?)
+    }
+  end
+
   def error_response(err, code)
     render(json: { error: err.to_s }, status: code)
   end
@@ -122,7 +159,7 @@ class OembedController < ApplicationController
   def oembed_params
     { format: 'json' } # defaults
       .merge(url: params.require(:url))
-      .merge(params.permit(:format, :ratio, :maxwidth, :width))
+      .merge(params.permit(:format, :ratio, :maxwidth, :maxheight, :width))
       .deep_symbolize_keys
   end
 
@@ -135,7 +172,7 @@ class OembedController < ApplicationController
         height="#{height}"
         src="#{ERB::Util.html_escape(url)}"
         frameborder="0"
-        style="margin:0;padding:0;border:0"
+        style="margin:0;padding:0;border:0;"
         allowfullscreen
         webkitallowfullscreen
         mozallowfullscreen

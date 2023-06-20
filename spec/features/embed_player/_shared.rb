@@ -54,6 +54,14 @@ def get_actual_size(selector)
   JS
 end
 
+def get_actual_image_size()
+  get_actual_size('document.querySelectorAll("img")[0]')
+end
+
+def get_actual_body_size()
+  get_actual_size('document.body')
+end
+
 def do_manual_embed(url)
   html_string =
     <<-HTML
