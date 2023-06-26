@@ -7,7 +7,7 @@ module EmbedHelper
   UI_DEFAULT_RATIO = Madek::Constants::Webapp::EMBED_UI_DEFAULT_RATIO
   EMBED_INTERNAL_HOST_WHITELIST = Madek::Constants::Webapp::
     EMBED_INTERNAL_HOST_WHITELIST
-  IMAGE_CAPTION_WIDTH = Madek::Constants::Webapp::EMBED_UI_IMAGE_CAPTION_HEIGHT
+  IMAGE_CAPTION_HEIGHT = Madek::Constants::Webapp::EMBED_UI_IMAGE_CAPTION_HEIGHT
 
   def get_iframe_size_for_audio_video(maxwidth: nil, ratio: nil)
     # support param of form "16:9"
@@ -39,7 +39,7 @@ module EmbedHelper
     end
 
     # Calculate proportional height plus caption height
-    height = (width.to_f / ratio).round + IMAGE_CAPTION_WIDTH
+    height = (width.to_f / ratio).round + IMAGE_CAPTION_HEIGHT
 
     # Fulfill consumer-defined maxheight
     if maxheight.present? && maxheight.to_i > 0 && height > maxheight.to_i
@@ -48,7 +48,7 @@ module EmbedHelper
 
     # Portrait: Prevent top/bottom gutter
     if ratio < 1 
-      height = [height, media_size[:height] + IMAGE_CAPTION_WIDTH].min
+      height = [height, media_size[:height] + IMAGE_CAPTION_HEIGHT].min
     end
 
     { width: width, height: height }
