@@ -15,7 +15,7 @@ feature 'Feature: Session' do
         visit '/my'
         expect(page).to have_content I18n.t(:sitemap_my_groups)
         expect(page).not_to have_content I18n.t(:error_401_title)
-        AuthSystem.all.update(session_max_lifetime_minutes: 0)
+        AuthSystem.all.update(session_max_lifetime_hours: 0)
         visit current_path
         expect(page).not_to have_content I18n.t(:sitemap_my_groups)
         expect(page).to have_content I18n.t(:error_401_title)
