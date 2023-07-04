@@ -102,6 +102,11 @@ class MediaEntryPolicy < Shared::MediaResources::MediaResourcePolicy
 
   alias_method :rdf_export?, :show?
 
+  alias_method :image?, :show?
+  alias_method :video?, :show?
+  alias_method :audio?, :show?
+  alias_method :document?, :show?
+
   private
 
   def allow_for_creator_if_unpublished(record, user)
