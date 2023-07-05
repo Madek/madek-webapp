@@ -44,9 +44,9 @@ class ErrorsController < ApplicationController
     template = get_template(type, err.status_code)
 
     respond_to do |f|
-      f.html do
+      f.any do # html (for any requested format, prevents 500 UnknownFormat error for formats other than html, json, yaml)
         @get = err
-        render(template, layout: layout, status: err.status_code)
+        render(template, layout: layout, status: err.status_code, content_type: "text/html")
       end
       f.json { render(json: wrap_error(err), status: err.status_code) }
       f.yaml { render(plain: wrap_error(err).to_yaml, status: err.status_code) }
