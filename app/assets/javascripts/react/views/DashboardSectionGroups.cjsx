@@ -49,7 +49,7 @@ module.exports = React.createClass
           f.map(group_types, (groups, type) ->
 
             if groups.list
-              <label className='ui-form-group columned phn'>
+              <label className='ui-form-group columned phn' key={type}>
                 <div className='form-label'>
                   {groups.label}
                 </div>

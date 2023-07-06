@@ -24,7 +24,7 @@ class LoginMenu extends React.Component {
     // NOTE: can't use Tabs-Component directly because of style issues
     return (
       <div className={cx(className, 'pitch-login')} {...restProps}>
-        <Tab.Container defaultActiveKey={loginProviders[0].id} id="login_menu" animation={false}>
+        <Tab.Container defaultActiveKey={loginProviders[0].id} id="login_menu">
           <div>
             <Nav className="ui-tabs ui-container">
               {loginProviders.map(({ id, title }) => (
@@ -37,7 +37,7 @@ class LoginMenu extends React.Component {
               {loginProviders.map(({ id, ...loginProps }) => {
                 if (id === 'system') {
                   return (
-                    <Tab.Pane eventKey="system">
+                    <Tab.Pane eventKey="system" key={id}>
                       {systemLogin({ authToken, ...loginProps })}
                     </Tab.Pane>
                   )

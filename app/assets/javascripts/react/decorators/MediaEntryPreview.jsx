@@ -177,8 +177,6 @@ const IframeEmbed = ({ url, accessToken }) => {
             left: '0'
           }}
           allowFullScreen="true"
-          webkitallowfullscreen="true"
-          mozallowfullscreen="true"
         />
       </div>
     </div>

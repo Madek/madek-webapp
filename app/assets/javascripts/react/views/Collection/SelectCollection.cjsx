@@ -109,7 +109,7 @@ module.exports = React.createClass
         <RailsForm ref='form' name='search_collections' action={get.select_collection_url}
             method='get' authToken={authToken} className='dummy'>
 
-          <input type='text' autoCorrect='off' autoComplete='off' autofocus='autofocus'
+          <input type='text' autoCorrect='off' autoComplete='off' autoFocus='autofocus'
             className='ui-search-input block'
             placeholder={t('resource_select_collection_search_placeholder')}
             name='search_term' value={@state.searchTerm}

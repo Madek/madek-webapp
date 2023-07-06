@@ -13,7 +13,7 @@ module.exports = React.createClass
   propTypes:
     list: React.PropTypes.arrayOf(React.PropTypes.shape(
       children: React.PropTypes.node.isRequired
-      key: React.PropTypes.string.isRequired
+      key: React.PropTypes.string
       href: React.PropTypes.string
       title: React.PropTypes.string
       count: React.PropTypes.string
@@ -31,14 +31,14 @@ module.exports = React.createClass
       className={baseClass}
       style={if f.includes(mods, 'inline') then {display:'inline-block'} else {}}
     >
-      {list.map (tag)->
-        props = f.merge(f.omit(@props, 'list'), tag)
+      {list.map (listItem)->
+        props = f.merge(f.omit(@props, 'list'), listItem)
         {count, children, mod, tag} = props
         linkProps = f.merge(
           f.pick(props, 'href', 'disabled', 'onClick'),
           { className: classList('ui-tag-button', parseMods(props)) }
         )
-        key = props.key or JSON.stringify(tag)
+        key = props.key or JSON.stringify(listItem)
         tagIcon = switch mod
           when 'label'  then 'tag'
           when 'person' then 'user'

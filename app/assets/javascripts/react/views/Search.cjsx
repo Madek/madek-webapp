@@ -24,12 +24,12 @@ module.exports = React.createClass
       <PageHeader icon='lens' title={t('sitemap_search')} actions={null} />
       <div className='bordered ui-container midtone rounded-right rounded-bottom table'>
         <div className='ui-search-form'>
-          <form action={submit_url} accept-charset='UTF-8' method='get'>
+          <form action={submit_url} acceptCharset='UTF-8' method='get'>
             <input name='utf8' type='hidden' value='✓' />
             {if parsedQuery
               <input type='hidden' name='lang' value={parsedQuery['lang']} />}
             <div className='ui-search large mts'>
-              <input type='text' name='search' id='search' autofocus='autofocus' className='block ui-search-input' />
+              <input type='text' name='search' id='search' autoFocus='autofocus' className='block ui-search-input' />
               <button name='button' type='submit' className='primary-button ui-search-button'>
                 {t('search_btn_search')}
               </button>

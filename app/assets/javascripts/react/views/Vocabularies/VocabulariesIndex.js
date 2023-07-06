@@ -40,7 +40,7 @@ module.exports = React.createClass({
                         {description}
                       </p>}
 
-                    <p className='mts'>
+                    <div className='mts'>
                       <ul>
                         {meta_keys.map(({ uuid, label, description, url }) =>
                           <li key={uuid}>
@@ -50,7 +50,7 @@ module.exports = React.createClass({
                           </li>
                         )}
                       </ul>
-                    </p>
+                    </div>
                   </div>
                 </div>
               )}

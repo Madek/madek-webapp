@@ -97,7 +97,7 @@ module.exports = React.createClass
                 <div className="ui-form-group rowed compact">
                   <label className="form-label">{t('collection_new_label_title')}</label>
                   <div className="form-item">
-                    <InputFieldText autocomplete='off' autofocus='autofocus' name='collection_title' value='' />
+                    <InputFieldText autocomplete='off' autoFocus='autofocus' name='collection_title' value='' />
                   </div>
                 </div>
               </div>

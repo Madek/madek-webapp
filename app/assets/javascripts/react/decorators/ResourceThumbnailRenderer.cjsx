@@ -74,6 +74,7 @@ module.exports = React.createClass
 
       actionsLeft.push(
         <li
+          key='action01'
           className='ui-thumbnail-action mrn'
           style={commonCss}
           title='Move to the beginning'
@@ -85,6 +86,7 @@ module.exports = React.createClass
 
       actionsLeft.push(
         <li
+          key='action02'
           className='ui-thumbnail-action mhn'
           style={commonCss}
           title='Move left'
@@ -96,6 +98,7 @@ module.exports = React.createClass
 
       actionsLeft.push(
         <li
+          key='action03'
           className='ui-thumbnail-action mhn'
           style={commonCss}
           title='Move right'
@@ -107,6 +110,7 @@ module.exports = React.createClass
 
       actionsLeft.push(
         <li
+          key='action04'
           className='ui-thumbnail-action mln'
           style={commonCss}
           title='Move to the end'

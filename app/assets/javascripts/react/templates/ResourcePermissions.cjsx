@@ -33,13 +33,13 @@ module.exports = React.createClass
 
     # set up auto-update for model:
     f.each ['add', 'remove', 'reset', 'change'], (eventName)=>
-      model.on(eventName, ()=> @forceUpdate() if @isMounted())
+      model.on(eventName, ()=> @forceUpdate())
 
     @setState({model: model})
 
   # functions to be called on unmount (cleanup):
   _toBeCalledOnUnmount: []
-  componentWillUnMount: ()-> f.each(_toBeCalledOnUnmount, (fn)-> fn())
+  componentWillUnmount: ()-> f.each(_toBeCalledOnUnmount, (fn)-> fn())
 
   # this will only ever run on the client:
   componentDidMount: ()->

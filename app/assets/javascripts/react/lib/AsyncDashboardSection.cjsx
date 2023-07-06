@@ -22,16 +22,19 @@ module.exports = React.createClass
     json_path: PropTypes.string
     initial_props: PropTypes.object
 
+  _isMounted: false
+
   getInitialState: ()-> { isClient: false, fetchedProps: null }
 
   componentDidMount: ()->
+    @_isMounted = true
     @setState(isClient: true)
     @_fetchProps()
 
   _fetchProps: ()->
     @setState(fetching: true)
     @_getPropsAsync((err, props)=>
-      return if !@isMounted()
+      return if !@_isMounted
       @setState(fetching: false)
       if err
         console.error('Error while fetching data!\n\n', err)
@@ -64,6 +67,10 @@ module.exports = React.createClass
 
   componentWillUnmount: ()->
     if @_runningRequest then @_runningRequest.abort()
+    @_isMounted = false
+    # FIXME. Self-implemented `isMounted` to suppress the React warning, but still an anti-pattern.
+    # The correct solution would be @_runningRequest.abort().
+    # However this does not work, because `appRequest()` returns undefined when retries are enabled.
 
   render: ({props} = @)->
     {fallback_url} = props

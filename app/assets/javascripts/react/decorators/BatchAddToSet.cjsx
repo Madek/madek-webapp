@@ -124,7 +124,7 @@ module.exports = React.createClass
             method='post' authToken={authToken} className='dummy'>
 
           <input type='hidden' name='return_to' value={@state.get.return_to} />
-          <input type='text' autoCorrect='off' autoComplete='off' autofocus='autofocus'
+          <input type='text' autoCorrect='off' autoComplete='off' autoFocus='autofocus'
             className='ui-search-input block'
             placeholder={t('resource_select_collection_search_placeholder')}
             name='search_term' value={@state.searchTerm}

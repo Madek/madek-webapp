@@ -46,14 +46,18 @@ module.exports = React.createClass
 
                 f.compact([
                   if section.partial == 'media_resources'
-                    <DashboardSectionResources section={section} url={@props.get.url} />
+                    <DashboardSectionResources section={section} url={@props.get.url} key={index} />
                   else if section.partial == 'groups'
-                    <DashboardSectionGroups section={section} sectionResources={user_dashboard['groups_and_delegations']} />
+                    <DashboardSectionGroups
+                      section={section}
+                      sectionResources={user_dashboard['groups_and_delegations']}
+                      key={index}
+                    />
                   else if section.partial == 'keywords'
-                    <DashboardSectionKeywords section={section} sectionResources={user_dashboard[section.id]} />
+                    <DashboardSectionKeywords section={section} sectionResources={user_dashboard[section.id]} key={index} />
                   ,
                   if index < visible_sections.length - 1
-                    <hr className='separator mbm' />
+                    <hr className='separator mbm' key={'separator' + index} />
                 ])
               ))
             }

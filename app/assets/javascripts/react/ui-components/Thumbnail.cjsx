@@ -99,7 +99,7 @@ module.exports = React.createClass
             style = {
               backgroundColor: bubble.color
             }
-            <a key={bubble.key} href={bubble.href}>
+            <a key={bubble.key} href={bubble.href} key={index}>
               <div className='ui-bubble' style={style}>{bubble.label}</div>
             </a>
           )

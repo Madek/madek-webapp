@@ -36,7 +36,7 @@ module.exports = React.createClass
 
           <div className='row'>
             {hints.map((msg, i) ->
-              <div className='col1of2'>
+              <div className='col1of2' key={i}>
                 <div className={'ui-info-box '+ ['prm','plm'][i]}>
                   <p className='paragraph-l'>{msg}</p>
                 </div>

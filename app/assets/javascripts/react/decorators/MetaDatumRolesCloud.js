@@ -66,8 +66,7 @@ MetaDatumRolesCloud.propTypes = {
       label: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
       role: PropTypes.shape({
-        label: PropTypes.string.isRequired,
-        url: PropTypes.string.isRequired
+        label: PropTypes.string.isRequired
       })
     })
   ),
