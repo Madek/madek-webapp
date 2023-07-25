@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import setUrlParams from '../../lib/set-params-for-url.coffee'
+import cx from 'classnames'
 
 /*
 Group in the following way: [p1, p1, p2, p1] -> [p1, p2, p1]
@@ -22,11 +23,16 @@ function groupContiguous(list) {
 
 export default function MetaDatumRolesCloud({ personRoleTuples, metaKeyId }) {
   const persons = groupContiguous(personRoleTuples)
+  const anyRolePresent = persons.some(p => p.roles.length > 0)
   return (
     <div className="small ui-tag-cloud">
       {persons.map(({ label, url, roles }, i) => {
         return (
-          <div key={i} className="ui-tag-cloud-item ui-tag-cloud-person-roles-item block clearfix">
+          <div
+            key={i}
+            className={cx('ui-tag-cloud-item', {
+              'ui-tag-cloud-person-roles-item block clearfix': anyRolePresent
+            })}>
             <a href={url} className="link ui-tag-button ui-link">
               {label}
             </a>
