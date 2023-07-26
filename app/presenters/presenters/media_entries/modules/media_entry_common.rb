@@ -7,7 +7,8 @@ module Presenters
         include Presenters::Shared::Modules::Favoritable
 
         def initialize(app_resource, user, list_conf: {}, load_meta_data: false)
-          fail 'TypeError!' unless app_resource.is_a?(MediaEntry)
+          fail 'TypeError!' unless app_resource.is_a?(MediaEntry) ||
+                                   app_resource.is_a?(MediaResource) && app_resource.type == "MediaEntry"
 
           # FIXME: because MediaEntry *might* be instantiated via
           # `vw_media_resources` view we *might* need to re-init…
