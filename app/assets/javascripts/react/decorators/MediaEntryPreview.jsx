@@ -68,24 +68,34 @@ module.exports = React.createClass({
       (get.media_type == 'video' || get.media_type == 'audio') &&
       f.get(get, 'media_file.conversion_status') != 'finished'
 
-    if (not_ready) {
+    const missingAvPreviews =
+      (get.media_type == 'video' && (previews.videos || []).length == 0) ||
+      (get.media_type == 'audio' && (previews.audios || []).length == 0)
+
+    if (not_ready || missingAvPreviews) {
+      const deFactoFailed = !not_ready && missingAvPreviews
+      const status = deFactoFailed ? 'failed' : get.media_file.conversion_status
       const warningText =
-        get.media_file.conversion_status === 'submitted'
+        status === 'submitted'
           ? [
               t('media_entry_conversion_progress_pre'),
               get.media_file.conversion_progress,
               t('media_entry_conversion_progress_post')
             ].join('')
-          : t('media_entry_conversion_status_' + get.media_file.conversion_status)
+          : t('media_entry_conversion_status_' + status)
 
       return (
         <div className={classes}>
           <div className="ui-alert warning">{warningText}</div>
-          <div className="p pvh mth">
-            {t('media_entry_conversion_hint')}
-            <br />
-            <span className="title-xs">{t('media_entry_conversion_reload')}</span>
-          </div>
+          {status === 'failed' ? (
+            <div className="p pvh mth"></div>
+          ) : (
+            <div className="p pvh mth">
+              {t('media_entry_conversion_hint')}
+              <br />
+              <span className="title-xs">{t('media_entry_conversion_reload')}</span>
+            </div>
+          )}
         </div>
       )
     }
