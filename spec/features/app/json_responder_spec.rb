@@ -8,12 +8,12 @@ feature 'App: Responders' do
 
     REQUEST_ARGS = {
       format: :json,
-      list: { page: 1, per_page: 3, order: 'created_at DESC' } }
+      list: { page: 1, per_page: 3, order: 'created_at ASC' } }
 
     it 'full response (MediaEntries index)' do
       result = get_json_url(media_entries_path(REQUEST_ARGS))
       expect(page.status_code).to eq 200
-      expect(result[:resources].first[:uuid]).to eq MediaEntry.last.id
+      expect(result[:resources].first[:uuid]).to eq MediaEntry.order(created_at: :asc).first.id
     end
 
     it 'sparse response (MediaEntries index)' do
@@ -26,7 +26,7 @@ feature 'App: Responders' do
       # check if sparse (nested)
       expect(result[:resources].map(&:keys).flatten.uniq).to eq [:uuid]
       # check correct value (nested)
-      expect(result[:resources].first[:uuid]).to eq MediaEntry.last.id
+      expect(result[:resources].first[:uuid]).to eq MediaEntry.order(created_at: :asc).first.id
     end
 
   end
