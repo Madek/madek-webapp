@@ -365,7 +365,7 @@ module.exports = React.createClass
           @props.get.resource_type, get.edit_by_context_urls, get.edit_by_context_fallback_url,
           get.batch_edit_by_context_urls, get.batch_edit_by_context_fallback_url,
           get.edit_by_vocabularies_url, get.batch_edit_by_vocabularies_url,
-          get.batch_edit_all_collection_url)
+          get.batch_edit_all_collection_url, @props.get.show_all_meta_data_tab)
       }
       <TabContent>
 

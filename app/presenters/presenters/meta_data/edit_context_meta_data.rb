@@ -72,6 +72,10 @@ module Presenters
       def published
         @app_resource.class == MediaEntry ? @app_resource.is_published : true
       end
+
+      def show_all_meta_data_tab
+        auth_policy(@user, @app_resource).edit_all_meta_data_enabled?
+      end
     end
   end
 end

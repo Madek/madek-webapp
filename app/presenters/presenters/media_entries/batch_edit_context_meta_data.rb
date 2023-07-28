@@ -97,6 +97,10 @@ module Presenters
           authorized_resources: @authorized_resources.count
         }
       end
+
+      def show_all_meta_data_tab
+        auth_policy(@user, @resource_type).edit_all_meta_data_enabled?
+      end
     end
   end
 end

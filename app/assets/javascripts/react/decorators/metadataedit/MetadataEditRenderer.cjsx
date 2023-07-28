@@ -451,7 +451,7 @@ module.exports = {
 
   _renderTabs: (meta_meta_data, batch, batch_ids, return_to, url, onTabClick, currentTab, collection_id, resource_type,
                 edit_by_context_urls, edit_by_context_fallback_url, batch_edit_by_context_urls, batch_edit_by_context_fallback_url,
-                edit_by_vocabularies_url, batch_edit_by_vocabularies_url, batch_edit_all_collection_url) ->
+                edit_by_vocabularies_url, batch_edit_by_vocabularies_url, batch_edit_all_collection_url, show_all_meta_data_tab) ->
     <Tabs>
       {
         f.map meta_meta_data.meta_data_edit_context_ids, (context_id) ->
@@ -493,40 +493,42 @@ module.exports = {
               label={context.label}
               active={active} />
       }
-      {
-        tabUrl =
-          if batch
 
-            if collection_id
-                setUrlParams(batch_edit_all_collection_url,
-                  type: resource_type,
-                  context_id: null
-                  by_vocabulary: true
+      { if show_all_meta_data_tab
+
+          tabUrl =
+            if batch
+
+              if collection_id
+                  setUrlParams(batch_edit_all_collection_url,
+                    type: resource_type,
+                    context_id: null
+                    by_vocabulary: true
+                    return_to: return_to)
+
+              else
+                setUrlParams(batch_edit_by_vocabularies_url,
+                  id: batch_ids,
                   return_to: return_to)
-
             else
-              setUrlParams(batch_edit_by_vocabularies_url,
-                id: batch_ids,
+              setUrlParams(edit_by_vocabularies_url,
                 return_to: return_to)
-          else
-            setUrlParams(edit_by_vocabularies_url,
-              return_to: return_to)
 
-        nextCurrentTab = {
-          byContext: null,
-          byVocabularies: true
-        }
+          nextCurrentTab = {
+            byContext: null,
+            byVocabularies: true
+          }
 
-        active = currentTab.byVocabularies
+          active = currentTab.byVocabularies
 
-        <Tab
-          privacyStatus={'public'}
-          key={'byVocabularies'}
-          iconType={null}
-          onClick={f.curry(onTabClick)(nextCurrentTab)}
-          href={tabUrl}
-          label={t('meta_data_form_all_data')}
-          active={active} />
+          <Tab
+            privacyStatus={'public'}
+            key={'byVocabularies'}
+            iconType={null}
+            onClick={f.curry(onTabClick)(nextCurrentTab)}
+            href={tabUrl}
+            label={t('meta_data_form_all_data')}
+            active={active} />
 
       }
     </Tabs>
