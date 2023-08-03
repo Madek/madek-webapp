@@ -4,6 +4,8 @@ module Presenters
       module Modules
         module Responsible
           def responsible
+            return unless policy_for(@user).responsible?
+
             entity = (@app_resource&.responsible_user || @app_resource&.responsible_delegation)
             return unless entity
 

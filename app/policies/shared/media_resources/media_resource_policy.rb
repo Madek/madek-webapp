@@ -61,6 +61,10 @@ module Shared
         show? and logged_in?
       end
 
+      def responsible?
+        show? and logged_in?
+      end
+
       def update?
         logged_in? and record.editable_by_user?(user) || accessed_by_workflow_owner?
       end
