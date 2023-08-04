@@ -674,6 +674,7 @@ section_title_groups,Meine Gruppen,My groups,
 section_title_keywords,Meine Schlagworte,My keywords,
 section_title_media_entries,Meine Medieneinträge,My media entries,
 section_title_tokens,Meine Tokens,My tokens,
+session_expiring_soon,Sie werden in weniger als %{minutes} Minuten ausgeloggt. Speichern Sie Ihre Eingaben und melden sich neu an.,You will be logged out in less than %{minutes} minutes. Save your input and log in again.
 share_back_to_collection,Zurück zum Set,Back to the set,
 share_back_to_media_entry,Zurück zum Medieneintrag,Back to the media entry,
 share_close,Schliessen,Close,

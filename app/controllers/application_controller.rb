@@ -17,6 +17,8 @@ class ApplicationController < ActionController::Base
   include Concerns::LangParams
   include Errors
 
+  before_action :notify_if_session_expiring_soon
+
   before_action :init_layout_data_presenter
 
   # use pundit to make sure all actions are authorized
