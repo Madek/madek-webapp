@@ -109,13 +109,7 @@ module Modules
       end
 
       def valid(meta_datum)
-        value = meta_datum.value
-        !value.empty?
-        # if (value.class < ActiveRecord::Associations::CollectionProxy)
-        #   !(value.length > 0)
-        # else
-        #   !value.empty?
-        # end
+        meta_datum.value.presence
       end
     end
   end

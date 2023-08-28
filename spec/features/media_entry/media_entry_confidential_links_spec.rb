@@ -112,8 +112,7 @@ feature 'Media Entry - Managing Confidential Links' do
     end
 
     expect(current_path).to eq confidential_links_media_entry_path(@entry)
-    cf_link.reload
-    expect(cf_link.revoked).to be true
+    wait_until { cf_link.reload.revoked }
 
     sleep(1)
     expect(displayed_ui(revoked: true)).to eq [

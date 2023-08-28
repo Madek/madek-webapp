@@ -21,9 +21,18 @@ feature 'Resource: MediaEntry' do
       dropdown.click
       dropdown.find('.icon-trash').click
 
+      AuditedChange.delete_all
+      audited_changes_before = AuditedChange.count
+      audited_requests_before = AuditedRequest.count
+      audited_responses_before = AuditedResponse.count
+
       within '.modal' do
         find('button', text: I18n.t(:resource_ask_delete_ok)).click
       end
+
+      expect(AuditedChange.count).to be > audited_changes_before
+      expect(AuditedRequest.count).to eq (audited_requests_before + 1)
+      expect(AuditedResponse.count).to eq (audited_responses_before + 1)
 
       # redirects to user dashboard:
       expect(current_path).to eq my_dashboard_path

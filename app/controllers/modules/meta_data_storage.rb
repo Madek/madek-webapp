@@ -40,6 +40,8 @@ module Modules
 
         meta_key_ids = IoMapping.where(key_map: key_map).map(&:meta_key_id)
         meta_key_ids.each do |meta_key_id|
+          next if media_entry.meta_data.find_by_meta_key_id(meta_key_id)
+
           begin
             create_meta_datum!(media_entry, meta_key_id, value)
           rescue

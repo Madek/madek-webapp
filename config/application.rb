@@ -1,4 +1,5 @@
 require_relative 'boot'
+require_relative('../lib/madek/middleware/audit.rb')
 $:.push File.expand_path('../../datalayer/lib', __FILE__)
 
 require "rails/all"
@@ -174,6 +175,8 @@ module Madek
     # handle config/locale/*.csv
     Rails.application.config.assets.paths.concat(Dir["#{Rails.root}/config/locale"])
     config.assets.precompile.concat(Dir["#{Rails.root}/config/locale/*.csv"])
+
+    config.middleware.insert_before ActionDispatch::ShowExceptions, Madek::Middleware::Audit
   end
 end
 
