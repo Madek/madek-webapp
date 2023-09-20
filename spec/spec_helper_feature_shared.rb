@@ -121,9 +121,12 @@ def sign_in_as(login, password = nil)
   if db_user_tab = all('a#tab-internal_login').first
     db_user_tab.click
   end
-  fill_in 'login', with: login
-  fill_in 'password', with: password
-  find("[type='submit']").click
+  fill_in 'email-or-login', with: login
+  click_on 'Anmelden'
+  within '#login_menu' do
+    fill_in 'password', with: password
+    click_on 'Anmelden'
+  end
   User.find_by(login: login)
 end
 

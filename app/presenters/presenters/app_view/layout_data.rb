@@ -11,10 +11,11 @@ module Presenters
       # end
       # attr_accessor :resource
 
-      def initialize(user:, return_to:)
+      def initialize(user:, return_to:, auth_anti_csrf_token:)
         fail 'TypeError!' unless (user.nil? or user.is_a?(User))
         @user = user
         @return_to = return_to
+        @auth_anti_csrf_token = auth_anti_csrf_token
       end
 
       def user_menu
@@ -52,7 +53,23 @@ module Presenters
             groups: my_dashboard_section_path(:groups)
           },
           admin: admin_menu,
-          sign_out_action: { url: sign_out_path, method: 'POST' }
+          sign_out_action: @auth_anti_csrf_token.present? ?
+            { url: '/auth/sign-out', 
+              method: 'POST', 
+              mode: 'auth-app',
+              auth_anti_csrf_token: @auth_anti_csrf_token,
+              auth_anti_csrf_param: "csrf-token" } :
+            { url: sign_out_path, 
+              method: 'POST',
+              mode: 'webapp' }
+        }
+      end
+
+      def system_login_provider
+        {
+          id: 'system',
+          title: I18n.t(:login_box_internal),
+          url: sign_in_path(return_to: return_to)
         }
       end
 
@@ -82,11 +99,7 @@ module Presenters
 
         # NOTE: DB login is always enabled,
         #       can have a different title if its the only login method
-        logins.push(
-          id: 'system',
-          title: I18n.t(:login_box_internal),
-          url: sign_in_path(return_to: return_to)
-        )
+        logins.push system_login_provider
 
         @_login_providers = logins
       end

@@ -46,7 +46,7 @@
     ),
 
     # user/login section, right
-    user: (params[:action] != 'root') ? render(current_user ? 'user_menu' : 'login_menu') : nil
+    user: (params[:action] != 'root') ? current_user ? render('user_menu') : controller.controller_name != "errors" ? render('login_menu') : nil : nil
   }
 
 = combo('header', header)

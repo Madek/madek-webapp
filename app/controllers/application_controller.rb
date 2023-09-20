@@ -54,7 +54,8 @@ class ApplicationController < ActionController::Base
     #       it's already a presenter, but we can't `include` it everyhwere.
     @app_layout_data = Presenters::AppView::LayoutData.new(
       user: current_user,
-      return_to: params[:return_to].presence || request.original_fullpath)
+      return_to: params[:return_to].presence || request.original_fullpath,
+      auth_anti_csrf_token: cookies['madek.auth.anti-csrf-token'])
   end
 
   def root

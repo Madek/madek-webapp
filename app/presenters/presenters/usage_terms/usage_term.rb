@@ -8,7 +8,7 @@ module Presenters
       def actions
         {
           accept: { method: :POST, url: accepted_usage_terms_user_path },
-          reject: { method: :POST, url: sign_out_path }
+          reject: { method: :POST, url: '/auth/sign-out' }
         }
       end
 

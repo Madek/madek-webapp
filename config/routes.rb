@@ -285,6 +285,12 @@ Madek::Application.routes.draw do
   get '/session/sign_out', to: 'sessions#redirect_for_get_methods'
   get '/session/uberadmin', to: 'sessions#redirect_for_get_methods'
 
+  # drop-in replacement for auth module (not for production)
+  if Rails.env.development? or Rails.env.test?
+    get '/auth/sign-in', to: 'test_auth#step1'
+    get '/auth/sign-in/auth-systems', to: 'test_auth#step2'
+  end
+
   post '/zencoder_jobs/:id/notification' => 'zencoder_jobs#notification', as: :zencoder_job_notification
 
   get '/oembed', controller: 'oembed', action: 'show', defaults: { format: 'json' }

@@ -21,9 +21,7 @@
         .row
           - if (@get.status_code == 401) or (@get.status_code == 405)
             .ui-container{style: 'max-width: 440px;margin:0 auto;'}
-              = react('App.LoginMenu',
-                  get: @get,
-                  loginProviders: @app_layout_data.login_providers)
+              = react('App.LoginMenu', returnTo: request.original_fullpath, lang: I18n.locale)
 
           - else
             .bang.col1of6

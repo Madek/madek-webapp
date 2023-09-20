@@ -21,3 +21,4 @@ module.exports =
   App:
     UserMenu: require('../react/views/_layouts/UserMenu.cjsx')
     LoginMenu: require('../react/views/_layouts/LoginMenu.js').default
+    TestLoginForm: require('../react/views/_layouts/TestLoginForm.js').default

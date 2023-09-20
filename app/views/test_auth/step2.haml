@@ -1,0 +1,5 @@
+- content_for(:app_body) do
+  .app-body.pan.mal
+    .ui-container{style: 'max-width: 440px;margin:0 auto;'}
+      .text-center.mam WEBAPP-LOGIN (test only):
+      = react('App.TestLoginForm', { path: sign_in_path, returnTo: params['return-to'], emailOrLogin: params['email-or-login'] })

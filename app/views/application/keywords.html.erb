@@ -2,7 +2,8 @@
 
 react(
   'Views.explore.ExploreKeywordsPage',
-  get: @get,
-  loginProviders: @app_layout_data.login_providers)
+  returnTo: request.original_fullpath,
+  lang: I18n.locale
+)
 
 %>

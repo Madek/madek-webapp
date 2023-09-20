@@ -10,7 +10,7 @@ module.exports = React.createClass
 
   getInitialState: () -> { active: false }
 
-  render: ({get, loginProviders, authToken} = @props) ->
+  render: ({get, authToken, authStep2Path, lang } = @props) ->
     welcomeMessage = get.welcome_message
 
     sectionsElements =
@@ -54,8 +54,8 @@ module.exports = React.createClass
             </div>
             <div className='col1of3'>
               <LoginMenu
-                loginProviders={loginProviders}
-                authToken={authToken}
+                lang={lang}
+                returnTo="/"
               />
             </div>
             <div style={{clear: 'both'}} />

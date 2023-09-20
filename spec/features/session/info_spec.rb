@@ -10,9 +10,13 @@ feature 'Session' do
 
     scenario 'the user_session contains http_user_agent and remote_addr info' do 
       visit "/"
-      fill_in 'login', with: user.login
-      fill_in 'password', with: 'password123'
-      click_button I18n.t(:login_box_login_btn)
+
+      fill_in 'email-or-login', with: user.login
+      click_on 'Anmelden'
+      within '#login_menu' do
+        fill_in 'password', with: 'password123'
+        click_on 'Anmelden'
+      end
 
       user_session = UserSession.find_by!(user_id: user.id)
       expect(user_session.meta_data).to be

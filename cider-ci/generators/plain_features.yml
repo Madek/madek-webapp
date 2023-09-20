@@ -3606,21 +3606,13 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/session/session_spec.rb:14"
     RSPEC_TEST: "./spec/features/session/session_spec.rb[1:1:1:1:1:1]"
-"./spec/features/session/session_spec.rb[1:1:1:1:2:1]":
-  name: "./spec/features/session/session_spec.rb[1:1:1:1:2:1]"
-  description: Session Signing in redirecting to the previous page when previous page
-    was a private media entry when user goes to login form by clicking the button
-    in the top bar user is redirected to media entry page
-  environment_variables:
-    RSPEC_NAME: "./spec/features/session/session_spec.rb:28"
-    RSPEC_TEST: "./spec/features/session/session_spec.rb[1:1:1:1:2:1]"
 "./spec/features/session/session_spec.rb[1:1:1:2:1:1]":
   name: "./spec/features/session/session_spec.rb[1:1:1:2:1:1]"
   description: Session Signing in redirecting to the previous page when previous page
     was a public media entry when user goes to login form by clicking the button in
     the top bar user is redirected to media entry page
   environment_variables:
-    RSPEC_NAME: "./spec/features/session/session_spec.rb:52"
+    RSPEC_NAME: "./spec/features/session/session_spec.rb:37"
     RSPEC_TEST: "./spec/features/session/session_spec.rb[1:1:1:2:1:1]"
 "./spec/features/side_filter/side_filter_sorting_spec.rb[1:1:1]":
   name: "./spec/features/side_filter/side_filter_sorting_spec.rb[1:1:1]"

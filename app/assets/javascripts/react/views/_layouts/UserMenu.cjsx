@@ -121,19 +121,42 @@ module.exports = React.createClass
 
         {f.present(props.admin) && <MenuItem className='separator'/>}
 
-        <MenuItemButton
-          name='sign-out'
-          icon='power-off'
-          title={t('user_menu_logout_btn')}
-          action={props.sign_out_action.url}
-          method={props.sign_out_action.method}
-          authToken={props.authToken}
-        />
+        {props.sign_out_action.mode == 'auth-app' && <AuthAppSignoutButton {...props.sign_out_action} />}
+        {props.sign_out_action.mode == 'webapp' && <WebappSignoutButton {...props.sign_out_action, authToken: props.authToken} />}
 
       </Dropdown.Menu>
 
     </Dropdown>
 
+# Sign out via auth
+AuthAppSignoutButton = ({url, method, auth_anti_csrf_param, auth_anti_csrf_token})->
+  <li className='ui-drop-item'>
+    <form
+      name='sign-out'
+      action={url}
+      method={method}
+      >
+      <input type="hidden"
+        name={auth_anti_csrf_param} 
+        defaultValue={auth_anti_csrf_token}
+      />
+      <button className='strong' style={{width: '100%', textAlign: 'left', paddingLeft: '7px'}}>
+        <Icon i='power-off' mods='ui-drop-icon' />
+        {' ' + t('user_menu_logout_btn')}
+      </button>
+    </form>
+  </li>
+
+# Sign out via webapp
+WebappSignoutButton = ({url, method, authToken})->
+  <MenuItemButton
+    name='sign-out'
+    icon='power-off'
+    title={t('user_menu_logout_btn') + " (via Webapp!)"}
+    action={url}
+    method={method}
+    authToken={authToken}
+  />
 
 MenuItemButton = ({name, action, method, icon, title, authToken})->
   # NOTE: needed style fixes for putting form in menu

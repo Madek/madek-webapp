@@ -1,5 +1,6 @@
 :ruby
-  login_link = root_path(anchor: 'login_form', return_to: request.original_fullpath)
+  lang_fragment = params[:lang].nil? ? "" : "&lang=#{CGI.escape(params[:lang])}"
+  login_link = "/auth/sign-in?return-to=#{CGI.escape(request.original_fullpath)}" + lang_fragment
 
 = component('button.tertiary', href: login_link) do
   = component('icon.user')

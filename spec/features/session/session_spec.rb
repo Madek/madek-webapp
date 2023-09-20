@@ -16,27 +16,12 @@ feature 'Session' do
 
             expect(page).not_to have_content('grumpy_cat.jpg')
 
-            fill_in 'login', with: user.login
-            fill_in 'password', with: 'password123'
-            click_button I18n.t(:login_box_login_btn)
-
-            expect(page).to have_css('.ui-body-title', text: 'grumpy_cat.jpg')
-          end
-        end
-
-        context 'when user goes to login form by clicking the button in the top bar' do
-          scenario 'user is redirected to media entry page' do
-            visit media_entry_path(media_entry)
-
-            expect(page).not_to have_content('grumpy_cat.jpg')
-
-            within '.ui-header' do
-              click_link I18n.t(:user_menu_login_btn)
+            fill_in 'email-or-login', with: user.login
+            click_on 'Anmelden'
+            within '#login_menu' do
+              fill_in 'password', with: 'password123'
+              click_on 'Anmelden'
             end
-
-            fill_in 'login', with: user.login
-            fill_in 'password', with: 'password123'
-            click_button I18n.t(:login_box_login_btn)
 
             expect(page).to have_css('.ui-body-title', text: 'grumpy_cat.jpg')
           end
@@ -50,7 +35,8 @@ feature 'Session' do
 
         context 'when user goes to login form by clicking the button in the top bar' do
           scenario 'user is redirected to media entry page' do
-            visit media_entry_path(media_entry)
+            resource_url = media_entry_path(media_entry)
+            visit resource_url
 
             expect(page).to have_css('.ui-body-title', text: 'grumpy_cat.jpg')
 
@@ -58,9 +44,14 @@ feature 'Session' do
               click_link I18n.t(:user_menu_login_btn)
             end
 
-            fill_in 'login', with: user.login
-            fill_in 'password', with: 'password123'
-            click_button I18n.t(:login_box_login_btn)
+            within '#login_menu' do
+              fill_in 'email-or-login', with: user.login
+              click_on 'Anmelden'
+            end
+            within '#login_menu' do
+              fill_in 'password', with: 'password123'
+              click_on 'Anmelden'
+            end
 
             expect(page).to have_css('.ui-body-title', text: 'grumpy_cat.jpg')
           end

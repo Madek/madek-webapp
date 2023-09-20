@@ -111,12 +111,13 @@ RSpec.configure do |config|
     end
   end
 
-  # useful for debugging tests:
-  # config.after(:each) do |example|
-  #   unless example.exception.nil?
-  #     binding.pry
-  #   end
-  # end
+  config.after(:each) do |example|
+    if ENV["PRY_ON_EXCEPTION"].present?
+      unless example.exception.nil?
+        binding.pry
+      end
+    end
+  end
 
 end
 
