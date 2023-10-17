@@ -64,7 +64,7 @@
     "tachyons": "^4.7.1",
     "underscore.string": "3.3.5",
     "uuid-validate": "0.0.2",
-    "video.js": "5.16.0",
+    "video.js": "7.14.3",
     "xhr": "2.4.0"
   },
   "devDependencies": {
