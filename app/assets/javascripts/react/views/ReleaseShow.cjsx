@@ -42,7 +42,7 @@ DevelopmentInfo = ({git_hash, git_url}) =>
     </h2>
   </div>
 
-DeploymentInfo = ({tree_id, commit_id, build_time, deployed, changes_since_release}) =>
+DeploymentInfo = ({tree_id, commit_id, build_time, deployed}) =>
   Moment.locale(currentLocale())
   buildUrl = "https://ci.zhdk.ch/cider-ci/ui/workspace/trees/#{tree_id}"
   commitUrl = "https://github.com/Madek/Madek/commits/#{commit_id}"
@@ -55,18 +55,11 @@ DeploymentInfo = ({tree_id, commit_id, build_time, deployed, changes_since_relea
       <span><a href={buildUrl}>Build</a>: </span>
       {Moment(build_time).format('LLLL')}
     </h2>
-    {!deployed.is_release &&
-      <div className='mtm'>
-        <h2 className='title-s'>
-          <span>
-            <a href={commitUrl}>{t('release_version')}</a>{'! '}
-            {t('release_changes_since_release')}:</span>
-        </h2>
-        <pre className='pls' style={{whiteSpace: 'pre'}}>
-          {changes_since_release}
-        </pre>
-      </div>
-    }
+    <div className='mtm'>
+      <h2 className='title-s'>
+        <a href={commitUrl}>{t('release_source_history')}</a>
+      </h2>
+    </div>
   </div>
 
 ReleasesInfo = ({releases, children}) =>
