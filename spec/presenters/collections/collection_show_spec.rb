@@ -34,6 +34,8 @@ describe Presenters::Collections::CollectionShow do
   end
 
   context 'dumps' do
+    before(:each) { @user.reload }
+
     it_can_be 'dumped' do
       let(:presenter) do
         described_class.new(@collection_A,

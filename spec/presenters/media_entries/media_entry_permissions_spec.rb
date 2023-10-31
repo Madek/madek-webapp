@@ -6,6 +6,7 @@ describe Presenters::MediaEntries::MediaEntryPermissions do
   let(:presenter) do 
 
     user = FactoryBot.create(:user)
+    user.reload # due the active_until being nil, although default in db
     media_entry = FactoryBot.create(:media_entry,
                                     responsible_user: user)
     media_entry.user_permissions << \

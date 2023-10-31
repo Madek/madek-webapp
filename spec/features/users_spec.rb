@@ -38,6 +38,6 @@ feature 'Users' do
   end
 
   def deactivate_user(user)
-    user.update_attribute(:is_deactivated, true)
+    user.update_attribute(:active_until, Date.yesterday.to_datetime.end_of_day)
   end
 end

@@ -5,6 +5,7 @@ describe Presenters::Collections::CollectionPermissions do
 
   let(:presenter) do
     user = FactoryBot.create(:user)
+    user.reload # otherwise active_until is nil, although default in db
     collection = FactoryBot.create(:collection,
                                    responsible_user: user)
     collection.user_permissions << \

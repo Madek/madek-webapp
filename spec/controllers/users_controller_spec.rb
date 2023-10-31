@@ -93,7 +93,7 @@ describe UsersController do
     end
 
     context 'when user is deactivated' do
-      before { user.update_column(:is_deactivated, true) }
+      before { user.update_column(:active_until, Date.yesterday.to_datetime.end_of_day) }
 
       specify 'filtering by login does not return the user' do
         get :index,

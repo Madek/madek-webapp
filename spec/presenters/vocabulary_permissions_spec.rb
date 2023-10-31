@@ -6,6 +6,7 @@ describe Presenters::Vocabularies::VocabularyPermissionsShow do
 
   let :presenter do
     current_user = FactoryBot.create(:user)
+    current_user.reload # due the active_until being nil, although default in db
 
     vocabulary = FactoryBot.create(:vocabulary, enabled_for_public_use: false)
 

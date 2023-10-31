@@ -36,8 +36,8 @@ module Concerns
     private
 
     def skip_deactivated_records(collection)
-      if model_klass.columns_hash.key?('is_deactivated')
-        collection.where(is_deactivated: false)
+      if model_klass.columns_hash.key?('active_until')
+        collection.where('now() <= active_until')
       else
         collection
       end
