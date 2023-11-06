@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react'
-import merge from 'lodash/merge'
+import React from 'react'
+import PropTypes from 'prop-types'
 import endsWith from 'lodash/endsWith'
 
 import VideoJS from './VideoJs'
@@ -11,7 +11,14 @@ const propTypes = {
       content_type: PropTypes.string,
       profile: PropTypes.string
     })
-  )
+  ),
+  /** Options (geometry) */
+  options: PropTypes.shape({
+    fluid: PropTypes.bool,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    ratio: PropTypes.string
+  })
 }
 
 const VIDEOJS_OPTIONS = {
@@ -26,29 +33,17 @@ const VIDEOJS_OPTIONS = {
       'remainingTimeDisplay',
       'muteToggle',
       'volumeControl',
-      // 'playbackRateMenuButton',
-      // 'chaptersButton',
-      // 'descriptionsButton',
-      // 'subtitlesButton',
-      // 'captionsButton',
-      // 'audioTrackButton',
       'space',
       'customControlSpacer',
       'fullscreenToggle'
     ]
-  },
-  plugins: { videoJsResolutionSwitcher: { default: 'low', dynamicLabel: true } }
+  }
 }
 
 const sourceLabel = ({ profile }) => (endsWith(profile, '_HD') ? 'HD' : 'SD')
 
 class VideoPlayer extends React.Component {
-  _onVideoJsMount() {
-    // _onVideoJsMount(player) {
-    // console.log({ player })
-  }
-
-  render({ sources, ...props } = this.props) {
+  render({ sources, options, ...props } = this.props) {
     const videoSources = sources.map(source => ({
       src: source.url,
       type: source.content_type,
@@ -58,12 +53,7 @@ class VideoPlayer extends React.Component {
     }))
 
     return (
-      <VideoJS
-        {...props}
-        sources={videoSources}
-        onMount={this._onVideoJsMount}
-        options={merge(VIDEOJS_OPTIONS, props.options)}
-      />
+      <VideoJS {...props} sources={videoSources} options={{ ...VIDEOJS_OPTIONS, ...options }} />
     )
   }
 }

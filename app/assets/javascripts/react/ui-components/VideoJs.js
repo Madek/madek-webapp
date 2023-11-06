@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import omit from 'lodash/omit'
-import merge from 'lodash/merge'
 import isFunction from 'lodash/isFunction'
-const noop = () => ({})
+import titleBarPlugin from '../../lib/videojs-title-bar-plugin/videojs-title-bar-plugin'
+
 // FIXME: crashes server, required on mount!
 let videojs = null
 
@@ -14,19 +14,42 @@ const defaultProps = {
   mode: 'video',
   controls: true,
   preload: 'none',
-  onMount: noop,
-  onReady: noop
+  onMount: () => ({}),
+  onReady: () => ({})
 }
 
 const propTypes = {
+  options: PropTypes.shape({
+    fluid: PropTypes.bool,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    ratio: PropTypes.string,
+    controlBar: PropTypes.shape({
+      children: PropTypes.arrayOf(PropTypes.string)
+    })
+  }),
+  captionConf: PropTypes.any,
+  isInternal: PropTypes.bool,
   mode: PropTypes.oneOf(['audio', 'video']),
-  sources: PropTypes.array,
-  children: PropTypes.node
-}
-
-const DEFAULT_OPTIONS = {
-  fluid: true,
-  aspectRatio: '16:9'
+  onReady: PropTypes.func,
+  onMount: PropTypes.func,
+  sources: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string,
+      src: PropTypes.string,
+      type: PropTypes.string
+    })
+  ),
+  type: PropTypes.oneOf(['audio', 'video']),
+  /** e.g. "500px" */
+  width: PropTypes.string,
+  /** e.g. "200px" */
+  height: PropTypes.string,
+  /** URL of a poster image */
+  poster: PropTypes.string,
+  preload: PropTypes.string,
+  controls: PropTypes.bool,
+  className: PropTypes.string
 }
 
 class VideoJS extends Component {
@@ -37,37 +60,45 @@ class VideoJS extends Component {
   }
 
   componentDidMount() {
-    const { props } = this
+    const { options, captionConf, isInternal, mode, onReady } = this.props
+    const { fluid = true, ratio: aspectRatio = '16:9', width, height, controlBar } = options
+    const { title, logoTitle, subtitle, link } = captionConf
+
+    // configure plugins
+    const titleBarConf = isInternal
+      ? {}
+      : {
+          titleBar: {
+            hideOnPlay: mode === 'video',
+            title,
+            logoTitle,
+            subtitle,
+            link,
+            logo: 'Z'
+          }
+        }
+    const resolutionSwitcherConf =
+      mode === 'video' ? { videoJsResolutionSwitcher: { default: 'low', dynamicLabel: true } } : {}
+
+    const playerOptions = {
+      fluid,
+      aspectRatio,
+      width,
+      height,
+      controlBar,
+      plugins: { ...titleBarConf, ...resolutionSwitcherConf }
+    }
+
     // eslint-disable-next-line react/no-string-refs
     const videoTag = this.refs.videojs
     if (!videoTag) throw new Error('no videojs tag!')
 
     videojs = require('video.js')
-    const playerOptions = merge({}, DEFAULT_OPTIONS, omit(props.options, 'ratio'), {
-      aspectRatio: this.props.options.ratio
-    })
-
-    // console.log({ playerOptions })
 
     // make library available to our plugins and other extensions:
     window.videojs = videojs
-    if (props.mode === 'video') {
+    if (mode === 'video') {
       require('../../lib/videojs-resolution-switcher')
-    }
-
-    if (!this.props.isInternal) {
-      merge(playerOptions, {
-        plugins: {
-          titleBar: {
-            hideOnPlay: props.mode === 'video',
-            title: props.captionConf.title,
-            logoTitle: props.captionConf.logoTitle,
-            subtitle: props.captionConf.subtitle,
-            link: props.captionConf.link,
-            logo: 'Z'
-          }
-        }
-      })
     }
 
     // init/start
@@ -77,35 +108,20 @@ class VideoJS extends Component {
     this.toCallOnUnmount.push(player.destroy)
 
     // parent callbacks
-    player.ready(() => props.onReady(player))
+    player.ready(() => onReady(player))
   }
 
   componentWillUnmount() {
     this.toCallOnUnmount && this.toCallOnUnmount.forEach(f => isFunction(f) && f())
   }
   render() {
-    const { sources, children, mode, options, ...restProps } = this.props
-    if (!children && !sources) throw new TypeError()
+    const { sources, mode, options, ...restProps } = this.props
+    const { type, width, height, poster, preload, controls, className } = restProps
+    if (!sources) throw new TypeError()
 
-    const MediaTag = mode
-    const mediaProps = omit(
-      restProps,
-      'captionConf',
-      'isInternal',
-      'getUrl',
-      'onMount',
-      'onReady',
-      'doInit'
-    )
-
-    const classes = cx(
-      this.props.className,
-      'videojs',
-      'video-js',
-      'video-fluid',
-      'vjs-default-skin'
-    )
-
+    const MediaTag = mode // "audio" or "video"
+    const mediaProps = { type, width, height, poster, preload, controls }
+    const classes = cx(className, 'videojs', 'video-js', 'video-fluid', 'vjs-default-skin')
     const playerContent = (
       <MediaTag // eslint-disable-next-line react/no-string-refs
         ref="videojs"
@@ -113,10 +129,9 @@ class VideoJS extends Component {
         height={options.height}
         width={options.width}
         className={classes}>
-        {children ||
-          sources.map(src => (
-            <source key={src.key} {...omit(src, 'res')} data-resolution={src.res} />
-          ))}
+        {sources.map(src => (
+          <source key={src.key} {...omit(src, 'res')} data-resolution={src.res} />
+        ))}
       </MediaTag>
     )
 
@@ -130,56 +145,3 @@ class VideoJS extends Component {
 VideoJS.propTypes = propTypes
 VideoJS.defaultProps = defaultProps
 export default VideoJS
-
-// plugins
-
-function titleBarPlugin({ logo, logoTitle, title, subtitle, link, hideOnPlay = true }) {
-  const Dom = document.createElement.bind(document)
-  const player = this
-
-  const logoEl = Dom('span')
-  logoEl.title = logoTitle
-
-  const overlay = {
-    el: Dom('a'),
-    logo: logoEl,
-    caption: Dom('span'),
-    title: Dom('span'),
-    subtitle: Dom('span')
-  }
-  overlay.el.className = 'vjs-titlebar'
-  overlay.caption.className = 'vjs-titlebar-caption'
-  overlay.title.className = 'vjs-titlebar-title'
-  overlay.subtitle.className = 'vjs-titlebar-subtitle'
-  if (logo) {
-    overlay.logo.className = 'vjs-titlebar-logo'
-  }
-
-  overlay.el.href = link
-  overlay.el.target = '_blank'
-  overlay.el.rel = 'noreferrer noopener'
-
-  overlay.title.textContent = title
-  overlay.subtitle.textContent = subtitle
-  overlay.caption.appendChild(overlay.title)
-  overlay.caption.appendChild(overlay.subtitle)
-
-  overlay.el.appendChild(overlay.caption)
-  overlay.el.appendChild(overlay.logo)
-
-  player.el().appendChild(overlay.el)
-
-  // hide/show on play/pause
-  if (hideOnPlay) {
-    player.on('play', () => {
-      if (!/vjs-hidden/.test(overlay.el.className)) {
-        overlay.el.className += ' vjs-hidden'
-      }
-    })
-    player.on('pause', () => {
-      if (/vjs-hidden/.test(overlay.el.className)) {
-        overlay.el.className = overlay.el.className.replace(/\s?vjs-hidden/, '')
-      }
-    })
-  }
-}

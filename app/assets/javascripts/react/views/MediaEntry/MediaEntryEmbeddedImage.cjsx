@@ -3,8 +3,6 @@ f = require('active-lodash')
 cx = require('classnames')
 t = require('../../../lib/i18n-translate.js')
 
-MediaEntryPreview = require('../../decorators/MediaEntryPreview.jsx')
-
 module.exports = React.createClass
   displayName: 'Views.MediaEntryEmbeddedImage'
   propTypes:

@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react'
-import merge from 'lodash/merge'
+import React from 'react'
+import PropTypes from 'prop-types'
 
 import VideoJS from './VideoJs'
 
@@ -12,16 +12,9 @@ const VIDEOJS_OPTIONS = {
       'timeDivider',
       'durationDisplay',
       'progressControl',
-      // 'liveDisplay',
       'remainingTimeDisplay',
       'muteToggle',
       'volumeControl',
-      // 'playbackRateMenuButton',
-      // 'chaptersButton',
-      // 'descriptionsButton',
-      // 'subtitlesButton',
-      // 'captionsButton',
-      // 'audioTrackButton',
       'space',
       'customControlSpacer',
       'fullscreenToggle'
@@ -29,67 +22,34 @@ const VIDEOJS_OPTIONS = {
   }
 }
 
-// const WAVESURFER_OPTIONS = {
-//   debug: true,
-//   msDisplayMax: 10,
-//   normalize: true,
-//   // non-interactive
-//   interact: false,
-//   // save render time:
-//   // pixelRatio: 1,
-//   // design:
-//   height: 500,
-//   barWidth: 1,
-//   cursorWidth: 2,
-//   waveColor: '#7a9d29',
-//   progressColor: '#ccc',
-//   cursorColor: '#93bd31',
-//   hideScrollbar: true
-// }
-
 const propTypes = {
+  /** Soures of different type and quality (e.g. ogg, mp3) */
   sources: PropTypes.arrayOf(
     PropTypes.shape({
       url: PropTypes.string,
       content_type: PropTypes.string,
       profile: PropTypes.string
     })
-  )
+  ),
+  /** Options (geometry) */
+  options: PropTypes.shape({
+    fluid: PropTypes.bool,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    ratio: PropTypes.string
+  })
 }
 
 class AudioPlayer extends React.Component {
   constructor() {
     super()
   }
-  // // WIP wavesurfer:
-  // _doVideojsInit({ videoTag, videojs, playerOptions }) {
-  //   window.videojs = videojs
-  //   require('wavesurfer.js')
-  //   require('videojs-wavesurfer')
-  //   // const wavesurferPlugin = require('videojs-wavesurfer')
-  //   // videojs.plugin('wavesurfer', wavesurferPlugin)
-  //   const player = videojs(videoTag, playerOptions)
-  //
-  //   // init wavesurfer plugin. it needs the media file as well
-  //   // need to ask videojs to tell us what the HTML element selected selected
-  //   const selectedSource = player.currentSrc()
-  //   player.wavesurfer(merge({}, WAVESURFER_OPTIONS, { src: selectedSource }))
-  //   // debugger
-  //   player.ready(() => {
-  //     // console.log('player ready!', selectedSource)
-  //     player.currentSrc = () => 'videojs-wavesurfer'
-  //     player.src(null)
-  //   })
-  // }
-
-  render({ sources, ...props } = this.props) {
-    // const showHint = false
+  render({ sources, options, ...props } = this.props) {
     const videoSources = sources.map(source => ({
       src: source.url,
       type: source.content_type,
       key: `${source.url}${source.content_type}`
     }))
-
     return (
       <div style={{ margin: '0px', padding: '0px' }}>
         <VideoJS
@@ -97,8 +57,7 @@ class AudioPlayer extends React.Component {
           mode="audio"
           className="ui-audio-player"
           sources={videoSources}
-          options={merge(VIDEOJS_OPTIONS, props.options)}
-          // doInit={=> this._doVideojsInit()}
+          options={{ ...VIDEOJS_OPTIONS, ...options }}
         />
       </div>
     )
