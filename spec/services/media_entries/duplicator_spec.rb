@@ -57,6 +57,10 @@ describe MediaEntries::Duplicator do
       expect(new_media_entry).not_to eq(originator)
     end
 
+    it 'sets responsible user of the new entry to the user performing the operation' do
+      expect(new_media_entry.responsible_user).to eq user
+    end
+
     describe 'new MediaEntry' do
       describe 'copying timestamps' do
         context 'when copy_timestamps option is disabled' do
