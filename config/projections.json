@@ -1,0 +1,4 @@
+{ "datalayer/app/models/*.rb":
+  { "affinity": "model",
+    "command": "model"}
+}
