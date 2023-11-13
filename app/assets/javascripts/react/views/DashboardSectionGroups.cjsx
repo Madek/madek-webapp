@@ -24,7 +24,7 @@ module.exports = React.createClass
     }, (label, type) ->
       groups = f.map(sectionResources[type], (entry) ->
         {
-          children: entry.name,
+          children: entry.detailed_name,
           href: entry.url
         }
       )
