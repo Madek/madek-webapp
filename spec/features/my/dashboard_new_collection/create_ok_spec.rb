@@ -11,7 +11,7 @@ feature 'Dashboard: New Collection' do
         ok
       end
       expect(page).to have_content 'Test Create Set'
-      collection = Collection.by_title('Test Create Set')[0]
+      collection = Collection.search_with('Test Create Set')[0]
       expect(collection.responsible_user_id).to eq(@user.id)
       expect(current_path).to eq collection_path(collection)
     end

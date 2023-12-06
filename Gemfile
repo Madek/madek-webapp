@@ -63,6 +63,8 @@ gem 'rest-client', groups: [:test, :development]
 group :development do
   # gem 'binding_of_caller'
   gem 'ruby-prof'
+  gem 'solargraph'
+  gem 'solargraph-rails'
   gem 'zencoder-fetcher'
   # gem 'better_errors' # NOTE: including this breaks rails and pry in weird ways…
 end
