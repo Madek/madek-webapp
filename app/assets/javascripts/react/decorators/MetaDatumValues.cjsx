@@ -5,19 +5,18 @@ f = require('active-lodash')
 linkifyStr = require('linkifyjs/string')
 MadekPropTypes = require('../lib/madek-prop-types.coffee')
 resourceName = require('../lib/decorate-resource-names.coffee')
+linkifyInnerHtml = require('../lib/linkify-inner-html.coffee')
 t = require('../../lib/i18n-translate.js')
 UI = require('../ui-components/index.coffee')
 MetaDatumRolesCloud = require('./MetaDatumRolesCloud.js').default
+MetaDatumText = require('./MetaDatumText.js').default
 labelize = UI.labelize
 
 # Decorator for each type is single stateless-function-component,
 # the main/exported component just selects the right one.
 DecoratorsByType =
-  Text: ({values} = @props)->
-    # NOTE: the wrapping seems useless but is currently needed for styling
-    <ul className='inline measure-double'>
-      {values.map (string)->
-        <li key={string} dangerouslySetInnerHTML={linkifyInnerHtml(string)}/>}</ul>
+  Text: ({values, metaKeyId} = @props)->
+    <MetaDatumText values={values} allowReadMore={metaKeyId == 'madek_core:description'}/>
 
   TextDate: ({values} = @props)->
     <ul className='inline'>
@@ -89,22 +88,6 @@ module.exports = React.createClass
 
 
 # helpers
-
-## build html string with auto-generated links
-linkifyInnerHtml = (string)->
-  {__html: linkifyStr(string,
-    linkClass: 'link ui-link-autolinked'
-    linkAttributes:
-      rel: 'nofollow'
-    target: '_self'
-    nl2br: true # also takes care of linebreaks…
-    validate: { # only linkyify if it starts with 'http://' (etc) or 'www.'
-      url: (string) -> /^((http|ftp)s?:\/\/|www\.)/.test(string)
-    },
-    format: (value, type)->
-      if (type == 'url' && value.length > 50)
-        value = value.slice(0, 50) + '…'
-      return value)}
 
 prettifyJson = (obj)->
   try

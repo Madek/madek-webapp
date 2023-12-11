@@ -1,0 +1,73 @@
+.read-more__container {
+  position: relative;
+  margin-bottom: 2.5em;
+}
+
+.read-more__content {
+  max-height: 15em;
+  overflow: hidden;
+}
+
+.read-more__toggler {
+  position: absolute;
+  bottom: -1.85em;
+  left: 0;
+  right: 0;
+  text-align: left;
+  font-style: italic;
+}
+
+.read-more__dust {
+  background: transparent
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(255, 255, 255, 0.5) 40%,
+      rgba(255, 255, 255, 0.5) 60%,
+      rgba(255, 255, 255, 1) 100%
+    );
+  height: 3.4em;
+  margin-bottom: 0;
+}
+
+.read-more__container--open {
+  .read-more__content {
+    max-height: 10000px !important;
+    transition: max-height 1s ease-in-out;
+    overflow: auto;
+  }
+
+  .read-more__dust {
+    background: transparent !important;
+  }
+}
+
+// integration
+.midtone {
+  .read-more__dust {
+    background: transparent
+      linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(232, 232, 232, 0.5) 40%,
+        rgba(232, 232, 232, 0.5) 60%,
+        rgba(232, 232, 232, 1) 100%
+      );
+  }
+}
+
+.ui-metadata-box .media-data-content {
+  // because there is less line-height in this context
+  .read-more__content {
+    max-height: 12.3em;
+  }
+
+  .read-more__dust {
+    height: 3em;
+  }
+
+  // because there is less outside-given distance to next metadatum
+  .read-more__container {
+    margin-bottom: 2.8em;
+  }
+}
