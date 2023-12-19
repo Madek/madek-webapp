@@ -72,13 +72,13 @@ feature 'Resource: Collections' do
         click_on_tab I18n.t(:media_entry_tab_permissions)
         find('.primary-button', text: 'Bearbeiten').click
 
-        person_row = subject_row find_form, I18n.t(:permission_subject_title_users_or_delegations)
-        autocomplete_and_choose_first(person_row, @user.login)
+        user_row = subject_row find_form, I18n.t(:permission_subject_title_users_or_delegations)
+        autocomplete_and_choose_first(user_row, @user.login)
         find('.primary-button', text: 'Speichern').click
 
-        person_row = subject_row find_form, I18n.t(:permission_subject_title_users_or_delegations)
-        expect(person_row).to have_content(
-          @user.person.first_name + ' ' + @user.person.last_name)
+        user_row = subject_row find_form, I18n.t(:permission_subject_title_users_or_delegations)
+        expect(user_row).to have_content(
+          @user.first_name + ' ' + @user.last_name)
       end
 
       example 'is not shown when not logged in' do

@@ -110,7 +110,7 @@ def check_entry
   find('.tab-content')
     .find('.title-l', text: I18n.t(:usage_data_last_changes_title))
     .find(:xpath, './..')
-    .find('.ui-summary-content', text: @user.person.to_s)
+    .find('.ui-summary-content', text: @user.to_s)
 end
 
 def check_not_shown

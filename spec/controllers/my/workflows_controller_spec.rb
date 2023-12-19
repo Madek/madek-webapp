@@ -277,7 +277,7 @@ describe My::WorkflowsController do
 
       it 'updates common permissions' do
         workflow = create :workflow, creator: user
-        responsible_person = create :user
+        responsible_user = create :user
         group_1 = create :group
         group_2 = create :group
         api_client = create :api_client
@@ -288,7 +288,7 @@ describe My::WorkflowsController do
             id: workflow.id,
             workflow: {
               common_permissions: {
-                responsible: responsible_person.id,
+                responsible: responsible_user.id,
                 write: [
                   {
                     uuid: group_1.id,
@@ -309,9 +309,9 @@ describe My::WorkflowsController do
         )
 
         expect(permission_object(type: 'responsible'))
-          .to include('uuid' => responsible_person.id,
+          .to include('uuid' => responsible_user.id,
                       'type' => 'User',
-                      'label' => responsible_person.person.to_s)
+                      'label' => responsible_user.to_s)
 
         expect(permission_object(type: 'write').size).to eq(2)
         expect(permission_object(type: 'write').first)

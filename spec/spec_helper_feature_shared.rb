@@ -107,7 +107,7 @@ def sign_in_as(login, password = nil)
 
   # bail if already signed in
   return if page.document.all('.ui-header-user').try(:first)
-    .try(:text).try(:starts_with?, user.person.first_name)
+    .try(:text).try(:starts_with?, user.first_name)
 
   # for factory-created users, get their password; otherwise use static fallback
   unless password.present?

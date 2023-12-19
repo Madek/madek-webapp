@@ -39,7 +39,7 @@ module TransferResponsibilityShared
   end
 
   def user_to_string(user)
-    user.person.to_s
+    user.to_s
   end
 
   def check_error_message(message_key)

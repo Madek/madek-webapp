@@ -7,7 +7,7 @@ module Presenters
         if is_deactivated
           I18n.t(:user_name_deactivated)
         else
-          @app_resource.person.to_s
+          @app_resource.to_s
         end
       end
 

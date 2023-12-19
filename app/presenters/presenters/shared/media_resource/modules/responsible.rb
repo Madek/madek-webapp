@@ -10,11 +10,7 @@ module Presenters
             return unless entity
 
             if entity.instance_of?(User)
-              if entity.is_deactivated
-                ::Presenters::Users::UserIndex.new(entity)
-              else
-                ::Presenters::People::PersonIndex.new(entity.person)
-              end
+              ::Presenters::Users::UserIndex.new(entity)
             elsif entity.instance_of?(Delegation)
               ::Presenters::Delegations::DelegationIndex.new(entity)
             end

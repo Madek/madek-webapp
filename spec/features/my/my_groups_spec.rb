@@ -159,7 +159,7 @@ def member_name
 end
 
 def person_name(user)
-  user.person.first_name + ' ' + user.person.last_name
+  user.first_name + ' ' + user.last_name
 end
 
 def prepare_data

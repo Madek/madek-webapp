@@ -204,7 +204,7 @@ end
 
 def subject_name(subject)
   case subject.class.name
-  when 'User' then subject.person.to_s
+  when 'User' then subject.to_s
   when 'Group' then subject.name
   when 'ApiClient' then subject.login
   when 'Delegation' then subject.name

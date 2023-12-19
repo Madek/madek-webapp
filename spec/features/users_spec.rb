@@ -27,14 +27,14 @@ feature 'Users' do
     @entry.reload
 
     expect(current_path).to eq permissions_media_entry_path(@entry)
-    expect(page).to have_content(@another_user.person.to_s)
+    expect(page).to have_content(@another_user.to_s)
 
     deactivate_user(@another_user)
 
     page.evaluate_script('window.location.reload()')
 
     expect(page).to have_content(I18n.t(:user_name_deactivated))
-    expect(page).not_to have_content(@another_user.person.to_s)
+    expect(page).not_to have_content(@another_user.to_s)
   end
 
   def deactivate_user(user)

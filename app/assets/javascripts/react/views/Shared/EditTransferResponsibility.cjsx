@@ -49,8 +49,7 @@ module.exports = React.createClass
 
 
   handleEntitySelect: (entity) ->
-    if entity.uuid != @props.responsible?.uuid
-      @setState(selectedEntity: entity)
+    @setState(selectedEntity: entity)
 
   handleEntityClear: () ->
     @setState(selectedEntity: null)
@@ -119,7 +118,6 @@ module.exports = React.createClass
 
         <div style={@_displayBlockIf(!@state.selectedEntity)}>
           <AutoComplete
-            valueFilter={(value) => value.uuid == @props.responsible?.uuid}
             className='block'
             name={'transfer_responsibility[unused_look_at_the_hidden_user]'} resourceType={['Delegations', 'Users']}
             onSelect={@handleEntitySelect} searchParams={{search_also_in_person: true}}

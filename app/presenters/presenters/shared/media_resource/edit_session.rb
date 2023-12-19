@@ -24,8 +24,8 @@ module Presenters
         end
 
         def user
-          if @edit_session.user and @edit_session.user.person
-            Presenters::People::PersonIndex.new(@edit_session.user.person)
+          if @edit_session.user
+            Presenters::Users::UserIndex.new(@edit_session.user)
           end
         end
       end
