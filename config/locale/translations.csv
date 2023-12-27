@@ -231,7 +231,7 @@ embed_error_msg,"Dieser Inhalt kann nicht eingebettet werden.","This content can
 embed_error_msg_403,"Dieser Inhalt kann nicht eingebettet werden, weil die nötigen Berechtigungen fehlen.","This content cannot be embedded because the necessary permissions are missing.",
 embed_error_msg_404,"Der gewünschte Inhalt konnte nicht gefunden werden.","The requested content could not be found.",
 error_401_title,"Um Zugang zu diesem Bereich zu erhalten, melden Sie sich bitte an.",To get access please login below with your user data.,
-error_403_message,Bitte kontaktieren Sie die für den Medieneintrag oder das Sets verantwortliche Person.,Please contact the responsible user who has the right alllow access.,
+error_403_message,Bitte kontaktieren Sie die für die Ressource verantwortliche Person.,Please contact the responsible user for this resource.,
 error_403_title,Sie haben keine Zugriffsrechte für diesen Inhalt.,You don’t have the necessary permissions to access this resource.,
 error_404_title,Die gesuchte Seite kann nicht gefunden werden.,The requested page cannot be found.,
 error_500_message,"Benötigen Sie diesbezüglich Hilfe, dann kontaktieren Sie bitte den Support (%{support_email}) mit einer Beschreibung Ihrer letzten Arbeitsschritte sowie einem Screenshot dieser Seite.","If you require help in this matter, please contact the support (%{support_email}) with a description of your last working steps and a screen shot of this page.",
