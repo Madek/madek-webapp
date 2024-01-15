@@ -14,7 +14,7 @@ module Presenters
       end
 
       def page
-        Presenters::Vocabularies::VocabularyPage.new(@app_resource)
+        Presenters::Vocabularies::VocabularyPage.new(@app_resource, user: @user)
       end
     end
   end
