@@ -30,7 +30,7 @@ class VocabularyPolicy < DefaultPolicy
   end
 
   def people?
-    show?
+    logged_in? and show?
   end
 
   def contents?

@@ -6,6 +6,7 @@ require_relative '../shared/vocabulary_shared'
 include VocabularyShared
 
 feature 'Vocabulary people' do
+  let(:user) { User.find_by(login: 'normin') }
 
   scenario 'Check if shown' do
     create_vocabulary('vocabulary_a')
@@ -25,6 +26,10 @@ feature 'Vocabulary people' do
     )
 
     visit_vocabulary_people('vocabulary_a')
+
+    # not visible for public!
+    expect(page).to have_content I18n.t(:error_401_title)
+    sign_in_as user
 
     check_tabs(
       [
@@ -52,14 +57,26 @@ feature 'Vocabulary people' do
     )
   end
 
-  scenario 'Check if shown empty' do
+  scenario 'Check if shown empty (but tab is not shown when not on people route)' do
     create_vocabulary('vocabulary_a')
     visit_vocabulary_people('vocabulary_a')
+    sign_in_as user
+
     check_tabs(
       [
         { key: :vocabularies_tabs_vocabulary, active: false },
         { key: :vocabularies_tabs_people, active: true },
         { key: :vocabularies_tabs_contents, active: false },
+        { key: :vocabularies_tabs_permissions, active: false }
+      ]
+    )
+    
+    # tab is not shown when not on people route
+    visit vocabulary_contents_path('vocabulary_a')
+    check_tabs(
+      [
+        { key: :vocabularies_tabs_vocabulary, active: false },
+        { key: :vocabularies_tabs_contents, active: true },
         { key: :vocabularies_tabs_permissions, active: false }
       ]
     )

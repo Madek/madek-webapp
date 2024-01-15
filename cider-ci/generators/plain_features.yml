@@ -3956,13 +3956,14 @@
   name: "./spec/features/vocabulary/vocabulary_people_spec.rb[1:1]"
   description: Vocabulary people Check if shown
   environment_variables:
-    RSPEC_NAME: "./spec/features/vocabulary/vocabulary_people_spec.rb:10"
+    RSPEC_NAME: "./spec/features/vocabulary/vocabulary_people_spec.rb:11"
     RSPEC_TEST: "./spec/features/vocabulary/vocabulary_people_spec.rb[1:1]"
 "./spec/features/vocabulary/vocabulary_people_spec.rb[1:2]":
   name: "./spec/features/vocabulary/vocabulary_people_spec.rb[1:2]"
-  description: Vocabulary people Check if shown empty
+  description: Vocabulary people Check if shown empty (but tab is not shown when not
+    on people route)
   environment_variables:
-    RSPEC_NAME: "./spec/features/vocabulary/vocabulary_people_spec.rb:55"
+    RSPEC_NAME: "./spec/features/vocabulary/vocabulary_people_spec.rb:60"
     RSPEC_TEST: "./spec/features/vocabulary/vocabulary_people_spec.rb[1:2]"
 "./spec/features/vocabulary/vocabulary_permissions_spec.rb[1:1:1]":
   name: "./spec/features/vocabulary/vocabulary_permissions_spec.rb[1:1:1]"
@@ -3974,7 +3975,7 @@
   name: "./spec/features/vocabulary/vocabulary_permissions_spec.rb[1:1:2]"
   description: 'Resource: Vocabulary PermissionsShow custom Vocabulary'
   environment_variables:
-    RSPEC_NAME: "./spec/features/vocabulary/vocabulary_permissions_spec.rb:39"
+    RSPEC_NAME: "./spec/features/vocabulary/vocabulary_permissions_spec.rb:38"
     RSPEC_TEST: "./spec/features/vocabulary/vocabulary_permissions_spec.rb[1:1:2]"
 "./spec/features/vocabulary/vocabulary_routes_spec.rb[1:1]":
   name: "./spec/features/vocabulary/vocabulary_routes_spec.rb[1:1]"

@@ -19,6 +19,7 @@ module Presenters
       end
 
       def show_people
+        return unless @user.present?
         people_keys = @vocabulary.meta_keys.select do |meta_key|
           meta_key.meta_datum_object_type == 'MetaDatum::People'
         end
@@ -31,8 +32,10 @@ module Presenters
           vocabulary: prepend_url_context(vocabulary_path(@vocabulary)),
           vocabulary_keywords: prepend_url_context(
             vocabulary_keywords_path(@vocabulary)),
-          vocabulary_people: prepend_url_context(
-            vocabulary_people_path(@vocabulary)),
+          vocabulary_people: if @user.present? then 
+            prepend_url_context(
+              vocabulary_people_path(@vocabulary))
+            end,
           vocabulary_contents: prepend_url_context(
             vocabulary_contents_path(@vocabulary)),
           vocabulary_permissions: prepend_url_context(
