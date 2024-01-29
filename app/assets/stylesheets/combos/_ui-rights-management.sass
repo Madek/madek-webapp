@@ -10,7 +10,6 @@
     overflow-y: scroll
 
   tr, td, tr * , td *
-    // overide incomprehensibly ugly default table styles:
     vertical-align: middle !important
 
 .ui-rights-body
@@ -19,16 +18,19 @@
 .ui-rights-body > a.button
   margin-top: $space-s
 
-.ui-rights-group
+table.ui-rights-group
   width: 100%
+  max-width: 1400px
   table-layout: fixed
+
+table.ui-rights-group > tbody > tr:hover > td
+  background-color: #fdfdfd
 
 // Group Titles
 
-.ui-rights-user-title,
-.ui-rights-user
-  // TODO: width: 34%
-  width: 50%
+td.ui-rights-user-title,
+td.ui-rights-user
+  width: 46%
 
 .ui-rights-user-title
   font-size: $font-m
@@ -36,7 +38,8 @@
   .icon-privacy-group-alt,
   .icon-privacy-private-alt
     position: relative
-    top: 2px
+    top: -2px
+    left: 3px
 
 .ui-rights-role-title,
 .ui-rights-check-title
@@ -44,10 +47,14 @@
 
 .ui-rights-check-title,
 .ui-rights-check
-  +dimension(10%, auto)
+  width: 18%
+  padding: 5px
   line-height: $line-height-xs
   text-align: center
   font-size: $font-xs
+
+td.ui-rights-check-title
+  vertical-align: top !important
 
 .ui-rigths-check label
   margin-left: $space-m
@@ -68,13 +75,16 @@
 // User column
 
 .ui-rights-user .text
-  // constrain size and leave room for icon:
-  max-width: 90%
   // truncation/ellipsis:
+  max-width: 100%
   display: inline-block
   overflow: hidden
   text-overflow: ellipsis
   white-space: nowrap
+
+.ui-rights-management-editing .ui-rights-user .text
+  // leave room for X icon in edit mode:
+  max-width: 90%
 
 // Remove button
 
@@ -128,37 +138,22 @@
 .ui-right-overwritten-by-public
   display: none
 
-// public view overwrites all public view checks
+// ui rights check and its icons
+.ui-rights-check-container
+  position: relative
 
-.ui-rights-management.public-view
-  &.unmanageable .ui-rights-check.view label
-    opacity: 0.5
-  .ui-rights-management-users,
-  .ui-rights-management-groups,
-  .ui-rights-management-apiapps
-    .ui-rights-check.view
-      .ui-right-overwritten-by-public
-        display: inline-block
-        position: relative
-        top: 2px
-      label
-        display: none
+  .icon-privacy-open
+    font-size: 14px
+    position: absolute
+    right: -16px
+    top: 3px
+    color: #aaaaaa
 
-// public download overwrites all public download checks
-
-.ui-rights-management.public-download
-  &.unmanageable .ui-rights-check.download label
-    opacity: 0.5
-  .ui-rights-management-users,
-  .ui-rights-management-groups,
-  .ui-rights-management-apiapps
-    .ui-rights-check.download
-      .ui-right-overwritten-by-public
-        display: inline-block
-        position: relative
-        top: 2px
-      label
-        display: none
+  .pseudo-icon-dash
+    font-size: 14px
+    display: inline-block
+    width: 16px
+    user-select: none
 
 // ui rights check label
 

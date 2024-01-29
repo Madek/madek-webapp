@@ -92,7 +92,7 @@ module.exports = React.createClass
     {model, editing, saving} = @state
 
     GroupIndex = ({subject}) ->
-      <span className='text mrs'>
+      <span className='text mrs' title={subject.detailed_name}>
         {
           if subject.can_show
             <a href={subject.url}>{subject.detailed_name}</a>

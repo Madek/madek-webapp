@@ -157,7 +157,7 @@ PermissionsBySubjectType = React.createClass
     permissionTypes, overriddenBy, editing, showTitles, searchParams} = @props
     showTitles ||= false
 
-    <div className='ui-rights-management-users'>
+    <div className={'ui-rights-management-users' + if editing then ' ui-rights-management-editing'}>
       <div className='ui-rights-body'>
         <table className='ui-rights-group'>
           <PermissionsSubjectHeader name={title} icon={icon}
@@ -179,7 +179,7 @@ PermissionsBySubjectType = React.createClass
 
         {if editing and permissionsList.isCollection
           <div className='ui-add-subject ptx'>
-            <div className='col1of3' style={position: 'relative'}>
+            <div className='col1of3' style={position: 'relative', maxWidth: '300px'}>
               {if type? and AutoComplete
                 <AutoComplete
                   className='block'
@@ -262,29 +262,32 @@ PermissionsSubject = React.createClass
         curState = permissions[name] # true/false/mixed
         isOverridden = if overriddenBy then (overriddenBy[name] == true) else false
         title = t("permission_name_#{name}")
-        if isOverridden
-          title += ' ' + t('permission_overridden_by_public')
-        else if not isEnabled
-          title += ' ' + t('permission_disabled_for_subject')
 
         <td className='ui-rights-check view' key={name}>
-          <label className='ui-rights-check-label'>
-            {switch
-              when not isEnabled
+            {
+              if not isEnabled
                 # leave the field empty if permission is not possible:
                 null
-              when isOverridden
-                <i className='icon-privacy-open' title={title}/>
-              when editing
-                <TristateCheckbox checked={curState}
-                  onChange={f.curry(onPermissionChange)(name)}
-                  name={name} title={title}/>
-              when curState is true
-                <i className='icon-checkmark' title={title}/>
-              when curState is false
-                <i className='icon-close' title={title}/>
+              else
+                <span className="ui-rights-check-container">
+                  {if isOverridden
+                    title += ' ' + t('permission_overridden_by_public')
+                    <i className='icon-privacy-open' title={title} />
+                  }
+                  {if editing
+                    <label className='ui-rights-check-label' >
+                      <TristateCheckbox checked={curState}
+                        onChange={f.curry(onPermissionChange)(name)}
+                        name={name} title={title}/>
+                    </label>
+                  else
+                    if curState is true
+                      <i className='icon-checkmark' title={title} />
+                    else
+                      <span className='pseudo-icon-dash' title={title} >—</span>
+                  }
+                </span>
             }
-          </label>
         </td>
       }
     </tr>

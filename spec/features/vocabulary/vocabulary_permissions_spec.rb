@@ -74,6 +74,7 @@ feature 'Resource: Vocabulary' do
       within('.tab-content') do
         expect(page).to have_content I18n.t(:vocabulary_permissions_hint1)
         expect(page).to have_content I18n.t(:vocabulary_permissions_hint2)
+        binding.pry
         expect(displayed_permissions).to eq(
           'Nutzer/innen' => v.user_permissions.map do |p|
             { p.user.to_s =>
@@ -121,7 +122,7 @@ def displayed_permissions
           row.all('td.ui-rights-check').map.with_index do |perm, i|
             state = if perm.all('.icon-checkmark').first.present?
               true
-            elsif perm.all('.icon-close').first.present?
+            elsif perm.all('.pseudo-icon-dash').first.present?
               false
             end
             [titles[i], state]
