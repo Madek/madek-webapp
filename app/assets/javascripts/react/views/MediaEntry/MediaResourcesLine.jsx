@@ -6,44 +6,44 @@ import qs from 'qs'
 import t from '../../../lib/i18n-translate'
 import UI from '../../ui-components/index.coffee'
 
-const MediaResourcesLine = ({ children, resources }) =>
-  <div className='ui-container pbm'>
-    <div className='ui-container'>
-      {children && <div className='mbm'>{children}</div>}
-      <div className='ui-featured-entries small active'>
-        <ul className='ui-featured-entries-list'>
-          {f.map(resources, ({ uuid, url, title, image_url, media_type }) =>
-            <li key={uuid} className='ui-featured-entries-item'>
+const MediaResourcesLine = ({ children, resources }) => (
+  <div className="ui-container pbm">
+    <div className="ui-container">
+      {children && <div className="mbm">{children}</div>}
+      <div className="ui-featured-entries small active">
+        <ul className="ui-featured-entries-list">
+          {f.map(resources, ({ uuid, url, title, image_url, media_type }) => (
+            <li key={uuid} className="ui-featured-entries-item">
               <a
-                className={classList('ui-featured-entry', {[`is-${media_type}`]: !!media_type})}
+                className={classList('ui-featured-entry', { [`is-${media_type}`]: !!media_type })}
                 href={url}
-                title={title}
-              >
-                <img src={image_url} />
+                title={title}>
+                {image_url && <img src={image_url} />}
+                {media_type === 'audio' && <i className="ui_media-type-icon fa fa-file-audio-o" />}
               </a>
-              <ul className='ui-featured-entry-actions'>
-                <li className='ui-featured-entry-action'>
+              <ul className="ui-featured-entry-actions">
+                <li className="ui-featured-entry-action">
                   <a
-                    className='block'
+                    className="block"
                     href={makeBrowseUrl(url)}
-                    title={t('browse_entries_browse_link_title')}
-                  >
-                    <UI.Icon i='eye' />
+                    title={t('browse_entries_browse_link_title')}>
+                    <UI.Icon i="eye" />
                   </a>
                 </li>
               </ul>
             </li>
-          )}
+          ))}
         </ul>
       </div>
     </div>
-    <hr className='separator' />
+    <hr className="separator" />
   </div>
+)
 
 export default MediaResourcesLine
 
-const makeBrowseUrl = (url) => {
+const makeBrowseUrl = url => {
   const parsedUrl = parseUrl(url)
   const params = qs.parse(parsedUrl.query)
-  return parsedUrl.pathname.replace(/\/*$/, '') + '/browse?' + qs.stringify(params);
+  return parsedUrl.pathname.replace(/\/*$/, '') + '/browse?' + qs.stringify(params)
 }
