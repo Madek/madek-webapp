@@ -11,7 +11,8 @@ describe UsersController do
       get :index,
           params: {
             search_term: user.login,
-            format: :json }
+            format: :json },
+          session: { user_id: user.id }
 
       assert_response :success
       expect(response.content_type).to be == 'application/json; charset=utf-8'
@@ -25,7 +26,8 @@ describe UsersController do
           params: {
             search_term: user.person.first_name,
             search_also_in_person: true,
-            format: :json }
+            format: :json },
+          session: { user_id: user.id }
 
       assert_response :success
       expect(response.content_type).to be == 'application/json; charset=utf-8'
@@ -45,7 +47,8 @@ describe UsersController do
         get :index,
             params: {
               search_term: user.id,
-              format: :json }
+              format: :json },
+            session: { user_id: user.id }
 
         assert_response :success
         expect(response.content_type).to be == 'application/json; charset=utf-8'
@@ -63,7 +66,8 @@ describe UsersController do
         get :index,
             params: {
               search_term: "https://example.com/admin/users/#{user.id}/",
-              format: :json }
+              format: :json },
+            session: { user_id: user.id }
 
         assert_response :success
         expect(response.content_type).to be == 'application/json; charset=utf-8'
@@ -81,7 +85,8 @@ describe UsersController do
         get :index,
             params: {
               search_term: user.email,
-              format: :json }
+              format: :json },
+            session: { user_id: user.id }
 
         assert_response :success
         expect(response.content_type).to be == 'application/json; charset=utf-8'
@@ -99,7 +104,8 @@ describe UsersController do
         get :index,
             params: {
               search_term: user.login,
-              format: :json }
+              format: :json },
+            session: { user_id: user.id }
 
         expect(response).to be_successful
         expect(response.content_type).to eq 'application/json; charset=utf-8'
@@ -112,7 +118,8 @@ describe UsersController do
             params: {
               search_term: user.person.first_name,
               search_also_in_person: true,
-              format: :json }
+              format: :json },
+            session: { user_id: user.id }
 
         expect(response).to be_successful
         expect(response.content_type).to eq 'application/json; charset=utf-8'

@@ -5,6 +5,10 @@ class MetaKeyPolicy < DefaultPolicy
     end
   end
 
+  def index?
+    logged_in?
+  end 
+
   def use_in_md?
     if logged_in?
       vocabulary.usable_by_user?(user)

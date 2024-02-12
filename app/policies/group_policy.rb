@@ -1,5 +1,9 @@
 class GroupPolicy < DefaultPolicy
 
+  def index?
+    logged_in?
+  end
+
   def show?
     logged_in? and group_member?
   end

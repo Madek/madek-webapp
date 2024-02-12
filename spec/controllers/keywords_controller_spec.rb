@@ -96,7 +96,9 @@ describe KeywordsController do
       # 4. position of string inside of term
       # 5. in case of same position then alphabetic
 
-      truncate_tables
+      #truncate_tables
+      #restore_seeds
+
       vocab = FactoryBot.create(:vocabulary,
                                  id: Faker::Lorem.characters(number: 5),
                                  enabled_for_public_view: true)
@@ -132,7 +134,8 @@ describe KeywordsController do
           params: {
             search_term: 'pi',
             meta_key_id: meta_key.id,
-            format: :json }
+            format: :json },
+          session: { user_id: user.id }
 
       result = JSON.parse(response.body)
       expect(result.map { |k| k['label'] }).to be == sorted_labels
