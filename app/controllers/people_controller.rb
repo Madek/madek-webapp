@@ -2,6 +2,7 @@ class PeopleController < ApplicationController
   include Concerns::JSONSearch
 
   def index
+    auth_authorize :person
     get_and_respond_with_json
   end
 

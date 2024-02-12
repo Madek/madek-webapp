@@ -1,5 +1,9 @@
 class UserPolicy < DefaultPolicy
 
+  def index?
+    logged_in?
+  end
+  
   def toggle_uberadmin?
     user.admin?
   end

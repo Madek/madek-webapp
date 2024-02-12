@@ -4,6 +4,7 @@ class KeywordsController < ApplicationController
   include Modules::Keywords::SortByMatchRelevance
 
   def index
+    auth_authorize :keyword
     get = prepare_array_of_presenter_dumps
     get = sort_by_match_relevance(get) if params[:search_term]
     respond_with get

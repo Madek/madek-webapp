@@ -2,6 +2,7 @@ class RolesController < ApplicationController
   include Concerns::JSONSearch
 
   def index
+    auth_authorize :role
     get_and_respond_with_json
   end
 

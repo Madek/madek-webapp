@@ -1,5 +1,9 @@
 class KeywordPolicy < DefaultPolicy
 
+  def index?
+    logged_in?
+  end
+
   def show?
     record.meta_key.vocabulary.viewable_by_user?(user)
   end

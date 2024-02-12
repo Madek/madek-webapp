@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   include Concerns::UserListParams
 
   def index
+    auth_authorize :user
     get_and_respond_with_json
   end
 
