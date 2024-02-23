@@ -146,8 +146,8 @@ jobs:
         - path: cider-ci/context-components/env.yml
         - submodule: [datalayer]
           path: cider-ci/context-components/merge-checks.yml
-    depends_on:
+    depends_on: &GOOD_TO_MERGE_DEPS
       all-tests: { job_key: all-tests, type: job, states: [passed] }
       good to merge of the datalayer:
         { job_key: good-to-merge, type: job, submodule: [datalayer], states: [passed] }
-
+    run_when: *GOOD_TO_MERGE_DEPS
