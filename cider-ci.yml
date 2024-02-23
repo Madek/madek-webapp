@@ -149,5 +149,22 @@ jobs:
     depends_on: &GOOD_TO_MERGE_DEPS
       all-tests: { job_key: all-tests, type: job, states: [passed] }
       good to merge of the datalayer:
-        { job_key: good-to-merge, type: job, submodule: [datalayer], states: [passed] }
+        { job_key: merged-to-master, type: job, submodule: [datalayer], states: [passed] }
     run_when: *GOOD_TO_MERGE_DEPS
+
+  merged-to-master:
+    name: "Merged to master"
+    depends_on:
+      master branch matches:
+        type: branch
+        include_match: ^master$
+    run_when:
+      master branch matches:
+        type: branch
+        include_match: ^master$
+    context:
+      tasks:
+        merged-to-master:
+          scripts:
+            test:
+              body: "exit 0"
