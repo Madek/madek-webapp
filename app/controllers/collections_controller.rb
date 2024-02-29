@@ -23,7 +23,9 @@ class CollectionsController < ApplicationController
       current_user,
       can_filter: true,
       disable_file_search: true,
-      list_conf: collections_list_params))
+      list_conf: collections_list_params, 
+      sub_filters: { context_key_id: params[:context_key_id], search_term: params[:search_term] }
+    ))
   end
 
   def context
@@ -55,7 +57,8 @@ class CollectionsController < ApplicationController
         children_list_conf: children_list_conf,
         context_id: determine_context_id(collection),
         load_meta_data: false,
-        section_meta_key_id: settings.section_meta_key_id
+        section_meta_key_id: settings.section_meta_key_id,
+        sub_filters: { context_key_id: params[:context_key_id], search_term: params[:search_term] }
     respond_with @get
   end
 

@@ -6,12 +6,14 @@ module Presenters
         app_resource,
         user,
         resources_type,
-        list_conf)
+        list_conf,
+        sub_filters)
 
         @app_resource = app_resource
         @user = user
         @resources_type = resources_type
         @list_conf = list_conf
+        @sub_filters = sub_filters
       end
 
       def group
@@ -31,7 +33,8 @@ module Presenters
           @user,
           can_filter: true,
           list_conf: @list_conf,
-          content_type: content_type
+          content_type: content_type,
+          sub_filters: @sub_filters
         )
 
         check_for_try_collection(resources, clazz)

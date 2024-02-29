@@ -40,7 +40,8 @@ class VocabulariesController < ApplicationController
     resources_type = params.permit(:type).fetch(:type, nil)
 
     @get = Presenters::Vocabularies::VocabularyContents.new(
-      vocabulary, current_user, resource_list_by_type_param, resources_type
+      vocabulary, current_user, resource_list_by_type_param, resources_type, 
+      { context_key_id: params[:context_key_id], search_term: params[:search_term] }
     )
 
     respond_with(@get)

@@ -84,13 +84,22 @@
   clear: both !important
   color: #333333 !important
   border-bottom: 1px solid $mono-bright !important
-  display: block !important
+  display: block
   font-weight: normal !important
   line-height: 20px !important
   padding: 3px 20px !important
   overflow: hidden !important
   text-overflow: ellipsis !important
   white-space: nowrap !important
+  &--with-number
+    display: flex !important
+    justify-content: space-between
+  &__label
+    flex: 1 1 auto
+  &__number
+    flex: 0 0 auto
+    padding-left: 20px
+    margin-right: -10px
 
 .ui-autocomplete-override-sidebar:hover
   background-color: #0081C2 !important

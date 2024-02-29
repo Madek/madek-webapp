@@ -15,6 +15,7 @@ module Presenters
       end
 
       def children(values = @values)
+        max_people = 20
         values
           .group_by { |v| v['context_key_id'] }
           .map.with_index do |bundle, index|
@@ -22,13 +23,28 @@ module Presenters
             children_attrs = ['uuid', 'count', 'label', 'type']
             context_key = Presenters::ContextKeys::ContextKeyCommon.new(
               ContextKey.find(context_key_id))
+            tmp_children = values.map { |v| v.slice(*children_attrs) }
+
+            # Limit People
+            too_many_hits = (context_key.meta_key.value_type == 'MetaDatum::People' || 
+                            context_key.meta_key.value_type == 'MetaDatum::Roles') &&
+                            tmp_children.filter{ |v| v["type"] == "person" }.count > max_people
+            tmp_children = if too_many_hits
+                             tmp_children.filter{ |v| v["type"] == "person" }.take(max_people) +
+                               tmp_children.filter{ |v| v["type"] == "role" }
+                           else
+                             tmp_children
+                           end
+
             {
               type: :MetaKey,
               uuid: context_key.meta_key_id,
               position: context_key.position,
               label: context_key.label || context_key.id,
-              children: values.map { |v| v.slice(*children_attrs) },
-              has_roles: context_key.meta_key.can_have_roles?
+              children: tmp_children,
+              context_key_id: context_key_id,
+              meta_datum_object_type: context_key.meta_key.value_type,
+              too_many_hits: too_many_hits ? true : nil
             }
           end
           .sort { |x, y| x[:position] <=> y[:position] }

@@ -207,6 +207,7 @@ dynamic_filters_search_for_api_client_placeholder,Suche nach API-Applikation,Sea
 dynamic_filters_search_for_delegation_placeholder,Suche nach Gruppe...,Search for group...,
 dynamic_filters_search_for_group_placeholder,Suche nach Gruppe...,Search for group...,
 dynamic_filters_search_for_user_placeholder,Suche nach User...,Search for user...,
+dynamic_filters_search_for,Suche nach,Search for,
 edit_custom_urls_back_to_collection,Zurück zum Set,Back to the set,
 edit_custom_urls_back_to_media_entry,Zurück zum Medieneintrag,Back to the media entry,
 edit_custom_urls_cancel,Abbrechen,Cancel,

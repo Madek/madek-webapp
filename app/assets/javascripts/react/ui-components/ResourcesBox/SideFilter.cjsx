@@ -11,6 +11,7 @@ MadekPropTypes = require('../../lib/madek-prop-types.coffee')
 Icon = require('../Icon.cjsx')
 Link = require('../Link.cjsx')
 UserFilter = require('./UserFilter.cjsx')
+PersonFilter = require('./PersonFilter.js').default
 
 Preloader = require('../Preloader.cjsx')
 
@@ -119,9 +120,7 @@ module.exports = React.createClass
       (group) =>
         key = group.key
 
-        jsonPath = @props.jsonPath
-        jsonPath = jsonPath.substring(0, jsonPath.length - 'resources'.length)
-        jsonPath += 'dynamic_filters.' + key
+        jsonPath = getJsonPath(@props.jsonPath, key)
 
         loadXhr(
           {
@@ -277,21 +276,51 @@ module.exports = React.createClass
             <ul className={togglebodyClass}></ul>
 
         else
-          <ul className={togglebodyClass}>
-            {
-              if isOpen
-                if child.hasRoles
-                  f.map(f.groupBy(child.children, 'type'), (children, type) =>
-                    @renderGroupedItems(parent.uuid, current, child, type, children, filterType)
-                  )
-                else
-                  f.map(child.children, (item)=>
-                    @renderItem(parent.uuid, current, child, item, filterType)
-                  )
-            }
-          </ul>
+          if isOpen
+            switch child.metaDatumObjectType
+              when 'MetaDatum::People'
+                @renderPersonSelect(current, child, child.children, filterType, togglebodyClass, false)
+              when 'MetaDatum::Roles'
+                f.map(['person', 'role'], (type) =>
+                  items = child.children.filter((x) => x.type == type)
+                  if items.length == 0 then return false
+                  if type == 'person'
+                    @renderPersonSelect(current, child, items, filterType, togglebodyClass, true)
+                  else
+                    <ul className={togglebodyClass} key="role">
+                      <li className='ui-side-filter-lvl3-item ptx plm' style={{'fontSize': '12px'}}><strong>{t("dynamic_filters_role_header")}</strong></li>
+                      {
+                        f.map(items, (item)=>
+                          @renderItem(parent.uuid, current, child, item, filterType)
+                        )
+                      }
+                    </ul>
+                )
+              else
+                <ul className={togglebodyClass}>
+                  {
+                    f.map(child.children, (item)=>
+                      @renderItem(parent.uuid, current, child, item, filterType)
+                    )
+                  }
+                </ul>
       }
     </li>
+
+  renderPersonSelect: (current, child, items, filterType, className, withTitle) ->
+    onSelect = (person) => @addItemFilter(@props.onChange, current, child, person, filterType)
+    onClear = (person) => @removeItemFilter(@props.onChange, current, child, person, filterType)
+    jsonPath = getJsonPath(@props.jsonPath, 'section_group_meta_data')
+    <PersonFilter key="person" 
+      label={child.label}
+      contextKeyId={child.contextKeyId}
+      tooManyHits={child.tooManyHits}
+      staticItems={items}
+      onSelect={onSelect}
+      onClear={onClear}
+      className={className}
+      withTitle={withTitle}
+      jsonPath={jsonPath} />
 
   renderResponsibleUser: (node, parentUuid, current, parent, filterType, togglebodyClass) ->
 
@@ -321,13 +350,6 @@ module.exports = React.createClass
       if item.selected then @removeItemFilter(onChange, current, parent, item, filterType) else @addItemFilter(onChange, current, parent, item, filterType)
 
     <FilterItem parentUuid={parentUuid} {...item} key={item.uuid} onClick={addRemoveClick}/>
-
-  renderGroupedItems: (parentUuid, current, child, type, children, filterType) ->
-    items = f.map(children, (item) =>
-      @renderItem(parentUuid, current, child, item, filterType)
-    )
-    items.unshift(<li className='ui-side-filter-lvl3-item ptx plm' style={{'fontSize': '12px'}}><strong>{t("dynamic_filters_#{type}_header")}</strong></li>)
-    items
 
   createToggleSubSection: (filterType, parent, child, isOpen) ->
 
@@ -500,7 +522,7 @@ initializeSections = (dynamicFilters) ->
 
 initializeSubSections = (filters) ->
   f.map(filters, (filter) ->
-    { children, label, uuid, multi, has_roles } = filter
+    { children, label, uuid, multi, context_key_id, meta_datum_object_type, too_many_hits } = filter
     {
       children: initializeItems(children)
       label
@@ -510,7 +532,9 @@ initializeSubSections = (filters) ->
       # If the presenter does not set the value at all, it is undefined,
       # and therefore it is set to true here.
       multi: true unless multi is false
-      hasRoles: has_roles
+      contextKeyId: context_key_id,
+      metaDatumObjectType: meta_datum_object_type,
+      tooManyHits: too_many_hits
     }
   )
 
@@ -525,3 +549,9 @@ initializeItems = (filters) ->
       type
     }
   )
+
+getJsonPath = (baseJsonPath, key) -> 
+  jsonPath = baseJsonPath
+  jsonPath = jsonPath.substring(0, jsonPath.length - 'resources'.length)
+  jsonPath += 'dynamic_filters.' + key
+  return jsonPath

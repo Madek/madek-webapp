@@ -3,11 +3,12 @@ module Presenters
     class VocabularyContents < Presenter
       include AuthorizationSetup
 
-      def initialize(vocabulary, user, list_conf, resources_type)
+      def initialize(vocabulary, user, list_conf, resources_type, sub_filters)
         @vocabulary = vocabulary
         @user = user
         @list_conf = list_conf
         @resources_type = resources_type
+        @sub_filters = sub_filters
       end
 
       def vocabulary
@@ -39,7 +40,8 @@ module Presenters
           @user,
           can_filter: true,
           list_conf: @list_conf,
-          content_type: content_type
+          content_type: content_type,
+          sub_filters: @sub_filters
         )
       end
 

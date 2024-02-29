@@ -26,7 +26,7 @@ describe Presenters::People::PersonShow do
 
   it_can_be 'dumped' do
     let(:presenter) do
-      described_class.new(@person, @user, nil, {})
+      described_class.new(@person, @user, nil, {}, nil)
     end
   end
 
@@ -36,7 +36,7 @@ describe Presenters::People::PersonShow do
     FactoryBot.create(
       :meta_datum_people, media_entry: entry, people: [@person])
 
-    presenter = described_class.new(@person, @user, nil, {})
+    presenter = described_class.new(@person, @user, nil, {}, nil)
     dump = presenter.dump
 
     related_resources = dump[:resources][:resources]

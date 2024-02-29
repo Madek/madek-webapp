@@ -56,7 +56,8 @@ class PeopleController < ApplicationController
       person,
       current_user,
       resources_type,
-      resource_list_by_type_param
+      resource_list_by_type_param,
+      { context_key_id: params[:context_key_id], search_term: params[:search_term] } 
     )
   end
 end

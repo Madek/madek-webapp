@@ -34,7 +34,8 @@ module Presenters
             disable_file_search: false,
             json_path: nil,
             content_type: nil,
-            part_of_workflow: false)
+            part_of_workflow: false,
+            sub_filters: nil)
           fail 'missing config!' unless list_conf or list_conf[:for_url].present?
           @user = user
           @scope = scope
@@ -52,6 +53,7 @@ module Presenters
           @json_path = json_path
           @content_type = content_type
           @part_of_workflow = part_of_workflow
+          @sub_filters = sub_filters
           init_resources_and_pagination(@scope, @conf)
         end
 
@@ -83,7 +85,7 @@ module Presenters
             @conf[:filter] ? @scope.filter_by(@user, @conf[:filter]) : @scope
           tree = @conf[:dyn_filter]
           Presenters::Shared::DynamicFilters.new(
-            @user, scope, tree, @conf[:filter]
+            @user, scope, tree, @conf[:filter], @sub_filters
           )
         end
 

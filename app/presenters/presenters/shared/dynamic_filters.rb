@@ -10,12 +10,13 @@ module Presenters
     class DynamicFilters < Presenter
       include Presenters::Shared::Modules::VocabularyConfig
 
-      def initialize(user, scope, tree, existing_filters)
+      def initialize(user, scope, tree, existing_filters, sub_filters)
         @user = user
         @scope = scope
         @tree = tree || {}
         @resource_type = scope.model or fail 'TypeError! (Expected AR Scope)'
         @existing_filters = existing_filters
+        @sub_filters = sub_filters || {}
       end
 
       def section_group_media_files
@@ -23,7 +24,7 @@ module Presenters
       end
 
       def section_group_meta_data
-        meta_data(@scope, @tree)
+        meta_data(@scope, @tree, @sub_filters)
       end
 
       def section_group_permissions
@@ -299,13 +300,14 @@ module Presenters
         SQL
       end
 
-      def meta_data(scope, _tree)
+      def meta_data(scope, _tree, sub_filters)
         # TODO: ui_context_list = contexts_for_dynamic_filters (when in Admin UI)
         ui_context_list = _contexts_for_dynamic_filters # from VocabularyConfig
         return unless ui_context_list.present?
         ui_context_list_ids = ui_context_list.map(&:id)
         values = FilterBarQuery.get_metadata_unsafe(
-          @resource_type, scope, ui_context_list, @user)
+          @resource_type, scope, ui_context_list, @user, sub_filters
+        )
         values
           .group_by { |v| v['context_id'] }
           .sort_by { |bundle| ui_context_list_ids.index(bundle[0]) }

@@ -7,12 +7,14 @@ module Presenters
           user,
           user_scopes,
           list_conf: nil,
-          load_meta_data: false)
+          load_meta_data: false,
+          sub_filters: nil)
           super(app_resource)
           @user = user
           @user_scopes = user_scopes
           @list_conf = list_conf
           @load_meta_data = load_meta_data
+          @sub_filters = sub_filters
         end
 
         def any?
@@ -26,7 +28,8 @@ module Presenters
             @user,
             can_filter: true,
             list_conf: @list_conf,
-            content_type: Collection)
+            content_type: Collection, 
+            sub_filters: @sub_filters)
         end
 
         def sibling_collections
@@ -38,7 +41,8 @@ module Presenters
             @user,
             can_filter: true,
             list_conf: @list_conf,
-            content_type: Collection)
+            content_type: Collection,
+            sub_filters: @sub_filters)
         end
       end
     end

@@ -17,7 +17,8 @@ module Presenters
         list_conf: nil,
         show_collection_selection: false,
         search_term: '',
-        section_meta_key_id: nil)
+        section_meta_key_id: nil,
+        sub_filters: nil)
 
         super(app_resource, user)
         @user_scopes = user_scopes
@@ -35,6 +36,7 @@ module Presenters
             action
           end
         @action = action
+        @sub_filters = sub_filters
       end
 
       def collection_selection
@@ -176,7 +178,7 @@ module Presenters
       # NOTE: used by tab helper, because tab should not be shown if no relations
       def _relations
         @_relations ||= Presenters::Shared::MediaResource::MediaResourceRelations
-          .new(@app_resource, @user, @user_scopes, list_conf: @list_conf)
+          .new(@app_resource, @user, @user_scopes, list_conf: @list_conf, sub_filters: @sub_filters)
       end
 
       def tabs_config

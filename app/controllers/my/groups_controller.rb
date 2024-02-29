@@ -42,7 +42,8 @@ class My::GroupsController < ApplicationController
         group,
         current_user,
         resources_type,
-        resource_list_by_type_param)
+        resource_list_by_type_param,
+        { context_key_id: params[:context_key_id], search_term: params[:search_term] })
     )
   rescue ActiveRecord::RecordNotFound
     try_redirect_to_subsequent_resource { |resource| my_group_path(resource) }

@@ -27,7 +27,7 @@ class MediaEntriesController < ApplicationController
 
   def index
     resources = auth_policy_scope(current_user, model_klass)
-    @get = presenterify(resources, nil)
+    @get = presenterify(resources, nil, sub_filters: { context_key_id: params[:context_key_id], search_term: params[:search_term] })
 
     if !media_files_filter? && @get.resources.empty?
       collections = auth_policy_scope(current_user, Collection)
@@ -50,7 +50,8 @@ class MediaEntriesController < ApplicationController
       user_scopes_for_media_resource(media_entry),
       action: action_name,
       list_conf: resource_list_params,
-      section_meta_key_id: settings.section_meta_key_id)
+      section_meta_key_id: settings.section_meta_key_id,
+      sub_filters: { context_key_id: params[:context_key_id], search_term: params[:search_term] })
     respond_with(@get)
   end
 

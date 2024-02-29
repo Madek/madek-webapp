@@ -6,11 +6,12 @@ module Presenters
       delegate_to_app_resource :first_name, :last_name, :to_s, :description,
                                :external_uris
 
-      def initialize(app_resource, user, resources_type, list_conf)
+      def initialize(app_resource, user, resources_type, list_conf, sub_filters)
         super(app_resource)
         @user = user
         @resources_type = resources_type
         @list_conf = list_conf
+        @sub_filters = sub_filters
       end
 
       def resources
@@ -23,7 +24,8 @@ module Presenters
           @user,
           can_filter: true,
           list_conf: @list_conf,
-          content_type: content_type
+          content_type: content_type, 
+          sub_filters: @sub_filters
         )
 
         check_for_try_collection(resources, klass)
@@ -70,7 +72,8 @@ module Presenters
             @user,
             can_filter: true,
             list_conf: @list_conf,
-            content_type: content_type
+            content_type: content_type,
+            sub_filters: @sub_filters
           )
           if try_resources.any?
             resources.try_collections = true

@@ -8,14 +8,15 @@ module Presenters
         contents_path,
         user,
         resources_type,
-        list_conf)
-
+        list_conf,
+        sub_filters)
         @vocabulary = vocabulary
         @keyword = keyword
         @contents_path = contents_path
         @user = user
         @resources_type = resources_type
         @list_conf = list_conf
+        @sub_filters = sub_filters
       end
 
       attr_accessor :contents_path
@@ -32,7 +33,7 @@ module Presenters
 
       def keyword
         Presenters::Keywords::KeywordShow.new(
-          @user, @keyword, @resources_type, @list_conf)
+          @user, @keyword, @resources_type, @list_conf, @sub_filters)
       end
 
     end

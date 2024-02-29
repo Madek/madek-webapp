@@ -5,11 +5,12 @@ module Presenters
 
       delegate_to_app_resource :description, :rdf_class
 
-      def initialize(user, app_resource, resources_type, list_conf)
+      def initialize(user, app_resource, resources_type, list_conf, sub_filters)
         super(app_resource)
         @resources_type = resources_type
         @list_conf = list_conf
         @user = user
+        @sub_filters = sub_filters
       end
 
       def external_uris
@@ -30,7 +31,8 @@ module Presenters
           @user,
           can_filter: true,
           list_conf: @list_conf,
-          content_type: content_type
+          content_type: content_type, 
+          sub_filters: @sub_filters
         )
 
         check_for_try_collection(resources, clazz)
@@ -69,7 +71,8 @@ module Presenters
             @user,
             can_filter: false,
             list_conf: @list_conf,
-            content_type: content_type
+            content_type: content_type, 
+            sub_filters: @sub_filters
           )
           if try_resources.any?
             resources.try_collections = true

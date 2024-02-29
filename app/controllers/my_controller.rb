@@ -60,7 +60,8 @@ class MyController < ApplicationController
       disable_file_search: type_filter != 'entries',
       only_filter_search: !['entries', 'collections'].include?(type_filter),
       content_type: content_type,
-      json_path: 'section_content.resources.resources'
+      json_path: 'section_content.resources.resources',
+      sub_filters: { context_key_id: params[:context_key_id], search_term: params[:search_term] }
     )
   end
 
@@ -165,7 +166,8 @@ class MyController < ApplicationController
       action: params[:action],
       is_async_attribute: is_async_attribute,
       json_path: json_path,
-      type_filter: params.permit(:type).fetch(:type, nil)
+      type_filter: params.permit(:type).fetch(:type, nil),
+      sub_filters: { context_key_id: params[:context_key_id], search_term: params[:search_term] }
     )
   end
 end

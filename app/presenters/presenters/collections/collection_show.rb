@@ -23,7 +23,8 @@ module Presenters
                      show_collection_selection: false,
                      search_term: '',
                      load_meta_data: false,
-                     section_meta_key_id: nil)
+                     section_meta_key_id: nil,
+                     sub_filters: nil)
         super(app_resource, user)
         @user_scopes = user_scopes
         @type_filter = type_filter
@@ -40,6 +41,7 @@ module Presenters
         @action = action
         @context_id = context_id
         @active_tab = determine_active_tab
+        @sub_filters = sub_filters
       end
 
       attr_reader :action
@@ -110,7 +112,8 @@ module Presenters
           disable_file_search: @type_filter != 'entries',
           only_filter_search: !['entries', 'collections'].include?(@type_filter),
           content_type: content_type,
-          part_of_workflow: part_of_workflow?
+          part_of_workflow: part_of_workflow?,
+          sub_filters: @sub_filters
         )
       end
 
@@ -262,7 +265,8 @@ module Presenters
           @user,
           @user_scopes,
           list_conf: @list_conf,
-          load_meta_data: @load_meta_data)
+          load_meta_data: @load_meta_data, 
+          sub_filters: @sub_filters)
 
         case action
         when 'relation_siblings' then all_three.sibling_collections

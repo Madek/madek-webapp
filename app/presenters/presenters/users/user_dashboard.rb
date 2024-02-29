@@ -14,7 +14,8 @@ module Presenters
             action: nil,
             is_async_attribute: false,
             json_path: nil,
-            type_filter: nil
+            type_filter: nil,
+            sub_filters: nil
       )
         fail 'TypeError!' unless user.is_a?(User)
         @user = user
@@ -28,6 +29,7 @@ module Presenters
         @is_async_attribute = is_async_attribute
         @json_path = json_path
         @type_filter = type_filter
+        @sub_filters = sub_filters
       end
 
       attr_reader :dashboard_header
@@ -172,7 +174,8 @@ module Presenters
           with_count: @with_count,
           disable_file_search: disable_file_search,
           only_filter_search: only_filter_search,
-          json_path: @json_path
+          json_path: @json_path, 
+          sub_filters: @sub_filters
         )
       end
 
