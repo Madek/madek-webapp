@@ -3650,49 +3650,49 @@
   description: Collection - transfer responsibility successful transfer responsibility
     for collection
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb:49"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb:50"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:3]"
 "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:4]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:4]"
   description: Collection - transfer responsibility transfer responsibility to delegation
     and leave user with view & edit permissions
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb:64"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb:65"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:4]"
 "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:5]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:5]"
   description: Collection - transfer responsibility transfer responsibility to delegation
     and leave user with no permissions
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb:80"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb:81"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:5]"
 "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:6:1]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:6:1]"
   description: Collection - transfer responsibility collection without public rights
     transfer responsibility to delegation and leave user with no permissions
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb:101"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb:102"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:6:1]"
 "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:6:2]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:6:2]"
   description: Collection - transfer responsibility collection without public rights
     transfer responsibility to delegation and leave user with view permission
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb:113"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb:114"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:6:2]"
 "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:6:3]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:6:3]"
   description: Collection - transfer responsibility collection without public rights
     transfer responsibility to delegation and leave user with view & edit permissions
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb:124"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb:125"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:6:3]"
 "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:6:4]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:6:4]"
   description: Collection - transfer responsibility collection without public rights
     transfer responsibility to delegation and leave user with all permissions
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb:135"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb:136"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:6:4]"
 "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:6:5:1]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:6:5:1]"
@@ -3700,14 +3700,14 @@
     when user belongs to the delegation transfer responsibility to delegation and
     leave user with no permissions
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb:148"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb:149"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:6:5:1]"
 "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:7]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:7]"
   description: Collection - transfer responsibility batch transfer responsibility
     for collections
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb:162"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb:163"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:7]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:1]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:1]"
@@ -3727,56 +3727,56 @@
   description: Media Entry - transfer responsibility successful transfer responsibility
     for media entry
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:51"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:52"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:3]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:4]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:4]"
   description: Media Entry - transfer responsibility transfer responsibility to delegation
     and leave user with view permission
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:66"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:67"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:4]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:5]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:5]"
   description: Media Entry - transfer responsibility transfer responsibility to delegation
     and leave user with view & download permissions
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:82"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:83"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:5]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:6]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:6]"
   description: Media Entry - transfer responsibility transfer responsibility to delegation
     and leave user with all permissions except manage
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:98"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:99"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:6]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:7]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:7]"
   description: Media Entry - transfer responsibility transfer responsibility to delegation
     and leave user with no permissions
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:114"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:115"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:7]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:1]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:1]"
   description: Media Entry - transfer responsibility media entry without public rights
     transfer responsibility to delegation and leave user with no permissions
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:135"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:136"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:1]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:2]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:2]"
   description: Media Entry - transfer responsibility media entry without public rights
     transfer responsibility to delegation and leave user with view permission
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:147"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:148"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:2]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:3]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:3]"
   description: Media Entry - transfer responsibility media entry without public rights
     transfer responsibility to delegation and leave user with view & download permissions
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:158"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:159"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:3]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:4]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:4]"
@@ -3784,14 +3784,14 @@
     transfer responsibility to delegation and leave user with all permissions except
     manage
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:170"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:171"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:4]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:5]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:5]"
   description: Media Entry - transfer responsibility media entry without public rights
     transfer responsibility to delegation and leave user with all permissions
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:182"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:183"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:5]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:6:1]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:6:1]"
@@ -3799,14 +3799,14 @@
     when user belongs to the delegation transfer responsibility to delegation and
     leave user with no permissions
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:195"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:196"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:6:1]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:9]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:9]"
   description: Media Entry - transfer responsibility batch transfer responsibility
     for media entries
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:209"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:210"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:9]"
 "./spec/features/transfer_responsibility/transfer_responsibility_spec.rb[1:1]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_spec.rb[1:1]"

@@ -44,6 +44,7 @@ feature 'Collection - transfer responsibility' do
     open_permissions(collection)
     check_responsible_and_link(user2, false)
     check_no_permissions(user1, collection)
+    check_notifications(user1, user2, collection)
   end
 
   scenario 'successful transfer responsibility for collection' do

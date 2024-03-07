@@ -15,10 +15,18 @@ module Modules
         new_entity_type = params.require(:transfer_responsibility).require(:type)
 
         if allowed_entity_type?(new_entity_type)
+          old_entity = resource.responsible_user || resource.responsible_delegation
           new_entity = new_entity_type.constantize.find(new_entity_uuid)
 
           ActiveRecord::Base.transaction do
             update_permissions_resource(new_entity, resource)
+            Notification.transfer_responsibility(resource, old_entity, new_entity,
+                                                 { resource_link_def: {
+                                                   href: if type == MediaEntry
+                                                           media_entry_path(resource)
+                                                         else type == Collection
+                                                           collection_path(resource)
+                                                         end } } )
           end
 
           transfer_responsibility_respond(resource.class)

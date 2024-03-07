@@ -69,6 +69,28 @@ module TransferResponsibilityShared
     end
   end
 
+  def check_notifications(user1, user2, resource)
+    notif = Notification.find_by(
+      user: user2,
+      notification_template_label: 'transfer_responsibility',
+      acknowledged: false,
+      email: nil
+    )
+
+    notif_tmpl = notif.notification_template
+    expect(notif).to be
+    notif.render_ui(:en, strict: true)
+    expect(notif.data).to match(
+      { resource_link_def: { label: resource.title,
+                             href: if resource.is_a?(MediaEntry)
+                                     media_entry_path(resource)
+                                   elsif resource.is_a?(Collection)
+                                     collection_path(resource)
+                                   end },
+        user: { fullname: user1.to_s } }
+    )
+  end
+
   def check_on_dashboard_after_loosing_view_rights
     expect(current_path).to eq('/my')
   end

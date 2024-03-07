@@ -46,6 +46,7 @@ feature 'Media Entry - transfer responsibility' do
     open_permissions(media_entry)
     check_responsible_and_link(user2, false)
     check_no_permissions(user1, media_entry)
+    check_notifications(user1, user2, media_entry)
   end
 
   scenario 'successful transfer responsibility for media entry' do
