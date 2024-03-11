@@ -15,7 +15,7 @@ module Presenters
       end
 
       def children(values = @values)
-        max_people = 20
+        max_people = 10
         values
           .group_by { |v| v['context_key_id'] }
           .map.with_index do |bundle, index|

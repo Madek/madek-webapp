@@ -6,7 +6,7 @@
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2)
   list-style: none outside none
   margin: 2px 0 0
-  max-height: 300px
+  max-height: 350px
   max-width: 600px
   min-width: 160px
   overflow-y: auto
@@ -91,6 +91,7 @@
   overflow: hidden !important
   text-overflow: ellipsis !important
   white-space: nowrap !important
+  min-width: 200px
   &--with-number
     display: flex !important
     justify-content: space-between
@@ -99,7 +100,7 @@
   &__number
     flex: 0 0 auto
     padding-left: 20px
-    margin-right: -10px
+    margin-right: 0
 
 .ui-autocomplete-override-sidebar:hover
   background-color: #0081C2 !important
@@ -115,3 +116,9 @@
 .ui-autocomplete-empty
   color: $mono-dark
   text-align: center
+
+.ui-autocomplete-footer
+  padding: 8px 20px 4px 20px
+  color: #9a919a
+  font-size: 11px
+  white-space: nowrap

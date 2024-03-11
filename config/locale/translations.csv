@@ -35,6 +35,8 @@ app_autocomplete_displayname_users,Nutzer/innen,Users,
 app_autocomplete_displayname_delegations,Verantwortungs-Gruppen,Responsibility groups,
 app_autocomplete_no_results,Keine Ergebnisse.,No results.,
 app_autocomplete_user_delegation_postfix, (Verantwortungs-Gruppe), (Responsibility group)
+app_autocomplete_enter_term,Suchbegriff eingeben für weitere Ergebnisse,Enter search term for further results,
+app_autocomplete_extend_term,Suchbegriff erweitern für weitere Ergebnisse,Extend search term for further results,
 app_confirm_form_leave_msg,"Diese Seite bittet Sie zu bestätigen, dass Sie die Seite verlassen möchten. Daten, die Sie eingegeben haben, werden unter Umständen nicht gespeichert.",Please confirm that you wish to leave this page – entered data might not be saved.,NOTE: German version copied from Firefox default message
 app_notice_admin_mode_on,Admin-Modus aktiviert!,Admin mode activated!,
 app_notice_admin_mode_off,Admin-Modus deaktiviert!,Admin mode deactivated!,
