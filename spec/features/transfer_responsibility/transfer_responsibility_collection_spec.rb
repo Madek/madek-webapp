@@ -32,6 +32,12 @@ feature 'Collection - transfer responsibility' do
   scenario 'transfer responsibility for collection without new permissions' do
     user1 = create(:user)
     user2 = create(:user)
+
+    FactoryBot.create(:notification_template_user_setting,
+                      notification_template_label: 'transfer_responsibility',
+                      user: user2,
+                      email_frequency: :immediately)
+
     collection = create_collection(user1)
     login_user(user1)
     open_permissions(collection)

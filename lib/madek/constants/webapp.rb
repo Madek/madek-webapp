@@ -3,6 +3,8 @@ module Madek
     module Webapp
       SESSION_NAME = '_Madek_session'
 
+      DEFAULT_NOTIFICATION_EMAILS_FREQUENCY = :daily
+
       FILE_UTIL_PATH = '/usr/bin/file -b --mime-type'
 
       # UI constants

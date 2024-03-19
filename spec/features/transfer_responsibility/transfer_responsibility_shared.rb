@@ -73,22 +73,35 @@ module TransferResponsibilityShared
     notif = Notification.find_by(
       user: user2,
       notification_template_label: 'transfer_responsibility',
-      acknowledged: false,
-      email: nil
+      acknowledged: false
     )
 
-    notif_tmpl = notif.notification_template
     expect(notif).to be
-    notif.render_ui(:en, strict: true)
-    expect(notif.data).to match(
-      { resource_link_def: { label: resource.title,
-                             href: if resource.is_a?(MediaEntry)
-                                     media_entry_path(resource)
-                                   elsif resource.is_a?(Collection)
-                                     collection_path(resource)
-                                   end },
-        user: { fullname: user1.to_s } }
-    )
+    expect(notif.data).to match({
+      resource: {
+        link_def: { label: resource.title,
+                    href: if resource.is_a?(MediaEntry)
+                            media_entry_path(resource)
+                          elsif resource.is_a?(Collection)
+                            collection_path(resource)
+                          end }
+      },
+      user: { fullname: user1.to_s }
+    })
+
+    email = notif.email
+    tmpl = notif.notification_template
+    expect(email).to be
+
+    app_setting = AppSetting.first
+    lang = app_setting.default_locale
+    site_title = app_setting.site_title(lang)
+    data = { site_title: site_title } 
+    subject = tmpl.render_email_single_subject(lang, data)
+    body = tmpl.render_email_single(lang, notif.data)
+
+    expect(email.subject).to eq subject
+    expect(email.body).to eq body
   end
 
   def check_on_dashboard_after_loosing_view_rights

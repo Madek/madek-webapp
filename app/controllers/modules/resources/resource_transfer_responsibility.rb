@@ -20,13 +20,18 @@ module Modules
 
           ActiveRecord::Base.transaction do
             update_permissions_resource(new_entity, resource)
-            Notification.transfer_responsibility(resource, old_entity, new_entity,
-                                                 { resource_link_def: {
-                                                   href: if type == MediaEntry
-                                                           media_entry_path(resource)
-                                                         else type == Collection
-                                                           collection_path(resource)
-                                                         end } } )
+            extra_data = {
+              resource: {
+                link_def: {
+                  href: if type == MediaEntry
+                          media_entry_path(resource)
+                        else type == Collection
+                          collection_path(resource)
+                        end
+                }
+              }
+            }
+            Notification.transfer_responsibility(resource, old_entity, new_entity, extra_data)
           end
 
           transfer_responsibility_respond(resource.class)
