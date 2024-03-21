@@ -103,7 +103,7 @@ feature 'Batch dropdown' do
     prepare_user
 
     beta_testers_group_id = Madek::Constants::BETA_TESTERS_QUICK_EDIT_GROUP_ID
-    beta_testers_group = InstitutionalGroup.find_by(id: beta_testers_group_id)
+    beta_testers_group = Group.find_by(id: beta_testers_group_id)
     @user.groups << beta_testers_group
 
     prepare_data
