@@ -6,6 +6,8 @@ module Concerns
       include Concerns::Clipboard
 
       def build_hash(user)
+        exclude_auth_groups_cond = Group.arel_table[:type].not_eq("AuthenticationGroup")
+         
         {
           unpublished_media_entries: \
             user.unpublished_media_entries,
