@@ -100,6 +100,7 @@ module Concerns
           allowed_filter_params ||= self.class::ALLOWED_FILTER_PARAMS
           not_allowed_given = filter_params - allowed_filter_params
           unless not_allowed_given.empty?
+            Rails.logger.warn("TEMP FOR DEBUGGING: #{request.url}")
             raise ActionController::UnpermittedParameters, not_allowed_given
           end
         end
