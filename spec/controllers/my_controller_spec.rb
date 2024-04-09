@@ -96,7 +96,9 @@ describe MyController do
         .to be == @limit_for_dashboard
       expect(my.entrusted_media_entries.resources.first.is_a?(Presenter)).to be
       expect(presented_entity my.entrusted_media_entries.resources.first)
-        .to eq MediaEntry.entrusted_to_user(@user).reorder('created_at DESC').first
+        .to eq \
+        MediaEntry.entrusted_to_user(@user, Group.arel_table[:type].not_eq("AuthenticationGroup"))
+        .reorder('created_at DESC').first
 
       expect(my.entrusted_collections.resources.length)
         .to be == @limit_for_dashboard
@@ -159,7 +161,10 @@ def create_data
 
   fake_many.times { @user.groups << FactoryBot.create(:group) }
   group = @user.groups.first
-  # FIXME: no factory for InstitutionalGroup in datalayer
+  auth_group = FactoryBot.create(:authentication_group)
+
+  @user.groups << auth_group
+  
   # fake_many.times { @user.groups << FactoryBot.create(:institutional_group) }
 
   # Unfinished Uploads:
@@ -199,6 +204,11 @@ def create_data
                      media_entry: FactoryBot.create(:media_entry))
   end
 
+  FactoryBot.create \
+    :media_entry_group_permission,
+    arg_hash.merge(group: auth_group,
+                   media_entry: FactoryBot.create(:media_entry))
+
   fake_many.times do
     FactoryBot.create \
       :collection_user_permission,
@@ -212,6 +222,11 @@ def create_data
       arg_hash.merge(group: group,
                      collection: FactoryBot.create(:collection))
   end
+
+  FactoryBot.create \
+    :collection_group_permission,
+    arg_hash.merge(group: auth_group,
+                   collection: FactoryBot.create(:collection))
 
   @user.responsible_media_entries.sample(@limit_for_app_resources + 1)
     .each { |me| me.favor_by @user }
