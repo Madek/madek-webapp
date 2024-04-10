@@ -267,6 +267,14 @@ Madek::Application.routes.draw do
       patch :update_owners, on: :member
     end
 
+    # notifications
+    resources :notifications, only: [:update] do
+      post :acknowledge_all, on: :collection
+    end
+
+    # settings
+    resource :settings, only: [:update]
+
     # non-resourceful sections are just plain views:
     get ':section', action: 'dashboard_section', as: 'dashboard_section'
   end

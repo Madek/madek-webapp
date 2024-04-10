@@ -62,6 +62,32 @@ module Presenters
           paginated: conf.try(:[], :paginated) == true)
       end
 
+      def notifications
+        {
+          notification_case_labels: NotificationCase.all.map { |nc| nc.label},
+          notifications: @user.notifications
+            .where(acknowledged: false)
+            .order(created_at: :DESC)
+        }
+      end
+
+      def settings
+        notification_case_user_settings = NotificationCase.all.map do |nc|
+          ncus = @user.notification_case_user_settings.find_by_notification_case_label(nc.label)
+          {
+            label: nc.label,
+            email_frequency: ncus&.email_frequency&.to_sym || Madek::Constants::Webapp::DEFAULT_NOTIFICATION_EMAILS_FREQUENCY,
+          }
+        end
+        {
+          notifications_url: my_dashboard_section_path(:notifications),
+          save_url: my_settings_path,
+          email: @user.email,
+          language: AppSetting.first.default_locale,
+          notification_case_user_settings: notification_case_user_settings
+        }
+      end
+
       def workflows
         [{
           name: 'My Event Pics',

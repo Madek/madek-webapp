@@ -1,0 +1,31 @@
+@keyframes fadeOut
+  from
+    opacity: 1
+  to
+    opacity: 0
+
+.notifications-save-confirmation
+  animation: fadeOut 1s 1s forwards
+
+.notifications-date-title
+  display: inline-block
+  margin-bottom: 4px
+  position: relative
+  padding-left: 20px
+  font-weight: bold
+  cursor: pointer
+  color: $mono-dark
+  &:hover
+    color: $black
+
+.notifications-date-title__icon
+  @extend .icon-extend
+  +position-top-left(5px, 3px)
+  font-size: 12px
+  color: $mono-mid
+  &:before
+    content: "\e605"
+
+.notifications-date-title__icon--open
+  &:before
+    content: "\e603"

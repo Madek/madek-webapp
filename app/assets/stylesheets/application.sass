@@ -157,6 +157,7 @@
 @import views/relationships
 @import views/export
 @import views/errors
+@import views/notifications
 
 /* Extra
  *-----------------------------------------
@@ -191,7 +192,6 @@
   p
     font-weight: normal
 
-
 form.button_to
   display: inline
 
@@ -204,17 +204,17 @@ form.button_to
   a, a.weak
     // postion nicely but hide
     [class^="icon-"], [class^="fa-"]
-      position: absolute
-      font-size: $font-m
-      width: 13px
-      margin-left: -15px
-      line-height: 1.6
-      display: none
+    position: absolute
+    font-size: $font-m
+    width: 13px
+    margin-left: -15px
+    line-height: 1.6
+    display: none
     // show on hover (and highlight link)
     &:hover
       @extend .link
       [class^="icon-"], [class^="fa-"]
-        display: initial
+      display: initial
 
 // fix alt text on images
 img, img.ui-thumbnail-image
@@ -224,7 +224,6 @@ img, img.ui-thumbnail-image
   #ui-resources-preview
     height: 300px
     overflow: auto
-
 
 // for Thumbs in Tile mode, show play icon on video entries
 $tile-play-btn-size: 8rem
@@ -307,12 +306,10 @@ details.ui-subsection
 .text-center
   text-align: center
 
-
 .bg-error
   background-color: lighten($red, 50%)
 .text-error
   color: $red
-
 
 .text-truncate
   +truncate

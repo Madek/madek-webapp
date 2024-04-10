@@ -40,6 +40,10 @@ module.exports = React.createClass
                     <em style={{fontStyle: 'italic', fontWeight: 'normal'}}>Beta: </em>
                 }
                 {section.title}
+                {
+                  if section.counter
+                    <span style={{marginLeft: '4px', color: 'grey', fontWeight: 'normal'}}>({section.counter})</span>
+                }
               </a>
 
             </li>

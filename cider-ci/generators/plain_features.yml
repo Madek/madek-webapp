@@ -2848,6 +2848,48 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/my/my_keywords_spec.rb:14"
     RSPEC_TEST: "./spec/features/my/my_keywords_spec.rb[1:1]"
+"./spec/features/my/my_notifications_spec.rb[1:1:1]":
+  name: "./spec/features/my/my_notifications_spec.rb[1:1:1]"
+  description: 'My: Notifications when user is a member of the beta-tester group shows
+    the notifications (expanded/collapsed)'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/my/my_notifications_spec.rb:35"
+    RSPEC_TEST: "./spec/features/my/my_notifications_spec.rb[1:1:1]"
+"./spec/features/my/my_notifications_spec.rb[1:1:2:1]":
+  name: "./spec/features/my/my_notifications_spec.rb[1:1:2:1]"
+  description: 'My: Notifications when user is a member of the beta-tester group Acknowledge
+    notifications acknowledges'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/my/my_notifications_spec.rb:71"
+    RSPEC_TEST: "./spec/features/my/my_notifications_spec.rb[1:1:2:1]"
+"./spec/features/my/my_notifications_spec.rb[1:2:1]":
+  name: "./spec/features/my/my_notifications_spec.rb[1:2:1]"
+  description: 'My: Notifications when user is not a member of the beta-tester group
+    does not show the notifications, an error instead'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/my/my_notifications_spec.rb:101"
+    RSPEC_TEST: "./spec/features/my/my_notifications_spec.rb[1:2:1]"
+"./spec/features/my/my_settings_spec.rb[1:1:1:1]":
+  name: "./spec/features/my/my_settings_spec.rb[1:1:1:1]"
+  description: 'My: Settings when user is a member of the beta-tester group Action:
+    index shows the settings'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/my/my_settings_spec.rb:13"
+    RSPEC_TEST: "./spec/features/my/my_settings_spec.rb[1:1:1:1]"
+"./spec/features/my/my_settings_spec.rb[1:1:2:1]":
+  name: "./spec/features/my/my_settings_spec.rb[1:1:2:1]"
+  description: 'My: Settings when user is a member of the beta-tester group Action:
+    update updates the settings'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/my/my_settings_spec.rb:24"
+    RSPEC_TEST: "./spec/features/my/my_settings_spec.rb[1:1:2:1]"
+"./spec/features/my/my_settings_spec.rb[1:2:1:1]":
+  name: "./spec/features/my/my_settings_spec.rb[1:2:1:1]"
+  description: 'My: Settings when user is not a member of the beta-tester group Action:
+    index returns an error'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/my/my_settings_spec.rb:43"
+    RSPEC_TEST: "./spec/features/my/my_settings_spec.rb[1:2:1:1]"
 "./spec/features/my/my_workflows_spec.rb[1:1:1:1]":
   name: "./spec/features/my/my_workflows_spec.rb[1:1:1:1]"
   description: 'My: Workflows Action: index when user is a member of the beta-tester

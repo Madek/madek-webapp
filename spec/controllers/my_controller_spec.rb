@@ -28,6 +28,8 @@ describe MyController do
         :groups_and_delegations,
         :used_keywords,
         :action,
+        :notifications,
+        :settings,
         :tokens,
         :workflows,
         :_presenter].sort
