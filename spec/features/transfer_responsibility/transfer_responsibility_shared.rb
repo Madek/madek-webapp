@@ -72,7 +72,7 @@ module TransferResponsibilityShared
   def check_notifications(user1, user2, resource)
     notif = Notification.find_by(
       user: user2,
-      notification_template_label: 'transfer_responsibility',
+      notification_case_label: 'transfer_responsibility',
       acknowledged: false
     )
 
@@ -90,15 +90,14 @@ module TransferResponsibilityShared
     })
 
     email = notif.email
-    tmpl = notif.notification_template
+    tmpl = NotificationCase::EMAIL_TEMPLATES[notif.notification_case.label]
     expect(email).to be
 
     app_setting = AppSetting.first
     lang = app_setting.default_locale
-    site_title = app_setting.site_title(lang)
-    data = { site_title: site_title } 
-    subject = tmpl.render_email_single_subject(lang, data)
-    body = tmpl.render_email_single(lang, notif.data)
+    data = { site_titles: app_setting.site_titles } 
+    subject = tmpl.render_single_email_subject(lang, data)
+    body = tmpl.render_single_email(lang, notif.data)
 
     expect(email.subject).to eq subject
     expect(email.body).to eq body

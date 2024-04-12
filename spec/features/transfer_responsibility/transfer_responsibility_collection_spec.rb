@@ -32,9 +32,10 @@ feature 'Collection - transfer responsibility' do
   scenario 'transfer responsibility for collection without new permissions' do
     user1 = create(:user)
     user2 = create(:user)
+    user2.groups << Group.find(Madek::Constants::BETA_TESTERS_NOTIFICATIONS_GROUP_ID)
 
-    FactoryBot.create(:notification_template_user_setting,
-                      notification_template_label: 'transfer_responsibility',
+    FactoryBot.create(:notification_case_user_setting,
+                      notification_case_label: 'transfer_responsibility',
                       user: user2,
                       email_frequency: :immediately)
 
