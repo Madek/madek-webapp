@@ -47,7 +47,7 @@ var fetchNextPage = (merged, nextResourcesLength) => {
       }
 
       trigger(merged, {
-        action: 'page-loaded',
+        action: res.statusCode === 200 ? 'page-loaded' : 'page-load-failed',
         resources: l.get(body, nextProps.getJsonPath())
       })
     }
