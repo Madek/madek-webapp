@@ -353,7 +353,6 @@ GEM
       rspec-mocks (~> 3.11)
       rspec-support (~> 3.11)
     rspec-support (3.12.0)
-    ruby-prof (0.15.9)
     ruby_parser (3.13.1)
       sexp_processor (~> 4.9)
     rubyzip (1.3.0)
@@ -463,7 +462,6 @@ DEPENDENCIES
   responders
   rest-client
   rspec-rails (~> 6)
-  ruby-prof
   rubyzip (~> 1.0)
   sass
   sass-rails
