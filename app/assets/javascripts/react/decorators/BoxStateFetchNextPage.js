@@ -1,17 +1,6 @@
 import l from 'lodash'
-import t from '../../lib/i18n-translate.js'
-import cx from 'classnames/dedupe'
-import async from 'async'
-import url from 'url'
 import xhr from 'xhr'
-import getRailsCSRFToken from '../../lib/rails-csrf-token.coffee'
-import BoxBatchEdit from './BoxBatchEdit.js'
 import setUrlParams from '../../lib/set-params-for-url.coffee'
-import BoxResource from './BoxResource.js'
-import BoxRedux from './BoxRedux.js'
-import qs from 'qs'
-import BoxStatePrecalculate from './BoxStatePrecalculate.js'
-import BoxStateApplyMetaData from './BoxStateApplyMetaData.js'
 
 var requestId = Math.random()
 
@@ -20,17 +9,13 @@ module.exports = (merged, nextResourcesLength) => {
 }
 
 var fetchNextPage = (merged, nextResourcesLength) => {
+  let { event, trigger, initial, components, data, nextProps } = merged
 
-  let {event, trigger, initial, components, data, nextProps} = merged
-
-
-  if(data.loadingNextPage && !(event.action == 'page-loaded')) {
+  if (data.loadingNextPage && !(event.action == 'page-loaded')) {
     return
   }
 
-
   var pagination = nextProps.get.pagination
-
 
   var pageSize = nextProps.get.config.per_page
 
@@ -40,11 +25,9 @@ var fetchNextPage = (merged, nextResourcesLength) => {
 
   var nextUrl = setUrlParams(
     nextProps.currentUrl,
-    {list: {page: nextPage}},
+    { list: { page: nextPage } },
     {
-      ___sparse: JSON.stringify(
-        l.set({}, nextProps.getJsonPath(), {})
-      )
+      ___sparse: JSON.stringify(l.set({}, nextProps.getJsonPath(), {}))
     }
   )
 
@@ -59,8 +42,7 @@ var fetchNextPage = (merged, nextResourcesLength) => {
       json: true
     },
     (err, res, body) => {
-
-      if(requestId != localRequestId) {
+      if (requestId != localRequestId) {
         return
       }
 

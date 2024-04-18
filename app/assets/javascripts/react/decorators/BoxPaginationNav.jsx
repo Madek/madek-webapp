@@ -12,29 +12,31 @@ import Waypoint from 'react-waypoint'
 import Preloader from '../ui-components/Preloader.cjsx'
 
 class BoxPaginationNav extends React.Component {
-
   constructor(props) {
     super(props)
   }
-
 
   renderAutoscroll() {
     var isLoading = this.props.loadingNextPage
 
     var renderWaypoint = () => {
-      if(isLoading) {
+      if (isLoading) {
         return null
       }
 
       return (
         // NOTE: offset means trigger load when page is still *5 screens down*!
         // NOTE: set "random" key to force evaluation on every rerender
-        <Waypoint onEnter={this.props.onFetchNextPage} bottomOffset='-500%' key={(new Date()).getTime()}/>
+        <Waypoint
+          onEnter={this.props.onFetchNextPage}
+          bottomOffset="-500%"
+          key={new Date().getTime()}
+        />
       )
     }
 
     return (
-      <div className='ui-actions'>
+      <div className="ui-actions">
         {renderWaypoint()}
         {isLoading ? (
           <Preloader />
@@ -46,32 +48,33 @@ class BoxPaginationNav extends React.Component {
   }
 
   renderFallback() {
-
     var pagination = this.props.staticPagination
 
     var navLinks = {
       current: {
-        href: this.props.permaLink,
+        href: this.props.permaLink
       },
-      prev: (
-        pagination.prev
-        ? { href: boxSetUrlParams(this.props.currentUrl, {list: pagination.prev}) }
+      prev: pagination.prev
+        ? { href: boxSetUrlParams(this.props.currentUrl, { list: pagination.prev }) }
+        : null,
+      next: pagination.next
+        ? { href: boxSetUrlParams(this.props.currentUrl, { list: pagination.next }) }
         : null
-      ),
-      next: (
-        pagination.next
-        ? { href: boxSetUrlParams(this.props.currentUrl, {list: pagination.next}) }
-        : null
-      )
     }
 
     return (
-      <div className='no-js'>
+      <div className="no-js">
         <ActionsBar>
-          <ButtonGroup mods='mbm'>
-            <Button {...navLinks.prev} mods='mhn' disabled={!navLinks.prev}>{t('pagination_nav_prevpage')}</Button>
-            <Button {...navLinks.current} mods='mhn'>{t('pagination_nav_thispage')}</Button>
-            <Button {...navLinks.next} mods='mhn' disabled={!navLinks.next}>{t('pagination_nav_nextpage')}</Button>
+          <ButtonGroup mods="mbm">
+            <Button {...navLinks.prev} mods="mhn" disabled={!navLinks.prev}>
+              {t('pagination_nav_prevpage')}
+            </Button>
+            <Button {...navLinks.current} mods="mhn">
+              {t('pagination_nav_thispage')}
+            </Button>
+            <Button {...navLinks.next} mods="mhn" disabled={!navLinks.next}>
+              {t('pagination_nav_nextpage')}
+            </Button>
           </ButtonGroup>
         </ActionsBar>
       </div>
@@ -79,7 +82,6 @@ class BoxPaginationNav extends React.Component {
   }
 
   render() {
-
     var staticPagination = this.props.staticPagination
     var pageSize = this.props.perPage
 
@@ -87,18 +89,17 @@ class BoxPaginationNav extends React.Component {
     var totalPages = staticPagination.total_pages
 
     // autoscroll:
-    if(this.props.isClient) {
-      if(!(page - 1 < totalPages - 1)) {
+    if (this.props.isClient) {
+      if (!(page - 1 < totalPages - 1)) {
         return null
       }
       return this.renderAutoscroll()
     } else {
-      if(!(page - 1 < totalPages)) {
+      if (!(page - 1 < totalPages)) {
         return null
       }
       return this.renderFallback()
     }
-
   }
 }
 
