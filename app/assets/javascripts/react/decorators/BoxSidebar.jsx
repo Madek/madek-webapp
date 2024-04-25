@@ -45,22 +45,28 @@ class BoxSidebar extends React.Component {
   filterExamples() {
     return {
       "Search: 'still'": {
-        search: 'still'
+        search: 'still',
+        isAllowedForType: () => true
       },
       "Title: 'diplom'": {
-        meta_data: [{ key: 'madek_core:title', match: 'diplom' }]
+        meta_data: [{ key: 'madek_core:title', match: 'diplom' }],
+        isAllowedForType: t => t !== 'all'
       },
       "Uses Meta-Key 'Gattung'": {
-        meta_data: [{ key: 'media_content:type' }]
+        meta_data: [{ key: 'media_content:type' }],
+        isAllowedForType: t => t !== 'all'
       },
       'Permissions: public': {
-        permissions: [{ key: 'public', value: true }]
+        permissions: [{ key: 'visibility', value: 'public' }],
+        isAllowedForType: t => t !== 'all'
       },
       'Media File: Content-Type jpeg': {
-        media_files: [{ key: 'content_type', value: 'image/jpeg' }]
+        media_files: [{ key: 'content_type', value: 'image/jpeg' }],
+        isAllowedForType: t => t === 'entries'
       },
       'Media File: Extension pdf': {
-        media_files: [{ key: 'extension', value: 'pdf' }]
+        media_files: [{ key: 'extension', value: 'pdf' }],
+        isAllowedForType: t => t === 'entries'
       }
     }
   }
@@ -75,21 +81,27 @@ class BoxSidebar extends React.Component {
   }
 
   renderFilterExamples() {
-    var url = this.props.config.for_url
-    var query = this.props.currentQuery
+    const url = this.props.config.for_url
+    const type = url.query.type || 'all'
+    const query = this.props.currentQuery
+    const examples = this.filterExamples()
 
     return (
       <div>
         <h4>Examples:</h4>
         <ul>
-          {l.map(this.filterExamples(), (example, name) => {
-            var params = { list: { page: 1, filter: JSON.stringify(example, 0, 2) } }
-            return (
-              <li key={name}>
-                <Link href={setUrlParams(url, query, params)}>{name}</Link>
-              </li>
-            )
-          })}
+          {Object.entries(examples)
+            .filter(([, example]) => example.isAllowedForType(type))
+            .map(([name, example]) => {
+              var params = { list: { page: 1, filter: JSON.stringify(example, 0, 2) } }
+              return (
+                <li key={name}>
+                  <Link href={setUrlParams(url, query, params)} rel="nofollow">
+                    {name}
+                  </Link>
+                </li>
+              )
+            })}
         </ul>
       </div>
     )
