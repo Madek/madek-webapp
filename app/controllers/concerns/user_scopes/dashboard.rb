@@ -6,6 +6,8 @@ module Concerns
       include Concerns::Clipboard
 
       def build_hash(user)
+        exclude_auth_groups_cond = Group.arel_table[:type].not_eq('AuthenticationGroup')
+
         {
           unpublished_media_entries: \
             user.unpublished_media_entries,
@@ -24,9 +26,9 @@ module Concerns
           favorite_collections: \
             user.favorite_collections,
           entrusted_media_entries: \
-            MediaEntry.entrusted_to_user(user),
+            MediaEntry.entrusted_to_user(user, add_group_cond: exclude_auth_groups_cond),
           entrusted_collections: \
-            Collection.entrusted_to_user(user),
+            Collection.entrusted_to_user(user, add_group_cond: exclude_auth_groups_cond),
           user_groups: user.groups,
           user_delegations: user.all_delegations,
           used_keywords: \
