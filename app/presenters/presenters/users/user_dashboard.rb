@@ -114,13 +114,13 @@ module Presenters
 
       def entrusted_media_entries
         return unless @is_async_attribute
-        presenterify @user_scopes[:entrusted_media_entries]
+        presenterify @user_scopes[:entrusted_media_entries], info_header: entrusted_resources_info_header
       end
 
       def entrusted_collections
         return unless @is_async_attribute
         presenterify(
-          @user_scopes[:entrusted_collections], disable_file_search: true)
+          @user_scopes[:entrusted_collections], disable_file_search: true, info_header: entrusted_resources_info_header)
       end
 
       # def clipboard
@@ -164,7 +164,8 @@ module Presenters
       def presenterify(
         resources,
         disable_file_search: false,
-        only_filter_search: false)
+        only_filter_search: false,
+        info_header: nil)
 
         return if resources.nil?
         Presenters::Shared::MediaResource::MediaResources.new(
@@ -175,7 +176,8 @@ module Presenters
           disable_file_search: disable_file_search,
           only_filter_search: only_filter_search,
           json_path: @json_path, 
-          sub_filters: @sub_filters
+          sub_filters: @sub_filters,
+          info_header: info_header
         )
       end
 
@@ -201,6 +203,18 @@ module Presenters
       def delegations
         @user_scopes[:user_delegations].order(:name).map do |delegation|
           Presenters::Delegations::DelegationIndex.new(delegation)
+        end
+      end
+
+      def entrusted_resources_info_header
+        return unless @config[:page] == 1
+        auth_groups = @user.groups.filter{ |x| x["type"] == "AuthenticationGroup" }
+        if auth_groups.any?
+          {
+            type: "entrustment",
+            authentication_group_names: auth_groups.map(&:name),
+            groups_url: my_groups_path
+          }
         end
       end
     end

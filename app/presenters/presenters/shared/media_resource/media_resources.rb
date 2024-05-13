@@ -25,6 +25,7 @@ module Presenters
         attr_accessor :disable_file_search
         attr_reader :only_filter_search
         attr_reader :json_path
+        attr_reader :info_header
 
         def initialize(
             scope, user, list_conf: nil, item_type: nil,
@@ -35,7 +36,8 @@ module Presenters
             json_path: nil,
             content_type: nil,
             part_of_workflow: false,
-            sub_filters: nil)
+            sub_filters: nil,
+            info_header: nil)
           fail 'missing config!' unless list_conf or list_conf[:for_url].present?
           @user = user
           @scope = scope
@@ -55,6 +57,7 @@ module Presenters
           @part_of_workflow = part_of_workflow
           @sub_filters = sub_filters
           init_resources_and_pagination(@scope, @conf)
+          @info_header = info_header
         end
 
         def config

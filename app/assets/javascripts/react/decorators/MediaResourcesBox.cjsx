@@ -62,6 +62,8 @@ CreateCollectionModal = require('../views/My/CreateCollectionModal.cjsx')
 
 resourceTypeSwitcher = require('../lib/resource-type-switcher.cjsx').resourceTypeSwitcher
 
+InfoHeader = require('./resourcesbox/InfoHeader.jsx').default
+
 # Props/Config overview:
 # - props.get.has_user = should the UI offer any interaction
 # - state.isClient = is component in client-side mode
@@ -873,7 +875,15 @@ module.exports = React.createClass
       }
 
       {boxTitleBar()}
+
+      {if get.info_header
+        <div className="mam">
+          <InfoHeader {...get.info_header} />
+        </div>
+      }
+
       {boxToolBar()}
+
       { if @state.showCreateCollectionModal
         <CreateCollectionModal
           get={get.new_collection}
