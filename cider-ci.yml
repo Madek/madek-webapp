@@ -154,6 +154,7 @@ jobs:
 
   merged-to-master:
     name: "Merged to master"
+    priority: 999
     depends_on:
       master branch matches:
         type: branch
