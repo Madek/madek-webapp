@@ -20,7 +20,20 @@ module Modules
 
           ActiveRecord::Base.transaction do
             resources.each do |resource|
+              old_entity = resource.responsible_user || resource.responsible_delegation
               update_permissions_resource(new_entity, resource)
+              extra_data = {
+                resource: {
+                  link_def: {
+                    href: if type == MediaEntry
+                            media_entry_path(resource)
+                          else type == Collection
+                            collection_path(resource)
+                          end
+                  }
+                }
+              }
+              Notification.transfer_responsibility(resource, old_entity, new_entity, extra_data)
             end
           end
 

@@ -380,6 +380,20 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/batch_edit/batch_remove_meta_data_spec.rb:24"
     RSPEC_TEST: "./spec/features/batch_edit/batch_remove_meta_data_spec.rb[1:2]"
+"./spec/features/batch_edit/batch_transfer_responsibility_spec.rb[1:1]":
+  name: "./spec/features/batch_edit/batch_transfer_responsibility_spec.rb[1:1]"
+  description: Batch transfer responsibility spec successfully updates responsible
+    user for all Entries
+  environment_variables:
+    RSPEC_NAME: "./spec/features/batch_edit/batch_transfer_responsibility_spec.rb:14"
+    RSPEC_TEST: "./spec/features/batch_edit/batch_transfer_responsibility_spec.rb[1:1]"
+"./spec/features/batch_edit/batch_transfer_responsibility_spec.rb[1:2]":
+  name: "./spec/features/batch_edit/batch_transfer_responsibility_spec.rb[1:2]"
+  description: Batch transfer responsibility spec successfully updates responsible
+    user for all Collections
+  environment_variables:
+    RSPEC_NAME: "./spec/features/batch_edit/batch_transfer_responsibility_spec.rb:53"
+    RSPEC_TEST: "./spec/features/batch_edit/batch_transfer_responsibility_spec.rb[1:2]"
 "./spec/features/batch_edit/batch_update_metadata_spec.rb[1:1]":
   name: "./spec/features/batch_edit/batch_update_metadata_spec.rb[1:1]"
   description: Batch update media entries successfully updates meta_data for all entries
