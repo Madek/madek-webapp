@@ -2,9 +2,8 @@
 set -euo pipefail
 
 PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd ../.. > /dev/null 2>&1 && pwd -P)"
-PROJECT=madek-webapp
-PLUGIN=firefox
-PLUGIN_URL=https://github.com/DrTom/asdf-firefox.git
+ASDF_PLUGIN=firefox
+ASDF_PLUGIN_URL=https://github.com/DrTom/asdf-firefox.git
 
 source $PROJECT_DIR/bin/env/asdf-helper.bash
 asdf-update-plugin

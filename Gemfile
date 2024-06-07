@@ -15,6 +15,7 @@ gem 'responders'
 
 # Webserver
 gem 'puma'
+gem 'puma_worker_killer'
 
 # ZHDK-INTEGRATION
 gem 'madek_zhdk_integration', path: 'zhdk-integration'

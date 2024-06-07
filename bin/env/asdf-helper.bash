@@ -1,32 +1,47 @@
-function mtime-comps() {
-  case "$(uname -s)" in
-    Linux*) date -Iseconds --date="$(stat -c '@%Y' $1)" ;;
-    Darwin) stat -f %Sm -t "%Y-%m-%dT%H:%M:%S%z" $1 ;;
-  esac
-}
-
-
-function asdf-update-plugin () {
-  # check asdf is present
-  CACHE_ID="${PLUGIN}_${PROJECT}"
-  echo "# ${CACHE_ID} env check via asdf $(asdf --version)"
-  TMPDIR=${TMPDIR:-/tmp/}
-  CACHE_FILE="${TMPDIR}asdf_cache_${CACHE_ID}"
-
-  if [[ ! -e $CACHE_FILE ]] || [[ $(mtime-comps $CACHE_FILE) < $(mtime-comps .tool-versions) ]] ; then
-    if $(asdf plugin list | grep -q $PLUGIN); then
-      echo "asdf $PLUGIN found: updating "
-      asdf plugin update $PLUGIN
-    else
-      echo "asdf $PLUGIN NOT found: installing "
-      asdf plugin add $PLUGIN ${PLUGIN_URL}
-    fi
-    cd $PROJECT_DIR
-    asdf install $PLUGIN
-    touch $CACHE_FILE
-    echo "# ${CACHE_ID} env is up to date"
+function asdf-load() {
+  if type "asdf" > /dev/null; then
+    echo "asdf OK"
   else
-    echo "# ${CACHE_ID} env skipped update; touch .tool-versions or remove ${CACHE_FILE} to force update"
+    echo "sourcing asdf from ~/.asdf/asdf.sh since it seems not present"
+    source ~/.asdf/asdf.sh
   fi
 }
-# vi: ft=sh
+
+function asdf-update-plugin-base(){
+  echo "INFO updateting asdf plugin ${ASDF_PLUGIN} for ${PROJECT_NAME}"
+  if $(asdf plugin list | grep -q $ASDF_PLUGIN); then
+    echo "asdf $ASDF_PLUGIN found: updating "
+    asdf plugin update $ASDF_PLUGIN
+  else
+    echo "asdf $ASDF_PLUGIN NOT found: installing "
+    asdf plugin add $ASDF_PLUGIN ${ASDF_PLUGIN_URL}
+  fi
+  cd $PROJECT_DIR
+  asdf install $ASDF_PLUGIN
+}
+
+function asdf-update-plugin () {
+  TMPDIR=${TMPDIR:-/tmp/}
+  PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd ../.. > /dev/null 2>&1 && pwd -P)"
+  PROJECT_NAME="madek_$(basename $PROJECT_DIR)"
+  # in deployed states we are not in a git repo; however asdf und plugins should be set up already
+  if ! git -C $PROJECT_DIR rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+    echo "WARNING ${PROJECT_DIR} is not a git repository, SKIPPING asdf plugin and install update"
+  else
+    if [[ $(git -C $PROJECT_DIR status -s) ]]; then
+      echo "WARNING ${PROJECT_DIR} has uncommitted changes, forcing asdf plugin and install update"
+      asdf-update-plugin-base
+    else
+      DIGEST=$(git log -1 HEAD --pretty=format:%T)
+      CACHE_FILE="${TMPDIR}asdf_cache_${PROJECT_NAME}_${DIGEST}"
+      if [[ -f $CACHE_FILE ]]; then
+        echo "INFO $CACHE_FILE exists; skipping ${PROJECT_NAME} asdf update"
+      else
+        asdf-update-plugin-base
+        touch $CACHE_FILE
+      fi
+    fi
+  fi
+}
+
+# vim: set ft=sh

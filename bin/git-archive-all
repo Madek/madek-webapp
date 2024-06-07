@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
+cd "${PROJECT_DIR}"
+
+### Install Python and dependencies ############################################
+
+./bin/env/python-setup
+if [[ ! -d "${PROJECT_DIR}/.venv" ]]; then
+  python3 -m venv ${PROJECT_DIR}/.venv
+fi
+source ${PROJECT_DIR}/.venv/bin/activate
+pip install -r python_requirements.txt
+
+
+### archive-all-all ############################################################
+
+
+git-archive-all "$@"
+
+
+# vim: set ft=sh

@@ -16,6 +16,7 @@
 .yardoc
 /db/data.pgbin
 /db/structure_and_data.pgbin
+/locale/
 /result.json
 Gemfile.local
 Gemfile.local.lock
@@ -28,6 +29,7 @@ config/definitions/metadata/ExifTool_config.pl
 config/dropbox.local.yml
 config/environments/*.local.yml
 config/secrets.yml
+config/settings.dev.yml
 config/settings.local.yml
 config/settings/*.local.yml
 config/sphinx.yml
@@ -56,6 +58,4 @@ rerun*.txt
 tags
 tmp/
 vendor/bundle/
-/locale/
-config/settings.dev.yml
-
+webapp.tar.gz
