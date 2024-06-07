@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# debugging
+# set -x
+
+PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
+cd "${PROJECT_DIR}"
+
+TMP_DIR="${TMPDIR:-$PROJECT_DIR/tmp}"
+mkdir -p $TMP_DIR
+
+ARCHIVE_NAME=$(basename $PROJECT_DIR)
+
+### build archive ##############################################################
+
+function build() {
+    echo "Building $ARCHIVE_NAME"
+    rm -f $PROJECT_DIR/$ARCHIVE_NAME.tar.gz
+
+    $PROJECT_DIR/bin/git-archive-all \
+      -C $PROJECT_DIR \
+      --prefix '' \
+      --force-submodules \
+      $PROJECT_DIR/$ARCHIVE_NAME.tar.gz
+}
+
+if [[ -n $(git status -s) ]]; then
+    echo "WARNING uncommitted changes, (re)building from scratch, no linking"
+    build
+else
+    echo "OK no uncommitted changes, building or using cache"
+    DIGEST=$(git log -1 HEAD --pretty=format:%T)
+    CACHED_ARCHIVE="${TMP_DIR}/${ARCHIVE_NAME}_${DIGEST}.tar.gz"
+    if [[ -f $CACHED_ARCHIVE ]]; then
+        echo "Using cached tar.gz: $CACHED_ARCHIVE"
+        touch $CACHED_ARCHIVE
+    else
+        echo "No cached tar.gz found, building"
+        build
+        mv $ARCHIVE_NAME.tar.gz $CACHED_ARCHIVE
+    fi
+    echo "Linking $CACHED_ARCHIVE to $ARCHIVE_NAME.tar.gz"
+    ln -sf $CACHED_ARCHIVE $ARCHIVE_NAME.tar.gz
+    # Clean cached jars older than a week
+    find $TMP_DIR -maxdepth 1 -name "${ARCHIVE_NAME}_*.tar.gz" -type f -mtime +7 -delete
+fi
+
+
+
+# vim: set ft=sh

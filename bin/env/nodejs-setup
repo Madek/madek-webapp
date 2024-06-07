@@ -2,9 +2,8 @@
 set -euo pipefail
 
 PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd ../.. > /dev/null 2>&1 && pwd -P)"
-PROJECT=madek-webapp
-PLUGIN=nodejs
-PLUGIN_URL=https://github.com/asdf-vm/asdf-nodejs.git
+ASDF_PLUGIN=nodejs
+ASDF_PLUGIN_URL=https://github.com/asdf-vm/asdf-nodejs.git
 
 source $PROJECT_DIR/bin/env/asdf-helper.bash
 asdf-update-plugin

@@ -2,8 +2,8 @@
 set -euo pipefail
 
 PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd ../.. > /dev/null 2>&1 && pwd -P)"
-ASDF_PLUGIN=geckodriver
-ASDF_PLUGIN_URL=https://github.com/DrTom/asdf-geckodriver.git
+ASDF_PLUGIN=python
+ASDF_PLUGIN_URL=https://github.com/asdf-community/asdf-python.git
 
 source $PROJECT_DIR/bin/env/asdf-helper.bash
 asdf-update-plugin
