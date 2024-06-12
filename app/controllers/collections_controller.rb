@@ -80,7 +80,7 @@ class CollectionsController < ApplicationController
   def destroy
     collection = Collection.find(params[:id])
     auth_authorize collection
-    collection.destroy!
+    collection.soft_delete
 
     respond_to do |format|
       format.json do

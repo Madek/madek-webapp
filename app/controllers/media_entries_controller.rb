@@ -83,12 +83,7 @@ class MediaEntriesController < ApplicationController
   def destroy
     media_entry = MediaEntry.unscoped.find(id_param)
     auth_authorize media_entry
-
-    ActiveRecord::Base.transaction do
-      # TODO: Remove this when cascade delete works:
-      media_entry.meta_data.each(&:destroy!)
-      media_entry.destroy!
-    end
+    media_entry.soft_delete
 
     respond_to do |format|
       format.json do

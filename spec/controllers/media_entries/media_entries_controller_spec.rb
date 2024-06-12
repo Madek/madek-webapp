@@ -47,12 +47,17 @@ describe MediaEntriesController do
     media_entry = create :media_entry_with_image_media_file,
                          creator: @user, responsible_user: @user
 
-    expect do
-      delete :destroy,
-             params: { id: media_entry.id },
-             session: { user_id: @user.id }
-    end.to change { MediaEntry.count }.by(-1)
+    all_entries_before = MediaEntry.unscoped.count
+    scoped_entries_before = MediaEntry.count
 
+    delete :destroy,
+      params: { id: media_entry.id },
+      session: { user_id: @user.id }
+
+    expect(MediaEntry.unscoped.count).to eq all_entries_before
+    expect(MediaEntry.count).to eq scoped_entries_before - 1
+
+    expect(media_entry.reload.deleted_at).not_to be_nil
     expect(response).to redirect_to my_dashboard_path
 
   end
@@ -62,12 +67,17 @@ describe MediaEntriesController do
                          creator: @user, responsible_user: @user,
                          is_published: false
 
-    expect do
-      delete :destroy,
-             params: { id: media_entry.id },
-             session: { user_id: @user.id }
-    end.to change { MediaEntry.unscoped.count }.by(-1)
+    all_entries_before = MediaEntry.unscoped.count
+    scoped_entries_before = MediaEntry.count
 
+    delete :destroy,
+      params: { id: media_entry.id },
+      session: { user_id: @user.id }
+
+    expect(MediaEntry.unscoped.count).to eq all_entries_before
+    expect(MediaEntry.count).to eq scoped_entries_before
+
+    expect(media_entry.reload.deleted_at).not_to be_nil
     expect(response).to redirect_to my_dashboard_path
 
   end
