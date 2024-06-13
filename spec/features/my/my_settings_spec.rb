@@ -12,27 +12,34 @@ feature 'My: Settings' do
     describe 'Action: index' do
       it 'shows the settings' do
         visit my_settings_path
-
         sign_in_as user
 
         expect(page).to have_content(I18n.t(:sitemap_settings))
         expect(page).to have_content(user.email)
+
+        # (see 'Action: update' for more detailed display tests)
       end
     end
 
     describe 'Action: update' do
       it 'updates the settings' do
         visit my_settings_path
-
         sign_in_as user
 
+        # old state
+        expect(page).to have_select('emailsLocale', selected: 'Deutsch',
+                                  with_options: ['Deutsch', 'Englisch'])
         expect(find('input[name="transfer_responsibility"]:checked').value).to eq('daily')
 
+        # change
+        select 'Englisch', from: 'emailsLocale'
         choose(I18n.t('settings_notifications_email_frequency_never'))
         expect(find('input[name="transfer_responsibility"]:checked').value).to eq('never')
         click_on(I18n.t(:settings_save_changes))
 
+        # new state
         visit my_settings_path
+        expect(page).to have_select('emailsLocale',  selected: 'Englisch')
         expect(find('input[name="transfer_responsibility"]:checked').value).to eq('never')
       end
     end
@@ -42,7 +49,6 @@ feature 'My: Settings' do
     describe 'Action: index' do
       it 'returns an error' do
         visit my_settings_path
-
         sign_in_as user
 
         expect(page).not_to have_content(I18n.t(:sitemap_settings))

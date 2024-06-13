@@ -83,7 +83,8 @@ module Presenters
           notifications_url: my_dashboard_section_path(:notifications),
           save_url: my_settings_path,
           email: @user.email,
-          language: AppSetting.first.default_locale,
+          emails_locale: @user.emails_locale_with_default_fallback,
+          available_locales: AppSetting.available_locales,
           notification_case_user_settings: notification_case_user_settings
         }
       end

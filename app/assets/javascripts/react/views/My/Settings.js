@@ -8,6 +8,7 @@ class MySettings extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      emailsLocale: props.get.emails_locale,
       notificationCaseUserSettings: props.get.notification_case_user_settings.map(
         ({ label, email_frequency }) => ({ label, emailFrequency: email_frequency })
       ),
@@ -17,8 +18,7 @@ class MySettings extends React.Component {
 
   render() {
     const { get } = this.props
-    const { notifications_url: notificationsUrl } = get
-    const { email, language } = get
+    const { notifications_url: notificationsUrl, email, available_locales: availableLocales } = get
     return (
       <div className="ui-resources-holder pal">
         <h2 className="title-l">{t('settings_notifications_title')}</h2>
@@ -42,8 +42,18 @@ class MySettings extends React.Component {
             {t('settings_notifications_email_label')} <b style={{ fontWeight: 'bold' }}>{email}</b>
           </li>
           <li className="mbx">
-            {t('settings_notifications_language_label')}{' '}
-            <b style={{ fontWeight: 'bold' }}>{t(`settings_notifications_language_${language}`)}</b>
+            {t('settings_notifications_locale_label')}{' '}
+            <select
+              name="emailsLocale"
+              value={this.state.emailsLocale}
+              onChange={e => this._handleEmailsLocaleChange(e.target.value)}>
+              {' '}
+              {availableLocales.map(l => (
+                <option key={l} value={l}>
+                  {t(`settings_notifications_locale_${l}`)}
+                </option>
+              ))}
+            </select>
           </li>
         </ul>
 
@@ -90,6 +100,10 @@ class MySettings extends React.Component {
     window.removeEventListener('beforeunload', handleBeforeUnload)
   }
 
+  _handleEmailsLocaleChange(emailsLocale) {
+    this.setState({ ...this.state, emailsLocale, dirty: true })
+  }
+
   _handleEmailFrequencyChange(label, freq) {
     this.setState({
       notificationCaseUserSettings: this.state.notificationCaseUserSettings.map(caseSettings => ({
@@ -117,6 +131,7 @@ module.exports = MySettings
 
 function sendUpdate(url, settings, onSuccess) {
   const data = {
+    emails_locale: settings.emailsLocale,
     notification_case_user_settings: settings.notificationCaseUserSettings.map(
       ({ label, emailFrequency }) => ({ label, email_frequency: emailFrequency })
     )
