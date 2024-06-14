@@ -25,4 +25,12 @@ namespace :madek do
     puts 'Producing weekly notification emails completed.'
   end
 
-end # madek namespace
+  desc 'Delete soft deleted media entries and sets'
+  task delete_soft_deleted_resources: :environment do
+    puts 'Deleting soft deleted media entries and sets...'
+    MediaEntry.delete_soft_deleted
+    Collection.delete_soft_deleted
+    puts 'Deleting soft deleted media entries and sets completed.'
+  end
+
+end
