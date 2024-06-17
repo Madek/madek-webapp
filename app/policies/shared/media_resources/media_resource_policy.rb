@@ -25,13 +25,13 @@ module Shared
 
       class DestroyableScope < Scope
         def resolve
-          scope.where(responsible_user: user)
+          scope.with_responsible_user_or_member_of_delegation(user)
         end
       end
 
       class ResponsibilityTransferableScope < Scope
         def resolve
-          scope.where(responsible_user: user)
+          scope.with_responsible_user_or_member_of_delegation(user)
         end
       end
 
