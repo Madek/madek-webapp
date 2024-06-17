@@ -7,7 +7,7 @@ class MediaFilePolicy < DefaultPolicy
     return true if entry.get_full_size?
 
     # … by 'responsible' role
-    return true if user == entry.responsible_user
+    return true if user == entry.responsible_user or entry.delegation_with_user?(user)
 
     # OR via user permissions, BUT only if published!
     return false unless user.present? && entry.is_published
