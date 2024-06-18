@@ -55,10 +55,7 @@ class ExploreController < ApplicationController
     fail 'Searched image for Keyword that has none, this should not happen!'
   end
 
-  # 1st level: thumbnails for keys
-  # NOTE: goals:
-  # a) pick a thumb that will also be present on the second level (see note there)
-  # b) that thumbs next to each other are unique (currently shuffle is enough)
+  # Random thumbnail for a context key
   def catalog_key_thumb
     skip_authorization # only does redirection
     ck = ContextKey.find(category_param)
@@ -66,37 +63,17 @@ class ExploreController < ApplicationController
 
     case meta_key.meta_datum_object_type
     when 'MetaDatum::Keywords'
-      keyword = catalog_key_thumb_keyword(meta_key)
-
-      media_entry = newest_media_entry_with_image_file_for_keyword_and_user(
-        keyword.id, current_user).sample
+      media_entry = newest_media_entry_with_image_file_for_meta_key_and_user(
+        meta_key.id, current_user).sample
     when 'MetaDatum::People'
-      person = catalog_key_thumb_person(meta_key)
-
-      media_entry = newest_media_entry_with_image_file_for_person_and_user(
-        person.id, current_user).sample
+      media_entry = newest_media_entry_with_image_file_for_meta_key_and_user(
+        meta_key.id, current_user).sample
     end
 
     if media_entry
       redirect_to_preview(media_entry, size_param) and return
     end
     fail 'Searched image for Keyword that has none, this should not happen!'
-  end
-
-  def catalog_key_thumb_keyword(meta_key)
-    Keyword
-      .for_meta_key_and_used_in_visible_entries_with_previews(meta_key,
-                                                              current_user,
-                                                              limit_param)
-      .sample
-  end
-
-  def catalog_key_thumb_person(meta_key)
-    Person
-      .for_meta_key_and_used_in_visible_entries_with_previews(meta_key,
-                                                              current_user,
-                                                              limit_param)
-      .sample
   end
 
   private
