@@ -42,12 +42,11 @@ module Presenters
           meta_key_id, user)
   
           auth_policy_scope(user, MediaEntry)
-            .distinct
-            .joins(:media_file)
-            .joins('INNER JOIN previews ON previews.media_file_id = media_files.id')
             .joins(:meta_data)
+            .where(id: MediaFile.select(:media_entry_id)
+                      .joins(:previews)
+                      .where(previews: { media_type: 'image' }))
             .where(meta_data: { meta_key_id: meta_key_id })
-            .where(previews: { media_type: 'image' })
             .reorder('media_entries.created_at DESC')
             .limit(24)
         end  
