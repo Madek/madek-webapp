@@ -48,7 +48,7 @@ module Presenters
                       .where(previews: { media_type: 'image' }))
             .where(meta_data: { meta_key_id: meta_key_id })
             .reorder('media_entries.created_at DESC')
-            .limit(24)
+            .limit(150)
         end  
       end
     end
