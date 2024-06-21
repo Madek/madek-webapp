@@ -34,7 +34,7 @@ class CollectionsController < ApplicationController
 
   # this overwrites the concern method
   def show
-    collection = get_authorized_resource
+    @collection = get_authorized_resource
     # NOTE: for sync call load_meta_data should be
     # load_meta_data: resource_list_params
     #   .try(:[], :for_url)
@@ -42,20 +42,20 @@ class CollectionsController < ApplicationController
     #   .try(:[], :list)
     #   .try(:[], :layout) == 'list'
 
-    children_list_conf = determine_list_conf(collection)
+    children_list_conf = determine_list_conf(@collection)
 
-    default_type_filter = determine_default_type_filter(collection)
+    default_type_filter = determine_default_type_filter(@collection)
     @get = \
       Presenters::Collections::CollectionShow.new \
-        collection,
+        @collection,
         current_user,
-        user_scopes_for_collection(collection),
+        user_scopes_for_collection(@collection),
         action: determine_action,
         type_filter: type_param ? type_param : default_type_filter,
         default_type_filter: default_type_filter,
         list_conf: resource_list_by_type_param,
         children_list_conf: children_list_conf,
-        context_id: determine_context_id(collection),
+        context_id: determine_context_id(@collection),
         load_meta_data: false,
         section_meta_key_id: settings.section_meta_key_id,
         sub_filters: { context_key_id: params[:context_key_id], search_term: params[:search_term] }

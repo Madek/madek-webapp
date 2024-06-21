@@ -22,14 +22,7 @@ module Presenters
       end
 
       attr_reader :section_labels
-
-      def title
-        if @app_resource.deleted_at
-          "#{@app_resource.title} [#{I18n.t(:deleted)}]"
-        else
-          @app_resource.title
-        end
-      end
+      delegate_to_app_resource :title
 
       def url
         media_entry_path(@app_resource)

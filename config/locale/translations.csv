@@ -90,6 +90,7 @@ clipboard_fetching_resources,Lade Inhalte …,Items loading …,"Wieso sind da P
 clipboard_removing_resources,Entferne Inhalte aus Stapelverarbeitung...,Remove items from batch processing ...,
 collection_ask_delete_question_pre,"Sind Sie sicher, dass Sie folgendes Set löschen möchten: ",Are you sure you want to delete the following set:,
 collection_ask_delete_title,Set löschen,Delete set,
+collection_deleted,Dieses Set wurde gelöscht und ist für Benutzer nicht mehr sichtbar.,This set has been deleted and is no longer visible to users.
 collection_delete_success,Set wurde gelöscht.,Set deleted.,
 collection_edit_cover_submit_btn,Speichern,Submit,
 collection_edit_cover_title,Titelbild für Set festlegen,Define set cover,
@@ -309,6 +310,7 @@ media_entry_conversion_reload,"Laden Sie diese Seite neu, um den aktuellen Stand
 media_entry_conversion_status_failed,Die Konvertierung ist fehlgeschlagen. Bitte wenden Sie sich an den Support.,The file conversion has failed. Please contact support.,
 media_entry_conversion_status_initialized,Die Konvertierung läuft. Bitte versuchen Sie es später noch einmal.,The media file is converting. Please try later.,
 media_entry_conversion_status_submitted,Die Konvertierung läuft. Bitte versuchen Sie es später noch einmal.,The media file is converting. Please try later.,
+media_entry_deleted,Dieser Medieneintrag wurde gelöscht und ist für Benutzer nicht mehr sichtbar.,This media entry has been deleted and is no longer visible to users.
 media_entry_delete_success,Der Medieneintrag wurde gelöscht.,Media entry has been deleted.,
 media_entry_duplicator_configuration_annotate_as_new_version_of_post,erstellen,,
 media_entry_duplicator_configuration_annotate_as_new_version_of_pre,(Experte) Hinweis zu neuer Version inkl. Verlinkung zu,(Expert) Add annotation «new version of» and link to,

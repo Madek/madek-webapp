@@ -1,6 +1,11 @@
 :ruby
+  content_for(:title_head) { @get.title }
   render('media_entries/_show/head_meta_tags')
 
-- content_for(:title_head) { @get.title }
+  if @media_entry.try(:deleted_at).try(:present?)
+    content_for(:app_alerts) do
+      component('alert', level: 'error', text: t(:media_entry_deleted))
+    end
+  end
 
 = react('Views.BaseTmpReact', { get: @get, action_name: action_name })
