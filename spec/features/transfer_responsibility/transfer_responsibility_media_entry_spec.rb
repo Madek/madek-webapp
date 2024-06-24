@@ -71,20 +71,180 @@ feature 'Media Entry - transfer responsibility' do
     check_permissions(user1, media_entry, true, true, false, false)
   end
 
-  scenario 'transfer responsibility to delegation and leave user with view permission' do
-    user = create(:user)
-    delegation = create(:delegation)
-    media_entry = create_media_entry(user)
-    login_user(user)
-    open_permissions(media_entry)
-    check_responsible_and_link(user, true)
-    click_transfer_link
-    choose_delegation(delegation)
-    click_checkbox(:download)
-    click_submit_button
-    check_responsible_and_link(delegation, false)
-    open_permissions(media_entry)
-    check_permissions(user, media_entry, true, false, false, false)
+  context 'transfer responsibility to delegation and leave user with view permission' do
+    before(:each) do
+      @user = create(:user)
+      @delegation = create(:delegation)
+    end
+
+    def transfer_responsibility_and_leave_user_with_view_permission
+      media_entry = create_media_entry(@user)
+      login_user(@user)
+      open_permissions(media_entry)
+      check_responsible_and_link(@user, true)
+      click_transfer_link
+      choose_delegation(@delegation)
+      click_checkbox(:download)
+      click_submit_button
+      check_responsible_and_link(@delegation, false)
+      open_permissions(media_entry)
+      check_permissions(@user, media_entry, true, false, false, false)
+    end
+
+    scenario 'works' do
+      transfer_responsibility_and_leave_user_with_view_permission
+    end
+
+    context 'different notification settings work' do
+      before(:each) do
+        @delegation.groups << Group.find(Madek::Constants::BETA_TESTERS_NOTIFICATIONS_GROUP_ID)
+        @group = create(:group)
+
+        # +--------------+------+-------+------------+
+        # | name         | user | group | supervisor |
+        # |--------------|------|-------|------------|
+        # | del_member_1 | x    |       |            | 
+        # | del_member_2 | x    | x     |            |
+        # | del_member_3 |      | x     |            |
+        # | del_member_4 | x    |       | x          |
+        # | del_member_5 |      | x     | x          |
+        # | del_member_6 |      |       | x          |
+        # +--------------+------+-------+------------+
+
+        @del_member_1 = create(:user)
+        @del_member_2 = create(:user)
+        @del_member_3 = create(:user)
+        @del_member_4 = create(:user)
+        @del_member_5 = create(:user)
+        @del_member_6 = create(:user)
+
+        @delegation.users << @del_member_1
+        @delegation.users << @del_member_2
+        @delegation.users << @del_member_4
+        @group.users << @del_member_2
+        @group.users << @del_member_3
+        @group.users << @del_member_5
+        @delegation.groups << @group
+        @delegation.supervisors << @del_member_4
+        @delegation.supervisors << @del_member_5
+        @delegation.supervisors << @del_member_6
+
+        FactoryBot.create(:notification_case_user_setting,
+                          notification_case_label: 'transfer_responsibility',
+                          user: @del_member_1,
+                          email_frequency: :immediately)
+
+        ############################################################################
+
+      end
+
+      scenario 'notify all members & notifications email present' do
+        @delegation.update!(notifications_email: 'delegation@example.com',
+                            notify_all_members: true)
+
+        transfer_responsibility_and_leave_user_with_view_permission
+
+        expect(Notification.count).to eq(6)
+        [
+          @del_member_1, 
+          @del_member_2, 
+          @del_member_3, 
+          @del_member_4, 
+          @del_member_5, 
+          @del_member_6
+        ].each do |user|
+           expect(Notification.find_by(user: user,
+                                       notification_case_label: 'transfer_responsibility',
+                                       via_delegation: @delegation))
+             .to be_present
+         end
+
+        expect(Email.count).to eq 2
+        expect(Email.find_by(delegation: @delegation,
+                             to_address: @delegation.notifications_email)).to be_present
+        user_email = Email.find_by(user: @del_member_1, to_address: @del_member_1.email) 
+        expect(user_email).to be_present
+
+        expect(Notification.find_by(user: @del_member_1,
+                                    notification_case_label: 'transfer_responsibility').email_id)
+          .to eq(user_email.id)
+      end
+
+      scenario 'notify all members & notifications email not present' do
+        @delegation.update!(notifications_email: nil,
+                            notify_all_members: true)
+
+        transfer_responsibility_and_leave_user_with_view_permission
+
+        expect(Notification.count).to eq(6)
+        [
+          @del_member_1, 
+          @del_member_2, 
+          @del_member_3, 
+          @del_member_4, 
+          @del_member_5, 
+          @del_member_6
+        ].each do |user|
+          expect(Notification.find_by(user: user,
+                                      notification_case_label: 'transfer_responsibility',
+                                      via_delegation: @delegation))
+            .to be_present
+        end
+
+        expect(Email.count).to eq 1
+        user_email = Email.find_by(user: @del_member_1, to_address: @del_member_1.email) 
+        expect(user_email).to be_present
+
+        expect(Notification.find_by(user: @del_member_1,
+                                    notification_case_label: 'transfer_responsibility').email_id)
+          .to eq(user_email.id)
+      end
+
+      scenario 'do not notify all members & notifications email present' do
+        @delegation.update!(notifications_email: 'delegation@example.com',
+                            notify_all_members: false)
+
+        transfer_responsibility_and_leave_user_with_view_permission
+
+        # still notify all supervisors
+        expect(Notification.count).to eq(3)
+        [
+          @del_member_4, 
+          @del_member_5, 
+          @del_member_6
+        ].each do |user|
+          expect(Notification.find_by(user: user,
+                                      notification_case_label: 'transfer_responsibility',
+                                      via_delegation: @delegation))
+            .to be_present
+        end
+
+        expect(Email.find_by(delegation: @delegation,
+                             to_address: @delegation.notifications_email)).to be_present
+      end
+
+      scenario 'do not notify all members & notifications email not present' do
+        @delegation.update!(notifications_email: nil,
+                            notify_all_members: false)
+
+        transfer_responsibility_and_leave_user_with_view_permission
+
+        # still notify all supervisors
+        expect(Notification.count).to eq(3)
+        [
+          @del_member_4, 
+          @del_member_5, 
+          @del_member_6
+        ].each do |user|
+          expect(Notification.find_by(user: user,
+                                      notification_case_label: 'transfer_responsibility',
+                                      via_delegation: @delegation))
+            .to be_present
+        end
+
+        expect(Email.count).to eq 0
+      end
+    end
   end
 
   scenario 'transfer responsibility to delegation '\
