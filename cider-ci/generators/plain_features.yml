@@ -2874,14 +2874,14 @@
   description: 'My: Notifications when user is a member of the beta-tester group Acknowledge
     notifications acknowledges'
   environment_variables:
-    RSPEC_NAME: "./spec/features/my/my_notifications_spec.rb:71"
+    RSPEC_NAME: "./spec/features/my/my_notifications_spec.rb:70"
     RSPEC_TEST: "./spec/features/my/my_notifications_spec.rb[1:1:2:1]"
 "./spec/features/my/my_notifications_spec.rb[1:2:1]":
   name: "./spec/features/my/my_notifications_spec.rb[1:2:1]"
   description: 'My: Notifications when user is not a member of the beta-tester group
     does not show the notifications, an error instead'
   environment_variables:
-    RSPEC_NAME: "./spec/features/my/my_notifications_spec.rb:101"
+    RSPEC_NAME: "./spec/features/my/my_notifications_spec.rb:98"
     RSPEC_TEST: "./spec/features/my/my_notifications_spec.rb[1:2:1]"
 "./spec/features/my/my_settings_spec.rb[1:1:1:1]":
   name: "./spec/features/my/my_settings_spec.rb[1:1:1:1]"
@@ -3810,7 +3810,7 @@
     and leave user with view permission different notification settings work notify
     all members & notifications email present
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:141"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:146"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:4:2:1]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:4:2:2]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:4:2:2]"
@@ -3818,7 +3818,7 @@
     and leave user with view permission different notification settings work notify
     all members & notifications email not present
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:173"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:176"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:4:2:2]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:4:2:3]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:4:2:3]"
@@ -3826,7 +3826,7 @@
     and leave user with view permission different notification settings work do not
     notify all members & notifications email present
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:203"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:204"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:4:2:3]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:4:2:4]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:4:2:4]"
@@ -3841,42 +3841,42 @@
   description: Media Entry - transfer responsibility transfer responsibility to delegation
     and leave user with view & download permissions
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:250"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:249"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:5]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:6]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:6]"
   description: Media Entry - transfer responsibility transfer responsibility to delegation
     and leave user with all permissions except manage
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:266"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:265"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:6]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:7]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:7]"
   description: Media Entry - transfer responsibility transfer responsibility to delegation
     and leave user with no permissions
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:282"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:281"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:7]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:1]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:1]"
   description: Media Entry - transfer responsibility media entry without public rights
     transfer responsibility to delegation and leave user with no permissions
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:303"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:302"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:1]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:2]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:2]"
   description: Media Entry - transfer responsibility media entry without public rights
     transfer responsibility to delegation and leave user with view permission
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:315"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:314"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:2]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:3]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:3]"
   description: Media Entry - transfer responsibility media entry without public rights
     transfer responsibility to delegation and leave user with view & download permissions
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:326"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:325"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:3]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:4]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:4]"
@@ -3884,14 +3884,14 @@
     transfer responsibility to delegation and leave user with all permissions except
     manage
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:338"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:337"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:4]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:5]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:5]"
   description: Media Entry - transfer responsibility media entry without public rights
     transfer responsibility to delegation and leave user with all permissions
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:350"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:349"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:5]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:6:1]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:6:1]"
@@ -3899,14 +3899,14 @@
     when user belongs to the delegation transfer responsibility to delegation and
     leave user with no permissions
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:363"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:362"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:8:6:1]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:9]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:9]"
   description: Media Entry - transfer responsibility batch transfer responsibility
     for media entries
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:377"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb:376"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:9]"
 "./spec/features/transfer_responsibility/transfer_responsibility_spec.rb[1:1]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_spec.rb[1:1]"

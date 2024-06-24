@@ -67,7 +67,10 @@ module Presenters
           notification_case_labels: NotificationCase.all.map { |nc| nc.label},
           notifications: @user.notifications
             .where(acknowledged: false)
-            .order(created_at: :DESC)
+            .order(created_at: :DESC),
+          delegations: Delegation
+            .where(id: @user.notifications.where(acknowledged: false).select(:via_delegation_id))
+            .order(:name)
         }
       end
 

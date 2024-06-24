@@ -97,7 +97,6 @@ feature 'Media Entry - transfer responsibility' do
 
     context 'different notification settings work' do
       before(:each) do
-        @delegation.groups << Group.find(Madek::Constants::BETA_TESTERS_NOTIFICATIONS_GROUP_ID)
         @group = create(:group)
 
         # +--------------+------+-------+------------+
@@ -112,11 +111,17 @@ feature 'Media Entry - transfer responsibility' do
         # +--------------+------+-------+------------+
 
         @del_member_1 = create(:user)
+        @del_member_1.groups << Group.find(Madek::Constants::BETA_TESTERS_NOTIFICATIONS_GROUP_ID)
         @del_member_2 = create(:user)
+        @del_member_2.groups << Group.find(Madek::Constants::BETA_TESTERS_NOTIFICATIONS_GROUP_ID)
         @del_member_3 = create(:user)
+        # (note: member 3 is not in beta tester group, should not get notifs)
         @del_member_4 = create(:user)
+        @del_member_4.groups << Group.find(Madek::Constants::BETA_TESTERS_NOTIFICATIONS_GROUP_ID)
         @del_member_5 = create(:user)
+        @del_member_5.groups << Group.find(Madek::Constants::BETA_TESTERS_NOTIFICATIONS_GROUP_ID)
         @del_member_6 = create(:user)
+        # (note: member 6 is not in beta tester group, should not get notifs)
 
         @delegation.users << @del_member_1
         @delegation.users << @del_member_2
@@ -144,14 +149,12 @@ feature 'Media Entry - transfer responsibility' do
 
         transfer_responsibility_and_leave_user_with_view_permission
 
-        expect(Notification.count).to eq(6)
+        expect(Notification.count).to eq(4)
         [
           @del_member_1, 
           @del_member_2, 
-          @del_member_3, 
           @del_member_4, 
-          @del_member_5, 
-          @del_member_6
+          @del_member_5
         ].each do |user|
            expect(Notification.find_by(user: user,
                                        notification_case_label: 'transfer_responsibility',
@@ -176,14 +179,12 @@ feature 'Media Entry - transfer responsibility' do
 
         transfer_responsibility_and_leave_user_with_view_permission
 
-        expect(Notification.count).to eq(6)
+        expect(Notification.count).to eq(4)
         [
           @del_member_1, 
           @del_member_2, 
-          @del_member_3, 
           @del_member_4, 
-          @del_member_5, 
-          @del_member_6
+          @del_member_5
         ].each do |user|
           expect(Notification.find_by(user: user,
                                       notification_case_label: 'transfer_responsibility',
@@ -207,11 +208,10 @@ feature 'Media Entry - transfer responsibility' do
         transfer_responsibility_and_leave_user_with_view_permission
 
         # still notify all supervisors
-        expect(Notification.count).to eq(3)
+        expect(Notification.count).to eq(2)
         [
           @del_member_4, 
-          @del_member_5, 
-          @del_member_6
+          @del_member_5
         ].each do |user|
           expect(Notification.find_by(user: user,
                                       notification_case_label: 'transfer_responsibility',
@@ -230,11 +230,10 @@ feature 'Media Entry - transfer responsibility' do
         transfer_responsibility_and_leave_user_with_view_permission
 
         # still notify all supervisors
-        expect(Notification.count).to eq(3)
+        expect(Notification.count).to eq(2)
         [
           @del_member_4, 
-          @del_member_5, 
-          @del_member_6
+          @del_member_5
         ].each do |user|
           expect(Notification.find_by(user: user,
                                       notification_case_label: 'transfer_responsibility',

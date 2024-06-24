@@ -43,10 +43,10 @@ feature 'Batch transfer responsibility spec' do
 
     visit my_dashboard_section_path(:notifications)
     expect(page).to have_content(
-      "Verantwortlichkeit von #{@resource_1.title} wurde von #{@user_1} an Sie übertragen."
+      "Verantwortlichkeit für Medieneintrag #{@resource_1.title} wurde von #{@user_1} an Sie übertragen."
     )
     expect(page).to have_content(
-      "Verantwortlichkeit von #{@resource_2.title} wurde von #{@user_1} an Sie übertragen."
+      "Verantwortlichkeit für Medieneintrag #{@resource_2.title} wurde von #{@user_1} an Sie übertragen."
     )
   end
 
@@ -82,10 +82,10 @@ feature 'Batch transfer responsibility spec' do
 
     visit my_dashboard_section_path(:notifications)
     expect(page).to have_content(
-      "Verantwortlichkeit von #{@resource_1.title} wurde von #{@user_1} an Sie übertragen."
+      "Verantwortlichkeit für Set #{@resource_1.title} wurde von #{@user_1} an Sie übertragen."
     )
     expect(page).to have_content(
-      "Verantwortlichkeit von #{@resource_2.title} wurde von #{@user_1} an Sie übertragen."
+      "Verantwortlichkeit für Set #{@resource_2.title} wurde von #{@user_1} an Sie übertragen."
     )
   end
 end

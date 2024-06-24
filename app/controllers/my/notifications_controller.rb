@@ -14,7 +14,18 @@ class My::NotificationsController < ApplicationController
 
   def acknowledge_all
     notification_case_label = params.require(:notification_case_label)
-    notifications = current_user.notifications.where(acknowledged: false).where(notification_case_label: notification_case_label)
+    via_delegation_id = params.fetch(:via_delegation_id)
+    notifications = current_user.notifications
+      .where(acknowledged: false)
+      .where(notification_case_label: notification_case_label)
+      .where(via_delegation_id: via_delegation_id)
+    notifications.update_all(acknowledged: true)
+    render json: []
+  end
+
+  def acknowledge_multiple
+    notification_ids = params.require(:notification_ids)
+    notifications = current_user.notifications.where(id: notification_ids, acknowledged: false)
     notifications.update_all(acknowledged: true)
     render json: []
   end

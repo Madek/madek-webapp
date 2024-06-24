@@ -42,7 +42,8 @@ module.exports = React.createClass
                 {section.title}
                 {
                   if section.counter
-                    <span style={{marginLeft: '4px', color: 'grey', fontWeight: 'normal'}}>({section.counter})</span>
+                    <span style={{marginLeft: '4px', color: 'grey', fontWeight: 'normal'}} 
+                      id={"side-navigation-#{section_id}-counter"}>({section.counter})</span>
                 }
               </a>
 

@@ -270,6 +270,7 @@ Madek::Application.routes.draw do
     # notifications
     resources :notifications, only: [:update] do
       post :acknowledge_all, on: :collection
+      post :acknowledge_multiple, on: :collection
     end
 
     # settings
