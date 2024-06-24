@@ -1,0 +1,16 @@
+- name: stop madek-webapp
+  service:
+    name: madek-webapp
+    state: stopped
+  failed_when: false
+
+- include_tasks: build.yml
+- include_tasks: setup-user.yml
+- include_tasks: install-project.yml
+- import_tasks: shared/install-and-bundle-ruby.yml
+  vars:
+    user: "{{madek_webapp_user}}"
+    working_dir: "{{madek_webapp_dir}}"
+- include_tasks: config.yml
+- include_tasks: service.yml
+- include_tasks: reverse-proxy.yml

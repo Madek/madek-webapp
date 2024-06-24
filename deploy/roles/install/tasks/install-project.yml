@@ -1,0 +1,18 @@
+- file:
+    path: '{{madek_webapp_dir}}'
+    state: absent
+    force: yes
+  name: remove existing /madek/webapp
+
+- file:
+    path: '{{madek_webapp_dir}}'
+    state: directory
+    owner: "{{madek_webapp_user}}"
+    recurse: yes
+  name: create empty '{{madek_webapp_dir}}'
+
+- unarchive:
+    src: "{{role_path}}/../../../webapp.tar.gz"
+    dest: '{{madek_webapp_dir}}'
+    owner: "{{madek_webapp_user}}"
+  name: extract archive

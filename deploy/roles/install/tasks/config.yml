@@ -1,0 +1,24 @@
+- name: configure database access
+  copy:
+    content: |
+      production: &DEFAULT
+        adapter: postgresql
+        host: {{database.hostname}}
+        port: {{database.port}}
+        pool: 5
+        encoding: unicode
+        username: {{database.user}}
+        password: {{database.password}}
+        database: {{database.name}}
+      development:
+        <<: *DEFAULT
+    dest: '{{madek_webapp_dir}}/config/database.yml'
+
+- name: configure database secret
+  copy:
+    content: |
+      production: &DEFAULT
+        secret_key_base: "{{secret_key_base}}"
+      development:
+        <<: *DEFAULT
+    dest: '{{madek_webapp_dir}}/config/secrets.yml'

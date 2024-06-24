@@ -1,0 +1,9 @@
+- template:
+    src: reverse-proxy.conf
+    dest: /etc/apache2/madek/conf.d/madek_900_webapp.conf
+    mode: 0644
+
+- name: reload reverse-proxy
+  service:
+    name: apache2
+    state: reloaded

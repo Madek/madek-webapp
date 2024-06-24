@@ -1,0 +1,36 @@
+[Unit]
+Description=Madek Webapp Service
+After=syslog.target
+
+BindsTo=madek-datalayer.service
+After=madek-datalayer.service
+PartOf=madek-datalayer.service
+
+StartLimitIntervalSec=180
+StartLimitBurst=6
+
+
+[Service]
+SyslogIdentifier=madek-webapp
+WorkingDirectory={{madek_webapp_dir}}
+User={{madek_webapp_user}}
+Group={{madek_webapp_user}}
+
+Restart=on-failure
+Restart=always
+RestartSec=5
+
+Environment=PATH={{madek_webapp_ruby_dir}}/bin:/usr/local/bin:/usr/bin:/bin
+Environment=RAILS_ENV=production
+Environment=RAILS_LOG_LEVEL=WARN
+Environment=RAILS_SERVE_STATIC_FILES=Yes
+Environment=RAILS_TIME_ZONE={{rails_timezone}}
+Environment=TMPDIR={{madek_tmp_dir}}
+
+ExecStart={{madek_webapp_ruby_dir}}/bin/ruby -S \
+    bundle exec puma -C config/puma.rb config.ru
+
+[Install]
+WantedBy=multi-user.target
+
+# vim: ft=systemd

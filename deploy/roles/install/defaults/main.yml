@@ -1,0 +1,7 @@
+madek_webapp_clean_slate: false
+madek_webapp_user: "{{madek_user}}"
+madek_webapp_max_threads_per_worker: 4
+madek_webapp_workers: "{{ansible_processor_vcpus}}"
+madek_webapp_ruby_dir: "/home/{{madek_webapp_user}}/.asdf/installs/ruby/{{madek_webapp_ruby_version.stdout}}"
+madek_webapp_puma_worker_killer_enabled: yes
+madek_webapp_puma_worker_killer_ram: '{{ (ansible_memtotal_mb / 4) | int }}'
