@@ -189,8 +189,17 @@ class MediaEntriesController < ApplicationController
     return true if resource_list_params[:filter].try(:[], :media_files)
   end
 
+  def get_authorized_resource
+    init_scope = MediaEntry.unscoped
+    unless uberadmin_mode
+      init_scope = init_scope.not_deleted
+    end
+    resource = init_scope.find(id_param)
+    super(resource)
+  end
+
   def find_resource
-    get_authorized_resource(MediaEntry.unscoped.find(id_param))
+    get_authorized_resource
   end
 
   def media_entry_params

@@ -313,8 +313,17 @@ class CollectionsController < ApplicationController
     respond_with(@get, template: template)
   end
 
+  def get_authorized_resource
+    init_scope = Collection.unscoped
+    unless uberadmin_mode
+      init_scope = init_scope.not_deleted
+    end
+    resource = init_scope.find(id_param)
+    super(resource)
+  end
+
   def find_resource
-    get_authorized_resource(Collection.unscoped.find(id_param))
+    get_authorized_resource
   end
 
   def size_param
