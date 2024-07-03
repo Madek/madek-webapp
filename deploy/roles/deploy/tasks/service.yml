@@ -29,8 +29,8 @@
   changed_when: false
   name: reload systemctl
 
-- name: start madek-webapp
+- name: enable and (re)start madek-webapp
   service:
     name: madek-webapp
     enabled: yes
-    state: started
+    state: restarted

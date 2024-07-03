@@ -2,6 +2,7 @@
   service:
     name: madek-webapp
     state: stopped
+    enabled: false
   failed_when: false
 
 - include_tasks: build.yml
