@@ -6,7 +6,7 @@ task_defaults:
 
 contexts:
   'Assets':
-    include: 
+    include:
       - cider-ci/context-components/rails-setup.yml
       - cider-ci/context-components/env.yml
     tasks:
@@ -32,13 +32,12 @@ contexts:
             body: cider-ci/bin/check-node-modules
 
   'Docs/Specs':
-    include: 
+    include:
       - cider-ci/context-components/rails-setup.yml
       - cider-ci/context-components/env.yml
     tasks:
       spec-docs:
         name: 'Docs: Render Overview from rspec feature specs'
-        traits: { Ruby: on, nodejs: on }
         git_options: { submodules: { include_match: '.' } }
         tree_attachments:
           feature-specs:
