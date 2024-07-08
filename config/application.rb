@@ -1,5 +1,5 @@
 require_relative 'boot'
-require_relative('../lib/madek/middleware/audit.rb')
+require_relative('../datalayer/lib/madek/middleware/audit.rb')
 $:.push File.expand_path('../../datalayer/lib', __FILE__)
 
 require "rails/all"
