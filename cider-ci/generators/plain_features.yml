@@ -278,12 +278,6 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/batch_edit/batch_add_to_set_spec.rb:78"
     RSPEC_TEST: "./spec/features/batch_edit/batch_add_to_set_spec.rb[1:2]"
-"./spec/features/batch_edit/batch_delete_spec.rb[1:1]":
-  name: "./spec/features/batch_edit/batch_delete_spec.rb[1:1]"
-  description: batch delete delete
-  environment_variables:
-    RSPEC_NAME: "./spec/features/batch_edit/batch_delete_spec.rb:10"
-    RSPEC_TEST: "./spec/features/batch_edit/batch_delete_spec.rb[1:1]"
 "./spec/features/batch_edit/batch_dropdown_spec.rb[1:1]":
   name: "./spec/features/batch_edit/batch_dropdown_spec.rb[1:1]"
   description: Batch dropdown Check dropdown menu and highlighting according to selection
@@ -380,6 +374,12 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/batch_edit/batch_remove_meta_data_spec.rb:24"
     RSPEC_TEST: "./spec/features/batch_edit/batch_remove_meta_data_spec.rb[1:2]"
+"./spec/features/batch_edit/batch_soft_delete_spec.rb[1:1]":
+  name: "./spec/features/batch_edit/batch_soft_delete_spec.rb[1:1]"
+  description: batch soft-delete works
+  environment_variables:
+    RSPEC_NAME: "./spec/features/batch_edit/batch_soft_delete_spec.rb:10"
+    RSPEC_TEST: "./spec/features/batch_edit/batch_soft_delete_spec.rb[1:1]"
 "./spec/features/batch_edit/batch_transfer_responsibility_spec.rb[1:1]":
   name: "./spec/features/batch_edit/batch_transfer_responsibility_spec.rb[1:1]"
   description: Batch transfer responsibility spec successfully updates responsible

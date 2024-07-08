@@ -5,9 +5,9 @@ require_relative '../shared/batch_selection_helper'
 include BatchSelectionHelper
 require_relative './shared/batch_shared_dropdown_spec'
 
-feature 'batch delete' do
+feature 'batch soft-delete' do
 
-  scenario 'delete' do
+  scenario 'works' do
     user1 = create_user
     user2 = create_user
 
@@ -29,7 +29,9 @@ feature 'batch delete' do
     add_all_to_parent(all_resources, parent)
 
     media_entries_before = MediaEntry.all.count
+    media_entries_deleted_before = MediaEntry.unscoped.deleted.count
     collections_before = Collection.all.count
+    collections_deleted_before = Collection.unscoped.deleted.count
 
     login(user1)
     visit_resource(parent)
@@ -67,5 +69,10 @@ feature 'batch delete' do
 
     expect(media_entries_before - media_entries_after).to eq(3 - 1)
     expect(collections_before - collections_after).to eq(2 - 1)
+
+    expect(MediaEntry.unscoped.deleted.count)
+      .to eq(media_entries_deleted_before + (media_entries_before - media_entries_after))
+    expect(Collection.unscoped.deleted.count)
+      .to eq(collections_deleted_before + (collections_before - collections_after))
   end
 end

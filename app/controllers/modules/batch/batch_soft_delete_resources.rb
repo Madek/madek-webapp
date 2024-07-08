@@ -1,6 +1,6 @@
 module Modules
   module Batch
-    module BatchDestroyResources
+    module BatchSoftDeleteResources
       extend ActiveSupport::Concern
 
       include Modules::Batch::BatchAuthorization
@@ -33,14 +33,10 @@ module Modules
       def destroy_transaction(media_entries, collections)
         ActiveRecord::Base.transaction do
           media_entries.each do |media_entry|
-            # TODO: Remove this when cascade delete works:
-            media_entry.meta_data.each(&:destroy!)
-            media_entry.destroy!
+            media_entry.soft_delete
           end
           collections.each do |collection|
-            # TODO: Remove this when cascade delete works:
-            collection.meta_data.each(&:destroy!)
-            collection.destroy!
+            collection.soft_delete
           end
         end
       end

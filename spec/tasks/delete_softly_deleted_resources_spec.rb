@@ -22,6 +22,12 @@ describe 'delete soft deleted resources tasks' do
       expect(MediaEntry.unscoped.find_by_id(@media_entry_2.id)).to be nil
       expect(MediaEntry.unscoped.find_by_id(@media_entry_3.id)).to be nil
       expect(Collection.unscoped.find_by_id(@collection_2.id)).to be nil
+      expect(
+        MetaDatum.where(
+          media_entry_id: [@media_entry_2.id, @media_entry_3.id]
+        ).count
+      ).to eq 0
+      expect(MetaDatum.where(collection_id: @collection_2.id).count).to eq 0
     end
   end
 end
