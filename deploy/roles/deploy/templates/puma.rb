@@ -12,7 +12,7 @@ before_fork do
     config.ram           = {{madek_webapp_puma_worker_killer_ram}} # mb
     config.frequency     = 60    # seconds
     config.percent_usage = 0.98
-    config.rolling_restart_frequency = 3 * 60 * 60
+    config.rolling_restart_frequency = 24 * 60 * 60
     config.reaper_status_logs = false
 
     config.pre_term = -> (worker) { puts "Worker #{worker.inspect} being killed" }
