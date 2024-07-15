@@ -13,12 +13,12 @@ module Modules
     end
 
     def check_origin!(path)
-      raise "Temp file doesn't exist!" unless File.exists?(path)
+      raise "Temp file doesn't exist!" unless File.exist?(path)
       true
     end
 
     def check_location!(path)
-      raise 'Target file already exists!' if File.exists?(path)
+      raise 'Target file already exists!' if File.exist?(path)
       true
     end
 

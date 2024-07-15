@@ -24,7 +24,7 @@
   +background-image(linear-gradient($white, $mono-bright))
   +border-radius(12px)
   +box-shadow($lighten 0 1px 0 inset)
-  +single-text-shadow(false, 1px, false, false, $lighten-more)
+  text-shadow: 0px 1px 1px $lighten-more
   border: 1px solid (lighten($mono-light, 5%))
   color: $mono-dark
   cursor: pointer
@@ -45,7 +45,7 @@
   vertical-align: top
   &:hover
     +background-image(linear-gradient(lighten($mono-bright, 3%), lighten($mono-weak, 3%)))
-    +single-text-shadow(false, 1px, false, false, $lighten)
+    text-shadow: 0px 1px 1px $lighten
     background-color: lighten($mono-weak, 3%)
     border-color: darken($mono-light, 3%)
     color: $mono-dark

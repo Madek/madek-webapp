@@ -1,0 +1,102 @@
+// Mixins from the retired `compass` framework
+// Reduced to exactly what is needed in Madek Webapp
+// Vendor prefixes not needed anymore
+
+@mixin border-radius($radius) {
+  border-radius: $radius;
+}
+
+@mixin border-top-left-radius($radius) {
+  border-top-left-radius: $radius;
+}
+
+@mixin border-top-right-radius($radius) {
+  border-top-right-radius: $radius;
+}
+
+@mixin border-bottom-left-radius($radius) {
+  border-bottom-left-radius: $radius;
+}
+
+@mixin border-bottom-right-radius($radius) {
+  border-bottom-right-radius: $radius;
+}
+
+@mixin border-left-radius($radius) {
+  @include border-top-left-radius($radius);
+  @include border-bottom-left-radius($radius);
+}
+
+@mixin border-right-radius($radius) {
+  @include border-top-right-radius($radius);
+  @include border-bottom-right-radius($radius);
+}
+
+@mixin border-top-radius($radius) {
+  @include border-top-left-radius($radius);
+  @include border-top-right-radius($radius);
+}
+
+@mixin border-bottom-radius($radius) {
+  @include border-bottom-left-radius($radius);
+  @include border-bottom-right-radius($radius);
+}
+
+@mixin box-shadow($shadow...) {
+  box-shadow: $shadow;
+}
+
+@mixin box-sizing($box-model) {
+  box-sizing: $box-model;
+}
+
+@mixin text-shadow($shadow...) {
+  text-shadow: $shadow;
+}
+
+@mixin background($backgrounds...) {
+  background: $backgrounds;
+}
+
+@mixin float-left() {
+  float: left;
+}
+
+@mixin float-right() {
+  float: right;
+}
+
+@mixin background-image($images...) {
+  background-size: 100%;
+  @each $image in $images {
+    background-image: $image;
+  }
+}
+
+@mixin ellipsis($no-wrap: true) {
+  @if $no-wrap {
+    white-space: nowrap;
+  }
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin backface-visibility($visibility: hidden) {
+  backface-visibility: $visibility;
+}
+
+@mixin clearfix() {
+  overflow: hidden;
+}
+
+@mixin column-gap($width) {
+  column-gap: $width;
+}
+
+@mixin column-width($width) {
+  column-width: $width;
+}
+
+@mixin break-inside($value: auto) {
+  break-inside: $value;
+}

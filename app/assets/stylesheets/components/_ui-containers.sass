@@ -29,7 +29,7 @@
 
 .ui-container.inverted
   +background-image(linear-gradient($mono-strong, $mono-dark))
-  +single-text-shadow(false, 1px, false, false, $darken)
+  text-shadow: 0px 1px 1px $darken
   background-color: $mono-strong
   color: $mono-bright
 
@@ -127,7 +127,6 @@
 
   &.rounded-bottom-right
     +border-bottom-right-radius($border-radius-m)
-
 
 // Table-layout ui-containers
 

@@ -52,7 +52,7 @@ a:active
   +background-image(linear-gradient($mono-bright, $mono-weak))
   +border-radius($border-radius-s)
   +box-shadow($lighten 0 1px 0 inset)
-  +single-text-shadow(false, 1px, false, false, $lighten-more)
+  text-shadow: 0px 1px 1px $lighten-more
   border: 1px solid $mono-light
   color: $mono-dark
   cursor: pointer
@@ -73,7 +73,7 @@ a:active
 
 .button:hover
   +background-image(linear-gradient(lighten($mono-bright, 3%), lighten($mono-weak, 3%)))
-  +single-text-shadow(false, 1px, false, false, $lighten)
+  text-shadow: 0px 1px 1px $lighten
   background-color: lighten($mono-weak, 3%)
   border-color: darken($mono-light, 3%)
   color: $mono-dark
@@ -108,7 +108,7 @@ a:active
 .button.disabled, .button[disabled], [disabled] .button, .disabled .button
   &, &:hover
     +background-image(linear-gradient(darken($mono-bright, 10%), darken($mono-weak, 10%)))
-    +single-text-shadow(false, 1px, 0, false, $lighten)
+    text-shadow: 0px 1px 0 $lighten
     border-color: darken($mono-light, 5%)
     color: $mono-mid
     cursor: default
@@ -182,7 +182,7 @@ a:active
 .primary-button
   @extend .button
   +background-image(linear-gradient($main-color-light, $main-color))
-  +single-text-shadow(false, 1px, 0, false, $darken)
+  text-shadow: 0px 1px 0 $darken
   background-color: $main-color
   border: 1px solid $main-color-dark
   color: darken($white, 5%)
@@ -190,7 +190,7 @@ a:active
 // Hover state
 .primary-button:hover
   +background-image(linear-gradient(lighten($main-color-light, 3%), lighten($main-color, 3%)))
-  +single-text-shadow(false, 1px, 0, false, $darken)
+  text-shadow: 0px 1px 0 $darken
   background-color: lighten($main-color, 3%)
   border-color: darken($main-color-dark, 3%)
   color: $white
@@ -200,7 +200,7 @@ a:active
 .primary-button.active
   +box-shadow($darken 0 1px 3px inset)
   +background-image(linear-gradient(darken($main-color-light, 10%), darken($main-color, 10%)))
-  +single-text-shadow(false, -1px, 0, false, $darken)
+  text-shadow: 0px -1px 0 $darken
   border-color: darken($main-color-dark, 5%)
   color: darken($white, 20%)
   outline: 0
@@ -222,14 +222,14 @@ a:active
 .tertiary-button
   @extend .button
   +background-image(linear-gradient($mono-mid, $mono-strong))
-  +single-text-shadow(false, 1px, 0, false, $darken)
+  text-shadow: 0px 1px 0 $darken
   background-color: $mono-strong
   border: 1px solid $mono-dark
   color: $mono-bright
 
 .tertiary-button:hover
   +background-image(linear-gradient(lighten($mono-mid, 3%), lighten($mono-strong, 3%)))
-  +single-text-shadow(false, 1px, 0, false, $darken)
+  text-shadow: 0px 1px 0 $darken
   background-color: lighten($mono-strong, 3%)
   border: 1px solid darken($mono-dark, 5%)
   color: $white
@@ -238,7 +238,7 @@ a:active
 .tertiary-button.active
   +background-image(linear-gradient(darken($mono-strong, 10%), darken($mono-dark, 10%)))
   +box-shadow($darken 0 1px 3px inset)
-  +single-text-shadow(false, -1px, 0, false, $darken-more)
+  text-shadow: 0px -1px 0 $darken-more
   border: 1px solid $black
   color: $white
 

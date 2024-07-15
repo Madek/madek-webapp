@@ -1,6 +1,6 @@
 # common gems from datalayer, if checked out (otherwise GitHub cant parse this file!)
 SHARED_GEMFILE = './datalayer/Gemfile'
-eval_gemfile(SHARED_GEMFILE) if File.exists?(SHARED_GEMFILE)
+eval_gemfile(SHARED_GEMFILE) if File.exist?(SHARED_GEMFILE)
 
 ####################################################################
 # required in production PRODUCTION
@@ -21,7 +21,6 @@ gem 'puma_worker_killer'
 gem 'madek_zhdk_integration', path: 'zhdk-integration'
 
 # FRONTEND
-gem 'compass-rails', '~> 3.0'
 gem 'haml-rails'
 gem 'kramdown'
 gem 'react-rails', '= 1.9.0'
