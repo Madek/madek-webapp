@@ -9,6 +9,7 @@ setUrlParams = require('../../../lib/set-params-for-url.coffee')
 RailsForm = require('../../lib/forms/rails-form.cjsx')
 railsFormPut = require('../../../lib/form-put-with-errors.coffee')
 AutoComplete = require('../../lib/autocomplete-wrapper.cjsx')
+interpolateSplit = require('../../../lib/interpolate-split.js').default
 
 module.exports = React.createClass
   displayName: 'Shared.EditTransferResponsibility'
@@ -66,8 +67,22 @@ module.exports = React.createClass
     else
       {display: 'none'}
 
+  _translateForNResources: (resourceType, n) ->
+    if resourceType == 'Collection'
+      if n == 1
+        interpolateSplit(t('transfer_responsibility_for_1_collection')).join('')
+      else
+        interpolateSplit(t('transfer_responsibility_for_n_collections'), {nofResources: n}).join('')
+    else
+      if n == 1
+        interpolateSplit(t('transfer_responsibility_for_1_media_entry')).join('')
+      else
+        interpolateSplit(t('transfer_responsibility_for_n_media_entries'), {nofResources: n}).join('')
 
-  render: ({authToken, batch, resourceType, singleResourceUrl, singleResourceActionUrl, batchResourceIds, batchActionUrls} = @props) ->
+  render: ({authToken, currentUser, batch, resourceType, singleResourceUrl, singleResourceActionUrl, 
+            batchResourceIds, batchActionUrls, 
+            responsible, batchResponsibles,
+            onClose} = @props) ->
 
     actionUrl =
       if not batch
@@ -76,6 +91,8 @@ module.exports = React.createClass
         batchActionUrl = batchActionUrls[resourceType]
         throw new Error('Action url not available for batch type: ' + resourceType) if not batchActionUrl
         batchActionUrl
+    
+    responsibles =  if batch then batchResponsibles else [ responsible ]
 
     <div className='bright ui-container pal rounded'>
 
@@ -101,8 +118,29 @@ module.exports = React.createClass
         }
 
 
-        <h2 className='title-l ui-info-box-title mbm'>{t('transfer_responsibility_title')}</h2>
+        {
+          if batch
+            <h2 className='title-l ui-info-box-title mbm'>
+              {interpolateSplit(t('transfer_responsibility_title_batch'), 
+                {forNResources: @_translateForNResources(resourceType, batchResourceIds.length)})}
+            </h2>
+          else 
+            <h2 className='title-l ui-info-box-title mbm'>{t('transfer_responsibility_title_single')}</h2>
+        }
 
+        <div className="title-m ">{t('transfer_responsibility_currently_responsible')}</div>
+        <div className="mbm">
+          {
+            for idx, r of responsibles
+              <div key={idx}>
+                {r.name}
+                {if responsibles.length > 1 
+                  " " + @_translateForNResources(resourceType, r.nofResources)}
+              </div>
+          }
+        </div>
+
+        <div className="title-m">{t('transfer_responsibility_to')}</div>
         <div className='ui-rights-user' style={@_displayBlockIf(@state.selectedEntity)}>
           <a onClick={@handleEntityClear}
             className='button small ui-rights-remove icon-close small'
@@ -124,64 +162,70 @@ module.exports = React.createClass
             positionRelative={true} />
         </div>
 
-        {f.includes(['Person', 'User'], @props.responsible?.type) and (
-          <div>
-            <h2 className='title-m ui-info-box-title mtl mbm separated light'>
-              {t('transfer_responsibility_person_will_receive_1')}
-              {@props.responsible.name}
-              {t('transfer_responsibility_person_will_receive_2')}
-            </h2>
-            <table className='ui-rights-group'>
-              <tbody>
-                <tr>
-                  <td style={{textAlign: 'center', border: '0px'}}>
-                    {t('permission_name_get_metadata_and_previews')}
-                  </td>
-                  {
-                    if resourceType == 'MediaEntry'
-                      <td style={{textAlign: 'center', border: '0px'}}>
-                        {t('permission_name_get_full_size')}
-                      </td>
-                  }
-                  <td style={{textAlign: 'center', border: '0px'}}>
-                    {if @props.resourceType == 'Collection' then t('permission_name_edit_metadata_and_relations') else t('permission_name_edit_metadata')}
-                  </td>
-                  <td style={{textAlign: 'center', border: '0px'}}>
-                    {t('permission_name_edit_permissions')}
-                  </td>
-                </tr>
-                <tr>
-                  <td style={{textAlign: 'center', border: '0px'}}>
-                    <input type='checkbox'
-                      name={'transfer_responsibility[permissions][view]'}
-                      checked={@state.permissionLevel >= 1} onChange={(event) => @_onToggleCheckbox(1, event)} />
-                  </td>
-                  {
-                    if resourceType == 'MediaEntry'
-                      <td style={{textAlign: 'center', border: '0px'}}>
-                        <input type='checkbox'
-                          name={'transfer_responsibility[permissions][download]'}
-                          checked={@state.permissionLevel >= 2} onChange={(event) => @_onToggleCheckbox(2, event)} />
-                      </td>
-                  }
-                  <td style={{textAlign: 'center', border: '0px'}}>
-                    <input type='checkbox'
-                      name={'transfer_responsibility[permissions][edit]'}
-                      checked={@state.permissionLevel >= 3} onChange={(event) => @_onToggleCheckbox(3, event)} />
-                  </td>
-                  <td style={{textAlign: 'center', border: '0px'}}>
-                    <input type='checkbox'
-                      name={'transfer_responsibility[permissions][manage]'}
-                      checked={@state.permissionLevel >= 4} onChange={(event) => @_onToggleCheckbox(4, event)} />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        )}
+        <div>
+          <h2 className='title-m ui-info-box-title mtm mbs'>
+            {
+              if responsibles.length == 1
+                if responsibles[0].uuid == currentUser.uuid
+                  interpolateSplit(t('transfer_responsibility_you_will_receive'), 
+                    {name: responsibles[0].name}).join('')
+                else
+                  interpolateSplit(t('transfer_responsibility_single_will_receive'), 
+                    {name: responsibles[0].name}).join('')
+              else
+                t('transfer_responsibility_multiple_will_receive')
+            }
+          </h2>
+          <table className='ui-rights-group'>
+            <tbody>
+              <tr>
+                <td style={{textAlign: 'center', border: '0px'}}>
+                  {t('permission_name_get_metadata_and_previews')}
+                </td>
+                {
+                  if resourceType == 'MediaEntry'
+                    <td style={{textAlign: 'center', border: '0px'}}>
+                      {t('permission_name_get_full_size')}
+                    </td>
+                }
+                <td style={{textAlign: 'center', border: '0px'}}>
+                  {if resourceType == 'Collection' then t('permission_name_edit_metadata_and_relations') else t('permission_name_edit_metadata')}
+                </td>
+                <td style={{textAlign: 'center', border: '0px'}}>
+                  {t('permission_name_edit_permissions')}
+                </td>
+              </tr>
+              <tr>
+                <td style={{textAlign: 'center', border: '0px'}}>
+                  <input type='checkbox'
+                    name={'transfer_responsibility[permissions][view]'}
+                    checked={@state.permissionLevel >= 1} onChange={(event) => @_onToggleCheckbox(1, event)} />
+                </td>
+                {
+                  if resourceType == 'MediaEntry'
+                    <td style={{textAlign: 'center', border: '0px'}}>
+                      <input type='checkbox'
+                        name={'transfer_responsibility[permissions][download]'}
+                        checked={@state.permissionLevel >= 2} onChange={(event) => @_onToggleCheckbox(2, event)} />
+                    </td>
+                }
+                <td style={{textAlign: 'center', border: '0px'}}>
+                  <input type='checkbox'
+                    name={'transfer_responsibility[permissions][edit]'}
+                    checked={@state.permissionLevel >= 3} onChange={(event) => @_onToggleCheckbox(3, event)} />
+                </td>
+                <td style={{textAlign: 'center', border: '0px'}}>
+                  <input type='checkbox'
+                    name={'transfer_responsibility[permissions][manage]'}
+                    checked={@state.permissionLevel >= 4} onChange={(event) => @_onToggleCheckbox(4, event)} />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <div className='ui-actions phl pbl mtl'>
-          <a className='link weak' onClick={@props.onClose}> {t('transfer_responsibility_cancel')} </a>
+          <a className='link weak' onClick={onClose}> {t('transfer_responsibility_cancel')} </a>
           <button disabled={(not @state.selectedEntity) || @state.saving}
             className='primary-button large' onClick={@_onExplicitSubmit} type='button'>
             {t('transfer_responsibility_submit')}

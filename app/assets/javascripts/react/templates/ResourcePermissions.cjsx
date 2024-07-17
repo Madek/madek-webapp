@@ -120,7 +120,9 @@ module.exports = React.createClass
               singleResourceActionUrl={@props.get.update_transfer_responsibility_url}
               batchResourceIds={null}
               responsible={@props.get.responsible}
-              onClose={(event) => @_showTransferModal(false, event)} />
+              onClose={(event) => @_showTransferModal(false, event)}
+              currentUser={@props.get.current_user}
+            />
           </Modal>
       }
 

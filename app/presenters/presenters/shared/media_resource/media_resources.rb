@@ -19,6 +19,7 @@ module Presenters
       class MediaResources < Presenter
         include AuthorizationSetup
         include Presenters::Shared::MediaResource::Modules::IndexPresenterByClass
+        include Presenters::Shared::Modules::CurrentUser
 
         attr_reader :resources, :pagination, :has_user, :can_filter, :type
         attr_accessor :try_collections
@@ -215,6 +216,7 @@ module Presenters
           end
           result
         end
+
       end
     end
   end

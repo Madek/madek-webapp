@@ -3777,6 +3777,20 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb:170"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:7]"
+"./spec/features/transfer_responsibility/transfer_responsibility_from_delegation_spec.rb[1:1]":
+  name: "./spec/features/transfer_responsibility/transfer_responsibility_from_delegation_spec.rb[1:1]"
+  description: transfer responsibility from delegation batch process for media entries
+    with mixed responsibility
+  environment_variables:
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_from_delegation_spec.rb:27"
+    RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_from_delegation_spec.rb[1:1]"
+"./spec/features/transfer_responsibility/transfer_responsibility_from_delegation_spec.rb[1:2]":
+  name: "./spec/features/transfer_responsibility/transfer_responsibility_from_delegation_spec.rb[1:2]"
+  description: transfer responsibility from delegation batch process for collections
+    with mixed responsibility
+  environment_variables:
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_from_delegation_spec.rb:99"
+    RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_from_delegation_spec.rb[1:2]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:1]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:1]"
   description: Media Entry - transfer responsibility check media entry checkbox behaviour

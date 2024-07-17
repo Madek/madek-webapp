@@ -26,6 +26,8 @@ module Modules
       def remove_existing_permissions_for_new_user(resource, new_entity)
         if new_entity.instance_of?(User)
           resource.user_permissions.where(user: new_entity).destroy_all
+        elsif new_entity.instance_of?(Delegation)
+          resource.user_permissions.where(delegation: new_entity).destroy_all
         end
       end
 
@@ -44,7 +46,7 @@ module Modules
       def do_update_permissions_media_entry(
           resource, view, download, edit, manage)
         existing_permissions = resource.user_permissions.where(
-          user: resource.responsible_user).first
+          user: resource.responsible_user, delegation: resource.responsible_delegation).first
         if existing_permissions
           existing_permissions.get_metadata_and_previews = view
           existing_permissions.get_full_size = download
@@ -54,6 +56,7 @@ module Modules
         else
           config = {
             user: resource.responsible_user,
+            delegation: resource.responsible_delegation,
             get_metadata_and_previews: view,
             get_full_size: download,
             edit_metadata: edit,
@@ -75,7 +78,7 @@ module Modules
 
       def do_update_permissions_collection(resource, view, edit, manage)
         existing_permissions = resource.user_permissions.where(
-          user: resource.responsible_user).first
+          user: resource.responsible_user, delegation: resource.responsible_delegation).first
         if existing_permissions
           existing_permissions.get_metadata_and_previews = view
           existing_permissions.edit_metadata_and_relations = edit
@@ -84,6 +87,7 @@ module Modules
         else
           config = {
             user: resource.responsible_user,
+            delegation: resource.responsible_delegation,
             get_metadata_and_previews: view,
             edit_metadata_and_relations: edit,
             edit_permissions: manage

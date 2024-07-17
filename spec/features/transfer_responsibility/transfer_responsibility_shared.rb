@@ -219,6 +219,12 @@ module TransferResponsibilityShared
     media_entry
   end
 
+  def update_responsible_delegation(resource, delegation)
+    resource.responsible_user = nil
+    resource.responsible_delegation = delegation
+    resource.save!
+  end
+
   def login_user(user)
     sign_in_as(user.login, user.password)
   end

@@ -861,6 +861,7 @@ module.exports = React.createClass
             onClose={@_hideBatchTransferResponsibility}
             onSaved={() -> location.reload()}
             actionUrls={actionUrls}
+            currentUser={@props.get.current_user}
           />
       }
 

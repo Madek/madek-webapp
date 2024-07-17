@@ -1,28 +1,22 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import f from 'lodash'
-import BoxTitlebarRender from './BoxTitlebarRender.jsx'
-import t from '../../lib/i18n-translate.js'
-import cx from 'classnames/dedupe'
-import boxSetUrlParams from './BoxSetUrlParams.jsx'
 import Modal from '../ui-components/Modal.cjsx'
 import EditTransferResponsibility from '../views/Shared/EditTransferResponsibility.cjsx'
 
 class BoxTransfer extends React.Component {
-
   constructor(props) {
     super(props)
   }
 
-
   render() {
+    const transferResources = this.props.transferResources
 
-    var transferResources = this.props.transferResources
+    const resource_ids = f.map(transferResources, 'uuid')
 
-    var resource_ids = f.map(transferResources, 'uuid')
+    // current responsibles occuring in the list, grouped
+    const responsibles = extractResponsibles(transferResources)
 
-    var responsible = transferResources[0].responsible
-    var batch_type = transferResources[0].type
+    const batch_type = transferResources[0].type
 
     return (
       <Modal widthInPixel={800}>
@@ -33,12 +27,29 @@ class BoxTransfer extends React.Component {
           singleResource={null}
           batchResourceIds={resource_ids}
           batchActionUrls={this.props.actionUrls}
-          responsible={responsible}
+          batchResponsibles={responsibles}
           onClose={this.props.onClose}
-          onSaved={this.props.onSaved} />
+          onSaved={this.props.onSaved}
+          currentUser={this.props.currentUser}
+        />
       </Modal>
     )
   }
+}
+
+function extractResponsibles(resources) {
+  // current responsibles occuring in the list, grouped
+  const map = resources.reduce((acc, resource) => {
+    const { responsible } = resource
+    const { uuid, name } = responsible
+    if (acc[uuid]) {
+      acc[uuid].nofResources += 1
+    } else {
+      acc[uuid] = { uuid, name, nofResources: 1 }
+    }
+    return acc
+  }, {})
+  return Object.values(map).sort(r => r.name)
 }
 
 module.exports = BoxTransfer
