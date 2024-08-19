@@ -1,15 +1,10 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import l from 'lodash'
 import t from '../../lib/i18n-translate.js'
-import cx from 'classnames/dedupe'
 import BoxPopup from './BoxPopup.jsx'
 import BoxRenderLabel from './BoxRenderLabel.jsx'
 
-
-
 class BoxBatchDatumKeywords extends React.Component {
-
   constructor(props) {
     super(props)
   }
@@ -20,29 +15,26 @@ class BoxBatchDatumKeywords extends React.Component {
   }
 
   onChange(text) {
-    this.props.trigger(this.props.metaKeyForm, {action: 'change-text', text: text})
+    this.props.trigger(this.props.metaKeyForm, { action: 'change-text', text: text })
   }
 
   onKeyDown(event) {
-    if(event.keyCode == 13) {
-      this.props.trigger(this.props.metaKeyForm, {action: 'cursor-enter'})
-    }
-    else if(event.keyCode == 40) {
-      this.props.trigger(this.props.metaKeyForm, {action: 'cursor-down'})
-    }
-    else if(event.keyCode == 38) {
-      this.props.trigger(this.props.metaKeyForm, {action: 'cursor-up'})
+    if (event.keyCode == 13) {
+      this.props.trigger(this.props.metaKeyForm, { action: 'cursor-enter' })
+    } else if (event.keyCode == 40) {
+      this.props.trigger(this.props.metaKeyForm, { action: 'cursor-down' })
+    } else if (event.keyCode == 38) {
+      this.props.trigger(this.props.metaKeyForm, { action: 'cursor-up' })
     }
   }
 
   onClose(event) {
-    this.props.trigger(this.props.metaKeyForm, {action: 'close'})
+    this.props.trigger(this.props.metaKeyForm, { action: 'close' })
   }
 
   removeKeyword(k) {
-
     var event = () => {
-      if(k.id) {
+      if (k.id) {
         return {
           action: 'remove-keyword-by-id',
           id: k.id
@@ -62,15 +54,19 @@ class BoxBatchDatumKeywords extends React.Component {
       <span
         key={i}
         style={{
-          fontStyle: (!k.id ? 'italic' : 'normal'),
+          fontStyle: !k.id ? 'italic' : 'normal',
           marginRight: '10px',
-          color: (!k.id ? '#aaa' : '#000')
-        }}
-      >
-
-        <span onClick={(e) => this.removeKeyword(k)} style={{cursor: 'pointer'}}>
-          <i className='icon-close' style={{position: 'relative', top: '1px', marginRight: '0px', fontSize: '12px'}}></i>
-          {' '}
+          color: !k.id ? '#aaa' : '#000'
+        }}>
+        <span onClick={e => this.removeKeyword(k)} style={{ cursor: 'pointer' }}>
+          <i
+            className="icon-close"
+            style={{
+              position: 'relative',
+              top: '1px',
+              marginRight: '0px',
+              fontSize: '12px'
+            }}></i>{' '}
         </span>
         {k.label}
       </span>
@@ -78,22 +74,23 @@ class BoxBatchDatumKeywords extends React.Component {
   }
 
   renderKeywords() {
-    return l.map(
-      this.props.metaKeyForm.data.keywords,
-      (k, i) => this.renderKeyword(k, i)
-    )
+    return l.map(this.props.metaKeyForm.data.keywords, (k, i) => this.renderKeyword(k, i))
   }
 
   onKeywordSelect(event, keywordId, keywordLabel) {
-    this.props.trigger(this.props.metaKeyForm, {action: 'select-keyword', keywordId: keywordId, keywordLabel: keywordLabel})
+    this.props.trigger(this.props.metaKeyForm, {
+      action: 'select-keyword',
+      keywordId: keywordId,
+      keywordLabel: keywordLabel
+    })
   }
 
   onFocus(event) {
-    this.props.trigger(this.props.metaKeyForm, {action: 'input-focus'})
+    this.props.trigger(this.props.metaKeyForm, { action: 'input-focus' })
   }
 
   onCloseProposals() {
-    this.props.trigger(this.props.metaKeyForm, {action: 'close-proposals'})
+    this.props.trigger(this.props.metaKeyForm, { action: 'close-proposals' })
   }
 
   renderKeywordProposal(k, i) {
@@ -102,46 +99,40 @@ class BoxBatchDatumKeywords extends React.Component {
         key={k.uuid}
         style={{
           cursor: 'pointer',
-          backgroundColor: (this.props.metaKeyForm.data.keyCursor == i ? '#d6d6d6' : null),
+          backgroundColor: this.props.metaKeyForm.data.keyCursor == i ? '#d6d6d6' : null,
           padding: '0px 10px',
           borderBottom: '1px solid #eee'
         }}
-        onClick={(e) => this.onKeywordSelect(e, k.uuid, k.label)}
-      >
+        onClick={e => this.onKeywordSelect(e, k.uuid, k.label)}>
         {k.label}
       </div>
     )
-
   }
 
   renderKeywordProposals() {
-    if(!this.props.metaKeyForm.data.keywordProposals) {
+    if (!this.props.metaKeyForm.data.keywordProposals) {
       return (
         <div
           style={{
             padding: '0px 10px'
-          }}
-        >
+          }}>
           {'Loading...'}
         </div>
       )
-    }
-    else {
-      return l.map(
-        this.props.metaKeyForm.data.keywordProposals,
-        (k, i) => this.renderKeywordProposal(k, i)
+    } else {
+      return l.map(this.props.metaKeyForm.data.keywordProposals, (k, i) =>
+        this.renderKeywordProposal(k, i)
       )
     }
   }
 
   renderPopup() {
-
-    if(!this.props.metaKeyForm.data.showProposals) {
+    if (!this.props.metaKeyForm.data.showProposals) {
       return null
     }
 
     return (
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <BoxPopup
           onClose={() => this.onCloseProposals()}
           style={{
@@ -156,8 +147,7 @@ class BoxBatchDatumKeywords extends React.Component {
             boxShadow: '0px 0px 3px 0px rgba(0,0,0,0.5)',
             maxHeight: '200px',
             overflowY: 'auto'
-          }}
-        >
+          }}>
           {this.renderKeywordProposals()}
         </BoxPopup>
       </div>
@@ -165,22 +155,15 @@ class BoxBatchDatumKeywords extends React.Component {
   }
 
   renderValue() {
-
-    if(!this.props.editable) {
+    if (!this.props.editable) {
       return (
         <div
           style={{
             display: 'inline-block',
             width: '70%',
             verticalAlign: 'top'
-          }}
-        >
-          {
-            l.join(l.map(
-              this.props.metaKeyForm.data.keywords,
-              (k, i) => k.label
-            ), ', ')
-          }
+          }}>
+          {l.join(l.map(this.props.metaKeyForm.data.keywords, (k, i) => k.label), ', ')}
         </div>
       )
     }
@@ -191,11 +174,14 @@ class BoxBatchDatumKeywords extends React.Component {
           display: 'inline-block',
           width: '70%',
           verticalAlign: 'top'
-        }}
-      >
+        }}>
         {this.renderKeywords()}
         <input
-          placeholder={(this.props.metaKeyForm.props.metaKey.is_extensible ? '' : t('resources_box_batch_search_placeholder'))}
+          placeholder={
+            this.props.metaKeyForm.props.metaKey.is_extensible
+              ? ''
+              : t('resources_box_batch_search_placeholder')
+          }
           style={{
             borderRadius: '5px',
             border: '1px solid #ddd',
@@ -206,11 +192,10 @@ class BoxBatchDatumKeywords extends React.Component {
             fontSize: '12px'
           }}
           value={this.props.metaKeyForm.data.text}
-          onFocus={(e) => this.onFocus(e)}
-          onKeyDown={(e) => this.onKeyDown(e)}
-          onChange={(e) => this.onChange(e.target.value)}
-        />
-        {' '}
+          onFocus={e => this.onFocus(e)}
+          onKeyDown={e => this.onKeyDown(e)}
+          onChange={e => this.onChange(e.target.value)}
+        />{' '}
         {this.renderPopup()}
         {this.renderOptions()}
       </div>
@@ -218,13 +203,15 @@ class BoxBatchDatumKeywords extends React.Component {
   }
 
   onChangeOption(event) {
-    this.props.trigger(this.props.metaKeyForm, {action: 'change-option', option: event.target.value})
+    this.props.trigger(this.props.metaKeyForm, {
+      action: 'change-option',
+      option: event.target.value
+    })
   }
 
   renderOptions() {
-
-    var className = (option) => {
-      if(this.props.metaKeyForm.data.option == option) {
+    var className = option => {
+      if (this.props.metaKeyForm.data.option == option) {
         return 'button active'
       } else {
         return 'button'
@@ -234,8 +221,8 @@ class BoxBatchDatumKeywords extends React.Component {
     // <button className={className('remove')} onClick={(e) => this.onOptionRemove(e)}>Entfernen</button>
 
     return (
-      <div style={{textAlign: 'right'}}>
-        <select onChange={(e) => this.onChangeOption(e)}>
+      <div style={{ textAlign: 'right' }}>
+        <select onChange={e => this.onChangeOption(e)}>
           <option value={'add'}>zu bestehenden hinzufügen</option>
           <option value={'replace'}>bestehende ersetzen</option>
         </select>
