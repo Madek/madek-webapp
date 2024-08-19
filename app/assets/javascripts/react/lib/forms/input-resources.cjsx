@@ -194,7 +194,8 @@ module.exports = React.createClass
   componentDidUpdate: ()->
     if @_adding
       @_adding = false
-      setTimeout(@refs.ListAdder.focus, 1) # show the adder again
+      if @refs.ListAdder
+        setTimeout(@refs.ListAdder.focus, 1) # show the adder again
 
   render: ()->
     {_onItemAdd, _onItemRemove, _onNewKeyword, _onNewPerson} = @
@@ -222,7 +223,7 @@ module.exports = React.createClass
           }
 
           {# add a value: }
-          {if multiple or f.empty(values)
+          {if multiple or f.isEmpty(values)
 
             # allow adding *new* keywords:
             if extensible and (resourceType is 'Keywords')

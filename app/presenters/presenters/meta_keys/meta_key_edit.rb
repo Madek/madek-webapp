@@ -8,10 +8,23 @@ module Presenters
         if @app_resource.can_have_keywords?
           keywords = @app_resource.keywords
 
-          # ui should show fixed selection (checkboxes) if less than 16 keywords
           define_singleton_method :show_checkboxes do
             return false if @app_resource.is_extensible_list
-            keywords.count <= 16
+            case @app_resource.selection_field_type
+            when "auto"
+              # when not more than 16 keywords
+              keywords.count <= 16
+            when "mark"
+              true
+            when "list"
+              false
+            else 
+              raise ArgumentError, "Unknown selection field type: #{@app_resource.selection_field_type}"
+            end
+          end
+
+          define_singleton_method :multiple do
+            @app_resource.multiple_selection
           end
 
           # Overrides the subsequent logic which says that only
