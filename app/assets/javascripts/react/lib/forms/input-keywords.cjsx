@@ -17,16 +17,22 @@ module.exports = React.createClass
       uuid = event.target.value
       checked = event.target.checked
 
-      # In any case remove the element first.
-      values = f.filter @props.values, (value) ->
-        value.uuid != uuid
-      # Then add it again if needed.
-      if checked
-        values.push({uuid: uuid})
+      if @props.multiple
+        # In any case remove the element first.
+        values = f.filter @props.values, (value) ->
+          value.uuid != uuid
+        # Then add it again if needed.
+        if checked
+          values.push({uuid: uuid})
+      else
+        if @props.values.length > 0 and @props.values[0].uuid == uuid
+          values = []
+        else
+          values = [{uuid: uuid}]
 
       @props.onChange(values)
 
-  render: ({name, values, meta_key, keywords, show_checkboxes} = @props)->
+  render: ({name, values, meta_key, keywords, show_checkboxes, multiple} = @props)->
     # - "keywords" might be given as possible values
     # - for fixed selections show checkboxes (with possible values)
     #   otherwise the show autocompleter (prefilled with pos. values if given)
@@ -55,8 +61,9 @@ module.exports = React.createClass
           isInitiallySelected = f.any(values, { uuid: kw.uuid })
 
           <label className='col2of6' key={kw.uuid}>
-            <input type='checkbox'
+            <input type={if multiple then 'checkbox' else 'radio'}
               onChange={if @props.onChange then @_onChange else null}
+              onClick={if @props.onChange and !multiple then @_onChange else null}
               name={name}
               checked={isInitiallySelected}
               value={kw.uuid}/>

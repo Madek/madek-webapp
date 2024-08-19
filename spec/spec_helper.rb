@@ -24,7 +24,7 @@ end
 
 RSpec.configure do |config|
 
-  # NEVER EVER use transactional_fixutures
+  # NEVER EVER use transactional_fixtures
   # among many problems it effectively disables defered trigger checks
   config.use_transactional_fixtures = false
 

@@ -131,6 +131,168 @@ feature 'Resource: MetaDatum' do
     end
   end
 
+  context 'Different keyword selection types (include saving)' do
+    context "Multiple selection" do
+      example 'field type = "auto": show checkboxes when n <= 16' do
+        meta_key = create_meta_key_keywords()
+        expect(meta_key.multiple_selection).to eq(true) # make sure multiple selection is on by default
+        expect(meta_key.selection_field_type).to eq("auto") # make sure field type is auto by default
+        16.times.map { FactoryBot.create(:keyword, meta_key: meta_key) }
+        k1, k2 = meta_key.keywords.sample 2
+        in_the_edit_field(meta_key.label) do
+          expect(page).to have_selector('input[type=checkbox]', count: 16)
+          check(k1.term)
+          check(k2.term)
+        end
+        click_on('Speichern')
+        expect(page).to have_selector('.ui-tag-cloud-item', text: k1.term)
+        expect(page).to have_selector('.ui-tag-cloud-item', text: k2.term)
+      end
+
+      example 'field type = "auto": show autocomplete when n > 16' do
+        meta_key = create_meta_key_keywords()
+        17.times.map { FactoryBot.create(:keyword, meta_key: meta_key) }
+        k1, k2 = meta_key.keywords.sample 2
+        in_the_edit_field(meta_key.label) do
+          expect(page).to have_selector('.ui-autocomplete-holder', count: 1)
+          autocomplete_and_choose_first(page, k1.term)
+          autocomplete_and_choose_first(page, k2.term, press_escape: true)
+        end
+        click_on('Speichern')
+        expect(page).to have_selector('.ui-tag-cloud-item', text: k1.term)
+        expect(page).to have_selector('.ui-tag-cloud-item', text: k2.term)
+      end
+
+      example 'field type = "list": show autocomplete even when n <= 16' do
+        meta_key = create_meta_key_keywords(selection_field_type: "list")
+        16.times.map { FactoryBot.create(:keyword, meta_key: meta_key) }
+        k1, k2 = meta_key.keywords.sample 2
+        in_the_edit_field(meta_key.label) do
+          expect(page).to have_selector('.ui-autocomplete-holder', count: 1)
+          autocomplete_and_choose_first(page, k1.term)
+          autocomplete_and_choose_first(page, k2.term, press_escape: true)
+        end
+        click_on('Speichern')
+        expect(page).to have_selector('.ui-tag-cloud-item', text: k1.term)
+        expect(page).to have_selector('.ui-tag-cloud-item', text: k2.term)
+      end
+
+      example 'field type = "mark": show checkboxes even when n > 16' do
+        meta_key = create_meta_key_keywords(selection_field_type: "mark")
+        17.times.map { FactoryBot.create(:keyword, meta_key: meta_key) }
+        k1, k2 = meta_key.keywords.sample 2
+        in_the_edit_field(meta_key.label) do
+          expect(page).to have_selector('input[type=checkbox]', count: 17)
+          check(k1.term)
+          check(k2.term)
+        end
+        click_on('Speichern')
+        expect(page).to have_selector('.ui-tag-cloud-item', text: k1.term)
+        expect(page).to have_selector('.ui-tag-cloud-item', text: k2.term)
+      end
+
+      example 'extensible list forces autocomplete even when field type is "mark"' do
+        meta_key = create_meta_key_keywords(selection_field_type: "mark", is_extensible_list: true)
+        16.times.map { FactoryBot.create(:keyword, meta_key: meta_key) }
+        in_the_edit_field(meta_key.label) do
+          expect(page).to have_selector('.ui-autocomplete-holder', count: 1)
+          find('input').click
+          expect(page).to have_selector('.tt-selectable', count: 16)
+        end
+      end
+    end
+
+    context 'Single selection' do
+      example 'field type = "auto": show radio buttons when n <= 16' do
+        meta_key = create_meta_key_keywords(multiple_selection: false)
+        16.times.map { FactoryBot.create(:keyword, meta_key: meta_key) }
+        k1 = meta_key.keywords.sample
+        in_the_edit_field(meta_key.label) do
+          expect(page).to have_selector('input[type=radio]', count: 16)
+          choose(k1.term)
+        end
+        click_on('Speichern')
+        expect(page).to have_selector('.ui-tag-cloud-item', text: k1.term)
+      end
+
+      example 'field type = "auto": show autocomplete when n > 16' do
+        meta_key = create_meta_key_keywords(multiple_selection: false)
+        17.times.map { FactoryBot.create(:keyword, meta_key: meta_key) }
+        k1 = meta_key.keywords.sample
+        in_the_edit_field(meta_key.label) do
+          expect(page).to have_selector('.ui-autocomplete-holder', count: 1)
+          expect(page).to have_selector('.multi-select-input')
+          autocomplete_and_choose_first(page, k1.term)
+          expect(page).not_to have_selector('.multi-select-input') # because it is restricted to single selection
+        end
+        click_on('Speichern')
+        expect(page).to have_selector('.ui-tag-cloud-item', text: k1.term)
+      end
+
+      example 'field type = "list": show autocomplete even when n <= 16' do
+        meta_key = create_meta_key_keywords(multiple_selection: false, selection_field_type: "list")
+        16.times.map { FactoryBot.create(:keyword, meta_key: meta_key) }
+        k1 = meta_key.keywords.sample
+        in_the_edit_field(meta_key.label) do
+          expect(page).to have_selector('.ui-autocomplete-holder', count: 1)
+          expect(page).to have_selector('.multi-select-input')
+          autocomplete_and_choose_first(page, k1.term)
+          expect(page).not_to have_selector('.multi-select-input') # because it is restricted to single selection
+        end
+        click_on('Speichern')
+        expect(page).to have_selector('.ui-tag-cloud-item', text: k1.term)
+      end
+
+      example 'field type = "mark": show radio buttons even when n > 16' do
+        meta_key = create_meta_key_keywords(multiple_selection: false, selection_field_type: "mark")
+        17.times.map { FactoryBot.create(:keyword, meta_key: meta_key) }
+        k1 = meta_key.keywords.sample
+        in_the_edit_field(meta_key.label) do
+          expect(page).to have_selector('input[type=radio]', count: 17)
+          choose(k1.term)
+        end
+        click_on('Speichern')
+        expect(page).to have_selector('.ui-tag-cloud-item', text: k1.term)
+      end
+
+      example 'extensible list forces autocomplete even when field type is "mark"' do
+        meta_key = create_meta_key_keywords(multiple_selection: false, selection_field_type: "mark", is_extensible_list: true)
+        16.times.map { FactoryBot.create(:keyword, meta_key: meta_key) }
+        in_the_edit_field(meta_key.label) do
+          expect(page).to have_selector('.ui-autocomplete-holder', count: 1)
+          find('input').click
+          expect(page).to have_selector('.tt-selectable', count: 16)
+        end
+      end
+    end
+
+    context 'with silent server errors' do
+      before do
+        # Workaround for this issue: https://github.com/Madek/Madek/issues/688
+        # Otherwise the unhandled exception bubbles to the top and raises
+        # AFTER the actual spec.
+        Capybara.raise_server_errors = false
+      end
+      after do
+        Capybara.raise_server_errors = true
+      end
+      example 'server throws when selecting multiple for single select field' do
+        meta_key = create_meta_key_keywords(multiple_selection: true)
+        16.times.map { FactoryBot.create(:keyword, meta_key: meta_key) }
+        k1, k2 = meta_key.keywords.sample 2
+        in_the_edit_field(meta_key.label) do
+          check(k1.term)
+          check(k2.term)
+        end
+        meta_key.multiple_selection = false
+        meta_key.save!
+        click_on 'Speichern'
+        expect(page).to have_content 'System error'
+        expect(page).not_to have_selector('.ui-tag-cloud-item', text: k1.term)
+      end
+    end
+  end
+
   private
 
   # create a metakey and set it as the only input field:

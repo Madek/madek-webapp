@@ -29,7 +29,7 @@ module.exports = merged => {
 
   var nextOption = () => {
     if (initial) {
-      return 'add'
+      return nextProps.metaKey.multiple ? 'add' : 'replace'
     } else if (event.action == 'change-option') {
       return event.option
     } else {
@@ -125,10 +125,15 @@ module.exports = merged => {
         })
       }
     } else if (event.action == 'select-keyword' && !existsAlready()) {
-      return data.keywords.concat({
+      const newEntry = {
         id: event.keywordId,
         label: event.keywordLabel
-      })
+      }
+      if (nextProps.metaKey.multiple) {
+        return data.keywords.concat(newEntry)
+      } else {
+        return [newEntry]
+      }
     } else {
       return data.keywords
     }

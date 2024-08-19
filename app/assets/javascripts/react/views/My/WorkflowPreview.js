@@ -79,14 +79,22 @@ class WorkflowPreview extends React.Component {
         if (!metaData.is_common) {
           metaDataValue = ''
         }
+        const isMultiple = valueType => {
+          switch (valueType) {
+            case 'MetaDatum::Text':
+            case 'MetaDatum::TextDate':
+            case 'MetaDatum::JSON':
+              return false
+            case 'MetaDatum::Keywords':
+              return meta_key.multiple
+            default:
+              return true
+          }
+        }
         const model = {
           meta_key: meta_key,
           type: type,
-          multiple: !(
-            meta_key.value_type == 'MetaDatum::Text' ||
-            meta_key.value_type == 'MetaDatum::TextDate' ||
-            meta_key.value_type == 'MetaDatum::JSON'
-          ),
+          multiple: isMultiple(meta_key.value_type),
           values: f.flatten(
             f.remove([meta_datum_by_meta_key_id[metaKeyId].values, metaDataValue]),
             arr => f.isEmpty(f.compact(arr))

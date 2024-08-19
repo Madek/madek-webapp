@@ -88,7 +88,10 @@ module.exports = React.createClass
 
   _createModelForMetaKey: (meta_key) ->
     {
-      multiple: not (meta_key.value_type == "MetaDatum::Text" or meta_key.value_type == "MetaDatum::TextDate")
+      multiple: switch meta_key.value_type
+        when 'MetaDatum::Text', 'MetaDatum::TextDate' then false
+        when 'MetaDatum::Keywords' then meta_key.multiple
+        else true
       meta_key: meta_key
       values: []
       originalValues: []
@@ -185,7 +188,6 @@ module.exports = React.createClass
 
 
   _onChangeBatchAction: (meta_key_id, batchAction) ->
-    console.log('on change batch action')
     models = @state.models
     models[meta_key_id].batchAction = batchAction
     @setState({models: models})

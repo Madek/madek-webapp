@@ -223,7 +223,9 @@ class BoxBatchDatumKeywords extends React.Component {
     return (
       <div style={{ textAlign: 'right' }}>
         <select onChange={e => this.onChangeOption(e)}>
-          <option value={'add'}>zu bestehenden hinzufügen</option>
+          {this.props.metaKeyForm.props.metaKey.multiple && (
+            <option value={'add'}>zu bestehenden hinzufügen</option>
+          )}
           <option value={'replace'}>bestehende ersetzen</option>
         </select>
       </div>
@@ -231,8 +233,6 @@ class BoxBatchDatumKeywords extends React.Component {
   }
 
   render() {
-    var metaKeyForm = this.props.metaKeyForm
-
     return (
       <div>
         <BoxRenderLabel

@@ -2,7 +2,6 @@ React = require('react')
 f = require('active-lodash')
 MadekPropTypes = require('../lib/madek-prop-types.coffee')
 Text = require('../lib/forms/input-text-async.cjsx')
-InputResources = require('../lib/forms/input-resources.cjsx')
 InputTextDate = require('../lib/forms/InputTextDate.js').default
 InputKeywords = require('../lib/forms/input-keywords.cjsx')
 InputPeople = require('../lib/forms/input-people.cjsx')
@@ -18,7 +17,10 @@ module.exports = React.createClass
   render: ({id, name, model} = @props)->
 
     resourceType = f.last(@props.metaKey.value_type.split('::'))
-    multiple = not (f.includes(['Text', 'TextDate', 'JSON', 'MediaEntry'], resourceType))
+    multiple = switch resourceType
+      when 'Text', 'TextDate', 'JSON', 'MediaEntry' then false
+      when 'Keywords' then model.multiple
+      else true
 
     values = f.map model.values, (value) ->
       value

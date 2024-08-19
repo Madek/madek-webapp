@@ -2056,6 +2056,85 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/meta_data/inputs/input_keywords_spec.rb:115"
     RSPEC_TEST: "./spec/features/meta_data/inputs/input_keywords_spec.rb[1:1:9]"
+"./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:1:1]":
+  name: "./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:1:1]"
+  description: 'Resource: MetaDatum Different keyword selection types (include saving)
+    Multiple selection field type = "auto": show checkboxes when n <= 16'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/meta_data/inputs/input_keywords_spec.rb:136"
+    RSPEC_TEST: "./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:1:1]"
+"./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:1:2]":
+  name: "./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:1:2]"
+  description: 'Resource: MetaDatum Different keyword selection types (include saving)
+    Multiple selection field type = "auto": show autocomplete when n > 16'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/meta_data/inputs/input_keywords_spec.rb:152"
+    RSPEC_TEST: "./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:1:2]"
+"./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:1:3]":
+  name: "./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:1:3]"
+  description: 'Resource: MetaDatum Different keyword selection types (include saving)
+    Multiple selection field type = "list": show autocomplete even when n <= 16'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/meta_data/inputs/input_keywords_spec.rb:166"
+    RSPEC_TEST: "./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:1:3]"
+"./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:1:4]":
+  name: "./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:1:4]"
+  description: 'Resource: MetaDatum Different keyword selection types (include saving)
+    Multiple selection field type = "mark": show checkboxes even when n > 16'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/meta_data/inputs/input_keywords_spec.rb:180"
+    RSPEC_TEST: "./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:1:4]"
+"./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:1:5]":
+  name: "./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:1:5]"
+  description: 'Resource: MetaDatum Different keyword selection types (include saving)
+    Multiple selection extensible list forces autocomplete even when field type is
+    "mark"'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/meta_data/inputs/input_keywords_spec.rb:194"
+    RSPEC_TEST: "./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:1:5]"
+"./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:2:1]":
+  name: "./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:2:1]"
+  description: 'Resource: MetaDatum Different keyword selection types (include saving)
+    Single selection field type = "auto": show radio buttons when n <= 16'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/meta_data/inputs/input_keywords_spec.rb:206"
+    RSPEC_TEST: "./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:2:1]"
+"./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:2:2]":
+  name: "./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:2:2]"
+  description: 'Resource: MetaDatum Different keyword selection types (include saving)
+    Single selection field type = "auto": show autocomplete when n > 16'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/meta_data/inputs/input_keywords_spec.rb:218"
+    RSPEC_TEST: "./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:2:2]"
+"./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:2:3]":
+  name: "./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:2:3]"
+  description: 'Resource: MetaDatum Different keyword selection types (include saving)
+    Single selection field type = "list": show autocomplete even when n <= 16'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/meta_data/inputs/input_keywords_spec.rb:232"
+    RSPEC_TEST: "./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:2:3]"
+"./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:2:4]":
+  name: "./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:2:4]"
+  description: 'Resource: MetaDatum Different keyword selection types (include saving)
+    Single selection field type = "mark": show radio buttons even when n > 16'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/meta_data/inputs/input_keywords_spec.rb:246"
+    RSPEC_TEST: "./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:2:4]"
+"./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:2:5]":
+  name: "./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:2:5]"
+  description: 'Resource: MetaDatum Different keyword selection types (include saving)
+    Single selection extensible list forces autocomplete even when field type is "mark"'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/meta_data/inputs/input_keywords_spec.rb:258"
+    RSPEC_TEST: "./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:2:5]"
+"./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:3:1]":
+  name: "./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:3:1]"
+  description: 'Resource: MetaDatum Different keyword selection types (include saving)
+    with silent server errors server throws when selecting multiple for single select
+    field'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/meta_data/inputs/input_keywords_spec.rb:279"
+    RSPEC_TEST: "./spec/features/meta_data/inputs/input_keywords_spec.rb[1:2:3:1]"
 "./spec/features/meta_data/inputs/input_media_entry_spec.rb[1:1:1]":
   name: "./spec/features/meta_data/inputs/input_media_entry_spec.rb[1:1:1]"
   description: 'Resource: MetaDatum MetaDatum::MediaEntry add new valid ID with description'
