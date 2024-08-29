@@ -2,6 +2,22 @@ class MetaDataController < ApplicationController
   include Concerns::MetaData
   include UuidHelper
 
+  #################################################################
+  # Check if associated resource is soft-deleted and thus sort
+  # of does not exist (excluded in default scope).
+  before_action do
+    if media_entry_id_param
+      unless MediaEntry.find(media_entry_id_param)
+        raise ActiveRecord::RecordNotFound, "MetaDatum not found"
+      end
+    elsif collection_id_param
+      unless Collection.find(collection_id_param)
+        raise ActiveRecord::RecordNotFound, "MetaDatum not found"
+      end
+    end
+  end
+  #################################################################
+
   def show
     meta_datum = MetaDatum.find(params[:id])
     auth_authorize meta_datum

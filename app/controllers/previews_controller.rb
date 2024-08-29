@@ -1,6 +1,17 @@
 class PreviewsController < ApplicationController
   include Concerns::ServeFiles
 
+  #################################################################
+  # Check if associated resource is soft-deleted and thus sort
+  # of does not exist (excluded in default scope).
+  before_action do
+    p = Preview.find(params.require(:id))
+    unless MediaEntry.find_by_id(p.media_file.media_entry_id)
+      raise ActiveRecord::RecordNotFound, "Preview not found"
+    end
+  end
+  #################################################################
+
   def show
     # NOTE: see PreviewPolicy (permissions "inherited" from related MediaEntry!)
     preview = get_authorized_resource

@@ -4,6 +4,17 @@ class MediaFilesController < ApplicationController
 
   include Concerns::ServeFiles
 
+  #############################################################
+  # Check if associated resource is soft-deleted and thus sort
+  # of does not exist (excluded in default scope).
+  before_action do
+    mf = MediaFile.find(params.require(:id))
+    unless MediaEntry.find_by_id(mf.media_entry_id)
+      raise ActiveRecord::RecordNotFound, "MediaFile not found"
+    end
+  end
+  #############################################################
+
   def show
     if access_hash_param?
       download_by_access_hash
