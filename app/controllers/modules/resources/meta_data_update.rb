@@ -4,7 +4,7 @@ module Modules
       extend ActiveSupport::Concern
 
       include Modules::Batch::BatchAutoPublish
-      include Concerns::MediaResources::LogIntoEditSessions
+      include MediaResources::LogIntoEditSessions
       include Modules::SharedUpdate
 
       def shared_edit_meta_data_by_context

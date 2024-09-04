@@ -1,5 +1,5 @@
 class PreviewsController < ApplicationController
-  include Concerns::ServeFiles
+  include ServeFiles
 
   #################################################################
   # Check if associated resource is soft-deleted and thus sort

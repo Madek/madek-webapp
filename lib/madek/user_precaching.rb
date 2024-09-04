@@ -14,7 +14,7 @@ module Madek
 
     class << self
       include Pundit
-      include Concerns::UserScopes::Dashboard
+      include UserScopes::Dashboard
 
       def current_user
         @user

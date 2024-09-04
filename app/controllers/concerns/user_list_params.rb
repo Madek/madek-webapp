@@ -1,18 +1,16 @@
 # Some of the `ResourceListParams` are persisted to the User's session.
-module Concerns
-  module UserListParams
-    extend ActiveSupport::Concern
+module UserListParams
+  extend ActiveSupport::Concern
 
-    included do
+  included do
 
-      private
+    private
 
-      def persist_list_config_to_session(config)
-        if current_user
-          current_user.settings = (current_user.settings || {}).merge(
-            config.slice(*Madek::Constants::Webapp::USER_LIST_CONFIG_KEYS))
-          current_user.save
-        end
+    def persist_list_config_to_session(config)
+      if current_user
+        current_user.settings = (current_user.settings || {}).merge(
+          config.slice(*Madek::Constants::Webapp::USER_LIST_CONFIG_KEYS))
+        current_user.save
       end
     end
   end

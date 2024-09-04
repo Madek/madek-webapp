@@ -1,5 +1,5 @@
 class VocabulariesController < ApplicationController
-  include Concerns::KeywordTermRoutingHelper
+  include KeywordTermRoutingHelper
 
   ALLOWED_FILTER_PARAMS = MediaEntriesController::ALLOWED_FILTER_PARAMS
 

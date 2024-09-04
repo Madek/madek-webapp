@@ -1,19 +1,19 @@
 # rubocop:disable Metrics/ClassLength
 class CollectionsController < ApplicationController
-  include Concerns::MediaResources::PermissionsActions
-  include Concerns::MediaResources::CrudActions
-  include Concerns::MediaResources::CustomUrlsForController
-  include Concerns::UserScopes::MediaResources
-  include Concerns::CollectionHighlights
-  include Concerns::ControllerFavoritable
-  include Concerns::CollectionSelection
+  include MediaResources::PermissionsActions
+  include MediaResources::CrudActions
+  include MediaResources::CustomUrlsForController
+  include UserScopes::MediaResources
+  include CollectionHighlights
+  include ControllerFavoritable
+  include CollectionSelection
   include Modules::Collections::PermissionsUpdate
   include Modules::Collections::Create
   include Modules::Resources::ResourceCustomUrls
   include Modules::Resources::ResourceTransferResponsibility
   include Modules::Resources::BatchResourceTransferResponsibility
   include Modules::Resources::Share
-  include Concerns::AllowedSorting
+  include AllowedSorting
   include Modules::Resources::MetaDataUpdate
   include Modules::SharedBatchUpdate
 

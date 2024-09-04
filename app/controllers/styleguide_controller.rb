@@ -2,7 +2,7 @@ class StyleguideController < ApplicationController
   layout 'styleguide'
 
   include LivingStyleguide # builds tree from static files (table of contents)
-  include Concerns::ResourceListParams
+  include ResourceListParams
   helper_method :resource_list_params
 
   before_action do

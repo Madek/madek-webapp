@@ -1,5 +1,5 @@
 class My::WorkflowsController < ApplicationController
-  include Concerns::My::DashboardSections
+  include My::DashboardSections
 
   before_action { auth_authorize(:dashboard, :logged_in?) }
 

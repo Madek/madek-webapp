@@ -12,8 +12,8 @@
 
 
   - unless section[:elements] # just render 1 info file
-    = render template: "styleguide/#{section[:path]}/#{section[:subpath]}"
+    = render template: "/styleguide/#{section[:path]}/#{section[:subpath].sub('.html.haml', '')}"
 
   - else # render all the section's elements
     - section[:elements].each do |element|
-      = render template: "styleguide/#{section[:path]}/#{element[:path]}"
+      = render template: "styleguide/#{section[:path]}/#{element[:path].sub('.html.haml', '')}"

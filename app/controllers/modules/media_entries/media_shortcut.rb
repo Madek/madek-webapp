@@ -2,7 +2,7 @@ module Modules
   module MediaEntries
     module MediaShortcut
       extend ActiveSupport::Concern
-      include Concerns::ServeFiles
+      include ServeFiles
 
       def image
         entry = get_authorized_resource

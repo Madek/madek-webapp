@@ -1,7 +1,7 @@
 module Modules
   module MetaDataStorage
     extend ActiveSupport::Concern
-    include Concerns::MetaData
+    include MetaData
 
     DEFAULT_MIME_TYPE = Madek::Constants::DEFAULT_MIME_TYPE
 

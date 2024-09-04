@@ -1,6 +1,6 @@
 class KeywordsController < ApplicationController
-  include Concerns::JSONSearch
-  include Concerns::KeywordTermRoutingHelper
+  include JSONSearch
+  include KeywordTermRoutingHelper
   include Modules::Keywords::SortByMatchRelevance
 
   def index

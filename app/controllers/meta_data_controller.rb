@@ -1,5 +1,5 @@
 class MetaDataController < ApplicationController
-  include Concerns::MetaData
+  include MetaData
   include UuidHelper
 
   #################################################################

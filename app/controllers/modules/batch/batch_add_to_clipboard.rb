@@ -5,7 +5,7 @@ module Modules
 
       include Modules::Batch::BatchShared
 
-      include Concerns::Clipboard
+      include Clipboard
 
       private
 

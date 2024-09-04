@@ -1,5 +1,5 @@
 class MetaKeysController < ApplicationController
-  include Concerns::JSONSearch
+  include JSONSearch
 
   def index
     auth_authorize :meta_key

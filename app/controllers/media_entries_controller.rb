@@ -1,12 +1,12 @@
 # rubocop:disable Metrics/ClassLength
 class MediaEntriesController < ApplicationController
-  include Concerns::MediaResources::CrudActions
-  include Concerns::MediaResources::CustomUrlsForController
-  include Concerns::MediaResources::PermissionsActions
-  include Concerns::ResourceListParams
-  include Concerns::UserScopes::MediaResources
-  include Concerns::ControllerFavoritable
-  include Concerns::CollectionSelection
+  include MediaResources::CrudActions
+  include MediaResources::CustomUrlsForController
+  include MediaResources::PermissionsActions
+  include ResourceListParams
+  include UserScopes::MediaResources
+  include ControllerFavoritable
+  include CollectionSelection
   include Modules::FileStorage
   include Modules::MediaEntries::Upload
   include Modules::MediaEntries::PermissionsUpdate

@@ -1,7 +1,7 @@
 class My::GroupsController < ApplicationController
-  include Concerns::ResourceListParams
-  include Concerns::My::DashboardSections
-  include Concerns::UserScopes::Dashboard
+  include ResourceListParams
+  include My::DashboardSections
+  include UserScopes::Dashboard
 
   def index
     auth_authorize :dashboard, :logged_in?

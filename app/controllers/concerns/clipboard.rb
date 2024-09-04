@@ -1,9 +1,7 @@
-module Concerns
-  module Clipboard
-    extend ActiveSupport::Concern
+module Clipboard
+  extend ActiveSupport::Concern
 
-    def clipboard_collection(user)
-      Collection.unscoped.where(clipboard_user_id: user.id).first
-    end
+  def clipboard_collection(user)
+    Collection.unscoped.where(clipboard_user_id: user.id).first
   end
 end

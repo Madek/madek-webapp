@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  include Concerns::JSONSearch
-  include Concerns::RedirectBackOr
-  include Concerns::UserListParams
+  include JSONSearch
+  include RedirectBackOr
+  include UserListParams
 
   def index
     auth_authorize :user

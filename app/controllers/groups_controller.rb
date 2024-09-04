@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  include Concerns::JSONSearch
+  include JSONSearch
 
   def index
     auth_authorize :group

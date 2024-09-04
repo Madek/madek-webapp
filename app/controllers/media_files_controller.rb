@@ -2,7 +2,7 @@ class MediaFilesController < ApplicationController
   # NOTE: This is *also* used by ZENCODER integration, be careful!
   #       Extracted methods are just for clarity.
 
-  include Concerns::ServeFiles
+  include ServeFiles
 
   #############################################################
   # Check if associated resource is soft-deleted and thus sort

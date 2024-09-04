@@ -1,10 +1,10 @@
 class MyController < ApplicationController
-  include Concerns::ResourceListParams
-  include Concerns::UserScopes::Dashboard
-  include Concerns::NewCollectionModal
-  include Concerns::ActivityStream
-  include Concerns::Clipboard
-  include Concerns::My::DashboardSections
+  include ResourceListParams
+  include UserScopes::Dashboard
+  include NewCollectionModal
+  include ActivityStream
+  include Clipboard
+  include My::DashboardSections
 
   def dashboard
     auth_authorize :dashboard, :logged_in?

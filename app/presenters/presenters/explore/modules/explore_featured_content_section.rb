@@ -4,7 +4,7 @@ module Presenters
       class ExploreFeaturedContentSection < Presenter
 
         include AuthorizationSetup
-        include Concerns::AllowedSorting
+        include AllowedSorting
 
         def initialize(user, settings)
           @user = user

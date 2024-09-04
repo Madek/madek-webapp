@@ -11,10 +11,10 @@ class ApplicationController < ActionController::Base
 
   include AuthorizationSetup
   include Modules::VerifyAuthorized
-  include Concerns::ControllerHelpers
-  include Concerns::MadekCookieSession
-  include Concerns::RespondersSetup
-  include Concerns::LangParams
+  include ControllerHelpers
+  include MadekCookieSession
+  include RespondersSetup
+  include LangParams
   include Errors
 
   before_action :notify_if_session_expiring_soon
