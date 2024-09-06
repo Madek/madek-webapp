@@ -11,6 +11,7 @@ namespace :madek do
     ActiveRecord::Base.subclasses.each(&:reset_column_information)
   end
 
+  # NOTE: timespan: whole previous day until now
   desc 'Produce daily notification emails'
   task produce_daily_emails: :environment do
     puts 'Producing daily notification emails...'
@@ -18,6 +19,7 @@ namespace :madek do
     puts 'Producing daily notification emails completed.'
   end
 
+  # NOTE: timespan: past seven days until now
   desc 'Produce weekly notification emails'
   task produce_weekly_emails: :environment do
     puts 'Producing weekly notification emails...'

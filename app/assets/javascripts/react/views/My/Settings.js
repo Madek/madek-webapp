@@ -10,7 +10,9 @@ class MySettings extends React.Component {
     this.state = {
       emailsLocale: props.get.emails_locale,
       notificationCaseUserSettings: props.get.notification_case_user_settings.map(
-        ({ label, email_frequency }) => ({ label, emailFrequency: email_frequency })
+        ({ label, email_frequency, allowed_email_frequencies }) => (
+          { label, emailFrequency: email_frequency, allowedEmailFrequencies: allowed_email_frequencies }
+        )
       ),
       dirty: false
     }
@@ -58,13 +60,13 @@ class MySettings extends React.Component {
         </ul>
 
         {this.state.notificationCaseUserSettings.map(caseSettings => {
-          const { label, emailFrequency } = caseSettings
+          const { label, emailFrequency, allowedEmailFrequencies } = caseSettings
           return (
             <div key={label} className="mvs">
               <h3 className="title-m">{t(`settings_notifications_title_${label}`)}</h3>
               <p className="mbx">{t('settings_notifications_email_frequency_label')}</p>
               <div>
-                {['immediately', 'daily', 'weekly', 'never'].map(freq => (
+                {allowedEmailFrequencies.map(freq => (
                   <div key={freq}>
                     <label>
                       <input

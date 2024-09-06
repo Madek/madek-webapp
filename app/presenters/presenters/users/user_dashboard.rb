@@ -79,7 +79,8 @@ module Presenters
           ncus = @user.notification_case_user_settings.find_by_notification_case_label(nc.label)
           {
             label: nc.label,
-            email_frequency: ncus&.email_frequency&.to_sym || Madek::Constants::Webapp::DEFAULT_NOTIFICATION_EMAILS_FREQUENCY,
+            allowed_email_frequencies: nc.allowed_email_frequencies,
+            email_frequency: ncus&.email_frequency&.to_sym || Madek::Constants::DEFAULT_NOTIFICATION_EMAILS_FREQUENCY,
           }
         end
         {

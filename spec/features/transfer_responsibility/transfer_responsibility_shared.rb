@@ -88,19 +88,6 @@ module TransferResponsibilityShared
       },
       user: { fullname: user1.to_s }
     })
-
-    email = notif.email
-    tmpl = NotificationCase::EMAIL_TEMPLATES[notif.notification_case.label]
-    expect(email).to be
-
-    app_setting = AppSetting.first
-    lang = app_setting.default_locale
-    data = { site_titles: app_setting.site_titles } 
-    subject = tmpl.render_single_email_subject(lang, data)
-    body = tmpl.render_single_email(lang, notif.data)
-
-    expect(email.subject).to eq subject
-    expect(email.body).to eq body
   end
 
   def check_on_dashboard_after_loosing_view_rights

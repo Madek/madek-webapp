@@ -36,11 +36,6 @@ feature 'Media Entry - transfer responsibility' do
     user2 = create(:user)
     user2.groups << Group.find(Madek::Constants::BETA_TESTERS_NOTIFICATIONS_GROUP_ID)
 
-    FactoryBot.create(:notification_case_user_setting,
-                      notification_case_label: 'transfer_responsibility',
-                      user: user2,
-                      email_frequency: :immediately)
-
     media_entry = create_media_entry(user1)
     login_user(user1)
     open_permissions(media_entry)
@@ -134,48 +129,36 @@ feature 'Media Entry - transfer responsibility' do
         @delegation.supervisors << @del_member_5
         @delegation.supervisors << @del_member_6
 
-        FactoryBot.create(:notification_case_user_setting,
-                          notification_case_label: 'transfer_responsibility',
-                          user: @del_member_1,
-                          email_frequency: :immediately)
-
         ############################################################################
 
       end
 
       scenario 'notify all members & notifications email present' do
         @delegation.update!(notifications_email: 'delegation@example.com',
-                            notify_all_members: true)
+                            notify_all_members: true,
+                            beta_tester_notifications: true)
 
         transfer_responsibility_and_leave_user_with_view_permission
 
-        expect(Notification.count).to eq(4)
+        expect(Notification.count).to eq(5)
         [
           @del_member_1, 
           @del_member_2, 
           @del_member_4, 
-          @del_member_5
+          @del_member_5,
+          nil
         ].each do |user|
            expect(Notification.find_by(user: user,
                                        notification_case_label: 'transfer_responsibility',
                                        via_delegation: @delegation))
              .to be_present
          end
-
-        expect(Email.count).to eq 2
-        expect(Email.find_by(delegation: @delegation,
-                             to_address: @delegation.notifications_email)).to be_present
-        user_email = Email.find_by(user: @del_member_1, to_address: @del_member_1.email) 
-        expect(user_email).to be_present
-
-        expect(Notification.find_by(user: @del_member_1,
-                                    notification_case_label: 'transfer_responsibility').email_id)
-          .to eq(user_email.id)
       end
 
       scenario 'notify all members & notifications email not present' do
         @delegation.update!(notifications_email: nil,
-                            notify_all_members: true)
+                            notify_all_members: true,
+                            beta_tester_notifications: true)
 
         transfer_responsibility_and_leave_user_with_view_permission
 
@@ -191,41 +174,33 @@ feature 'Media Entry - transfer responsibility' do
                                       via_delegation: @delegation))
             .to be_present
         end
-
-        expect(Email.count).to eq 1
-        user_email = Email.find_by(user: @del_member_1, to_address: @del_member_1.email) 
-        expect(user_email).to be_present
-
-        expect(Notification.find_by(user: @del_member_1,
-                                    notification_case_label: 'transfer_responsibility').email_id)
-          .to eq(user_email.id)
       end
 
       scenario 'do not notify all members & notifications email present' do
         @delegation.update!(notifications_email: 'delegation@example.com',
-                            notify_all_members: false)
+                            notify_all_members: false,
+                            beta_tester_notifications: true)
 
         transfer_responsibility_and_leave_user_with_view_permission
 
         # still notify all supervisors
-        expect(Notification.count).to eq(2)
+        expect(Notification.count).to eq(3)
         [
           @del_member_4, 
-          @del_member_5
+          @del_member_5,
+          nil
         ].each do |user|
           expect(Notification.find_by(user: user,
                                       notification_case_label: 'transfer_responsibility',
                                       via_delegation: @delegation))
             .to be_present
         end
-
-        expect(Email.find_by(delegation: @delegation,
-                             to_address: @delegation.notifications_email)).to be_present
       end
 
       scenario 'do not notify all members & notifications email not present' do
         @delegation.update!(notifications_email: nil,
-                            notify_all_members: false)
+                            notify_all_members: false,
+                            beta_tester_notifications: true)
 
         transfer_responsibility_and_leave_user_with_view_permission
 
@@ -240,8 +215,6 @@ feature 'Media Entry - transfer responsibility' do
                                       via_delegation: @delegation))
             .to be_present
         end
-
-        expect(Email.count).to eq 0
       end
     end
   end
