@@ -32,5 +32,6 @@ ExecStart={{madek_webapp_ruby_dir}}/bin/ruby -S \
 
 [Install]
 WantedBy=multi-user.target
+WantedBy=madek-datalayer.service
 
 # vim: ft=systemd
