@@ -9,7 +9,7 @@
       - if mod
         = css_class_to_haml(mod)
   %div{'data-sgcanvas-example' => true}
-    - example_code = capture {yield} if block_given?
+    - example_code = capture_haml {yield} if block_given?
     = example_code
 
 .sg-html

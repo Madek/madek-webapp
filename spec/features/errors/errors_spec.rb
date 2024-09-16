@@ -7,7 +7,7 @@ feature 'Errors', ci_group: :error_support do
 
   context 'when support email is configured' do
     background do
-      if Settings.madek_support_email.empty?
+      if Settings.madek_support_email.blank?
         raise 'SET the madek_support_email to "support@example.com" to run this test'
       end
     end

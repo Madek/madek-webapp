@@ -1,7 +1,7 @@
 :ruby
   git_hash = '' # CurrentCommit.get.to_s[0..5] # FIXME: restore this helper
   full_layout = content_for? :toc
-  content = capture { yield } if block_given?
+  content = capture_haml { yield } if block_given?
 
 - content_for(:style_head) do
   = stylesheet_link_tag 'styleguide', media: 'all'

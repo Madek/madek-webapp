@@ -31,7 +31,7 @@ module UiHelper
   # 4. Decorators:
   def deco(name, config = {}, &_block)
     locals = build_locals_from_element(name, config)
-    locals[:block_content] = capture { yield } if block_given?
+    locals[:block_content] = capture_haml { yield } if block_given?
     name = name_without_mods(name)
     render(template: "decorators/#{name}", locals: locals)
   end
@@ -82,7 +82,7 @@ module UiHelper
     locals = build_locals_from_element(name, config)
     name = name_without_mods(name)
     locals[:list] = build_list(locals[:list])
-    locals[:block_content] = capture { yield } if block_given?
+    locals[:block_content] = capture_haml { yield } if block_given?
     template_path = "#{type}s/#{name}"
     render template: template_path, locals: locals
   end

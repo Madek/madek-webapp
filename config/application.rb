@@ -11,7 +11,7 @@ Bundler.require(*Rails.groups)
 module Madek
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.0
+    config.load_defaults 7.1
 
     config.active_record.belongs_to_required_by_default = false
     config.active_record.yaml_column_permitted_classes = [Time, Rational]
@@ -21,29 +21,15 @@ module Madek
     config.app_generators.scaffold_controller :responders_controller
     config.responders.flash_keys = [ :success, :error ]
 
-    # Configuration for the application, engines, and railties goes here.
-    #
-    # These settings can be overridden in specific environments using the files
-    # in config/environments, which are processed later.
-    #
-    # config.time_zone = "Central Time (US & Canada)"
-    # config.eager_load_paths << Rails.root.join("extras")
-
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration can go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded after loading
-    # the framework and any gems in your application.
-
     config.action_controller.relative_url_root = (
       ENV['RAILS_RELATIVE_URL_ROOT'].presence or '')
+    config.action_controller.raise_on_missing_callback_actions = false
 
     config.active_record.timestamped_migrations = false
     # config.active_record.record_timestamps = false
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
-
-    config.eager_load_paths << Rails.root.join('lib')
 
     config.paths['db/migrate'] << \
       Rails.root.join('datalayer', 'db', 'migrate')
@@ -52,6 +38,7 @@ module Madek
       Rails.root.join('datalayer', 'initializers')
 
     config.eager_load_paths += [
+      Rails.root.join('lib'),
       Rails.root.join('datalayer', 'lib'),
       Rails.root.join('datalayer', 'app', 'models', 'concerns'),
       Rails.root.join('datalayer', 'app', 'controllers'),
