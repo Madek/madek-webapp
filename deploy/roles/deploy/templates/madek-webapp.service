@@ -26,6 +26,7 @@ Environment=RAILS_LOG_LEVEL=WARN
 Environment=RAILS_SERVE_STATIC_FILES=Yes
 Environment=RAILS_TIME_ZONE={{rails_timezone}}
 Environment=TMPDIR={{madek_tmp_dir}}
+Environment=SECRET_KEY_BASE={{secret_key_base}}
 
 ExecStart={{madek_webapp_ruby_dir}}/bin/ruby -S \
     bundle exec puma -C config/puma.rb config.ru

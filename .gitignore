@@ -28,7 +28,6 @@ config/database.yml
 config/definitions/metadata/ExifTool_config.pl
 config/dropbox.local.yml
 config/environments/*.local.yml
-config/secrets.yml
 config/settings.dev.yml
 config/settings.local.yml
 config/settings/*.local.yml

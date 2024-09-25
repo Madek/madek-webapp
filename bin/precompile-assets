@@ -9,6 +9,7 @@ cd $PROJECT_DIR
 
 export RAILS_ENV=production
 export RAILS_LOG_LEVEL=debug
+export SECRET_KEY_BASE_DUMMY=1
 export DISABLE_SECRETS_STRENGTH_CHECK=true
 
 # build locale files
