@@ -9,7 +9,7 @@ class MediaFilesController < ApplicationController
   # of does not exist (excluded in default scope).
   before_action do
     mf = MediaFile.find(params.require(:id))
-    unless MediaEntry.find_by_id(mf.media_entry_id)
+    unless MediaEntry.unscoped.not_deleted.find_by_id(mf.media_entry_id)
       raise ActiveRecord::RecordNotFound, "MediaFile not found"
     end
   end

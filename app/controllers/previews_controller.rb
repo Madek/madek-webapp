@@ -6,7 +6,8 @@ class PreviewsController < ApplicationController
   # of does not exist (excluded in default scope).
   before_action do
     p = Preview.find(params.require(:id))
-    unless MediaEntry.find_by_id(p.media_file.media_entry_id)
+    me_id = p.media_file.media_entry_id
+    unless MediaEntry.unscoped.not_deleted.find_by_id(me_id)
       raise ActiveRecord::RecordNotFound, "Preview not found"
     end
   end
