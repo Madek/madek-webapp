@@ -1,6 +1,3 @@
-# TODO: allow formats yaml, json ONLY for presenter-enabled resources!
-# TODO: redirect format html to base-URI (without format, it's the default!)
-
 Madek::Application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
@@ -205,7 +202,6 @@ Madek::Application.routes.draw do
 
   get 'meta_meta_data', to: 'meta_meta_data#index'
 
-  # TODO: also "scope" this inside /vocabulary ↑ (but don't break CRUD & search)
   resources :meta_keys, only: :index
   resources :keywords, only: :index
   resources :licenses, only: [:index, :show]

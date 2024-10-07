@@ -50,7 +50,6 @@ module ResourceListParams
 
     def resource_list_params(parameters = params,
                               allowed_filter_params = nil)
-      # TODO: only permit supported layout modes…
       base = :list
       allowed = [:layout, :filter, :show_filter, :accordion,
                   :page, :per_page, :order, :sparse_filter, :lang]

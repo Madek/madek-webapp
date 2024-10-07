@@ -23,7 +23,6 @@ class ApplicationController < ActionController::Base
 
   # use pundit to make sure all actions are authorized
   after_action :verify_authorized, except: :index
-  # TODO: after_action :verify_policy_scoped
 
   # check if logged in user has accepted the most recent usage terms
   before_action :verify_usage_terms_accepted!

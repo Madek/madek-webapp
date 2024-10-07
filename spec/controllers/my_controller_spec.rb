@@ -83,8 +83,6 @@ describe MyController do
     it 'Meine Schlagworte' do
       create_data
       open_dashboard_section(:used_keywords)
-
-      # TODO: move to model and/or integration test
       expect(@get.user_dashboard.used_keywords.map(&:uuid))
         .to match_array [@keyword_1, @keyword_2, @keyword_3].map(&:id)
     end
@@ -161,8 +159,6 @@ def create_data
 
   fake_many.times { @user.groups << FactoryBot.create(:group) }
   group = @user.groups.first
-  # FIXME: no factory for InstitutionalGroup in datalayer
-  # fake_many.times { @user.groups << FactoryBot.create(:institutional_group) }
 
   # Unfinished Uploads:
   fake_many.times do

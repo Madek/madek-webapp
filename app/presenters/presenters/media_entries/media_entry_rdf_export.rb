@@ -77,8 +77,6 @@ module Presenters
                 related[:keywords].push(val.merge(
                   '@type': 'madek:Keyword',
                   'rdfs:label': k.to_s,
-                  # TODO: include those props?
-                  # _rdf_class: k.rdf_class,
                   "owl:sameAs": k.external_uris.presence
                 ).compact)
                 { cid_meta_key(md.meta_key) => val }
@@ -98,10 +96,6 @@ module Presenters
 
                 related[:people].push(map_person(mdr.person))
 
-                # FIXME: either enforce existence of Role,
-                # or define a "genericRole" to be used if blank…
-                # (could be name "Participant" or like the MK).
-                # For now we treat it like MD:People
                 if !mdr.role
                   { cid_meta_key(md.meta_key) => val }
                 else

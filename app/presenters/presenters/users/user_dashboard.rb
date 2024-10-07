@@ -23,7 +23,6 @@ module Presenters
         @activity_stream_conf = activity_stream_conf
         @user_scopes = user_scopes
         @dashboard_header = dashboard_header
-        # FIXME: remove this config when Dashboard is built in Presenter…
         @with_count = with_count
         @action = action
         @is_async_attribute = is_async_attribute

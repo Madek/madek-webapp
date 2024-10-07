@@ -39,7 +39,6 @@ module Presenters
             prepend_url_context collection_path @app_resource.id
           end
 
-          # FIXME: remove this, only use images set from `cover` (see Col.Index)
           def image_url
             # NOTE: only shown as thumb!
             if @async_cover

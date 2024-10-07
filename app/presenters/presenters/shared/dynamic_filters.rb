@@ -2,11 +2,10 @@
 module Presenters
   module Shared
     # Provides configuration for Filters in UI
-    # TODO: usage counts for everything
     # NOTE: since order is important, every filter has a 'position' 0—99,
     #       Vocabularies are always last so their positions start at 100.
     # NOTE: Context sections are implemented as Presenters,
-    # but everything else can't reuse anything. Just build plain hashes.
+    #       but everything else can't reuse anything. Just build plain hashes.
     class DynamicFilters < Presenter
       include Presenters::Shared::Modules::VocabularyConfig
 
@@ -301,7 +300,6 @@ module Presenters
       end
 
       def meta_data(scope, _tree, sub_filters)
-        # TODO: ui_context_list = contexts_for_dynamic_filters (when in Admin UI)
         ui_context_list = _contexts_for_dynamic_filters # from VocabularyConfig
         return unless ui_context_list.present?
         ui_context_list_ids = ui_context_list.map(&:id)

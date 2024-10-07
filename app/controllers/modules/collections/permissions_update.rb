@@ -10,7 +10,6 @@ module Modules
 
         private
 
-        # TODO: for permission names use already defined constant
         def perms
           %i(
             get_metadata_and_previews edit_metadata_and_relations edit_permissions

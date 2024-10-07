@@ -77,10 +77,7 @@ module Modules
           if datums_for_key.length != 1
             all_valid = false
           else
-
             datum_for_key = datums_for_key[0]
-
-            # TODO: Merge with meta_datum_common
 
             unless valid(datum_for_key)
               all_valid = false

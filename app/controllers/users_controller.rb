@@ -36,7 +36,6 @@ class UsersController < ApplicationController
   end
 
   # ajax-only. needed when config changes async, for sync its automatically set
-  # TODO: extract setter (incl. whitelist) and use as shared helper
   def set_list_config
     skip_authorization # session only, no policy
     config = params.require(:list_config)

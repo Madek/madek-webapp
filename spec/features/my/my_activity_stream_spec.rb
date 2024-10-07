@@ -66,12 +66,6 @@ feature 'My: Dashboard' do
           'madek_core:title': 'Mein Portfolio'
         })
 
-      # TODO: multiple edits in single edit ("X Bearbeitungen")
-      # TODO: multiple edits in grouped edit ("X Bearbeitungen")
-      # TODO: other users share something with @user (all cases)
-      # @uploads.each(&:reload)
-      # @sets.each(&:reload)
-
       @expected_ui_content = [
         { icon: 'icon icon-pen',
           content: {

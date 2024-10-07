@@ -89,8 +89,6 @@ feature 'Resource: MediaEntry' do
           .click
       end
 
-      # TODO: hover and confirm invalids are dimmed
-
       # confirm we are in the right place, including return_to param
       # also, one of the ids was removed because it
       expect(current_path).to eq(

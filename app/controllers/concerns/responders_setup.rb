@@ -3,7 +3,7 @@ module RespondersSetup
 
   included do
     self.responder = ApplicationResponder
-    respond_to :html, :json, :yaml # TODO: is this safe for all controllers?
+    respond_to :html, :json, :yaml
 
     def respond_with_custom(resource, location: nil, **options)
       respond_to do |f|

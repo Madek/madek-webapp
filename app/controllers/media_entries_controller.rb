@@ -42,7 +42,6 @@ class MediaEntriesController < ApplicationController
   end
 
   def show
-    # TODO: handle in MediaResources::CrudActions
     @media_entry = get_authorized_resource
     @get = Presenters::MediaEntries::MediaEntryShow.new(
       @media_entry,
@@ -171,8 +170,6 @@ class MediaEntriesController < ApplicationController
   private
 
   def initialize_presenter(name, template)
-    # TODO: Merge with the same method in collections_controller
-
     media_entry = MediaEntry.unscoped.find(params[:id])
     auth_authorize media_entry
 

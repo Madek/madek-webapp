@@ -1,7 +1,5 @@
 class ApplicationResponder < ActionController::Responder
-  # TODO: uncomment and refactor flash usage across app
   include Responders::FlashResponder
-
   include Responders::HttpCacheResponder
 
   # Redirects resources to the collection path (index action) instead

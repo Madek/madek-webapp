@@ -62,7 +62,7 @@ module Presenters
         value.map do |val|
           uuid = val['uuid']
 
-          return '' if val.is_a?(Hash) && val.empty? # TODO: remove?
+          return '' if val.is_a?(Hash) && val.empty?
           if val.is_a?(String)
             { string: val }
           elsif role_is_not_presenterified?(val)

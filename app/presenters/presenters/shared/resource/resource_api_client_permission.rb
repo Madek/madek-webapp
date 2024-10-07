@@ -3,7 +3,7 @@ module Presenters
     module Resource
       class ResourceApiClientPermission < Presenters::Shared::AppResourceWithUser
 
-        def subject # TODO: ApiClientIndexPresenter
+        def subject
           a = @app_resource.api_client
           Pojo.new(
             uuid: a.id,

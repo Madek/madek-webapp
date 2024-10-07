@@ -78,7 +78,6 @@ class Presenter
   private
 
   def prepend_url_context(url = '')
-    # FIXME: RAILS BUG https://github.com/rails/rails/pull/17724
     context = Rails.application.routes.relative_url_root
     context.present? ? context + url : url
   end

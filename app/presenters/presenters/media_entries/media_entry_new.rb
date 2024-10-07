@@ -41,8 +41,6 @@ module Presenters
                    :move_custom_urls)
         end
       end
-
-      # TODO: into_collection (upload into this collection, id comes from param)
     end
   end
 end

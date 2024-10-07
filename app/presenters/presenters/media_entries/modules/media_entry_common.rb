@@ -10,8 +10,6 @@ module Presenters
           fail 'TypeError!' unless app_resource.is_a?(MediaEntry) ||
                                    app_resource.is_a?(MediaResource) && app_resource.type == "MediaEntry"
 
-          # FIXME: because MediaEntry *might* be instantiated via
-          # `vw_media_resources` view we *might* need to re-init…
           @app_resource = if app_resource.respond_to?(:is_published)
             app_resource
           else

@@ -32,8 +32,6 @@ module Presenters
       # IDEA: if this were run not for a particular user, but for ALL,
       # it would be "global" newsfeed (but needs to take into accout permissions).
       # Also, could possibly provide a stream for all users in a group?
-
-      # TODO: split in 2, 1 per class??? or `join` queries?
       def created_contents
         # including drafts!!!
         entries = time_range_query(UserActivityStream.created_entries(@user))

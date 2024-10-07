@@ -24,25 +24,6 @@ feature 'Resource: MediaEntry' do
 
       expect(page).to have_content 'Media entry wurde erstellt.'
 
-      # FIXME: re-activate this:
-
-      # # unpublished entry was created
-      # within('#app') do
-      #   alert = find('.ui-alert.warning')
-      #   expect(alert)
-      #     .to have_content I18n.t(:media_entry_not_published_warning_msg)
-      # end
-      #
-      # # NOTE: will break here when there is required MetaData,
-      # # must add them here
-      #
-      # # publish it
-      # click_on I18n.t(:btn_publish_text)
-      #
-      # # it was published
-      # alert = find('#app-alerts .success')
-      # expect(alert).to have_content 'Entry was published!'
-
     end
 
     scenario 'Default License and Usage are applied on upload as configured',

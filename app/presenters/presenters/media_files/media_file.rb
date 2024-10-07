@@ -31,7 +31,7 @@ module Presenters
       def image_previews
         return @image_previews if @image_previews.present?
 
-        # HACK: only return *large* previews from video (for consistent frames)
+        # NOTE: only return *large* previews from video (for consistent frames)
         img_sizes = \
           @app_resource.media_type == 'video' ? [:large] : THUMBNAIL_SIZES.keys
 

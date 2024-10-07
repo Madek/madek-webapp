@@ -7,7 +7,6 @@ module Presenters
           @user.present? and @app_resource.favored?(@user)
         end
 
-        # TODO: rename
         def favorite_policy
           policy_for(@user).favor?
         end

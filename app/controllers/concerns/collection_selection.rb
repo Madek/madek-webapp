@@ -118,7 +118,6 @@ module CollectionSelection
         next
       end
       name = info[:name]
-      # TODO: Perhaps check permission for new collections.
       collection = store_collection(name)
       unless exists_already_in_collection(resource, collection)
         child_resources_for_resource(resource, collection) << resource

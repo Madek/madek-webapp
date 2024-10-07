@@ -16,7 +16,6 @@ module MediaResources
         log_into_edit_sessions! resource
       end
 
-      # TODO: responder(?)
       if request.accept == 'application/json'
         render json: { message: 'Success!' }
       else

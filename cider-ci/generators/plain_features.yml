@@ -1681,125 +1681,125 @@
   description: 'Resource: MediaEntry Action: show (for public/no user logged in) is
     rendered and shows title'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:18"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:17"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:1:1]"
 "./spec/features/media_entry/media_entry_show_spec.rb[1:1:1:2]":
   name: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:1:2]"
   description: 'Resource: MediaEntry Action: show (for public/no user logged in) Tab:
     ''Permissions''. Not shown for public.'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:24"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:23"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:1:2]"
 "./spec/features/media_entry/media_entry_show_spec.rb[1:1:1:3]":
   name: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:1:3]"
   description: 'Resource: MediaEntry Action: show (for public/no user logged in) Tab:
     ''Temporary URLs''. Not shown for public.'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:29"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:28"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:1:3]"
 "./spec/features/media_entry/media_entry_show_spec.rb[1:1:1:4]":
   name: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:1:4]"
   description: 'Resource: MediaEntry Action: show (for public/no user logged in) does
     not display link to admin'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:34"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:33"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:1:4]"
 "./spec/features/media_entry/media_entry_show_spec.rb[1:1:1:5]":
   name: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:1:5]"
   description: 'Resource: MediaEntry Action: show (for public/no user logged in) does
     not display link to update file (make a copy)'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:45"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:44"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:1:5]"
 "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:10]":
   name: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:10]"
   description: 'Resource: MediaEntry Action: show (for logged in user) displays link
     to update file (make a copy)'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:147"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:146"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:10]"
 "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:1]":
   name: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:1]"
   description: 'Resource: MediaEntry Action: show (for logged in user) is rendered'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:68"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:67"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:1]"
 "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:2]":
   name: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:2]"
   description: 'Resource: MediaEntry Action: show (for logged in user) Tab: ''Entry''.
     Shows Title'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:72"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:71"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:2]"
 "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:3]":
   name: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:3]"
   description: 'Resource: MediaEntry Action: show (for logged in user) Tab: ''Relations''.
     Shows a parent and a sibling.'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:77"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:76"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:3]"
 "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:4]":
   name: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:4]"
   description: 'Resource: MediaEntry Action: show (for logged in user) Tab: ''Usage
     Data''. Shows import date and File Information'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:85"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:84"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:4]"
 "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:5]":
   name: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:5]"
   description: 'Resource: MediaEntry Action: show (for logged in user) Tab: ''More
     Data''. Shows meta key title'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:93"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:92"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:5]"
 "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:6]":
   name: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:6]"
   description: 'Resource: MediaEntry Action: show (for logged in user) Tab: ''More
     Data''. Vocabularies shown in configured order'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:102"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:101"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:6]"
 "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:7]":
   name: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:7]"
   description: 'Resource: MediaEntry Action: show (for logged in user) Tab: ''Permissions''.     Has
     ''privacy status'' icon; shows permission summary for logged in user.'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:118"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:117"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:7]"
 "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:8]":
   name: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:8]"
   description: 'Resource: MediaEntry Action: show (for logged in user) Favorite button
     is working when logged in.'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:134"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:133"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:8]"
 "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:9]":
   name: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:9]"
   description: 'Resource: MediaEntry Action: show (for logged in user) does not display
     link to admin'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:138"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:137"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:2:9]"
 "./spec/features/media_entry/media_entry_show_spec.rb[1:1:3:1]":
   name: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:3:1]"
   description: 'Resource: MediaEntry Action: show (for logged in admin user) displays
     link to admin'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:163"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:162"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:3:1]"
 "./spec/features/media_entry/media_entry_show_spec.rb[1:1:3:2]":
   name: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:3:2]"
   description: 'Resource: MediaEntry Action: show (for logged in admin user) does
     not display link to update file (make a copy)'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:177"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:176"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:3:2]"
 "./spec/features/media_entry/media_entry_show_spec.rb[1:1:4]":
   name: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:4]"
   description: 'Resource: MediaEntry Action: show Favorite button is not visible for
     media entry whenn not logged in.'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:190"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_show_spec.rb:189"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_show_spec.rb[1:1:4]"
 "./spec/features/media_entry/media_entry_siblings_spec.rb[1:1:1:1]":
   name: "./spec/features/media_entry/media_entry_siblings_spec.rb[1:1:1:1]"
@@ -1834,28 +1834,28 @@
   description: 'Resource: MediaEntry Action: create (upload/import) Default License
     and Usage are applied on upload as configured'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:48"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:29"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:2]"
 "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:3]":
   name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:3]"
   description: 'Resource: MediaEntry Action: create (upload/import) File metadata
     is extracted and mapped via IoMappings to MetaData'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:68"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:49"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:3]"
 "./spec/features/media_entry/media_entry_upload_spec.rb[1:2:1:1]":
   name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:2:1:1]"
   description: 'Resource: MediaEntry Copying meta datum from another media entry when
     user has no relation with media entry the user is not allowed to make a copy'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:128"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:109"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:2:1:1]"
 "./spec/features/media_entry/media_entry_upload_spec.rb[1:2:2:1]":
   name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:2:2:1]"
   description: 'Resource: MediaEntry Copying meta datum from another media entry when
     user is a responsible for media entry Display header with configuration options'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:138"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:119"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:2:2:1]"
 "./spec/features/media_entry/permissions/close_and_cancel_spec.rb[1:1]":
   name: "./spec/features/media_entry/permissions/close_and_cancel_spec.rb[1:1]"
@@ -2717,13 +2717,13 @@
   name: "./spec/features/my/my_activity_stream_spec.rb[1:1:1]"
   description: 'My: Dashboard Beta: Activity Stream renders correctly'
   environment_variables:
-    RSPEC_NAME: "./spec/features/my/my_activity_stream_spec.rb:118"
+    RSPEC_NAME: "./spec/features/my/my_activity_stream_spec.rb:112"
     RSPEC_TEST: "./spec/features/my/my_activity_stream_spec.rb[1:1:1]"
 "./spec/features/my/my_activity_stream_spec.rb[1:1:2]":
   name: "./spec/features/my/my_activity_stream_spec.rb[1:1:2]"
   description: 'My: Dashboard Beta: Activity Stream takes screenshot for docs'
   environment_variables:
-    RSPEC_NAME: "./spec/features/my/my_activity_stream_spec.rb:126"
+    RSPEC_NAME: "./spec/features/my/my_activity_stream_spec.rb:120"
     RSPEC_TEST: "./spec/features/my/my_activity_stream_spec.rb[1:1:2]"
 "./spec/features/my/my_dashboard_spec.rb[1:2]":
   name: "./spec/features/my/my_dashboard_spec.rb[1:2]"

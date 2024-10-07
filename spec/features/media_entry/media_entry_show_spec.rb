@@ -9,7 +9,6 @@ include FavoriteHelper
 feature 'Resource: MediaEntry' do
 describe 'Action: show' do
   given(:entry) do
-    # TODO: factory
     MediaEntry.find 'e157bedd-c2ba-41d8-8ece-82d73066a11e'
   end
 

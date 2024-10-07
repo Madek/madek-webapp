@@ -2,15 +2,6 @@ module Presenters
   module AppView
     class LayoutData < Presenter
 
-      # TODO: AppView/Layout Presenter.
-      #       most views are resourceful, so they have #resource
-      #       *could* be initialized from responder `AppView.new(resource: @get)`
-      # def initialize(resource:)
-      #   fail 'TypeError!' unless resource.is_a?(Presenters::AppResource)
-      #   @resource = resource
-      # end
-      # attr_accessor :resource
-
       def initialize(user:, return_to:, auth_anti_csrf_token:)
         fail 'TypeError!' unless (user.nil? or user.is_a?(User))
         @user = user
