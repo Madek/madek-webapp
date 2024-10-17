@@ -23,6 +23,7 @@ module.exports = React.createClass
     allowedTypes: React.PropTypes.array # only for People
     autocompleteConfig: React.PropTypes.shape
       minLength: React.PropTypes.number
+    autoCompleteSuggestionRenderer: React.PropTypes.func
 
   getInitialState: ()-> {}
 
@@ -200,7 +201,7 @@ module.exports = React.createClass
   render: ()->
     {_onItemAdd, _onItemRemove, _onNewKeyword, _onNewPerson} = @
     { name, resourceType, values, multiple, extensible, allowedTypes
-      searchParams, autocompleteConfig, withRoles, metaKey } = @props
+      searchParams, autocompleteConfig, withRoles, metaKey, autoCompleteSuggestionRenderer } = @props
     values = f.compact(@state.values or values)
     {selectedRole, roles} = @state
 
@@ -239,7 +240,9 @@ module.exports = React.createClass
                   config={autocompleteConfig}
                   existingValues={() => f.map(@state.values, 'label')}
                   onAddValue={addNewValue}
-                  ref='ListAdder'/>
+                  ref='ListAdder'
+                  suggestionRenderer={autoCompleteSuggestionRenderer}
+                />
                 <a className='multi-select-input-toggle icon-arrow-down'/>
               </li>
 

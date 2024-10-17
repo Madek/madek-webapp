@@ -34,7 +34,8 @@ const initTypeahead = (
   onSelect,
   onAdd,
   positionRelative,
-  existingValueHint
+  existingValueHint,
+  suggestionRenderer
 ) => {
   const { minLength, localData } = conf
 
@@ -80,19 +81,24 @@ const initTypeahead = (
         )}</div>`,
         suggestion: value => {
           const content = f.get(value, searchBackend.displayKey)
-          const line = jQuery('<span>').text(content)
+          const renderLine =
+            suggestionRenderer ||
+            (() => {
+              return jQuery('<span>').text(content)
+            })
+          const line = renderLine(value)
 
+          const node = jQuery('<div>').append(line)
           if (
             (existingValues && f.includes(existingValues(), content)) ||
             (valueFilter && valueFilter(value))
           ) {
-            line.attr({
+            node.attr({
               class: 'ui-autocomplete-disabled',
               title: f.presence(existingValueHint) || t('meta_data_input_keywords_existing')
             })
           }
-
-          return jQuery('<div>').append(line)
+          return node
         }
       }
     })
@@ -141,6 +147,7 @@ const initTypeahead = (
   })
 }
 
+// eslint-disable-next-line react/no-deprecated
 module.exports = React.createClass({
   displayName: 'AutoComplete',
   propTypes: {
@@ -155,7 +162,8 @@ module.exports = React.createClass({
     searchParams: PropTypes.object,
     config: PropTypes.shape({
       minLength: PropTypes.number
-    })
+    }),
+    suggestionRenderer: PropTypes.func
   },
 
   componentDidMount() {
@@ -169,9 +177,11 @@ module.exports = React.createClass({
       onSelect,
       onAddValue,
       positionRelative,
-      existingValueHint
+      existingValueHint,
+      suggestionRenderer
     } = this.props
     const conf = Object.assign({ minLength: 1 }, config)
+    // eslint-disable-next-line react/no-find-dom-node
     const inputDOM = ReactDOM.findDOMNode(this.refs.InputField)
     initTypeahead(
       inputDOM,
@@ -183,12 +193,14 @@ module.exports = React.createClass({
       onSelect,
       onAddValue,
       positionRelative,
-      existingValueHint
+      existingValueHint,
+      suggestionRenderer
     )
     if (autoFocus) this.focus()
   },
 
   focus() {
+    // eslint-disable-next-line react/no-find-dom-node
     jQuery(ReactDOM.findDOMNode(this.refs.InputField)).focus()
   },
 
@@ -197,6 +209,7 @@ module.exports = React.createClass({
 
     return (
       <input
+        // eslint-disable-next-line react/no-string-refs
         ref="InputField"
         type="text"
         className={cx('typeahead', className)}

@@ -64,8 +64,8 @@
 
 // custom: we set some results/suggestions as disabled (existing values)
 .ui-autocomplete-disabled
-  color: $mono-mid
-  font-style: italic
+  color: $mono-mid !important
+  font-style: italic !important
   pointer-events: none
 
 // Override .ui-autocomplete to make the dropdown as big as needed.
@@ -122,3 +122,20 @@
   color: #9a919a
   font-size: 11px
   white-space: nowrap
+
+// rendering of a person suggestion line
+.ui-autocomplete__person-suggestion
+  display: flex
+  flex-wrap: wrap
+  min-width: 400px
+  max-width: 600px
+
+  &__col1
+    flex: 1 0 35%
+    max-width: 50%
+
+  &__col2
+    padding-left: 10px
+    flex: 1 1 60%
+    text-wrap: wrap
+    color: $mono-mid

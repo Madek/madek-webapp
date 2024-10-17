@@ -7,7 +7,7 @@ module Presenters
         @usage_count = count
       end
 
-      delegate_to_app_resource :first_name, :last_name, :pseudonym
+      delegate_to_app_resource :first_name, :last_name, :pseudonym, :identification_info
 
       attr_reader :usage_count
 
