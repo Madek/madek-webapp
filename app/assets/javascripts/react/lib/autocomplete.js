@@ -118,6 +118,10 @@ const initTypeahead = (
 
   typeahead.on('keypress', event => {
     if (event.keyCode === 13) {
+      /*
+      ENTER key
+      Prevent submit, but do (optional) callback if any value
+      */
       event.preventDefault()
       const value = f.presence($input.typeahead('val'))
       if (value && f.isFunction(onAdd)) {
@@ -127,6 +131,13 @@ const initTypeahead = (
     }
 
     if (event.keyCode === 27) {
+      /*
+      ESCAPE key
+      If you do not remove the focus explicitly, then only the
+      dropdown disappears, but the focus stays. If you click then
+      on the input again, the focus is already there and the
+      dropdown will not open, since the focus does not change.
+      */
       $input.blur()
     }
 
@@ -135,6 +146,12 @@ const initTypeahead = (
 
   typeahead.on('typeahead:select typeahead:autocomplete', (event, item) => {
     event.preventDefault()
+    /*
+    Hack: We want the newly selected value to be greyed out, which needs a redraw.
+    To trigger a redraw, we simulate entering something in the text input.
+    If we would just set it to '' then if the field already was '' there would be
+    no redraw. So we first have to set it to a different value ' '.
+    */
     $input.typeahead('val', ' ')
     $input.typeahead('val', '')
     onSelect(item)
@@ -194,6 +211,11 @@ module.exports = React.createClass({
 
   render() {
     const { name, value, placeholder, className } = this.props
+
+    /*
+    NOTE: not a serializable <input> field, so 'name' attribute must be empty!
+          (but we add it as a data prop for debugging/testing)
+    */
 
     return (
       <input

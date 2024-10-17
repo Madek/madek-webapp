@@ -3,8 +3,8 @@ f = require('active-lodash')
 MadekPropTypes = require('../lib/madek-prop-types.coffee')
 Text = require('../lib/forms/input-text-async.cjsx')
 InputTextDate = require('../lib/forms/InputTextDate.js').default
-InputKeywords = require('../lib/forms/input-keywords.cjsx')
-InputPeople = require('../lib/forms/input-people.cjsx')
+InputKeywords = require('../lib/forms/input-keywords.js')
+InputPeople = require('../lib/forms/input-people.js')
 InputJsonText = require('../lib/forms/InputJsonText.js').default
 InputMediaEntry = require('../lib/forms/InputMediaEntry').default
 
