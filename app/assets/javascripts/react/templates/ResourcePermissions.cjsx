@@ -43,7 +43,7 @@ module.exports = React.createClass
 
   # this will only ever run on the client:
   componentDidMount: ()->
-    AutoComplete = require('../lib/autocomplete.cjsx')
+    AutoComplete = require('../lib/autocomplete.js')
     router = require('../../lib/router.coffee')
 
     editUrl = url.parse(@props.get.edit_permissions_url).pathname

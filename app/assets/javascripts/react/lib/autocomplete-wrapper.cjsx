@@ -8,7 +8,7 @@ module.exports = React.createClass
   displayName: 'AutoCompleteWrapper'
 
   componentDidMount: () ->
-    AutoComplete = require('./autocomplete.cjsx')
+    AutoComplete = require('./autocomplete.js')
     @forceUpdate()
 
 

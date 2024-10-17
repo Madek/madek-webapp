@@ -68,7 +68,7 @@ class WorkflowEdit extends React.Component {
 
     const body = {
       workflow: {
-        owners: f.map(owners, (o) => f.pick(o, ['uuid', 'type']))
+        owners: f.map(owners, o => f.pick(o, ['uuid', 'type']))
       }
     }
 
@@ -544,8 +544,8 @@ const WorkflowEditor = ({
               {isProcessing
                 ? t('workflow_edit_actions_processing')
                 : t('workflow_edit_actions_fill_data')}
-            </a>)
-          }
+            </a>
+          )}
           <PreviewButton
             canPreview={canPreview}
             isEditing={isEditing}
@@ -583,7 +583,7 @@ class MetadataEditor extends React.Component {
   constructor(props) {
     super(props)
     this.state = { md: this.props.commonMetadata }
-    AutoComplete = AutoComplete || require('../../lib/autocomplete.cjsx')
+    AutoComplete = AutoComplete || require('../../lib/autocomplete.js')
     this.onChangeMdAttr = this.onChangeMdAttr.bind(this)
     this.onAddMdByMk = this.onAddMdByMk.bind(this)
     this.onRemoveMd = this.onRemoveMd.bind(this)
@@ -735,11 +735,7 @@ class MetadataEditor extends React.Component {
                             name="is_mandatory"
                             checked={!!md.is_mandatory}
                             onChange={e =>
-                              this.onChangeMdAttr(
-                                name,
-                                'is_mandatory',
-                                f.get(e, 'target.checked')
-                              )
+                              this.onChangeMdAttr(name, 'is_mandatory', f.get(e, 'target.checked'))
                             }
                           />{' '}
                           {t('workflow_md_edit_is_mandatory')}
@@ -799,7 +795,7 @@ class PermissionsEditor extends React.Component {
   constructor(props) {
     super(props)
     this.state = { ...this.props.commonPermissions }
-    AutoComplete = AutoComplete || require('../../lib/autocomplete.cjsx')
+    AutoComplete = AutoComplete || require('../../lib/autocomplete.js')
     this.onSetResponsible = this.onSetResponsible.bind(this)
     this.onRemoveResponsible = this.onRemoveResponsible.bind(this)
     this.onTogglePublicRead = this.onTogglePublicRead.bind(this)
@@ -855,7 +851,7 @@ class PermissionsEditor extends React.Component {
                 <div className="col1of3">
                   {t('workflow_common_settings_permissions_select_user')}:{' '}
                   <AutocompleteAdder
-                    type={["Delegations", "Users"]}
+                    type={['Delegations', 'Users']}
                     onSelect={this.onSetResponsible}
                     valueFilter={val => f.get(state.responsible, 'uuid') === f.get(val, 'uuid')}
                   />
@@ -976,7 +972,7 @@ class OwnersEditor extends React.Component {
   constructor(props) {
     super(props)
     this.state = { owners: this.props.workflowOwners }
-    AutoComplete = AutoComplete || require('../../lib/autocomplete.cjsx')
+    AutoComplete = AutoComplete || require('../../lib/autocomplete.js')
     this.onAddOwner = this.onAddOwner.bind(this)
     this.onRemoveOwner = this.onRemoveOwner.bind(this)
   }

@@ -42,7 +42,7 @@ module.exports = React.createClass
   componentDidMount: ()->
     @_isMounted = true
     # init autocompletes, then force re-render:
-    AutoComplete = require('../lib/autocomplete.cjsx')
+    AutoComplete = require('../lib/autocomplete.js')
     @forceUpdate() if @_isMounted
 
   componentWillUnmount: () ->
