@@ -37,7 +37,7 @@ module.exports = React.createClass
   }
 
   componentDidMount: () ->
-    AutoComplete = require('../lib/autocomplete.cjsx')
+    AutoComplete = require('../lib/autocomplete.js')
     @setState(mounted: true)
 
   _onDelete: () ->

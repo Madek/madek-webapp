@@ -27,7 +27,7 @@ module.exports = React.createClass
   getInitialState: ()-> {}
 
   componentDidMount: ({values, metaKey} = @props)->
-    AutoComplete = require('../autocomplete.cjsx')
+    AutoComplete = require('../autocomplete.js')
     # TODO: make selection a collection to keep track of persistent vs on the fly values
     @setState
       values: values # keep internal state of entered values
