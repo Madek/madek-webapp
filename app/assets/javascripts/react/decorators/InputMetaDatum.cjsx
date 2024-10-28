@@ -4,7 +4,7 @@ MadekPropTypes = require('../lib/madek-prop-types.coffee')
 Text = require('../lib/forms/input-text-async.cjsx')
 InputTextDate = require('../lib/forms/InputTextDate.js').default
 InputKeywords = require('../lib/forms/input-keywords.cjsx')
-InputPeople = require('../lib/forms/input-people.cjsx')
+InputPeople = require('../lib/forms/input-people.jsx')
 InputJsonText = require('../lib/forms/InputJsonText.js').default
 InputMediaEntry = require('../lib/forms/InputMediaEntry').default
 

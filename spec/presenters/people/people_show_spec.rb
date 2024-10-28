@@ -6,7 +6,7 @@ describe Presenters::People::PersonShow do
     @user = FactoryBot.create(:user)
     @person = FactoryBot.create(
       :person,
-      user: @user,
+      users: [@user],
       first_name: 'Albert',
       last_name: 'Einstein',
       pseudonym: nil,
