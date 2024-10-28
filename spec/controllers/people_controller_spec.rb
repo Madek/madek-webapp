@@ -8,6 +8,10 @@ describe PeopleController do
                        allowed_people_subtypes: ['Person'])
   end
 
+  before(:each) do
+    AppSetting.first.presence || create(:app_setting)
+  end
+
   context 'Resource: People' do
     example 'Action: show - inits corresponding presenter' do
       person = FactoryBot.create :person
@@ -125,6 +129,85 @@ describe PeopleController do
         expect(result.first['name']).to match /#{person.first_name}/
       end
 
+    end
+
+    context 'delivers person info according to app settings' do
+      before(:each) do
+        FactoryBot.create :person, identification_info: 'cool', institution: 'moma', institutional_id: '123', last_name: 'SmithX77'
+      end
+
+      example 'default' do
+        get :index,
+            params: {
+              meta_key_id: meta_key_people.id,
+              search_term: 'SmithX77',
+              limit: 1,
+              format: :json },
+            session: { user_id: user.id }
+        assert_response :success
+        p = JSON.parse(response.body).first
+        expect(p['info']).to eq 'cool'
+      end
+
+      example 'no info' do
+        AppSetting.first.update person_info_fields: []
+
+        get :index,
+            params: {
+              meta_key_id: meta_key_people.id,
+              search_term: 'SmithX77',
+              limit: 1,
+              format: :json },
+            session: { user_id: user.id }
+        assert_response :success
+        p = JSON.parse(response.body).first
+        expect(p['info']).to be_nil
+      end
+
+      example 'with institutional id' do
+        AppSetting.first.update person_info_fields: ['institutional_id']
+
+        get :index,
+            params: {
+              meta_key_id: meta_key_people.id,
+              search_term: 'SmithX77',
+              limit: 1,
+              format: :json },
+            session: { user_id: user.id }
+        assert_response :success
+        p = JSON.parse(response.body).first
+        expect(p['info']).to eq 'moma 123'
+      end
+
+      example 'with identification info' do
+        AppSetting.first.update person_info_fields: ['identification_info']
+
+        get :index,
+            params: {
+              meta_key_id: meta_key_people.id,
+              search_term: 'SmithX77',
+              limit: 1,
+              format: :json },
+            session: { user_id: user.id }
+        assert_response :success
+        p = JSON.parse(response.body).first
+        expect(p['info']).to eq 'cool'
+      end
+
+      example 'with both' do
+        AppSetting.first.update person_info_fields: ['institutional_id', 'identification_info']
+
+        get :index,
+            params: {
+              meta_key_id: meta_key_people.id,
+              search_term: 'SmithX77',
+              limit: 1,
+              format: :json },
+            session: { user_id: user.id }
+        assert_response :success
+        p = JSON.parse(response.body).first
+        expect(p['info']).to eq 'moma 123 - cool'
+      end
     end
   end
 
