@@ -5,7 +5,7 @@ module CollectionHighlights
   included do
 
     def update_highlights
-      collection = Collection.find(params[:id])
+      collection = Collection.find(id_param)
       auth_authorize collection
 
       ActiveRecord::Base.transaction do

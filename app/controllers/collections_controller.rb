@@ -78,7 +78,7 @@ class CollectionsController < ApplicationController
   end
 
   def destroy
-    collection = Collection.find(params[:id])
+    collection = Collection.find(id_param)
     auth_authorize collection
     collection.soft_delete
 
@@ -301,7 +301,7 @@ class CollectionsController < ApplicationController
   end
 
   def authorize_and_respond_with_presenter_and_template(name, template)
-    collection = Collection.find(params[:id])
+    collection = Collection.find(id_param)
     auth_authorize collection
 
     @get = name.constantize.new(

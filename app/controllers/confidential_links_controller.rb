@@ -57,7 +57,7 @@ class ConfidentialLinksController < ApplicationController
   end
 
   def set_resource
-    @resource = resource_type.find(params[:id])
+    @resource = resource_type.find_by_id_or_custom_url_id_or_raise(params[:id])
   end
 
   def generate_presenter(action)

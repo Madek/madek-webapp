@@ -170,7 +170,7 @@ class MediaEntriesController < ApplicationController
   private
 
   def initialize_presenter(name, template)
-    media_entry = MediaEntry.unscoped.find(params[:id])
+    media_entry = MediaEntry.unscoped.find(id_param)
     auth_authorize media_entry
 
     @get = name.constantize.new(
