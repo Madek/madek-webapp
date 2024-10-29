@@ -5,6 +5,10 @@ if Rails.env == 'development' and defined?(Rails::Server)
 
   # run js bundler in background and watch mode (will be killed with ruby app)
   puts '=> Starting JS bundler/watcher'
-  # spawn('npm run -s watch:app-embedded-view') # use this instead when working on embed player
+  spawn('npm run -s build:dev-app-embedded-view') # build dev bundle of embedded player once
   spawn('npm run -s watch')
+
+  # enable the following when working on the embedded player (you might want to disable
+  # the spawns listed above in order to avoid conflicts and double builds)
+  # spawn('npm run -s watch:app-embedded-view')
 end

@@ -12,6 +12,7 @@
     "watch:server": "NODE_ENV=development watchify app/assets/javascripts/react-server-side.js -d -v -o public/assets/bundles/dev-bundle-react-server-side.js",
     "build:app": "NODE_ENV=production browserify app/assets/javascripts/application.coffee -v -o public/assets/bundles/bundle.js",
     "build:app-embedded-view": "NODE_ENV=production browserify app/assets/javascripts/embedded-view.js -v -o public/assets/bundles/bundle-embedded-view.js",
+    "build:dev-app-embedded-view": "NODE_ENV=development browserify app/assets/javascripts/embedded-view.js -v -o public/assets/bundles/dev-bundle-embedded-view.js",
     "build:server": "NODE_ENV=production browserify app/assets/javascripts/react-server-side.js -v -o public/assets/bundles/bundle-react-server-side.js",
     "build:server:dev": "NODE_ENV=development browserify app/assets/javascripts/react-server-side.js -v -o public/assets/bundles/bundle-react-server-side.js",
     "build:integration": "NODE_ENV=production browserify app/assets/javascripts/integration-testbed.coffee -v -o public/assets/bundles/bundle-integration-testbed.js",
