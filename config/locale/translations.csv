@@ -92,6 +92,7 @@ collection_ask_delete_question_pre,"Sind Sie sicher, dass Sie folgendes Set lös
 collection_ask_delete_title,Set löschen,Delete set,
 collection_deleted,Dieses Set wurde gelöscht und ist für Benutzer nicht mehr sichtbar.,This set has been deleted and is no longer visible to users.
 collection_delete_success,Set wurde gelöscht.,Set deleted.,
+collection_does_not_exist,Dieses Set existiert nicht.,This set does not exist.,
 collection_edit_cover_submit_btn,Speichern,Submit,
 collection_edit_cover_title,Titelbild für Set festlegen,Define set cover,
 collection_edit_highlights_btn,Auswahl speichern,Submit selection,

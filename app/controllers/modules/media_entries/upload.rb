@@ -58,7 +58,7 @@ module Modules
           if collection = Collection.find_by_id(collection_id)
             collection.media_entries << media_entry
           else
-            flash[:warning] = 'The collection does not exist!' # TODO: i18n!
+            flash[:warning] = I18n.t(:collection_does_not_exist)
           end
         end
       end

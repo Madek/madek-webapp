@@ -165,12 +165,7 @@ module Presenters
 
         def _total_count
           # PERF: memo the count, it's expensive!
-          return @_total_count if @_total_count
-
-          # FIXME: fails non-deterministally, workaround by retrying…
-          @_total_count = _lol_rails_try_n_times(10) do
-            @selected_resources.count
-          end
+          @_total_count ||= @selected_resources.count
         end
 
         def presenterify(resources, determined_presenter = nil)
@@ -201,22 +196,6 @@ module Presenters
           /^ActiveRecord::((Association|)Relation|Associations::CollectionProxy)$/
           .match(obj.class.name)
         end
-
-        def _lol_rails_try_n_times(max_tries, &_block)
-          result = nil
-          tries = 1
-          while !result && tries <= max_tries
-            begin
-              result = yield
-            rescue => e
-              raise e if tries >= max_tries # give up and throw
-            end
-            sleep ((1 + rand) / 10) # wait between 100 and 200ms
-            tries += 1
-          end
-          result
-        end
-
       end
     end
   end

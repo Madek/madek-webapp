@@ -36,8 +36,7 @@ module Presenters
           # TODO: exclusion of self from siblings should be done
           # in the model?!
           Presenters::Shared::MediaResource::MediaResources.new(
-            @user_scopes[:sibling_collections]
-              .where.not(collections: { id: @app_resource.id }),
+            @user_scopes[:sibling_collections],
             @user,
             can_filter: true,
             list_conf: @list_conf,
