@@ -117,6 +117,4 @@ class ApplicationController < ActionController::Base
       setting[I18n.default_locale.to_s].presence
   end
 
-  Madek::UserPrecaching.start_pre_caching_loop
-
 end

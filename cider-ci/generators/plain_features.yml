@@ -432,12 +432,6 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/batch_edit/form_values_and_appearance_spec.rb:29"
     RSPEC_TEST: "./spec/features/batch_edit/form_values_and_appearance_spec.rb[1:1:2]"
-"./spec/features/caching/caching_spec.rb[1:1]":
-  name: "./spec/features/caching/caching_spec.rb[1:1]"
-  description: pre_cache_user_data does not raise
-  environment_variables:
-    RSPEC_NAME: "./spec/features/caching/caching_spec.rb:7"
-    RSPEC_TEST: "./spec/features/caching/caching_spec.rb[1:1]"
 "./spec/features/clipboard_spec.rb[1:1]":
   name: "./spec/features/clipboard_spec.rb[1:1]"
   description: clipboard show "empty message" on clipboard if it does not exist
