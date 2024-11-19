@@ -266,31 +266,44 @@ feature 'Resource: MetaDatum' do
       end
     end
 
-    context 'with silent server errors' do
-      before do
-        # Workaround for this issue: https://github.com/Madek/Madek/issues/688
-        # Otherwise the unhandled exception bubbles to the top and raises
-        # AFTER the actual spec.
-        Capybara.raise_server_errors = false
+    example 'Server throws when selecting multiple for single select field' do
+      meta_key = create_meta_key_keywords(multiple_selection: true)
+      16.times.map { FactoryBot.create(:keyword, meta_key: meta_key) }
+      k1, k2 = meta_key.keywords.sample 2
+      in_the_edit_field(meta_key.label) do
+        check(k1.term)
+        check(k2.term)
       end
-      after do
-        Capybara.raise_server_errors = true
-      end
-      example 'server throws when selecting multiple for single select field' do
-        meta_key = create_meta_key_keywords(multiple_selection: true)
-        16.times.map { FactoryBot.create(:keyword, meta_key: meta_key) }
-        k1, k2 = meta_key.keywords.sample 2
-        in_the_edit_field(meta_key.label) do
-          check(k1.term)
-          check(k2.term)
-        end
-        meta_key.multiple_selection = false
-        meta_key.save!
-        click_on 'Speichern'
-        expect(page).to have_selector '.error.ui-alert'
-        expect(page).not_to have_selector('.ui-tag-cloud-item', text: k1.term)
-      end
+      meta_key.multiple_selection = false
+      meta_key.save!
+      click_on 'Speichern'
+      expect(page).to have_selector '.error.ui-alert'
+      expect(page).not_to have_selector('.ui-tag-cloud-item', text: k1.term)
     end
+  end
+
+  example 'Keyword sort order' do
+    meta_key = create_meta_key_keywords(multiple_selection: true, selection_field_type: 'list', keywords_alphabetical_order: false)
+    FactoryBot.create(:keyword, meta_key: meta_key, term: 'B', position: 0)
+    FactoryBot.create(:keyword, meta_key: meta_key, term: 'A', position: 1)
+    FactoryBot.create(:keyword, meta_key: meta_key, term: 'C', position: 2)
+    in_the_edit_field(meta_key.label) do
+      autocomplete_and_choose_first(page, 'C')
+      autocomplete_and_choose_first(page, 'A')
+      autocomplete_and_choose_first(page, 'B')
+    end
+    click_on('Speichern')
+    expect(all('.ui-tag-cloud-item').map(&:text)).to eq ['C', 'A', 'B'] # order as selected
+
+    meta_key.update!(selection_field_type: 'mark')
+    meta_key.save!
+    visit media_entry_path(@media_entry)
+    expect(all('.ui-tag-cloud-item').map(&:text)).to eq ['B', 'A', 'C'] # order as defined (manually sorted)
+    
+    meta_key.update!(keywords_alphabetical_order: true)
+    meta_key.save!
+    visit media_entry_path(@media_entry)
+    expect(all('.ui-tag-cloud-item').map(&:text)).to eq ['A', 'B', 'C'] # order as defined (alphabetically sorted)
   end
 
   private
