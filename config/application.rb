@@ -162,7 +162,7 @@ module Madek
     Rails.application.config.assets.paths.concat(Dir["#{Rails.root}/config/locale"])
     config.assets.precompile.concat(Dir["#{Rails.root}/config/locale/*.csv"])
 
-    config.middleware.insert_before ActionDispatch::ShowExceptions, Madek::Middleware::Audit
+    config.middleware.insert_after Rack::TempfileReaper, Madek::Middleware::Audit
   end
 end
 

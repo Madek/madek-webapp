@@ -287,7 +287,7 @@ feature 'Resource: MetaDatum' do
         meta_key.multiple_selection = false
         meta_key.save!
         click_on 'Speichern'
-        expect(page).to have_content 'System error'
+        expect(page).to have_selector '.error.ui-alert'
         expect(page).not_to have_selector('.ui-tag-cloud-item', text: k1.term)
       end
     end
