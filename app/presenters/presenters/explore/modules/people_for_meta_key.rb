@@ -6,9 +6,10 @@ module Presenters
         private
 
         def people_for_meta_key_and_visible_entries(user, meta_key)
-          Person.with_usage_count
-            .joins(meta_data: :meta_key)
-            .where(meta_keys: { id: meta_key.id })
+          Person
+            .joins(:meta_data_people)
+            .joins("INNER JOIN meta_data ON meta_data.id = meta_data_people.meta_datum_id")
+            .where(meta_data: { meta_key_id: meta_key.id })
             .where(
               meta_data: {
                 media_entry_id: \

@@ -1,6 +1,6 @@
 module Presenters
   module Explore
-    class PersonIndexForExplore < Presenters::People::PersonIndexWithUsageCount
+    class PersonIndexForExplore < Presenters::People::PersonIndex
 
       def initialize(app_resource, user)
         super(app_resource)

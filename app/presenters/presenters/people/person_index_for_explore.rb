@@ -1,6 +1,6 @@
 module Presenters
   module People
-    class PersonIndexForExplore < PersonIndexWithUsageCount
+    class PersonIndexForExplore < PersonIndex
 
       def initialize(app_resource, user)
         super(app_resource)
