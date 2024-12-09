@@ -14,7 +14,7 @@ module Madek
     config.load_defaults 7.2
 
     config.active_record.belongs_to_required_by_default = false
-    config.active_record.yaml_column_permitted_classes = [Time, Rational]
+    config.active_record.yaml_column_permitted_classes = [Time, Date, Rational]
     config.assets.unknown_asset_fallback = true
 
     # Use the responders controller from the responders gem
