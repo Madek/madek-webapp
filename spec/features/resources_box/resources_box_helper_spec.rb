@@ -24,24 +24,25 @@ module ResourcesBoxHelper
       config.sort_by { |entry| entry[:resource].created_at }.reverse
     when :title
       config.sort_by { |entry| entry[:resource].title }
-    when :last_change
-      config
-      .sort_by { |entry| entry[:resource].edit_session_updated_at }
-      .reverse
+    when :last_change_desc
+      config.sort_by { |entry| entry[:resource].edit_session_updated_at }.reverse
+    when :last_change_asc
+      config.sort_by { |entry| entry[:resource].edit_session_updated_at }
     else
       throw 'Order unknown: ' + order.to_s
     end
   end
 
   def list_orders
-    ['title ASC', 'created_at ASC', 'created_at DESC', 'last_change']
+    ['title ASC', 'created_at ASC', 'created_at DESC', 'last_change ASC', 'last_change DESC']
   end
 
   def map_order(string_order)
     case string_order
     when 'created_at ASC' then :created_at_asc
     when 'created_at DESC' then :created_at_desc
-    when 'last_change' then :last_change
+    when 'last_change ASC' then :last_change_asc
+    when 'last_change DESC' then :last_change_desc
     when 'title ASC' then :title
     else
       throw 'Unexpected order: ' + string_order.to_s
@@ -99,8 +100,10 @@ module ResourcesBoxHelper
       ['C Media Entry 3', 'A Media Entry 2', 'B Media Entry 1']
     when :title
       ['A Media Entry 2', 'B Media Entry 1', 'C Media Entry 3']
-    when :last_change
+    when :last_change_desc
       ['B Media Entry 1', 'C Media Entry 3', 'A Media Entry 2']
+    when :last_change_asc
+      ['A Media Entry 2', 'C Media Entry 3', 'B Media Entry 1']
     else
       throw 'Order unknown: ' + order.to_s
     end

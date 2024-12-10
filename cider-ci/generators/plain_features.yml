@@ -737,6 +737,12 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/collection/collection_show_spec.rb:139"
     RSPEC_TEST: "./spec/features/collection/collection_show_spec.rb[1:5:1]"
+"./spec/features/collection/collection_sorting_spec.rb[1:10]":
+  name: "./spec/features/collection/collection_sorting_spec.rb[1:10]"
+  description: collection sorting change sorting on client and reload
+  environment_variables:
+    RSPEC_NAME: "./spec/features/collection/collection_sorting_spec.rb:213"
+    RSPEC_TEST: "./spec/features/collection/collection_sorting_spec.rb[1:10]"
 "./spec/features/collection/collection_sorting_spec.rb[1:1]":
   name: "./spec/features/collection/collection_sorting_spec.rb[1:1]"
   description: collection sorting sortable but not saveable when not logged in
@@ -775,21 +781,21 @@
     RSPEC_TEST: "./spec/features/collection/collection_sorting_spec.rb[1:6]"
 "./spec/features/collection/collection_sorting_spec.rb[1:7]":
   name: "./spec/features/collection/collection_sorting_spec.rb[1:7]"
-  description: collection sorting sort by last change
+  description: collection sorting sort by last change desc (already existed sort)
   environment_variables:
     RSPEC_NAME: "./spec/features/collection/collection_sorting_spec.rb:99"
     RSPEC_TEST: "./spec/features/collection/collection_sorting_spec.rb[1:7]"
 "./spec/features/collection/collection_sorting_spec.rb[1:8]":
   name: "./spec/features/collection/collection_sorting_spec.rb[1:8]"
-  description: collection sorting check enabled button
+  description: collection sorting sort by last change asc
   environment_variables:
-    RSPEC_NAME: "./spec/features/collection/collection_sorting_spec.rb:159"
+    RSPEC_NAME: "./spec/features/collection/collection_sorting_spec.rb:143"
     RSPEC_TEST: "./spec/features/collection/collection_sorting_spec.rb[1:8]"
 "./spec/features/collection/collection_sorting_spec.rb[1:9]":
   name: "./spec/features/collection/collection_sorting_spec.rb[1:9]"
-  description: collection sorting change sorting on client and reload
+  description: collection sorting check enabled button
   environment_variables:
-    RSPEC_NAME: "./spec/features/collection/collection_sorting_spec.rb:168"
+    RSPEC_NAME: "./spec/features/collection/collection_sorting_spec.rb:204"
     RSPEC_TEST: "./spec/features/collection/collection_sorting_spec.rb[1:9]"
 "./spec/features/collection/collection_tabs_spec.rb[1:1]":
   name: "./spec/features/collection/collection_tabs_spec.rb[1:1]"

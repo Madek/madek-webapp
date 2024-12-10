@@ -65,9 +65,14 @@ class BoxTitlebar extends React.Component {
           null
       ),
       {
-        label: t('collection_sorting_last_change'),
-        key: 'last_change',
-        href: boxSetUrlParams(currentUrl, {list: {order: 'last_change'}})
+        label: t('collection_sorting_last_change_asc'),
+        key: 'last_change ASC',
+        href: boxSetUrlParams(currentUrl, {list: {order: 'last_change ASC'}})
+      },
+      {
+        label: t('collection_sorting_last_change_desc'),
+        key: 'last_change DESC',
+        href: boxSetUrlParams(currentUrl, {list: {order: 'last_change DESC'}})
       },
       (
         this.props.enableOrderByManual ?
