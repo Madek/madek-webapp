@@ -96,7 +96,7 @@ feature 'collection sorting' do
     check_children_explicitly(expected_title_desc)
   end
 
-  scenario 'sort by last change' do
+  scenario 'sort by last change desc (old)' do
 
     prepare_user
     prepare_collection_with_mixed_children
@@ -112,7 +112,52 @@ feature 'collection sorting' do
     set_last_change(@media_entry_1, 2001)
 
     visit_collection
-    select_sorting(:collection_sorting_last_change)
+    select_sorting(:collection_sorting_last_change_desc)
+    binding.pry
+    expect_save_button(true)
+    click_save_button
+    wait_leaving_page_until_response
+
+    visit_collection
+    check_children_explicitly(
+      [
+        @media_entry_2.title,
+        @collection_1.title,
+        @collection_2.title,
+        @media_entry_1.title
+      ]
+    )
+
+    set_last_change(@collection_2, 2005)
+
+    visit_collection
+    check_children_explicitly(
+      [
+        @collection_2.title,
+        @media_entry_2.title,
+        @collection_1.title,
+        @media_entry_1.title
+      ]
+    )
+    end
+
+  scenario 'sort by last change desc' do
+
+    prepare_user
+    prepare_collection_with_mixed_children
+    save_collection_sorting('created_at ASC')
+    login
+    visit_collection
+
+    check_children(:created_at_asc)
+
+    set_last_change(@media_entry_2, 2004)
+    set_last_change(@collection_1, 2003)
+    set_last_change(@collection_2, 2002)
+    set_last_change(@media_entry_1, 2001)
+
+    visit_collection
+    select_sorting(:collection_sorting_last_change_asc)
     expect_save_button(true)
     click_save_button
     wait_leaving_page_until_response
@@ -194,6 +239,8 @@ def wait_leaving_page_until_response
 end
 
 def select_sorting(sorting_text_key)
+  puts ">> #{I18n.t(sorting_text_key)}"
+  binding.pry
   within('.ui-polybox .ui-toolbar-controls') do
     find('.dropdown-toggle').click
     find('.dropdown-menu')
