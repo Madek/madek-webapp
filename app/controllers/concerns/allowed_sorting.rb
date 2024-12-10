@@ -5,7 +5,8 @@ module AllowedSorting
     'created_at DESC',
     'title ASC',
     'title DESC',
-    'last_change',
+    'last_change ASC',
+    'last_change DESC',
     'manual ASC',
     'manual DESC'].freeze
 
