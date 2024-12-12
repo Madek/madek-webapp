@@ -266,6 +266,13 @@ feature 'Page: Explore' do
         expect(page).to have_link 'Weitere anzeigen'
       end
     end
+
+    specify 'Featured Set can also contain media entries', browser: false do
+      featured_set = Collection.find(AppSetting.first.featured_set_id)
+      featured_set.media_entries << FactoryBot.create(:media_entry, get_metadata_and_previews: true)
+      visit explore_path
+      expect(page.status_code).to eq 200
+    end
   end
 
   describe 'Explore content on login page' do

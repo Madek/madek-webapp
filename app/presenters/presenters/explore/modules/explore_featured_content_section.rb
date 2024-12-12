@@ -41,6 +41,21 @@ module Presenters
           }
         end
 
+        def load_concrete_models(resources)
+          resources.map do |r|
+            if r.class == MediaResource
+              case r.type
+              when 'MediaEntry' then MediaEntry.unscoped.find(r.id)
+              when 'Collection' then Collection.unscoped.find(r.id)
+              else
+                raise "Unknown media resource type: #{r.type}"
+              end
+            else
+              r
+            end
+          end
+        end
+
         def featured_set
           unless (feat = @settings.featured_set_id.presence)
             return
@@ -57,9 +72,11 @@ module Presenters
 
               order = allowed_sorting(set)
 
-              auth_policy_scope(@user, set.child_media_resources)
-              .custom_order_by(order)
-              .limit(6)
+              load_concrete_models(
+                auth_policy_scope(@user, set.child_media_resources)
+                  .custom_order_by(order)
+                  .limit(6)
+              )
             end
         end
       end

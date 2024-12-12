@@ -886,6 +886,12 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/explore_keywords_spec.rb:14"
     RSPEC_TEST: "./spec/features/explore_keywords_spec.rb[1:1:2]"
+"./spec/features/explore_spec.rb[1:1:10]":
+  name: "./spec/features/explore_spec.rb[1:1:10]"
+  description: 'Page: Explore Action: index Featured Set can also contain media entries'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/explore_spec.rb:270"
+    RSPEC_TEST: "./spec/features/explore_spec.rb[1:1:10]"
 "./spec/features/explore_spec.rb[1:1:1]":
   name: "./spec/features/explore_spec.rb[1:1:1]"
   description: 'Page: Explore Action: index is rendered for public'
@@ -982,21 +988,21 @@
   description: 'Page: Explore Explore content on login page contains latest entries
     sorted by created_at DESC'
   environment_variables:
-    RSPEC_NAME: "./spec/features/explore_spec.rb:273"
+    RSPEC_NAME: "./spec/features/explore_spec.rb:280"
     RSPEC_TEST: "./spec/features/explore_spec.rb[1:2:1]"
 "./spec/features/explore_spec.rb[1:2:2]":
   name: "./spec/features/explore_spec.rb[1:2:2]"
   description: 'Page: Explore Explore content on login page Featured Set section contains
     "show all" link'
   environment_variables:
-    RSPEC_NAME: "./spec/features/explore_spec.rb:290"
+    RSPEC_NAME: "./spec/features/explore_spec.rb:297"
     RSPEC_TEST: "./spec/features/explore_spec.rb[1:2:2]"
 "./spec/features/explore_spec.rb[1:2:3]":
   name: "./spec/features/explore_spec.rb[1:2:3]"
   description: 'Page: Explore Explore content on login page Latest Media Entries section
     does not contain "show all" link'
   environment_variables:
-    RSPEC_NAME: "./spec/features/explore_spec.rb:301"
+    RSPEC_NAME: "./spec/features/explore_spec.rb:308"
     RSPEC_TEST: "./spec/features/explore_spec.rb[1:2:3]"
 "./spec/features/flyout_actions_spec.rb[1:1:1]":
   name: "./spec/features/flyout_actions_spec.rb[1:1:1]"
