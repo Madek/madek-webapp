@@ -588,7 +588,7 @@ module.exports = React.createClass
           props.get.config.user,
           {
             layout: 'grid'
-            order: 'last_change'
+            order: 'last_change DESC'
             show_filter: false
           }
         )

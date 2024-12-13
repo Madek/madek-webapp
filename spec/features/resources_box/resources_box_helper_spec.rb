@@ -24,18 +24,10 @@ module ResourcesBoxHelper
       config.sort_by { |entry| entry[:resource].created_at }.reverse
     when :title
       config.sort_by { |entry| entry[:resource].title }
-
-
-    # when :last_change
-    #   config
-    #   .sort_by { |entry| entry[:resource].edit_session_updated_at }
-    #   .reverse
-
     when :last_change_desc
       config.sort_by { |entry| entry[:resource].edit_session_updated_at }.reverse
     when :last_change_asc
       config.sort_by { |entry| entry[:resource].edit_session_updated_at }
-
     else
       throw 'Order unknown: ' + order.to_s
     end
@@ -111,9 +103,7 @@ module ResourcesBoxHelper
     when :last_change_desc
       ['B Media Entry 1', 'C Media Entry 3', 'A Media Entry 2']
     when :last_change_asc
-      # ['B Media Entry 1', 'C Media Entry 3', 'A Media Entry 2']
       ['A Media Entry 2', 'C Media Entry 3', 'B Media Entry 1']
-
     else
       throw 'Order unknown: ' + order.to_s
     end
