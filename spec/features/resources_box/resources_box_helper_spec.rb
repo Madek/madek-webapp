@@ -42,7 +42,7 @@ module ResourcesBoxHelper
   end
 
   def list_orders
-    ['title ASC', 'created_at ASC', 'created_at DESC', 'last_change ASC' 'last_change DESC']
+    ['title ASC', 'created_at ASC', 'created_at DESC', 'last_change ASC', 'last_change DESC']
   end
 
   def map_order(string_order)
@@ -112,7 +112,7 @@ module ResourcesBoxHelper
       ['B Media Entry 1', 'C Media Entry 3', 'A Media Entry 2']
     when :last_change_asc
       # ['B Media Entry 1', 'C Media Entry 3', 'A Media Entry 2']
-      [  'A Media Entry 2', 'C Media Entry 3','B Media Entry 1']
+      ['A Media Entry 2', 'C Media Entry 3', 'B Media Entry 1']
 
     else
       throw 'Order unknown: ' + order.to_s
