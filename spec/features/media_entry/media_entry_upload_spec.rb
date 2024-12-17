@@ -59,6 +59,7 @@ feature 'Resource: MediaEntry' do
       IoMapping.create(io_interface_id: 'default',
                        meta_key_id: 'media_object:creator',
                        key_map: 'XMP-dc:Creator')
+      IoMapping.where(io_interface_id: 'default', key_map: 'XMP-dc:Title').destroy_all
 
       visit new_media_entry_path
       select_file_and_submit('images', 'grumpy_cat_new.jpg')
