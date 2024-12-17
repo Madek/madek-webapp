@@ -83,7 +83,7 @@ module.exports = AppResource.extend(
             t('media_entry_media_import_box_upload_status_waiting')
           when @uploading.progress < 100
             t('media_entry_media_import_box_upload_status_progress_a') +
-            "#{@uploading.progress.toFixed(2)}" +
+            "#{if @uploading.progress == -1 then '??' else @uploading.progress.toFixed(2)}" +
             t('media_entry_media_import_box_upload_status_progress_b')
           else
             t('media_entry_media_import_box_upload_status_processing')
@@ -105,9 +105,12 @@ module.exports = AppResource.extend(
 
     # listen to progress if supported by XHR:
     handleOnProgress = ({loaded, total} = event)=>
-      unless f.all([loaded, total], f.isNumber)
-        return console.error('Math error!')
-      @merge('uploading', progress: (loaded/total*100))
+      try
+        progress = loaded / total * 100
+      catch error
+        console.error('Could not calculate percentage for loaded/total:', loaded, total, error)
+        progress = -1
+      @merge('uploading', progress: progress)
 
     req = @_runRequest {
       method: 'POST'
@@ -119,7 +122,14 @@ module.exports = AppResource.extend(
       (err, res)=>
         # handle error
         if err or not res or res.statusCode >= 400
-          error = (err or res.body or true)
+          if err
+            error = err
+          else if res
+            console.error("Response status code = #{res.statusCode}")
+            error = res.body
+          else
+            error = "Error: no response data"
+          console.log("Date", Date())
           @set('uploading', f.merge(@uploading, {error: error}))
         else # or update self with server response:
           attrs = (try JSON.parse(res.body))
