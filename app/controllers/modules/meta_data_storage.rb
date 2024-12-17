@@ -33,9 +33,10 @@ module Modules
     private
 
     def extract_and_store_metadata_for_media_entry(extractor, media_entry)
-      hash_for_media_entry = extractor.hash_for_media_entry
+      exif_data = extractor.hash_for_media_entry
 
-      hash_for_media_entry.each do |key_map, value|
+      media_file_data = { "Filename" => media_entry.media_file.filename }
+      exif_data.merge(media_file_data).each do |key_map, value|
         next if value.blank? # ignore empty values silently
 
         meta_key_ids = IoMapping.where(key_map: key_map).map(&:meta_key_id)

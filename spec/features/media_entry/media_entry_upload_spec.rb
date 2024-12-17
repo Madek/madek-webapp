@@ -55,10 +55,11 @@ feature 'Resource: MediaEntry' do
       IoInterface.find_or_create_by(id: 'default')
       IoMapping.create(io_interface_id: 'default',
                        meta_key_id: 'madek_core:title',
-                       key_map: 'XMP-dc:Title')
+                       key_map: 'Filename')
       IoMapping.create(io_interface_id: 'default',
                        meta_key_id: 'media_object:creator',
                        key_map: 'XMP-dc:Creator')
+      IoMapping.where(io_interface_id: 'default', key_map: 'XMP-dc:Title').destroy_all
 
       visit new_media_entry_path
       select_file_and_submit('images', 'grumpy_cat_new.jpg')
@@ -93,11 +94,10 @@ feature 'Resource: MediaEntry' do
       expect(media_file.previews.size).to be == Madek::Constants::THUMBNAILS.size
 
       # meta data for media entry ##############################################
-      ['madek_core:title', 'media_object:creator']
-        .each do |mk_id|
-        meta_datum = media_entry.meta_data.find_by_meta_key_id(mk_id)
-        expect(meta_datum).to be
-      end
+
+      expect(media_entry.meta_data.find_by_meta_key_id('madek_core:title')).to be
+      expect(media_entry.meta_data.find_by_meta_key_id('madek_core:title').string).to eq('grumpy_cat_new.jpg')
+      expect(media_entry.meta_data.find_by_meta_key_id('media_object:creator')).to be
     end
 
   end
