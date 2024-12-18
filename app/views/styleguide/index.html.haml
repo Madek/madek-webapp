@@ -5,10 +5,6 @@
 -# - body: all sections together
 -# - toc: table of contents (link: ./section/element)
 
--# TODO:
--# - support :pseudo selectors (display of name, also fake the state w/ js)
-
-
 - if params[:expand] && params[:expand] === 'true'
   -# render ALL sections
   - @sections.each do |section|
@@ -19,15 +15,14 @@
 
 - else
   -# default content
-  %ul
-    %li= "(Work in progress)"
 
-    %li
-      %a{href: '?expand=true'}= "Show all on 1 page"
+  .mbm
+    Table of contents:
 
-    %li
-      = 'Contents:'
-      = render 'toc', { sections: @sections, depth: 2 }
+  .mbs
+    %a{href: '?expand=true'}= "Show all on 1 page"
+
+  = render 'toc', { sections: @sections, depth: 2 }
 
   - content_for :toc do
     = render 'toc', sections: @sections

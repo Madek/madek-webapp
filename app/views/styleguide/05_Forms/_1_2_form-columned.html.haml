@@ -1,5 +1,5 @@
 :ruby
-  element = { # TODO: is just a mod of previous!!!
+  element = {
     name: 'Sample columned form', todo: true,
     cssFile: '_forms.scss',
     cssSelector: 'form',
@@ -49,20 +49,10 @@
         hint: 'Tooltip Text' }) do
     %input.block{:type => 'text'}/
 
-  -# TODO: use correct version (updates styleguide refs…)
-  -# = combo('form-group', mods: 'columned', label: { text: 'Textarea',
-  -#       comment: 'Comment if needed',
-  -#       hint: 'Tooltip Text' }) do
-  -#   %textarea.block
-  .ui-form-group.columned
-    %label.form-label
-      Textarea
-      %small Comment if needed
-      %span.ui-form-ui-ttip-toggle.ui-ttip-toggle{"data-original-title" => "Tooltip Text", "data-placement" => "left", :rel => "tooltip"}
-        = component('icon.question')
-    .form-item
-      %textarea.block
-
+  = combo('form-group', mods: 'columned', label: { text: 'Textarea',
+      comment: 'Comment if needed',
+      hint: 'Tooltip Text' }) do
+    %textarea.block
 
   = combo('form-group', mods: 'columned', label: { text: 'Select',
         comment: 'Comment if needed',
