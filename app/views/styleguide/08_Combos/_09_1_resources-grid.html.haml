@@ -14,7 +14,7 @@
         locals: {
           id: "cccccccc-0000-0000-0000-000000000001",
           mods: ['media-set'],
-          picture: asset_path('styleguide/media-entry-6.jpeg'),
+          picture: asset_path('styleguide/media-entry-6.jpg'),
           text: {
             title: 'Name that can easily go onto 2 lines',
             sub: 'Author that can easily go onto 2 lines as well'
@@ -29,12 +29,12 @@
               {
                 href: '#',
                 text: 'Media-entry-6',
-                picture: asset_path('styleguide/media-entry-6.jpeg')
+                picture: asset_path('styleguide/media-entry-6.jpg')
               },
               {
                 href: '#',
                 text: 'Media-entry-6',
-                picture: asset_path('styleguide/media-entry-6.jpeg')
+                picture: asset_path('styleguide/media-entry-6.jpg')
               }
             ]
           }
@@ -48,7 +48,7 @@
             title: 'Name that can easily go onto 2 lines',
             sub: 'Author that can easily go onto 2 lines as well'
           },
-          picture: asset_path('styleguide/media-entry-4.jpeg'),
+          picture: asset_path('styleguide/media-entry-4.jpg'),
           badge_top_left: component('icon.privacy-private',
                             text: 'This media is private'),
           badge_top_right: nil,
@@ -73,24 +73,6 @@
     ]
   }
 
--# TODO: use component
-  = render_partial('element', element) do
-    - element[:mods].each do |name, description|
-      = render_partial('example', { mod: name}) do
-  = render_partial('element', element) do |example|
-    -# - element[:mods].each do |name, description|
-    = render_partial('example') do
-
-      .spacer{style: 'padding:100px 0;'}
-
-        %ul.ui-resources.grid.active
-
-          - example[:examples].each do |example|
-            %li.ui-resource
-              .ui-resource-body
-                = component('thumbnail', example[:locals])
-
-
 = render_partial('element', element) do
   - element[:mods].each do |name, description|
     = render_partial('example', { mod: name}) do
@@ -114,11 +96,11 @@
                     %li.ui-thumbnail-level-item.odd
                       %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
                         .ui-thumbnail-level-image-holder
-                          %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpeg')}/
+                          %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpg')}/
                     %li.ui-thumbnail-level-item.even
                       %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
                         .ui-thumbnail-level-image-holder
-                          %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpeg')}/
+                          %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpg')}/
                   %span.ui-thumbnail-level-notes 5 Inhalte
                 .ui-thumbnail-privacy
                   = component('icon.privacy-group', title: 'This media is shared with a group')
@@ -127,7 +109,7 @@
                     .ui-thumbnail-table-image-holder
                       .ui-thumbnail-cell-image-holder
                         .ui-thumbnail-inner-image-holder
-                          %img.ui-thumbnail-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpeg')}/
+                          %img.ui-thumbnail-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpg')}/
                 .ui-thumbnail-meta
                   %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
                   %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
@@ -166,11 +148,11 @@
                     %li.ui-thumbnail-level-item.odd
                       %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
                         .ui-thumbnail-level-image-holder
-                          %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpeg')}/
+                          %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpg')}/
                     %li.ui-thumbnail-level-item.even
                       %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
                         .ui-thumbnail-level-image-holder
-                          %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpeg')}/
+                          %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpg')}/
                   %span.ui-thumbnail-level-notes 5 Inhalte
             .ui-resource-meta
               %table.borderless.block
@@ -265,11 +247,11 @@
                     %li.ui-thumbnail-level-item.odd
                       %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
                         .ui-thumbnail-level-image-holder
-                          %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpeg')}/
+                          %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpg')}/
                     %li.ui-thumbnail-level-item.even
                       %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
                         .ui-thumbnail-level-image-holder
-                          %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpeg')}/
+                          %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpg')}/
                   %span.ui-thumbnail-level-notes 5 Inhalte
                 .ui-thumbnail-privacy
                   = component('icon.privacy-group', title: 'This media is shared with a group')
@@ -278,7 +260,7 @@
                     .ui-thumbnail-table-image-holder
                       .ui-thumbnail-cell-image-holder
                         .ui-thumbnail-inner-image-holder
-                          %img.ui-thumbnail-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpeg')}/
+                          %img.ui-thumbnail-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpg')}/
                 .ui-thumbnail-meta
                   %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
                   %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
@@ -317,11 +299,11 @@
                     %li.ui-thumbnail-level-item.odd
                       %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
                         .ui-thumbnail-level-image-holder
-                          %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpeg')}/
+                          %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpg')}/
                     %li.ui-thumbnail-level-item.even
                       %a.ui-level-image-wrapper{:href => "#", :title => "Set name"}
                         .ui-thumbnail-level-image-holder
-                          %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpeg')}/
+                          %img.ui-thumbnail-level-image{:alt => "Media-entry-6", :src => asset_path('styleguide/media-entry-6.jpg')}/
                   %span.ui-thumbnail-level-notes 5 Inhalte
             .ui-resource-meta
               %table.borderless.block
@@ -417,7 +399,7 @@
                     .ui-thumbnail-table-image-holder
                       .ui-thumbnail-cell-image-holder
                         .ui-thumbnail-inner-image-holder
-                          %img.ui-thumbnail-image{:alt => "Media-entry-4", :src => asset_path('styleguide/media-entry-4.jpeg')}/
+                          %img.ui-thumbnail-image{:alt => "Media-entry-4", :src => asset_path('styleguide/media-entry-4.jpg')}/
                 .ui-thumbnail-meta
                   %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
                   %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
@@ -544,7 +526,7 @@
                     .ui-thumbnail-table-image-holder
                       .ui-thumbnail-cell-image-holder
                         .ui-thumbnail-inner-image-holder
-                          %img.ui-thumbnail-image{:alt => "Media-entry-5", :src => asset_path('styleguide/media-entry-5.jpeg')}/
+                          %img.ui-thumbnail-image{:alt => "Media-entry-5", :src => asset_path('styleguide/media-entry-5.jpg')}/
                 .ui-thumbnail-meta
                   %h3.ui-thumbnail-meta-title Name that can easily go onto 2 lines
                   %h4.ui-thumbnail-meta-subtitle Author that can easily go onto 2 lines as well
