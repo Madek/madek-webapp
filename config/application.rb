@@ -119,23 +119,18 @@ module Madek
     # List of all assets that need precompilation
 
     # the JS bundles are different for dev/prod:
-    bundles = %w(
+    Rails.application.config.assets.precompile << %w(
       bundle.js
       bundle-embedded-view.js
     ).map { |name| "#{Rails.env.development? ? 'dev-' : ''}#{name}" }
     .concat(%w( bundle-react-server-side.js bundle-integration-testbed.js ))
 
-    # NOTE: override (don't extend) the Rails default (which matches lots of garbage)!
-    # 2019 update: overriding the default is not possible anymore, so we need to run after the faulty initializer from here: https://github.com/rails/sprockets-rails/blob/e135984ee2b07e1a67c3fa57f799f40b0830e99a/lib/sprockets/railtie.rb#L108
-    initializer :fix_sprockets_defaults, after: :set_default_precompile do |app|
-
-      Rails.application.config.assets.precompile = bundles.concat(%w(
-        application.css
-        application-contrasted.css
-        embedded-view.css
-        styleguide.css
-      ))
-    end
+    Rails.application.config.assets.precompile << %w(
+      application.css
+      application-contrasted.css
+      embedded-view.css
+      styleguide.css
+    )
 
     # NOTE: Rails does not support *matchers* anymore, do it manually
     precompile_assets_dirs = %w(
@@ -143,7 +138,7 @@ module Madek
       images/
       images/styleguide/
     )
-    config.assets.precompile << Proc.new do |filename, path|
+    Rails.application.config.assets.precompile << Proc.new do |filename, path|
       precompile_assets_dirs.any? {|dir| path =~ Regexp.new("app/assets/#{dir}") }
     end
 
@@ -154,7 +149,7 @@ module Madek
       "#{Rails.root}/node_modules"])
 
     # precompile assets from npm (only needed for fonts)
-    config.assets.precompile.concat(Dir[
+    Rails.application.config.assets.precompile.concat(Dir[
       "#{Rails.root}/node_modules/@eins78/typopro-open-sans/dist/*",
       "#{Rails.root}/node_modules/font-awesome/fonts/*"])
 
@@ -162,7 +157,7 @@ module Madek
     Rails.application.config.assets.paths.concat(Dir["#{Rails.root}/config/locale"])
     config.assets.precompile.concat(Dir["#{Rails.root}/config/locale/*.csv"])
 
-    config.middleware.insert_after Rack::TempfileReaper, Madek::Middleware::Audit
+    Rails.application.config.middleware.insert_after Rack::TempfileReaper, Madek::Middleware::Audit
   end
 end
 
