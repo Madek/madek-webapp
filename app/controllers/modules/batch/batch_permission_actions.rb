@@ -165,8 +165,10 @@ module Modules
           p = \
             resource
             .user_permissions
-            .find_or_create_by! subject_type_id_key => subject_id
-          p.update! sanitized_attributes
+            .find_or_create_by!(subject_type_id_key => subject_id) do |permission|
+              permission.creator_id = current_user.id
+            end
+          p.update!(sanitized_attributes)
         end
       end
 
@@ -179,7 +181,9 @@ module Modules
           p = \
             resource
             .group_permissions
-            .find_or_create_by! group_id: p_data[:subject]
+            .find_or_create_by! group_id: p_data[:subject] do |permission|
+              permission.creator_id = current_user.id
+            end
           p.update! sanitized_attributes
         end
       end
@@ -194,7 +198,9 @@ module Modules
           p = \
             resource
             .api_client_permissions
-            .find_or_create_by! api_client_id: p_data[:subject]
+            .find_or_create_by! api_client_id: p_data[:subject] do |permission|
+              permission.creator_id = current_user.id
+            end
           p.update! sanitized_attributes
         end
       end

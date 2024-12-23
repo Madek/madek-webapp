@@ -57,20 +57,23 @@ module Modules
 
         def update_user_permissions!(resource)
           resource.user_permissions.destroy_all
-          user_permissions_params
-            .each { |p| resource.user_permissions.create! p }
+          user_permissions_params.each do |p| 
+            resource.user_permissions.create! p.merge(creator_id: current_user.id)
+          end
         end
 
         def update_group_permissions!(resource)
           resource.group_permissions.destroy_all
-          group_permissions_params
-            .each { |p| resource.group_permissions.create! p }
+          group_permissions_params.each do |p|
+            resource.group_permissions.create! p.merge(creator_id: current_user.id)
+          end
         end
 
         def update_api_client_permissions!(resource)
           resource.api_client_permissions.destroy_all
-          api_client_permissions_params
-            .each { |p| resource.api_client_permissions.create! p }
+          api_client_permissions_params.each do |p|
+            resource.api_client_permissions.create! p.merge(creator_id: current_user.id)
+          end
         end
 
         def update_public_permissions!(resource)
