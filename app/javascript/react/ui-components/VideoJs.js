@@ -5,7 +5,7 @@ import omit from 'lodash/omit'
 import isFunction from 'lodash/isFunction'
 import titleBarPlugin from '../../lib/videojs-title-bar-plugin/videojs-title-bar-plugin'
 
-// FIXME: crashes server, required on mount!
+// NOTE: this apparently needs to be defined globally, otherwise server side rendering breaks (I guess).
 let videojs = null
 
 // NOTE: this is used from Video- and AudioPlayer. `props.mode=audio|video`

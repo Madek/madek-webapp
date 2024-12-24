@@ -58,7 +58,6 @@ module.exports = (collectionClass, {jsonPath})->
             .value()
 
     initialize: (data)->
-      # TODO: cleanup pagination backend, only those props are needed:
       @set({
         url: getOrThrow(data, 'config.for_url'),
         perPage: getOrThrow(data, 'config.per_page'),

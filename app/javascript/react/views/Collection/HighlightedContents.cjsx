@@ -78,7 +78,7 @@ HighlightedContent = React.createClass
         <h3 className='ui-tile__title'>{mediaResource.title}</h3>
         <h4 className='ui-tile__meta'>{mediaResource.authors_pretty}</h4>
         <span className='ui-tile__flags'>
-          <i className={'icon-' + iconName} title='TODO'></i>
+          <i className={'icon-' + iconName} title={mediaResource.privacy_status}></i>
         </span>
       </div>
     </a>

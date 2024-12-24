@@ -25,10 +25,6 @@ module.exports = React.createClass
       @props.onClick(asyncAction)
 
   render: ({authToken, get} = @props) ->
-    # TODO: Outer div should be removed based on the styleguide.
-    # This will be possible, as soon as the modal dialog can be added in
-    # a higher tree level.
-
     icon = if get.type == 'Collection' then 'set' else 'media-entry'
 
     buttons = f.compact(

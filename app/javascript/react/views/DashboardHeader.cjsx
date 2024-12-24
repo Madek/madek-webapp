@@ -27,9 +27,6 @@ module.exports = React.createClass
     return false
 
   render: ({get, authToken} = @props) ->
-    # TODO: Outer div should be removed based on the styleguide.
-    # This will be possible, as soon as the modal dialog can be added in
-    # a higher tree level.
     <div style={{margin: '0px', padding: '0px'}}>
       <PageContentHeader icon='home' title={t('sitemap_my_archive')}>
         <HeaderPrimaryButton

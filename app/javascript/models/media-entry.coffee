@@ -44,7 +44,7 @@ module.exports = AppResource.extend(
       default: 'private'
     keywords: ['array']
     more_data: ['object']
-    media_file: ['object'] # TODO: type: MediaFile
+    media_file: ['object']
 
   children:
     permissions: Permissions

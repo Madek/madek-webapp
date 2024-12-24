@@ -2,7 +2,7 @@
 
 React = require('react')
 f = require('active-lodash')
-t = require('../../lib/i18n-translate.js') # TODO: select correct locale!
+t = require('../../lib/i18n-translate.js')
 ampersandReactMixin = require('ampersand-react-mixin')
 
 # NOTE: used for static (server-side) rendering (state.editing = false)
@@ -11,11 +11,9 @@ AutoComplete = null # only required client-side!
 # Subject Decorators (overidable by props for custom render)
 defaultSubjectDecos = {
   User: ({subject})->
-    # TODO: current_user: <i className='current-user-icon icon-privacy-private'></i>#
     <span className='text'>{subject.name}</span>
 
   Group: ({subject})->
-    # TODO: group icon?
     <span className='text'>{subject.detailed_name}</span>
 
   ApiClient: ({subject})->

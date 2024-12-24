@@ -22,8 +22,8 @@ module.exports = React.createClass
           'image':    'fa fa-file-image-o'
           'audio':    'fa fa-file-audio-o'
           'video':    'fa fa-file-video-o'
-          'document': 'fa fa-file-o' # TODO: 'text' and 'pdf' when mapping exists…
-          'other':    'fa fa-file-o' # TODO: 'archive' when 'compressed' exists…
+          'document': 'fa fa-file-o'
+          'other':    'fa fa-file-o'
         map[mediaType] or map['other']
 
       style = if @props.thumbnail then { } else { fontSize: '104px', padding: '64px', color: '#9a9a9a' }

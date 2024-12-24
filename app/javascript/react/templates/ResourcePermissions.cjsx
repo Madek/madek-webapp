@@ -3,7 +3,7 @@
 
 React = require('react')
 f = require('active-lodash')
-t = require('../../lib/i18n-translate.js') # TODO: select correct locale!
+t = require('../../lib/i18n-translate.js')
 url = require('url')
 ampersandReactMixin = require('ampersand-react-mixin')
 
@@ -68,17 +68,13 @@ module.exports = React.createClass
     @_router.goTo(event.target.href)
 
   _onCancelEdit: (event)->
-    # TODO: handle abort inline (without refresh) und reset state
-    # event?.preventDefault()
-    # @props.router.goTo(event.target.href)
-    # @setState(editing: false, permissions: …)
+    # No special handler, just top-level-load the view url.
 
   _onSubmitForm: (event)->
     event.preventDefault()
     @setState(saving: true)
     @state.model.save
       success: (model, res)=>
-        # TODO: ui-alert res?.message
         @setState(saving: false, editing: false)
         @_router.goTo(model.url)
       error: (model, err)=>

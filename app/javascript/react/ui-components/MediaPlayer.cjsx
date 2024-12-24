@@ -1,4 +1,3 @@
-# FIXME: move to decorators
 React = require('react')
 f = require('active-lodash')
 t = require('../../lib/i18n-translate.js')
@@ -33,7 +32,6 @@ module.exports = React.createClass
     MediaTag = type
     mediaProps = f.omit(@props, 'originalUrl')
 
-    # FIXME: move error handling to AudioPlayer
     if type == 'audio'
       <div style={{margin: '0px', padding: '0px'}}>
         <AudioPlayer {...mediaProps} />
@@ -48,7 +46,6 @@ module.exports = React.createClass
 
         }
       </div>
-
     else
       # use videojs for client-side videos
       # before the player is loaded, show the poster to minimize flicker

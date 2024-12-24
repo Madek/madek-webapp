@@ -4,7 +4,7 @@ Bloodhound = require('@eins78/typeahead.js/dist/bloodhound.js').noConflict()
 ui = require('../react/lib/ui.coffee')
 t = ui.t
 
-# FIXME: ignores RAILS_RELATIVE_URL_ROOT
+# NOTE: ignores RAILS_RELATIVE_URL_ROOT (this is OK given it runs on domain root)
 resourcesConfig = # JSON API Endpoints:
   Users: { url: '/users', key: 'autocomplete_label', displayName: t('app_autocomplete_displayname_users') }
   Groups: { url: '/groups', key: 'detailed_name', params: ['scope'] }

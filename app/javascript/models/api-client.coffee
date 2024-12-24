@@ -5,5 +5,3 @@ module.exports = AppResource.extend
   props:
     login: ['string']
     description: ['string']
-
-# TODO: derived name

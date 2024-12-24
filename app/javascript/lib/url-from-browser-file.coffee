@@ -7,5 +7,4 @@ module.exports = getUrlFromBrowserFile = (file, callback)->
 
   reader.onload = (event)-> callback(event.target.result)
 
-  # TODO: timeout this to ensure callback?
   reader.readAsDataURL(file)

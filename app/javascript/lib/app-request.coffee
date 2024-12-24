@@ -6,12 +6,6 @@
 # - shortcut prop for 'sparse' request: `{sparse: {…}}`
 # - dynamically get CSRF token (since only used client-side)
 
-# TODO: detect & handle aborted requests?
-#       - detect: headers are empty; maybe request.status is useful?
-#       - handle: how? isnt it up to the consumer? maybe a special error?
-
-# TODO: support config.success and config.errors as callback alternative?
-
 xhr = require('xhr')
 asyncRetry = require('async/retry')
 parseHeaders = require('parse-headers')

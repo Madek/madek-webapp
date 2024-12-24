@@ -1,4 +1,4 @@
-# FIXME: move/rename, it's used for MediaEntry as well!
+# NOTE: it's not only used for collections, but for media entries as well
 
 React = require('react')
 ampersandReactMixin = require('ampersand-react-mixin')

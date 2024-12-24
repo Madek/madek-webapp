@@ -71,9 +71,6 @@ InfoHeader = require('./resourcesbox/InfoHeader.jsx').default
 # - props.get.filter = the currently active filter
 # - props.get.config.show_filter = if the filterBar should be shown
 
-# TODO: i18n
-
-
 getLocalLink = (event) ->
   localLinks = require('local-links')
   return localLinks.pathname(event)

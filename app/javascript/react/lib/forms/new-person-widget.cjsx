@@ -41,7 +41,6 @@ module.exports = React.createClass
   _onKeyPress: (event)->
     # NEVER trigger (parent form!) submit on ENTER
     event.preventDefault() if event.key is 'Enter'
-    # TODO: move to next input field?
 
   _onTabChange: (eventKey)->
     @setState({ newPerson: { subtype: eventKey } })

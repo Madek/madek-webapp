@@ -32,7 +32,7 @@ M.metaKeyId = (props, propName, _componentName)->
     return new Error('Malformed metaKeyId!')
 
 # Resources/Entities
-M.user = PropTypes.object # TODO
+M.user = PropTypes.object
 
 M.vocabulary = PropTypes.shape
   uuid: M.uuid.isRequired
@@ -54,9 +54,6 @@ metaKey =
   is_extensible: PropTypes.bool # only for type Keywords!
   allowed_people_subtypes: PropTypes.arrayOf( # only for type People!
     PropTypes.oneOf(PEOPLE_SUBTYPES))
-
-  # TODO: position: PropTypes.number.isRequired
-  # TMP:
   value_type: PropTypes.oneOf(META_DATUM_TYPES).isRequired
 
 M.metaKey = PropTypes.shape(metaKey)

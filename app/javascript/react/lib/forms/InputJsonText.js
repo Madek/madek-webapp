@@ -91,7 +91,6 @@ function findJSONError(val) {
   } catch (e) {
     return String(e).replace('SyntaxError: JSON.parse: ', '')
   }
-  // TODO: define this contraint in BL!
   if (!isPlainObject(parsed)) {
     return t('meta_data_input_json_err_no_object')
   }

@@ -5,7 +5,7 @@
 
   form = {
     props: { action: meta_datum_path, method: 'patch' },
-    head: '', # TODO: alerts
+    head: '',
     footer: component('actions', actions: [
       link_to(t(:meta_data_form_cancel), @get.url, class: 'weak'),
       component('button.primary', mods: 'large', text: t(:meta_data_form_save), type: :submit)
@@ -36,7 +36,7 @@
                     comment: @get.meta_key.hint,
                     hint: @get.meta_key.description }
 
-        -# TODO: really check check if multiple allowed!
+        -# TODO #679: really check check if multiple allowed!
         - multiple_allowed = (@get.type != 'MetaDatum::Text')
         - vals = @get.literal_values
         - vals = @get.values if (@get.type == 'MetaDatum::JSON')

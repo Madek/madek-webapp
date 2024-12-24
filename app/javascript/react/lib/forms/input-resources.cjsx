@@ -29,7 +29,6 @@ module.exports = React.createClass
 
   componentDidMount: ({values, metaKey} = @props)->
     AutoComplete = require('../autocomplete.js')
-    # TODO: make selection a collection to keep track of persistent vs on the fly values
     @setState
       values: values # keep internal state of entered values
       roles: if metaKey and metaKey.roles then [metaKey.roles...] else []
@@ -38,14 +37,12 @@ module.exports = React.createClass
   # Using `componentWillReceiveProps` is *generally* not recommended, but in this case this is the most safe workaround for the current setup:
   # This component is effectivly a fully constrolled, the internal state is only used for "derived state" and logic,
   # which means its ok to do the "Anti-pattern: Erasing state when props change" here… 🤞
-  # TODO: try refactor away usage of state and only use props…
   componentWillReceiveProps: (nextProps)->
     if this.props.values != nextProps.values
       this.setState({values: nextProps.values})
 
   _onItemAdd: (item)->
     @_adding = true
-    # TODO: use collection…
     is_duplicate = if f.present(item.uuid)
       f(@state.values).map('uuid').includes(item.uuid)
     else \ # check for NEW values…

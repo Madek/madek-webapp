@@ -2,7 +2,6 @@ React = require('react')
 f = require('active-lodash')
 t = require('../../lib/i18n-translate.js')
 PageContent = require('../views/PageContent.cjsx')
-PageContentHeader = require('../views/PageContentHeader.cjsx')
 TabContent = require('../views/TabContent.cjsx')
 Tabs = require('../views/Tabs.cjsx')
 Tab = require('../views/Tab.cjsx')
@@ -32,7 +31,6 @@ module.exports = React.createClass
     results: []
   }
 
-  # TODO Potential problem (class variables).
   lastRequest: null
   sendTimeoutRef: null
 

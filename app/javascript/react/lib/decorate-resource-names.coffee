@@ -9,9 +9,7 @@ decorators =
       o.name
   InstitutionalGroup: (o)-> o.detailed_name
   Group: (o)-> o.name
-  # TODO: label-icon by rdf class
   Keyword: (o)-> o.label
-  # TMP!
   ApiClient: (o)-> "[API] #{o.login}"
   Delegation: (o) -> o.label
 
@@ -22,7 +20,6 @@ module.exports = (o)->
   decorate(arguments...)
 
 
-# TODO: move to Person model
 buildPersonName = (o, withRole)->
   fullName = if f.any([o.first_name, o.last_name], f.present)
     f.trim("#{o.first_name || ''} #{o.last_name || ''}")

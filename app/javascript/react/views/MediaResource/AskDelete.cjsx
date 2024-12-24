@@ -1,5 +1,3 @@
-# FIXME: move/rename, it's used for MediaEntry as well!
-
 React = require('react')
 ampersandReactMixin = require('ampersand-react-mixin')
 f = require('active-lodash')
@@ -9,7 +7,7 @@ FormButton = require('../../ui-components/FormButton.cjsx')
 Modal = require('../../ui-components/Modal.cjsx')
 
 module.exports = React.createClass
-  displayName: 'Collection.AskDelete'
+  displayName: 'MediaResource.AskDelete'
 
   getInitialState: () -> { active: false }
 
