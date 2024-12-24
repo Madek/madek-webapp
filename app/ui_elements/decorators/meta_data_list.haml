@@ -10,15 +10,12 @@
 .ui-metadata-box{class: classes}
   - if show_title
     %h3.separated.mbm.title-l= context.label
-    -# TODO: vocabulary description, privacy_status
 
   - unless meta_data.present? # show fallback
     - if show_fallback
       %dt.media-data-title.title-xs-alt= fallback_msg
 
   - else # show meta data
-    -# -# TMP: for POC
-    -# .tmp
     %dl.media-data
       - meta_data.each do |dat|
 

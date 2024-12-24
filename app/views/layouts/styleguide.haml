@@ -1,5 +1,5 @@
 :ruby
-  git_hash = '' # CurrentCommit.get.to_s[0..5] # FIXME: restore this helper
+  version_info = '' # (currently not implemented, but let's keep the slot in the view)
   full_layout = content_for? :toc
   content = capture_haml { yield } if block_given?
 
@@ -16,7 +16,7 @@
         %a{href: styleguide_path}= 'Madek UI Elements'
         %strong{style: 'width:6em;font-size: 0.5em;line-height: 2;'}
           %a.weak{href: styleguide_path}
-            = git_hash
+            = version_info
 
       .bordered.ui-container.midtone.rounded.table.mbl
 

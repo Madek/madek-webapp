@@ -16,14 +16,12 @@ listingHelper = require('../../lib/metadata-listing-helper.coffee')
 MetaDataTable = require('./MetaDataTable.cjsx')
 MetaDataDefinitionList = require('./MetaDataDefinitionList.cjsx')
 
-# TODO: inline Edit - MetaDatumEdit = require('../meta-datum-edit.cjsx')
-
 module.exports = React.createClass
   displayName: 'Deco.MetaDataList'
   propTypes:
     vocabUrl: React.PropTypes.string
     list: MadekPropTypes.metaDataByAny
-    tagMods: React.PropTypes.any # TODO: mods
+    tagMods: React.PropTypes.any
     type: React.PropTypes.oneOf(['list', 'table'])
     showTitle: React.PropTypes.bool
     showFallback: React.PropTypes.bool
@@ -83,7 +81,6 @@ module.exports = React.createClass
       <div className={wrapperClass}>
         {if showTitle
           if @props.vocabUrl
-            # TODO: vocabulary description, privacy_status
             <VocabTitleLink text={title} href={@props.vocabUrl} separated={true} />
           else
             <h3 className='title-l separated mbm'>

@@ -5,7 +5,7 @@
 // - for client-side, logic is copied to here
 // - therefore, keep in sync with `datalayer/app/models/concerns/media_type.rb`
 
-module.exports = function mediaTypeFromContentType (contentType) {
+module.exports = function mediaTypeFromContentType(contentType) {
   if (/^image/.test(contentType)) {
     return 'image'
   }
@@ -19,7 +19,6 @@ module.exports = function mediaTypeFromContentType (contentType) {
     return 'document'
   }
   if (/^application/.test(contentType)) {
-    // FIXME: shouldn't this only match PDF?
     return 'document'
   }
   // fallback

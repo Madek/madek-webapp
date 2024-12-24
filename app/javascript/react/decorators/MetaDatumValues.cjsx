@@ -74,7 +74,7 @@ module.exports = React.createClass
   displayName: 'Deco.MetaDatumValues'
   propTypes:
     metaDatum: MadekPropTypes.metaDatum.isRequired
-    tagMods: React.PropTypes.any # TODO: mods
+    tagMods: React.PropTypes.any
 
   render: (props = @props)->
     {type, values, api_data_stream_url, tagMods, meta_key_id} = props.metaDatum

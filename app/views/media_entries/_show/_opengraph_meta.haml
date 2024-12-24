@@ -28,7 +28,7 @@
     previews = @get.media_file.try(:previews).try(:[], type.pluralize.to_sym)
     previews = previews.try(:values) unless previews.is_a?(Array)
 
-    # FIXME: when image sizes availabel [put smaller ones first (client: Telegram)]
+    # FIXME #679: when image sizes available [put smaller ones first (client: Telegram)]
     # previews = previews.try(:reverse)
 
     previews

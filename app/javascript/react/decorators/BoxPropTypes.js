@@ -2,25 +2,30 @@ import React from 'react'
 import { pick } from 'active-lodash'
 
 module.exports = {
-
   filterConfigProps() {
     return React.PropTypes.shape({
       search: React.PropTypes.string,
-      meta_data: React.PropTypes.arrayOf(React.PropTypes.shape({
-        key: React.PropTypes.string.isRequired,
-        match: React.PropTypes.string,
-        value: React.PropTypes.string,
-        type: React.PropTypes.string // must be sub-type of MetaDatum
-      })),
-      media_file: React.PropTypes.arrayOf(React.PropTypes.shape({
-        key: React.PropTypes.string.isRequired,
-        value: React.PropTypes.string
-      })),
-      permissions: React.PropTypes.arrayOf(React.PropTypes.shape({
-        key: React.PropTypes.string.isRequired,
-        value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.bool])
-      }))
-    });
+      meta_data: React.PropTypes.arrayOf(
+        React.PropTypes.shape({
+          key: React.PropTypes.string.isRequired,
+          match: React.PropTypes.string,
+          value: React.PropTypes.string,
+          type: React.PropTypes.string // must be sub-type of MetaDatum
+        })
+      ),
+      media_file: React.PropTypes.arrayOf(
+        React.PropTypes.shape({
+          key: React.PropTypes.string.isRequired,
+          value: React.PropTypes.string
+        })
+      ),
+      permissions: React.PropTypes.arrayOf(
+        React.PropTypes.shape({
+          key: React.PropTypes.string.isRequired,
+          value: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.bool])
+        })
+      )
+    })
   },
 
   viewConfigProps() {
@@ -45,7 +50,6 @@ module.exports = {
   },
 
   propTypes() {
-
     var viewConfigProps = this.viewConfigProps()
     return {
       initial: React.PropTypes.shape(viewConfigProps),
@@ -57,7 +61,6 @@ module.exports = {
       disableListMode: React.PropTypes.bool,
       showAddSetButton: React.PropTypes.bool,
       get: React.PropTypes.shape({
-        // resources: React.PropTypes.array # TODO: array of ampersandCollection
         type: React.PropTypes.oneOf(['MediaEntries', 'Collections', 'MediaResources']),
         has_user: React.PropTypes.bool, // toggles actions, hover, flyout
         can_filter: React.PropTypes.bool, // if true, get.resources can be filtered
@@ -65,8 +68,5 @@ module.exports = {
         user_config: React.PropTypes.shape(pick(viewConfigProps, 'layout', 'order', 'show_filter')) // <- subset that is *also* stored per session
       })
     }
-
-
   }
-
 }

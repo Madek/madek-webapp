@@ -3,26 +3,22 @@ import Moment from 'moment'
 import isEmpty from 'lodash/isEmpty'
 import isString from 'lodash/isString'
 import trimString from 'lodash/trim'
-import currentLocale from '../../lib/current-locale.js'
 
 export const UserCreatedItem = ({ user }) =>
   user &&
-  user.created_at &&
-  <div className='event event-item'>
-    <div className='label'>
-      <i className='icon icon-user' />
-    </div>
-    <div className='content'>
-      <div className='date title-xs-alt'>
-        {Moment(user.created_at).calendar()}
+  user.created_at && (
+    <div className="event event-item">
+      <div className="label">
+        <i className="icon icon-user" />
       </div>
-      <div className='summary'>
-        <h2 className='title-l'>
-          {`Sie haben sich angemeldet.`}
-        </h2>
+      <div className="content">
+        <div className="date title-xs-alt">{Moment(user.created_at).calendar()}</div>
+        <div className="summary">
+          <h2 className="title-l">{`Sie haben sich angemeldet.`}</h2>
+        </div>
       </div>
     </div>
-  </div>
+  )
 
 export const activityGroup = ({ group }) => {
   // for an ActivityGroup, types, subjects, and object.types are always the same,
@@ -35,7 +31,7 @@ export const activityGroup = ({ group }) => {
   switch (type) {
     case 'create':
       return [
-        <i className='icon icon-plus' />,
+        <i className="icon icon-plus" />,
         <span>
           {`Sie haben ${count} `}
           <ResourceLabelPlural {...object} /> {'erstellt.'}
@@ -44,7 +40,7 @@ export const activityGroup = ({ group }) => {
 
     case 'edit':
       return [
-        <i className='icon icon-pen' />,
+        <i className="icon icon-pen" />,
         <span>
           {`Sie haben ${count} `}
           <ResourceLabelPlural {...object} /> {'bearbeitet.'}
@@ -53,7 +49,7 @@ export const activityGroup = ({ group }) => {
 
     case 'share':
       return [
-        <i className='icon icon-privacy-private-alt' />,
+        <i className="icon icon-privacy-private-alt" />,
         <span>
           {sub} {`hat ${count} `}
           <ResourceLabelPlural {...object} /> {'mit ihnen geteilt.'}
@@ -70,7 +66,7 @@ export const activityItemByType = ({ type, subject, object }) => {
   switch (type) {
     case 'create':
       return [
-        <i className='icon icon-plus' />,
+        <i className="icon icon-plus" />,
         <span>
           {'Sie haben '}
           <ResourceLabel {...object} /> {' erstellt.'}
@@ -79,7 +75,7 @@ export const activityItemByType = ({ type, subject, object }) => {
 
     case 'edit':
       return [
-        <i className='icon icon-pen' />,
+        <i className="icon icon-pen" />,
         <span>
           {'Sie haben '}
           <ResourceLabel {...object} /> {'bearbeitet.'}
@@ -88,7 +84,7 @@ export const activityItemByType = ({ type, subject, object }) => {
 
     case 'share':
       return [
-        <i className='icon icon-privacy-private-alt' />,
+        <i className="icon icon-privacy-private-alt" />,
         <span>
           {sub} {'hat '}
           <ResourceLabel {...object} /> {'mit ihnen geteilt.'}
@@ -108,12 +104,9 @@ export const resourceInfo = ({ activityType, item }) => {
     // there are no useful details for creation?
     case 'edit':
       //  if there are moreDates, show a total count:
-      return isEmpty(item.moreDates)
-        ? false
-        : `(${item.moreDates.length + 1} Bearbeitungen)`
+      return isEmpty(item.moreDates) ? false : `(${item.moreDates.length + 1} Bearbeitungen)`
 
     case 'share':
-      // TODO: decorate permission names
       return `(${item.details.join(', ')})`
 
     default:
@@ -129,22 +122,18 @@ export const ResourceLink = ({ url, title = '(Unbekannt)' }) => {
   )
 }
 
-const ResourceLabel = resource =>
+const ResourceLabel = resource => (
   <span>
-    {resource.type === 'MediaEntry' ? 'den Eintrag' : 'das Set'}{' '}
-    <ResourceLink {...resource} />
+    {resource.type === 'MediaEntry' ? 'den Eintrag' : 'das Set'} <ResourceLink {...resource} />
   </span>
+)
 
-const ResourceLabelPlural = ({ type }) =>
-  <span>
-    {type === 'MediaEntry' ? 'Eintr\xE4ge' : 'Sets'}
-  </span>
+const ResourceLabelPlural = ({ type }) => (
+  <span>{type === 'MediaEntry' ? 'Eintr\xE4ge' : 'Sets'}</span>
+)
 
 // string helper, truncates long strings in the middle (better for visual comparisons)
-function truncateMiddle (
-  string,
-  { length = 24, omission = '\u2026', raw = false }
-) {
+function truncateMiddle(string, { length = 24, omission = '\u2026', raw = false }) {
   if (!isString(string)) throw new TypeError('Not a String!')
   const symbols = Array.from(trimString(string))
 
@@ -154,11 +143,7 @@ function truncateMiddle (
   const maxLength = length - omission.length
   let [start, end] = [Math.ceil(maxLength / 2), Math.floor(maxLength / 2)]
 
-  const result = [
-    symbols.slice(0, start).join(''),
-    omission,
-    symbols.slice(-end).join('')
-  ]
+  const result = [symbols.slice(0, start).join(''), omission, symbols.slice(-end).join('')]
 
   return raw ? result : result.join('')
 }
