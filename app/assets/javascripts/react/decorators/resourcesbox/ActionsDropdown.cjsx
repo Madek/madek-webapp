@@ -88,7 +88,6 @@ module.exports = React.createClass
               )
 
             else
-              # TODO if selection most likely not needed, should be already included in the if condition.
               batchEditables = SelectionScope.batchMetaDataResources(selection, ['MediaEntry']) if selection
               createHoverActionItem(
                 if f.present(batchEditables) then f.curry(callbacks.onBatchEdit)(batchEditables),
@@ -111,7 +110,6 @@ module.exports = React.createClass
               )
 
             else
-              # TODO if selection most likely not needed, should be already included in the if condition.
               batchSetEditables = SelectionScope.batchMetaDataResources(selection, ['Collection']) if selection
               createHoverActionItem(
                 if f.present(batchSetEditables) then f.curry(callbacks.onBatchEditSets)(batchSetEditables),
@@ -131,7 +129,6 @@ module.exports = React.createClass
 
 
           {if showActions.deleteResources
-            # TODO if selection most likely not needed, should be already included in the if condition.
             batchDestroyables = SelectionScope.batchDestroyResources(selection, ['MediaEntry', 'Collection']) if selection
             createHoverActionItem(
               if f.present(batchDestroyables) then f.curry(callbacks.onBatchDeleteResources)(batchDestroyables),
@@ -141,7 +138,6 @@ module.exports = React.createClass
               t('resources_box_batch_actions_delete'))}
 
           {if showActions.managePermissions
-            # TODO if selection most likely not needed, should be already included in the if condition.
             batchPermissionEditables = SelectionScope.batchPermissionResources(selection, ['MediaEntry']) if selection
             createHoverActionItem(
               if f.present(batchPermissionEditables) then f.curry(callbacks.onBatchPermissionsEdit)(batchPermissionEditables),
@@ -151,7 +147,6 @@ module.exports = React.createClass
               t('resources_box_batch_actions_managepermissions'))}
 
           {if showActions.managePermissionsSets
-            # TODO if selection most likely not needed, should be already included in the if condition.
             batchPermissionSetsEditables = SelectionScope.batchPermissionResources(selection, ['Collection']) if selection
             createHoverActionItem(
               if f.present(batchPermissionSetsEditables) then f.curry(callbacks.onBatchPermissionsSetsEdit)(batchPermissionSetsEditables),
@@ -161,7 +156,6 @@ module.exports = React.createClass
               t('resources_box_batch_actions_sets_managepermissions'))}
 
           {if showActions.transferResponsibility
-            # TODO if selection most likely not needed, should be already included in the if condition.
             batchTransferResponsibilityEditables = SelectionScope.batchTransferResponsibilityResources(selection, ['MediaEntry']) if selection
             createHoverActionItem(
               if f.present(batchTransferResponsibilityEditables) then f.curry(callbacks.onBatchTransferResponsibilityEdit)(batchTransferResponsibilityEditables),
@@ -171,7 +165,6 @@ module.exports = React.createClass
               t('resources_box_batch_actions_transfer_responsibility_entries'))}
 
           {if showActions.transferResponsibilitySets
-            # TODO if selection most likely not needed, should be already included in the if condition.
             batchTransferResponsibilitySetsEditables = SelectionScope.batchTransferResponsibilityResources(selection, ['Collection']) if selection
             createHoverActionItem(
               if f.present(batchTransferResponsibilitySetsEditables) then f.curry(callbacks.onBatchTransferResponsibilitySetsEdit)(batchTransferResponsibilitySetsEditables),

@@ -1,18 +1,10 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import f from 'active-lodash'
-import BoxTitlebarRender from './BoxTitlebarRender.jsx'
-import t from '../../lib/i18n-translate.js'
-import cx from 'classnames/dedupe'
-import boxSetUrlParams from './BoxSetUrlParams.jsx'
-import setsFallbackUrl from '../../lib/sets-fallback-url.coffee'
-import Preloader from '../ui-components/Preloader.cjsx'
 import ActionsDropdownHelper from './resourcesbox/ActionsDropdownHelper.cjsx'
 import ResourceThumbnail from './ResourceThumbnail.cjsx'
 import BoxBatchApplyButton from './BoxBatchApplyButton.jsx'
 
 class BoxRenderResource extends React.Component {
-
   constructor(props) {
     super(props)
     this.boundOnSelect = this.onSelect.bind(this)
@@ -24,16 +16,12 @@ class BoxRenderResource extends React.Component {
   }
 
   onSelect(event) {
-
     this.props.onSelectResource(this.props.resourceState.data.resource, event)
   }
 
-
   render() {
-
     var itemState = this.props.resourceState
     var isClient = this.props.isClient
-    var onSelectResource = this.props.onSelectResource
     var config = this.props.config
     var hoverMenuId = this.props.hoverMenuId
     var fetchRelations = this.props.fetchRelations
@@ -42,7 +30,7 @@ class BoxRenderResource extends React.Component {
 
     var item = itemState.data.resource
 
-    if(!item.uuid) {
+    if (!item.uuid) {
       // should not be the case anymore after uploader is not using this box anymore
       throw new Error('no uuid')
     }
@@ -54,38 +42,38 @@ class BoxRenderResource extends React.Component {
     var style = null
     // selection defined means selection is enabled
     var showActions = this.props.showActions
-    if(isClient && f.any(f.values(showActions))) {
+    if (isClient && f.any(f.values(showActions))) {
       var isSelected = this.props.isSelected
       var onSelect = this.boundOnSelect
       // if in selection mode, intercept clicks as 'select toggle'
       var onPictureClick = null
-      if(config.layout == 'miniature' || this.props.selectionMode) {// && selection.length > 0) {
+      if (config.layout == 'miniature' || this.props.selectionMode) {
+        // && selection.length > 0) {
         onPictureClick = onSelect
-        pictureLinkStyle = {cursor: 'cell'}
+        pictureLinkStyle = { cursor: 'cell' }
       }
 
       //  when hightlighting editables, we just dim everything else:
-      if(ActionsDropdownHelper.isResourceNotInScope(item, isSelected, hoverMenuId)) {
-        style = {opacity: 0.35}
+      if (ActionsDropdownHelper.isResourceNotInScope(item, isSelected, hoverMenuId)) {
+        style = { opacity: 0.35 }
       }
 
-      if(this.props.selectionMode && isSelected) {
-          pictureLinkStyle.boxShadow = 'rgb(255, 255, 255) 0px 0px 0px 5px, rgb(122, 157, 41) 0px 0px 0px 10px'//'0 0 0px 10px #7a9d29'
+      if (this.props.selectionMode && isSelected) {
+        pictureLinkStyle.boxShadow =
+          'rgb(255, 255, 255) 0px 0px 0px 5px, rgb(122, 157, 41) 0px 0px 0px 10px' //'0 0 0px 10px #7a9d29'
       }
-
     }
-
 
     var overrideTexts = () => {
       var l = require('lodash')
 
       var metaData = itemState.data.thumbnailMetaData
-      if(!metaData) {
+      if (!metaData) {
         return null
       }
 
       var getTitle = () => {
-        if(metaData.title) {
+        if (metaData.title) {
           return metaData.title
         } else {
           return null
@@ -93,7 +81,7 @@ class BoxRenderResource extends React.Component {
       }
 
       var getSubtitle = () => {
-        if(metaData.authors) {
+        if (metaData.authors) {
           return metaData.authors
         } else {
           return null
@@ -104,16 +92,13 @@ class BoxRenderResource extends React.Component {
         title: getTitle(),
         subtitle: getSubtitle()
       }
-
-
     }
 
-
     var renderBatchApplyButton = () => {
-      if(!this.props.showBatchButtons) {
+      if (!this.props.showBatchButtons) {
         return null
       }
-      if(!item.editable) {
+      if (!item.editable) {
         return null
       }
 
@@ -128,19 +113,21 @@ class BoxRenderResource extends React.Component {
       )
     }
 
-
-    // TODO: get={model}
     return (
-      <ResourceThumbnail elm='div'
+      <ResourceThumbnail
+        elm="div"
         style={style}
         get={item}
         overrideTexts={overrideTexts()}
-        isClient={isClient} fetchRelations={fetchRelations}
-        isSelected={isSelected} onSelect={onSelect}
+        isClient={isClient}
+        fetchRelations={fetchRelations}
+        isSelected={isSelected}
+        onSelect={onSelect}
         onPictureClick={onPictureClick}
         pictureLinkStyle={pictureLinkStyle}
         positionProps={positionProps}
-        authToken={authToken} key={key}
+        authToken={authToken}
+        key={key}
         pinThumb={config.layout == 'tiles'}
         listThumb={config.layout == 'list'}
         list_meta_data={itemState.data.listMetaData}

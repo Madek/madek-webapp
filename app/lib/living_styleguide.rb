@@ -3,7 +3,7 @@ module LivingStyleguide
   APP_DIR = Rails.root
   SUFFIX = '.html.haml'
 
-  def build_styleguide_tree(path_string = 'app/views/styleguide') # TODO: cache?
+  def build_styleguide_tree(path_string = 'app/views/styleguide')
     # read argument path_string as 'path/path/path'
     base_dir = APP_DIR
     path_string.split('/').each { |dir| base_dir = base_dir.join dir }
