@@ -20,7 +20,6 @@ module.exports = React.createClass
       disabled: React.PropTypes.bool
     )).isRequired
     mod: React.PropTypes.oneOf(['label', 'person', 'group', 'role'])
-    # TODO: mods: UIPropTypes.mods(['small', 'large', 'ellipsed', 'compact'])
 
   render: ({list, mod, mods} = @props)->
     baseClass = classList(parseMods(@props), 'ui-tag-cloud')

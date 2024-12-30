@@ -18,7 +18,7 @@ Link = require('./Link.cjsx')
 Dropdown = require('react-bootstrap/lib/Dropdown')
 MenuItem = require('react-bootstrap/lib/MenuItem')
 
-MODS = ['stick-right'] # TODO: check and validate supported mods
+MODS = ['stick-right']
 
 UIDropdown = React.createClass
   displayName: 'UI.Dropdown'

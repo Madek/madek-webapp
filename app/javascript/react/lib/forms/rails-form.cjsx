@@ -4,7 +4,7 @@ React = require('react')
 ReactDOM = require('react-dom')
 f = require('active-lodash')
 ui = require('../../lib/ui.coffee')
-$ = require('jquery') # TODO: serializeForm = http://npm.im/form-serialize
+$ = require('jquery')
 parseUrl = require('url').parse
 
 checkForAuthToken = ({method, authToken}) ->

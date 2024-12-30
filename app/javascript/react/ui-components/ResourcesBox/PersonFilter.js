@@ -25,7 +25,6 @@ export default class PersonFilter extends Component {
     require('@eins78/typeahead.js/dist/typeahead.jquery.js') // NOTE: do not convert this into a ES6 import (it will crash SSR)
     const typeahead = jqNode.typeahead(typeaheadOptions, dataSet)
 
-    // TODO: why is this needed?
     typeahead.on('typeahead:select typeahead:autocomplete', (event, item) => {
       event.preventDefault()
       jqNode.typeahead('val', '')

@@ -68,7 +68,7 @@ module.exports = React.createClass
   componentWillUnmount: ()->
     if @_runningRequest then @_runningRequest.abort()
     @_isMounted = false
-    # FIXME. Self-implemented `isMounted` to suppress the React warning, but still an anti-pattern.
+    # NOTE: Self-implemented `isMounted` to suppress the React warning, but still an anti-pattern.
     # The correct solution would be @_runningRequest.abort().
     # However this does not work, because `appRequest()` returns undefined when retries are enabled.
 
