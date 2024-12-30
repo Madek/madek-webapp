@@ -93,10 +93,6 @@ module Madek
 
     # Assets & React
 
-    # NOTE: sprockets is not used for bundling JS, hand it the prebundled files:
-    Rails.application.config.assets.paths.concat(
-      Dir["#{Rails.root}/public/assets/bundles"])
-
     # react-rails config:
     # Settings for the pool of renderers:
     # config.react.server_renderer_pool_size  ||= 1  # ExecJS doesn't allow more than one on MRI
@@ -115,47 +111,6 @@ module Madek
         end
       end
     end
-
-    # List of all assets that need precompilation
-
-    # the JS bundles are different for dev/prod:
-    Rails.application.config.assets.precompile << %w(
-      bundle.js
-      bundle-embedded-view.js
-    ).map { |name| "#{Rails.env.development? ? 'dev-' : ''}#{name}" }
-    .concat(%w( bundle-react-server-side.js bundle-integration-testbed.js ))
-
-    Rails.application.config.assets.precompile << %w(
-      application.css
-      application-contrasted.css
-      embedded-view.css
-      styleguide.css
-    )
-
-    # NOTE: Rails does not support *matchers* anymore, do it manually
-    precompile_assets_dirs = %w(
-      fonts/
-      images/
-      images/styleguide/
-    )
-    Rails.application.config.assets.precompile << Proc.new do |filename, path|
-      precompile_assets_dirs.any? {|dir| path =~ Regexp.new("app/assets/#{dir}") }
-    end
-
-    # handle & precompile asset imports from npm
-    Rails.application.config.assets.paths.concat(Dir[
-      "#{Rails.root}/node_modules/@eins78/typopro-open-sans/dist",
-      "#{Rails.root}/node_modules/font-awesome/fonts",
-      "#{Rails.root}/node_modules"])
-
-    # precompile assets from npm (only needed for fonts)
-    Rails.application.config.assets.precompile.concat(Dir[
-      "#{Rails.root}/node_modules/@eins78/typopro-open-sans/dist/*",
-      "#{Rails.root}/node_modules/font-awesome/fonts/*"])
-
-    # handle config/locale/*.csv
-    Rails.application.config.assets.paths.concat(Dir["#{Rails.root}/config/locale"])
-    config.assets.precompile.concat(Dir["#{Rails.root}/config/locale/*.csv"])
 
     Rails.application.config.middleware.insert_after Rack::TempfileReaper, Madek::Middleware::Audit
   end

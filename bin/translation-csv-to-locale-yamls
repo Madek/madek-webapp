@@ -7,7 +7,7 @@ const path = require('path')
 const fs = require('fs-extra')
 const f = require('active-lodash')
 const YAML = require('js-yaml')
-const parseTranslationsFromCSV = require('../app/assets/javascripts/lib/parse-translations-from-csv')
+const parseTranslationsFromCSV = require('../app/javascript/lib/parse-translations-from-csv')
 
 const CONFIG = {
   translationFile: './config/locale/translations.csv',

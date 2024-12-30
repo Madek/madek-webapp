@@ -12,6 +12,11 @@ export RAILS_LOG_LEVEL=debug
 export SECRET_KEY_BASE_DUMMY=1
 export DISABLE_SECRETS_STRENGTH_CHECK=true
 
+# delete all files (except .git, .gitignore and dev bundles)
+if [ -d "public/assets" ]; then
+  find public/assets -type f -not -name ".git*" -and -not -name "dev-*" -exec rm -f {} +
+fi
+
 # build locale files
 bin/translation-csv-to-locale-yamls
 
@@ -23,3 +28,6 @@ bundle exec rake assets:precompile
 
 # cleanup obsoletes
 bundle exec rake assets:clean
+
+# write README
+echo "precompiled assets for <https://github.com/Madek/madek-webapp>" > public/assets/README.md

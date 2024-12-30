@@ -1,7 +1,8 @@
-// provides string translation function.
+// NOTE: this is DEPRECATED! use ./i18n-translate.js
+
+// provides string translation functions.
 // usage
-// t = require('…'); t('hello') // => 'Hallo'
-/* global APP_CONFIG __dirname */ // for eslint
+// t = require('…')('de'); t('hello') // => 'Hallo'
 
 var f = require('active-lodash')
 var parseTranslationsFromCSV = require('./parse-translations-from-csv')
@@ -9,7 +10,7 @@ var parseTranslationsFromCSV = require('./parse-translations-from-csv')
 // NOTE: this works with browserify and the 'brfs' transform (embeds as string)
 var path = require('path')
 var translationsCSVText = require('fs').readFileSync(
-  path.join(__dirname, '../../../../config/locale/translations.csv'),
+  path.join(__dirname, '../../../config/locale/translations.csv'),
   'utf8'
 )
 
@@ -21,15 +22,14 @@ var translations = f.zipObject(
   })
 )
 
-module.exports = function I18nTranslate(marker) {
-  // get language from (global) app config
-  var LANG = APP_CONFIG.userLanguage
-
-  if (!f.includes(f.keys(translations), LANG)) {
-    throw new Error(`Unknown language '${LANG}'!`)
+module.exports = function tFactory(lang) {
+  if (!f.includes(f.keys(translations), lang)) {
+    throw new Error('Unknown language!')
   }
 
-  const s = f.get(translations, [LANG, marker])
+  console.warn('This is DEPRECATED! use ./i18n-translate.js')
 
-  return f.isString(s) ? s : '⟨' + marker + '⟩'
+  return function t(marker) {
+    return f.presence(f.get(translations, [lang, marker])) || '⟨' + marker + '⟩'
+  }
 }
