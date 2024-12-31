@@ -38,7 +38,7 @@ class VocabularyPolicy < DefaultPolicy
   end
 
   def permissions?
-    show? # TODO: policy???
+    show?
   end
 
   def permissions_update?

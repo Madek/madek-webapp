@@ -6,7 +6,6 @@ parseUrl = require('url').parse
 buildUrl = require('url').format
 qs = require('qs')
 PageContent = require('./PageContent.cjsx')
-PageContentHeader = require('./PageContentHeader.cjsx')
 DashboardHeader = require('./DashboardHeader.cjsx')
 t = require('../../lib/i18n-translate.js')
 AsyncDashboardSection = require('../lib/AsyncDashboardSection.cjsx')

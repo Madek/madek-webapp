@@ -1,6 +1,6 @@
 React = require('react')
 
-# TODO: remove this wrapper and only use UI component
+# This is just a wrapper around PageHader.js in order to map `children` to `actions` prop
 PageHeader = require('../ui-components/PageHeader.js')
 
 module.exports = React.createClass
