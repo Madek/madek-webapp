@@ -3,6 +3,8 @@
 # Version of your assets, change this if you want to expire all your assets.
 Rails.application.config.assets.version = "1.0"
 
+Rails.application.config.assets.gzip = false
+
 # NOTE: sprockets is not used for bundling JS, hand it the prebundled files:
 Rails.application.config.assets.paths.concat(
   Dir["#{Rails.root}/public/assets/bundles"])
