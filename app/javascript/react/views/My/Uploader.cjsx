@@ -20,7 +20,6 @@ UploadQueue = async.queue(((resource, callback)->
 module.exports = React.createClass
   displayName: 'Uploader'
   propTypes:
-    # appCollection: TODO: <Model>
     get: React.PropTypes.shape({
       next_step: React.PropTypes.shape({
         label: React.PropTypes.string.isRequired,
@@ -74,14 +73,8 @@ module.exports = React.createClass
     added = @props.appCollection.add f.map files, (file)->
       {uploading: {file: file, workflowId: workflowId, copyMdFrom: copyMdFrom}}
 
-    # TODO: enable this (needs more polishing, in miniature there is nothing to see)
-    # # HACK: force miniature layout if more than 20 items:
-    # if @props.appCollection.length >= 20
-    #   @refs['polybox'].setLayout('miniature')
-
     # immediately trigger upload!
     @setState(uploading: true)
-    # TODO: toggle to turn it of and start upload manually?
     f.each added, (model)->
       UploadQueue.push(
         model, (err, res)->

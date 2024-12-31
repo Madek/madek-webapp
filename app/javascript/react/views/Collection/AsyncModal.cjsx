@@ -26,7 +26,6 @@ module.exports = React.createClass
     children: null
   }
 
-  # TODO Potential problem (class variables).
   lastRequest: null
 
   componentWillMount: () ->
@@ -55,9 +54,6 @@ module.exports = React.createClass
     )
 
   render: ({authToken, get, onClose} = @props) ->
-
-    # TODO: Should this first be rendered with loading false in initial state?
-    # if @state.loading or (@props.async and not @state.mounted)
     if not @state.get
       <Modal loading={true} widthInPixel={@props.widthInPixel} />
     else

@@ -39,7 +39,7 @@ module.exports = React.createClass
         label: t('vocabularies_tabs_contents')
       },
       {
-        visible: true # TODO: policy???
+        visible: true
         path: actions.vocabulary_permissions,
         label: t('vocabularies_tabs_permissions')
       }

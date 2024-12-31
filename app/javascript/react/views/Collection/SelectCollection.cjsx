@@ -26,7 +26,6 @@ module.exports = React.createClass
     errors: null
   }
 
-  # TODO Potential problem (class variables).
   lastRequest: null
   sendTimeoutRef: null
 

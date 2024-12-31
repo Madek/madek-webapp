@@ -14,7 +14,7 @@
 
   modal =
     if action_name == 'ask_delete' && (controller_name == 'media_entries' || controller_name == 'collections')
-      react('Views.Collection.AskDelete', { get: @get })
+      react('Views.MediaResource.AskDelete', { get: @get })
     elsif action_name == 'edit_cover' && controller_name == 'collections'
       react('Views.Collection.ResourceSelection', { get: @get, type: 'radio' })
     elsif action_name == 'edit_highlights'  && controller_name == 'collections'

@@ -37,7 +37,6 @@ module.exports = React.createClass
       if result.result == 'error'
         window.scrollTo(0, 0)
         @setState(saving: false, errorMessage: result.message)
-          # TODO if @isMounted()
       else
         if !@props.batch
           if !result.data.viewable

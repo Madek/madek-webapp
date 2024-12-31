@@ -7,7 +7,6 @@ module.exports = React.createClass
   displayName: 'PageContentHeader'
 
   render: ({icon, title, children, workflow, banner, sectionLabels} = @props) ->
-    # console.log('PageContentHeader', this.props)
     <PageHeader 
       icon={icon}
       title={title}

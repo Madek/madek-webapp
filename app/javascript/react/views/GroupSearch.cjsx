@@ -139,13 +139,6 @@ module.exports = React.createClass
           <table className='ui-rights-group'>
             <thead>
               <tr>
-                {
-                  # TODO: We have to set this border to the same color as in the
-                  # Permissions form. Unfortunately here at the moment a parent
-                  # container set CSS class midtone, which sets a darker, why
-                  # we explicitely have to set it to the bright color.
-                  null
-                }
                 <td className='ui-rights-user-title' style={{borderColor: '#f3f3f3'}}>
                   {t('group_edit_person')}
                 </td>
@@ -166,8 +159,6 @@ module.exports = React.createClass
 
           {
             if AutoComplete
-              # TODO Cleanup z-Index. Without this, the autocomplete dropdown is under
-              # the alert.
               <div className='ui-add-subject ptx row' style={zIndex: '1000'}>
                 <div className='col1of3'>
                   <AutoComplete className='multi-select-input'

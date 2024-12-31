@@ -241,7 +241,7 @@ const WorkflowEditor = ({
   // status,
   authToken,
 
-  get, // FIXME: remove this, replace with named props
+  get,
 
   workflowOwners,
   isEditingOwners,

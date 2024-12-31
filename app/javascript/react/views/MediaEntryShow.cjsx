@@ -21,11 +21,10 @@ module.exports = React.createClass
       # image_url: React.PropTypes.string.isRequired
       meta_data: MadekPropTypes.resourceMetaData.isRequired
       responsible: MadekPropTypes.user.isRequired
-      # TODO: actually, those are tabs:
       # tabs: UI.propTypes.TabList.isRequired
-      # more_data: React.PropTypes.object.isRequired # TODO
-      # relations: React.PropTypes.object.isRequired # TODO
-      # permissions: React.PropTypes.object.isRequired # TODO
+      # more_data: React.PropTypes.object.isRequired
+      # relations: React.PropTypes.object.isRequired
+      # permissions: React.PropTypes.object.isRequired
     ).isRequired
 
   getInitialState: ()-> {
@@ -74,12 +73,9 @@ module.exports = React.createClass
 
     layout =
       overview: <ResourceShowOverview mods='ui-media-overview' {...overview}/>
-      # TODO: topNotice: '[topNotice]'
       moreInfo: if f.present(listContexts)
         <div className='ui-container midtone rounded-bottom pal well'>
           <MetaDataByListing list={listContexts} /></div>
-
-    # TODO: use <AppResourceLayout…/>, fake the boxes for now:
 
     {# complete box (under the title):}
     <div>
