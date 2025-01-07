@@ -47,6 +47,7 @@ feature 'batch soft-delete' do
       add_to_set: { count: 5 },
       remove_from_set: { count: 5 },
       media_entries_metadata: { count: 3 },
+      media_entries_edit_title: { count: 3 },
       resources_destroy: { count: 3 },
       collections_metadata: { count: 2 },
       media_entries_permissions: { count: 3 },

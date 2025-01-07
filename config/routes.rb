@@ -106,6 +106,8 @@ Madek::Application.routes.draw do
   put 'batch_add_to_clipboard', controller: :batch, action: :batch_add_to_clipboard, as: 'batch_add_to_clipboard'
   put 'batch_remove_from_clipboard', controller: :batch, action: :batch_remove_from_clipboard, as: 'batch_remove_from_clipboard'
   put 'batch_remove_all_from_clipboard', controller: :batch, action: :batch_remove_all_from_clipboard, as: 'batch_remove_all_from_clipboard'
+  post 'batch_edit_title', controller: :batch, action: :batch_edit_title_select
+  put 'batch_edit_title', controller: :batch, action: :batch_edit_title_update
 
   resources :collections, path: 'sets', only: [:index, :show, :create, :update, :destroy] do
     member do

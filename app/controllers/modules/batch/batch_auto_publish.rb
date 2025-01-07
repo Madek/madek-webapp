@@ -61,11 +61,20 @@ module Modules
         to_publish.length
       end
 
-      def media_entry_publishable(media_entry, validation_keys)
-        if media_entry.is_published
-          return false
-        end
+      def get_validation_keys()
+        validation_keys = ContextKey.where(
+          context: AppSetting.first.contexts_for_entry_validation,
+          is_required: true)
 
+        validation_keys.select do |context_key|
+          vocab = context_key.meta_key.vocabulary
+          viewable = vocab.viewable_by_public? || vocab.viewable_by_user?(@user)
+          enabled = context_key.meta_key.send('is_enabled_for_media_entries')
+          viewable && enabled
+        end
+      end
+
+      def validate_media_entry(media_entry, validation_keys)
         all_valid = true
 
         validation_keys.each do |context_key|
@@ -88,20 +97,23 @@ module Modules
         all_valid
       end
 
+      def is_autopublishable(media_entry)
+        return false if media_entry.is_published
+        validation_keys = get_validation_keys()
+        validate_media_entry(media_entry, validation_keys)
+      end
+
       def determine_entries_for_autopublish(media_entries)
-        validation_keys = ContextKey.where(
-          context: AppSetting.first.contexts_for_entry_validation,
-          is_required: true)
-
-        usable_keys = validation_keys.select do |context_key|
-          vocab = context_key.meta_key.vocabulary
-          viewable = vocab.viewable_by_public? || vocab.viewable_by_user?(@user)
-          enabled = context_key.meta_key.send('is_enabled_for_media_entries')
-          viewable && enabled
-        end
-
+        validation_keys = get_validation_keys()
         media_entries.select do |media_entry|
-          media_entry_publishable(media_entry, usable_keys)
+          !media_entry.is_published && validate_media_entry(media_entry, validation_keys)
+        end
+      end
+
+      def determine_valid_entries(media_entries)
+        validation_keys = get_validation_keys()
+        media_entries.select do |media_entry|
+          validate_media_entry(media_entry, validation_keys)
         end
       end
 
