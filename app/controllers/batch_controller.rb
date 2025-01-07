@@ -9,6 +9,7 @@ class BatchController < ApplicationController
   include Modules::Batch::BatchSoftDeleteResources
   include Modules::Batch::BatchPermissionActions
   include Modules::Batch::BatchAddToClipboard
+  include Modules::Batch::BatchEditTitle
 
   def batch_add_to_clipboard
     batch_add_resources_to_clipboard(current_user, params)

@@ -50,6 +50,7 @@ const xhr = require('xhr')
 const getRailsCSRFToken = require('../../lib/rails-csrf-token.js')
 const BatchAddToSetModal = require('./BatchAddToSetModal.jsx')
 const BatchRemoveFromSetModal = require('./BatchRemoveFromSetModal.jsx')
+const BatchEditTitleModal = require('./BatchEditTitleModal.jsx').default
 
 const simpleXhr = require('../../lib/simple-xhr.js')
 
@@ -126,6 +127,7 @@ module.exports = React.createClass({
       isClient: false,
       clipboardModal: 'hidden',
       batchAddToSet: false,
+      batchEditTitleResourceIds: undefined,
       batchRemoveFromSet: false,
       savedLayout: this.props.collectionData ? this.props.collectionData.layout : undefined,
       savedOrder: this.props.collectionData ? this.props.collectionData.order : undefined,
@@ -660,6 +662,16 @@ module.exports = React.createClass({
     return false
   },
 
+  _onBatchEditTitle(resourceIds, event) {
+    event.preventDefault()
+    this.setState({
+      batchEditTitleResourceIds: this._selectedResourceIdsWithTypes().filter(resource =>
+        resourceIds.includes(resource.uuid)
+      )
+    })
+    return false
+  },
+
   _selectedResourceIdsWithTypes() {
     return this.state.boxState.data.selectedResources.map(model => ({
       uuid: model.uuid,
@@ -696,8 +708,9 @@ module.exports = React.createClass({
   _onCloseModal() {
     this.setState({ clipboardModal: 'hidden' })
     this.setState({ batchAddToSet: false })
+    this.setState({ batchEditTitleResourceIds: undefined })
     this.setState({ batchRemoveFromSet: false })
-    return this.setState({ batchDestroyResourcesModal: false })
+    this.setState({ batchDestroyResourcesModal: false })
   },
 
   setLayout: layoutMode => {
@@ -960,6 +973,7 @@ module.exports = React.createClass({
             onBatchRemoveFromClipboard: this._onBatchRemoveFromClipboard,
             onBatchAddToSet: this._onBatchAddToSet,
             onBatchRemoveFromSet: this._onBatchRemoveFromSet,
+            onBatchEditTitle: this._onBatchEditTitle,
             onBatchEditAll: this._onBatchEditAll,
             onBatchEdit: this._onBatchEdit,
             onBatchEditAllSets: this._onBatchEditAllSets,
@@ -1200,6 +1214,16 @@ module.exports = React.createClass({
             resourceIds={this._selectedResourceIdsWithTypes()}
             authToken={this.props.authToken}
             get={null}
+            onClose={this._onCloseModal}
+            returnTo={currentUrl}
+          />
+        ) : (
+          undefined
+        )}
+        {this.state.batchEditTitleResourceIds ? (
+          <BatchEditTitleModal
+            resourceIds={this.state.batchEditTitleResourceIds}
+            authToken={this.props.authToken}
             onClose={this._onCloseModal}
             returnTo={currentUrl}
           />

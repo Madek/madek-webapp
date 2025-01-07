@@ -51,7 +51,7 @@ module Modules
       end
 
       def execute_publish(media_entries)
-        to_publish = determine_entries_for_autopublish(media_entries)
+        to_publish = determine_entries_for_autopublish(media_entries, [])
         ActiveRecord::Base.transaction do
           to_publish.each do |media_entry|
             media_entry.is_published = true
@@ -61,11 +61,21 @@ module Modules
         to_publish.length
       end
 
-      def media_entry_publishable(media_entry, validation_keys)
-        if media_entry.is_published
-          return false
-        end
+      def get_validation_keys(skip_validation_meta_key_ids)
+        validation_keys = ContextKey.where(
+          context: AppSetting.first.contexts_for_entry_validation,
+          is_required: true)
 
+        validation_keys.select do |context_key|
+          skipped = skip_validation_meta_key_ids.include?(context_key.meta_key.id)
+          vocab = context_key.meta_key.vocabulary
+          viewable = vocab.viewable_by_public? || vocab.viewable_by_user?(@user)
+          enabled = context_key.meta_key.send('is_enabled_for_media_entries')
+          viewable && enabled && !skipped
+        end
+      end
+
+      def validate_media_entry(media_entry, validation_keys)
         all_valid = true
 
         validation_keys.each do |context_key|
@@ -88,20 +98,16 @@ module Modules
         all_valid
       end
 
-      def determine_entries_for_autopublish(media_entries)
-        validation_keys = ContextKey.where(
-          context: AppSetting.first.contexts_for_entry_validation,
-          is_required: true)
+      def is_autopublishable(media_entry, skip_validation_meta_key_ids)
+        return false if media_entry.is_published
+        validation_keys = get_validation_keys(skip_validation_meta_key_ids)
+        validate_media_entry(media_entry, validation_keys)
+      end
 
-        usable_keys = validation_keys.select do |context_key|
-          vocab = context_key.meta_key.vocabulary
-          viewable = vocab.viewable_by_public? || vocab.viewable_by_user?(@user)
-          enabled = context_key.meta_key.send('is_enabled_for_media_entries')
-          viewable && enabled
-        end
-
+      def determine_entries_for_autopublish(media_entries, skip_validation_meta_key_ids)
+        validation_keys = get_validation_keys(skip_validation_meta_key_ids)
         media_entries.select do |media_entry|
-          media_entry_publishable(media_entry, usable_keys)
+          !media_entry.is_published && validate_media_entry(media_entry, validation_keys)
         end
       end
 

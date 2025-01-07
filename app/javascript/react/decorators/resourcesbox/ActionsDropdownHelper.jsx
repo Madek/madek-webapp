@@ -63,6 +63,14 @@ const highlightingRules = function(item, isSelected) {
       }
     },
     {
+      hoverMenuId: 'media_entries_edit_title',
+      rule() {
+        return (
+          !SelectionScope.batchMetaDataResource(item) || item.type !== 'MediaEntry' || !isSelected
+        )
+      }
+    },
+    {
       hoverMenuId: 'collections_edit_all',
       rule() {
         return item.type !== 'Collection'

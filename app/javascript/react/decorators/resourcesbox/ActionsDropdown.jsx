@@ -152,6 +152,24 @@ module.exports = React.createClass({
             }
           })()}
           {(() => {
+            // Titel von Medieneinträgen editieren
+            if (showActions.edit) {
+              const batchEditables = selection
+                ? SelectionScope.batchMetaDataResources(selection, ['MediaEntry'])
+                : undefined
+              return createHoverActionItem(
+                batchEditables && batchEditables.length > 0 && batchEditables.length <= 12
+                  ? f.curry(callbacks.onBatchEditTitle)(batchEditables.map(entry => entry.uuid))
+                  : undefined,
+                'media_entries_edit_title',
+                batchEditables.length,
+                'pen',
+                t('resources_box_batch_actions_edit_title') +
+                  (batchEditables && batchEditables.length > 12 ? ' (max. 12)' : '')
+              )
+            }
+          })()}
+          {(() => {
             if (showActions.editSets) {
               if (
                 (collectionData || isClipboard) &&

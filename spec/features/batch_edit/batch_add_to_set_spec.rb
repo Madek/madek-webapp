@@ -56,21 +56,21 @@ feature 'batch edit' do
       prepare_data
       login
 
-      visit @unpublished_entries_path
+      visit @my_media_entries_path
       click_select_all_on_first_page
 
       select_set_button.click
       check_default_initial_content(true)
-      check_path(@unpublished_entries_path)
+      check_path(@my_media_entries_path)
       cancel_button.click
-      check_path(@unpublished_entries_path)
+      check_path(@my_media_entries_path)
       check_no_dialog
 
       select_set_button.click
       check_default_initial_content(true)
-      check_path(@unpublished_entries_path)
+      check_path(@my_media_entries_path)
       cancel_cross.click
-      check_path(@unpublished_entries_path)
+      check_path(@my_media_entries_path)
       check_no_dialog
     end
   end
@@ -79,11 +79,11 @@ feature 'batch edit' do
     prepare_data
     login
 
-    visit @unpublished_entries_path
+    visit @my_media_entries_path
     click_select_all_on_first_page
     select_set_button.click
     check_default_initial_content(true)
-    check_path(@unpublished_entries_path)
+    check_path(@my_media_entries_path)
 
     search_async('Test')
     check_search_result('Test', [], true)
@@ -103,7 +103,7 @@ feature 'batch edit' do
 
   def prepare_data
     prepare_user
-    @unpublished_entries_path = '/my/content_media_entries'
+    @my_media_entries_path = '/my/content_media_entries'
     @return_to_path = '/my'
 
     @media_entry1 = create_media_entry('MediaEntry1')
@@ -192,7 +192,7 @@ feature 'batch edit' do
 
   def check_search_result_page(async)
     if async
-      expect(current_path).to eq(@unpublished_entries_path)
+      expect(current_path).to eq(@my_media_entries_path)
     else
       expect(current_path).to eq(batch_select_add_to_set_path)
     end

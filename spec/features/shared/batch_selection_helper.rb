@@ -89,6 +89,8 @@ module BatchSelectionHelper
       expected_clipboard_label_and_count(count: count, all: all)
     elsif key == :media_entries_metadata
       expected_media_entries_label_and_count(count: count, all: all)
+    elsif key == :media_entries_edit_title
+      expected_media_entries_label_and_count(count: count, all: all)
     elsif key == :collections_metadata
       expected_collections_label_and_count(count: count, all: all)
     elsif key == :meta_data_batch
@@ -234,6 +236,7 @@ module BatchSelectionHelper
       :add_to_set,
       :remove_from_set,
       :media_entries_metadata,
+      :media_entries_edit_title,
       :collections_metadata,
       :resources_destroy,
       :media_entries_permissions,
@@ -250,6 +253,7 @@ module BatchSelectionHelper
       add_to_set: :resources_box_batch_actions_addtoset,
       remove_from_set: :resources_box_batch_actions_removefromset,
       media_entries_metadata: :resources_box_batch_actions_edit,
+      media_entries_edit_title: :resources_box_batch_actions_edit_title,
       collections_metadata: :resources_box_batch_actions_edit_sets,
       resources_destroy: :resources_box_batch_actions_delete,
       media_entries_permissions:
