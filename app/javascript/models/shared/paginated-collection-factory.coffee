@@ -102,17 +102,15 @@ module.exports = (collectionClass, {jsonPath})->
       return xhr.get(
         {url: nextUrl, json: true },
         (err, res, body) => (
-
           if @requestId != localRequestId
             return
-
-          if err || res.statusCode > 400
+          else if err || res.statusCode > 400
             return callback(err || body)
-
-          @resources.add(f.get(body, @getJsonPath()))
-          @set({currentPage: nextPage})
-          @fetchListData() if fetchListData
-          callback(null)
+          else
+            @resources.add(f.get(body, @getJsonPath()))
+            @set({currentPage: nextPage})
+            @fetchListData() if fetchListData
+            callback(null)
       ))
 
     getJsonPath: () ->
@@ -151,11 +149,11 @@ module.exports = (collectionClass, {jsonPath})->
         (err, res, body) => (
           if err || res.statusCode > 400
             return callback({result: 'error'})
-
-          callback({
-            result: 'success',
-            data: f.get(body, @getJsonPath())
-          })
+          else
+            callback({
+              result: 'success',
+              data: f.get(body, @getJsonPath())
+            })
       ))
 
 
