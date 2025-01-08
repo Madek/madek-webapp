@@ -1,62 +1,77 @@
-Collection = require('ampersand-rest-collection')
-AppResource = require('../shared/app-resource.coffee')
-ResourcePermissions = require('../shared/resource-permissions.coffee')
-User = require('../user.coffee')
-Group = require('../group.coffee')
-ApiClient = require('../api-client.coffee')
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+const Collection = require('ampersand-rest-collection');
+const AppResource = require('../shared/app-resource.coffee');
+const ResourcePermissions = require('../shared/resource-permissions.coffee');
+const User = require('../user.coffee');
+const Group = require('../group.coffee');
+const ApiClient = require('../api-client.coffee');
 
-# NOTE: 'trilean' type for usage in batch - can be true, false or mixed
+// NOTE: 'trilean' type for usage in batch - can be true, false or mixed
 
-# Child Collections/Models (defined here because they are not needed anywhere else)
-MediaEntryPublicPermission = AppResource.extend
-  type: 'MediaEntryPublicPermission'
-  props:
-    get_metadata_and_previews: ['trilean']
+// Child Collections/Models (defined here because they are not needed anywhere else)
+const MediaEntryPublicPermission = AppResource.extend({
+  type: 'MediaEntryPublicPermission',
+  props: {
+    get_metadata_and_previews: ['trilean'],
     get_full_size: ['trilean']
+  }});
 
-MediaEntryUserPermissions = Collection.extend
-  model: AppResource.extend
-    type: 'MediaEntryUserPermission'
-    children:
+const MediaEntryUserPermissions = Collection.extend({
+  model: AppResource.extend({
+    type: 'MediaEntryUserPermission',
+    children: {
       subject: User
-    props:
-      get_metadata_and_previews: ['trilean', no, off]
-      get_full_size: ['trilean', no, off]
-      edit_metadata: ['trilean', no, off]
-      edit_permissions: ['trilean', no, off]
+    },
+    props: {
+      get_metadata_and_previews: ['trilean', false, false],
+      get_full_size: ['trilean', false, false],
+      edit_metadata: ['trilean', false, false],
+      edit_permissions: ['trilean', false, false]
+    }})});
 
-MediaEntryGroupPermissions = Collection.extend
-  type: 'MediaEntryGroupPermissions'
-  model: AppResource.extend
-    type: 'MediaEntryGroupPermission'
-    children:
+const MediaEntryGroupPermissions = Collection.extend({
+  type: 'MediaEntryGroupPermissions',
+  model: AppResource.extend({
+    type: 'MediaEntryGroupPermission',
+    children: {
       subject: Group
-    props:
-      get_metadata_and_previews: ['trilean', no, off]
-      get_full_size: ['trilean', no, off]
-      edit_metadata: ['trilean', no, off]
+    },
+    props: {
+      get_metadata_and_previews: ['trilean', false, false],
+      get_full_size: ['trilean', false, false],
+      edit_metadata: ['trilean', false, false]
+    }})});
 
-MediaEntryApiClientPermissions = Collection.extend
-  type: 'MediaEntryApiClientPermissions'
-  model: AppResource.extend
-    type: 'MediaEntryApiClientPermission'
-    children:
+const MediaEntryApiClientPermissions = Collection.extend({
+  type: 'MediaEntryApiClientPermissions',
+  model: AppResource.extend({
+    type: 'MediaEntryApiClientPermission',
+    children: {
       subject: ApiClient
-    props:
-      get_metadata_and_previews: ['trilean', no, off]
-      get_full_size: ['trilean', no, off]
+    },
+    props: {
+      get_metadata_and_previews: ['trilean', false, false],
+      get_full_size: ['trilean', false, false]
+    }})});
 
-module.exports = ResourcePermissions.extend
-  type: 'MediaEntryPermissions'
+module.exports = ResourcePermissions.extend({
+  type: 'MediaEntryPermissions',
 
-  children: # public permission is just 1 subject, so not a collection!
+  children: { // public permission is just 1 subject, so not a collection!
     public_permission: MediaEntryPublicPermission
+  },
 
-  collections:
-    user_permissions: MediaEntryUserPermissions
-    group_permissions: MediaEntryGroupPermissions
+  collections: {
+    user_permissions: MediaEntryUserPermissions,
+    group_permissions: MediaEntryGroupPermissions,
     api_client_permissions: MediaEntryApiClientPermissions
+  },
 
-  # custom serialize to match what rails expects — used on this.save()
-  serialize: (data)->
-    {media_entry: (AppResource::serialize.call @, data)}
+  // custom serialize to match what rails expects — used on this.save()
+  serialize(data){
+    return {media_entry: (AppResource.prototype.serialize.call(this, data))};
+  }});

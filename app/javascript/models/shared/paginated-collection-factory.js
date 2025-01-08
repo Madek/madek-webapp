@@ -1,64 +1,78 @@
-# This is a (simple) factory, used by ModelCollections that can paginate.
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+// This is a (simple) factory, used by ModelCollections that can paginate.
 
-f = require('active-lodash')
-State = require('ampersand-state')
-Collection = require('ampersand-rest-collection')
-AppCollection = require('./app-collection.coffee')
+const f = require('active-lodash');
+const State = require('ampersand-state');
+const Collection = require('ampersand-rest-collection');
+const AppCollection = require('./app-collection.coffee');
 
-xhr = require('xhr')
-setUrlParams = require('../../lib/set-params-for-url.coffee')
-getOrThrow = (obj, key)->
-  val = f.get(obj, key)
-  if !f.present(val) then throw new Error('Missing config! ' + key)
-  val
+const xhr = require('xhr');
+const setUrlParams = require('../../lib/set-params-for-url.coffee');
+const getOrThrow = function(obj, key){
+  const val = f.get(obj, key);
+  if (!f.present(val)) { throw new Error('Missing config! ' + key); }
+  return val;
+};
 
 
-module.exports = (collectionClass, {jsonPath})->
-  State.extend
-    collections:
+module.exports = function(collectionClass, {jsonPath}){
+  return State.extend({
+    collections: {
       resources: collectionClass
+    },
 
-    props:
-      url: ['object']
-      perPage: ['number']
-      firstPage: ['number']
-      currentPage: ['number']
-      totalCount: ['number']
-      jobQueue: ['array']
-      requestId: ['number']
+    props: {
+      url: ['object'],
+      perPage: ['number'],
+      firstPage: ['number'],
+      currentPage: ['number'],
+      totalCount: ['number'],
+      jobQueue: ['array'],
+      requestId: ['number'],
       jsonPath: ['string']
+    },
 
-    derived:
-      # make it behave more like a normal collection (for controllers)
-      models: { deps: ['resources'], fn: ()-> @resources.models }
-      length: { deps: ['resources'], fn: ()-> @resources.length }
+    derived: {
+      // make it behave more like a normal collection (for controllers)
+      models: { deps: ['resources'], fn(){ return this.resources.models; } },
+      length: { deps: ['resources'], fn(){ return this.resources.length; } },
 
-      totalPages:
-        deps: ['totalCount', 'perPage']
-        fn: ()-> Math.ceil(@totalCount / @perPage)
+      totalPages: {
+        deps: ['totalCount', 'perPage'],
+        fn(){ return Math.ceil(this.totalCount / this.perPage); }
+      },
 
-      hasNext:
-        deps: ['currentPage', 'totalPages']
-        fn: ()-> @totalPages > @currentPage
+      hasNext: {
+        deps: ['currentPage', 'totalPages'],
+        fn(){ return this.totalPages > this.currentPage; }
+      },
 
-      # return resources by pages (for rendering)
-      # [{ resources: [{…}, …], pagination: { page: 1, … } }, …]
-      pages:
-        deps: ['currentPage', 'resources', 'totalPages', 'totalCount', 'perPage']
-        fn: ()->
-          paginationBase = { totalPages: @totalPages, totalCount: @totalCount}
+      // return resources by pages (for rendering)
+      // [{ resources: [{…}, …], pagination: { page: 1, … } }, …]
+      pages: {
+        deps: ['currentPage', 'resources', 'totalPages', 'totalCount', 'perPage'],
+        fn(){
+          const paginationBase = { totalPages: this.totalPages, totalCount: this.totalCount};
 
-          f(@resources.models)
-            .chunk(@perPage)
-            .map((resources, n) => {
-              url: setUrlParams(@url, {list: {page: (@firstPage + n)}})
-              resources: resources
+          return f(this.resources.models)
+            .chunk(this.perPage)
+            .map((resources, n) => ({
+              url: setUrlParams(this.url, {list: {page: (this.firstPage + n)}}),
+              resources,
               pagination: f.extend(
-                paginationBase, { page: (@firstPage + n) }) })
-            .value()
+                paginationBase, { page: (this.firstPage + n) }) }))
+            .value();
+        }
+      }
+    },
 
-    initialize: (data)->
-      @set({
+    initialize(data){
+      this.set({
         url: getOrThrow(data, 'config.for_url'),
         perPage: getOrThrow(data, 'config.per_page'),
         firstPage: getOrThrow(data, 'config.page'),
@@ -68,151 +82,173 @@ module.exports = (collectionClass, {jsonPath})->
         jsonPath: f.get(data, 'json_path'),
         requestId: Math.random(),
         jobQueue: []
-      })
-      # listen to child collections
-      if @resources && f.isFunction(@resources.on)
-        @resources?.on('change add remove reset', (e)=> @trigger('change'))
+      });
+      // listen to child collections
+      if (this.resources && f.isFunction(this.resources.on)) {
+        return (this.resources != null ? this.resources.on('change add remove reset', e=> this.trigger('change')) : undefined);
+      }
+    },
 
-    # instance methods:
+    // instance methods:
 
-    clearPages: (url) ->
-      @set({
+    clearPages(url) {
+      this.set({
         currentPage: 0,
-        url: url,
+        url,
         requestId: Math.random()
-      })
-      @resources.set([])
+      });
+      return this.resources.set([]);
+    },
 
-    # fetches the next page of `resources`
-    fetchNext: (fetchListData, callback)->
-      throw new Error('Callback missing!') if (!f.isFunction(callback))
-      return callback(null) if (not @currentPage) && @currentPage != 0
+    // fetches the next page of `resources`
+    fetchNext(fetchListData, callback){
+      if (!f.isFunction(callback)) { throw new Error('Callback missing!'); }
+      if ((!this.currentPage) && (this.currentPage !== 0)) { return callback(null); }
 
-      nextPage = (@currentPage + 1)
-      nextUrl = setUrlParams(
-        @url,
+      const nextPage = (this.currentPage + 1);
+      const nextUrl = setUrlParams(
+        this.url,
         {list: {page: nextPage}},
-        {___sparse: JSON.stringify(f.set({}, @getJsonPath(), {}))})
+        {___sparse: JSON.stringify(f.set({}, this.getJsonPath(), {}))});
 
-      # We compare the request id when sending started
-      # with the request id when the answer arrives and
-      # only process the answer when its still the same id.
-      localRequestId = @requestId
-
-      return xhr.get(
-        {url: nextUrl, json: true },
-        (err, res, body) => (
-          if @requestId != localRequestId
-            return
-          else if err || res.statusCode > 400
-            return callback(err || body)
-          else
-            @resources.add(f.get(body, @getJsonPath()))
-            @set({currentPage: nextPage})
-            @fetchListData() if fetchListData
-            callback(null)
-      ))
-
-    getJsonPath: () ->
-
-      if @jsonPath
-        return @jsonPath
-
-      path = @url.pathname
-      if path.indexOf('/relations/children') > 0 or path.indexOf('/relations/siblings') > 0 or path.indexOf('/relations/parents') > 0
-        return 'relation_resources.resources'
-
-      if path.indexOf('/vocabulary') == 0 and path.indexOf('/content') > 0
-        return 'resources.resources'
-
-      if path.indexOf('/my/groups') == 0
-        return 'resources.resources'
-
-      if path.indexOf('/vocabulary/keyword') == 0
-        return 'keyword.resources.resources'
-
-      if path.indexOf('/people') == 0
-        return 'resources.resources'
-
-      jsonPath
-
-    fetchAllResourceIds: (callback)->
-      throw new Error('Callback missing!') if (!f.isFunction(callback))
-
-      nextUrl = setUrlParams(
-        @url,
-        {list: {page: 1, per_page: @totalCount}},
-        {___sparse: JSON.stringify(f.set({}, @getJsonPath(), [{uuid: {}, type: {}}]))})
+      // We compare the request id when sending started
+      // with the request id when the answer arrives and
+      // only process the answer when its still the same id.
+      const localRequestId = this.requestId;
 
       return xhr.get(
         {url: nextUrl, json: true },
-        (err, res, body) => (
-          if err || res.statusCode > 400
-            return callback({result: 'error'})
-          else
-            callback({
-              result: 'success',
-              data: f.get(body, @getJsonPath())
-            })
-      ))
+        (err, res, body) => { 
+          if (this.requestId !== localRequestId) {
+            return;
+          } else if (err || (res.statusCode > 400)) {
+            return callback(err || body);
+          } else {
+            this.resources.add(f.get(body, this.getJsonPath()));
+            this.set({currentPage: nextPage});
+            if (fetchListData) { this.fetchListData(); }
+            return callback(null);
+          }
+       });
+    },
 
+    getJsonPath() {
 
-    listMetadataJob: (resource) ->
-      {
-        state: 'waiting'
-        groupId: resource.uuid
-        id: 'list_meta_data'
-        load: (callback) -> resource.loadListMetadata((err, res) -> callback(if err then 'failure' else 'success'))
-        callback: (callback) ->
+      if (this.jsonPath) {
+        return this.jsonPath;
       }
 
-    createPendingJobs: (resource) ->
-      f.compact([
-        @listMetadataJob(resource) unless resource.list_meta_data
-      ])
+      const path = this.url.pathname;
+      if ((path.indexOf('/relations/children') > 0) || (path.indexOf('/relations/siblings') > 0) || (path.indexOf('/relations/parents') > 0)) {
+        return 'relation_resources.resources';
+      }
+
+      if ((path.indexOf('/vocabulary') === 0) && (path.indexOf('/content') > 0)) {
+        return 'resources.resources';
+      }
+
+      if (path.indexOf('/my/groups') === 0) {
+        return 'resources.resources';
+      }
+
+      if (path.indexOf('/vocabulary/keyword') === 0) {
+        return 'keyword.resources.resources';
+      }
+
+      if (path.indexOf('/people') === 0) {
+        return 'resources.resources';
+      }
+
+      return jsonPath;
+    },
+
+    fetchAllResourceIds(callback){
+      if (!f.isFunction(callback)) { throw new Error('Callback missing!'); }
+
+      const nextUrl = setUrlParams(
+        this.url,
+        {list: {page: 1, per_page: this.totalCount}},
+        {___sparse: JSON.stringify(f.set({}, this.getJsonPath(), [{uuid: {}, type: {}}]))});
+
+      return xhr.get(
+        {url: nextUrl, json: true },
+        (err, res, body) => { 
+          if (err || (res.statusCode > 400)) {
+            return callback({result: 'error'});
+          } else {
+            return callback({
+              result: 'success',
+              data: f.get(body, this.getJsonPath())
+            });
+          }
+       });
+    },
 
 
-    tryAddPendingJobs: (resource) ->
-      jobs = @createPendingJobs(resource)
-      f.each(
+    listMetadataJob(resource) {
+      return {
+        state: 'waiting',
+        groupId: resource.uuid,
+        id: 'list_meta_data',
+        load(callback) { return resource.loadListMetadata((err, res) => callback(err ? 'failure' : 'success')); },
+        callback(callback) {}
+      };
+    },
+
+    createPendingJobs(resource) {
+      return f.compact([
+        !resource.list_meta_data ? this.listMetadataJob(resource) : undefined
+      ]);
+    },
+
+
+    tryAddPendingJobs(resource) {
+      const jobs = this.createPendingJobs(resource);
+      return f.each(
         jobs,
-        (job) =>
-          existing = f.find(@jobQueue, {groupId: job.groupId, id: job.id})
-          if (not existing) && f.size(@jobQueue) < 10
-            @jobQueue.push(job)
-      )
+        job => {
+          const existing = f.find(this.jobQueue, {groupId: job.groupId, id: job.id});
+          if ((!existing) && (f.size(this.jobQueue) < 10)) {
+            return this.jobQueue.push(job);
+          }
+      });
+    },
 
-    checkJobs: (callback) ->
-      f.remove(@jobQueue, {state: 'done'})
+    checkJobs(callback) {
+      f.remove(this.jobQueue, {state: 'done'});
 
-      f.each(@pages, (page) =>
-        f.each(page.resources, (resource) =>
-          @tryAddPendingJobs(resource)
-        )
-      )
+      f.each(this.pages, page => {
+        return f.each(page.resources, resource => {
+          return this.tryAddPendingJobs(resource);
+        });
+      });
 
-      waitingJobs = f.filter(
-        @jobQueue,
-        (job) ->
-          job.state == 'waiting' || job.state == 'failure'
-      )
+      const waitingJobs = f.filter(
+        this.jobQueue,
+        job => (job.state === 'waiting') || (job.state === 'failure'));
 
-      f.each(waitingJobs, (job) =>
-        job.state = 'loading'
-        job.load((result) =>
-          if result == 'success'
-            job.state = 'done'
-          else
-            job.state = 'failure'
+      f.each(waitingJobs, job => {
+        job.state = 'loading';
+        return job.load(result => {
+          if (result === 'success') {
+            job.state = 'done';
+          } else {
+            job.state = 'failure';
+          }
 
-          @checkJobs(callback)
-        )
-      )
+          return this.checkJobs(callback);
+        });
+      });
 
-      if callback
-        callback()
+      if (callback) {
+        return callback();
+      }
+    },
 
 
-    fetchListData: () ->
+    fetchListData() {
 
-      @checkJobs()
+      return this.checkJobs();
+    }
+  });
+};

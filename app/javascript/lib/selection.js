@@ -1,54 +1,73 @@
-f = require('lodash')
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+const f = require('lodash');
 
-toExport =
+const toExport = {
 
-  createEmpty: (callback) ->
-    {
-      selection: []
+  createEmpty(callback) {
+    return {
+      selection: [],
 
-      contains: (resource) ->
-        !!f.find(@selection, {uuid: resource.uuid})
+      contains(resource) {
+        return !!f.find(this.selection, {uuid: resource.uuid});
+      },
 
-      toggle: (resource) ->
-        if @contains(resource)
-          @remove(resource)
-        else
-          @add(resource)
+      toggle(resource) {
+        if (this.contains(resource)) {
+          return this.remove(resource);
+        } else {
+          return this.add(resource);
+        }
+      },
 
-      add: (resource) ->
-        if not @contains(resource)
-          @selection.push(resource)
-        callback()
+      add(resource) {
+        if (!this.contains(resource)) {
+          this.selection.push(resource);
+        }
+        return callback();
+      },
 
-      empty: () ->
-        f.isEmpty(@selection)
+      empty() {
+        return f.isEmpty(this.selection);
+      },
 
-      remove: (resource) ->
-        @selection = f.filter @selection, (r) ->
-          r.uuid != resource.uuid
-        callback()
+      remove(resource) {
+        this.selection = f.filter(this.selection, r => r.uuid !== resource.uuid);
+        return callback();
+      },
 
-      toggleAll: (all) ->
-        if @empty()
-          @selection = f.map all, (r) -> r
-        else
-          @selection = []
-        callback()
+      toggleAll(all) {
+        if (this.empty()) {
+          this.selection = f.map(all, r => r);
+        } else {
+          this.selection = [];
+        }
+        return callback();
+      },
 
-      clear: () ->
-        @selection = []
-        callback()
+      clear() {
+        this.selection = [];
+        return callback();
+      },
 
-      first: () ->
-        if @length() < 1
-          null
-        else
-          @selection[0]
+      first() {
+        if (this.length() < 1) {
+          return null;
+        } else {
+          return this.selection[0];
+        }
+      },
 
-      length: () ->
-        f.size(@selection)
+      length() {
+        return f.size(this.selection);
+      }
 
-    }
+    };
+  }
+};
 
 
-module.exports = toExport
+module.exports = toExport;

@@ -1,7 +1,8 @@
-AppResource = require('./shared/app-resource.coffee')
+const AppResource = require('./shared/app-resource.coffee');
 
-module.exports = AppResource.extend
-  type: 'ApiClient'
-  props:
-    login: ['string']
+module.exports = AppResource.extend({
+  type: 'ApiClient',
+  props: {
+    login: ['string'],
     description: ['string']
+  }});

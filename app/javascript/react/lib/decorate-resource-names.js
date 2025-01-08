@@ -1,35 +1,50 @@
-f = require('active-lodash')
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+const f = require('active-lodash');
 
-decorators =
-  User: (o) => o.label
-  Person: (o, withRole = true)->
-    if f.present(o.role) or o.isNew
-      buildPersonName(o, withRole)
-    else
-      o.name
-  InstitutionalGroup: (o)-> o.detailed_name
-  Group: (o)-> o.name
-  Keyword: (o)-> o.label
-  ApiClient: (o)-> "[API] #{o.login}"
-  Delegation: (o) -> o.label
+const decorators = {
+  User: o => o.label,
+  Person(o, withRole){
+    if (withRole == null) { withRole = true; }
+    if (f.present(o.role) || o.isNew) {
+      return buildPersonName(o, withRole);
+    } else {
+      return o.name;
+    }
+  },
+  InstitutionalGroup(o){ return o.detailed_name; },
+  Group(o){ return o.name; },
+  Keyword(o){ return o.label; },
+  ApiClient(o){ return `[API] ${o.login}`; },
+  Delegation(o) { return o.label; }
+};
 
-module.exports = (o)->
-  unless f.isObject(o) and f.isFunction(decorate = decorators[o.type])
-    throw new Error('Decorator: Unknown Resource! Type: ' + o.type + ' Object: ' + JSON.stringify(o))
+module.exports = function(o){
+  let decorate;
+  if (!f.isObject(o) || !f.isFunction(decorate = decorators[o.type])) {
+    throw new Error('Decorator: Unknown Resource! Type: ' + o.type + ' Object: ' + JSON.stringify(o));
+  }
 
-  decorate(arguments...)
+  return decorate(...arguments);
+};
 
 
-buildPersonName = (o, withRole)->
-  fullName = if f.any([o.first_name, o.last_name], f.present)
-    f.trim("#{o.first_name || ''} #{o.last_name || ''}")
-  role = if withRole and o.role and f.present(o, 'role.label')
-    ": #{o.role.label}"
-  else
-    ''
+var buildPersonName = function(o, withRole){
+  const fullName = f.any([o.first_name, o.last_name], f.present) ?
+    f.trim(`${o.first_name || ''} ${o.last_name || ''}`) : undefined;
+  const role = withRole && o.role && f.present(o, 'role.label') ?
+    `: ${o.role.label}`
+  :
+    '';
 
-  switch
-    when fullName and f.present(o.pseudonym) then "#{fullName} (#{o.pseudonym})#{role}"
-    when fullName then "#{fullName}#{role}"
-    when o.pseudonym then "#{o.pseudonym}#{role}"
-    else throw new Error('Invalid Name!')
+  switch (false) {
+    case !fullName || !f.present(o.pseudonym): return `${fullName} (${o.pseudonym})${role}`;
+    case !fullName: return `${fullName}${role}`;
+    case !o.pseudonym: return `${o.pseudonym}${role}`;
+    default: throw new Error('Invalid Name!');
+  }
+};

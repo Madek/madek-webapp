@@ -1,12 +1,14 @@
-f = require('active-lodash')
-Collection = require('ampersand-rest-collection')
-RailsResource = require('./rails-resource-mixin.coffee')
+const f = require('active-lodash');
+const Collection = require('ampersand-rest-collection');
+const RailsResource = require('./rails-resource-mixin.coffee');
 
-# Base class for Restful Application Resource Collection
-module.exports = Collection.extend RailsResource,
-  type: 'AppCollection'
-  mainIndex: ['url']
-  indexes: ['uuid']
+// Base class for Restful Application Resource Collection
+module.exports = Collection.extend(RailsResource, {
+  type: 'AppCollection',
+  mainIndex: ['url'],
+  indexes: ['uuid'],
 
-  # instance methods:
-  has: (index)-> f.present(@get(index))
+  // instance methods:
+  has(index){ return f.present(this.get(index)); }
+}
+);

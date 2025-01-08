@@ -1,38 +1,47 @@
-f = require('active-lodash')
-setUrlParams = require('../../lib/set-params-for-url.coffee')
-parseUrl = require('url').parse
-buildUrl = require('url').format
-buildQuery = require('qs').stringify
-parseQuery = require('qs').parse
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+const f = require('active-lodash');
+const setUrlParams = require('../../lib/set-params-for-url.coffee');
+const parseUrl = require('url').parse;
+const buildUrl = require('url').format;
+const buildQuery = require('qs').stringify;
+const parseQuery = require('qs').parse;
 
-module.exports =
+module.exports = {
 
-  props:
+  props: {
     list_meta_data: 'object'
+  },
 
-  loadListMetadata: (callback) ->
+  loadListMetadata(callback) {
 
-    currentQuery = parseQuery(
+    const currentQuery = parseQuery(
       parseUrl(window.location.toString()).query
-    )
+    );
 
-    parsedUrl = parseUrl(@list_meta_data_url, true)
-    delete parsedUrl.search
+    const parsedUrl = parseUrl(this.list_meta_data_url, true);
+    delete parsedUrl.search;
 
-    url = setUrlParams(
+    const url = setUrlParams(
       buildUrl(parsedUrl),
       currentQuery
-    )
+    );
 
-    @_runRequest(
+    return this._runRequest(
       {
-        url: url
+        url,
         json: true
       },
-      (err, res, json) =>
-        if err
-          callback(err)
-        else
-          @set('list_meta_data', json)
-          callback(err, res)
-    )
+      (err, res, json) => {
+        if (err) {
+          return callback(err);
+        } else {
+          this.set('list_meta_data', json);
+          return callback(err, res);
+        }
+    });
+  }
+};

@@ -1,11 +1,12 @@
-AppCollection = require('./shared/app-collection.coffee')
-Collection = require('./collection.coffee')
-PaginatedCollection = require('./shared/paginated-collection-factory.coffee')
+const AppCollection = require('./shared/app-collection.coffee');
+const Collection = require('./collection.coffee');
+const PaginatedCollection = require('./shared/paginated-collection-factory.coffee');
 
-Collections = AppCollection.extend
-  type: 'Collections'
+const Collections = AppCollection.extend({
+  type: 'Collections',
   model: Collection
+});
 
-Collections.Paginated = PaginatedCollection(Collections, jsonPath: 'resources')
+Collections.Paginated = PaginatedCollection(Collections, {jsonPath: 'resources'});
 
-module.exports = Collections
+module.exports = Collections;

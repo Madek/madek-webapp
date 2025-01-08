@@ -1,36 +1,43 @@
-AppResource = require('./shared/app-resource.coffee')
-MetaKey = require('./meta-key.coffee')
+const AppResource = require('./shared/app-resource.coffee');
+const MetaKey = require('./meta-key.coffee');
 
-MetaDatum = AppResource.extend # base class
-  type: 'MetaDatum'
-  urlRoot: '/meta_data'
-  props:
-    values:
-      type: 'array'
+const MetaDatum = AppResource.extend({ // base class
+  type: 'MetaDatum',
+  urlRoot: '/meta_data',
+  props: {
+    values: {
+      type: 'array',
       required: true
-    literal_values:
-      type: 'array'
+    },
+    literal_values: {
+      type: 'array',
       required: true
-    vocabulary_id:
-      type: 'string'
+    },
+    vocabulary_id: {
+      type: 'string',
       required: true
-  children:
+    }
+  },
+  children: {
     meta_key: MetaKey
+  }
+});
 
 
-module.exports = # only subtypes are exported
+module.exports = { // only subtypes are exported
 
-  Text: MetaDatum.extend
-    type: 'MetaDatumText'
+  Text: MetaDatum.extend({
+    type: 'MetaDatumText'}),
 
-  TextDate: MetaDatum.extend
-    type: 'MetaDatumText'
+  TextDate: MetaDatum.extend({
+    type: 'MetaDatumText'}),
 
-  People: MetaDatum.extend
-    type: 'MetaDatumPeople'
+  People: MetaDatum.extend({
+    type: 'MetaDatumPeople'}),
 
-  Keywords: MetaDatum.extend
-    type: 'MetaDatumKeywords'
+  Keywords: MetaDatum.extend({
+    type: 'MetaDatumKeywords'}),
 
-  Roles: MetaDatum.extend
-    type: 'MetaDatumRoles'
+  Roles: MetaDatum.extend({
+    type: 'MetaDatumRoles'})
+};

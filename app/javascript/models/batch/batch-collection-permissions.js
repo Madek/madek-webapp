@@ -1,5 +1,5 @@
-CollectionPermissions = require('../collection/permissions.coffee')
-BatchResourcePermissionsFactory = require('../shared/batch-resource-permissions-factory.coffee')
+const CollectionPermissions = require('../collection/permissions.coffee');
+const BatchResourcePermissionsFactory = require('../shared/batch-resource-permissions-factory.coffee');
 
 module.exports =
-  BatchResourcePermissionsFactory('BatchCollectionPermissions', CollectionPermissions)
+  BatchResourcePermissionsFactory('BatchCollectionPermissions', CollectionPermissions);

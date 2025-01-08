@@ -1,29 +1,44 @@
-url = require('url')
-f = require('active-lodash')
-t = require('./i18n-translate.js')
-History = require('history/lib/createBrowserHistory')
-useBeforeUnload = require('history/lib/useBeforeUnload')
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+const url = require('url');
+const f = require('active-lodash');
+const t = require('./i18n-translate.js');
+const History = require('history/lib/createBrowserHistory');
+const useBeforeUnload = require('history/lib/useBeforeUnload');
 
-history = useBeforeUnload(History)()
+const history = useBeforeUnload(History)();
 
-module.exports =
-  listen: history.listen
-  start: ()-> history.replace(window.location)
-  goTo: (path)->
-    history.push(url.parse(path)?.path)
-  setTo: (location)-> history.replace(location)
-  goBack: ()-> history.goBack()
+module.exports = {
+  listen: history.listen,
+  start(){ return history.replace(window.location); },
+  goTo(path){
+    return history.push(__guard__(url.parse(path), x => x.path));
+  },
+  setTo(location){ return history.replace(location); },
+  goBack(){ return history.goBack(); },
 
-  confirmNavigation: (config = {})-> # NOTE: like `listen`, returns a 'stop' func
-    {msg, check} = f.defaults config, {
+  confirmNavigation(config){ // NOTE: like `listen`, returns a 'stop' func
+    if (config == null) { config = {}; }
+    const {msg, check} = f.defaults(config, {
       msg: t('app_confirm_form_leave_msg'),
-      check: (()-> true) }
+      check(){ return true; } });
 
-    # listener for page *navigation* - fn can check the new location if needed
-    history.listenBefore((location)->
-      if check(location) then return msg)
+    // listener for page *navigation* - fn can check the new location if needed
+    history.listenBefore(function(location){
+      if (check(location)) { return msg; }});
 
-    # listener for page *leaving* (close/refresh/…)
-    # NOTE: browsers show a default text in case of "leaving",
-    # BUT anyhow want a non-empty string returned…
-    history.listenBeforeUnload(()-> if check() then return msg)
+    // listener for page *leaving* (close/refresh/…)
+    // NOTE: browsers show a default text in case of "leaving",
+    // BUT anyhow want a non-empty string returned…
+    return history.listenBeforeUnload(function(){ if (check()) { return msg; } });
+  }
+};
+
+function __guard__(value, transform) {
+  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined;
+}
