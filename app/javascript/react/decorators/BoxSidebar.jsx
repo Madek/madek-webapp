@@ -5,7 +5,7 @@ import Button from '../ui-components/Button.cjsx'
 import Link from '../ui-components/Link.cjsx'
 import SideFilter from '../ui-components/ResourcesBox/SideFilter.cjsx'
 import RailsForm from '../lib/forms/rails-form.cjsx'
-import setUrlParams from '../../lib/set-params-for-url.coffee'
+import setUrlParams from '../../lib/set-params-for-url.js'
 import t from '../../lib/i18n-translate.js'
 import { urlByType } from '../lib/resource-type-switcher.cjsx'
 
