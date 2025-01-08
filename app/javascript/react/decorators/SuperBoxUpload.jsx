@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import l from 'lodash'
-import ResourceThumbnail from './ResourceThumbnail.cjsx'
+import ResourceThumbnail from './ResourceThumbnail.jsx'
 import t from '../../lib/i18n-translate'
 
 class SuperBoxUpload extends React.Component {

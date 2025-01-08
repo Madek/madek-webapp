@@ -1,5 +1,5 @@
 import f from 'lodash'
-import setUrlParams from '../../lib/set-params-for-url.coffee'
+import setUrlParams from '../../lib/set-params-for-url.js'
 
 
 module.exports = (url, ...params) => {

@@ -1,13 +1,13 @@
 import React from 'react'
 import l from 'lodash'
-import Preloader from '../ui-components/Preloader.cjsx'
-import Button from '../ui-components/Button.cjsx'
-import Link from '../ui-components/Link.cjsx'
-import SideFilter from '../ui-components/ResourcesBox/SideFilter.cjsx'
-import RailsForm from '../lib/forms/rails-form.cjsx'
-import setUrlParams from '../../lib/set-params-for-url.coffee'
+import Preloader from '../ui-components/Preloader.jsx'
+import Button from '../ui-components/Button.jsx'
+import Link from '../ui-components/Link.jsx'
+import SideFilter from '../ui-components/ResourcesBox/SideFilter.jsx'
+import RailsForm from '../lib/forms/rails-form.jsx'
+import setUrlParams from '../../lib/set-params-for-url.js'
 import t from '../../lib/i18n-translate.js'
-import { urlByType } from '../lib/resource-type-switcher.cjsx'
+import { urlByType } from '../lib/resource-type-switcher.jsx'
 
 class BoxSidebar extends React.Component {
   constructor(props) {

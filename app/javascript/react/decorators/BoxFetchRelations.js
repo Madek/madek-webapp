@@ -4,20 +4,17 @@ import cx from 'classnames/dedupe'
 import async from 'async'
 import url from 'url'
 import xhr from 'xhr'
-import getRailsCSRFToken from '../../lib/rails-csrf-token.coffee'
-
+import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 
 module.exports = (last, props, trigger) => {
-
   var next = () => {
-
-    if(props.event == 'try-fetch') {
-      if(last.status == 'initial') {
+    if (props.event == 'try-fetch') {
+      if (last.status == 'initial') {
         asyncLoadAll()
       }
     }
 
-    if(!last) {
+    if (!last) {
       return {
         status: 'initial',
         queue: null,
@@ -36,57 +33,49 @@ module.exports = (last, props, trigger) => {
   }
 
   var nextQueue = () => {
-    if(props.event == 'try-fetch') {
-      if(last.status == 'initial') {
+    if (props.event == 'try-fetch') {
+      if (last.status == 'initial') {
         var typesToFetch = ['parents']
-        if(props.resource.type == 'Collection') {
+        if (props.resource.type == 'Collection') {
           typesToFetch.push('children')
         }
         return typesToFetch
       } else {
         return last.queue
       }
-    } else if(props.event == 'relations-loaded') {
-      return l.filter(last.queue, (q) => q != props.property)
+    } else if (props.event == 'relations-loaded') {
+      return l.filter(last.queue, q => q != props.property)
     } else {
       return last.queue
     }
   }
 
-
   var nextStatus = () => {
-    if(props.event == 'try-fetch' && last.status == 'initial') {
+    if (props.event == 'try-fetch' && last.status == 'initial') {
       return 'fetching'
-    } else if(props.event == 'relations-loaded' && l.isEmpty(nextQueue())) {
+    } else if (props.event == 'relations-loaded' && l.isEmpty(nextQueue())) {
       return 'done'
     } else {
       return last.status
     }
   }
 
-
   var nextRelations = () => {
-    if(props.event == 'relations-loaded') {
+    if (props.event == 'relations-loaded') {
       return {
-        parents: (props.property == 'parents' ? props.relations : last.relations.parents),
-        children: (props.property == 'children' ? props.relations : last.relations.children)
+        parents: props.property == 'parents' ? props.relations : last.relations.parents,
+        children: props.property == 'children' ? props.relations : last.relations.children
       }
     } else {
       return last.relations
     }
   }
 
-
   var asyncLoadAll = () => {
-    l.each(
-      nextQueue(),
-      (q) => load(q, props.resource)
-    )
+    l.each(nextQueue(), q => load(q, props.resource))
   }
 
-
   var load = (property, resource) => {
-
     var jsonPaths = {
       parents: 'relations.parent_collections',
       children: 'child_media_resources'
@@ -115,7 +104,7 @@ module.exports = (last, props, trigger) => {
         url: relationsUrl,
         json: true,
         headers: {
-          'Accept': 'application/json',
+          Accept: 'application/json',
           'X-CSRF-Token': getRailsCSRFToken()
         }
       },
@@ -129,8 +118,6 @@ module.exports = (last, props, trigger) => {
       }
     )
   }
-
-
 
   return next()
 }

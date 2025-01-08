@@ -1,8 +1,8 @@
 import React from 'react'
 import f from 'lodash'
 import { ConfidentialLinkHead, ConfidentialLinkRow } from './ConfidentialLinks'
-import ui from '../../lib/ui.coffee'
-import UI from '../../ui-components/index.coffee'
+import ui from '../../lib/ui.js'
+import UI from '../../ui-components/index.js'
 const t = ui.t
 
 class ConfidentialLinkCreated extends React.Component {

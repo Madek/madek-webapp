@@ -4,11 +4,11 @@ import f from 'active-lodash'
 import t from '../../../lib/i18n-translate'
 import cx from 'classnames'
 
-import Renderer from '../../decorators/metadataedit/MetadataEditRenderer.cjsx'
+import Renderer from '../../decorators/metadataedit/MetadataEditRenderer.jsx'
 import WorkflowCommonPermissions from '../../decorators/WorkflowCommonPermissions'
 import SubSection from '../../ui-components/SubSection'
-import RailsForm from '../../lib/forms/rails-form.cjsx'
-import validation from '../../../lib/metadata-edit-validation.coffee'
+import RailsForm from '../../lib/forms/rails-form.jsx'
+import validation from '../../../lib/metadata-edit-validation.js'
 
 class WorkflowPreview extends React.Component {
   constructor(props) {
@@ -69,7 +69,10 @@ class WorkflowPreview extends React.Component {
       initialErrors[resourceId] = []
 
       f.each(meta_key_by_meta_key_id, (meta_key, metaKeyId) => {
-        const metaData = f.find(workflow.common_settings.meta_data, md => md.meta_key.uuid === metaKeyId)
+        const metaData = f.find(
+          workflow.common_settings.meta_data,
+          md => md.meta_key.uuid === metaKeyId
+        )
         if (!metaData) return
         const position = f.get(metaData, 'position')
         let metaDataValue = f.get(metaData, 'value')
@@ -122,7 +125,7 @@ class WorkflowPreview extends React.Component {
   handleValueChange(values, metaKeyId, childResource) {
     const { errors, models } = this.state
     const { uuid: resourceId, meta_meta_data } = childResource
-    const modelIndex = f.findIndex(models[resourceId], (model) => {
+    const modelIndex = f.findIndex(models[resourceId], model => {
       return f.get(model, 'meta_key.uuid') === metaKeyId
     })
 
@@ -250,7 +253,7 @@ class WorkflowPreview extends React.Component {
             {Renderer._renderThumbnail(resource, false, resource.url)}
           </div>
           <div className="app-body-content table-cell ui-container table-substance ui-container">
-            {f.map(models[resourceId], (model) => {
+            {f.map(models[resourceId], model => {
               const metaKey = f.get(model, 'meta_key')
               if (!metaKey) return
               const metaKeyId = metaKey.uuid

@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
-import Link from './Link.cjsx'
-import Icon from './Icon.cjsx'
+import Link from './Link.jsx'
+import Icon from './Icon.jsx'
 import SectionLabels from './SectionLabels.js'
 
 const WORKFLOW_STATES = { IN_PROGRESS: 'IN_PROGRESS', FINISHED: 'FINISHED' }

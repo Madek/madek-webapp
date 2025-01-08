@@ -2,7 +2,7 @@ import xhr from 'xhr'
 import React from 'react'
 import t from '.../../../lib/i18n-translate.js'
 import interpolateSplit from '../../../lib/interpolate-split.js'
-import getRailsCSRFToken from '../../../lib/rails-csrf-token.coffee'
+import getRailsCSRFToken from '../../../lib/rails-csrf-token.js'
 
 class MySettings extends React.Component {
   constructor(props) {
@@ -10,9 +10,11 @@ class MySettings extends React.Component {
     this.state = {
       emailsLocale: props.get.emails_locale,
       notificationCaseUserSettings: props.get.notification_case_user_settings.map(
-        ({ label, email_frequency, allowed_email_frequencies }) => (
-          { label, emailFrequency: email_frequency, allowedEmailFrequencies: allowed_email_frequencies }
-        )
+        ({ label, email_frequency, allowed_email_frequencies }) => ({
+          label,
+          emailFrequency: email_frequency,
+          allowedEmailFrequencies: allowed_email_frequencies
+        })
       ),
       dirty: false
     }

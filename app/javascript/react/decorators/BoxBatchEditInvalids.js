@@ -4,7 +4,7 @@ import cx from 'classnames/dedupe'
 import async from 'async'
 import url from 'url'
 import xhr from 'xhr'
-import getRailsCSRFToken from '../../lib/rails-csrf-token.coffee'
+import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 import BoxBatchTextInput from './BoxBatchTextInput.js'
 import BoxBatchTextDateInput from './BoxBatchTextDateInput.js'
 import BoxBatchKeywords from './BoxBatchKeywords.js'
@@ -13,15 +13,12 @@ import BoxBatchLoadMetaMetaData from './BoxBatchLoadMetaMetaData.js'
 import BoxRedux from './BoxRedux.js'
 import BoxStateApplyMetaData from './BoxStateApplyMetaData.js'
 
-
-module.exports = (merged) => {
-
-  if(merged.initial) {
+module.exports = merged => {
+  if (merged.initial) {
     return []
   }
 
-  var validateForm = (f) => {
-
+  var validateForm = f => {
     var validateText = () => {
       return !l.isEmpty(f.data.text)
     }
@@ -30,7 +27,7 @@ module.exports = (merged) => {
       return !l.isEmpty(f.data.keywords)
     }
 
-    var decideValidation = (type) => {
+    var decideValidation = type => {
       var mapping = {
         'MetaDatum::Text': validateText,
         'MetaDatum::TextDate': validateText,
@@ -40,13 +37,12 @@ module.exports = (merged) => {
       return mapping[type]
     }
 
-
     var validator = decideValidation(f.props.metaKey.value_type)
     return validator(f)
   }
 
   return l.filter(
     merged.components.metaKeyForms,
-    (mkf) => mkf.event.action != 'close' && !validateForm(mkf)
+    mkf => mkf.event.action != 'close' && !validateForm(mkf)
   )
 }

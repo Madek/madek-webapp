@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom'
 import l from 'lodash'
 import t from '../../lib/i18n-translate.js'
 import cx from 'classnames/dedupe'
-import Tooltipped from '../ui-components/Tooltipped.cjsx'
-import Icon from '../ui-components/Icon.cjsx'
+import Tooltipped from '../ui-components/Tooltipped.jsx'
+import Icon from '../ui-components/Icon.jsx'
 
 
 

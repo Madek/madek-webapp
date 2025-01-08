@@ -5,11 +5,11 @@ import BoxTitlebarRender from './BoxTitlebarRender.jsx'
 import t from '../../lib/i18n-translate.js'
 import cx from 'classnames/dedupe'
 import boxSetUrlParams from './BoxSetUrlParams.jsx'
-import ActionsBar from '../ui-components/ActionsBar.cjsx'
-import Button from '../ui-components/Button.cjsx'
-import ButtonGroup from '../ui-components/ButtonGroup.cjsx'
+import ActionsBar from '../ui-components/ActionsBar.jsx'
+import Button from '../ui-components/Button.jsx'
+import ButtonGroup from '../ui-components/ButtonGroup.jsx'
 import Waypoint from 'react-waypoint'
-import Preloader from '../ui-components/Preloader.cjsx'
+import Preloader from '../ui-components/Preloader.jsx'
 
 class BoxPaginationNav extends React.Component {
   constructor(props) {

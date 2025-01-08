@@ -9,13 +9,11 @@ jobs:
     context:
       include: cider-ci/context-components/rspec-tests.yml
 
-
   check-feature-tasks:
     name: Check if feature tasks are up to date
     run_when: *DEFAULT_TRIGGERS
     context:
       include: cider-ci/context-components/check-feature-tasks.yml
-
 
   general-feature-tests:
     name: 'General Feature Tests'
@@ -23,11 +21,11 @@ jobs:
       basic-rspec-tests:
         job_key: basic-rspec-tests
         type: job
-        states: [passed] 
+        states: [passed]
       check-feature_tasks:
         job_key: check-feature-tasks
         type: job
-        states: [passed] 
+        states: [passed]
     run_when: *PLAIN_DEP
     context:
       include: cider-ci/context-components/general-feature-tests.yml
@@ -47,7 +45,6 @@ jobs:
     run_when: *PLAIN_DEP
     context:
       include: cider-ci/context-components/error-support-feature-tests.yml
-
 
   custom-path-feature-tests:
     name: 'Custom-Path Feature Tests'
@@ -75,6 +72,16 @@ jobs:
             submodule: [datalayer]
           - path: cider-ci/context-components/lint/rspec-lint.yml
             submodule: [datalayer]
+
+  js-lint:
+    name: 'JS linting'
+    description: |
+      JS Linting is not yet configured correctly for js (after decaf). Therefore not yet enforced on CI.
+    priority: 3
+    run_when: *DEFAULT_TRIGGERS
+    context:
+      contexts:
+        include:
           - path: cider-ci/context-components/lint/javascript-lint.yml
 
   precompilation:
@@ -153,7 +160,7 @@ jobs:
     run_when: *GOOD_TO_MERGE_DEPS
 
   merged-to-master:
-    name: "Merged to master"
+    name: 'Merged to master'
     priority: 999
     depends_on:
       master branch matches:
@@ -168,4 +175,4 @@ jobs:
         merged-to-master:
           scripts:
             test:
-              body: "exit 0"
+              body: 'exit 0'

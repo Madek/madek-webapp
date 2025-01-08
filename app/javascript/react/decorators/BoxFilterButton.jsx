@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom'
 import f from 'active-lodash'
 import t from '../../lib/i18n-translate.js'
 import cx from 'classnames/dedupe'
-import Icon from '../ui-components/Icon.cjsx'
-import Button from '../ui-components/Button.cjsx'
+import Icon from '../ui-components/Icon.jsx'
+import Button from '../ui-components/Button.jsx'
 
 
 

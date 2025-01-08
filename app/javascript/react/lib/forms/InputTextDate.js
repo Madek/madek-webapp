@@ -11,15 +11,14 @@ import React, { Component, PropTypes } from 'react'
 import compact from 'lodash/compact'
 import isString from 'lodash/isString'
 import isEmpty from 'lodash/isEmpty'
-import ui from '../ui.coffee'
+import ui from '../ui.js'
 const t = ui.t
 
 import DatePicker, { parseDate } from '../../ui-components/DatePicker'
 
 const SUBTYPES = ['text', 'timestamp', 'duration']
 const formatDuration = DateValues => compact(DateValues).join(' - ')
-const parseDuration = MdValues =>
-  isString(MdValues[0]) && MdValues[0].split(' - ')
+const parseDuration = MdValues => isString(MdValues[0]) && MdValues[0].split(' - ')
 const initialSubtype = MdValues => {
   // if no values (yet), default to timestamp:
   if (isEmpty(MdValues)) return SUBTYPES[1]
@@ -32,7 +31,7 @@ const initialSubtype = MdValues => {
 }
 
 class InputTextDate extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       isClient: true,
@@ -43,15 +42,11 @@ class InputTextDate extends Component {
     this._formatValues = this._formatValues.bind(this)
   }
 
-  _formatValues (values = this.state.values) {
+  _formatValues(values = this.state.values) {
     // stringify (internal) values for parent(s)
-    return (
-      (this.state.subType === 'duration'
-        ? formatDuration(values)
-        : values[0]) || ''
-    )
+    return (this.state.subType === 'duration' ? formatDuration(values) : values[0]) || ''
   }
-  _onInputChange (updates) {
+  _onInputChange(updates) {
     const cur = this.state.values
     // NOTE: "merges" 2 (sparse) arrays by position
     const values = [0, 1].map(i => (isString(updates[i]) ? updates[i] : cur[i]))
@@ -59,7 +54,7 @@ class InputTextDate extends Component {
     this.props.onChange([this._formatValues(values)])
   }
 
-  _onSelectSubtype (e) {
+  _onSelectSubtype(e) {
     const subType = e.target.value
     this.setState({ subType })
     // set the internal value to an apropriate version for input type:
@@ -73,7 +68,7 @@ class InputTextDate extends Component {
 
   // NOTE: because value is kept in internal state (for perf and simplicity),
   // and it is based on
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     const curVals = this.state.values
     const newVals = parseDuration(nextProps.values)
     // debugger
@@ -83,38 +78,37 @@ class InputTextDate extends Component {
     }
   }
 
-  componentDidUpdate (_prevProps, prevState) {
+  componentDidUpdate(_prevProps, prevState) {
     // DOM: when switching the input type, focus the input field right after
     if (prevState.subType !== this.state.subType) {
       this.inputEl && this.inputEl.focus()
     }
   }
 
-  render ({ props, state } = this) {
+  render({ props, state } = this) {
     const { id, name } = props
     const { subType, values } = state
 
     const stringifiedValue = this._formatValues(values)
 
     return (
-      <div className='form-item'>
+      <div className="form-item">
         {/* formatted value for form serialization */}
-        <input type='hidden' name={name} value={stringifiedValue} />
+        <input type="hidden" name={name} value={stringifiedValue} />
 
         {/* input type selector */}
-        <div className='col1of3'>
-          <div className='mrs'>
+        <div className="col1of3">
+          <div className="mrs">
             <select
               id={`${id}.select-input-type`}
-              className='block'
+              className="block"
               onChange={this._onSelectSubtype}
-              value={subType}
-            >
-              {SUBTYPES.map(type =>
+              value={subType}>
+              {SUBTYPES.map(type => (
                 <option value={type} key={type}>
                   {t(`meta_data_input_date_type_${type}`)}
                 </option>
-              )}
+              ))}
             </select>
           </div>
         </div>
@@ -125,13 +119,11 @@ class InputTextDate extends Component {
             switch (subType) {
               case 'text':
                 return (
-                  <div className='col2of3'>
+                  <div className="col2of3">
                     <input
-                      type='text'
-                      className='block'
-                      placeholder={t(
-                        'meta_data_input_date_placeholder_timestamp'
-                      )}
+                      type="text"
+                      className="block"
+                      placeholder={t('meta_data_input_date_placeholder_timestamp')}
                       onChange={e => this._onInputChange([e.target.value])}
                       value={this._formatValues(state.values) || ''}
                       ref={el => {
@@ -143,15 +135,13 @@ class InputTextDate extends Component {
 
               case 'timestamp':
                 return (
-                  <div className='col2of3'>
+                  <div className="col2of3">
                     <DatePicker
                       id={id}
-                      className='block'
+                      className="block"
                       value={state.values[0]}
                       onChange={val => this._onInputChange([val])}
-                      placeholder={t(
-                        'meta_data_input_date_placeholder_timestamp'
-                      )}
+                      placeholder={t('meta_data_input_date_placeholder_timestamp')}
                       ref={el => {
                         this.inputEl = el
                       }}
@@ -166,34 +156,30 @@ class InputTextDate extends Component {
                   - when #1 has value, #2 is is prefered input (ref)
                   - when value of #1 is a date, only later ones can be choosen
               */}
-                    <div className='col1of3'>
-                      <div className='mrx'>
+                    <div className="col1of3">
+                      <div className="mrx">
                         <DatePicker
                           id={`${id}.from`}
-                          className='block'
+                          className="block"
                           value={state.values[0]}
                           onChange={val => this._onInputChange([val])}
-                          placeholder={t(
-                            'meta_data_input_date_placeholder_duration_from'
-                          )}
+                          placeholder={t('meta_data_input_date_placeholder_duration_from')}
                           ref={el => {
                             this.inputEl = el
                           }}
                         />
                       </div>
                     </div>
-                    <div className='col1of3'>
-                      <div className='mlx'>
+                    <div className="col1of3">
+                      <div className="mlx">
                         <DatePicker
                           id={`${id}.to`}
-                          className='block'
+                          className="block"
                           value={state.values[1]}
                           onChange={val => this._onInputChange([null, val])}
                           initialDate={state.values[0]}
                           laterThan={state.values[0]}
-                          placeholder={t(
-                            'meta_data_input_date_placeholder_duration_to'
-                          )}
+                          placeholder={t('meta_data_input_date_placeholder_duration_to')}
                           ref={el => {
                             if (state.values[0]) this.inputEl = el
                           }}

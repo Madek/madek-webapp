@@ -1,7 +1,7 @@
 import React from 'react'
 import f from 'lodash'
-import setUrlParams from '../../../lib/set-params-for-url.coffee'
-import AppRequest from '../../../lib/app-request.coffee'
+import setUrlParams from '../../../lib/set-params-for-url.js'
+import AppRequest from '../../../lib/app-request.js'
 import asyncWhile from 'async/whilst'
 import { parse as parseUrl } from 'url'
 import { parse as parseQuery } from 'qs'
@@ -23,7 +23,7 @@ const LOOP_TIME = 50
 const MAX_ITEMS = 300
 
 class MyTimeline extends React.Component {
-  constructor (initialProps) {
+  constructor(initialProps) {
     super()
     Moment.locale(currentLocale())
     this.state = {
@@ -33,7 +33,7 @@ class MyTimeline extends React.Component {
       ...parseStreamInfo(initialProps.get)
     }
   }
-  componentDidMount () {
+  componentDidMount() {
     this.setState({ isClient: true })
 
     // if the stream is already empty, otherwise set signal to start fetching
@@ -76,7 +76,7 @@ class MyTimeline extends React.Component {
       )
   }
 
-  _fetchActivityStreamPast (baseUrl, callback) {
+  _fetchActivityStreamPast(baseUrl, callback) {
     const url = setUrlParams(baseUrl, {
       stream: { from: this.state.streamEnd.getTime() / 1000, range: BATCH_TIME }
     })
@@ -85,12 +85,12 @@ class MyTimeline extends React.Component {
     })
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this._fetchPastLoop && clearTimeout(this._fetchPastLoop)
     this._fetchPastReq && this._fetchPastReq.abort && this._fetchPastReq.abort()
   }
 
-  render (
+  render(
     { stream, fetchingPast, streamStart, streamEnd, endOfStream } = this.state,
     { props } = this
   ) {
@@ -154,10 +154,8 @@ const combineActivityItems = list => {
 
       // NOTE: for object two empties are not considered equal, but are for subject
       const prevObject = f.get(prevGroup, [0, 'object'])
-      const isSameObject =
-        !!prevObject && prevObject.url === f.get(item, ['object', 'url'])
-      const isSameObjectType =
-        !!prevObject && prevObject.type === f.get(item, ['object', 'type'])
+      const isSameObject = !!prevObject && prevObject.url === f.get(item, ['object', 'url'])
+      const isSameObjectType = !!prevObject && prevObject.type === f.get(item, ['object', 'type'])
 
       const prevSubjectUrl = f.get(prevGroup, [0, 'subject', 'url'])
       const isSameSubject = prevSubjectUrl === f.get(item, ['subject', 'url'])
@@ -165,9 +163,7 @@ const combineActivityItems = list => {
       // same type and object: only add moreDates to existing item
       if (isSameType && isSameObject) {
         const moreDates = prevGroup[0].moreDates || []
-        return prevResults.concat([
-          [{ ...prevGroup[0], moreDates: moreDates.concat(item.date) }]
-        ])
+        return prevResults.concat([[{ ...prevGroup[0], moreDates: moreDates.concat(item.date) }]])
       }
 
       // same type: group IF close in times, AND same subject, AND same object type
@@ -186,5 +182,4 @@ const combineActivityItems = list => {
 }
 
 // for grouping events that are within a close distance in time
-const isCloseInterval = ({ from, to }) =>
-  to.diff(from) / 1000 / 60 < CLUSTER_INTERVAL_MINUTES
+const isCloseInterval = ({ from, to }) => to.diff(from) / 1000 / 60 < CLUSTER_INTERVAL_MINUTES

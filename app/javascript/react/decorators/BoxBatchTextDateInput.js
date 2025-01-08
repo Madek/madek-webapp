@@ -4,13 +4,10 @@ import cx from 'classnames/dedupe'
 import async from 'async'
 import url from 'url'
 import xhr from 'xhr'
-import getRailsCSRFToken from '../../lib/rails-csrf-token.coffee'
+import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 
-
-module.exports = ({event, data, initial, path, nextProps}) => {
-
+module.exports = ({ event, data, initial, path, nextProps }) => {
   var next = () => {
-
     return {
       props: nextProps,
       path: path,
@@ -36,16 +33,15 @@ module.exports = ({event, data, initial, path, nextProps}) => {
   }
 
   var nextText = () => {
-
-    if(initial) {
+    if (initial) {
       return ''
     }
 
-    if(event.action == 'change-text'){
+    if (event.action == 'change-text') {
       return event.text
-    } else if(event.action == 'select-at') {
+    } else if (event.action == 'select-at') {
       return event.text
-    } else if(event.action == 'select-from-to') {
+    } else if (event.action == 'select-from-to') {
       return event.text
     } else {
       return data.text
@@ -53,12 +49,11 @@ module.exports = ({event, data, initial, path, nextProps}) => {
   }
 
   var nextStateAt = () => {
-
-    if(initial) {
+    if (initial) {
       return createPickerState()
     }
 
-    if(event.action == 'set-month-at') {
+    if (event.action == 'set-month-at') {
       return event.date
     } else {
       return data.stateAt
@@ -66,12 +61,11 @@ module.exports = ({event, data, initial, path, nextProps}) => {
   }
 
   var nextStateFrom = () => {
-
-    if(initial) {
+    if (initial) {
       return createPickerState()
     }
 
-    if(event.action == 'set-month-from') {
+    if (event.action == 'set-month-from') {
       return event.date
     } else {
       return data.stateFrom
@@ -79,12 +73,11 @@ module.exports = ({event, data, initial, path, nextProps}) => {
   }
 
   var nextStateTo = () => {
-
-    if(initial) {
+    if (initial) {
       return createPickerState()
     }
 
-    if(event.action == 'set-month-to') {
+    if (event.action == 'set-month-to') {
       return event.date
     } else {
       return data.stateTo
@@ -92,20 +85,19 @@ module.exports = ({event, data, initial, path, nextProps}) => {
   }
 
   var nextShowAt = () => {
-
-    if(initial) {
+    if (initial) {
       return false
     }
 
-    if(event.action == 'change-text') {
+    if (event.action == 'change-text') {
       return event.text.length == 0
-    } else if(event.action == 'show-at') {
+    } else if (event.action == 'show-at') {
       return true
-    } else if(event.action == 'show-from-to') {
+    } else if (event.action == 'show-from-to') {
       return false
-    } else if(event.action == 'close-at') {
+    } else if (event.action == 'close-at') {
       return false
-    } else if(event.action == 'select-at') {
+    } else if (event.action == 'select-at') {
       return false
     } else {
       return data.showAt
@@ -113,7 +105,7 @@ module.exports = ({event, data, initial, path, nextProps}) => {
   }
 
   var nextShowTo = () => {
-    if(event.action == 'show-at') {
+    if (event.action == 'show-at') {
       return false
     } else {
       return data.showAt
@@ -121,16 +113,15 @@ module.exports = ({event, data, initial, path, nextProps}) => {
   }
 
   var nextShowFromTo = () => {
-
-    if(initial) {
+    if (initial) {
       false
     }
 
-    if(event.action == 'show-from-to') {
+    if (event.action == 'show-from-to') {
       return true
-    } else if(event.action == 'close-from-to') {
+    } else if (event.action == 'close-from-to') {
       return false
-    } else if(event.action == 'select-from-to') {
+    } else if (event.action == 'select-from-to') {
       return false
     } else {
       return data.showFromTo
@@ -138,16 +129,15 @@ module.exports = ({event, data, initial, path, nextProps}) => {
   }
 
   var nextSelectedFrom = () => {
-
-    if(initial) {
+    if (initial) {
       return null
     }
 
-    if(event.action == 'show-from-to') {
+    if (event.action == 'show-from-to') {
       return null
-    } else if(event.action == 'select-from') {
+    } else if (event.action == 'select-from') {
       return event.date
-    } else if(event.action == 'clear-select-from') {
+    } else if (event.action == 'clear-select-from') {
       return null
     } else {
       return data.selectedFrom
@@ -155,16 +145,15 @@ module.exports = ({event, data, initial, path, nextProps}) => {
   }
 
   var nextSelectedTo = () => {
-
-    if(initial) {
+    if (initial) {
       return null
     }
 
-    if(event.action == 'show-from-to') {
+    if (event.action == 'show-from-to') {
       return null
-    } else if(event.action == 'select-to') {
+    } else if (event.action == 'select-to') {
       return event.date
-    } else if(event.action == 'clear-select-to') {
+    } else if (event.action == 'clear-select-to') {
       return null
     } else {
       return data.selectedTo

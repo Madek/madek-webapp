@@ -4,7 +4,7 @@ import classList from 'classnames'
 import { parse as parseUrl } from 'url'
 import qs from 'qs'
 import t from '../../../lib/i18n-translate'
-import UI from '../../ui-components/index.coffee'
+import UI from '../../ui-components/index.js'
 
 const MediaResourcesLine = ({ children, resources }) => (
   <div className="ui-container pbm">

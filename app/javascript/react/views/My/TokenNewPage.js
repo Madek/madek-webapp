@@ -1,8 +1,8 @@
 import React from 'react'
 import f from 'lodash'
-import ui from '../../lib/ui.coffee'
-import UI from '../../ui-components/index.coffee'
-import RailsForm from '../../lib/forms/rails-form.cjsx'
+import ui from '../../lib/ui.js'
+import UI from '../../ui-components/index.js'
+import RailsForm from '../../lib/forms/rails-form.jsx'
 const t = ui.t
 
 class TokenNewPage extends React.Component {
@@ -19,20 +19,15 @@ class TokenNewPage extends React.Component {
     }
 
     return (
-      <div
-        className="by-center"
-        style={{ marginLeft: 'auto', marginRight: 'auto' }}
-      >
+      <div className="by-center" style={{ marginLeft: 'auto', marginRight: 'auto' }}>
         <div
           className="ui-container bright bordered rounded mal phm pbm"
-          style={{ display: 'inline-block', minWidth: '420px' }}
-        >
+          style={{ display: 'inline-block', minWidth: '420px' }}>
           <RailsForm
             name="api_token"
             method={action.method}
             action={action.url}
-            authToken={props.authToken}
-          >
+            authToken={props.authToken}>
             <div className="ui-form-group rowed prn pbs">
               <h3 className="title-l">{t('api_tokens_create_title')}</h3>
             </div>
@@ -57,20 +52,14 @@ class TokenNewPage extends React.Component {
               </label>
             </div>
             <label className="ui-form-group rowed pan mbs">
-              <div className="form-label">
-                {t('api_tokens_head_permissions')}
-              </div>
+              <div className="form-label">{t('api_tokens_head_permissions')}</div>
               <div className="form-item">
                 <label className="col1of2">
                   <input type="checkbox" defaultChecked={true} disabled />
                   {t('api_tokens_list_scope_read')}
                 </label>
                 <label className="col1of2">
-                  <input
-                    type="checkbox"
-                    name={'api_token[scope_write]'}
-                    defaultChecked={false}
-                  />
+                  <input type="checkbox" name={'api_token[scope_write]'} defaultChecked={false} />
                   {t('api_tokens_list_scope_write')}
                 </label>
               </div>

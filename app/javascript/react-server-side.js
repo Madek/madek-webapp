@@ -12,7 +12,7 @@ require('./env')
 var React = require('react')
 var ReactDOMServer = require('react-dom/server')
 var ReactDOM = require('react-dom')
-var UI = require('./react/index.coffee')
+var UI = require('./react/index.js')
 
 // the server-side renderer expects all components attached to `global`:
 global.React = React

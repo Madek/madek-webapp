@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import linkifyInnerHtml from '../lib/linkify-inner-html.coffee'
+import linkifyInnerHtml from '../lib/linkify-inner-html.js'
 import cx from 'classnames'
 import t from '../../lib/i18n-translate.js'
 

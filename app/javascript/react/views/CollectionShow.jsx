@@ -1,0 +1,299 @@
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS207: Consider shorter variations of null checks
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
+ */
+const React = require('react')
+const f = require('lodash')
+const parseUrl = require('url').parse
+const buildUrl = require('url').format
+const t = require('../../lib/i18n-translate.js')
+
+const RightsManagement = require('../templates/ResourcePermissions.jsx')
+const CollectionRelations = require('./Collection/Relations.jsx')
+const RelationResources = require('./Collection/RelationResources.jsx')
+const Tabs = require('./Tabs.jsx')
+const Tab = require('./Tab.jsx')
+const PageContent = require('./PageContent.jsx')
+const TabContent = require('./TabContent.jsx')
+const CollectionDetailOverview = require('./Collection/DetailOverview.jsx')
+const CollectionDetailAdditional = require('./Collection/DetailAdditional.jsx')
+const AsyncModal = require('./Collection/AsyncModal.jsx')
+const SelectCollection = require('./Collection/SelectCollection.jsx')
+const HighlightedContents = require('./Collection/HighlightedContents.jsx')
+const MediaEntryHeader = require('./MediaEntryHeader.jsx')
+const MetaDataByListing = require('../decorators/MetaDataByListing.jsx')
+const TagCloud = require('../ui-components/TagCloud.jsx')
+const resourceName = require('../lib/decorate-resource-names.js')
+const UsageData = require('../decorators/UsageData.jsx')
+const Share = require('./Shared/Share.jsx')
+
+const WORKFLOW_STATES = { IN_PROGRESS: 'IN_PROGRESS', FINISHED: 'FINISHED' }
+
+const parseUrlState = function(location) {
+  const urlParts = f.slice(parseUrl(location).pathname.split('/'), 1)
+  if (urlParts.length < 3) {
+    return { action: 'show', argument: null }
+  } else {
+    return {
+      action: urlParts[2],
+      argument: urlParts.length > 3 ? urlParts[3] : undefined
+    }
+  }
+}
+
+const contentTestId = id => `set_tab_content_${id}`
+
+const tabTestId = id => `set_tab_${id}`
+
+module.exports = React.createClass({
+  displayName: 'CollectionShow',
+
+  // NOTE: setting active by pathname because will work as is with a router
+  getInitialState() {
+    return {
+      isMounted: false,
+      urlState: parseUrlState(this.props.for_url),
+      selectCollectionModal: false,
+      shareModal: false
+    }
+  },
+
+  componentDidMount() {
+    return this.setState({ isMounted: true })
+  },
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.for_url === this.props.for_url) {
+      return
+    }
+    return this.setState({ urlState: parseUrlState(this.props.for_url) })
+  },
+
+  _onClick(asyncAction) {
+    if (asyncAction === 'select_collection') {
+      return this.setState({ selectCollectionModal: true })
+    } else if (asyncAction === 'share') {
+      return this.setState({ shareModal: true })
+    }
+  },
+
+  render(param, param1) {
+    let authToken
+    let onClose, contentForGet, get, extractGet, json, getUrl
+    if (param == null) {
+      param = this.props
+    }
+    ;({ authToken, get } = param)
+    if (param1 == null) {
+      param1 = this.state
+    }
+    const { isMounted, urlState } = param1
+    return (
+      <PageContent>
+        {(() => {
+          if (this.state.selectCollectionModal) {
+            onClose = () => {
+              return this.setState({ selectCollectionModal: false })
+            }
+
+            contentForGet = get => {
+              return (
+                <SelectCollection
+                  get={get}
+                  async={true}
+                  authToken={this.props.authToken}
+                  onClose={onClose}
+                />
+              )
+            }
+
+            extractGet = json => {
+              return json.collection_selection
+            }
+
+            getUrl = () => {
+              const parsedUrl = parseUrl(get.header.select_collection_url, true)
+              delete parsedUrl.search
+              parsedUrl.query['___sparse'] = '{collection_selection:{}}'
+              return buildUrl(parsedUrl)
+            }
+
+            return (
+              <AsyncModal
+                get={get.collection_selection}
+                getUrl={getUrl()}
+                contentForGet={contentForGet}
+                extractGet={extractGet}
+              />
+            )
+          }
+        })()}
+        {(() => {
+          if (this.state.shareModal) {
+            onClose = () => {
+              return this.setState({ shareModal: false })
+            }
+
+            contentForGet = get => {
+              return (
+                <Share
+                  fullPage={false}
+                  get={get}
+                  async={true}
+                  authToken={this.props.authToken}
+                  onClose={onClose}
+                />
+              )
+            }
+
+            extractGet = json => {
+              return json
+            }
+
+            getUrl = get.header.share_url
+            return (
+              <AsyncModal
+                widthInPixel={800}
+                get={null}
+                getUrl={getUrl}
+                contentForGet={contentForGet}
+                extractGet={extractGet}
+              />
+            )
+          }
+        })()}
+        <MediaEntryHeader
+          authToken={authToken}
+          get={get.header}
+          async={isMounted}
+          onClick={this._onClick}
+        />
+        <Tabs>
+          {f.map(get.tabs, tab => (
+            <Tab
+              key={tab.id}
+              href={tab.href}
+              testId={tabTestId(tab.id)}
+              iconType={tab.icon_type}
+              privacyStatus={get.privacy_status}
+              label={tab.label}
+              active={tab.id === get.active_tab}
+            />
+          ))}
+        </Tabs>
+        {(() => {
+          switch (urlState.action) {
+            case 'relations':
+              switch (get.action) {
+                case 'relations':
+                  return (
+                    <CollectionRelations
+                      get={get}
+                      authToken={authToken}
+                      testId={contentTestId('relations')}
+                    />
+                  )
+                case 'relation_parents':
+                  return (
+                    <RelationResources
+                      get={get}
+                      authToken={authToken}
+                      scope="parents"
+                      testId={contentTestId('relations_parents')}
+                    />
+                  )
+                case 'relation_children':
+                  return (
+                    <RelationResources
+                      get={get}
+                      authToken={authToken}
+                      scope="children"
+                      testId={contentTestId('relations_children')}
+                    />
+                  )
+                case 'relation_siblings':
+                  return (
+                    <RelationResources
+                      get={get}
+                      authToken={authToken}
+                      scope="siblings"
+                      testId={contentTestId('relations_siblings')}
+                    />
+                  )
+              }
+              break
+
+            case 'usage_data':
+              return (
+                <TabContent testId={contentTestId('usage_data')}>
+                  <div className="bright pal rounded-bottom rounded-top-right ui-container">
+                    {get.logged_in ? <UsageData get={get} /> : undefined}
+                  </div>
+                </TabContent>
+              )
+
+            case 'more_data':
+              return (
+                <TabContent testId={contentTestId('more_data')}>
+                  <div className="bright pal rounded-bottom rounded-top-right ui-container">
+                    <div className="ui-container">
+                      <h3 className="title-l mbl">{t('media_entry_all_metadata_title')}</h3>
+                      <MetaDataByListing
+                        list={get.all_meta_data}
+                        vocabLinks={true}
+                        hideSeparator={true}
+                      />
+                    </div>
+                  </div>
+                </TabContent>
+              )
+
+            case 'permissions':
+              return (
+                <TabContent testId={contentTestId('permissions')}>
+                  <div className="bright pal rounded-bottom rounded-top-right ui-container">
+                    {f.get(get, 'workflow.status') === WORKFLOW_STATES.IN_PROGRESS && (
+                      <div className="ui-alert">
+                        {`\
+As this Set is part of the workflow \"`}
+                        <a href={get.workflow.actions.edit.url}>{get.workflow.name}</a>
+                        {`\",
+managing permissions is available only by changing common settings on workflow edit page which
+will be applied after finishing it.\
+`}
+                      </div>
+                    )}
+                    {f.get(get, 'workflow.status') !== WORKFLOW_STATES.IN_PROGRESS && (
+                      <RightsManagement authToken={this.props.authToken} get={get.permissions} />
+                    )}
+                  </div>
+                </TabContent>
+              )
+
+            case 'context':
+              return (
+                <TabContent testId={contentTestId(`context_${urlState.argument}`)}>
+                  <CollectionDetailOverview get={get} authToken={authToken} />
+                  <HighlightedContents get={get} authToken={authToken} />
+                  <CollectionDetailAdditional get={get} authToken={authToken} />
+                </TabContent>
+              )
+
+            // main tab:
+            default:
+              return (
+                <TabContent testId={contentTestId('show')}>
+                  <CollectionDetailOverview get={get} authToken={authToken} />
+                  <HighlightedContents get={get} authToken={authToken} />
+                  <CollectionDetailAdditional get={get} authToken={authToken} />
+                </TabContent>
+              )
+          }
+        })()}
+      </PageContent>
+    )
+  }
+})

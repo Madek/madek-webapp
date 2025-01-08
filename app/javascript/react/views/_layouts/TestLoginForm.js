@@ -1,5 +1,5 @@
 import React from 'react'
-import RailsForm from '../../lib/forms/rails-form.cjsx'
+import RailsForm from '../../lib/forms/rails-form.jsx'
 import Tab from 'react-bootstrap/lib/Tab'
 
 class TestLoginForm extends React.Component {

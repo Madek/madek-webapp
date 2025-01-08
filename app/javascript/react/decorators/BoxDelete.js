@@ -4,8 +4,7 @@ import cx from 'classnames/dedupe'
 import async from 'async'
 import url from 'url'
 import xhr from 'xhr'
-import getRailsCSRFToken from '../../lib/rails-csrf-token.coffee'
-
+import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 
 module.exports = (resource, callback) => {
   xhr(
@@ -13,7 +12,7 @@ module.exports = (resource, callback) => {
       url: resource.url,
       method: 'DELETE',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'X-CSRF-Token': getRailsCSRFToken()
       }
     },

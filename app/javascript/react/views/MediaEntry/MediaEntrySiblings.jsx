@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import t from '../../../lib/i18n-translate'
-import { Icon, Link } from '../../ui-components/index.coffee'
-import appRequest from '../../../lib/app-request.coffee'
+import { Icon, Link } from '../../ui-components/index.js'
+import appRequest from '../../../lib/app-request.js'
 import MediaResourcesLine from './MediaResourcesLine.jsx'
-import Preloader from '../../ui-components/Preloader.cjsx'
+import Preloader from '../../ui-components/Preloader.jsx'
 
 class MediaEntrySiblings extends Component {
   constructor(props) {

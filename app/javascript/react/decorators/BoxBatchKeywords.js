@@ -1,6 +1,6 @@
 import l from 'lodash'
 import xhr from 'xhr'
-import getRailsCSRFToken from '../../lib/rails-csrf-token.coffee'
+import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 
 module.exports = merged => {
   let { event, data, initial, trigger, nextProps, path } = merged

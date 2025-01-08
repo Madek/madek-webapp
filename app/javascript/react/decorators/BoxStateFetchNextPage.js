@@ -1,6 +1,6 @@
 import l from 'lodash'
 import xhr from 'xhr'
-import setUrlParams from '../../lib/set-params-for-url.coffee'
+import setUrlParams from '../../lib/set-params-for-url.js'
 
 var requestId = Math.random()
 

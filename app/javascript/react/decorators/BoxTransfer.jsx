@@ -1,7 +1,7 @@
 import React from 'react'
 import f from 'lodash'
-import Modal from '../ui-components/Modal.cjsx'
-import EditTransferResponsibility from '../views/Shared/EditTransferResponsibility.cjsx'
+import Modal from '../ui-components/Modal.jsx'
+import EditTransferResponsibility from '../views/Shared/EditTransferResponsibility.jsx'
 
 class BoxTransfer extends React.Component {
   constructor(props) {

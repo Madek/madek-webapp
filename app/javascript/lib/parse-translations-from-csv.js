@@ -8,7 +8,7 @@ var CSV = require('babyparse')
 
 var ignoreColumnsDefault = ['comment']
 
-function readTranslationsFromCSV (rawCsvText, ignoreColumns) {
+function readTranslationsFromCSV(rawCsvText, ignoreColumns) {
   ignoreColumns = f.presence(ignoreColumns) || ignoreColumnsDefault
 
   if (!f.present(rawCsvText)) {
@@ -27,7 +27,7 @@ function readTranslationsFromCSV (rawCsvText, ignoreColumns) {
   var keys = f.map(rows, '0')
 
   return f(languages)
-    .map(function (lang, index) {
+    .map(function(lang, index) {
       if (f.includes(ignoreColumns, lang)) {
         return null
       }

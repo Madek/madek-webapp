@@ -7,11 +7,11 @@ const cx = require('classnames')
 const qs = require('qs')
 const parseUrl = require('url').parse
 
-// const Link = require('../ui-components/Link.cjsx')
-const Icon = require('../ui-components/Icon.cjsx')
-const Picture = require('../ui-components/Picture.cjsx')
-const ResourceIcon = require('../ui-components/ResourceIcon.cjsx')
-const MediaPlayer = require('../ui-components/MediaPlayer.cjsx')
+// const Link = require('../ui-components/Link.jsx')
+const Icon = require('../ui-components/Icon.jsx')
+const Picture = require('../ui-components/Picture.jsx')
+const ResourceIcon = require('../ui-components/ResourceIcon.jsx')
+const MediaPlayer = require('../ui-components/MediaPlayer.jsx')
 
 // eslint-disable-next-line react/no-deprecated
 module.exports = React.createClass({

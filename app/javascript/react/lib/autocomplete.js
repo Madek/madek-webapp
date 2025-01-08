@@ -19,10 +19,10 @@ const f = require('active-lodash')
 const jQuery = require('jquery')
 require('@eins78/typeahead.js/dist/typeahead.jquery.js')
 
-const ui = require('../lib/ui.coffee')
+const ui = require('../lib/ui.js')
 const cx = ui.cx
 const t = ui.t
-const searchResources = require('../../lib/search.coffee')
+const searchResources = require('../../lib/search.js')
 
 const initTypeahead = (
   domNode,

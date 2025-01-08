@@ -4,15 +4,12 @@ import cx from 'classnames/dedupe'
 import async from 'async'
 import url from 'url'
 import xhr from 'xhr'
-import getRailsCSRFToken from '../../lib/rails-csrf-token.coffee'
+import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 
-
-module.exports = (merged) => {
-
-  let {event, data, initial, trigger, nextProps, path} = merged
+module.exports = merged => {
+  let { event, data, initial, trigger, nextProps, path } = merged
 
   var next = () => {
-
     return {
       props: nextProps,
       path: path,
@@ -29,21 +26,20 @@ module.exports = (merged) => {
     var person = data.person
     var group = data.group
     return (
-      event.action == 'add-person'
-      && (!l.isEmpty(person.firstname.trim()) || !l.isEmpty(person.lastname.trim()))
-      || event.action == 'add-group'
-      && !l.isEmpty(group.name.trim())
+      (event.action == 'add-person' &&
+        (!l.isEmpty(person.firstname.trim()) || !l.isEmpty(person.lastname.trim()))) ||
+      (event.action == 'add-group' && !l.isEmpty(group.name.trim()))
     )
   }
 
   var nextOpen = () => {
-    if(initial) {
+    if (initial) {
       return false
-    } else if(event.action == 'open') {
+    } else if (event.action == 'open') {
       return true
-    } else if(event.action == 'close') {
+    } else if (event.action == 'close') {
       return false
-    } else if(validAddAction()) {
+    } else if (validAddAction()) {
       return false
     } else {
       return data.open
@@ -51,15 +47,15 @@ module.exports = (merged) => {
   }
 
   var nextSelected = () => {
-    if(initial) {
-      if(l.includes(nextProps.metaKey.allowed_people_subtypes, 'Person')) {
+    if (initial) {
+      if (l.includes(nextProps.metaKey.allowed_people_subtypes, 'Person')) {
         return 'person'
-      } else if(l.includes(nextProps.metaKey.allowed_people_subtypes, 'PeopleGroup')) {
+      } else if (l.includes(nextProps.metaKey.allowed_people_subtypes, 'PeopleGroup')) {
         return 'group'
       } else {
         throw 'Unexpected'
       }
-    } else if(event.action == 'select-tab') {
+    } else if (event.action == 'select-tab') {
       return event.tab
     } else {
       return data.selected
@@ -67,13 +63,12 @@ module.exports = (merged) => {
   }
 
   var nextPerson = () => {
-
     var nextFirstname = () => {
-      if(initial) {
+      if (initial) {
         return ''
-      } else if(event.action == 'person-firstname') {
+      } else if (event.action == 'person-firstname') {
         return event.text
-      } else if(validAddAction()) {
+      } else if (validAddAction()) {
         return ''
       } else {
         return data.person.firstname
@@ -81,11 +76,11 @@ module.exports = (merged) => {
     }
 
     var nextLastname = () => {
-      if(initial) {
+      if (initial) {
         return ''
-      } else if(event.action == 'person-lastname') {
+      } else if (event.action == 'person-lastname') {
         return event.text
-      } else if(validAddAction()) {
+      } else if (validAddAction()) {
         return ''
       } else {
         return data.person.lastname
@@ -93,11 +88,11 @@ module.exports = (merged) => {
     }
 
     var nextPseudonym = () => {
-      if(initial) {
+      if (initial) {
         return ''
-      } else if(event.action == 'person-pseudonym') {
+      } else if (event.action == 'person-pseudonym') {
         return event.text
-      } else if(validAddAction()) {
+      } else if (validAddAction()) {
         return ''
       } else {
         return data.person.pseudonym
@@ -112,13 +107,12 @@ module.exports = (merged) => {
   }
 
   var nextGroup = () => {
-
     var nextName = () => {
-      if(initial) {
+      if (initial) {
         return ''
-      } else if(event.action == 'group-name') {
+      } else if (event.action == 'group-name') {
         return event.text
-      } else if(validAddAction()) {
+      } else if (validAddAction()) {
         return ''
       } else {
         return data.group.name

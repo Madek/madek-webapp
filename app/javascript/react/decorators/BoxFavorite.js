@@ -4,33 +4,29 @@ import cx from 'classnames/dedupe'
 import async from 'async'
 import url from 'url'
 import xhr from 'xhr'
-import getRailsCSRFToken from '../../lib/rails-csrf-token.coffee'
-
+import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 
 module.exports = (last, props, trigger) => {
-
   var nextPendingFavorite = () => {
-    if(props.event == 'toggle') {
+    if (props.event == 'toggle') {
       return true
-    } else if(props.event == 'toggle-done') {
+    } else if (props.event == 'toggle-done') {
       return false
     } else {
       return last.pendingFavorite
     }
-
   }
 
   var nextFavored = () => {
-    if(props.event == 'toggle') {
+    if (props.event == 'toggle') {
       return !last.favored
     } else {
       return last.favored
     }
   }
 
-
   var sendToggle = () => {
-    var actionName = (last.favored ? 'disfavor' : 'favor')
+    var actionName = last.favored ? 'disfavor' : 'favor'
     var url = props.resource[actionName + '_url']
 
     xhr(
@@ -38,7 +34,7 @@ module.exports = (last, props, trigger) => {
         url: url,
         method: 'PATCH',
         headers: {
-          'Accept': 'application/json',
+          Accept: 'application/json',
           'X-CSRF-Token': getRailsCSRFToken()
         }
       },
@@ -48,17 +44,14 @@ module.exports = (last, props, trigger) => {
         })
       }
     )
-
   }
 
-
   var next = () => {
-
-    if(props.event == 'toggle') {
+    if (props.event == 'toggle') {
       sendToggle()
     }
 
-    if(!last) {
+    if (!last) {
       return {
         favored: props.resource.favored,
         pendingFavorite: false
