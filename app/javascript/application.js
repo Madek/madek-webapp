@@ -40,8 +40,8 @@ app.extend({
 
 // our library:
 const ujs = [
-  require('./ujs/hashviz.coffee'),
-  require('./ujs/react.coffee'),
+  require('./ujs/hashviz.js'),
+  require('./ujs/react.js'),
   (() => // TMP: support data-confirm attributes (legacy)
 Array.prototype.slice.call(document.querySelectorAll('[data-confirm]')).map(
   node => node.onclick = () => confirm(node.dataset.confirm || 'Sind sie sicher?')
@@ -60,4 +60,4 @@ $(() => $('#lang_switcher').on('change', function(e) {
 }));
 
 // DEV:
-// require('./developer-tools.coffee')
+// require('./developer-tools.js')

@@ -10,7 +10,7 @@
 
 let hashvizUjs;
 const $ = require('jquery');
-const hashVizSVG = require('../lib/hashviz-svg.coffee');
+const hashVizSVG = require('../lib/hashviz-svg.js');
 
 module.exports = (hashvizUjs=() => // for all enabled containers:
 $('[data-hashviz-container]').each(function() {
