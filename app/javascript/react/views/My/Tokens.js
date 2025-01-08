@@ -1,11 +1,11 @@
 import React from 'react'
 import f from 'lodash'
-import ui from '../../lib/ui.coffee'
+import ui from '../../lib/ui.js'
 import Moment from 'moment'
 import currentLocale from '../../../lib/current-locale'
 const t = ui.t
 
-const UI = require('../../ui-components/index.coffee')
+const UI = require('../../ui-components/index.js')
 const RailsForm = require('../../lib/forms/rails-form.cjsx')
 
 // config

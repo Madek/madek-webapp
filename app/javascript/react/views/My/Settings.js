@@ -2,7 +2,7 @@ import xhr from 'xhr'
 import React from 'react'
 import t from '.../../../lib/i18n-translate.js'
 import interpolateSplit from '../../../lib/interpolate-split.js'
-import getRailsCSRFToken from '../../../lib/rails-csrf-token.coffee'
+import getRailsCSRFToken from '../../../lib/rails-csrf-token.js'
 
 class MySettings extends React.Component {
   constructor(props) {

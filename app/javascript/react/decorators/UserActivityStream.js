@@ -1,5 +1,5 @@
 import React from 'react'
-import ui from '../lib/ui.coffee'
+import ui from '../lib/ui.js'
 import Moment from 'moment'
 import first from 'lodash/first'
 import get from 'lodash/get'
@@ -9,7 +9,7 @@ import isEmpty from 'lodash/isEmpty'
 import currentLocale from '../../lib/current-locale.js'
 
 import HeaderPrimaryButton from '../views/HeaderPrimaryButton.cjsx'
-import { ActionsBar, Button } from '../ui-components/index.coffee'
+import { ActionsBar, Button } from '../ui-components/index.js'
 import {
   ResourceLink,
   UserCreatedItem,

@@ -6,7 +6,7 @@ module.exports = {
 
   // "UI library" (aka styleguide)
   // NOTE: 'requireBulk' is in the index file so that other components can use it
-  UI: require('./ui-components/index.coffee'),
+  UI: require('./ui-components/index.js'),
 
   // Decorators: components that directly receive (sub-)presenters
   // NOTE: only needed for remaining HAML views…

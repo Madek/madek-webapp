@@ -15,8 +15,8 @@ const xhr = require('xhr');
 const asyncRetry = require('async/retry');
 const parseHeaders = require('parse-headers');
 const f = require('active-lodash');
-const setParamsForUrl = require('./set-params-for-url.coffee');
-const getRailsCSRFToken = require('./rails-csrf-token.coffee');
+const setParamsForUrl = require('./set-params-for-url.js');
+const getRailsCSRFToken = require('./rails-csrf-token.js');
 
 // merge headers regardless of casing ('Content-Type' vs. 'content-type')
 const mergeHeaders = arrayOfHeaders => arrayOfHeaders

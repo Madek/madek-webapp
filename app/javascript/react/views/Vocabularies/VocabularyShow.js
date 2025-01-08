@@ -4,7 +4,7 @@ import sortBy from 'lodash/sortBy'
 import isEmpty from 'lodash/isEmpty'
 import t from '../../../lib/i18n-translate'
 
-import MadekPropTypes from '../../lib/madek-prop-types.coffee'
+import MadekPropTypes from '../../lib/madek-prop-types.js'
 import Icon from '../../ui-components/Icon.cjsx'
 
 import VocabularyPage from './VocabularyPage.cjsx'

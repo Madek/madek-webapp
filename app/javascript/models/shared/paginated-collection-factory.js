@@ -9,10 +9,10 @@
 const f = require('active-lodash');
 const State = require('ampersand-state');
 const Collection = require('ampersand-rest-collection');
-const AppCollection = require('./app-collection.coffee');
+const AppCollection = require('./app-collection.js');
 
 const xhr = require('xhr');
-const setUrlParams = require('../../lib/set-params-for-url.coffee');
+const setUrlParams = require('../../lib/set-params-for-url.js');
 const getOrThrow = function(obj, key){
   const val = f.get(obj, key);
   if (!f.present(val)) { throw new Error('Missing config! ' + key); }

@@ -6,7 +6,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 const f = require('active-lodash');
-const AppResource = require('../shared/app-resource.coffee');
+const AppResource = require('../shared/app-resource.js');
 
 
 const PERMISSIONS = [

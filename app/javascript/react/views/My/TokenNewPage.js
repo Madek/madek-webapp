@@ -1,7 +1,7 @@
 import React from 'react'
 import f from 'lodash'
-import ui from '../../lib/ui.coffee'
-import UI from '../../ui-components/index.coffee'
+import ui from '../../lib/ui.js'
+import UI from '../../ui-components/index.js'
 import RailsForm from '../../lib/forms/rails-form.cjsx'
 const t = ui.t
 

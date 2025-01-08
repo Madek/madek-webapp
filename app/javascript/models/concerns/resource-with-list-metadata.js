@@ -4,7 +4,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 const f = require('active-lodash');
-const setUrlParams = require('../../lib/set-params-for-url.coffee');
+const setUrlParams = require('../../lib/set-params-for-url.js');
 const parseUrl = require('url').parse;
 const buildUrl = require('url').format;
 const buildQuery = require('qs').stringify;

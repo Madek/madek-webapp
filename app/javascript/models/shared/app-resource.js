@@ -7,8 +7,8 @@
 const Model = require('ampersand-model');
 const xhr = require('xhr');
 const f = require('active-lodash');
-const getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee');
-const RailsResource = require('./rails-resource-mixin.coffee');
+const getRailsCSRFToken = require('../../lib/rails-csrf-token.js');
+const RailsResource = require('./rails-resource-mixin.js');
 
 const customDataTypes = {
   // tri-state, can be true, false or 'mixed'

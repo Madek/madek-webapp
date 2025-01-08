@@ -9,7 +9,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const f = require('active-lodash');
 const url = require('url');
-const UI = require('../react/index.coffee');
+const UI = require('../react/index.js');
 
 // UJS for React Views (and Decorators)
 //
@@ -20,7 +20,7 @@ const UI = require('../react/index.coffee');
 
 const initByClass = {
   'Views.My.Uploader'(data, callback){
-    const MediaEntries = require('../models/media-entries.coffee');
+    const MediaEntries = require('../models/media-entries.js');
     const Uploader = require('../react/views/My/Uploader.cjsx');
     const props = f.set(data.reactProps, 'appCollection', (new MediaEntries()));
     return callback(React.createElement(Uploader, props));

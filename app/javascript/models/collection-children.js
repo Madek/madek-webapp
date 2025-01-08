@@ -3,11 +3,11 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const AppCollection = require('./shared/app-collection.coffee');
-const AppResource = require('./shared/app-resource.coffee');
-const Collection = require('./collection.coffee');
-const MediaEntry = require('./media-entry.coffee');
-const PaginatedCollection = require('./shared/paginated-collection-factory.coffee');
+const AppCollection = require('./shared/app-collection.js');
+const AppResource = require('./shared/app-resource.js');
+const Collection = require('./collection.js');
+const MediaEntry = require('./media-entry.js');
+const PaginatedCollection = require('./shared/paginated-collection-factory.js');
 
 
 const CollectionChildren = AppCollection.extend({
@@ -19,7 +19,7 @@ const CollectionChildren = AppCollection.extend({
     } else if (attributes.type === 'Collection') {
       return new Collection(attributes, options);
     } else {
-      throw new Error('[collection-children.coffee] Cannot find a model for ' + JSON.stringify(attributes));
+      throw new Error('[collection-children.js] Cannot find a model for ' + JSON.stringify(attributes));
     }
   },
 

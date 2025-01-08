@@ -4,7 +4,7 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const AppResource = require('./app-resource.coffee');
+const AppResource = require('./app-resource.js');
 
 // Base ResourcePermissions Model:
 module.exports = AppResource.extend({

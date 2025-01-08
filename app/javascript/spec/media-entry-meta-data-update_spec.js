@@ -4,7 +4,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 const f = require('active-lodash');
-const MediaEntry = require('../models/media-entry.coffee');
+const MediaEntry = require('../models/media-entry.js');
 
 module.exports = function(data, callback){
   const entry = new MediaEntry({url: data.entry});

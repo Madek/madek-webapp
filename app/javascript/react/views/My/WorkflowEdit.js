@@ -3,13 +3,13 @@ import f from 'active-lodash'
 import cx from 'classnames'
 
 import currentLocale from '../../../lib/current-locale'
-const UI = require('../../ui-components/index.coffee')
+const UI = require('../../ui-components/index.js')
 import SubSection from '../../ui-components/SubSection'
 import ResourceThumbnail from '../../decorators/ResourceThumbnail.cjsx'
 import InputMetaDatum from '../../decorators/InputMetaDatum.cjsx'
 import WorkflowCommonPermissions from '../../decorators/WorkflowCommonPermissions'
 import RailsForm from '../../lib/forms/rails-form.cjsx'
-import appRequest from '../../../lib/app-request.coffee'
+import appRequest from '../../../lib/app-request.js'
 import { Let, IfLet } from '../../lib/lets'
 import I18nTranslate from '../../../lib/i18n-translate'
 import labelize from '../../../lib/labelize'

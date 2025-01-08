@@ -7,7 +7,7 @@
 const url = require('url');
 const f = require('active-lodash');
 const Bloodhound = require('@eins78/typeahead.js/dist/bloodhound.js').noConflict();
-const ui = require('../react/lib/ui.coffee');
+const ui = require('../react/lib/ui.js');
 const {
   t
 } = ui;

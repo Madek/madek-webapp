@@ -1,6 +1,6 @@
-const AppCollection = require('./shared/app-collection.coffee');
-const Collection = require('./collection.coffee');
-const PaginatedCollection = require('./shared/paginated-collection-factory.coffee');
+const AppCollection = require('./shared/app-collection.js');
+const Collection = require('./collection.js');
+const PaginatedCollection = require('./shared/paginated-collection-factory.js');
 
 const Collections = AppCollection.extend({
   type: 'Collections',

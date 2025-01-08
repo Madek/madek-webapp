@@ -1,5 +1,5 @@
-const AppResource = require('./shared/app-resource.coffee');
-const Person = require('./person.coffee');
+const AppResource = require('./shared/app-resource.js');
+const Person = require('./person.js');
 
 module.exports = AppResource.extend({
   type: 'User',

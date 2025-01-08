@@ -1,11 +1,11 @@
 const f = require('active-lodash');
-const AppResource = require('./shared/app-resource.coffee');
-const Permissions = require('./media-entry/permissions.coffee');
-const Person = require('./person.coffee');
-const MetaData = require('./meta-data.coffee');
-const ResourceWithRelations = require('./concerns/resource-with-relations.coffee');
-const Favoritable = require('./concerns/resource-favoritable.coffee');
-const Deletable = require('./concerns/resource-deletable.coffee');
+const AppResource = require('./shared/app-resource.js');
+const Permissions = require('./media-entry/permissions.js');
+const Person = require('./person.js');
+const MetaData = require('./meta-data.js');
+const ResourceWithRelations = require('./concerns/resource-with-relations.js');
+const Favoritable = require('./concerns/resource-favoritable.js');
+const Deletable = require('./concerns/resource-deletable.js');
 
 module.exports = AppResource.extend(
   ResourceWithRelations,

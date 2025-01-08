@@ -1,9 +1,9 @@
 import React from 'react'
 import f from 'lodash'
 import { TokenRow } from './Tokens'
-import ui from '../../lib/ui.coffee'
-import UI from '../../ui-components/index.coffee'
-import setUrlParams from '../../../lib/set-params-for-url.coffee'
+import ui from '../../lib/ui.js'
+import UI from '../../ui-components/index.js'
+import setUrlParams from '../../../lib/set-params-for-url.js'
 const t = ui.t
 
 class TokenCreatedPage extends React.Component {

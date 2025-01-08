@@ -4,10 +4,10 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 const requireBulk = require('bulk-require');
-const resourceName = require('../lib/decorate-resource-names.coffee');
+const resourceName = require('../lib/decorate-resource-names.js');
 
 const UILibrary = requireBulk(__dirname, [ '*.cjsx' ]);
-UILibrary.propTypes = require('./propTypes.coffee');
+UILibrary.propTypes = require('./propTypes.js');
 
 // helpers
 

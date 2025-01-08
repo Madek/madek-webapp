@@ -1,6 +1,6 @@
 const f = require('active-lodash');
 const Collection = require('ampersand-rest-collection');
-const RailsResource = require('./rails-resource-mixin.coffee');
+const RailsResource = require('./rails-resource-mixin.js');
 
 // Base class for Restful Application Resource Collection
 module.exports = Collection.extend(RailsResource, {

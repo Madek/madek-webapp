@@ -3,9 +3,9 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const AppCollection = require('./shared/app-collection.coffee');
-const MediaEntry = require('./media-entry.coffee');
-const PaginatedCollection = require('./shared/paginated-collection-factory.coffee');
+const AppCollection = require('./shared/app-collection.js');
+const MediaEntry = require('./media-entry.js');
+const PaginatedCollection = require('./shared/paginated-collection-factory.js');
 
 const MediaEntries = AppCollection.extend({
   type: 'MediaEntries',

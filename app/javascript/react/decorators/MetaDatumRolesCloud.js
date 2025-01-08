@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import setUrlParams from '../../lib/set-params-for-url.coffee'
+import setUrlParams from '../../lib/set-params-for-url.js'
 import cx from 'classnames'
 
 /*

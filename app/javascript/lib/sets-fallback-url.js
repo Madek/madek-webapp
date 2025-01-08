@@ -9,7 +9,7 @@ const parseUrl = require('url').parse;
 const stringifyUrl = require('url').format;
 const parseQuery = require('qs').parse;
 
-const setUrlParams = require('./set-params-for-url.coffee');
+const setUrlParams = require('./set-params-for-url.js');
 
 
 module.exports = function(url, usePathUrlReplacement) {

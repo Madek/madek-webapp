@@ -1,5 +1,5 @@
-const AppResource = require('./shared/app-resource.coffee');
-const MetaKey = require('./meta-key.coffee');
+const AppResource = require('./shared/app-resource.js');
+const MetaKey = require('./meta-key.js');
 
 const MetaDatum = AppResource.extend({ // base class
   type: 'MetaDatum',

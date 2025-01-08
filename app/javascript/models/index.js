@@ -6,7 +6,7 @@
 const f = require('active-lodash');
 const requireBulk = require('bulk-require');
 
-const index = requireBulk(__dirname, [ '*.coffee' ]);
+const index = requireBulk(__dirname, [ '*.js' ]);
 
 const Models = f.object(f.filter(f.map(index, function(val, key){
   if (!(key === 'index')) { return [f.capitalize(f.camelCase(key)), val]; }

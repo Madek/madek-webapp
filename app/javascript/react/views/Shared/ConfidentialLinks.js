@@ -3,12 +3,12 @@ import RailsForm from '../../lib/forms/rails-form.cjsx'
 import PageHeader from '../../ui-components/PageHeader'
 import f from 'lodash'
 import Moment from 'moment'
-import ui from '../../lib/ui.coffee'
+import ui from '../../lib/ui.js'
 import currentLocale from '../../../lib/current-locale'
 import Link from '../../ui-components/Link.cjsx'
 const t = ui.t
 
-const UI = require('../../ui-components/index.coffee')
+const UI = require('../../ui-components/index.js')
 
 class ConfidentialLinks extends React.Component {
   render() {

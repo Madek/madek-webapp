@@ -8,7 +8,7 @@ import Renderer from '../../decorators/metadataedit/MetadataEditRenderer.cjsx'
 import WorkflowCommonPermissions from '../../decorators/WorkflowCommonPermissions'
 import SubSection from '../../ui-components/SubSection'
 import RailsForm from '../../lib/forms/rails-form.cjsx'
-import validation from '../../../lib/metadata-edit-validation.coffee'
+import validation from '../../../lib/metadata-edit-validation.js'
 
 class WorkflowPreview extends React.Component {
   constructor(props) {

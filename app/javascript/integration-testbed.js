@@ -14,7 +14,7 @@ window.$ = require('jquery');
 // map of tests by name here
 // a test is an async function to be called with {data} and callback(err, res)
 window.tests =
-  {MediaEntryMetaData: require('./spec/media-entry-meta-data-update_spec.coffee')};
+  {MediaEntryMetaData: require('./spec/media-entry-meta-data-update_spec.js')};
 
 window.runTest = function(name, data){
 

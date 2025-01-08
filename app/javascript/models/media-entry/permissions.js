@@ -4,11 +4,11 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 const Collection = require('ampersand-rest-collection');
-const AppResource = require('../shared/app-resource.coffee');
-const ResourcePermissions = require('../shared/resource-permissions.coffee');
-const User = require('../user.coffee');
-const Group = require('../group.coffee');
-const ApiClient = require('../api-client.coffee');
+const AppResource = require('../shared/app-resource.js');
+const ResourcePermissions = require('../shared/resource-permissions.js');
+const User = require('../user.js');
+const Group = require('../group.js');
+const ApiClient = require('../api-client.js');
 
 // NOTE: 'trilean' type for usage in batch - can be true, false or mixed
 

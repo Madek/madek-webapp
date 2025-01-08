@@ -8,17 +8,17 @@
 const f = require('active-lodash');
 const BrowserFile = require('global/window').File;
 const app = require('ampersand-app');
-const AppResource = require('./shared/app-resource.coffee');
-const Permissions = require('./media-entry/permissions.coffee');
-const Person = require('./person.coffee');
-// MediaResources = require('./shared/media-resources.coffee')
+const AppResource = require('./shared/app-resource.js');
+const Permissions = require('./media-entry/permissions.js');
+const Person = require('./person.js');
+// MediaResources = require('./shared/media-resources.js')
 const t = require('../lib/i18n-translate');
 const getMediaType = require('./shared/get-media-type.js');
-const MetaData = require('./meta-data.coffee');
-const ResourceWithRelations = require('./concerns/resource-with-relations.coffee');
-// ResourceWithListMetadata = require('./concerns/resource-with-list-metadata.coffee')
-const Favoritable = require('./concerns/resource-favoritable.coffee');
-const Deletable = require('./concerns/resource-deletable.coffee');
+const MetaData = require('./meta-data.js');
+const ResourceWithRelations = require('./concerns/resource-with-relations.js');
+// ResourceWithListMetadata = require('./concerns/resource-with-list-metadata.js')
+const Favoritable = require('./concerns/resource-favoritable.js');
+const Deletable = require('./concerns/resource-deletable.js');
 
 module.exports = AppResource.extend(
   ResourceWithRelations,

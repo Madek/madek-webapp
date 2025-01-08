@@ -4,7 +4,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 const xhr = require('xhr');
-const getRailsCSRFToken = require('./rails-csrf-token.coffee');
+const getRailsCSRFToken = require('./rails-csrf-token.js');
 const t = require('./i18n-translate.js');
 const f = require('lodash');
 

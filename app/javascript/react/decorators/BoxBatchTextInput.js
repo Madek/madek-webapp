@@ -4,7 +4,7 @@ import cx from 'classnames/dedupe'
 import async from 'async'
 import url from 'url'
 import xhr from 'xhr'
-import getRailsCSRFToken from '../../lib/rails-csrf-token.coffee'
+import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 
 
 module.exports = ({event, data, initial, path, nextProps}) => {

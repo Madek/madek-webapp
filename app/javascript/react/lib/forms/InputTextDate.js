@@ -11,7 +11,7 @@ import React, { Component, PropTypes } from 'react'
 import compact from 'lodash/compact'
 import isString from 'lodash/isString'
 import isEmpty from 'lodash/isEmpty'
-import ui from '../ui.coffee'
+import ui from '../ui.js'
 const t = ui.t
 
 import DatePicker, { parseDate } from '../../ui-components/DatePicker'

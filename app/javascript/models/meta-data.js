@@ -4,8 +4,8 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 const f = require('active-lodash');
-const AppCollection = require('./shared/app-collection.coffee');
-const MetaDatum = require('./meta-datum.coffee');
+const AppCollection = require('./shared/app-collection.js');
+const MetaDatum = require('./meta-datum.js');
 
 // `MetaDatum` is an object with subtypes (Models),
 // this (polymorph) collection to contain any of them.
