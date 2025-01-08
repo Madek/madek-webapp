@@ -3,8 +3,8 @@
 
 React = require('react')
 f = require('active-lodash')
-{parseMods, cx} = require('../../lib/ui.coffee')
-UiPropTypes = require('../propTypes.coffee')
+{parseMods, cx} = require('../../lib/ui.js')
+UiPropTypes = require('../propTypes.js')
 
 module.exports = React.createClass
   displayName: 'BoxToolBar'

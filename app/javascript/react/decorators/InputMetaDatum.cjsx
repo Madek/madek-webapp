@@ -1,6 +1,6 @@
 React = require('react')
 f = require('active-lodash')
-MadekPropTypes = require('../lib/madek-prop-types.coffee')
+MadekPropTypes = require('../lib/madek-prop-types.js')
 Text = require('../lib/forms/input-text-async.cjsx')
 InputTextDate = require('../lib/forms/InputTextDate.js').default
 InputKeywords = require('../lib/forms/input-keywords.cjsx')

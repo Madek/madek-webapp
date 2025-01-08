@@ -5,17 +5,17 @@ PageContent = require('../views/PageContent.cjsx')
 TabContent = require('../views/TabContent.cjsx')
 Tabs = require('../views/Tabs.cjsx')
 Tab = require('../views/Tab.cjsx')
-batchDiff = require('../../lib/batch-diff.coffee')
+batchDiff = require('../../lib/batch-diff.js')
 BatchHintBox = require('./BatchHintBox.cjsx')
 
 BatchAddToSet = require('./BatchAddToSet.cjsx')
 AsyncModal = require('../views/Collection/AsyncModal.cjsx')
-setUrlParams = require('../../lib/set-params-for-url.coffee')
+setUrlParams = require('../../lib/set-params-for-url.js')
 
 qs = require('qs')
 xhr = require('xhr')
 Modal = require('../ui-components/Modal.cjsx')
-getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
+getRailsCSRFToken = require('../../lib/rails-csrf-token.js')
 
 
 module.exports = React.createClass

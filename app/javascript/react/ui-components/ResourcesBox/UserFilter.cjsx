@@ -2,10 +2,10 @@ React = require('react')
 ReactDOM = require('react-dom')
 f = require('active-lodash')
 css = require('classnames')
-ui = require('../../lib/ui.coffee')
-MadekPropTypes = require('../../lib/madek-prop-types.coffee')
+ui = require('../../lib/ui.js')
+MadekPropTypes = require('../../lib/madek-prop-types.js')
 
-loadXhr = require('../../../lib/load-xhr.coffee')
+loadXhr = require('../../../lib/load-xhr.js')
 
 Icon = require('../Icon.cjsx')
 Link = require('../Link.cjsx')

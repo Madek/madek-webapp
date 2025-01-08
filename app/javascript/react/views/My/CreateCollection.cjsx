@@ -6,7 +6,7 @@ InputFieldText = require('../../lib/forms/input-field-text.cjsx')
 FormButton = require('../../ui-components/FormButton.cjsx')
 ToggableLink = require('../../ui-components/ToggableLink.cjsx')
 Modal = require('../../ui-components/Modal.cjsx')
-formXhr = require('../../../lib/form-xhr.coffee')
+formXhr = require('../../../lib/form-xhr.js')
 Preloader = require('../../ui-components/Preloader.cjsx')
 
 module.exports = React.createClass

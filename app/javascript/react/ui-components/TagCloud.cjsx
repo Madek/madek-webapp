@@ -3,8 +3,8 @@
 React = require('react')
 f = require('active-lodash')
 classList = require('classnames')
-parseMods = require('../lib/ui.coffee').parseMods
-UIPropTypes = require('../ui-components/propTypes.coffee')
+parseMods = require('../lib/ui.js').parseMods
+UIPropTypes = require('../ui-components/propTypes.js')
 Link = require('./Link.cjsx')
 Icon = require('./Icon.cjsx')
 

@@ -6,7 +6,7 @@ RailsForm = require('../lib/forms/rails-form.cjsx')
 classnames = require('classnames')
 AutoComplete = null
 AskModal = require('../ui-components/AskModal.cjsx')
-loadXhr = require('../../lib/load-xhr.coffee')
+loadXhr = require('../../lib/load-xhr.js')
 
 
 module.exports = React.createClass

@@ -26,9 +26,9 @@ module.exports = React.createClass
       @props.get
     else
       PermissionsModel = if @props.get.type == 'Collection'
-        require('../../models/collection/permissions.coffee')
+        require('../../models/collection/permissions.js')
       else
-        require('../../models/media-entry/permissions.coffee')
+        require('../../models/media-entry/permissions.js')
       new PermissionsModel(@props.get)
 
     # set up auto-update for model:
@@ -44,7 +44,7 @@ module.exports = React.createClass
   # this will only ever run on the client:
   componentDidMount: ()->
     AutoComplete = require('../lib/autocomplete.js')
-    router = require('../../lib/router.coffee')
+    router = require('../../lib/router.js')
 
     editUrl = url.parse(@props.get.edit_permissions_url).pathname
 

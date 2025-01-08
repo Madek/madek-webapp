@@ -1,7 +1,7 @@
 React = require('react')
 f = require('active-lodash')
 classList = require('classnames/dedupe')
-parseMods = require('../../lib/ui.coffee').parseMods
+parseMods = require('../../lib/ui.js').parseMods
 t = require('../../../lib/i18n-translate.js')
 RailsForm = require('../../lib/forms/rails-form.cjsx')
 Button = require('../../ui-components/Button.cjsx')

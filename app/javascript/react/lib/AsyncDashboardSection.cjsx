@@ -7,8 +7,8 @@ React = require('react')
 PropTypes = React.PropTypes
 ReactDOM = require('react-dom')
 f = require('active-lodash')
-appRequest = require('../../lib/app-request.coffee')
-getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
+appRequest = require('../../lib/app-request.js')
+getRailsCSRFToken = require('../../lib/rails-csrf-token.js')
 
 SuperBoxDashboard = require('../decorators/SuperBoxDashboard.jsx')
 

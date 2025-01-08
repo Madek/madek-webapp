@@ -1,6 +1,6 @@
 React = require('react')
 isEmpty = require('lodash/isEmpty')
-ui = require('../lib/ui.coffee')
+ui = require('../lib/ui.js')
 t = require('../../lib/i18n-translate.js')
 PageHeader = require('../ui-components/PageHeader.js')
 PageContent = require('./PageContent.cjsx')
@@ -9,7 +9,7 @@ libUrl = require('url')
 f = require('lodash')
 parseUrl = require('url').parse
 parseQuery = require('qs').parse
-setUrlParams = require('../../lib/set-params-for-url.coffee')
+setUrlParams = require('../../lib/set-params-for-url.js')
 
 
 link = (c, h) ->

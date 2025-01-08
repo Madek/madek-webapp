@@ -5,7 +5,7 @@ classnames = require('classnames')
 t = require('../../../lib/i18n-translate.js')
 MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
 TabContent = require('../TabContent.cjsx')
-LoadXhr = require('../../../lib/load-xhr.coffee')
+LoadXhr = require('../../../lib/load-xhr.js')
 libUrl = require('url')
 
 module.exports = React.createClass

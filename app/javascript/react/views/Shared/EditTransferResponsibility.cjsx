@@ -4,10 +4,10 @@ f = require('active-lodash')
 t = require('../../../lib/i18n-translate.js')
 classnames = require('classnames')
 xhr = require('xhr')
-getRailsCSRFToken = require('../../../lib/rails-csrf-token.coffee')
-setUrlParams = require('../../../lib/set-params-for-url.coffee')
+getRailsCSRFToken = require('../../../lib/rails-csrf-token.js')
+setUrlParams = require('../../../lib/set-params-for-url.js')
 RailsForm = require('../../lib/forms/rails-form.cjsx')
-railsFormPut = require('../../../lib/form-put-with-errors.coffee')
+railsFormPut = require('../../../lib/form-put-with-errors.js')
 AutoComplete = require('../../lib/autocomplete-wrapper.cjsx')
 interpolateSplit = require('../../../lib/interpolate-split.js').default
 

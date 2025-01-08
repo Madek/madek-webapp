@@ -2,8 +2,8 @@
 
 React = require('react')
 f = require('active-lodash')
-ui = require('../lib/ui.coffee')
-UiPropTypes = require('./propTypes.coffee')
+ui = require('../lib/ui.js')
+UiPropTypes = require('./propTypes.js')
 Button = require('./Button.cjsx')
 
 module.exports = React.createClass

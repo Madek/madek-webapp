@@ -1,7 +1,7 @@
 React = require('react')
 f = require('active-lodash')
 classList = require('classnames/dedupe')
-parseMods = require('../lib/ui.coffee').parseMods
+parseMods = require('../lib/ui.js').parseMods
 
 module.exports = React.createClass
   displayName: 'ResourceShowOverview'

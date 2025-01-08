@@ -1,10 +1,10 @@
 React = require('react')
 f = require('active-lodash')
 t = require('../../lib/i18n-translate.js')
-appRequest = require('../../lib/app-request.coffee')
+appRequest = require('../../lib/app-request.js')
 
-UI = require('../ui-components/index.coffee')
-MadekPropTypes = require('../lib/madek-prop-types.coffee')
+UI = require('../ui-components/index.js')
+MadekPropTypes = require('../lib/madek-prop-types.js')
 MetaDataList = require('../decorators/MetaDataList.cjsx')
 MediaEntryPreview = require('../decorators/MediaEntryPreview.jsx')
 MetaDataByListing = require('../decorators/MetaDataByListing.cjsx')

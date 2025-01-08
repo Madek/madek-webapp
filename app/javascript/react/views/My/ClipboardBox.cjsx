@@ -1,5 +1,5 @@
 React = require('react')
-ui = require('../../lib/ui.coffee')
+ui = require('../../lib/ui.js')
 t = ui.t
 libUrl = require('url')
 

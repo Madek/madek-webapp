@@ -2,7 +2,7 @@
 
 React = require('react')
 f = require('active-lodash')
-ui = require('../lib/ui.coffee')
+ui = require('../lib/ui.js')
 
 # The following icons come from 'fontawesome' (all others from 'madek-icon-font'):
 FONT_AWESOME_ICONS = [

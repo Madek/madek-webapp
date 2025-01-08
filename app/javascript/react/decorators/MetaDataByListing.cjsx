@@ -2,9 +2,9 @@
 React = require('react')
 f = require('active-lodash')
 t = require('../../lib/i18n-translate.js')
-MadekPropTypes = require('../lib/madek-prop-types.coffee')
+MadekPropTypes = require('../lib/madek-prop-types.js')
 MetaDataList = require('./MetaDataList.cjsx')
-listingHelper = require('../../lib/metadata-listing-helper.coffee')
+listingHelper = require('../../lib/metadata-listing-helper.js')
 
 
 module.exports = React.createClass

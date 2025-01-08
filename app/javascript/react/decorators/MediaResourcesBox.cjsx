@@ -3,47 +3,47 @@ f = require('active-lodash')
 defaultsDeep = require('lodash/defaultsDeep')
 fromPairs = require('lodash/fromPairs')
 ampersandReactMixin = require('ampersand-react-mixin')
-ui = require('../lib/ui.coffee')
+ui = require('../lib/ui.js')
 {parseMods, cx} = ui
 t = ui.t
-setUrlParams = require('../../lib/set-params-for-url.coffee')
+setUrlParams = require('../../lib/set-params-for-url.js')
 parseUrl = require('url').parse
 stringifyUrl = require('url').format
 parseQuery = require('qs').parse
-Selection = require('../../lib/selection.coffee')
-resourceListParams = require('../../shared/resource_list_params.coffee')
-appRequest = require('../../lib/app-request.coffee')
+Selection = require('../../lib/selection.js')
+resourceListParams = require('../../shared/resource_list_params.js')
+appRequest = require('../../lib/app-request.js')
 
 Waypoint = require('react-waypoint')
 RailsForm = require('../lib/forms/rails-form.cjsx')
 { Button, ButtonGroup, Icon, Link, Preloader, Dropdown, ActionsBar
-} = require('../ui-components/index.coffee')
+} = require('../ui-components/index.js')
 MenuItem = Dropdown.MenuItem
 SideFilter = require('../ui-components/ResourcesBox/SideFilter.cjsx')
 BoxToolBar = require('../ui-components/ResourcesBox/BoxToolBar.cjsx')
 
 # models
-MediaEntries = require('../../models/media-entries.coffee')
-Collections = require('../../models/collections.coffee')
-CollectionChildren = require('../../models/collection-children.coffee')
+MediaEntries = require('../../models/media-entries.js')
+Collections = require('../../models/collections.js')
+CollectionChildren = require('../../models/collection-children.js')
 
 # interactive stuff, should be moved to controller
 xhr = require('xhr')
-getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
+getRailsCSRFToken = require('../../lib/rails-csrf-token.js')
 BatchAddToSetModal = require('./BatchAddToSetModal.cjsx')
 BatchRemoveFromSetModal = require('./BatchRemoveFromSetModal.cjsx')
 
-simpleXhr = require('../../lib/simple-xhr.coffee')
+simpleXhr = require('../../lib/simple-xhr.js')
 
-LoadXhr = require('../../lib/load-xhr.coffee')
+LoadXhr = require('../../lib/load-xhr.js')
 Preloader = require('../ui-components/Preloader.cjsx')
 
 ActionsDropdown = require('./resourcesbox/ActionsDropdown.cjsx')
 Clipboard = require('./resourcesbox/Clipboard.cjsx')
 
-railsFormPut = require('../../lib/form-put-with-errors.coffee')
+railsFormPut = require('../../lib/form-put-with-errors.js')
 
-setsFallbackUrl = require('../../lib/sets-fallback-url.coffee')
+setsFallbackUrl = require('../../lib/sets-fallback-url.js')
 libUrl = require('url')
 qs = require('qs')
 

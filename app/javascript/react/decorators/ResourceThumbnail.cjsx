@@ -5,7 +5,7 @@ cx = require('classnames')
 ampersandReactMixin = require('ampersand-react-mixin')
 t = require('../../lib/i18n-translate.js')
 { Link, Icon, Thumbnail, Button, Preloader, AskModal
-} = require('../ui-components/index.coffee')
+} = require('../ui-components/index.js')
 ResourceThumbnailRenderer = require('./ResourceThumbnailRenderer.cjsx')
 PinThumbnail = require('./PinThumbnail.cjsx')
 ListThumbnail = require('./ListThumbnail.cjsx')

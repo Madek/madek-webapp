@@ -1,6 +1,6 @@
 React = require('react')
 f = require('active-lodash')
-MadekPropTypes = require('../madek-prop-types.coffee')
+MadekPropTypes = require('../madek-prop-types.js')
 InputResources = require('./input-resources.cjsx')
 
 module.exports = React.createClass

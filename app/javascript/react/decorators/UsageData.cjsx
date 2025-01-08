@@ -6,7 +6,7 @@ t = require('../../lib/i18n-translate.js')
 
 TagCloud = require('../ui-components/TagCloud.cjsx')
 Icon = require('../ui-components/Icon.cjsx')
-resourceName = require('../lib/decorate-resource-names.coffee')
+resourceName = require('../lib/decorate-resource-names.js')
 
 
 

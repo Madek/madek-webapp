@@ -10,7 +10,7 @@
 React = require('react')
 PropTypes = React.PropTypes
 f = require('active-lodash')
-ui = require('../lib/ui.coffee')
+ui = require('../lib/ui.js')
 
 Icon = require('./Icon.cjsx')
 Link = require('./Link.cjsx')

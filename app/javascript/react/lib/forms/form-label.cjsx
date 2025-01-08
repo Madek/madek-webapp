@@ -1,6 +1,6 @@
 React = require('react')
 t = require('../../../lib/i18n-translate.js')
-MadekPropTypes = require('../madek-prop-types.coffee')
+MadekPropTypes = require('../madek-prop-types.js')
 Icon = require('../../ui-components/Icon.cjsx')
 Link = require('../../ui-components/Link.cjsx')
 Tooltipped = require('../../ui-components/Tooltipped.cjsx')

@@ -1,6 +1,6 @@
 React = require('react')
 f = require('active-lodash')
-ui = require('../lib/ui.coffee')
+ui = require('../lib/ui.js')
 t = require('../../lib/i18n-translate.js')
 
 module.exports = React.createClass

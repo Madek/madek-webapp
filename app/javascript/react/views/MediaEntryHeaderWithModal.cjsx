@@ -20,7 +20,7 @@ HighlightedContents = require('./Collection/HighlightedContents.cjsx')
 MediaEntryHeader = require('./MediaEntryHeader.cjsx')
 MetaDataByListing = require('../decorators/MetaDataByListing.cjsx')
 TagCloud = require('../ui-components/TagCloud.cjsx')
-resourceName = require('../lib/decorate-resource-names.coffee')
+resourceName = require('../lib/decorate-resource-names.js')
 UsageData = require('../decorators/UsageData.cjsx')
 Share = require('./Shared/Share.cjsx')
 

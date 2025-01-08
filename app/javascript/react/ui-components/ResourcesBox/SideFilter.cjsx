@@ -5,8 +5,8 @@ React = require('react')
 f = require('active-lodash')
 t = require('../../../lib/i18n-translate.js')
 css = require('classnames')
-ui = require('../../lib/ui.coffee')
-MadekPropTypes = require('../../lib/madek-prop-types.coffee')
+ui = require('../../lib/ui.js')
+MadekPropTypes = require('../../lib/madek-prop-types.js')
 
 Icon = require('../Icon.cjsx')
 Link = require('../Link.cjsx')
@@ -16,9 +16,9 @@ PersonFilter = require('./PersonFilter.js').default
 Preloader = require('../Preloader.cjsx')
 
 parseQuery = require('qs').parse
-setUrlParams = require('../../../lib/set-params-for-url.coffee')
+setUrlParams = require('../../../lib/set-params-for-url.js')
 
-loadXhr = require('../../../lib/load-xhr.coffee')
+loadXhr = require('../../../lib/load-xhr.js')
 
 module.exports = React.createClass
   displayName: 'SideFilter'

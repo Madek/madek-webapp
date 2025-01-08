@@ -4,11 +4,11 @@
 
 React = require('react')
 f = require('active-lodash')
-ui = require('../../lib/ui.coffee')
+ui = require('../../lib/ui.js')
 t = ui.t
 
-BatchMediaEntryPermissions = require('../../../models/batch/batch-media-entry-permissions.coffee')
-BatchCollectionPermissions = require('../../../models/batch/batch-collection-permissions.coffee')
+BatchMediaEntryPermissions = require('../../../models/batch/batch-media-entry-permissions.js')
+BatchCollectionPermissions = require('../../../models/batch/batch-collection-permissions.js')
 
 ResourcePermissionsForm = require('../../decorators/ResourcePermissionsForm.cjsx')
 Preloader = require('../../ui-components/Preloader.cjsx')

@@ -5,12 +5,12 @@ PageContent = require('../views/PageContent.cjsx')
 TabContent = require('../views/TabContent.cjsx')
 Tabs = require('../views/Tabs.cjsx')
 Tab = require('../views/Tab.cjsx')
-batchDiff = require('../../lib/batch-diff.coffee')
+batchDiff = require('../../lib/batch-diff.js')
 BatchHintBox = require('./BatchHintBox.cjsx')
 
 BatchRemoveFromSet = require('./BatchRemoveFromSet.cjsx')
 AsyncModal = require('../views/Collection/AsyncModal.cjsx')
-setUrlParams = require('../../lib/set-params-for-url.coffee')
+setUrlParams = require('../../lib/set-params-for-url.js')
 
 
 module.exports = React.createClass

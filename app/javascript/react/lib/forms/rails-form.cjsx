@@ -3,7 +3,7 @@
 React = require('react')
 ReactDOM = require('react-dom')
 f = require('active-lodash')
-ui = require('../../lib/ui.coffee')
+ui = require('../../lib/ui.js')
 $ = require('jquery')
 parseUrl = require('url').parse
 

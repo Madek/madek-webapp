@@ -3,11 +3,11 @@
 React = require('react')
 f = require('active-lodash')
 linkifyStr = require('linkifyjs/string')
-MadekPropTypes = require('../lib/madek-prop-types.coffee')
-resourceName = require('../lib/decorate-resource-names.coffee')
-linkifyInnerHtml = require('../lib/linkify-inner-html.coffee')
+MadekPropTypes = require('../lib/madek-prop-types.js')
+resourceName = require('../lib/decorate-resource-names.js')
+linkifyInnerHtml = require('../lib/linkify-inner-html.js')
 t = require('../../lib/i18n-translate.js')
-UI = require('../ui-components/index.coffee')
+UI = require('../ui-components/index.js')
 MetaDatumRolesCloud = require('./MetaDatumRolesCloud.js').default
 MetaDatumText = require('./MetaDatumText.js').default
 labelize = UI.labelize

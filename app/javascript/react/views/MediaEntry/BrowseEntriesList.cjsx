@@ -3,8 +3,8 @@ f = require('active-lodash')
 classList = require('classnames')
 
 t = require('../../../lib/i18n-translate.js')
-setUrlParams = require('../../../lib/set-params-for-url.coffee')
-UI = require('../../ui-components/index.coffee')
+setUrlParams = require('../../../lib/set-params-for-url.js')
+UI = require('../../ui-components/index.js')
 MediaResourcesLine = require('./MediaResourcesLine.jsx').default
 
 module.exports = React.createClass

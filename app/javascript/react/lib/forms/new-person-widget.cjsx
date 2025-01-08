@@ -1,13 +1,13 @@
 React = require('react')
 f = require('active-lodash')
-ui = require('../../lib/ui.coffee')
+ui = require('../../lib/ui.js')
 t = ui.t
 Tabs = require('react-bootstrap/lib/Tabs')
 Tab = require('react-bootstrap/lib/Tab')
 Nav = require('react-bootstrap/lib/Nav')
 NavItem = require('react-bootstrap/lib/NavItem')
-MadekPropTypes = require('../../lib/madek-prop-types.coffee')
-{Icon, Tooltipped} = require('../../ui-components/index.coffee')
+MadekPropTypes = require('../../lib/madek-prop-types.js')
+{Icon, Tooltipped} = require('../../ui-components/index.js')
 AutoComplete = null # only required client-side!
 
 

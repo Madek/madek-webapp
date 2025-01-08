@@ -1,7 +1,7 @@
 React = require('react')
 f = require('active-lodash')
 c = require('classnames')
-parseMods = require('../../lib/ui.coffee').parseMods
+parseMods = require('../../lib/ui.js').parseMods
 t = require('../../../lib/i18n-translate.js')
 Icon = require('../../ui-components/Icon.cjsx')
 

@@ -1,9 +1,9 @@
 React = require('react')
 f = require('active-lodash')
-ui = require('../../lib/ui.coffee')
+ui = require('../../lib/ui.js')
 t = ui.t
-SelectionScope = require('../../../lib/selection-scope.coffee')
-{ Icon, Dropdown } = require('../../ui-components/index.coffee')
+SelectionScope = require('../../../lib/selection-scope.js')
+{ Icon, Dropdown } = require('../../ui-components/index.js')
 MenuItem = Dropdown.MenuItem
 ActionsDropdownHelper = require('./ActionsDropdownHelper.cjsx')
 

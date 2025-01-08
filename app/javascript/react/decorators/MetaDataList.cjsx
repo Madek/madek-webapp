@@ -3,15 +3,15 @@
 React = require('react')
 f = require('active-lodash')
 classList = require('classnames/dedupe')
-parseMods = require('../lib/ui.coffee').parseMods
+parseMods = require('../lib/ui.js').parseMods
 t = require('../../lib/i18n-translate.js')
 
-MadekPropTypes = require('../lib/madek-prop-types.coffee')
+MadekPropTypes = require('../lib/madek-prop-types.js')
 
 Icon = require('../ui-components/Icon.cjsx')
 
 VocabTitleLink = require('../ui-components/VocabTitleLink.cjsx')
-listingHelper = require('../../lib/metadata-listing-helper.coffee')
+listingHelper = require('../../lib/metadata-listing-helper.js')
 
 MetaDataTable = require('./MetaDataTable.cjsx')
 MetaDataDefinitionList = require('./MetaDataDefinitionList.cjsx')

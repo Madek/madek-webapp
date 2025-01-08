@@ -3,7 +3,7 @@ ReactDOM = require('react-dom')
 cx = require('classnames')
 f = require('lodash')
 Icon = require('../ui-components/Icon.cjsx')
-t = require('../lib/ui.coffee').t
+t = require('../lib/ui.js').t
 
 MediaEntryHeaderWithModal = require('./MediaEntryHeaderWithModal.cjsx')
 MediaEntryTabs = require('./MediaEntryTabs.cjsx')

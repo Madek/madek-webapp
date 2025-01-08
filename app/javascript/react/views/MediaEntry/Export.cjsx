@@ -5,7 +5,7 @@ f = require('active-lodash')
 parseUrl = require('url').parse
 t = require('../../../lib/i18n-translate.js')
 Modal = require('../../ui-components/Modal.cjsx')
-setUrlParams = require('../../../lib/set-params-for-url.coffee')
+setUrlParams = require('../../../lib/set-params-for-url.js')
 
 module.exports = React.createClass
   displayName: 'MediaEntryExport'

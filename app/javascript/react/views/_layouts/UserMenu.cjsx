@@ -2,7 +2,7 @@
 
 React = require('react')
 f = require('active-lodash')
-ui = require('../../lib/ui.coffee')
+ui = require('../../lib/ui.js')
 t = ui.t
 Icon = require('../../ui-components/Icon.cjsx')
 Dropdown = require('../../ui-components/Dropdown.cjsx')

@@ -5,19 +5,19 @@ PageContent = require('../views/PageContent.cjsx')
 TabContent = require('../views/TabContent.cjsx')
 Tabs = require('../views/Tabs.cjsx')
 Tab = require('../views/Tab.cjsx')
-batchDiff = require('../../lib/batch-diff.coffee')
+batchDiff = require('../../lib/batch-diff.js')
 BatchHintBox = require('./BatchHintBox.cjsx')
 SelectCollectionDialog = require('../views/Collection/SelectCollectionDialog.cjsx')
 
 Button = require('../ui-components/Button.cjsx')
 Icon = require('../ui-components/Icon.cjsx')
 RailsForm = require('../lib/forms/rails-form.cjsx')
-formXhr = require('../../lib/form-xhr.coffee')
-setUrlParams = require('../../lib/set-params-for-url.coffee')
+formXhr = require('../../lib/form-xhr.js')
+setUrlParams = require('../../lib/set-params-for-url.js')
 Preloader = require('../ui-components/Preloader.cjsx')
 
 qs = require('qs')
-getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
+getRailsCSRFToken = require('../../lib/rails-csrf-token.js')
 xhr = require('xhr')
 
 module.exports = React.createClass

@@ -1,7 +1,7 @@
 React = require('react')
 f = require('active-lodash')
 t = require('../../lib/i18n-translate.js')
-setUrlParams = require('../../lib/set-params-for-url.coffee')
+setUrlParams = require('../../lib/set-params-for-url.js')
 parseUrl = require('url').parse
 formatUrl = require('url').format
 
@@ -12,14 +12,14 @@ PageContent = require('../views/PageContent.cjsx')
 PageContentHeader = require('../views/PageContentHeader.cjsx')
 TabContent = require('../views/TabContent.cjsx')
 
-batchDiff = require('../../lib/batch-diff.coffee')
+batchDiff = require('../../lib/batch-diff.js')
 
 xhr = require('xhr')
 cx = require('classnames')
 RailsForm = require('../lib/forms/rails-form.cjsx')
-getRailsCSRFToken = require('../../lib/rails-csrf-token.coffee')
+getRailsCSRFToken = require('../../lib/rails-csrf-token.js')
 
-validation = require('../../lib/metadata-edit-validation.coffee')
+validation = require('../../lib/metadata-edit-validation.js')
 Renderer = require('./metadataedit/MetadataEditRenderer.cjsx')
 
 module.exports = React.createClass
