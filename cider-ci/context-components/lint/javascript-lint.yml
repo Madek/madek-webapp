@@ -7,7 +7,7 @@
 
   tasks:
     lint-coffee-and-javascript:
-      name: 'JS: Lint/Stylecheck with `standard` and Coffeelint'
+      name: 'JS: Lint/Stylecheck with `standard`'
       scripts:
         test:
           body: |

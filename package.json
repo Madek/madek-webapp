@@ -17,12 +17,11 @@
     "build:server:dev": "NODE_ENV=development browserify app/javascript/react-server-side.js -v -o public/assets/bundles/bundle-react-server-side.js",
     "build:integration": "NODE_ENV=production browserify app/javascript/integration-testbed.js -v -o public/assets/bundles/bundle-integration-testbed.js",
     "test": "npm run -s lint",
-    "lint": "bash -c 'npm run -s coffeelint -- --quiet app/javascript/**/*.coffee app/javascript/react/**/*.cjsx && npm run -s standardlint -- {.,**}/*.js'",
+    "lint": "npm run -s standardlint -- {.,**}/*.js",
     "format": "prettier-standard 'app/javascript/**/*.js'",
-    "devtools": "NODE_ENV=development npm run -s build-devtools && coffee --nodejs \"-r ./tmp/devtools.js\"",
+    "devtools": "NODE_ENV=development npm run -s build-devtools",
     "devtools-js": "NODE_ENV=development npm run -s build-devtools && node -r ./tmp/devtools.js",
     "build-devtools": "NODE_ENV=production npm run -s browserify -- app/javascript/developer-tools.js > tmp/devtools.js",
-    "coffeelint": "coffeelint",
     "standardlint": "standard",
     "browserify": "browserify"
   },
@@ -79,11 +78,6 @@
     "browserify-incremental": "^3.1.1",
     "bulkify": "^1.4.2",
     "cheerio": "^0.22.0",
-    "coffee-react": "^5.0.1",
-    "coffee-react-transform": "^5.0.0",
-    "coffee-reactify": "^5.1.0",
-    "coffee-script": "^1.12.3",
-    "coffeelint": "^1.16.0",
     "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.7.0",
     "eslint-plugin-prettier": "^2.3.1",
@@ -98,7 +92,6 @@
   "browserify": {
     "transform": [
       "babelify",
-      "coffee-reactify",
       "bulkify",
       "brfs"
     ],
