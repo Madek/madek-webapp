@@ -44,11 +44,11 @@ module.exports = React.createClass
       (err, res, body) => (
         if err || res.statusCode > 400
           return callback({result: 'error'})
-
-        callback({
-          result: 'success',
-          data: f.get(body, jsonPath)
-        })
+        else
+          callback({
+            result: 'success',
+            data: f.get(body, jsonPath)
+          })
     ))
 
   _fetchForAddAll: () ->
@@ -96,35 +96,33 @@ module.exports = React.createClass
 
     if @state.step != 'adding-all'
       return
-
-
-
-    chunks = @state.chunks
-
-    chunk = f.first(f.filter(chunks, {state: 'pending'}))
-
-    if chunk
-      chunk.state = 'loading'
-      @setState(chunks: chunks)
-
-      url = setUrlParams('/batch_add_to_clipboard', {})
-      railsFormPut.byData({resource_id: chunk.ids}, url, (result) =>
-        chunk.state = 'loaded'
-        @setState(chunks: chunks)
-        if result.result == 'error'
-          window.scrollTo(0, 0)
-          @setState(step: 'adding-all-error', error: result.message)
-        else
-          @_processChunks()
-      )
-
-
     else
-      @setState(step: @state.step)
-      setTimeout(
-        () -> location.reload(),
-        100
-      )
+      chunks = @state.chunks
+
+      chunk = f.first(f.filter(chunks, {state: 'pending'}))
+
+      if chunk
+        chunk.state = 'loading'
+        @setState(chunks: chunks)
+
+        url = setUrlParams('/batch_add_to_clipboard', {})
+        railsFormPut.byData({resource_id: chunk.ids}, url, (result) =>
+          chunk.state = 'loaded'
+          @setState(chunks: chunks)
+          if result.result == 'error'
+            window.scrollTo(0, 0)
+            @setState(step: 'adding-all-error', error: result.message)
+          else
+            @_processChunks()
+        )
+
+
+      else
+        @setState(step: @state.step)
+        setTimeout(
+          () -> location.reload(),
+          100
+        )
 
 
 

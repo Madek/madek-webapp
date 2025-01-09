@@ -63,83 +63,86 @@ module.exports = React.createClass
 
   render: ({id, allowedTypes} = @props)->
     supportsAnyAllowedType = f.any(allowedTypes, (t) -> f.includes(SUPPORTED_PEOPLE_SUBTYPES, t))
-    if (!supportsAnyAllowedType) then return false
+    if (!supportsAnyAllowedType)
+      return false
+    else
+      paneClass = 'ui-container pam bordered rounded-right rounded-bottom'
+      <div onKeyPress={@_onKeyPress}>
+        <a className='button small form-widget-toggle'
+          onClick={@_toggleOpen}>
+          <Icon i='privacy-private' mods='small'/>
+          {# only show the text when widget is closed:}
+          {' ' + t('meta_data_input_new_person_toggle') unless @state.isOpen}
+        </a>
+        {if @state.isOpen
+          <Tab.Container id={id} className='form-widget'
+            defaultActiveKey='Person' onSelect={@_onTabChange}
+            >
+            <div>
+              <Nav className='ui-tabs ui-container' >
+                <NavItem eventKey='Person' className='ui-tabs-item mll pls'>
+                  Person
+                </NavItem>
+                <NavItem eventKey='PeopleGroup' className='ui-tabs-item'>
+                  Group
+                </NavItem>
+              </Nav>
 
-    paneClass = 'ui-container pam bordered rounded-right rounded-bottom'
-    <div onKeyPress={@_onKeyPress}>
-      <a className='button small form-widget-toggle'
-        onClick={@_toggleOpen}>
-        <Icon i='privacy-private' mods='small'/>
-        {# only show the text when widget is closed:}
-        {' ' + t('meta_data_input_new_person_toggle') unless @state.isOpen}
-      </a>
-      {if @state.isOpen
-        <Tab.Container id={id} className='form-widget'
-          defaultActiveKey='Person' onSelect={@_onTabChange}
-          >
-          <div>
-            <Nav className='ui-tabs ui-container' >
-              <NavItem eventKey='Person' className='ui-tabs-item mll pls'>
-                Person
-              </NavItem>
-              <NavItem eventKey='PeopleGroup' className='ui-tabs-item'>
-                Group
-              </NavItem>
-            </Nav>
+              <Tab.Content animation={false} className='ui-tab-content mbs'>
 
-            <Tab.Content animation={false} className='ui-tab-content mbs'>
+                {allowedTypes.map((type) => (
+                  if (type == 'Person')
+                    return (
+                      <Tab.Pane eventKey={type} className={paneClass} key={type}>
+                        <div className='ui-form-group rowed pbx ptx'>
+                          <label className='form-label'>{t('meta_data_input_new_person_first_name')}</label>
+                          <div className='form-item'>
+                            {@_inputField('first_name')}
+                          </div>
+                        </div>
 
-              {allowedTypes.map((type) => (
-                if (type == 'Person') then return (
-                  <Tab.Pane eventKey={type} className={paneClass} key={type}>
-                    <div className='ui-form-group rowed pbx ptx'>
-                      <label className='form-label'>{t('meta_data_input_new_person_first_name')}</label>
-                      <div className='form-item'>
-                        {@_inputField('first_name')}
-                      </div>
-                    </div>
+                        <div className='ui-form-group rowed pbx ptx'>
+                          <label className='form-label'>{t('meta_data_input_new_person_last_name')}</label>
+                          <div className='form-item'>
+                            {@_inputField('last_name')}
+                          </div>
+                        </div>
 
-                    <div className='ui-form-group rowed pbx ptx'>
-                      <label className='form-label'>{t('meta_data_input_new_person_last_name')}</label>
-                      <div className='form-item'>
-                        {@_inputField('last_name')}
-                      </div>
-                    </div>
+                        <div className='ui-form-group rowed pbx ptx'>
+                          <label className='form-label'>{t('meta_data_input_new_person_pseudonym')}</label>
+                          <div className='form-item'>
+                            {@_inputField('pseudonym')}
+                          </div>
+                        </div>
 
-                    <div className='ui-form-group rowed pbx ptx'>
-                      <label className='form-label'>{t('meta_data_input_new_person_pseudonym')}</label>
-                      <div className='form-item'>
-                        {@_inputField('pseudonym')}
-                      </div>
-                    </div>
+                        <div className='ui-form-group rowed ptm limited-width-s'>
+                          <button className='add-person button block' onClick={@_onSubmit}>
+                            {t('meta_data_input_new_person_add')}
+                          </button>
+                        </div>
+                      </Tab.Pane>)
 
-                    <div className='ui-form-group rowed ptm limited-width-s'>
-                      <button className='add-person button block' onClick={@_onSubmit}>
-                        {t('meta_data_input_new_person_add')}
-                      </button>
-                    </div>
-                  </Tab.Pane>)
+                  else if type == 'PeopleGroup'
+                    return (
+                      <Tab.Pane eventKey={type} className={paneClass} key={type}>
+                        <div className='ui-form-group rowed pbx ptx'>
+                          <label className='form-label'>{t('meta_data_input_new_group_name')}</label>
+                          <div className='form-item'>
+                            {@_inputField('first_name')}
+                          </div>
+                        </div>
 
-                if type == 'PeopleGroup' then return (
-                  <Tab.Pane eventKey={type} className={paneClass} key={type}>
-                    <div className='ui-form-group rowed pbx ptx'>
-                      <label className='form-label'>{t('meta_data_input_new_group_name')}</label>
-                      <div className='form-item'>
-                        {@_inputField('first_name')}
-                      </div>
-                    </div>
+                        <div className='ui-form-group rowed ptm limited-width-s'>
+                          <button className='add-group button block' onClick={@_onSubmit}>
+                            {t('meta_data_input_new_group_add')}
+                          </button>
+                        </div>
+                      </Tab.Pane>)
+                ))}
 
-                    <div className='ui-form-group rowed ptm limited-width-s'>
-                      <button className='add-group button block' onClick={@_onSubmit}>
-                        {t('meta_data_input_new_group_add')}
-                      </button>
-                    </div>
-                  </Tab.Pane>)
-              ))}
+              </Tab.Content>
 
-            </Tab.Content>
+            </div>
+          </Tab.Container>}
 
-          </div>
-        </Tab.Container>}
-
-    </div>
+      </div>
