@@ -3,9 +3,9 @@ import chunk from 'lodash/chunk'
 import last from 'lodash/last'
 
 import PageHeader from '../../ui-components/PageHeader'
-import PageContent from '../PageContent.cjsx'
+import PageContent from '../PageContent.jsx'
 
-import VocabTitleLink from '../../ui-components/VocabTitleLink.cjsx'
+import VocabTitleLink from '../../ui-components/VocabTitleLink.jsx'
 
 const COLS = 3
 

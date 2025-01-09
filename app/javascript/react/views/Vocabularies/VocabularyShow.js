@@ -5,11 +5,11 @@ import isEmpty from 'lodash/isEmpty'
 import t from '../../../lib/i18n-translate'
 
 import MadekPropTypes from '../../lib/madek-prop-types.js'
-import Icon from '../../ui-components/Icon.cjsx'
+import Icon from '../../ui-components/Icon.jsx'
 
-import VocabularyPage from './VocabularyPage.cjsx'
+import VocabularyPage from './VocabularyPage.jsx'
 
-import VocabTitleLink from '../../ui-components/VocabTitleLink.cjsx'
+import VocabTitleLink from '../../ui-components/VocabTitleLink.jsx'
 
 const MIN_COLS = 2 // for MetaKeys list
 const MAX_COLS = 3

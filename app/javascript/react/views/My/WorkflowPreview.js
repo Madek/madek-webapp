@@ -4,10 +4,10 @@ import f from 'active-lodash'
 import t from '../../../lib/i18n-translate'
 import cx from 'classnames'
 
-import Renderer from '../../decorators/metadataedit/MetadataEditRenderer.cjsx'
+import Renderer from '../../decorators/metadataedit/MetadataEditRenderer.jsx'
 import WorkflowCommonPermissions from '../../decorators/WorkflowCommonPermissions'
 import SubSection from '../../ui-components/SubSection'
-import RailsForm from '../../lib/forms/rails-form.cjsx'
+import RailsForm from '../../lib/forms/rails-form.jsx'
 import validation from '../../../lib/metadata-edit-validation.js'
 
 class WorkflowPreview extends React.Component {

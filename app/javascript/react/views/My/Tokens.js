@@ -6,7 +6,7 @@ import currentLocale from '../../../lib/current-locale'
 const t = ui.t
 
 const UI = require('../../ui-components/index.js')
-const RailsForm = require('../../lib/forms/rails-form.cjsx')
+const RailsForm = require('../../lib/forms/rails-form.jsx')
 
 // config
 const SECTIONS = [{ key: 'api_tokens', name: 'API Tokens' }]

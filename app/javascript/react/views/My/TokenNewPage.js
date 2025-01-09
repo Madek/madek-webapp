@@ -2,7 +2,7 @@ import React from 'react'
 import f from 'lodash'
 import ui from '../../lib/ui.js'
 import UI from '../../ui-components/index.js'
-import RailsForm from '../../lib/forms/rails-form.cjsx'
+import RailsForm from '../../lib/forms/rails-form.jsx'
 const t = ui.t
 
 class TokenNewPage extends React.Component {

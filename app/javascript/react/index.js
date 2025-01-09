@@ -19,7 +19,7 @@ module.exports = {
 
   // App/Layout things that are only temporarly used from HAML:
   App: {
-    UserMenu: require('../react/views/_layouts/UserMenu.cjsx'),
+    UserMenu: require('../react/views/_layouts/UserMenu.jsx'),
     LoginMenu: require('../react/views/_layouts/LoginMenu.js').default,
     TestLoginForm: require('../react/views/_layouts/TestLoginForm.js').default
   }

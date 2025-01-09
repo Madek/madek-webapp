@@ -6,7 +6,7 @@
 const requireBulk = require('bulk-require');
 const resourceName = require('../lib/decorate-resource-names.js');
 
-const UILibrary = requireBulk(__dirname, [ '*.cjsx' ]);
+const UILibrary = requireBulk(__dirname, [ '*.jsx' ]);
 UILibrary.propTypes = require('./propTypes.js');
 
 // helpers

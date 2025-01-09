@@ -1,6 +1,6 @@
 import React from 'react'
-import Link from '../../ui-components/Link.cjsx'
-import ResourceThumbnail from '../../decorators/ResourceThumbnail.cjsx'
+import Link from '../../ui-components/Link.jsx'
+import ResourceThumbnail from '../../decorators/ResourceThumbnail.jsx'
 import f from 'lodash'
 // import setUrlParams from '../../../lib/set-params-for-url.js'
 // import AppRequest from '../../../lib/app-request.js'

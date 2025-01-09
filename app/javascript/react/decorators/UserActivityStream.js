@@ -8,7 +8,7 @@ import isEmpty from 'lodash/isEmpty'
 // import app from 'ampersand-app'
 import currentLocale from '../../lib/current-locale.js'
 
-import HeaderPrimaryButton from '../views/HeaderPrimaryButton.cjsx'
+import HeaderPrimaryButton from '../views/HeaderPrimaryButton.jsx'
 import { ActionsBar, Button } from '../ui-components/index.js'
 import {
   ResourceLink,
