@@ -12,11 +12,11 @@ const appRequest = require('../../lib/app-request.js')
 
 const UI = require('../ui-components/index.js')
 const MadekPropTypes = require('../lib/madek-prop-types.js')
-const MetaDataList = require('../decorators/MetaDataList.cjsx')
+const MetaDataList = require('../decorators/MetaDataList.jsx')
 const MediaEntryPreview = require('../decorators/MediaEntryPreview.jsx')
-const MetaDataByListing = require('../decorators/MetaDataByListing.cjsx')
-const ResourceShowOverview = require('../templates/ResourceShowOverview.cjsx')
-const BrowseEntriesList = require('./MediaEntry/BrowseEntriesList.cjsx')
+const MetaDataByListing = require('../decorators/MetaDataByListing.jsx')
+const ResourceShowOverview = require('../templates/ResourceShowOverview.jsx')
+const BrowseEntriesList = require('./MediaEntry/BrowseEntriesList.jsx')
 const MediaEntrySiblings = require('./MediaEntry/MediaEntrySiblings.jsx').default
 
 module.exports = React.createClass({

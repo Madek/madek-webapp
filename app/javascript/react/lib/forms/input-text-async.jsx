@@ -6,7 +6,7 @@
  */
 const React = require('react')
 const f = require('active-lodash')
-const InputFieldText = require('../forms/input-field-text.cjsx')
+const InputFieldText = require('../forms/input-field-text.jsx')
 
 module.exports = React.createClass({
   displayName: 'InputTextAsync',

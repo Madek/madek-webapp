@@ -8,8 +8,8 @@ const React = require('react')
 const f = require('active-lodash')
 const ui = require('../lib/ui.js')
 const t = require('../../lib/i18n-translate.js')
-const Picture = require('./Picture.cjsx')
-const Icon = require('./Icon.cjsx')
+const Picture = require('./Picture.jsx')
+const Icon = require('./Icon.jsx')
 const cx = require('classnames')
 
 module.exports = React.createClass({

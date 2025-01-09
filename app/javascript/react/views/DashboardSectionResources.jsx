@@ -12,13 +12,13 @@ const cx = require('classnames')
 const parseUrl = require('url').parse
 const buildUrl = require('url').format
 const qs = require('qs')
-const PageContent = require('./PageContent.cjsx')
-const DashboardHeader = require('./DashboardHeader.cjsx')
+const PageContent = require('./PageContent.jsx')
+const DashboardHeader = require('./DashboardHeader.jsx')
 const t = require('../../lib/i18n-translate.js')
-const AsyncDashboardSection = require('../lib/AsyncDashboardSection.cjsx')
-const Sidebar = require('./Sidebar.cjsx')
-const TagCloud = require('../ui-components/TagCloud.cjsx')
-const Preloader = require('../ui-components/Preloader.cjsx')
+const AsyncDashboardSection = require('../lib/AsyncDashboardSection.jsx')
+const Sidebar = require('./Sidebar.jsx')
+const TagCloud = require('../ui-components/TagCloud.jsx')
+const Preloader = require('../ui-components/Preloader.jsx')
 
 module.exports = React.createClass({
   displayName: 'DashboardSectionResources',

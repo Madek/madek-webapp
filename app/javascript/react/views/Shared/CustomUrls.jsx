@@ -11,9 +11,9 @@ const Moment = require('moment')
 const currentLocale = require('../../../lib/current-locale.js')
 
 const PageHeader = require('../../ui-components/PageHeader.js')
-const HeaderPrimaryButton = require('../HeaderPrimaryButton.cjsx')
-const Button = require('../../ui-components/Button.cjsx')
-const RailsForm = require('../../lib/forms/rails-form.cjsx')
+const HeaderPrimaryButton = require('../HeaderPrimaryButton.jsx')
+const Button = require('../../ui-components/Button.jsx')
+const RailsForm = require('../../lib/forms/rails-form.jsx')
 
 module.exports = React.createClass({
   displayName: 'Shared.CustomUrls',

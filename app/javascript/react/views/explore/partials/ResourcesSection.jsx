@@ -6,10 +6,10 @@
  */
 const React = require('react')
 const f = require('active-lodash')
-const Keyword = require('../../../ui-components/Keyword.cjsx')
-const CatalogResource = require('./CatalogResource.cjsx')
-const WorthThumbnail = require('./WorthThumbnail.cjsx')
-const ResourceThumbnail = require('../../../decorators/ResourceThumbnail.cjsx')
+const Keyword = require('../../../ui-components/Keyword.jsx')
+const CatalogResource = require('./CatalogResource.jsx')
+const WorthThumbnail = require('./WorthThumbnail.jsx')
+const ResourceThumbnail = require('../../../decorators/ResourceThumbnail.jsx')
 const t = require('../../../../lib/i18n-translate')
 
 module.exports = React.createClass({

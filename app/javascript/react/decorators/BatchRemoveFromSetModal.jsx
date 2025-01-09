@@ -7,15 +7,15 @@
 const React = require('react')
 const f = require('active-lodash')
 const t = require('../../lib/i18n-translate.js')
-const PageContent = require('../views/PageContent.cjsx')
-const TabContent = require('../views/TabContent.cjsx')
-const Tabs = require('../views/Tabs.cjsx')
-const Tab = require('../views/Tab.cjsx')
+const PageContent = require('../views/PageContent.jsx')
+const TabContent = require('../views/TabContent.jsx')
+const Tabs = require('../views/Tabs.jsx')
+const Tab = require('../views/Tab.jsx')
 const batchDiff = require('../../lib/batch-diff.js')
-const BatchHintBox = require('./BatchHintBox.cjsx')
+const BatchHintBox = require('./BatchHintBox.jsx')
 
-const BatchRemoveFromSet = require('./BatchRemoveFromSet.cjsx')
-const AsyncModal = require('../views/Collection/AsyncModal.cjsx')
+const BatchRemoveFromSet = require('./BatchRemoveFromSet.jsx')
+const AsyncModal = require('../views/Collection/AsyncModal.jsx')
 const setUrlParams = require('../../lib/set-params-for-url.js')
 
 module.exports = React.createClass({

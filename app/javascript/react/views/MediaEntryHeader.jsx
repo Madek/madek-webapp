@@ -7,16 +7,16 @@
  */
 const React = require('react')
 const ReactDOM = require('react-dom')
-const HeaderButton = require('./HeaderButton.cjsx')
-const PageContentHeader = require('./PageContentHeader.cjsx')
+const HeaderButton = require('./HeaderButton.jsx')
+const PageContentHeader = require('./PageContentHeader.jsx')
 const f = require('active-lodash')
-const SelectCollection = require('./Collection/SelectCollection.cjsx')
-const AsyncModal = require('./Collection/AsyncModal.cjsx')
-const Dropdown = require('../ui-components/Dropdown.cjsx')
+const SelectCollection = require('./Collection/SelectCollection.jsx')
+const AsyncModal = require('./Collection/AsyncModal.jsx')
+const Dropdown = require('../ui-components/Dropdown.jsx')
 const { Menu } = Dropdown
 const { MenuItem } = Dropdown
-const Icon = require('../ui-components/Icon.cjsx')
-const Link = require('../ui-components/Link.cjsx')
+const Icon = require('../ui-components/Icon.jsx')
+const Link = require('../ui-components/Link.jsx')
 const t = require('../../lib/i18n-translate.js')
 
 module.exports = React.createClass({

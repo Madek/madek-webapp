@@ -9,7 +9,7 @@ const ReactDOM = require('react-dom')
 const f = require('active-lodash')
 const classnames = require('classnames')
 const LoginMenu = require('../_layouts/LoginMenu.js').default
-const ResourcesSection = require('./partials/ResourcesSection.cjsx')
+const ResourcesSection = require('./partials/ResourcesSection.jsx')
 
 module.exports = React.createClass({
   displayName: 'ExploreLoginPage',

@@ -17,12 +17,12 @@ const { t } = ui
 const BatchMediaEntryPermissions = require('../../../models/batch/batch-media-entry-permissions.js')
 const BatchCollectionPermissions = require('../../../models/batch/batch-collection-permissions.js')
 
-const ResourcePermissionsForm = require('../../decorators/ResourcePermissionsForm.cjsx')
-const Preloader = require('../../ui-components/Preloader.cjsx')
-const ResourcesBatchBox = require('../../decorators/ResourcesBatchBox.cjsx')
-const TabContent = require('../../views/TabContent.cjsx')
-const PageContent = require('../../views/PageContent.cjsx')
-const PageContentHeader = require('../../views/PageContentHeader.cjsx')
+const ResourcePermissionsForm = require('../../decorators/ResourcePermissionsForm.jsx')
+const Preloader = require('../../ui-components/Preloader.jsx')
+const ResourcesBatchBox = require('../../decorators/ResourcesBatchBox.jsx')
+const TabContent = require('../../views/TabContent.jsx')
+const PageContent = require('../../views/PageContent.jsx')
+const PageContentHeader = require('../../views/PageContentHeader.jsx')
 
 const xhr = require('xhr')
 

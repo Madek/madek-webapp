@@ -6,10 +6,10 @@
  */
 const React = require('react')
 const ReactDOM = require('react-dom')
-const PageContent = require('../PageContent.cjsx')
-const TabContent = require('../TabContent.cjsx')
+const PageContent = require('../PageContent.jsx')
+const TabContent = require('../TabContent.jsx')
 const PageHeader = require('../../ui-components/PageHeader.js')
-const Modal = require('../../ui-components/Modal.cjsx')
+const Modal = require('../../ui-components/Modal.jsx')
 const t = require('../../../lib/i18n-translate.js')
 
 module.exports = React.createClass({

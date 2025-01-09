@@ -6,7 +6,7 @@
  */
 const React = require('react')
 
-const ResourcePermissions = require('../../templates/ResourcePermissions.cjsx')
+const ResourcePermissions = require('../../templates/ResourcePermissions.jsx')
 
 module.exports = React.createClass({
   displayName: 'MediaEntryPermissions',

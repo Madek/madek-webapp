@@ -13,9 +13,9 @@ const classnames = require('classnames')
 const xhr = require('xhr')
 const getRailsCSRFToken = require('../../../lib/rails-csrf-token.js')
 const setUrlParams = require('../../../lib/set-params-for-url.js')
-const RailsForm = require('../../lib/forms/rails-form.cjsx')
+const RailsForm = require('../../lib/forms/rails-form.jsx')
 const railsFormPut = require('../../../lib/form-put-with-errors.js')
-const AutoComplete = require('../../lib/autocomplete-wrapper.cjsx')
+const AutoComplete = require('../../lib/autocomplete-wrapper.jsx')
 const interpolateSplit = require('../../../lib/interpolate-split.js').default
 
 module.exports = React.createClass({

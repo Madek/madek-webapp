@@ -8,12 +8,12 @@ const React = require('react')
 const ReactDOM = require('react-dom')
 const f = require('lodash')
 const t = require('../../../lib/i18n-translate.js')
-const Icon = require('../../ui-components/Icon.cjsx')
-const PageContent = require('../PageContent.cjsx')
+const Icon = require('../../ui-components/Icon.jsx')
+const PageContent = require('../PageContent.jsx')
 const PageHeader = require('../../ui-components/PageHeader.js')
-const Tabs = require('../Tabs.cjsx')
-const Tab = require('../Tab.cjsx')
-const TabContent = require('../TabContent.cjsx')
+const Tabs = require('../Tabs.jsx')
+const Tab = require('../Tab.jsx')
+const TabContent = require('../TabContent.jsx')
 const parseUrl = require('url').parse
 
 const parseUrlState = location => parseUrl(location).pathname

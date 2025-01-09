@@ -10,7 +10,7 @@ const f = require('active-lodash')
 const t = require('../../../lib/i18n-translate.js')
 
 const PageHeader = require('../../ui-components/PageHeader.js')
-const RailsForm = require('../../lib/forms/rails-form.cjsx')
+const RailsForm = require('../../lib/forms/rails-form.jsx')
 
 module.exports = React.createClass({
   displayName: 'Shared.EditCustomUrls',

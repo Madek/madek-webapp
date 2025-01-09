@@ -6,9 +6,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 const React = require('react')
-const MetaDataList = require('../../decorators/MetaDataList.cjsx')
-const ResourceShowOverview = require('../../templates/ResourceShowOverview.cjsx')
-const SimpleResourceThumbnail = require('../../decorators/SimpleResourceThumbnail.cjsx')
+const MetaDataList = require('../../decorators/MetaDataList.jsx')
+const ResourceShowOverview = require('../../templates/ResourceShowOverview.jsx')
+const SimpleResourceThumbnail = require('../../decorators/SimpleResourceThumbnail.jsx')
 
 module.exports = React.createClass({
   displayName: 'CollectionDetailOverview',

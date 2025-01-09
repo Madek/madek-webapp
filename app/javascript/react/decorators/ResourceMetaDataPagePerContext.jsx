@@ -12,22 +12,22 @@ const setUrlParams = require('../../lib/set-params-for-url.js')
 const parseUrl = require('url').parse
 const formatUrl = require('url').format
 
-const Modal = require('../ui-components/Modal.cjsx')
-const BatchHintBox = require('./BatchHintBox.cjsx')
-const ResourcesBatchBox = require('./ResourcesBatchBox.cjsx')
-const PageContent = require('../views/PageContent.cjsx')
-const PageContentHeader = require('../views/PageContentHeader.cjsx')
-const TabContent = require('../views/TabContent.cjsx')
+const Modal = require('../ui-components/Modal.jsx')
+const BatchHintBox = require('./BatchHintBox.jsx')
+const ResourcesBatchBox = require('./ResourcesBatchBox.jsx')
+const PageContent = require('../views/PageContent.jsx')
+const PageContentHeader = require('../views/PageContentHeader.jsx')
+const TabContent = require('../views/TabContent.jsx')
 
 const batchDiff = require('../../lib/batch-diff.js')
 
 const xhr = require('xhr')
 const cx = require('classnames')
-const RailsForm = require('../lib/forms/rails-form.cjsx')
+const RailsForm = require('../lib/forms/rails-form.jsx')
 const getRailsCSRFToken = require('../../lib/rails-csrf-token.js')
 
 const validation = require('../../lib/metadata-edit-validation.js')
-const Renderer = require('./metadataedit/MetadataEditRenderer.cjsx')
+const Renderer = require('./metadataedit/MetadataEditRenderer.jsx')
 
 module.exports = React.createClass({
   displayName: 'ResourceMetaDataPagePerContext',

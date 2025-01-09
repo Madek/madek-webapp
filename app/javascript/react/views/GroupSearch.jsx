@@ -8,10 +8,10 @@ const React = require('react')
 const ReactDOM = require('react-dom')
 const f = require('lodash')
 const t = require('../../lib/i18n-translate.js')
-const RailsForm = require('../lib/forms/rails-form.cjsx')
+const RailsForm = require('../lib/forms/rails-form.jsx')
 const classnames = require('classnames')
 let AutoComplete = null
-const AskModal = require('../ui-components/AskModal.cjsx')
+const AskModal = require('../ui-components/AskModal.jsx')
 const loadXhr = require('../../lib/load-xhr.js')
 
 module.exports = React.createClass({

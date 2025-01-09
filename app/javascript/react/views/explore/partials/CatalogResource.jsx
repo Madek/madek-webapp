@@ -6,7 +6,7 @@
  */
 const React = require('react')
 const f = require('lodash')
-const CatalogThumbnail = require('./CatalogThumbnail.cjsx')
+const CatalogThumbnail = require('./CatalogThumbnail.jsx')
 const t = require('../../../../lib/i18n-translate.js')
 
 module.exports = React.createClass({

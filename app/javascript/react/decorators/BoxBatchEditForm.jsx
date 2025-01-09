@@ -6,7 +6,7 @@ import cx from 'classnames/dedupe'
 import BoxBatchEditMetaKeyForm from './BoxBatchEditMetaKeyForm.jsx'
 import BoxBatchEditFormKeyBubbles from './BoxBatchEditFormKeyBubbles.jsx'
 import BoxMetaKeySelector from './BoxMetaKeySelector.jsx'
-import Preloader from '../ui-components/Preloader.cjsx'
+import Preloader from '../ui-components/Preloader.jsx'
 
 class BoxBatchEditForm extends React.Component {
 

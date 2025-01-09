@@ -7,10 +7,10 @@ const React = require('react')
 const { PropTypes } = React
 const f = require('active-lodash')
 const ui = require('../lib/ui.js')
-const Icon = require('./Icon.cjsx')
-const Link = require('./Link.cjsx')
-const Picture = require('../ui-components/Picture.cjsx')
-const ResourceIcon = require('../ui-components/ResourceIcon.cjsx')
+const Icon = require('./Icon.jsx')
+const Link = require('./Link.jsx')
+const Picture = require('../ui-components/Picture.jsx')
+const ResourceIcon = require('../ui-components/ResourceIcon.jsx')
 const t = require('../../lib/i18n-translate.js')
 
 const flyoutProps = React.PropTypes.shape({

@@ -9,7 +9,7 @@ const f = require('active-lodash')
 const c = require('classnames')
 const { parseMods } = require('../../lib/ui.js')
 const t = require('../../../lib/i18n-translate.js')
-const Icon = require('../../ui-components/Icon.cjsx')
+const Icon = require('../../ui-components/Icon.jsx')
 
 module.exports = React.createClass({
   displayName: 'StatusIcon',

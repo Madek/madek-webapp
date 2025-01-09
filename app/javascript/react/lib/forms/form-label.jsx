@@ -8,9 +8,9 @@
 const React = require('react')
 const t = require('../../../lib/i18n-translate.js')
 const MadekPropTypes = require('../madek-prop-types.js')
-const Icon = require('../../ui-components/Icon.cjsx')
-const Link = require('../../ui-components/Link.cjsx')
-const Tooltipped = require('../../ui-components/Tooltipped.cjsx')
+const Icon = require('../../ui-components/Icon.jsx')
+const Link = require('../../ui-components/Link.jsx')
+const Tooltipped = require('../../ui-components/Tooltipped.jsx')
 
 module.exports = React.createClass({
   displayName: 'MetaKeyFormLabel',

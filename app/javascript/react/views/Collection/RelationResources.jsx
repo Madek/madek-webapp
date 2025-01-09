@@ -7,9 +7,9 @@
 const React = require('react')
 const f = require('active-lodash')
 const t = require('../../../lib/i18n-translate.js')
-const MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
-const TabContent = require('../TabContent.cjsx')
-const ResourceThumbnail = require('../../decorators/ResourceThumbnail.cjsx')
+const MediaResourcesBox = require('../../decorators/MediaResourcesBox.jsx')
+const TabContent = require('../TabContent.jsx')
+const ResourceThumbnail = require('../../decorators/ResourceThumbnail.jsx')
 
 const classnames = require('classnames')
 

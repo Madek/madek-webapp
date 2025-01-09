@@ -9,14 +9,14 @@ const React = require('react')
 const ReactDOM = require('react-dom')
 const cx = require('classnames')
 const f = require('lodash')
-const Icon = require('../ui-components/Icon.cjsx')
+const Icon = require('../ui-components/Icon.jsx')
 const { t } = require('../lib/ui.js')
 
-const MediaEntryHeaderWithModal = require('./MediaEntryHeaderWithModal.cjsx')
-const MediaEntryTabs = require('./MediaEntryTabs.cjsx')
-const RelationResources = require('./Collection/RelationResources.cjsx')
-const Relations = require('./Collection/Relations.cjsx')
-const MediaEntryShow = require('./MediaEntryShow.cjsx')
+const MediaEntryHeaderWithModal = require('./MediaEntryHeaderWithModal.jsx')
+const MediaEntryTabs = require('./MediaEntryTabs.jsx')
+const RelationResources = require('./Collection/RelationResources.jsx')
+const Relations = require('./Collection/Relations.jsx')
+const MediaEntryShow = require('./MediaEntryShow.jsx')
 
 module.exports = React.createClass({
   displayName: 'BaseTmpReact',

@@ -11,7 +11,7 @@ const f = require('active-lodash')
 const async = require('async')
 const t = require('../../../lib/i18n-translate.js')
 const { ActionsBar, Button, Link } = require('../../ui-components/index.js')
-const MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
+const MediaResourcesBox = require('../../decorators/MediaResourcesBox.jsx')
 const SuperBoxUpload = require('../../decorators/SuperBoxUpload.jsx')
 const parseUrl = require('url').parse
 

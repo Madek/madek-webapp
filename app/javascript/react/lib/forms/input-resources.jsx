@@ -18,7 +18,7 @@ const NavItem = require('react-bootstrap/lib/NavItem')
 const MadekPropTypes = require('../../lib/madek-prop-types.js')
 const { Icon, Tooltipped } = require('../../ui-components/index.js')
 let AutoComplete = null // only required client-side!
-const NewPersonWidget = require('./new-person-widget.cjsx')
+const NewPersonWidget = require('./new-person-widget.jsx')
 
 module.exports = React.createClass({
   displayName: 'InputResources',

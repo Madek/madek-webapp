@@ -4,7 +4,7 @@ import f from 'lodash'
 import t from '../../lib/i18n-translate.js'
 import cx from 'classnames/dedupe'
 import boxSetUrlParams from './BoxSetUrlParams.jsx'
-import Icon from '../ui-components/Icon.cjsx'
+import Icon from '../ui-components/Icon.jsx'
 
 class BoxPageCounter extends React.Component {
   constructor(props) {

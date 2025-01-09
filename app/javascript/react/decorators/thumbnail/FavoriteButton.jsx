@@ -9,8 +9,8 @@ const f = require('active-lodash')
 const classList = require('classnames/dedupe')
 const { parseMods } = require('../../lib/ui.js')
 const t = require('../../../lib/i18n-translate.js')
-const RailsForm = require('../../lib/forms/rails-form.cjsx')
-const Button = require('../../ui-components/Button.cjsx')
+const RailsForm = require('../../lib/forms/rails-form.jsx')
+const Button = require('../../ui-components/Button.jsx')
 
 module.exports = React.createClass({
   displayName: 'FavoriteButton',

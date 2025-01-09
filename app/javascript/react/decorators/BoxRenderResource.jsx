@@ -1,7 +1,7 @@
 import React from 'react'
 import f from 'active-lodash'
-import ActionsDropdownHelper from './resourcesbox/ActionsDropdownHelper.cjsx'
-import ResourceThumbnail from './ResourceThumbnail.cjsx'
+import ActionsDropdownHelper from './resourcesbox/ActionsDropdownHelper.jsx'
+import ResourceThumbnail from './ResourceThumbnail.jsx'
 import BoxBatchApplyButton from './BoxBatchApplyButton.jsx'
 
 class BoxRenderResource extends React.Component {

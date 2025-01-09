@@ -8,7 +8,7 @@ const ui = require('../../lib/ui.js')
 const { t } = ui
 const libUrl = require('url')
 
-const MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
+const MediaResourcesBox = require('../../decorators/MediaResourcesBox.jsx')
 
 module.exports = React.createClass({
   displayName: 'ClipboardBox',

@@ -10,7 +10,7 @@ const ampersandReactMixin = require('ampersand-react-mixin')
 const f = require('active-lodash')
 const parseUrl = require('url').parse
 const t = require('../../../lib/i18n-translate.js')
-const Modal = require('../../ui-components/Modal.cjsx')
+const Modal = require('../../ui-components/Modal.jsx')
 const setUrlParams = require('../../../lib/set-params-for-url.js')
 
 module.exports = React.createClass({

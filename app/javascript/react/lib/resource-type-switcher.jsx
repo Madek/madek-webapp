@@ -14,8 +14,8 @@ const t = require('../../lib/i18n-translate.js')
 const setUrlParams = require('../../lib/set-params-for-url.js')
 const libUrl = require('url')
 const qs = require('qs')
-const Button = require('../ui-components/Button.cjsx')
-const ButtonGroup = require('../ui-components/ButtonGroup.cjsx')
+const Button = require('../ui-components/Button.jsx')
+const ButtonGroup = require('../ui-components/ButtonGroup.jsx')
 
 const resourceTypeSwitcher = function(forUrl, defaultType, showAll, onClick) {
   const currentType = qs.parse(libUrl.parse(forUrl).query).type || defaultType

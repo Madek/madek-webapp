@@ -18,8 +18,8 @@ const getRailsCSRFToken = require('../../lib/rails-csrf-token.js')
 
 const SuperBoxDashboard = require('../decorators/SuperBoxDashboard.jsx')
 
-const Icon = require('../ui-components/Icon.cjsx')
-const Preloader = require('../ui-components/Preloader.cjsx')
+const Icon = require('../ui-components/Icon.jsx')
+const Preloader = require('../ui-components/Preloader.jsx')
 
 module.exports = React.createClass({
   displayName: 'AsyncDashboardSection',

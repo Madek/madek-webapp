@@ -8,8 +8,8 @@ const React = require('react')
 const ReactDOM = require('react-dom')
 const f = require('active-lodash')
 const t = require('../../../lib/i18n-translate.js')
-const MediaResourcesBox = require('../../decorators/MediaResourcesBox.cjsx')
-const TabContent = require('../TabContent.cjsx')
+const MediaResourcesBox = require('../../decorators/MediaResourcesBox.jsx')
+const TabContent = require('../TabContent.jsx')
 
 const cx = require('classnames')
 

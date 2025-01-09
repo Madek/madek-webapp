@@ -7,7 +7,7 @@
 const React = require('react')
 const ReactDOM = require('react-dom')
 const f = require('lodash')
-const Keyword = require('../../ui-components/Keyword.cjsx')
+const Keyword = require('../../ui-components/Keyword.jsx')
 
 module.exports = React.createClass({
   displayName: 'ExploreKeywordsPage',

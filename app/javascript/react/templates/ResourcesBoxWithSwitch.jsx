@@ -15,9 +15,9 @@ const parseUrl = require('url').parse
 const stringifyUrl = require('url').format
 const parseQuery = require('qs').parse
 
-const Button = require('../ui-components/Button.cjsx')
-const ButtonGroup = require('../ui-components/ButtonGroup.cjsx')
-const ResourcesBox = require('../decorators/MediaResourcesBox.cjsx')
+const Button = require('../ui-components/Button.jsx')
+const ButtonGroup = require('../ui-components/ButtonGroup.jsx')
+const ResourcesBox = require('../decorators/MediaResourcesBox.jsx')
 const { boxSetUrlParams } = ResourcesBox
 
 const TYPES = ['entries', 'sets'] // see `typeBbtns`, types are defined there

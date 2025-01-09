@@ -26,7 +26,7 @@ const resourceListParams = require('../../shared/resource_list_params.js')
 const appRequest = require('../../lib/app-request.js')
 
 const Waypoint = require('react-waypoint')
-const RailsForm = require('../lib/forms/rails-form.cjsx')
+const RailsForm = require('../lib/forms/rails-form.jsx')
 let {
   Button,
   ButtonGroup,
@@ -37,8 +37,8 @@ let {
   ActionsBar
 } = require('../ui-components/index.js')
 const { MenuItem } = Dropdown
-const SideFilter = require('../ui-components/ResourcesBox/SideFilter.cjsx')
-const BoxToolBar = require('../ui-components/ResourcesBox/BoxToolBar.cjsx')
+const SideFilter = require('../ui-components/ResourcesBox/SideFilter.jsx')
+const BoxToolBar = require('../ui-components/ResourcesBox/BoxToolBar.jsx')
 
 // models
 const MediaEntries = require('../../models/media-entries.js')
@@ -48,16 +48,16 @@ const CollectionChildren = require('../../models/collection-children.js')
 // interactive stuff, should be moved to controller
 const xhr = require('xhr')
 const getRailsCSRFToken = require('../../lib/rails-csrf-token.js')
-const BatchAddToSetModal = require('./BatchAddToSetModal.cjsx')
-const BatchRemoveFromSetModal = require('./BatchRemoveFromSetModal.cjsx')
+const BatchAddToSetModal = require('./BatchAddToSetModal.jsx')
+const BatchRemoveFromSetModal = require('./BatchRemoveFromSetModal.jsx')
 
 const simpleXhr = require('../../lib/simple-xhr.js')
 
 const LoadXhr = require('../../lib/load-xhr.js')
-Preloader = require('../ui-components/Preloader.cjsx')
+Preloader = require('../ui-components/Preloader.jsx')
 
-const ActionsDropdown = require('./resourcesbox/ActionsDropdown.cjsx')
-const Clipboard = require('./resourcesbox/Clipboard.cjsx')
+const ActionsDropdown = require('./resourcesbox/ActionsDropdown.jsx')
+const Clipboard = require('./resourcesbox/Clipboard.jsx')
 
 const railsFormPut = require('../../lib/form-put-with-errors.js')
 
@@ -76,9 +76,9 @@ const BoxRedux = require('./BoxRedux.js')
 const BoxState = require('./BoxState.js')
 
 const BoxFilterButton = require('./BoxFilterButton.jsx')
-const CreateCollectionModal = require('../views/My/CreateCollectionModal.cjsx')
+const CreateCollectionModal = require('../views/My/CreateCollectionModal.jsx')
 
-const { resourceTypeSwitcher } = require('../lib/resource-type-switcher.cjsx')
+const { resourceTypeSwitcher } = require('../lib/resource-type-switcher.jsx')
 
 const InfoHeader = require('./resourcesbox/InfoHeader.jsx').default
 

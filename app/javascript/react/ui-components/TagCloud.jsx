@@ -12,8 +12,8 @@ const f = require('active-lodash')
 const classList = require('classnames')
 const { parseMods } = require('../lib/ui.js')
 const UIPropTypes = require('../ui-components/propTypes.js')
-const Link = require('./Link.cjsx')
-const Icon = require('./Icon.cjsx')
+const Link = require('./Link.jsx')
+const Icon = require('./Icon.jsx')
 
 module.exports = React.createClass({
   displayName: 'TagCloud',

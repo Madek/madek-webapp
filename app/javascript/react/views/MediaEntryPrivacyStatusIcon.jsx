@@ -8,7 +8,7 @@ const React = require('react')
 const ReactDOM = require('react-dom')
 const cx = require('classnames')
 const f = require('lodash')
-const Icon = require('../ui-components/Icon.cjsx')
+const Icon = require('../ui-components/Icon.jsx')
 
 module.exports = React.createClass({
   displayName: 'MediaEntryPrivacyStatusIcon',

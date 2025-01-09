@@ -7,7 +7,7 @@
  */
 const React = require('react')
 const ReactDOM = require('react-dom')
-const RailsForm = require('../lib/forms/rails-form.cjsx')
+const RailsForm = require('../lib/forms/rails-form.jsx')
 
 module.exports = React.createClass({
   displayName: 'HeaderButton',

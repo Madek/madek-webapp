@@ -6,7 +6,7 @@
 const React = require('react')
 const f = require('active-lodash')
 const cx = require('classnames')
-const Dropdown = require('../../ui-components/Dropdown.cjsx')
+const Dropdown = require('../../ui-components/Dropdown.jsx')
 const { MenuItem } = Dropdown
 
 module.exports = React.createClass({

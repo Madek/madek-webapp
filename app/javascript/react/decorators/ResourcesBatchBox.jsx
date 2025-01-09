@@ -8,7 +8,7 @@
 const React = require('react')
 const f = require('active-lodash')
 const t = require('../../lib/i18n-translate.js')
-const ResourceThumbnail = require('../decorators/ResourceThumbnail.cjsx')
+const ResourceThumbnail = require('../decorators/ResourceThumbnail.jsx')
 
 module.exports = React.createClass({
   displayName: 'ResourcesBatchBox',

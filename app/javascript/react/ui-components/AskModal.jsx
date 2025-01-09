@@ -7,9 +7,9 @@
 const React = require('react')
 const ReactDOM = require('react-dom')
 const t = require('../../lib/i18n-translate.js')
-const FormButton = require('./FormButton.cjsx')
-const Modal = require('./Modal.cjsx')
-const Preloader = require('./Preloader.cjsx')
+const FormButton = require('./FormButton.jsx')
+const Modal = require('./Modal.jsx')
+const Preloader = require('./Preloader.jsx')
 
 module.exports = React.createClass({
   displayName: 'AskModal',

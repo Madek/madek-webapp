@@ -9,7 +9,7 @@ const React = require('react')
 const f = require('active-lodash')
 const t = require('../../lib/i18n-translate.js')
 const MadekPropTypes = require('../lib/madek-prop-types.js')
-const MetaDataList = require('./MetaDataList.cjsx')
+const MetaDataList = require('./MetaDataList.jsx')
 const listingHelper = require('../../lib/metadata-listing-helper.js')
 
 module.exports = React.createClass({

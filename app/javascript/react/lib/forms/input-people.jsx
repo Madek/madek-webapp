@@ -1,5 +1,5 @@
 const React = require('react')
-const InputResources = require('./input-resources.cjsx')
+const InputResources = require('./input-resources.jsx')
 const jQuery = require('jquery')
 
 const autoCompleteSuggestionRenderer = person => {

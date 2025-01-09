@@ -10,8 +10,8 @@ const f = require('lodash')
 const parseUrl = require('url').parse
 const t = require('../../lib/i18n-translate.js')
 
-const TagCloud = require('../ui-components/TagCloud.cjsx')
-const Icon = require('../ui-components/Icon.cjsx')
+const TagCloud = require('../ui-components/TagCloud.jsx')
+const Icon = require('../ui-components/Icon.jsx')
 const resourceName = require('../lib/decorate-resource-names.js')
 
 module.exports = React.createClass({

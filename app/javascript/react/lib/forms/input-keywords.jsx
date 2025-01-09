@@ -7,7 +7,7 @@
 const React = require('react')
 const f = require('active-lodash')
 const MadekPropTypes = require('../madek-prop-types.js')
-const InputResources = require('./input-resources.cjsx')
+const InputResources = require('./input-resources.jsx')
 
 module.exports = React.createClass({
   displayName: 'InputKeywords',

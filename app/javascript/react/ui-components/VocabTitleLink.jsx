@@ -5,7 +5,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 const React = require('react')
-const Icon = require('./Icon.cjsx')
+const Icon = require('./Icon.jsx')
 const cs = require('classnames')
 
 module.exports = React.createClass({

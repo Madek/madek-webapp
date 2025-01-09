@@ -7,7 +7,7 @@
 const React = require('react')
 const f = require('active-lodash')
 const t = require('../../lib/i18n-translate.js')
-const MetaDatumValues = require('./MetaDatumValues.cjsx')
+const MetaDatumValues = require('./MetaDatumValues.jsx')
 
 module.exports = React.createClass({
   displayName: 'Deco.MetaDataDefinitionList',

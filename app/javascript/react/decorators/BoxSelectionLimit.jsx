@@ -4,7 +4,7 @@ import f from 'lodash'
 import t from '../../lib/i18n-translate.js'
 import cx from 'classnames/dedupe'
 import boxSetUrlParams from './BoxSetUrlParams.jsx'
-import Modal from '../ui-components/Modal.cjsx'
+import Modal from '../ui-components/Modal.jsx'
 
 class BoxSelectionLimit extends React.Component {
 

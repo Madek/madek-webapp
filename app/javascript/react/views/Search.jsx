@@ -10,7 +10,7 @@ const f = require('lodash')
 const t = require('../../lib/i18n-translate.js')
 const parseUrl = require('url').parse
 
-const PageContent = require('./PageContent.cjsx')
+const PageContent = require('./PageContent.jsx')
 const PageHeader = require('../ui-components/PageHeader.js')
 
 module.exports = React.createClass({

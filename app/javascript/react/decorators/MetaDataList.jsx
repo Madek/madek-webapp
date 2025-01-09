@@ -15,13 +15,13 @@ const t = require('../../lib/i18n-translate.js')
 
 const MadekPropTypes = require('../lib/madek-prop-types.js')
 
-const Icon = require('../ui-components/Icon.cjsx')
+const Icon = require('../ui-components/Icon.jsx')
 
-const VocabTitleLink = require('../ui-components/VocabTitleLink.cjsx')
+const VocabTitleLink = require('../ui-components/VocabTitleLink.jsx')
 const listingHelper = require('../../lib/metadata-listing-helper.js')
 
-const MetaDataTable = require('./MetaDataTable.cjsx')
-const MetaDataDefinitionList = require('./MetaDataDefinitionList.cjsx')
+const MetaDataTable = require('./MetaDataTable.jsx')
+const MetaDataDefinitionList = require('./MetaDataDefinitionList.jsx')
 
 module.exports = React.createClass({
   displayName: 'Deco.MetaDataList',

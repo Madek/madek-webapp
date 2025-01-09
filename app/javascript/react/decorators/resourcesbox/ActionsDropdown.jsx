@@ -11,7 +11,7 @@ const { t } = ui
 const SelectionScope = require('../../../lib/selection-scope.js')
 const { Icon, Dropdown } = require('../../ui-components/index.js')
 const { MenuItem } = Dropdown
-const ActionsDropdownHelper = require('./ActionsDropdownHelper.cjsx')
+const ActionsDropdownHelper = require('./ActionsDropdownHelper.jsx')
 
 module.exports = React.createClass({
   displayName: 'ActionsDropdown',

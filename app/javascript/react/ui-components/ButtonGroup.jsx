@@ -10,7 +10,7 @@ const React = require('react')
 const f = require('active-lodash')
 const ui = require('../lib/ui.js')
 const UiPropTypes = require('./propTypes.js')
-const Button = require('./Button.cjsx')
+const Button = require('./Button.jsx')
 
 module.exports = React.createClass({
   displayName: 'ButtonGroup',

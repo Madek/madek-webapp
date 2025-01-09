@@ -10,10 +10,10 @@ const React = require('react')
 const ampersandReactMixin = require('ampersand-react-mixin')
 const f = require('active-lodash')
 const t = require('../../lib/i18n-translate.js')
-const RailsForm = require('../lib/forms/rails-form.cjsx')
-const FormButton = require('../ui-components/FormButton.cjsx')
-const Modal = require('../ui-components/Modal.cjsx')
-const SelectCollection = require('./Collection/SelectCollection.cjsx')
+const RailsForm = require('../lib/forms/rails-form.jsx')
+const FormButton = require('../ui-components/FormButton.jsx')
+const Modal = require('../ui-components/Modal.jsx')
+const SelectCollection = require('./Collection/SelectCollection.jsx')
 
 module.exports = React.createClass({
   displayName: 'SelectCollectionModal',

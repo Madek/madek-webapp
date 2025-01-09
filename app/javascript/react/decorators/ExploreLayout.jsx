@@ -8,7 +8,7 @@ const React = require('react')
 const ReactDOM = require('react-dom')
 const f = require('active-lodash')
 const t = require('../../lib/i18n-translate.js')
-const PrettyThumbs = require('../views/explore/partials/PrettyThumbs.cjsx')
+const PrettyThumbs = require('../views/explore/partials/PrettyThumbs.jsx')
 
 module.exports = React.createClass({
   displayName: 'ExploreLayout',

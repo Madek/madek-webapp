@@ -14,9 +14,9 @@ const MadekPropTypes = require('../../lib/madek-prop-types.js')
 
 const loadXhr = require('../../../lib/load-xhr.js')
 
-const Icon = require('../Icon.cjsx')
-const Link = require('../Link.cjsx')
-const Preloader = require('../Preloader.cjsx')
+const Icon = require('../Icon.jsx')
+const Link = require('../Link.jsx')
+const Preloader = require('../Preloader.jsx')
 
 let jQuery = null
 

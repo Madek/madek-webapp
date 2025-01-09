@@ -9,18 +9,18 @@ const React = require('react')
 const ReactDOM = require('react-dom')
 const cx = require('classnames')
 const f = require('lodash')
-const Icon = require('../ui-components/Icon.cjsx')
+const Icon = require('../ui-components/Icon.jsx')
 const t = require('../../lib/i18n-translate.js')
 
-const MediaEntryHeaderWithModal = require('./MediaEntryHeaderWithModal.cjsx')
-const MediaEntryTabs = require('./MediaEntryTabs.cjsx')
-const RelationResources = require('./Collection/RelationResources.cjsx')
-const Relations = require('./Collection/Relations.cjsx')
-const MediaEntryShow = require('./MediaEntryShow.cjsx')
+const MediaEntryHeaderWithModal = require('./MediaEntryHeaderWithModal.jsx')
+const MediaEntryTabs = require('./MediaEntryTabs.jsx')
+const RelationResources = require('./Collection/RelationResources.jsx')
+const Relations = require('./Collection/Relations.jsx')
+const MediaEntryShow = require('./MediaEntryShow.jsx')
 
-const MetaDataByListing = require('../decorators/MetaDataByListing.cjsx')
-const MediaEntryPermissions = require('./MediaEntry/MediaEntryPermissions.cjsx')
-const UsageData = require('../decorators/UsageData.cjsx')
+const MetaDataByListing = require('../decorators/MetaDataByListing.jsx')
+const MediaEntryPermissions = require('./MediaEntry/MediaEntryPermissions.jsx')
+const UsageData = require('../decorators/UsageData.jsx')
 
 const WORKFLOW_STATES = { IN_PROGRESS: 'IN_PROGRESS', FINISHED: 'FINISHED' }
 

@@ -10,10 +10,10 @@ const React = require('react')
 const f = require('active-lodash')
 const ui = require('../../lib/ui.js')
 const { t } = ui
-const Icon = require('../../ui-components/Icon.cjsx')
-const Dropdown = require('../../ui-components/Dropdown.cjsx')
+const Icon = require('../../ui-components/Icon.jsx')
+const Dropdown = require('../../ui-components/Dropdown.jsx')
 const { MenuItem } = Dropdown
-const RailsForm = require('../../lib/forms/rails-form.cjsx')
+const RailsForm = require('../../lib/forms/rails-form.jsx')
 
 module.exports = React.createClass({
   displayName: 'App.UserMenu',

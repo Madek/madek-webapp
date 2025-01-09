@@ -11,12 +11,12 @@ const c = require('classnames')
 const t = require('../../lib/i18n-translate.js')
 const getRailsCSRFToken = require('../../lib/rails-csrf-token.js')
 const Models = require('../../models/index.js')
-const Picture = require('../ui-components/Picture.cjsx')
-const Button = require('../ui-components/Button.cjsx')
-const ResourceIcon = require('../ui-components/ResourceIcon.cjsx')
-const FavoriteButton = require('./thumbnail/FavoriteButton.cjsx')
-const DeleteModal = require('./thumbnail/DeleteModal.cjsx')
-const StatusIcon = require('./thumbnail/StatusIcon.cjsx')
+const Picture = require('../ui-components/Picture.jsx')
+const Button = require('../ui-components/Button.jsx')
+const ResourceIcon = require('../ui-components/ResourceIcon.jsx')
+const FavoriteButton = require('./thumbnail/FavoriteButton.jsx')
+const DeleteModal = require('./thumbnail/DeleteModal.jsx')
+const StatusIcon = require('./thumbnail/StatusIcon.jsx')
 
 module.exports = React.createClass({
   displayName: 'PinThumbnail',

@@ -6,10 +6,10 @@
  */
 const React = require('react')
 const ReactDOM = require('react-dom')
-const PageContentHeader = require('./PageContentHeader.cjsx')
-const HeaderPrimaryButton = require('./HeaderPrimaryButton.cjsx')
+const PageContentHeader = require('./PageContentHeader.jsx')
+const HeaderPrimaryButton = require('./HeaderPrimaryButton.jsx')
 const t = require('../../lib/i18n-translate.js')
-const CreateCollectionModal = require('./My/CreateCollectionModal.cjsx')
+const CreateCollectionModal = require('./My/CreateCollectionModal.jsx')
 
 module.exports = React.createClass({
   displayName: 'DashboardHeader',

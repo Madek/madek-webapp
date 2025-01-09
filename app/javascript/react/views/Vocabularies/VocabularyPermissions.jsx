@@ -8,11 +8,11 @@ const React = require('react')
 const ReactDOM = require('react-dom')
 const f = require('lodash')
 const t = require('../../../lib/i18n-translate.js')
-const Icon = require('../../ui-components/Icon.cjsx')
+const Icon = require('../../ui-components/Icon.jsx')
 
-const VocabularyPage = require('./VocabularyPage.cjsx')
+const VocabularyPage = require('./VocabularyPage.jsx')
 
-const ResourcePermissionsForm = require('../../decorators/ResourcePermissionsForm.cjsx')
+const ResourcePermissionsForm = require('../../decorators/ResourcePermissionsForm.jsx')
 
 module.exports = React.createClass({
   displayName: 'VocabularyPermissions',

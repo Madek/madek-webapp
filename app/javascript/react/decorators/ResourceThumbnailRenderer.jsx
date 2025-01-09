@@ -12,9 +12,9 @@ const ampersandReactMixin = require('ampersand-react-mixin')
 const t = require('../../lib/i18n-translate.js')
 const Models = require('../../models/index.js')
 const { Link, Icon, Thumbnail, Button, Preloader, AskModal } = require('../ui-components/index.js')
-const StatusIcon = require('./thumbnail/StatusIcon.cjsx')
-const FavoriteButton = require('./thumbnail/FavoriteButton.cjsx')
-const DeleteModal = require('./thumbnail/DeleteModal.cjsx')
+const StatusIcon = require('./thumbnail/StatusIcon.jsx')
+const FavoriteButton = require('./thumbnail/FavoriteButton.jsx')
+const DeleteModal = require('./thumbnail/DeleteModal.jsx')
 
 module.exports = React.createClass({
   displayName: 'ResourceThumbnailRenderer',

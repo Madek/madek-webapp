@@ -5,7 +5,7 @@ import t from '../../../lib/i18n-translate'
 import { Icon, Link } from '../../ui-components/index.js'
 import appRequest from '../../../lib/app-request.js'
 import MediaResourcesLine from './MediaResourcesLine.jsx'
-import Preloader from '../../ui-components/Preloader.cjsx'
+import Preloader from '../../ui-components/Preloader.jsx'
 
 class MediaEntrySiblings extends Component {
   constructor(props) {

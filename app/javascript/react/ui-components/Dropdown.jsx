@@ -18,8 +18,8 @@ const { PropTypes } = React
 const f = require('active-lodash')
 const ui = require('../lib/ui.js')
 
-const Icon = require('./Icon.cjsx')
-const Link = require('./Link.cjsx')
+const Icon = require('./Icon.jsx')
+const Link = require('./Link.jsx')
 
 const Dropdown = require('react-bootstrap/lib/Dropdown')
 const MenuItem = require('react-bootstrap/lib/MenuItem')

@@ -15,12 +15,12 @@ const css = require('classnames')
 const ui = require('../../lib/ui.js')
 const MadekPropTypes = require('../../lib/madek-prop-types.js')
 
-const Icon = require('../Icon.cjsx')
-const Link = require('../Link.cjsx')
-const UserFilter = require('./UserFilter.cjsx')
+const Icon = require('../Icon.jsx')
+const Link = require('../Link.jsx')
+const UserFilter = require('./UserFilter.jsx')
 const PersonFilter = require('./PersonFilter.js').default
 
-const Preloader = require('../Preloader.cjsx')
+const Preloader = require('../Preloader.jsx')
 
 const parseQuery = require('qs').parse
 const setUrlParams = require('../../../lib/set-params-for-url.js')

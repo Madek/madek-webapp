@@ -6,9 +6,9 @@
  */
 const React = require('react')
 const ReactDOM = require('react-dom')
-const Modal = require('../../ui-components/Modal.cjsx')
+const Modal = require('../../ui-components/Modal.jsx')
 const loadXhr = require('../../../lib/load-xhr.js')
-const CreateCollection = require('./CreateCollection.cjsx')
+const CreateCollection = require('./CreateCollection.jsx')
 
 module.exports = React.createClass({
   displayName: 'CreateCollectionModal',

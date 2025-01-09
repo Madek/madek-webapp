@@ -5,7 +5,7 @@
  */
 const React = require('react')
 const ReactDOM = require('react-dom')
-const Preloader = require('./Preloader.cjsx')
+const Preloader = require('./Preloader.jsx')
 
 module.exports = React.createClass({
   displayName: 'Modal',

@@ -9,8 +9,8 @@ const f = require('active-lodash')
 const classList = require('classnames/dedupe')
 const { parseMods } = require('../../lib/ui.js')
 const t = require('../../../lib/i18n-translate.js')
-const Button = require('../../ui-components/Button.cjsx')
-const AskModal = require('../../ui-components/AskModal.cjsx')
+const Button = require('../../ui-components/Button.jsx')
+const AskModal = require('../../ui-components/AskModal.jsx')
 
 module.exports = React.createClass({
   displayName: 'DeleteModal',

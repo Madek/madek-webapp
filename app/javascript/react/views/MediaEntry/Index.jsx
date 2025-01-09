@@ -5,7 +5,7 @@
  */
 const React = require('react')
 
-const ResourcesBoxWithSwitch = require('../../templates/ResourcesBoxWithSwitch.cjsx')
+const ResourcesBoxWithSwitch = require('../../templates/ResourcesBoxWithSwitch.jsx')
 
 module.exports = React.createClass({
   displayName: 'Views.MediaEntry.Index',

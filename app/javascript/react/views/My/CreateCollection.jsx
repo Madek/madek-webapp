@@ -7,13 +7,13 @@
 const React = require('react')
 const f = require('active-lodash')
 const t = require('../../../lib/i18n-translate.js')
-const RailsForm = require('../../lib/forms/rails-form.cjsx')
-const InputFieldText = require('../../lib/forms/input-field-text.cjsx')
-const FormButton = require('../../ui-components/FormButton.cjsx')
-const ToggableLink = require('../../ui-components/ToggableLink.cjsx')
-const Modal = require('../../ui-components/Modal.cjsx')
+const RailsForm = require('../../lib/forms/rails-form.jsx')
+const InputFieldText = require('../../lib/forms/input-field-text.jsx')
+const FormButton = require('../../ui-components/FormButton.jsx')
+const ToggableLink = require('../../ui-components/ToggableLink.jsx')
+const Modal = require('../../ui-components/Modal.jsx')
 const formXhr = require('../../../lib/form-xhr.js')
-const Preloader = require('../../ui-components/Preloader.cjsx')
+const Preloader = require('../../ui-components/Preloader.jsx')
 
 module.exports = React.createClass({
   displayName: 'CreateCollection',

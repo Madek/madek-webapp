@@ -7,9 +7,9 @@
 const React = require('react')
 const t = require('../../../lib/i18n-translate.js')
 const PageHeader = require('../../ui-components/PageHeader')
-const MetaDataList = require('../../decorators/MetaDataList.cjsx')
-const ResourceThumbnail = require('../../decorators//ResourceThumbnail.cjsx')
-const BrowseEntriesList = require('./BrowseEntriesList.cjsx')
+const MetaDataList = require('../../decorators/MetaDataList.jsx')
+const ResourceThumbnail = require('../../decorators//ResourceThumbnail.jsx')
+const BrowseEntriesList = require('./BrowseEntriesList.jsx')
 
 module.exports = React.createClass({
   displayName: 'MediaEntryBrowse',

@@ -14,10 +14,10 @@ const t = require('../../lib/i18n-translate.js')
 const url = require('url')
 const ampersandReactMixin = require('ampersand-react-mixin')
 
-const ResourcePermissionsForm = require('../decorators/ResourcePermissionsForm.cjsx')
+const ResourcePermissionsForm = require('../decorators/ResourcePermissionsForm.jsx')
 
-const Modal = require('../ui-components/Modal.cjsx')
-const EditTransferResponsibility = require('../views/Shared/EditTransferResponsibility.cjsx')
+const Modal = require('../ui-components/Modal.jsx')
+const EditTransferResponsibility = require('../views/Shared/EditTransferResponsibility.jsx')
 
 // NOTE: used for static (server-side) rendering (state.editing = false)
 module.exports = React.createClass({

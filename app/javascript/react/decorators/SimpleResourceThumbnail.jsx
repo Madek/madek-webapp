@@ -5,7 +5,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 const React = require('react')
-const ResourceThumbnail = require('./ResourceThumbnail.cjsx')
+const ResourceThumbnail = require('./ResourceThumbnail.jsx')
 
 module.exports = React.createClass({
   displayName: 'SimpleResourceThumbnail',
