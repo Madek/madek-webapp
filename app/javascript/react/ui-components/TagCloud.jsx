@@ -45,9 +45,8 @@ module.exports = React.createClass({
         className={baseClass}
         style={f.includes(mods, 'inline') ? { display: 'inline-block' } : {}}>
         {list.map(function(listItem) {
-          let children, count, tag
-          const props = f.merge(f.omit(this.props, 'list'), listItem)
-          ;({ count, children, mod, tag } = props)
+          const props = f.merge(f.omit(param, 'list'), listItem)
+          const { count, children, mod, tag } = props
           const linkProps = f.merge(f.pick(props, 'href', 'disabled', 'onClick'), {
             className: classList('ui-tag-button', parseMods(props))
           })
