@@ -35,7 +35,7 @@
     "ampersand-react-mixin": "github:eins78/ampersand-react-mixin#1e7b0c4",
     "ampersand-rest-collection": "5.0.0",
     "any_sha1": "0.1.1",
-    "async": "2.4.1",
+    "async": "2.6.4",
     "babel-preset-react": "6.24.1",
     "babel-runtime": "6.23.0",
     "babyparse": "0.4.6",
