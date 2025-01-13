@@ -69,6 +69,7 @@ module.exports = Model.extend(RailsResource, {
           (() => {
             try {
               return JSON.parse(body)
+              // eslint-disable-next-line no-empty
             } catch (error) {}
           })() || body
         return callback(err, res, data)

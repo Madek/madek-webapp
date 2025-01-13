@@ -1,13 +1,12 @@
-"JavaScript Lint":
-
+'JavaScript Lint':
   task_defaults:
     git_options:
       submodules:
         include_match: ^.*$
 
   tasks:
-    lint-coffee-and-javascript:
-      name: 'JS: Lint/Stylecheck with `standard`'
+    lint-javascript:
+      name: 'Lint JavaScript'
       scripts:
         test:
           body: |

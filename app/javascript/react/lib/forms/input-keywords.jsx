@@ -26,9 +26,9 @@ module.exports = React.createClass({
       const { checked } = event.target
 
       if (this.props.multiple) {
-        // In any case remove the element first.
+        // In any case remove the element first.
         values = f.filter(this.props.values, value => value.uuid !== uuid)
-        // Then add it again if needed.
+        // Then add it again if needed.
         if (checked) {
           values.push({ uuid })
         }

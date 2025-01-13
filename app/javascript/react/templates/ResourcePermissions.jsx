@@ -55,7 +55,7 @@ module.exports = React.createClass({
   // functions to be called on unmount (cleanup):
   _toBeCalledOnUnmount: [],
   componentWillUnmount() {
-    return f.each(_toBeCalledOnUnmount, fn => fn())
+    return f.each(this._toBeCalledOnUnmount, fn => fn())
   },
 
   // this will only ever run on the client:
@@ -108,6 +108,7 @@ module.exports = React.createClass({
           `Error! ${(() => {
             try {
               return JSON.stringify((err != null ? err.body : undefined) || err, 0, 2)
+              // eslint-disable-next-line no-empty
             } catch (error) {}
           })() || ''}`
         )

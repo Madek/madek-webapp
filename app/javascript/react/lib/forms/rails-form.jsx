@@ -45,6 +45,7 @@ module.exports = React.createClass({
     onSubmit: React.PropTypes.func,
     authToken(props, propName, componentName) {
       const check = checkForAuthToken(props)
+      // eslint-disable-next-line valid-typeof
       if (typeof check === 'Error') {
         return check
       } else {
@@ -78,6 +79,7 @@ module.exports = React.createClass({
     const authTokenParam = 'authenticity_token'
     const maybeAuthToken = checkForAuthToken({ method, authToken })
     // throw to catch erorrs server-side (PropTypes is only for dev)
+    // eslint-disable-next-line valid-typeof
     if (typeof maybeAuthToken === 'Error') {
       throw maybeAuthToken
     }

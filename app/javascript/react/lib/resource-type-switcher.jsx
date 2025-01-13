@@ -71,6 +71,7 @@ var urlByType = function(url, currentType, newType) {
       const parsed = (() => {
         try {
           return JSON.parse(newParams.list.filter)
+          // eslint-disable-next-line no-empty
         } catch (error) {}
       })()
       if (parsed) {

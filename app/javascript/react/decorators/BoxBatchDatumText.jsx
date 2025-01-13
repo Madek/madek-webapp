@@ -5,10 +5,7 @@ import t from '../../lib/i18n-translate.js'
 import cx from 'classnames/dedupe'
 import BoxRenderLabel from './BoxRenderLabel.jsx'
 
-
-
 class BoxBatchDatumText extends React.Component {
-
   constructor(props) {
     super(props)
   }
@@ -19,19 +16,16 @@ class BoxBatchDatumText extends React.Component {
   }
 
   onChange(text) {
-    this.props.trigger(this.props.metaKeyForm, {action: 'change-text', text: text})
+    this.props.trigger(this.props.metaKeyForm, { action: 'change-text', text: text })
   }
 
   renderValueText() {
-
-    if(!this.props.editable) {
-      return (
-        this.props.metaKeyForm.data.text
-      )
+    if (!this.props.editable) {
+      return this.props.metaKeyForm.data.text
     }
 
     var determineElement = () => {
-      if(this.props.metaKeyForm.props.metaKey.text_type == 'block') {
+      if (this.props.metaKeyForm.props.metaKey.text_type == 'block') {
         return 'textarea'
       } else {
         return 'input'
@@ -51,7 +45,7 @@ class BoxBatchDatumText extends React.Component {
           fontSize: '12px'
         }}
         value={this.props.metaKeyForm.data.text}
-        onChange={(e) => this.onChange(e.target.value)}
+        onChange={e => this.onChange(e.target.value)}
       />
     )
   }
@@ -63,8 +57,7 @@ class BoxBatchDatumText extends React.Component {
           display: 'inline-block',
           width: '70%',
           verticalAlign: 'top'
-        }}
-      >
+        }}>
         {this.renderValueText()}
       </div>
     )

@@ -13,11 +13,11 @@ const setUrlParams = require('./set-params-for-url.js')
 
 module.exports = function(url, usePathUrlReplacement) {
   // The fallback url is used for search results if there are no
-  // entries found but potentially sets.
+  // entries found but potentially sets.
   // If we are on a box which toggles between /entries and /sets,
-  // we simply replace /entries with /sets.
+  // we simply replace /entries with /sets.
   // Otherwise we use type='collections' as url parameter.
-  // The whole thing however only works, when we have no filters
+  // The whole thing however only works, when we have no filters
   // other than search, because the filters for sets are not yet
   // implemented. In this case we simply return nothing.
 
@@ -34,6 +34,7 @@ module.exports = function(url, usePathUrlReplacement) {
       const parsed = (() => {
         try {
           return JSON.parse(newParams.list.filter)
+          // eslint-disable-next-line no-empty
         } catch (error) {}
       })()
       if (parsed) {
@@ -49,7 +50,7 @@ module.exports = function(url, usePathUrlReplacement) {
   if (usePathUrlReplacement) {
     const currentPath = 'entries'
     const newPath = 'sets'
-    return setUrlParams(currentUrl.pathname.replace(RegExp(`\/${currentPath}$`), `\/${newPath}`), {
+    return setUrlParams(currentUrl.pathname.replace(RegExp(`/${currentPath}$`), `/${newPath}`), {
       list: newParams.list
     })
   } else {

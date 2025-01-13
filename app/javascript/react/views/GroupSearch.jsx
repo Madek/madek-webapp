@@ -198,16 +198,6 @@ module.exports = React.createClass({
               undefined
             )}
           </div>
-          {false ? (
-            // Delete link with confirm modal. Not used anymore, but I am sure it will come back one day.
-            <div className="ui-form-group rowed">
-              {t('group_edit_at_least_one_member_pre')}
-              <a onClick={this._onDelete}>{t('group_edit_at_least_one_member_delete')}</a>
-              {t('group_edit_at_least_one_member_post')}
-            </div>
-          ) : (
-            undefined
-          )}
           {!f.includes(this.state.data.userIdList, get.current_user_id) ? (
             <div className="form-head">
               <div className="ui-alerts">

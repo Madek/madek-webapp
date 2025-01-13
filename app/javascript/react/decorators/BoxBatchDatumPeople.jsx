@@ -7,10 +7,7 @@ import BoxPopup from './BoxPopup.jsx'
 import BoxRenderLabel from './BoxRenderLabel.jsx'
 import BoxPeopleNewWidget from './BoxPeopleNewWidget.jsx'
 
-
-
 class BoxBatchDatumPeople extends React.Component {
-
   constructor(props) {
     super(props)
   }
@@ -21,15 +18,14 @@ class BoxBatchDatumPeople extends React.Component {
   }
 
   onChange(text) {
-    this.props.trigger(this.props.metaKeyForm, {action: 'change-text', text: text})
+    this.props.trigger(this.props.metaKeyForm, { action: 'change-text', text: text })
   }
 
   onClose(event) {
-    this.props.trigger(this.props.metaKeyForm, {action: 'close'})
+    this.props.trigger(this.props.metaKeyForm, { action: 'close' })
   }
 
   removeKeywordById(k) {
-
     var event = () => {
       return {
         action: 'remove-keyword-by-id',
@@ -40,57 +36,70 @@ class BoxBatchDatumPeople extends React.Component {
   }
 
   removeKeywordByData(k) {
-    this.props.trigger(
-      this.props.metaKeyForm,
-      {
-        action: 'remove-keyword-by-data',
-        keyword: k
-      }
-    )
+    this.props.trigger(this.props.metaKeyForm, {
+      action: 'remove-keyword-by-data',
+      keyword: k
+    })
   }
 
   renderKeyword(k, i) {
-
-    if(k.id) {
+    if (k.id) {
       return (
-        <span key={i} style={{fontStyle: 'normal', marginRight: '10px', color: '#000'}}>
-          <span onClick={(e) => this.removeKeywordById(k)} style={{cursor: 'pointer'}}>
-            <i className='icon-close' style={{position: 'relative', top: '1px', marginRight: '0px', fontSize: '12px'}}></i>
-            {' '}
+        <span key={i} style={{ fontStyle: 'normal', marginRight: '10px', color: '#000' }}>
+          <span onClick={e => this.removeKeywordById(k)} style={{ cursor: 'pointer' }}>
+            <i
+              className="icon-close"
+              style={{
+                position: 'relative',
+                top: '1px',
+                marginRight: '0px',
+                fontSize: '12px'
+              }}></i>{' '}
           </span>
           {k.label}
         </span>
       )
-    } else if(k.subtype == 'Person') {
-
+    } else if (k.subtype == 'Person') {
       var renderName = () => {
         var getFirstname = () => {
-          return (k.first_name ? k.first_name : '')
+          return k.first_name ? k.first_name : ''
         }
         var getLastname = () => {
-          return (k.last_name ? k.last_name : '')
+          return k.last_name ? k.last_name : ''
         }
         var getPseudonym = () => {
-          return (k.pseudonym ? ' (' + k.pseudonym + ')' : '')
+          return k.pseudonym ? ' (' + k.pseudonym + ')' : ''
         }
         return getFirstname() + ' ' + getLastname() + getPseudonym()
       }
 
       return (
-        <span key={i} style={{fontStyle: 'italic', marginRight: '10px', color: '#aaa'}}>
-          <span onClick={(e) => this.removeKeywordByData(k)} style={{cursor: 'pointer'}}>
-            <i className='icon-close' style={{position: 'relative', top: '1px', marginRight: '0px', fontSize: '12px'}}></i>
-            {' '}
+        <span key={i} style={{ fontStyle: 'italic', marginRight: '10px', color: '#aaa' }}>
+          <span onClick={e => this.removeKeywordByData(k)} style={{ cursor: 'pointer' }}>
+            <i
+              className="icon-close"
+              style={{
+                position: 'relative',
+                top: '1px',
+                marginRight: '0px',
+                fontSize: '12px'
+              }}></i>{' '}
           </span>
           {renderName()}
         </span>
       )
-    } else if(k.subtype == 'PeopleGroup') {
+    } else if (k.subtype == 'PeopleGroup') {
       return (
-        <span key={i} style={{fontStyle: 'italic', marginRight: '10px', color: '#aaa'}}>
-          <span onClick={(e) => this.removeKeywordByData(k)} style={{cursor: 'pointer'}}>
-            <i className='icon-close' style={{position: 'relative', top: '1px', marginRight: '0px', fontSize: '12px'}}></i>
-            {' '}
+        <span key={i} style={{ fontStyle: 'italic', marginRight: '10px', color: '#aaa' }}>
+          <span onClick={e => this.removeKeywordByData(k)} style={{ cursor: 'pointer' }}>
+            <i
+              className="icon-close"
+              style={{
+                position: 'relative',
+                top: '1px',
+                marginRight: '0px',
+                fontSize: '12px'
+              }}></i>{' '}
           </span>
           {k.first_name}
         </span>
@@ -101,53 +110,51 @@ class BoxBatchDatumPeople extends React.Component {
   }
 
   renderKeywords() {
-    return l.map(
-      this.props.metaKeyForm.data.keywords,
-      (k, i) => this.renderKeyword(k, i)
-    )
+    return l.map(this.props.metaKeyForm.data.keywords, (k, i) => this.renderKeyword(k, i))
   }
 
   onKeywordSelect(event, keywordId, keywordLabel) {
-    this.props.trigger(this.props.metaKeyForm, {action: 'select-keyword', keywordId: keywordId, keywordLabel: keywordLabel})
+    this.props.trigger(this.props.metaKeyForm, {
+      action: 'select-keyword',
+      keywordId: keywordId,
+      keywordLabel: keywordLabel
+    })
   }
 
   onFocus(event) {
-    this.props.trigger(this.props.metaKeyForm, {action: 'input-focus'})
+    this.props.trigger(this.props.metaKeyForm, { action: 'input-focus' })
   }
 
   onCloseProposals() {
-    this.props.trigger(this.props.metaKeyForm, {action: 'close-proposals'})
+    this.props.trigger(this.props.metaKeyForm, { action: 'close-proposals' })
   }
 
   renderKeywordProposal(k) {
     return (
-      <div key={k.uuid} style={{cursor: 'pointer', borderBottom: '1px solid #eee'}} onClick={(e) => this.onKeywordSelect(e, k.uuid, k.label)}>
+      <div
+        key={k.uuid}
+        style={{ cursor: 'pointer', borderBottom: '1px solid #eee' }}
+        onClick={e => this.onKeywordSelect(e, k.uuid, k.label)}>
         {k.label}
       </div>
     )
-
   }
 
   renderKeywordProposals() {
-    if(!this.props.metaKeyForm.data.keywordProposals) {
+    if (!this.props.metaKeyForm.data.keywordProposals) {
       return 'Loading...'
-    }
-    else {
-      return l.map(
-        this.props.metaKeyForm.data.keywordProposals,
-        (k) => this.renderKeywordProposal(k)
-      )
+    } else {
+      return l.map(this.props.metaKeyForm.data.keywordProposals, k => this.renderKeywordProposal(k))
     }
   }
 
   renderPopup() {
-
-    if(!this.props.metaKeyForm.data.showProposals) {
+    if (!this.props.metaKeyForm.data.showProposals) {
       return null
     }
 
     return (
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <BoxPopup
           onClose={() => this.onCloseProposals()}
           style={{
@@ -163,8 +170,7 @@ class BoxBatchDatumPeople extends React.Component {
             boxShadow: '0px 0px 3px 0px rgba(0,0,0,0.5)',
             maxHeight: '200px',
             overflowY: 'auto'
-          }}
-        >
+          }}>
           {this.renderKeywordProposals()}
         </BoxPopup>
       </div>
@@ -172,34 +178,29 @@ class BoxBatchDatumPeople extends React.Component {
   }
 
   renderNewWidget() {
-
     var newWidget = this.props.metaKeyForm.components.newWidget
-    if(!newWidget) {
+    if (!newWidget) {
       return null
     }
 
     return (
-      <BoxPeopleNewWidget trigger={this.props.trigger} component={this.props.metaKeyForm.components.newWidget} />
+      <BoxPeopleNewWidget
+        trigger={this.props.trigger}
+        component={this.props.metaKeyForm.components.newWidget}
+      />
     )
   }
 
   renderValue() {
-
-    if(!this.props.editable) {
+    if (!this.props.editable) {
       return (
         <div
           style={{
             display: 'inline-block',
             width: '70%',
             verticalAlign: 'top'
-          }}
-        >
-          {
-            l.join(l.map(
-              this.props.metaKeyForm.data.keywords,
-              (k, i) => k.label
-            ), ', ')
-          }
+          }}>
+          {l.join(l.map(this.props.metaKeyForm.data.keywords, (k, i) => k.label), ', ')}
         </div>
       )
     }
@@ -210,8 +211,7 @@ class BoxBatchDatumPeople extends React.Component {
           display: 'inline-block',
           width: '70%',
           verticalAlign: 'top'
-        }}
-      >
+        }}>
         {this.renderKeywords()}
         <input
           placeholder={t('resources_box_batch_search_placeholder')}
@@ -225,10 +225,9 @@ class BoxBatchDatumPeople extends React.Component {
             fontSize: '12px'
           }}
           value={this.props.metaKeyForm.data.text}
-          onFocus={(e) => this.onFocus(e)}
-          onChange={(e) => this.onChange(e.target.value)}
-        />
-        {' '}
+          onFocus={e => this.onFocus(e)}
+          onChange={e => this.onChange(e.target.value)}
+        />{' '}
         {this.renderPopup()}
         {this.renderNewWidget()}
       </div>
@@ -236,7 +235,6 @@ class BoxBatchDatumPeople extends React.Component {
   }
 
   render() {
-
     var metaKeyForm = this.props.metaKeyForm
 
     return (

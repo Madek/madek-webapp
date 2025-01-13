@@ -88,13 +88,13 @@ var ReleasesInfo = ({ releases, children }) => {
     if (r.name && r.info_url) {
       return (
         <span>
-          Madek {r.semver} "<a href={r.info_url}>{r.name}</a>"
+          Madek {r.semver} &quot;<a href={r.info_url}>{r.name}</a>&quot;
         </span>
       )
     } else if (r.name) {
       return (
         <span>
-          Madek {r.semver} "{r.name}"
+          Madek {r.semver} &quot;{r.name}&quot;
         </span>
       )
     } else {

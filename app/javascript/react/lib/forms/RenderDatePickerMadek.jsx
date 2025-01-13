@@ -1,9 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
 import DatePickerUtil from './DatePickerUtil.jsx'
 
 class RenderDatePickerMadek extends React.Component {
-
   constructor(props) {
     super(props)
   }
@@ -23,7 +21,6 @@ class RenderDatePickerMadek extends React.Component {
       'November',
       'Dezember'
     ][this.props.month]
-
   }
 
   util() {
@@ -32,31 +29,36 @@ class RenderDatePickerMadek extends React.Component {
 
   isSelectedDay(y, m, d) {
     var s = this.props.selected
-    if(!s) {
+    if (!s) {
       return false
     }
     return s.year == y && s.month == m && s.day == d
   }
 
   _renderNumber(index, row, rowCount, col, colCount, isValidDay) {
-    if(isValidDay) {
-
-      if(this.isSelectedDay(this.props.year, this.props.month, index)) {
+    if (isValidDay) {
+      if (this.isSelectedDay(this.props.year, this.props.month, index)) {
         return (
-          <div key={'day_' + index} onClick={(event) => this.props._select(event, index)} style={{backgroundColor: '#8ec9ee'}} className='DayPicker-Day'>{index + 1}</div>
+          <div
+            key={'day_' + index}
+            onClick={event => this.props._select(event, index)}
+            style={{ backgroundColor: '#8ec9ee' }}
+            className="DayPicker-Day">
+            {index + 1}
+          </div>
+        )
+      } else {
+        return (
+          <div
+            key={'day_' + index}
+            onClick={event => this.props._select(event, index)}
+            className="DayPicker-Day">
+            {index + 1}
+          </div>
         )
       }
-      else {
-        return (
-          <div key={'day_' + index} onClick={(event) => this.props._select(event, index)} className='DayPicker-Day'>{index + 1}</div>
-        )
-      }
-
-    }
-    else {
-      return (
-        <div key={'day_' + index} className='DayPicker-Day DayPicker-Day--outside'></div>
-      )
+    } else {
+      return <div key={'day_' + index} className="DayPicker-Day DayPicker-Day--outside"></div>
     }
   }
 
@@ -67,9 +69,9 @@ class RenderDatePickerMadek extends React.Component {
   }
 
   renderCalendar() {
-    return this.util().renderWeeks((week) => {
+    return this.util().renderWeeks(week => {
       return (
-        <div key={'week_' + week} className='DayPicker-Week'>
+        <div key={'week_' + week} className="DayPicker-Week">
           {this.renderWeekDays(week)}
         </div>
       )
@@ -80,27 +82,45 @@ class RenderDatePickerMadek extends React.Component {
     return (
       <div>
         <div>
-          <div className='DayPicker'>
-            <div className='DayPicker-NavBar'>
-              <span onClick={(e) => this.props._previous(e)} className='DayPicker-NavButton DayPicker-NavButton--prev'></span>
-              <span onClick={(e) => this.props._next(e)} className='DayPicker-NavButton DayPicker-NavButton--next'></span>
+          <div className="DayPicker">
+            <div className="DayPicker-NavBar">
+              <span
+                onClick={e => this.props._previous(e)}
+                className="DayPicker-NavButton DayPicker-NavButton--prev"></span>
+              <span
+                onClick={e => this.props._next(e)}
+                className="DayPicker-NavButton DayPicker-NavButton--next"></span>
             </div>
-            <div className='DayPicker-Month'>
-              <div className='DayPicker-Caption'>{this.getMonthText()} {this.props.year}</div>
-              <div className='DayPicker-Weekdays'>
-                <div className='DayPicker-WeekdaysRow' role='columnheader'>
-                  <div className='DayPicker-Weekday'><abbr title='Montag'>Mo</abbr></div>
-                  <div className='DayPicker-Weekday'><abbr title='Dienstag'>Di</abbr></div>
-                  <div className='DayPicker-Weekday'><abbr title='Mittwoch'>Mi</abbr></div>
-                  <div className='DayPicker-Weekday'><abbr title='Donnerstag'>Do</abbr></div>
-                  <div className='DayPicker-Weekday'><abbr title='Freitag'>Fr</abbr></div>
-                  <div className='DayPicker-Weekday'><abbr title='Samstag'>Sa</abbr></div>
-                  <div className='DayPicker-Weekday'><abbr title='Sonntag'>So</abbr></div>
+            <div className="DayPicker-Month">
+              <div className="DayPicker-Caption">
+                {this.getMonthText()} {this.props.year}
+              </div>
+              <div className="DayPicker-Weekdays">
+                <div className="DayPicker-WeekdaysRow" role="columnheader">
+                  <div className="DayPicker-Weekday">
+                    <abbr title="Montag">Mo</abbr>
+                  </div>
+                  <div className="DayPicker-Weekday">
+                    <abbr title="Dienstag">Di</abbr>
+                  </div>
+                  <div className="DayPicker-Weekday">
+                    <abbr title="Mittwoch">Mi</abbr>
+                  </div>
+                  <div className="DayPicker-Weekday">
+                    <abbr title="Donnerstag">Do</abbr>
+                  </div>
+                  <div className="DayPicker-Weekday">
+                    <abbr title="Freitag">Fr</abbr>
+                  </div>
+                  <div className="DayPicker-Weekday">
+                    <abbr title="Samstag">Sa</abbr>
+                  </div>
+                  <div className="DayPicker-Weekday">
+                    <abbr title="Sonntag">So</abbr>
+                  </div>
                 </div>
               </div>
-              <div className='DayPicker-Body'>
-                {this.renderCalendar()}
-              </div>
+              <div className="DayPicker-Body">{this.renderCalendar()}</div>
             </div>
           </div>
         </div>

@@ -11,5 +11,5 @@ global.App = {
   t: require('./lib/i18n-translate.js')
 }
 
-global.UI = App.UI
-global.Models = App.Models
+global.UI = global.App.UI
+global.Models = global.App.Models

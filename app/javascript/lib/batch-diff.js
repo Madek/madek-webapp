@@ -6,16 +6,16 @@
 const f = require('lodash')
 
 const equal_meta_data_values = function(set_a, set_b, attribute) {
-  // Compare the two arrays. First copy both, then remove iteratively an
-  // element from A and remove the same in B. If it is not in B, they are not
-  // equal.
+  // Compare the two arrays. First copy both, then remove iteratively an
+  // element from A and remove the same in B. If it is not in B, they are not
+  // equal.
 
   // First check the lengths.
   if (set_a.length !== set_b.length) {
     return false
   }
 
-  // Copy both arrays.
+  // Copy both arrays.
   const rest_a = f.map(set_a, el_a => el_a)
   const rest_b = f.map(set_b, el_b => el_b)
 
@@ -82,7 +82,7 @@ const compare_datum_between_entries = function(meta_key_id, reference_datum, all
 
   // Note: We take the datum of the first entry as the reference datum.
   // We do not explicitly check if we compare the entry against itself,
-  // since this does not change the result.
+  // since this does not change the result.
 
   f.each(all_entries, function(entry, index) {
     const other = entry.meta_data.meta_datum_by_meta_key_id[meta_key_id]

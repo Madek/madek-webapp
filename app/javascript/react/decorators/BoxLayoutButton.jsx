@@ -14,7 +14,6 @@ import ButtonGroup from '../ui-components/ButtonGroup.jsx'
 import Icon from '../ui-components/Icon.jsx'
 
 class BoxLayoutButton extends React.Component {
-
   constructor(props) {
     super(props)
   }
@@ -23,17 +22,20 @@ class BoxLayoutButton extends React.Component {
     this.props.onLayoutClick(event, this.props.layout)
   }
 
-  render({layout} = this.props) {
+  render({ layout } = this.props) {
     var mods = cx('small', 'ui-toolbar-vis-button', layout.mods)
     return (
       <Button
-        mode={layout.mode} title={layout.title} icon={layout.icon}
-        href={layout.href} onClick={(e) => this.onClick(e)}
-        mods={mods} key={layout.mode}>
-        <Icon i={layout.icon} title={layout.title}/>
+        mode={layout.mode}
+        title={layout.title}
+        icon={layout.icon}
+        href={layout.href}
+        onClick={e => this.onClick(e)}
+        mods={mods}
+        key={layout.mode}>
+        <Icon i={layout.icon} title={layout.title} />
       </Button>
     )
-
   }
 }
 

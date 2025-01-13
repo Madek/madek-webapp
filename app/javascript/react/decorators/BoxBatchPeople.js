@@ -1,8 +1,4 @@
 import l from 'lodash'
-import t from '../../lib/i18n-translate.js'
-import cx from 'classnames/dedupe'
-import async from 'async'
-import url from 'url'
 import xhr from 'xhr'
 import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 import BoxBatchPeopleNewWidget from './BoxBatchPeopleNewWidget.js'
@@ -123,14 +119,14 @@ module.exports = merged => {
         return data.keywords
       }
 
-      var newKeyword = {
+      var newKeyword2 = {
         subtype: 'PeopleGroup',
         first_name: group.name.trim()
       }
-      if (l.find(data.keywords, k => keywordMatch(k, newKeyword))) {
+      if (l.find(data.keywords, k => keywordMatch(k, newKeyword2))) {
         return data.keywords
       } else {
-        return data.keywords.concat(newKeyword)
+        return data.keywords.concat(newKeyword2)
       }
     } else {
       return data.keywords

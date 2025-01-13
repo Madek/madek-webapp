@@ -134,8 +134,8 @@ module.exports = function(collectionClass, { jsonPath }) {
       )
 
       // We compare the request id when sending started
-      // with the request id when the answer arrives and
-      // only process the answer when its still the same id.
+      // with the request id when the answer arrives and
+      // only process the answer when its still the same id.
       const localRequestId = this.requestId
 
       return xhr.get({ url: nextUrl, json: true }, (err, res, body) => {

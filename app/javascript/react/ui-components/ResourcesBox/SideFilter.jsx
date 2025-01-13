@@ -38,9 +38,9 @@ module.exports = React.createClass({
 
   // Note: We list in the menu the sections based on the meta data contexts.
   // But furthermore, we also for example list the media types as a section
-  // with an artifical uuid "file". We must make sure, that we have not clash
-  // for example, when a context has the id "file". Thats why section uuids must
-  // be concatenated with the filter_type.
+  // with an artifical uuid "file". We must make sure, that we have not clash
+  // for example, when a context has the id "file". Thats why section uuids must
+  // be concatenated with the filter_type.
   // E.g. meta_data:copyright or media_files:file
 
   getAccordionSection(sectionUuid) {
@@ -517,8 +517,8 @@ module.exports = React.createClass({
         currentPerType,
 
         // Remove the filter, if it is in the section and consists only of
-        // key, but has no value or match.
-        // If multi is false, then we remove all from this section.
+        // key, but has no value or match.
+        // If multi is false, then we remove all from this section.
         function(filter) {
           const preventDuplicate = filter.key === parent.uuid && filter.value === item.uuid
           const removeSectionFilter =
@@ -699,10 +699,10 @@ var initializeSubSections = filters =>
       children: initializeItems(children),
       label,
       uuid,
-      // The default value of multi is true. This means, we only
-      // check if the presenter has set the value to false explicitely.
+      // The default value of multi is true. This means, we only
+      // check if the presenter has set the value to false explicitely.
       // If the presenter does not set the value at all, it is undefined,
-      // and therefore it is set to true here.
+      // and therefore it is set to true here.
       multi: multi !== false ? true : undefined,
       contextKeyId: context_key_id,
       metaDatumObjectType: meta_datum_object_type,

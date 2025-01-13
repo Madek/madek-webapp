@@ -6,6 +6,7 @@
 const f = require('active-lodash')
 const requireBulk = require('bulk-require')
 
+// eslint-disable-next-line no-undef
 const index = requireBulk(__dirname, ['*.js'])
 
 const Models = f.object(

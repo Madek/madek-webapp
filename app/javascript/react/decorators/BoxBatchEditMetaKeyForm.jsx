@@ -9,7 +9,6 @@ import BoxBatchDatumKeywords from './BoxBatchDatumKeywords.jsx'
 import BoxBatchDatumPeople from './BoxBatchDatumPeople.jsx'
 
 class BoxBatchEditMetaKeyForm extends React.Component {
-
   constructor(props) {
     super(props)
   }
@@ -75,37 +74,35 @@ class BoxBatchEditMetaKeyForm extends React.Component {
   renderForm() {
     var type = this.props.metaKeyForm.props.metaKey.value_type
     var renderer = this.renderers()[type]
-    if(!renderer) throw 'not implemented for ' + type
+    if (!renderer) throw 'not implemented for ' + type
     return renderer()
   }
 
   renderMandatory() {
-
     var mandatoryForTypes = this.props.metaKeyForm.props.mandatoryForTypes
 
-    if(mandatoryForTypes.length == 0) {
+    if (mandatoryForTypes.length == 0) {
       return null
     }
 
     var mandatoryText = () => {
-      if(mandatoryForTypes.length == 1 && mandatoryForTypes[0] == 'MediaEntry') {
+      if (mandatoryForTypes.length == 1 && mandatoryForTypes[0] == 'MediaEntry') {
         return t('resources_box_batch_mandatory_field_for_media_entry')
       }
       return t('resources_box_batch_mandatory_field')
     }
 
     return (
-      <div style={{marginBottom: '10px', color: '#5982a7', textAlign: 'right'}}>
+      <div style={{ marginBottom: '10px', color: '#5982a7', textAlign: 'right' }}>
         <i
-          className='icon-question'
+          className="icon-question"
           style={{
             display: 'inline-block',
             width: '20px',
             position: 'relative',
             top: '2px'
           }}
-        />
-        {' '}
+        />{' '}
         {mandatoryText()}
       </div>
     )
@@ -114,39 +111,35 @@ class BoxBatchEditMetaKeyForm extends React.Component {
   renderScope() {
     var metaKey = this.props.metaKeyForm.props.metaKey
 
-    var renderDiv = (text) => {
+    var renderDiv = text => {
       return (
-        <div style={{marginBottom: '10px', color: '#b59d6e', textAlign: 'right'}}>
+        <div style={{ marginBottom: '10px', color: '#b59d6e', textAlign: 'right' }}>
           <i
-            className='icon-bang'
+            className="icon-bang"
             style={{
               display: 'inline-block',
               width: '20px',
               position: 'relative',
               top: '2px'
             }}
-          />
-          {' '}
+          />{' '}
           {text}
         </div>
       )
     }
 
-    if(l.includes(metaKey.scope, 'Entries') && l.includes(metaKey.scope, 'Sets')) {
+    if (l.includes(metaKey.scope, 'Entries') && l.includes(metaKey.scope, 'Sets')) {
       return renderDiv(t('resources_box_batch_field_only_for_entries_and_sets'))
-    } else if(l.includes(metaKey.scope, 'Entries')) {
+    } else if (l.includes(metaKey.scope, 'Entries')) {
       return renderDiv(t('resources_box_batch_field_only_for_entries'))
-    } else if(l.includes(metaKey.scope, 'Sets')) {
+    } else if (l.includes(metaKey.scope, 'Sets')) {
       return renderDiv(t('resources_box_batch_field_only_for_sets'))
     } else {
       return null
     }
-
   }
 
-
   render() {
-
     return (
       <div>
         {this.renderMandatory()}

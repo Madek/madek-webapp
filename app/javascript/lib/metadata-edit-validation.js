@@ -108,7 +108,7 @@ module.exports = {
           model.values.length !== 1 ||
           model.values[0].trim() !== ''
         ) {
-          // Note: New keywords have no uuid yet. Fortunately new keywords always mean that the length is different.
+          // Note: New keywords have no uuid yet. Fortunately new keywords always mean that the length is different.
           if (!this._equalUnordered(model.values, model.originalValues, model.multiple)) {
             return (hasChanges = true)
           }
@@ -117,9 +117,5 @@ module.exports = {
     })
 
     return hasChanges
-  },
-
-  _changesForAll(meta_meta_data, models) {
-    return metadataEditHelper._changesPerContext(meta_meta_data, models, null)
   }
 }

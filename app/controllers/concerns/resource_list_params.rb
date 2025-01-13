@@ -1,6 +1,6 @@
 # Handles parameters `MediaResources` Presenters
 # NOTE: shared logic! keep in sync with
-#       `app/javascript/shared/resource_list_params.coffee`
+#       `app/javascript/shared/resource_list_params.js`
 module ResourceListParams
   extend ActiveSupport::Concern
 

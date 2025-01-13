@@ -26,7 +26,6 @@ gem 'kramdown'
 gem 'react-rails', '= 1.9.0'
 gem 'sass'
 gem 'sass-rails'
-gem 'coffee-rails'
 gem 'sprockets-rails', '>= 3.5'
 
 # LINKED DATA

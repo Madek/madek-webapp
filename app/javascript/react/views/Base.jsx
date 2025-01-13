@@ -49,13 +49,10 @@ module.exports = React.createClass({
       ) {
         return (
           <div className="ui-alert">
-            {`\
-As this Media Entry is part of the workflow \"`}
-            <a href={get.workflow.actions.edit.url}>{get.workflow.name}</a>
-            {`\",
-managing permissions is available only by changing common settings on workflow edit page which
-will be applied after finishing it.\
-`}
+            As this Media Entry is part of the workflow
+            <a href={get.workflow.actions.edit.url}>&quot;{get.workflow.name}&quot;</a>, managing
+            permissions is available only by changing common settings on workflow edit page which
+            will be applied after finishing it.
           </div>
         )
       } else if (f.includes(['permissions', 'permissions_edit'], action_name)) {

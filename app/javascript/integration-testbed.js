@@ -23,7 +23,7 @@ window.runTest = function(name, data) {
 
   try {
     let test
-    if (typeof (test = tests[name]) !== 'function') {
+    if (typeof (test = window.tests[name]) !== 'function') {
       throw new Error(`No test named ${name}!`)
     }
     test(data, handleResult)

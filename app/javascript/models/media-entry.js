@@ -187,6 +187,7 @@ module.exports = AppResource.extend(
             const attrs = (() => {
               try {
                 return JSON.parse(res.body)
+                // eslint-disable-next-line no-empty
               } catch (error1) {}
             })()
             if (attrs) {

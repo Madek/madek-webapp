@@ -9,7 +9,6 @@ import BoxMetaKeySelector from './BoxMetaKeySelector.jsx'
 import Preloader from '../ui-components/Preloader.jsx'
 
 class BoxBatchEditForm extends React.Component {
-
   constructor(props) {
     super(props)
   }
@@ -20,14 +19,14 @@ class BoxBatchEditForm extends React.Component {
   }
 
   renderMetaKeyForm(metaKeyForm, resourceStates) {
-
     var vocabLabel = () => {
-      var metaMetaData = this.props.stateBox.components.batch.components.loadMetaMetaData.data.metaMetaData
+      var metaMetaData = this.props.stateBox.components.batch.components.loadMetaMetaData.data
+        .metaMetaData
       var mmd = l.find(
         metaMetaData,
-        (mmd) => mmd.data.vocabularies_by_vocabulary_id[metaKeyForm.props.metaKey.vocabulary_id]
+        mmd => mmd.data.vocabularies_by_vocabulary_id[metaKeyForm.props.metaKey.vocabulary_id]
       )
-      if(mmd) {
+      if (mmd) {
         return mmd.data.vocabularies_by_vocabulary_id[metaKeyForm.props.metaKey.vocabulary_id].label
       } else {
         return null
@@ -35,7 +34,15 @@ class BoxBatchEditForm extends React.Component {
     }
 
     return (
-      <div key={metaKeyForm.props.metaKeyId} style={{backgroundColor: '#fff', borderRadius: '5px', border: '1px solid #cccccc', padding: '10px', marginBottom: '5px'}}>
+      <div
+        key={metaKeyForm.props.metaKeyId}
+        style={{
+          backgroundColor: '#fff',
+          borderRadius: '5px',
+          border: '1px solid #cccccc',
+          padding: '10px',
+          marginBottom: '5px'
+        }}>
         <BoxBatchEditMetaKeyForm
           trigger={this.props.trigger}
           metaKeyForm={metaKeyForm}
@@ -56,7 +63,7 @@ class BoxBatchEditForm extends React.Component {
   }
 
   toApplyCount() {
-    if(!this.applyJob()) {
+    if (!this.applyJob()) {
       return 0
     } else {
       return this.applyJob().processing.length
@@ -68,17 +75,15 @@ class BoxBatchEditForm extends React.Component {
   }
 
   renderKeyForms() {
-    let {components} = this.stateBatch()
+    let { components } = this.stateBatch()
 
-    return l.map(
-      components.metaKeyForms,
-      (metaKeyForm) => this.renderMetaKeyForm(metaKeyForm, this.stateBox().components.resources)
+    return l.map(components.metaKeyForms, metaKeyForm =>
+      this.renderMetaKeyForm(metaKeyForm, this.stateBox().components.resources)
     )
   }
 
   renderHint() {
-
-    if(this.toApplyCount() == 0) {
+    if (this.toApplyCount() == 0) {
       return null
     }
 
@@ -90,10 +95,9 @@ class BoxBatchEditForm extends React.Component {
           color: '#b59d6e',
           marginBottom: '20px',
           marginTop: '40px'
-        }}
-      >
+        }}>
         <i
-          className='icon-bang'
+          className="icon-bang"
           style={{
             display: 'inline-block',
             width: '40px',
@@ -108,46 +112,30 @@ class BoxBatchEditForm extends React.Component {
   }
 
   editableSelectedCount() {
-    return l.size(
-      l.filter(
-        this.stateBox().data.selectedResources,
-        (r) => r.editable
-      )
-    )
+    return l.size(l.filter(this.stateBox().data.selectedResources, r => r.editable))
   }
 
   editableEntriesSelectedCount() {
     return l.size(
-      l.filter(
-        this.stateBox().data.selectedResources,
-        (r) => r.type == 'MediaEntry' && r.editable
-      )
+      l.filter(this.stateBox().data.selectedResources, r => r.type == 'MediaEntry' && r.editable)
     )
   }
 
   editableCollectionsSelectedCount() {
     return l.size(
-      l.filter(
-        this.stateBox().data.selectedResources,
-        (r) => r.type == 'Collection' && r.editable
-      )
+      l.filter(this.stateBox().data.selectedResources, r => r.type == 'Collection' && r.editable)
     )
   }
 
   editableCount() {
-    return l.size(
-      l.filter(
-        this.stateBox().components.resources,
-        (rs) => rs.data.resource.editable
-      )
-    )
+    return l.size(l.filter(this.stateBox().components.resources, rs => rs.data.resource.editable))
   }
 
   editableEntriesCount() {
     return l.size(
       l.filter(
         this.stateBox().components.resources,
-        (rs) => rs.data.resource.type == 'MediaEntry' && rs.data.resource.editable
+        rs => rs.data.resource.type == 'MediaEntry' && rs.data.resource.editable
       )
     )
   }
@@ -156,7 +144,7 @@ class BoxBatchEditForm extends React.Component {
     return l.size(
       l.filter(
         this.stateBox().components.resources,
-        (rs) => rs.data.resource.type == 'Collection' && rs.data.resource.editable
+        rs => rs.data.resource.type == 'Collection' && rs.data.resource.editable
       )
     )
   }
@@ -165,17 +153,14 @@ class BoxBatchEditForm extends React.Component {
     return this.stateBox().data.selectedResources.length
   }
 
-
   renderApplySelected() {
-
-    if(!this.showButtons()) {
+    if (!this.showButtons()) {
       return null
     }
 
-    if(this.stateBatch().components.metaKeyForms.length == 0) {
+    if (this.stateBatch().components.metaKeyForms.length == 0) {
       return null
     }
-
 
     // if(this.selectedCount() == 0) {
     //   return null
@@ -186,11 +171,15 @@ class BoxBatchEditForm extends React.Component {
     }
 
     var renderText = () => {
-      return t('resources_box_batch_apply_on_selected_1') + this.editableSelectedCount() + t('resources_box_batch_apply_on_selected_2')
+      return (
+        t('resources_box_batch_apply_on_selected_1') +
+        this.editableSelectedCount() +
+        t('resources_box_batch_apply_on_selected_2')
+      )
     }
 
     return (
-      <div style={{width: '50%', float: 'left'}}>
+      <div style={{ width: '50%', float: 'left' }}>
         <div
           style={{
             backgroundColor: '#fff',
@@ -198,28 +187,36 @@ class BoxBatchEditForm extends React.Component {
             border: '1px solid #cccccc',
             padding: '10px',
             marginLeft: '5px'
-          }}
-        >
+          }}>
           <div>
-            <h2 className='title-m ui-info-box-title mbm'>{t('resources_box_batch_selected_content')}</h2>
+            <h2 className="title-m ui-info-box-title mbm">
+              {t('resources_box_batch_selected_content')}
+            </h2>
             <div>&nbsp;</div>
             <div>{t('resources_box_batch_stats_where_selected') + ' ' + this.selectedCount()}</div>
-            <div>{t('resources_box_batch_stats_where_editable') + ' ' + this.editableSelectedCount()}</div>
+            <div>
+              {t('resources_box_batch_stats_where_editable') + ' ' + this.editableSelectedCount()}
+            </div>
           </div>
           <div>
             <div
               style={{
                 marginTop: '10px',
                 fontSize: '20px'
-              }}
-            >
-              {this.editableEntriesSelectedCount() + ' ' + t('resources_box_batch_stats_entries') + ' / ' + this.editableCollectionsSelectedCount() + ' ' + t('resources_box_batch_stats_collections')}
+              }}>
+              {this.editableEntriesSelectedCount() +
+                ' ' +
+                t('resources_box_batch_stats_entries') +
+                ' / ' +
+                this.editableCollectionsSelectedCount() +
+                ' ' +
+                t('resources_box_batch_stats_collections')}
             </div>
           </div>
           <div
-            onClick={(hasSelection() ? this.props.onClickApplySelected : null)}
-            className='primary-button'
-            disabled={(hasSelection() ? null: 'disabled')}
+            onClick={hasSelection() ? this.props.onClickApplySelected : null}
+            className="primary-button"
+            disabled={hasSelection() ? null : 'disabled'}
             style={{
               display: 'inline-block',
               padding: '0px 10px',
@@ -227,14 +224,12 @@ class BoxBatchEditForm extends React.Component {
               marginBottom: '5px',
               cursor: 'pointer',
               marginTop: '5px'
-            }}
-          >
+            }}>
             {renderText()}
           </div>
         </div>
       </div>
     )
-
   }
 
   applyJob() {
@@ -246,7 +241,7 @@ class BoxBatchEditForm extends React.Component {
   }
 
   showButtons() {
-    if(!this.applyJob()) {
+    if (!this.applyJob()) {
       return true
     }
 
@@ -254,8 +249,7 @@ class BoxBatchEditForm extends React.Component {
   }
 
   showProgressBar() {
-
-    if(!this.applyJob()) {
+    if (!this.applyJob()) {
       return false
     }
 
@@ -270,25 +264,25 @@ class BoxBatchEditForm extends React.Component {
   }
 
   renderApplyAll() {
-
-    if(!this.showButtons()) {
+    if (!this.showButtons()) {
       return null
     }
 
-    if(this.stateBatch().components.metaKeyForms.length == 0) {
+    if (this.stateBatch().components.metaKeyForms.length == 0) {
       return null
     }
-
 
     var totalCount = () => {
       return this.props.totalCount
     }
 
-
     var renderText = () => {
-
-      if(this.loadedCount() == totalCount()) {
-        return t('resources_box_batch_apply_on_all_1') + this.editableCount() + t('resources_box_batch_apply_on_all_2')
+      if (this.loadedCount() == totalCount()) {
+        return (
+          t('resources_box_batch_apply_on_all_1') +
+          this.editableCount() +
+          t('resources_box_batch_apply_on_all_2')
+        )
       } else {
         return t('resources_box_batch_load_all_pages')
       }
@@ -297,17 +291,18 @@ class BoxBatchEditForm extends React.Component {
     }
 
     return (
-      <div style={{width: '50%', float: 'left'}}>
+      <div style={{ width: '50%', float: 'left' }}>
         <div
           style={{
             backgroundColor: '#fff',
             borderRadius: '5px',
             border: '1px solid #cccccc',
             padding: '10px'
-          }}
-        >
+          }}>
           <div>
-            <h2 className='title-m ui-info-box-title mbm'>{t('resources_box_batch_all_content')}</h2>
+            <h2 className="title-m ui-info-box-title mbm">
+              {t('resources_box_batch_all_content')}
+            </h2>
             <div>{t('resources_box_batch_stats_total') + ' ' + this.props.totalCount}</div>
             <div>{t('resources_box_batch_stats_where_loaded') + ' ' + this.loadedCount()}</div>
             <div>{t('resources_box_batch_stats_where_editable') + ' ' + this.editableCount()}</div>
@@ -317,19 +312,30 @@ class BoxBatchEditForm extends React.Component {
               style={{
                 marginTop: '10px',
                 fontSize: '20px'
-              }}
-            >
-              {(
-                this.loadedCount() != totalCount()
-                ? <span>&nbsp;</span>
-                : (this.editableEntriesCount() + ' ' + t('resources_box_batch_stats_entries') + ' / ' + this.editableCollectionsCount() + ' ' + t('resources_box_batch_stats_collections'))
+              }}>
+              {this.loadedCount() != totalCount() ? (
+                <span>&nbsp;</span>
+              ) : (
+                this.editableEntriesCount() +
+                ' ' +
+                t('resources_box_batch_stats_entries') +
+                ' / ' +
+                this.editableCollectionsCount() +
+                ' ' +
+                t('resources_box_batch_stats_collections')
               )}
             </div>
           </div>
           <div
-            onClick={(this.toApplyCount() > 0 || this.loadedCount() != totalCount() ? null : this.props.onClickApplyAll)}
-            className='primary-button'
-            disabled={(this.toApplyCount() > 0 || this.loadedCount() != totalCount() ? 'disabled' : null)}
+            onClick={
+              this.toApplyCount() > 0 || this.loadedCount() != totalCount()
+                ? null
+                : this.props.onClickApplyAll
+            }
+            className="primary-button"
+            disabled={
+              this.toApplyCount() > 0 || this.loadedCount() != totalCount() ? 'disabled' : null
+            }
             style={{
               display: 'inline-block',
               padding: '0px 10px',
@@ -337,8 +343,7 @@ class BoxBatchEditForm extends React.Component {
               marginBottom: '5px',
               cursor: 'pointer',
               marginTop: '5px'
-            }}
-          >
+            }}>
             {renderText()}
           </div>
         </div>
@@ -346,11 +351,8 @@ class BoxBatchEditForm extends React.Component {
     )
   }
 
-
-
   renderProgress() {
-
-    if(!this.showProgressBar()) {
+    if (!this.showProgressBar()) {
       return null
     }
 
@@ -382,66 +384,64 @@ class BoxBatchEditForm extends React.Component {
     }
 
     var renderIgnoreFailures = () => {
-
       var showIgnore = () => {
         return pendingCount() == 0 && applyingCount() == 0 && toApply == 0 && errorCount() > 0
       }
 
-      if(!showIgnore()) {
+      if (!showIgnore()) {
         return null
       }
 
       return (
         <div
-          className='primary-button'
+          className="primary-button"
           style={{
             display: 'inline-block',
             backgroundImage: 'linear-gradient(#F44336, #c53434)',
             border: '1px solid #6f0d0d'
           }}
-          onClick={this.props.onClickIgnore}
-        >
+          onClick={this.props.onClickIgnore}>
           {t('resources_box_batch_ignore_failures')}
         </div>
       )
     }
 
     var renderCancel = () => {
-
-      if(pendingCount() == 0) {
+      if (pendingCount() == 0) {
         return null
       }
 
       return (
         <div
-          className='button'
-          style={{
-            // display: 'inline-block',
-            // borderRadius: '5px',
-            // backgroundColor: '#3c3c3c',
-            // color: '#fff',
-            // padding: '0px 10px',
-            // fontSize: '14px',
-            // cursor: 'pointer',
-            // float: 'right',
-            // marginTop: '1px'
-          }}
-          onClick={this.props.onClickCancel}
-        >
+          className="button"
+          style={
+            {
+              // display: 'inline-block',
+              // borderRadius: '5px',
+              // backgroundColor: '#3c3c3c',
+              // color: '#fff',
+              // padding: '0px 10px',
+              // fontSize: '14px',
+              // cursor: 'pointer',
+              // float: 'right',
+              // marginTop: '1px'
+            }
+          }
+          onClick={this.props.onClickCancel}>
           {t('resources_box_batch_cancel_waiting')}
         </div>
       )
     }
 
     var renderErrors = () => {
-      if(errorCount() == 0) {
+      if (errorCount() == 0) {
         return null
       }
 
       return (
         <span>
           {', '}
-          <span style={{color: '#f00'}}>
+          <span style={{ color: '#f00' }}>
             {errorCount() + t('resources_box_batch_loading_stats_failed')}
           </span>
         </span>
@@ -449,21 +449,32 @@ class BoxBatchEditForm extends React.Component {
     }
 
     var renderText = () => {
-
-      if(pendingCount() == 0 && applyingCount() == 0 && errorCount() == 0) {
+      if (pendingCount() == 0 && applyingCount() == 0 && errorCount() == 0) {
         return doneCount() + t('resources_box_batch_processing_successful')
       } else {
         return (
-          processingTotalCount() + t('resources_box_batch_loading_stats_total') +
-          applyingCount() + t('resources_box_batch_loading_stats_applying') +
-          pendingCount() + t('resources_box_batch_loading_stats_pending') +
-          doneCount() + t('resources_box_batch_loading_stats_done')
+          processingTotalCount() +
+          t('resources_box_batch_loading_stats_total') +
+          applyingCount() +
+          t('resources_box_batch_loading_stats_applying') +
+          pendingCount() +
+          t('resources_box_batch_loading_stats_pending') +
+          doneCount() +
+          t('resources_box_batch_loading_stats_done')
         )
       }
     }
 
     return (
-      <div style={{backgroundColor: '#bfda80', borderRadius: '5px', color: '#fff', textAlign: 'center', fontSize: '16px', padding: '3px'}}>
+      <div
+        style={{
+          backgroundColor: '#bfda80',
+          borderRadius: '5px',
+          color: '#fff',
+          textAlign: 'center',
+          fontSize: '16px',
+          padding: '3px'
+        }}>
         <div>
           {renderText()}
           {renderErrors()}
@@ -476,20 +487,12 @@ class BoxBatchEditForm extends React.Component {
     )
   }
 
-
-
-
   renderInvalidMessage() {
-
-    if(l.isEmpty(this.props.stateBox.components.batch.data.invalidMetaKeyUuids)) {
+    if (l.isEmpty(this.props.stateBox.components.batch.data.invalidMetaKeyUuids)) {
       return null
     }
 
-    return (
-      <div style={{color: '#f00'}}>
-        {t('resources_box_batch_fill_in_all_fields_hint')}
-      </div>
-    )
+    return <div style={{ color: '#f00' }}>{t('resources_box_batch_fill_in_all_fields_hint')}</div>
   }
 
   // renderSuccessMessage() {
@@ -527,70 +530,69 @@ class BoxBatchEditForm extends React.Component {
   }
 
   renderRightSide() {
-
-    if(!this.anyFieldSelected()) {
+    if (!this.anyFieldSelected()) {
       return null
     }
 
     return (
       <div>
-        <h2 className='title-l ui-info-box-title mbm'>{t('resources_box_batch_enter_metadata')}</h2>
+        <h2 className="title-l ui-info-box-title mbm">{t('resources_box_batch_enter_metadata')}</h2>
 
-
-        <div style={{paddingTop: '26px'}}>
+        <div style={{ paddingTop: '26px' }}>
           {this.renderInvalidMessage()}
           {this.renderKeyForms()}
 
-          <div style={{marginTop: '20px'}}>
+          <div style={{ marginTop: '20px' }}>
             {this.renderApplyAll()}
             {this.renderApplySelected()}
           </div>
-          <div style={{paddingTop: '20px', clear: 'both'}}>
+          <div style={{ paddingTop: '20px', clear: 'both' }}>
             {this.renderHint()}
             {this.renderProgress()}
           </div>
         </div>
       </div>
     )
-
   }
 
   render() {
+    let { data, components } = this.stateBatch()
 
-    let {data, components} = this.stateBatch()
-
-    if(!data.open) {
+    if (!data.open) {
       return null
     } else {
-
-      if(this.props.stateBox.components.batch.components.loadMetaMetaData.data.metaMetaData.length != 2) {
+      if (
+        this.props.stateBox.components.batch.components.loadMetaMetaData.data.metaMetaData.length !=
+        2
+      ) {
         return (
-          <div className='ui-resources-holder pbm'>
+          <div className="ui-resources-holder pbm">
             <Preloader />
           </div>
         )
       }
 
       return (
-        <div className='ui-resources-holder pbm'>
-
-          <div style={{textAlign: 'right', marginBottom: '10px', float: 'right'}}>
-            <a className='button' onClick={this.props.onClose}>
-              <i className='icon-close'></i>
-              {' '}
-              {t('resources_box_batch_close')}
+        <div className="ui-resources-holder pbm">
+          <div style={{ textAlign: 'right', marginBottom: '10px', float: 'right' }}>
+            <a className="button" onClick={this.props.onClose}>
+              <i className="icon-close"></i> {t('resources_box_batch_close')}
             </a>
           </div>
 
-          <div style={{width: '40%', float: 'left', clear: 'both'}}>
-            <h2 className='title-l ui-info-box-title mbm'>{t('resources_box_batch_select_fields')}</h2>
-            <div style={{marginRight: '30px'}}>
-              <BoxMetaKeySelector trigger={this.props.trigger} loadMetaMetaData={this.props.stateBox.components.batch.components.loadMetaMetaData} onClickKey={this.props.onClickKey} />
+          <div style={{ width: '40%', float: 'left', clear: 'both' }}>
+            <h2 className="title-l ui-info-box-title mbm">
+              {t('resources_box_batch_select_fields')}
+            </h2>
+            <div style={{ marginRight: '30px' }}>
+              <BoxMetaKeySelector
+                trigger={this.props.trigger}
+                loadMetaMetaData={this.props.stateBox.components.batch.components.loadMetaMetaData}
+                onClickKey={this.props.onClickKey}
+              />
             </div>
           </div>
-          <div style={{width: '60%', float: 'right'}}>
-            {this.renderRightSide()}
-          </div>
+          <div style={{ width: '60%', float: 'right' }}>{this.renderRightSide()}</div>
         </div>
       )
     }

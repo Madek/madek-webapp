@@ -34,20 +34,18 @@ class MediaEntrySiblings extends Component {
     const { url } = this.props
 
     this.setState({ isFetching: true })
-    this._fetching = appRequest(
-      { url, sparse: { siblings: {} } },
-      (err, res, data) => {
-        if (!this._isMounted) return
-        if (err && !data) {
-          console.error('Error while fetching sibling entries data!\n\n', err)
-          this.setState({ resourcesByCollection: false, isFetching: false })
-        } else {
-          this.setState({
-            resourcesByCollection: this.prepareResources(data.siblings),
-            isFetching: false,
-            fetched: true
-          })
-        }
+    this._fetching = appRequest({ url, sparse: { siblings: {} } }, (err, res, data) => {
+      if (!this._isMounted) return
+      if (err && !data) {
+        console.error('Error while fetching sibling entries data!\n\n', err)
+        this.setState({ resourcesByCollection: false, isFetching: false })
+      } else {
+        this.setState({
+          resourcesByCollection: this.prepareResources(data.siblings),
+          isFetching: false,
+          fetched: true
+        })
+      }
     })
   }
 
@@ -55,23 +53,20 @@ class MediaEntrySiblings extends Component {
     const { resourcesByCollection, isFetching, fetched } = this.state
 
     return (
-      <div className='ui-container midtone bordered rounded mbh pam'>
-        <h3 className='title-l mbm'>
-          {t('media_entry_siblings_section_title')}
-        </h3>
+      <div className="ui-container midtone bordered rounded mbh pam">
+        <h3 className="title-l mbm">{t('media_entry_siblings_section_title')}</h3>
 
         {isFetching && <Preloader />}
         {fetched && _.isEmpty(resourcesByCollection) ? (
-          <div className='by-center'>{t('no_content_fallback')}</div>
+          <div className="by-center">{t('no_content_fallback')}</div>
         ) : (
           _.map(resourcesByCollection, ({ collection, media_entries }) => {
             const { uuid, title, url } = collection
 
             return (
-              <div key={uuid} className='ui-sibling-entries'>
-                <h4 className='title-s mbs'>
-                  {t('media_entry_siblings_parent_set')} {' '}
-                  <Link href={url}>{title}</Link>
+              <div key={uuid} className="ui-sibling-entries">
+                <h4 className="title-s mbs">
+                  {t('media_entry_siblings_parent_set')} <Link href={url}>{title}</Link>
                 </h4>
 
                 <MediaResourcesLine resources={media_entries} />

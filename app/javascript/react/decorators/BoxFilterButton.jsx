@@ -6,10 +6,7 @@ import cx from 'classnames/dedupe'
 import Icon from '../ui-components/Icon.jsx'
 import Button from '../ui-components/Button.jsx'
 
-
-
 class BoxFilterButton extends React.Component {
-
   constructor(props) {
     super(props)
   }
@@ -20,7 +17,7 @@ class BoxFilterButton extends React.Component {
   }
 
   renderResetFilterLink() {
-    if(this.props.resetFilterLink) {
+    if (this.props.resetFilterLink) {
       return this.props.resetFilterLink
     } else {
       return null
@@ -28,11 +25,10 @@ class BoxFilterButton extends React.Component {
   }
 
   render() {
-
     var get = this.props.get
     var config = this.props.config
 
-    if(!get.can_filter) {
+    if (!get.can_filter) {
       return null
     }
 
@@ -40,13 +36,16 @@ class BoxFilterButton extends React.Component {
 
     return (
       <div>
-        <Button data-test-id='filter-button' name={name} mods={{'active': config.show_filter}}
-          href={this.props.filterToggleLink} onClick={(e) => this.props._onFilterToggle(e, !config.show_filter)}>
-          <Icon i='filter' mods='small'/> {name}
+        <Button
+          data-test-id="filter-button"
+          name={name}
+          mods={{ active: config.show_filter }}
+          href={this.props.filterToggleLink}
+          onClick={e => this.props._onFilterToggle(e, !config.show_filter)}>
+          <Icon i="filter" mods="small" /> {name}
         </Button>
         {this.renderResetFilterLink()}
       </div>
-
     )
   }
 }

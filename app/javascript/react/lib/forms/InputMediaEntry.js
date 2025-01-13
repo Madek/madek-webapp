@@ -49,7 +49,7 @@ class InputMediaEntry extends React.Component {
     this.props.onChange([[{ uuid: values.uuid }, values.description]])
   }
 
-  render({ name, isPersisted } = this.props) {
+  render({ name /* , isPersisted */ } = this.props) {
     const {
       uuidError,
       values: { uuid, description }

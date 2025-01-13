@@ -10,7 +10,6 @@ import cx from 'classnames'
 import first from 'lodash/first'
 import isString from 'lodash/isString'
 import isPlainObject from 'lodash/isPlainObject'
-import isArray from 'lodash/isArray'
 import t from '../../../lib/i18n-translate.js'
 
 class InputJsonText extends Component {

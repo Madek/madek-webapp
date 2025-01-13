@@ -1,14 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 import RenderDatePickerMadek from './RenderDatePickerMadek.jsx'
 
 class CustomDatePicker extends React.Component {
-
   constructor(props) {
     super(props)
   }
 
-  _previous (event) {
+  _previous(event) {
     event.preventDefault()
 
     var date = new Date(this.props.passedState.year, this.props.passedState.month, 1)
@@ -20,7 +19,7 @@ class CustomDatePicker extends React.Component {
     })
   }
 
-  _next (event) {
+  _next(event) {
     event.preventDefault()
 
     var date = new Date(this.props.passedState.year, this.props.passedState.month, 1)
@@ -32,7 +31,7 @@ class CustomDatePicker extends React.Component {
     })
   }
 
-  _select (event, index) {
+  _select(event, index) {
     event.preventDefault()
 
     var year = this.props.passedState.year
@@ -46,19 +45,18 @@ class CustomDatePicker extends React.Component {
     })
   }
 
-
-
-  render () {
-    return <RenderDatePickerMadek
-      month={this.props.passedState.month}
-      year={this.props.passedState.year}
-      selected={this.props.selected}
-      _previous={(e) => this._previous(e)}
-      _next={(e) => this._next(e)}
-      _select={(e, i) => this._select(e, i)}
-    />
+  render() {
+    return (
+      <RenderDatePickerMadek
+        month={this.props.passedState.month}
+        year={this.props.passedState.year}
+        selected={this.props.selected}
+        _previous={e => this._previous(e)}
+        _next={e => this._next(e)}
+        _select={(e, i) => this._select(e, i)}
+      />
+    )
   }
 }
-
 
 module.exports = CustomDatePicker

@@ -1,19 +1,18 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 class DatePickerPopup extends React.Component {
-
   constructor(props) {
     super(props)
     this._boundHandleClickOutside = this._handleClickOutside.bind(this)
   }
 
   componentDidMount() {
-    document.addEventListener('mousedown', this._boundHandleClickOutside);
+    document.addEventListener('mousedown', this._boundHandleClickOutside)
   }
 
   componentWillUnmount() {
-    document.removeEventListener('mousedown', this._boundHandleClickOutside);
+    document.removeEventListener('mousedown', this._boundHandleClickOutside)
   }
 
   _handleClickOutside(event) {
@@ -22,9 +21,9 @@ class DatePickerPopup extends React.Component {
     }
   }
 
-  render () {
+  render() {
     return (
-      <div ref={(ref) => this.reference = ref} style={this.props.style}>
+      <div ref={ref => (this.reference = ref)} style={this.props.style}>
         {this.props.children}
       </div>
     )

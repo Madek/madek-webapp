@@ -8,6 +8,8 @@ const { FileReader } = require('global/window')
 
 // calls back with (data-) url usable as <img> src
 module.exports = getUrlFromBrowserFile = function(file, callback) {
+  // NOTE: `f` is not defined and I don't think it's global. This file seems to be unused.
+  // eslint-disable-next-line no-undef
   if (!file || !f.isFunction(FileReader)) {
     return callback()
   }

@@ -257,13 +257,10 @@ module.exports = React.createClass({
                   <div className="bright pal rounded-bottom rounded-top-right ui-container">
                     {f.get(get, 'workflow.status') === WORKFLOW_STATES.IN_PROGRESS && (
                       <div className="ui-alert">
-                        {`\
-As this Set is part of the workflow \"`}
-                        <a href={get.workflow.actions.edit.url}>{get.workflow.name}</a>
-                        {`\",
-managing permissions is available only by changing common settings on workflow edit page which
-will be applied after finishing it.\
-`}
+                        As this Set is part of the workflow
+                        <a href={get.workflow.actions.edit.url}>&quot;{get.workflow.name}&quot;</a>,
+                        managing permissions is available only by changing common settings on
+                        workflow edit page which will be applied after finishing it.
                       </div>
                     )}
                     {f.get(get, 'workflow.status') !== WORKFLOW_STATES.IN_PROGRESS && (

@@ -1,16 +1,7 @@
 import l from 'lodash'
-import t from '../../lib/i18n-translate.js'
-import cx from 'classnames/dedupe'
-import async from 'async'
-import url from 'url'
 import xhr from 'xhr'
 import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
-import BoxBatchEdit from './BoxBatchEdit.js'
-import setUrlParams from '../../lib/set-params-for-url.js'
-import BoxResource from './BoxResource.js'
-import BoxRedux from './BoxRedux.js'
 import qs from 'qs'
-import BoxStatePrecalculate from './BoxStatePrecalculate.js'
 
 module.exports = (batchComponent, resources, formData, trigger) => {
   applyMetaData(batchComponent, resources, formData, trigger)
@@ -126,7 +117,7 @@ var applyResourceMetaData = ({ batchComponent, trigger, resource, formData }) =>
     arrayFormat: 'brackets' // NOTE: Do it like rails.
   })
 
-  var resourceId = resource.uuid
+  resourceId = resource.uuid
 
   xhr(
     {

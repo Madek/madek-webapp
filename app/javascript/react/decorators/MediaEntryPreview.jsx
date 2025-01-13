@@ -100,9 +100,8 @@ module.exports = React.createClass({
       )
     }
 
-    if (usesIframeEmbed) return <IframeEmbed
-      url={get.url} accessToken={get.used_confidential_access_token}
-    />
+    if (usesIframeEmbed)
+      return <IframeEmbed url={get.url} accessToken={get.used_confidential_access_token} />
 
     const downloadRef = original_file_url ? original_file_url : export_url
 
@@ -116,7 +115,7 @@ module.exports = React.createClass({
               <Icon i="magnifier" mods="bright" />
             </a>
           )}
-         </div>
+        </div>
       ) : // video player
       previews.videos ? (
         <MediaPlayer

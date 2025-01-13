@@ -90,7 +90,7 @@ module.exports = React.createClass({
       url = formatUrl(parsedUrl)
 
       // Note: Return to must be a hidden field to for the server-side case.
-      // Url parameters are ignored in the <form action=... field.
+      // Url parameters are ignored in the <form action=... field.
       return (url = setUrlParams(url, { return_to: this.props.get.return_to }))
     }
   },
@@ -191,6 +191,9 @@ module.exports = React.createClass({
         })
       } else {
         throw new Error('Not supported anymore.')
+
+        // NOTE: the following line was already unreachable in the pre-convert cjsx (coffeescript) component.
+        // eslint-disable-next-line no-unreachable
         diff = batchDiff(
           this.props.get.meta_meta_data.meta_key_by_meta_key_id,
           this.props.get.batch_entries
@@ -487,7 +490,7 @@ There are no contexts defined. Please configure them in the admin tool.\
               {this.contextDescription()}
               {!this.props.batch ? Renderer._renderThumbnail(this.props.get.resource) : undefined}
               <div className="app-body-content table-cell ui-container table-substance ui-container">
-                <div className={true ? 'active' : 'active tab-pane'}>
+                <div className={'active'}>
                   {this.state.systemError ? (
                     <div className="ui-alerts" style={{ marginBottom: '10px' }}>
                       <div className="error ui-alert">{this.state.systemError}</div>

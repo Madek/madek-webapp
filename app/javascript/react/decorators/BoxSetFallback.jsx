@@ -7,9 +7,7 @@ import cx from 'classnames/dedupe'
 import boxSetUrlParams from './BoxSetUrlParams.jsx'
 import setsFallbackUrl from '../../lib/sets-fallback-url.js'
 
-
 class BoxSetFallback extends React.Component {
-
   constructor(props) {
     super(props)
   }
@@ -21,28 +19,23 @@ class BoxSetFallback extends React.Component {
     var usePathUrlReplacement = this.props.usePathUrlReplacement
     var resetFilterLink = this.props.resetFilterLink
 
-    if(!fallback) {
+    if (!fallback) {
       return null
     }
 
-    if(!f.isBoolean(fallback)) {
-
+    if (!f.isBoolean(fallback)) {
       // we are given a fallback message, use it
       return fallback
-
     } else {
-
       // otherwise, build default fallback message:
 
       var renderMessage = () => {
         var setsUrl = setsFallbackUrl(currentUrl, usePathUrlReplacement)
-        if(try_collections && setsUrl) {
+        if (try_collections && setsUrl) {
           return (
             <div>
               {t('resources_box_no_content_but_sets_1')}
-              <a href={setsUrl}>
-                {t('resources_box_no_content_but_sets_2')}
-              </a>
+              <a href={setsUrl}>{t('resources_box_no_content_but_sets_2')}</a>
               {t('resources_box_no_content_but_sets_3')}
             </div>
           )
@@ -52,19 +45,19 @@ class BoxSetFallback extends React.Component {
       }
 
       var renderBr = () => {
-        if(resetFilterLink) {
-          return (<br />)
+        if (resetFilterLink) {
+          return <br />
         } else {
           return null
         }
       }
 
       return (
-        <div className='pvh mth mbl'>
-          <div className='title-l by-center'>
-          {renderMessage()}
-          {renderBr()}
-          {resetFilterLink}
+        <div className="pvh mth mbl">
+          <div className="title-l by-center">
+            {renderMessage()}
+            {renderBr()}
+            {resetFilterLink}
           </div>
         </div>
       )

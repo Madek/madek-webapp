@@ -42,7 +42,8 @@ module.exports = {
     )
     const info = (
       <span style={{ fontStyle: 'italic' }}>
-        {t('workflow_md_edit_form_key_is_managed_a')}"{workflowLink}"
+        {t('workflow_md_edit_form_key_is_managed_a')}
+        &quot;{workflowLink}&quot;
         {t('workflow_md_edit_form_key_is_managed_b')}
       </span>
     )

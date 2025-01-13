@@ -9,9 +9,6 @@ const classnames = require('classnames/dedupe')
 const i18nTranslate = require('../../lib/i18n-translate.js')
 
 const parseModsfromProps = function(param) {
-  if (param == null) {
-    param = props
-  }
   const { className, mods } = param
   return [mods, className]
 }

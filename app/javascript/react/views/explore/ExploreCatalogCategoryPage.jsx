@@ -110,7 +110,7 @@ module.exports = React.createClass({
   componentWillUnmount() {
     // Assumption:
     // If your XHR is pending, and you go to the next page and use the browser back button, then
-    // you most likely do not enter the XHR callback, which in this component means,
+    // you most likely do not enter the XHR callback, which in this component means,
     // that the next page is not loaded. Thats why we explicitly cancel it.
     if (this.xhrRef) {
       this.xhrRef.cancel()
@@ -165,9 +165,6 @@ module.exports = React.createClass({
 })
 
 var MediaResourcesLine = function(param) {
-  if (param == null) {
-    param = props
-  }
   const { keyword, asyncData } = param
   const resources = f.map(keyword.media_entries, 'sparse_props')
 

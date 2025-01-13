@@ -10,6 +10,7 @@ var parseTranslationsFromCSV = require('./parse-translations-from-csv')
 // NOTE: this works with browserify and the 'brfs' transform (embeds as string)
 var path = require('path')
 var translationsCSVText = require('fs').readFileSync(
+  // eslint-disable-next-line no-undef
   path.join(__dirname, '../../../config/locale/translations.csv'),
   'utf8'
 )
