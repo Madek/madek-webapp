@@ -1,7 +1,8 @@
-const AppResource = require('./shared/app-resource.js');
-const MetaKey = require('./meta-key.js');
+const AppResource = require('./shared/app-resource.js')
+const MetaKey = require('./meta-key.js')
 
-const MetaDatum = AppResource.extend({ // base class
+const MetaDatum = AppResource.extend({
+  // base class
   type: 'MetaDatum',
   urlRoot: '/meta_data',
   props: {
@@ -21,23 +22,28 @@ const MetaDatum = AppResource.extend({ // base class
   children: {
     meta_key: MetaKey
   }
-});
+})
 
-
-module.exports = { // only subtypes are exported
+module.exports = {
+  // only subtypes are exported
 
   Text: MetaDatum.extend({
-    type: 'MetaDatumText'}),
+    type: 'MetaDatumText'
+  }),
 
   TextDate: MetaDatum.extend({
-    type: 'MetaDatumText'}),
+    type: 'MetaDatumText'
+  }),
 
   People: MetaDatum.extend({
-    type: 'MetaDatumPeople'}),
+    type: 'MetaDatumPeople'
+  }),
 
   Keywords: MetaDatum.extend({
-    type: 'MetaDatumKeywords'}),
+    type: 'MetaDatumKeywords'
+  }),
 
   Roles: MetaDatum.extend({
-    type: 'MetaDatumRoles'})
-};
+    type: 'MetaDatumRoles'
+  })
+}

@@ -13,18 +13,16 @@ export default class WorkflowCommonPermissions extends React.Component {
 
     return (
       <div>
-        {showHeader &&
+        {showHeader && (
           <span style={supHeadStyle}>{t('workflow_common_settings_permissions_title')}</span>
-        }
+        )}
         <ul>
           <li>
-            <span className="title-s">{t('workflow_common_settings_permissions_responsible')}: </span>
+            <span className="title-s">
+              {t('workflow_common_settings_permissions_responsible')}:{' '}
+            </span>
             {!!responsible && (
-              <TagCloud
-                mod="person"
-                mods="small inline"
-                list={labelize([responsible])}
-              />
+              <TagCloud mod="person" mods="small inline" list={labelize([responsible])} />
             )}
           </li>
           <li>
@@ -32,22 +30,14 @@ export default class WorkflowCommonPermissions extends React.Component {
               {t('workflow_common_settings_permissions_write')}
               {': '}
             </span>
-            <TagCloud
-              mod="person"
-              mods="small inline"
-              list={labelize(write)}
-            />
+            <TagCloud mod="person" mods="small inline" list={labelize(write)} />
           </li>
           <li>
             <span className="title-s">
               {t('workflow_common_settings_permissions_read')}
               {': '}
             </span>
-            <TagCloud
-              mod="person"
-              mods="small inline"
-              list={labelize(read)}
-            />
+            <TagCloud mod="person" mods="small inline" list={labelize(read)} />
           </li>
           <li>
             <span className="title-s">

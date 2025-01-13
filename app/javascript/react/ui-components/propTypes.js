@@ -1,4 +1,4 @@
-const React = require('react');
+const React = require('react')
 
 module.exports = {
   Clickable: React.PropTypes.shape({
@@ -16,4 +16,4 @@ module.exports = {
     href: React.PropTypes.string,
     onClick: React.PropTypes.func
   })
-};
+}

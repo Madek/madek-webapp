@@ -5,7 +5,7 @@
  */
 // Concern: FavoritableResource
 
-const f = require('active-lodash');
+const f = require('active-lodash')
 
 module.exports = {
   props: {
@@ -16,16 +16,14 @@ module.exports = {
   },
 
   // instance methods:
-  setFavoredStatus(action, callback){
+  setFavoredStatus(action, callback) {
     if (!f.include(['favor', 'disfavor'], action.name) || !action.url) {
-      throw new Error('ArgumentError!');
+      throw new Error('ArgumentError!')
     }
-    this.set('favored', ((action === 'favor') ? true : false));
-    return this._runRequest(
-      {method: 'PATCH', url: action.url},
-      (err, res, data)=> {
-        this.set('favored', data.isFavored);
-        return callback(err, res, data);
-    });
+    this.set('favored', action === 'favor' ? true : false)
+    return this._runRequest({ method: 'PATCH', url: action.url }, (err, res, data) => {
+      this.set('favored', data.isFavored)
+      return callback(err, res, data)
+    })
   }
-};
+}

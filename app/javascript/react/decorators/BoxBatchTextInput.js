@@ -6,9 +6,7 @@ import url from 'url'
 import xhr from 'xhr'
 import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 
-
-module.exports = ({event, data, initial, path, nextProps}) => {
-
+module.exports = ({ event, data, initial, path, nextProps }) => {
   var next = () => {
     return {
       props: nextProps,
@@ -19,14 +17,12 @@ module.exports = ({event, data, initial, path, nextProps}) => {
     }
   }
 
-
   var nextText = () => {
-
-    if(initial) {
+    if (initial) {
       return ''
     }
 
-    if(event.action == 'change-text'){
+    if (event.action == 'change-text') {
       return event.text
     } else {
       return data.text

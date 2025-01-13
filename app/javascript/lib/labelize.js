@@ -4,7 +4,7 @@ import resourceName from '../react/lib/decorate-resource-names.js'
 
 const labelize = (resourceList, { withLink = false, onDelete, creatorId = null } = {}) => {
   function canDelete(resource) {
-    if(!creatorId) return true
+    if (!creatorId) return true
     return resource.uuid !== creatorId
   }
 

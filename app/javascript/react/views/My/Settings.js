@@ -10,9 +10,11 @@ class MySettings extends React.Component {
     this.state = {
       emailsLocale: props.get.emails_locale,
       notificationCaseUserSettings: props.get.notification_case_user_settings.map(
-        ({ label, email_frequency, allowed_email_frequencies }) => (
-          { label, emailFrequency: email_frequency, allowedEmailFrequencies: allowed_email_frequencies }
-        )
+        ({ label, email_frequency, allowed_email_frequencies }) => ({
+          label,
+          emailFrequency: email_frequency,
+          allowedEmailFrequencies: allowed_email_frequencies
+        })
       ),
       dirty: false
     }

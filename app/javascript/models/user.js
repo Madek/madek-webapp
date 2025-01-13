@@ -1,5 +1,5 @@
-const AppResource = require('./shared/app-resource.js');
-const Person = require('./person.js');
+const AppResource = require('./shared/app-resource.js')
+const Person = require('./person.js')
 
 module.exports = AppResource.extend({
   type: 'User',
@@ -10,4 +10,4 @@ module.exports = AppResource.extend({
   children: {
     person: Person
   }
-});
+})

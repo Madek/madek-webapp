@@ -3,12 +3,12 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const Collection = require('ampersand-rest-collection');
-const AppResource = require('../shared/app-resource.js');
-const ResourcePermissions = require('../shared/resource-permissions.js');
-const User = require('../user.js');
-const Group = require('../group.js');
-const ApiClient = require('../api-client.js');
+const Collection = require('ampersand-rest-collection')
+const AppResource = require('../shared/app-resource.js')
+const ResourcePermissions = require('../shared/resource-permissions.js')
+const User = require('../user.js')
+const Group = require('../group.js')
+const ApiClient = require('../api-client.js')
 
 // Child Collections/Models (defined here because they are not needed anywhere else)
 
@@ -17,7 +17,8 @@ const CollectionPublicPermission = AppResource.extend({
   props: {
     get_metadata_and_previews: ['trilean'],
     get_full_size: ['trilean']
-  }});
+  }
+})
 
 const CollectionUserPermissions = Collection.extend({
   model: AppResource.extend({
@@ -30,7 +31,9 @@ const CollectionUserPermissions = Collection.extend({
       get_full_size: ['trilean', false, false],
       edit_metadata_and_relations: ['trilean', false, false],
       edit_permissions: ['trilean', false, false]
-    }})});
+    }
+  })
+})
 
 const CollectionGroupPermissions = Collection.extend({
   type: 'CollectionGroupPermissions',
@@ -43,7 +46,9 @@ const CollectionGroupPermissions = Collection.extend({
       get_metadata_and_previews: ['trilean', false, false],
       get_full_size: ['trilean', false, false],
       edit_metadata_and_relations: ['trilean', false, false]
-    }})});
+    }
+  })
+})
 
 const CollectionApiClientPermissions = Collection.extend({
   type: 'CollectionApiClientPermissions',
@@ -55,13 +60,15 @@ const CollectionApiClientPermissions = Collection.extend({
     props: {
       get_metadata_and_previews: ['trilean', false, false],
       get_full_size: ['trilean', false, false]
-    }})});
-
+    }
+  })
+})
 
 module.exports = ResourcePermissions.extend({
   type: 'CollectionPermissions',
 
-  children: { // public permission is just 1 subject, so not a collection!
+  children: {
+    // public permission is just 1 subject, so not a collection!
     public_permission: CollectionPublicPermission
   },
 
@@ -72,6 +79,7 @@ module.exports = ResourcePermissions.extend({
   },
 
   // custom serialize to match what rails expects
-  serialize(data){
-    return {collection: (AppResource.prototype.serialize.call(this, data))};
-  }});
+  serialize(data) {
+    return { collection: AppResource.prototype.serialize.call(this, data) }
+  }
+})

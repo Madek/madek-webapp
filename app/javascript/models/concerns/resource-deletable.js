@@ -14,14 +14,12 @@ module.exports = {
   },
 
   // instance methods:
-  delete(callback){
-    return this._runRequest(
-      {method: 'DELETE', url: this.url},
-      function(err, res, data){
-        if (parseInt(res.statusCode) >= 400) {
-          alert('Unexpected Error: ' + JSON.stringify(res));
-        }
-        return callback(err, res, data);
-    });
+  delete(callback) {
+    return this._runRequest({ method: 'DELETE', url: this.url }, function(err, res, data) {
+      if (parseInt(res.statusCode) >= 400) {
+        alert('Unexpected Error: ' + JSON.stringify(res))
+      }
+      return callback(err, res, data)
+    })
   }
-};
+}

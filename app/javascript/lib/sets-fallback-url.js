@@ -4,16 +4,14 @@
  * DS205: Consider reworking code to avoid use of IIFEs
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const f = require('active-lodash');
-const parseUrl = require('url').parse;
-const stringifyUrl = require('url').format;
-const parseQuery = require('qs').parse;
+const f = require('active-lodash')
+const parseUrl = require('url').parse
+const stringifyUrl = require('url').format
+const parseQuery = require('qs').parse
 
-const setUrlParams = require('./set-params-for-url.js');
-
+const setUrlParams = require('./set-params-for-url.js')
 
 module.exports = function(url, usePathUrlReplacement) {
-
   // The fallback url is used for search results if there are no
   // entries found but potentially sets.
   // If we are on a box which toggles between /entries and /sets,
@@ -23,41 +21,38 @@ module.exports = function(url, usePathUrlReplacement) {
   // other than search, because the filters for sets are not yet
   // implemented. In this case we simply return nothing.
 
-  const currentUrl = parseUrl(url);
-  const currentParams = parseQuery(currentUrl.query);
+  const currentUrl = parseUrl(url)
+  const currentParams = parseQuery(currentUrl.query)
 
-  const newParams = f.cloneDeep(currentParams);
+  const newParams = f.cloneDeep(currentParams)
   if (newParams.list) {
-
     if (newParams.list.accordion) {
-      newParams.list.accordion = {};
+      newParams.list.accordion = {}
     }
 
     if (newParams.list.filter) {
-      const parsed = ((() => { try { return JSON.parse(newParams.list.filter); } catch (error) {} })());
+      const parsed = (() => {
+        try {
+          return JSON.parse(newParams.list.filter)
+        } catch (error) {}
+      })()
       if (parsed) {
-        newParams.list.filter = JSON.stringify({search: parsed.search});
+        newParams.list.filter = JSON.stringify({ search: parsed.search })
       } else {
-        newParams.list.filter = JSON.stringify({});
+        newParams.list.filter = JSON.stringify({})
       }
     }
 
-    newParams.list.page = 1;
+    newParams.list.page = 1
   }
-
 
   if (usePathUrlReplacement) {
-    const currentPath = 'entries';
-    const newPath = 'sets';
-    return setUrlParams(
-      currentUrl.pathname.replace(RegExp(`\/${currentPath}$`), `\/${newPath}`),
-      {list: newParams.list}
-    );
+    const currentPath = 'entries'
+    const newPath = 'sets'
+    return setUrlParams(currentUrl.pathname.replace(RegExp(`\/${currentPath}$`), `\/${newPath}`), {
+      list: newParams.list
+    })
   } else {
-    return setUrlParams(
-      currentUrl,
-      {list: newParams.list},
-      {type: 'collections'}
-    );
+    return setUrlParams(currentUrl, { list: newParams.list }, { type: 'collections' })
   }
-};
+}

@@ -31,8 +31,7 @@ const AUTHORITY_CONTROL_PROVIDERS = {
       },
       // https://id.loc.gov/authorities/names/n79022889
       ({ hostname, path }) => {
-        return hostname == 'id.loc.gov' &&
-          path.match(/^\/authorities\/names\/([a-zA-Z]*\d+)$/)
+        return hostname == 'id.loc.gov' && path.match(/^\/authorities\/names\/([a-zA-Z]*\d+)$/)
       }
     ]
   },
@@ -45,8 +44,7 @@ const AUTHORITY_CONTROL_PROVIDERS = {
     patterns: [
       // https://www.imdb.com/name/nm0251868/
       ({ hostname, path }) => {
-        return hostname.replace(/^www./, '') == 'imdb.com' &&
-          path.match(/^\/name\/(nm\d{7,8})\/$/)
+        return hostname.replace(/^www./, '') == 'imdb.com' && path.match(/^\/name\/(nm\d{7,8})\/$/)
       }
     ]
   },
@@ -72,8 +70,10 @@ const AUTHORITY_CONTROL_PROVIDERS = {
     patterns: [
       // https://www.researcherid.com/rid/K-8011-2013
       ({ hostname, path }) => {
-        return hostname.replace(/^www./, '') == 'researcherid.com' &&
+        return (
+          hostname.replace(/^www./, '') == 'researcherid.com' &&
           path.match(/^\/rid\/([a-zA-Z\d-]+)$/)
+        )
       }
     ]
   },
@@ -96,25 +96,23 @@ const AUTHORITY_CONTROL_PROVIDERS = {
     patterns: [
       // http://www.wikidata.org/entity/Q42
       ({ hostname, path }) => {
-        return hostname.replace(/^www./, '') == 'wikidata.org' &&
-          path.match(/^\/entity\/(Q\d+)$/)
+        return hostname.replace(/^www./, '') == 'wikidata.org' && path.match(/^\/entity\/(Q\d+)$/)
       }
     ]
   }
 }
 
 function detect(parsedUrl) {
-  let res =
-    f.map(AUTHORITY_CONTROL_PROVIDERS, (provider, kind) => {
-      const matches = f.map(provider.patterns, pattern => {
-        return pattern(parsedUrl)
-      })
-      const match = f.find(matches, m => m !== false)
-      if (match) {
-        return { kind: kind, label: match[1] }
-      }
+  let res = f.map(AUTHORITY_CONTROL_PROVIDERS, (provider, kind) => {
+    const matches = f.map(provider.patterns, pattern => {
+      return pattern(parsedUrl)
     })
-  
+    const match = f.find(matches, m => m !== false)
+    if (match) {
+      return { kind: kind, label: match[1] }
+    }
+  })
+
   res = f.find(res, el => !f.isEmpty(el))
 
   if (res) {

@@ -9,41 +9,43 @@
 //         and to make the csv part of the asset manifest.
 // # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-window.$ = require('jquery');
+window.$ = require('jquery')
 
 // map of tests by name here
 // a test is an async function to be called with {data} and callback(err, res)
-window.tests =
-  {MediaEntryMetaData: require('./spec/media-entry-meta-data-update_spec.js')};
+window.tests = { MediaEntryMetaData: require('./spec/media-entry-meta-data-update_spec.js') }
 
-window.runTest = function(name, data){
-
-  if (data == null) { data = {}; }
-  window.onerror = err => handleResult(err);
+window.runTest = function(name, data) {
+  if (data == null) {
+    data = {}
+  }
+  window.onerror = err => handleResult(err)
 
   try {
-    let test;
+    let test
     if (typeof (test = tests[name]) !== 'function') {
-      throw new Error(`No test named ${name}!`);
+      throw new Error(`No test named ${name}!`)
     }
-    test(data, handleResult);
-
+    test(data, handleResult)
   } catch (error) {
-    handleResult(error);
+    handleResult(error)
   }
 
-  return null;
-};
+  return null
+}
 
-
-var handleResult = function(err, res){
-  let errorMessage;
-  if (err != null) { errorMessage = {error: err.toString()}; }
+var handleResult = function(err, res) {
+  let errorMessage
+  if (err != null) {
+    errorMessage = { error: err.toString() }
+  }
 
   $('<div id="TestBedResult">')
-    .text(JSON.stringify((errorMessage != null) ? errorMessage : (res || {})))
-    .appendTo('body');
+    .text(JSON.stringify(errorMessage != null ? errorMessage : res || {}))
+    .appendTo('body')
 
   // re-throw any error (for dev console/stacktrace):
-  if (err != null) { throw err; }
-};
+  if (err != null) {
+    throw err
+  }
+}
