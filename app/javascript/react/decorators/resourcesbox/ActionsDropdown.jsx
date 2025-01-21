@@ -164,8 +164,7 @@ module.exports = React.createClass({
                 'media_entries_edit_title',
                 batchEditables.length,
                 'pen',
-                t('resources_box_batch_actions_edit_title') +
-                  (batchEditables && batchEditables.length > 12 ? ' (max. 12)' : '')
+                t('resources_box_batch_actions_edit_title') + ' (max. 12)'
               )
             }
           })()}

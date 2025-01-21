@@ -125,9 +125,9 @@ class BatchEditTitleModal extends Component {
                 <thead className="borderless">
                   <tr>
                     <th></th>
-                    <th>{t('batch_edit_title_th_filename')}</th>
+                    <th className="phs">{t('batch_edit_title_th_filename')}</th>
                     <th>{t('batch_edit_title_th_title')}</th>
-                    <th className="pls">{t('batch_edit_title_th_status')}</th>
+                    {/* <th className="phs">{t('batch_edit_title_th_status')}</th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -140,8 +140,10 @@ class BatchEditTitleModal extends Component {
                           src={entry.image_url}
                         />
                       </td>
-                      <td>{entry.file_name}</td>
-                      <td>
+                      <td className="phs" style={{ width: '33%', maxWidth: '250px' }}>
+                        <div style={{ wordWrap: 'break-word' }}>{entry.file_name}</div>
+                      </td>
+                      <td style={{ width: '66%' }}>
                         <input
                           type="text"
                           className="block"
@@ -152,7 +154,7 @@ class BatchEditTitleModal extends Component {
                           onChange={e => this._onChangeTitle(e.target.value, entry.id)}
                         />
                       </td>
-                      <td className="pls" style={{ width: '80px' }}>
+                      {/* <td className="pls" style={{ width: '25%' }}>
                         {!entry.is_draft && t('batch_edit_title_status_published')}
                         {entry.is_draft && entry.can_be_published && (
                           <span>
@@ -174,12 +176,16 @@ class BatchEditTitleModal extends Component {
                             />
                           </span>
                         )}
-                      </td>
+                      </td> */}
                     </tr>
                   ))}
                 </tbody>
               </table>
             )}
+            {/* TODO */}
+            <div className="mtm">
+              <input type="checkbox" /> Medieneinträge nach dem Speichern publizieren
+            </div>
           </div>
 
           <div className="ui-modal-footer">
