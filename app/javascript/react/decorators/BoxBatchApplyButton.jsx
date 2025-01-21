@@ -1,15 +1,12 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import f from 'active-lodash'
 import t from '../../lib/i18n-translate.js'
-import cx from 'classnames/dedupe'
 
 class BoxBatchApplyButton extends React.Component {
   constructor(props) {
     super(props)
   }
 
-  onApply(event) {
+  onApply() {
     var resource = this.props.resourceState.data.resource
     this.props.trigger(this.props.resourceState, {
       action: 'apply',
@@ -18,7 +15,7 @@ class BoxBatchApplyButton extends React.Component {
     })
   }
 
-  onRetry(event) {
+  onRetry() {
     var resource = this.props.resourceState.data.resource
     this.props.trigger(this.props.resourceState, {
       action: 'retry',
@@ -65,9 +62,6 @@ class BoxBatchApplyButton extends React.Component {
             minHeight: this.isBig() ? null : 'inherit',
             lineHeight: this.isBig() ? null : 'inherit',
             width: width()
-            // backgroundImage: 'linear-gradient(#8a8a8a, #b7b7b7)',
-            // border: '1px solid #696969',
-            // color: '#dadada'
           }}>
           {text}
         </span>

@@ -4,17 +4,19 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const InputFieldText = require('../forms/input-field-text.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import InputFieldText from '../forms/input-field-text.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'InputText',
   propTypes: {
-    name: React.PropTypes.string.isRequired,
-    values: React.PropTypes.array.isRequired,
-    active: React.PropTypes.bool.isRequired,
-    multiple: React.PropTypes.bool.isRequired
+    name: PropTypes.string.isRequired,
+    values: PropTypes.array.isRequired,
+    active: PropTypes.bool.isRequired,
+    multiple: PropTypes.bool.isRequired
   },
 
   render(param) {
@@ -23,7 +25,7 @@ module.exports = React.createClass({
     if (param == null) {
       param = this.props
     }
-    const { get, name, values, active, multiple } = param
+    const { name, values, multiple } = param
     const shouldAddValue = f.isEmpty(values) || multiple
 
     return (

@@ -3,13 +3,12 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const cx = require('classnames')
-const Dropdown = require('../../ui-components/Dropdown.jsx')
-const { MenuItem } = Dropdown
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import Dropdown, { MenuItem } from '../../ui-components/Dropdown.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'SortDropdown',
 
   _onItemClick(event, itemKey) {

@@ -3,11 +3,10 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const AppCollection = require('./shared/app-collection.js')
-const AppResource = require('./shared/app-resource.js')
-const Collection = require('./collection.js')
-const MediaEntry = require('./media-entry.js')
-const PaginatedCollection = require('./shared/paginated-collection-factory.js')
+import AppCollection from './shared/app-collection.js'
+import Collection from './collection.js'
+import MediaEntry from './media-entry.js'
+import PaginatedCollection from './shared/paginated-collection-factory.js'
 
 const CollectionChildren = AppCollection.extend({
   type: 'CollectionChildren',

@@ -1,10 +1,6 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import f from 'lodash'
-import BoxTitlebarRender from './BoxTitlebarRender.jsx'
 import t from '../../lib/i18n-translate.js'
-import cx from 'classnames/dedupe'
-import boxSetUrlParams from './BoxSetUrlParams.jsx'
 import setsFallbackUrl from '../../lib/sets-fallback-url.js'
 
 class BoxSetFallback extends React.Component {

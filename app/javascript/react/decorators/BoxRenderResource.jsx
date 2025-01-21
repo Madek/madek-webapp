@@ -1,5 +1,6 @@
 import React from 'react'
 import f from 'active-lodash'
+import l from 'lodash'
 import ActionsDropdownHelper from './resourcesbox/ActionsDropdownHelper.jsx'
 import ResourceThumbnail from './ResourceThumbnail.jsx'
 import BoxBatchApplyButton from './BoxBatchApplyButton.jsx'
@@ -11,7 +12,6 @@ class BoxRenderResource extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    var l = require('lodash')
     return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
   }
 
@@ -65,8 +65,6 @@ class BoxRenderResource extends React.Component {
     }
 
     var overrideTexts = () => {
-      var l = require('lodash')
-
       var metaData = itemState.data.thumbnailMetaData
       if (!metaData) {
         return null

@@ -5,22 +5,15 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const f = require('active-lodash')
-const css = require('classnames')
-const ui = require('../../lib/ui.js')
-const MadekPropTypes = require('../../lib/madek-prop-types.js')
-
-const loadXhr = require('../../../lib/load-xhr.js')
-
-const Icon = require('../Icon.jsx')
-const Link = require('../Link.jsx')
-const Preloader = require('../Preloader.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import ReactDOM from 'react-dom'
+import f from 'active-lodash'
+import cx from 'classnames'
 
 let jQuery = null
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'UserFilter',
 
   componentDidMount() {
@@ -104,7 +97,7 @@ module.exports = React.createClass({
             'li',
             {
               key: `uuid_${selected.uuid}`,
-              className: css('ui-side-filter-lvl3-item', { active: true })
+              className: cx('ui-side-filter-lvl3-item', { active: true })
             },
             React.createElement(
               'a',
@@ -124,9 +117,7 @@ module.exports = React.createClass({
           )
         )}
         {hasMore && (
-          <li
-            key="input"
-            className={css('ui-side-filter-lvl3-item', { mtx: selection.length > 0 })}>
+          <li key="input" className={cx('ui-side-filter-lvl3-item', { mtx: selection.length > 0 })}>
             <div style={{ position: 'relative' }}>
               <input
                 ref="testInput"

@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import l from 'lodash'
 import ResourceThumbnail from './ResourceThumbnail.jsx'
 

@@ -9,41 +9,40 @@
 // Differences between the supported classes (Entry, Collection)
 // are handled in the models, so there is only 1 view for all of them.
 
-const React = require('react')
-const f = require('active-lodash')
-const ui = require('../../lib/ui.js')
-const { t } = ui
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import { t } from '../../lib/ui.js'
+import BatchMediaEntryPermissions from '../../../models/batch/batch-media-entry-permissions.js'
+import BatchCollectionPermissions from '../../../models/batch/batch-collection-permissions.js'
+import ResourcePermissionsForm from '../../decorators/ResourcePermissionsForm.jsx'
+import Preloader from '../../ui-components/Preloader.jsx'
+import ResourcesBatchBox from '../../decorators/ResourcesBatchBox.jsx'
+import TabContent from '../../views/TabContent.jsx'
+import PageContent from '../../views/PageContent.jsx'
+import PageContentHeader from '../../views/PageContentHeader.jsx'
 
-const BatchMediaEntryPermissions = require('../../../models/batch/batch-media-entry-permissions.js')
-const BatchCollectionPermissions = require('../../../models/batch/batch-collection-permissions.js')
+import xhr from 'xhr'
 
-const ResourcePermissionsForm = require('../../decorators/ResourcePermissionsForm.jsx')
-const Preloader = require('../../ui-components/Preloader.jsx')
-const ResourcesBatchBox = require('../../decorators/ResourcesBatchBox.jsx')
-const TabContent = require('../../views/TabContent.jsx')
-const PageContent = require('../../views/PageContent.jsx')
-const PageContentHeader = require('../../views/PageContentHeader.jsx')
-
-const xhr = require('xhr')
-
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'BatchResourcePermissions',
   propTypes: {
-    get: React.PropTypes.shape({
-      batch_permissions: React.PropTypes.array.isRequired,
-      batch_resources: React.PropTypes.shape({
+    get: PropTypes.shape({
+      batch_permissions: PropTypes.array.isRequired,
+      batch_resources: PropTypes.shape({
         // for thumbs
-        resources: React.PropTypes.array.isRequired
+        resources: PropTypes.array.isRequired
       }),
-      actions: React.PropTypes.shape({
-        save: React.PropTypes.shape({
-          url: React.PropTypes.string.isRequired,
-          method: React.PropTypes.string.isRequired
+      actions: PropTypes.shape({
+        save: PropTypes.shape({
+          url: PropTypes.string.isRequired,
+          method: PropTypes.string.isRequired
         }),
-        cancel: React.PropTypes.shape({ url: React.PropTypes.string.isRequired })
+        cancel: PropTypes.shape({ url: PropTypes.string.isRequired })
       })
     }).isRequired,
-    authToken: React.PropTypes.string.isRequired
+    authToken: PropTypes.string.isRequired
   },
 
   // init state model in any case:

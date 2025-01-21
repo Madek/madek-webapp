@@ -3,12 +3,12 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const Collection = require('ampersand-rest-collection')
-const AppResource = require('../shared/app-resource.js')
-const ResourcePermissions = require('../shared/resource-permissions.js')
-const User = require('../user.js')
-const Group = require('../group.js')
-const ApiClient = require('../api-client.js')
+import Collection from 'ampersand-rest-collection'
+import AppResource from '../shared/app-resource.js'
+import ResourcePermissions from '../shared/resource-permissions.js'
+import User from '../user.js'
+import Group from '../group.js'
+import ApiClient from '../api-client.js'
 
 // Child Collections/Models (defined here because they are not needed anywhere else)
 

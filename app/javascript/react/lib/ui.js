@@ -4,9 +4,8 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const f = require('active-lodash')
-const classnames = require('classnames/dedupe')
-const i18nTranslate = require('../../lib/i18n-translate.js')
+import classnames from 'classnames/dedupe'
+import i18nTranslate from '../../lib/i18n-translate.js'
 
 const parseModsfromProps = function(param) {
   const { className, mods } = param

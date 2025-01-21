@@ -4,14 +4,15 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import ResourcePermissions from '../../templates/ResourcePermissions.jsx'
 
-const ResourcePermissions = require('../../templates/ResourcePermissions.jsx')
-
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'MediaEntryPermissions',
   propTypes: {
-    get: React.PropTypes.object.isRequired
+    get: PropTypes.object.isRequired
   }, // just passed through
 
   render(props) {

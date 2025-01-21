@@ -4,14 +4,11 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const c = require('classnames')
-const { parseMods } = require('../../lib/ui.js')
-const t = require('../../../lib/i18n-translate.js')
-const Icon = require('../../ui-components/Icon.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import Icon from '../../ui-components/Icon.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'StatusIcon',
 
   render(param) {
@@ -25,7 +22,7 @@ module.exports = React.createClass({
     if (param == null) {
       param = this.props
     }
-    const { privacyStatus, resourceType, modelPublished, iconClass } = param
+    const { privacyStatus, iconClass } = param
     const privacyIcon = (function(status) {
       const iconMapping = { public: 'open', private: 'private', shared: 'group' }
       const iconName = `privacy-${iconMapping[status]}`

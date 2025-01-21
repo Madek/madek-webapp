@@ -3,10 +3,11 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const t = require('../../lib/i18n-translate.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import t from '../../lib/i18n-translate.js'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'BatchHintBox',
   render() {
     return (

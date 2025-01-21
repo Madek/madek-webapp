@@ -1,7 +1,8 @@
 // Input field enhanced with Calendar-Date-Picker
 
 const LOCALE = 'de' // not configurable yet, see also the 'moment/locale' below
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Overlay from 'react-bootstrap/lib/Overlay'
 import moment from 'moment'
 import 'moment/locale/de'
@@ -43,17 +44,17 @@ class DatePicker extends Component {
   }
 
   // show Picker when input has focus, hide it *except* when calender is clicked
-  _onPickerClick(e) {
+  _onPickerClick() {
     this.clickedPicker = true
   }
-  _onInputBlur(e) {
+  _onInputBlur() {
     if (this.clickedPicker) {
       this.focus()
     } else {
       this.setState({ isFocused: false })
     }
   }
-  _onInputFocus(e) {
+  _onInputFocus() {
     this.setState({ isFocused: true }, () => {
       if (!this.clickedPicker) {
         const initial = this.state.day || lazyDate(this.props.initialDate)

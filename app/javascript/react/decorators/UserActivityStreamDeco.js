@@ -31,8 +31,8 @@ export const activityGroup = ({ group }) => {
   switch (type) {
     case 'create':
       return [
-        <i className="icon icon-plus" />,
-        <span>
+        <i key="icon" className="icon icon-plus" />,
+        <span key="msg">
           {`Sie haben ${count} `}
           <ResourceLabelPlural {...object} /> {'erstellt.'}
         </span>
@@ -40,8 +40,8 @@ export const activityGroup = ({ group }) => {
 
     case 'edit':
       return [
-        <i className="icon icon-pen" />,
-        <span>
+        <i key="icon" className="icon icon-pen" />,
+        <span key="msg">
           {`Sie haben ${count} `}
           <ResourceLabelPlural {...object} /> {'bearbeitet.'}
         </span>
@@ -49,8 +49,8 @@ export const activityGroup = ({ group }) => {
 
     case 'share':
       return [
-        <i className="icon icon-privacy-private-alt" />,
-        <span>
+        <i key="icon" className="icon icon-privacy-private-alt" />,
+        <span key="msg">
           {sub} {`hat ${count} `}
           <ResourceLabelPlural {...object} /> {'mit ihnen geteilt.'}
         </span>
@@ -66,8 +66,8 @@ export const activityItemByType = ({ type, subject, object }) => {
   switch (type) {
     case 'create':
       return [
-        <i className="icon icon-plus" />,
-        <span>
+        <i key="icon" className="icon icon-plus" />,
+        <span key="msg">
           {'Sie haben '}
           <ResourceLabel {...object} /> {' erstellt.'}
         </span>
@@ -75,8 +75,8 @@ export const activityItemByType = ({ type, subject, object }) => {
 
     case 'edit':
       return [
-        <i className="icon icon-pen" />,
-        <span>
+        <i key="icon" className="icon icon-pen" />,
+        <span key="msg">
           {'Sie haben '}
           <ResourceLabel {...object} /> {'bearbeitet.'}
         </span>
@@ -84,8 +84,8 @@ export const activityItemByType = ({ type, subject, object }) => {
 
     case 'share':
       return [
-        <i className="icon icon-privacy-private-alt" />,
-        <span>
+        <i key="icon" className="icon icon-privacy-private-alt" />,
+        <span key="msg">
           {sub} {'hat '}
           <ResourceLabel {...object} /> {'mit ihnen geteilt.'}
         </span>

@@ -3,10 +3,10 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const xhr = require('xhr')
-const getRailsCSRFToken = require('./rails-csrf-token.js')
-const t = require('./i18n-translate.js')
-const f = require('lodash')
+import xhr from 'xhr'
+import getRailsCSRFToken from './rails-csrf-token.js'
+import t from './i18n-translate.js'
+import f from 'lodash'
 
 module.exports = {
   shared(data, actionUrl, contentType, callback) {
@@ -22,7 +22,6 @@ module.exports = {
         }
       },
       function(err, res, body) {
-        let error
         if (err) {
           callback({
             result: 'error',
@@ -37,7 +36,6 @@ module.exports = {
           try {
             data = JSON.parse(body)
           } catch (error1) {
-            error = error1
             callback({
               result: 'error',
               type: 'client-error',
@@ -60,7 +58,6 @@ module.exports = {
           try {
             data = JSON.parse(body)
           } catch (error2) {
-            error = error2
             callback({
               result: 'error',
               type: 'server-error',

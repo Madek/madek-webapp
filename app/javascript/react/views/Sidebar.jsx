@@ -4,14 +4,13 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const f = require('active-lodash')
-const cx = require('classnames')
-const libUrl = require('url')
-const qs = require('qs')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import cx from 'classnames'
+import libUrl from 'url'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Sidebar',
 
   _endsWith(string, suffix) {
@@ -41,7 +40,7 @@ module.exports = React.createClass({
             const classes = cx('ui-side-navigation-item', { active: link_active })
 
             return f.compact([
-              <li key={section_id + 'key1'} className={classes} key={section_id}>
+              <li className={classes} key={section_id}>
                 <a className="strong" href={link}>
                   {section.is_beta && show_beta ? (
                     <em style={{ fontStyle: 'italic', fontWeight: 'normal' }}>Beta: </em>

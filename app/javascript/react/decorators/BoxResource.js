@@ -1,11 +1,4 @@
-import l from 'lodash'
-import t from '../../lib/i18n-translate.js'
-import cx from 'classnames/dedupe'
-import async from 'async'
 import xhr from 'xhr'
-import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
-import BoxBatchEdit from './BoxBatchEdit.js'
-import BoxRedux from './BoxRedux.js'
 import setUrlParams from '../../lib/set-params-for-url.js'
 
 import url from 'url'
@@ -13,11 +6,10 @@ import qs from 'qs'
 
 var parseUrl = url.parse
 var buildUrl = url.format
-var buildQuery = qs.stringify
 var parseQuery = qs.parse
 
 module.exports = merged => {
-  let { event, trigger, initial, components, data, nextProps, path } = merged
+  let { event, trigger, initial, data, nextProps, path } = merged
 
   var next = () => {
     if (nextProps.loadMetaData) {

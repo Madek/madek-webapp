@@ -11,18 +11,15 @@
  * NOTE: fails if even required on server (jQuery)!
  */
 
-const React = require('react')
-const ReactDOM = require('react-dom')
-const PropTypes = require('prop-types')
-const f = require('active-lodash')
-
-const jQuery = require('jquery')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import jQuery from 'jquery'
 require('@eins78/typeahead.js/dist/typeahead.jquery.js')
-
-const ui = require('../lib/ui.js')
-const cx = ui.cx
-const t = ui.t
-const searchResources = require('../../lib/search.js')
+import { cx, t } from '../lib/ui.js'
+import searchResources from '../../lib/search.js'
 
 const initTypeahead = (
   domNode,
@@ -147,8 +144,7 @@ const initTypeahead = (
   })
 }
 
-// eslint-disable-next-line react/no-deprecated
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'AutoComplete',
   propTypes: {
     name: PropTypes.string.isRequired,
@@ -181,7 +177,6 @@ module.exports = React.createClass({
       suggestionRenderer
     } = this.props
     const conf = Object.assign({ minLength: 1 }, config)
-    // eslint-disable-next-line react/no-find-dom-node
     const inputDOM = ReactDOM.findDOMNode(this.refs.InputField)
     initTypeahead(
       inputDOM,
@@ -200,7 +195,6 @@ module.exports = React.createClass({
   },
 
   focus() {
-    // eslint-disable-next-line react/no-find-dom-node
     jQuery(ReactDOM.findDOMNode(this.refs.InputField)).focus()
   },
 
@@ -209,7 +203,6 @@ module.exports = React.createClass({
 
     return (
       <input
-        // eslint-disable-next-line react/no-string-refs
         ref="InputField"
         type="text"
         className={cx('typeahead', className)}

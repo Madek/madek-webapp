@@ -1,5 +1,5 @@
-const AppResource = require('./shared/app-resource.js')
-const Person = require('./person.js')
+import AppResource from './shared/app-resource.js'
+import Person from './person.js'
 
 module.exports = AppResource.extend({
   type: 'User',

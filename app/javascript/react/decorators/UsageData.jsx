@@ -4,17 +4,13 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const f = require('lodash')
-const parseUrl = require('url').parse
-const t = require('../../lib/i18n-translate.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'lodash'
+import t from '../../lib/i18n-translate.js'
+import Icon from '../ui-components/Icon.jsx'
 
-const TagCloud = require('../ui-components/TagCloud.jsx')
-const Icon = require('../ui-components/Icon.jsx')
-const resourceName = require('../lib/decorate-resource-names.js')
-
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'UsageData',
 
   render(param) {
@@ -36,21 +32,7 @@ module.exports = React.createClass({
               <tbody>
                 <tr>
                   <td className="ui-summary-label">{t('usage_data_responsible')}</td>
-                  <td className="ui-summary-content">
-                    {
-                      // NOTE: <https://github.com/Madek/madek/issues/260>
-                      // list = [
-                      //   {
-                      //     children: responsible.name,
-                      //     href: responsible.url,
-                      //     key: responsible.uuid
-                      //   }
-                      // ]
-                      // <TagCloud mod='person' mods='small' list={list}></TagCloud>
-
-                      responsible.name
-                    }
-                  </td>
+                  <td className="ui-summary-content">{responsible.name}</td>
                 </tr>
                 <tr>
                   <td className="ui-summary-label">
@@ -74,25 +56,12 @@ module.exports = React.createClass({
                     if (!edit_session.user) {
                       return
                     }
-                    const list = [
-                      {
-                        href: edit_session.user.url,
-                        children: resourceName(edit_session.user),
-                        key: edit_session.user.uuid
-                      }
-                    ]
                     return (
                       <tr key={edit_session.uuid}>
                         <td className="ui-summary-label" title={edit_session.change_date_iso}>
                           {edit_session.change_date}
                         </td>
-                        <td className="ui-summary-content">
-                          {
-                            // NOTE: <https://github.com/Madek/madek/issues/260>
-                            // <TagCloud mod='person' mods='small' list={list}></TagCloud>
-                            edit_session.user.name
-                          }
-                        </td>
+                        <td className="ui-summary-content">{edit_session.user.name}</td>
                       </tr>
                     )
                   })}

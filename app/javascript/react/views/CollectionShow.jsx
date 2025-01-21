@@ -5,30 +5,27 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('lodash')
-const parseUrl = require('url').parse
-const buildUrl = require('url').format
-const t = require('../../lib/i18n-translate.js')
-
-const RightsManagement = require('../templates/ResourcePermissions.jsx')
-const CollectionRelations = require('./Collection/Relations.jsx')
-const RelationResources = require('./Collection/RelationResources.jsx')
-const Tabs = require('./Tabs.jsx')
-const Tab = require('./Tab.jsx')
-const PageContent = require('./PageContent.jsx')
-const TabContent = require('./TabContent.jsx')
-const CollectionDetailOverview = require('./Collection/DetailOverview.jsx')
-const CollectionDetailAdditional = require('./Collection/DetailAdditional.jsx')
-const AsyncModal = require('./Collection/AsyncModal.jsx')
-const SelectCollection = require('./Collection/SelectCollection.jsx')
-const HighlightedContents = require('./Collection/HighlightedContents.jsx')
-const MediaEntryHeader = require('./MediaEntryHeader.jsx')
-const MetaDataByListing = require('../decorators/MetaDataByListing.jsx')
-const TagCloud = require('../ui-components/TagCloud.jsx')
-const resourceName = require('../lib/decorate-resource-names.js')
-const UsageData = require('../decorators/UsageData.jsx')
-const Share = require('./Shared/Share.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'lodash'
+import { parse as parseUrl, format as buildUrl } from 'url'
+import t from '../../lib/i18n-translate.js'
+import RightsManagement from '../templates/ResourcePermissions.jsx'
+import CollectionRelations from './Collection/Relations.jsx'
+import RelationResources from './Collection/RelationResources.jsx'
+import Tabs from './Tabs.jsx'
+import Tab from './Tab.jsx'
+import PageContent from './PageContent.jsx'
+import TabContent from './TabContent.jsx'
+import CollectionDetailOverview from './Collection/DetailOverview.jsx'
+import CollectionDetailAdditional from './Collection/DetailAdditional.jsx'
+import AsyncModal from './Collection/AsyncModal.jsx'
+import SelectCollection from './Collection/SelectCollection.jsx'
+import HighlightedContents from './Collection/HighlightedContents.jsx'
+import MediaEntryHeader from './MediaEntryHeader.jsx'
+import MetaDataByListing from '../decorators/MetaDataByListing.jsx'
+import UsageData from '../decorators/UsageData.jsx'
+import Share from './Shared/Share.jsx'
 
 const WORKFLOW_STATES = { IN_PROGRESS: 'IN_PROGRESS', FINISHED: 'FINISHED' }
 
@@ -48,7 +45,7 @@ const contentTestId = id => `set_tab_content_${id}`
 
 const tabTestId = id => `set_tab_${id}`
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'CollectionShow',
 
   // NOTE: setting active by pathname because will work as is with a router
@@ -82,7 +79,7 @@ module.exports = React.createClass({
 
   render(param, param1) {
     let authToken
-    let onClose, contentForGet, get, extractGet, json, getUrl
+    let onClose, contentForGet, get, extractGet, getUrl
     if (param == null) {
       param = this.props
     }

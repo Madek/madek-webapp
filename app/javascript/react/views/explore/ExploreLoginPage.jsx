@@ -4,14 +4,13 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const f = require('active-lodash')
-const classnames = require('classnames')
-const LoginMenu = require('../_layouts/LoginMenu.js').default
-const ResourcesSection = require('./partials/ResourcesSection.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import LoginMenu from '../_layouts/LoginMenu.js'
+import ResourcesSection from './partials/ResourcesSection.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'ExploreLoginPage',
 
   getInitialState() {
@@ -22,7 +21,7 @@ module.exports = React.createClass({
     if (param == null) {
       param = this.props
     }
-    const { get, authToken, authStep2Path, lang } = param
+    const { get, lang } = param
     const welcomeMessage = get.welcome_message
 
     const sectionsElements = f.compact(

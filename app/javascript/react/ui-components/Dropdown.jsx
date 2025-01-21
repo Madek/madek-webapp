@@ -13,20 +13,17 @@
 //       check if we could just port (and style!) from boostrap…
 //       <https://github.com/react-bootstrap/react-bootstrap>
 
-const React = require('react')
-const { PropTypes } = React
-const f = require('active-lodash')
-const ui = require('../lib/ui.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import ui from '../lib/ui.js'
+import Icon from './Icon.jsx'
+import Link from './Link.jsx'
+import Dropdown from 'react-bootstrap/lib/Dropdown'
+import MenuItem from 'react-bootstrap/lib/MenuItem'
 
-const Icon = require('./Icon.jsx')
-const Link = require('./Link.jsx')
-
-const Dropdown = require('react-bootstrap/lib/Dropdown')
-const MenuItem = require('react-bootstrap/lib/MenuItem')
-
-const MODS = ['stick-right']
-
-const UIDropdown = React.createClass({
+const UIDropdown = createReactClass({
   displayName: 'UI.Dropdown',
   propTypes: {
     toggle: PropTypes.string.isRequired,
@@ -102,4 +99,5 @@ UIDropdown.MenuItem = function(props) {
     />
   )
 }
+UIDropdown.MenuItem.displayName = 'UIDropdown.MenuItem'
 module.exports = UIDropdown

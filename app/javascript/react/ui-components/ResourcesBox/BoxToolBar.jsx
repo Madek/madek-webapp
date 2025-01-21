@@ -7,17 +7,18 @@
 // Toolbar inside Box, with Filterbutton, actions, etc.
 // In Styleguide it's still called "FilterBar".
 
-const React = require('react')
-const f = require('active-lodash')
-const { parseMods, cx } = require('../../lib/ui.js')
-const UiPropTypes = require('../propTypes.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import { parseMods, cx } from '../../lib/ui.js'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'BoxToolBar',
   propTypes: {
-    left: React.PropTypes.node,
-    middle: React.PropTypes.node,
-    right: React.PropTypes.node
+    left: PropTypes.node,
+    middle: PropTypes.node,
+    right: PropTypes.node
   },
 
   render(props) {

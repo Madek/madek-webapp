@@ -130,12 +130,11 @@ var applyResourceMetaData = ({ batchComponent, trigger, resource, formData }) =>
         'X-CSRF-Token': getRailsCSRFToken()
       }
     },
-    (err, res, json) => {
+    (err, res) => {
       if (err || res.statusCode != 200) {
         trigger(batchComponent, { action: 'apply-failure', resourceId })
       } else {
         var thumbnailMetaData = () => {
-          var md = metaData()
           var getTitle = () => {
             var fd = l.find(formData, fd => fd.props.metaKeyId == 'madek_core:title')
             if (!fd) {

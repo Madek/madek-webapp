@@ -11,7 +11,6 @@ module.exports = merged => {
     willFetch,
     willStartApply,
     anyApplyAction,
-    anyResourceApply,
     todoLoadMetaData
   } = BoxStatePrecalculate(merged)
 
@@ -131,7 +130,7 @@ module.exports = merged => {
   }
 
   var nextResources = () => {
-    var nextResourceProps = (resource, hasApplyEvent) => {
+    var nextResourceProps = resource => {
       var thumbnailMetaData = () => {
         if (components.batch && components.batch.event.action == 'apply-success') {
           var event = components.batch.event
@@ -160,9 +159,7 @@ module.exports = merged => {
 
     var mapResourceState = resourceState => {
       var resource = resourceState.data.resource
-      var hasApplyEvent =
-        resourceState.event.action == 'apply' || resourceState.event.action == 'retry'
-      var resourceProps = nextResourceProps(resource, hasApplyEvent)
+      var resourceProps = nextResourceProps(resource)
 
       return BoxResource({
         event: resourceState.event,
@@ -176,7 +173,7 @@ module.exports = merged => {
     }
 
     var mapResource = (resource, index) => {
-      var resourceProps = nextResourceProps(resource, false)
+      var resourceProps = nextResourceProps(resource)
 
       return BoxResource({
         event: {},

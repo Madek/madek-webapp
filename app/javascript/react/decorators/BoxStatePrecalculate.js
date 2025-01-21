@@ -2,7 +2,7 @@ import l from 'lodash'
 import BoxBatchEditInvalids from './BoxBatchEditInvalids.js'
 
 module.exports = merged => {
-  let { event, trigger, initial, components, data, nextProps } = merged
+  let { event, initial, components, nextProps } = merged
 
   var willFetch = () => {
     return (

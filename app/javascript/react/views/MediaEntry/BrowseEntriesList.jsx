@@ -5,16 +5,15 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const classList = require('classnames')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import t from '../../../lib/i18n-translate.js'
+import setUrlParams from '../../../lib/set-params-for-url.js'
+import UI from '../../ui-components/index.js'
+import MediaResourcesLine from './MediaResourcesLine.jsx'
 
-const t = require('../../../lib/i18n-translate.js')
-const setUrlParams = require('../../../lib/set-params-for-url.js')
-const UI = require('../../ui-components/index.js')
-const MediaResourcesLine = require('./MediaResourcesLine.jsx').default
-
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Views.MediaEntry.BrowseEntriesList',
 
   render(param) {
@@ -22,7 +21,6 @@ module.exports = React.createClass({
       param = this.props
     }
     const { browse, isLoading, header, authToken } = param
-    const loadingError = t('browse_entries_loading_error')
     // fallback view
     if (isLoading || !browse) {
       let left
@@ -71,9 +69,8 @@ module.exports = React.createClass({
                 resources={entries}
                 authToken={authToken}
                 key={f.get(entries, '0.uuid')}>
-                {f.map(keywordsByMetaKey, function(keywords, index, list) {
+                {f.map(keywordsByMetaKey, function(keywords) {
                   const metaKey = f.get(keywords, '0.metaKey')
-                  const isLast = index === list.length - 1
 
                   return (
                     <span key={f.map(keywords, 'uuid').join('')}>
@@ -110,7 +107,7 @@ var entriesFilterPath = (path, keywords) =>
     }
   })
 
-var KeywordItem = ({ uuid, label, url }) => (
+var KeywordItem = ({ label, url }) => (
   <li className="ui-tag-cloud-item">
     <a className="ui-tag-button" title={label} href={url}>
       {label}

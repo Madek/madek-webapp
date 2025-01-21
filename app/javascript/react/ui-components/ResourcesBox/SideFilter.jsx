@@ -8,32 +8,30 @@
 // decorates: DynamicFilters
 // fallback: no # only used interactive (client-side)
 
-const React = require('react')
-const f = require('active-lodash')
-const t = require('../../../lib/i18n-translate.js')
-const css = require('classnames')
-const ui = require('../../lib/ui.js')
-const MadekPropTypes = require('../../lib/madek-prop-types.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import t from '../../../lib/i18n-translate.js'
+import cx from 'classnames'
+import ui from '../../lib/ui.js'
+import MadekPropTypes from '../../lib/madek-prop-types.js'
+import Icon from '../Icon.jsx'
+import Link from '../Link.jsx'
+import UserFilter from './UserFilter.jsx'
+import PersonFilter from './PersonFilter.js'
+import Preloader from '../Preloader.jsx'
+import { parse as parseQuery } from 'qs'
+import setUrlParams from '../../../lib/set-params-for-url.js'
+import loadXhr from '../../../lib/load-xhr.js'
 
-const Icon = require('../Icon.jsx')
-const Link = require('../Link.jsx')
-const UserFilter = require('./UserFilter.jsx')
-const PersonFilter = require('./PersonFilter.js').default
-
-const Preloader = require('../Preloader.jsx')
-
-const parseQuery = require('qs').parse
-const setUrlParams = require('../../../lib/set-params-for-url.js')
-
-const loadXhr = require('../../../lib/load-xhr.js')
-
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'SideFilter',
   propTypes: {
-    dynamic: React.PropTypes.array,
-    accordion: React.PropTypes.objectOf(React.PropTypes.object).isRequired,
+    dynamic: PropTypes.array,
+    accordion: PropTypes.objectOf(PropTypes.object).isRequired,
     current: MadekPropTypes.resourceFilter.isRequired,
-    onChange: React.PropTypes.func
+    onChange: PropTypes.func
   },
 
   // Note: We list in the menu the sections based on the meta data contexts.
@@ -163,7 +161,7 @@ module.exports = React.createClass({
               f.flatten(f.compact(f.map(newSectionGroups, sectionGroup => sectionGroup.dynamic)))
             )
           } else {
-            return console.log('Could not load side filter data.')
+            return console.error('Could not load side filter data.')
           }
         }
       )
@@ -207,7 +205,7 @@ module.exports = React.createClass({
     if (param == null) {
       param = this.props
     }
-    let { current, accordion } = param
+    let { current } = param
     const dynamic = f.flatten(
       f.compact(f.map(this.state.sectionGroups, sectionGroup => sectionGroup.dynamic))
     )
@@ -265,12 +263,12 @@ module.exports = React.createClass({
     return (
       <li className={itemClass} key={filterType + '-' + filter.uuid}>
         <a
-          className={css('ui-accordion-toggle', 'strong', { open: isOpen })}
+          className={cx('ui-accordion-toggle', 'strong', { open: isOpen })}
           href={href}
           onClick={toggleOnClick}>
           {filter.label} <i className="ui-side-filter-lvl1-marker" />
         </a>
-        <ul className={css('ui-accordion-body', 'ui-side-filter-lvl2', { open: isOpen })}>
+        <ul className={cx('ui-accordion-body', 'ui-side-filter-lvl2', { open: isOpen })}>
           {isOpen
             ? f.map(filter.children, child => {
                 return this.renderSubSection(current, filterType, filter, child)
@@ -295,7 +293,7 @@ module.exports = React.createClass({
     )
 
     const keyClass = 'ui-side-filter-lvl2-item'
-    const togglebodyClass = css('ui-accordion-body', 'ui-side-filter-lvl3', { open: isOpen })
+    const togglebodyClass = cx('ui-accordion-body', 'ui-side-filter-lvl3', { open: isOpen })
     return (
       <li className={keyClass} key={child.uuid}>
         {this.createToggleSubSection(filterType, parent, child, isOpen)}
@@ -395,7 +393,7 @@ module.exports = React.createClass({
   },
 
   renderResponsibleUser(node, parentUuid, current, parent, filterType, togglebodyClass) {
-    const userChanged = (user, action) => {
+    const userChanged = user => {
       const { onChange } = this.props
       if (user.selected) {
         return this.removeItemFilter(onChange, current, parent, user, filterType)
@@ -451,8 +449,8 @@ module.exports = React.createClass({
       return this.toggleSubSection(filterType + '-' + parent.uuid, child.uuid)
     }
 
-    const togglerClass = css('ui-accordion-toggle', 'weak', { open: isOpen })
-    const toggleMarkerClass = css('ui-side-filter-lvl2-marker')
+    const togglerClass = cx('ui-accordion-toggle', 'weak', { open: isOpen })
+    const toggleMarkerClass = cx('ui-side-filter-lvl2-marker')
 
     return (
       <a className={togglerClass} href={href} onClick={toggleOnClick}>
@@ -598,10 +596,10 @@ var FilterItem = function(param) {
   if (param == null) {
     param = this.props
   }
-  let { parentUuid, label, uuid, selected, type, href, count, onClick } = param
+  let { label, uuid, selected, count, onClick } = param
   label = f.presence(label || uuid) || (console.error('empty FilterItem label!') && '(empty)')
   return (
-    <li className={css('ui-side-filter-lvl3-item', { active: selected })}>
+    <li className={cx('ui-side-filter-lvl3-item', { active: selected })}>
       <Link mods="weak" onClick={onClick}>
         {label} <span className="ui-lvl3-item-count">{count}</span>
       </Link>

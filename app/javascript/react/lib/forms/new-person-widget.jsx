@@ -4,31 +4,29 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const ui = require('../../lib/ui.js')
-const { t } = ui
-const Tabs = require('react-bootstrap/lib/Tabs')
-const Tab = require('react-bootstrap/lib/Tab')
-const Nav = require('react-bootstrap/lib/Nav')
-const NavItem = require('react-bootstrap/lib/NavItem')
-const MadekPropTypes = require('../../lib/madek-prop-types.js')
-const { Icon, Tooltipped } = require('../../ui-components/index.js')
-const AutoComplete = null // only required client-side!
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import { t } from '../../lib/ui.js'
+import Tab from 'react-bootstrap/lib/Tab'
+import Nav from 'react-bootstrap/lib/Nav'
+import NavItem from 'react-bootstrap/lib/NavItem'
+import MadekPropTypes from '../../lib/madek-prop-types.js'
+import { Icon } from '../../ui-components/index.js'
 
 // NOTE: only used client-side!
 // NOTE: "form-like" inside <form>, careful!
 const { PEOPLE_SUBTYPES } = MadekPropTypes
 const SUPPORTED_PEOPLE_SUBTYPES = ['Person', 'PeopleGroup']
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'NewPersonWidget',
 
   propTypes: {
-    id: React.PropTypes.string.isRequired,
-    onAddValue: React.PropTypes.func.isRequired,
-    allowedTypes: React.PropTypes.arrayOf(React.PropTypes.oneOf(PEOPLE_SUBTYPES).isRequired)
-      .isRequired
+    id: PropTypes.string.isRequired,
+    onAddValue: PropTypes.func.isRequired,
+    allowedTypes: PropTypes.arrayOf(PropTypes.oneOf(PEOPLE_SUBTYPES).isRequired).isRequired
   },
 
   // NOTE: no models needed here yet:

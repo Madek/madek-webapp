@@ -4,26 +4,15 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const t = require('../../lib/i18n-translate.js')
-const PageContent = require('../views/PageContent.jsx')
-const TabContent = require('../views/TabContent.jsx')
-const Tabs = require('../views/Tabs.jsx')
-const Tab = require('../views/Tab.jsx')
-const batchDiff = require('../../lib/batch-diff.js')
-const BatchHintBox = require('./BatchHintBox.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import BatchAddToSet from './BatchAddToSet.jsx'
+import qs from 'qs'
+import xhr from 'xhr'
+import Modal from '../ui-components/Modal.jsx'
+import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 
-const BatchAddToSet = require('./BatchAddToSet.jsx')
-const AsyncModal = require('../views/Collection/AsyncModal.jsx')
-const setUrlParams = require('../../lib/set-params-for-url.js')
-
-const qs = require('qs')
-const xhr = require('xhr')
-const Modal = require('../ui-components/Modal.jsx')
-const getRailsCSRFToken = require('../../lib/rails-csrf-token.js')
-
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'BatchAddToSetModal',
 
   getInitialState() {
@@ -68,11 +57,7 @@ module.exports = React.createClass({
     )
   },
 
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { authToken, get } = param
+  render() {
     if (this.state.loading) {
       return <Modal loading={true} />
     } else {

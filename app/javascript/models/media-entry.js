@@ -5,20 +5,18 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const f = require('active-lodash')
-const BrowserFile = require('global/window').File
-const app = require('ampersand-app')
-const AppResource = require('./shared/app-resource.js')
-const Permissions = require('./media-entry/permissions.js')
-const Person = require('./person.js')
-// MediaResources = require('./shared/media-resources.js')
-const t = require('../lib/i18n-translate')
-const getMediaType = require('./shared/get-media-type.js')
-const MetaData = require('./meta-data.js')
-const ResourceWithRelations = require('./concerns/resource-with-relations.js')
-// ResourceWithListMetadata = require('./concerns/resource-with-list-metadata.js')
-const Favoritable = require('./concerns/resource-favoritable.js')
-const Deletable = require('./concerns/resource-deletable.js')
+import f from 'active-lodash'
+import { File as BrowserFile } from 'global/window'
+import app from 'ampersand-app'
+import AppResource from './shared/app-resource.js'
+import Permissions from './media-entry/permissions.js'
+import Person from './person.js'
+import t from '../lib/i18n-translate'
+import getMediaType from './shared/get-media-type.js'
+import MetaData from './meta-data.js'
+import ResourceWithRelations from './concerns/resource-with-relations.js'
+import Favoritable from './concerns/resource-favoritable.js'
+import Deletable from './concerns/resource-deletable.js'
 
 module.exports = AppResource.extend(
   ResourceWithRelations,
@@ -120,7 +118,6 @@ module.exports = AppResource.extend(
     },
 
     upload(callback) {
-      let req
       if (!(this.uploading.file instanceof BrowserFile)) {
         throw new Error('Model: MediaEntry: #upload called but no file!')
       }
@@ -153,13 +150,15 @@ module.exports = AppResource.extend(
         try {
           progress = (loaded / total) * 100
         } catch (error) {
+          // Why the log? see https://github.com/Madek/Madek/issues/669
+          // eslint-disable-next-line no-console
           console.error('Could not calculate percentage for loaded/total:', loaded, total, error)
           progress = -1
         }
         return this.merge('uploading', { progress })
       }
 
-      return (req = this._runRequest(
+      return this._runRequest(
         {
           method: 'POST',
           url: app.config.relativeUrlRoot + '/entries/',
@@ -175,11 +174,15 @@ module.exports = AppResource.extend(
             if (err) {
               error = err
             } else if (res) {
+              // Why the log? see above
+              // eslint-disable-next-line no-console
               console.error(`Response status code = ${res.statusCode}`)
               error = res.body
             } else {
               error = 'Error: no response data'
             }
+            // Why the log? see above
+            // eslint-disable-next-line no-console
             console.log('Date', Date())
             this.set('uploading', f.merge(this.uploading, { error }))
           } else {
@@ -187,8 +190,9 @@ module.exports = AppResource.extend(
             const attrs = (() => {
               try {
                 return JSON.parse(res.body)
-                // eslint-disable-next-line no-empty
-              } catch (error1) {}
+              } catch (error1) {
+                // silently ignore
+              }
             })()
             if (attrs) {
               this.set(attrs)
@@ -201,7 +205,7 @@ module.exports = AppResource.extend(
             return callback(error || null, res)
           }
         }
-      ))
+      )
     }
   }
 )

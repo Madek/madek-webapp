@@ -6,13 +6,11 @@
  */
 // This is a (simple) factory, used by ModelCollections that can paginate.
 
-const f = require('active-lodash')
-const State = require('ampersand-state')
-const Collection = require('ampersand-rest-collection')
-const AppCollection = require('./app-collection.js')
+import f from 'active-lodash'
+import State from 'ampersand-state'
+import xhr from 'xhr'
+import setUrlParams from '../../lib/set-params-for-url.js'
 
-const xhr = require('xhr')
-const setUrlParams = require('../../lib/set-params-for-url.js')
 const getOrThrow = function(obj, key) {
   const val = f.get(obj, key)
   if (!f.present(val)) {
@@ -101,7 +99,7 @@ module.exports = function(collectionClass, { jsonPath }) {
       // listen to child collections
       if (this.resources && f.isFunction(this.resources.on)) {
         return this.resources != null
-          ? this.resources.on('change add remove reset', e => this.trigger('change'))
+          ? this.resources.on('change add remove reset', () => this.trigger('change'))
           : undefined
       }
     },
@@ -216,9 +214,9 @@ module.exports = function(collectionClass, { jsonPath }) {
         groupId: resource.uuid,
         id: 'list_meta_data',
         load(callback) {
-          return resource.loadListMetadata((err, res) => callback(err ? 'failure' : 'success'))
+          return resource.loadListMetadata(err => callback(err ? 'failure' : 'success'))
         },
-        callback(callback) {}
+        callback() {}
       }
     },
 

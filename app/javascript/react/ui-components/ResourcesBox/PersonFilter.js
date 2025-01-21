@@ -19,7 +19,6 @@ export default class PersonFilter extends Component {
     const typeaheadOptions = getTypeaheadOptions()
     const dataSet = getDataSet(contextKeyId, staticItems, tooManyHits, jsonPath)
 
-    // eslint-disable-next-line react/no-find-dom-node
     const domNode = ReactDOM.findDOMNode(inputField)
     const jqNode = jQuery(domNode)
     require('@eins78/typeahead.js/dist/typeahead.jquery.js') // NOTE: do not convert this into a ES6 import (it will crash SSR)
@@ -190,7 +189,7 @@ function getDataSet(contextKeyId, staticItems, tooManyHits, jsonPath) {
           value.count === undefined ? '' : value.count
         }<div>` +
         `</div>`,
-      footer: x => {
+      footer: () => {
         if (tooManyHits) {
           return `<div class="ui-autocomplete-footer">${t('app_autocomplete_enter_term')}</div>`
         }

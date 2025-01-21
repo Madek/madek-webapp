@@ -1,9 +1,8 @@
 import React from 'react'
 import f from 'active-lodash'
 import cx from 'classnames'
-
 import currentLocale from '../../../lib/current-locale'
-const UI = require('../../ui-components/index.js')
+import UI from '../../ui-components/index.js'
 import SubSection from '../../ui-components/SubSection'
 import ResourceThumbnail from '../../decorators/ResourceThumbnail.jsx'
 import InputMetaDatum from '../../decorators/InputMetaDatum.jsx'
@@ -74,11 +73,11 @@ class WorkflowEdit extends React.Component {
 
     appRequest({ url: action.url, method: action.method, json: body }, (err, res) => {
       if (err) {
-        console.error(err) // eslint-disable-line no-console
+        console.error(err)
         alert('ERROR! ' + JSON.stringify(err))
         return this.setState({ ...finalState, ownersUpdateError: err })
       }
-      DEBUG_STATE && console.log({ res }) // eslint-disable-line no-console
+      DEBUG_STATE && console.log({ res })
       const workflowOwners = f.get(res, 'body.workflow_owners')
       this.setState({ ...finalState, workflowOwners })
     })
@@ -116,11 +115,11 @@ class WorkflowEdit extends React.Component {
 
     appRequest({ url: action.url, method: action.method, json: body }, (err, res) => {
       if (err) {
-        console.error(err) // eslint-disable-line no-console
+        console.error(err)
         alert('ERROR! ' + JSON.stringify(err))
         return this.setState({ ...finalState, permissionsUpdateError: err })
       }
-      DEBUG_STATE && console.log({ res }) // eslint-disable-line no-console
+      DEBUG_STATE && console.log({ res })
       const commonPermissions = f.get(res, 'body.common_settings.permissions')
       this.setState({ ...finalState, commonPermissions })
     })
@@ -175,11 +174,11 @@ class WorkflowEdit extends React.Component {
 
     appRequest({ url: action.url, method: action.method, json: body }, (err, res) => {
       if (err) {
-        console.error(err) // eslint-disable-line no-console
+        console.error(err)
         alert('ERROR! ' + JSON.stringify(err))
         return this.setState({ finalState, metaDataUpdateError: err })
       }
-      DEBUG_STATE && console.log({ res }) // eslint-disable-line no-console
+      DEBUG_STATE && console.log({ res })
       const commonMetadata = f.get(res, 'body.common_settings.meta_data')
       this.setState({ ...finalState, commonMetadata })
     })
@@ -200,11 +199,11 @@ class WorkflowEdit extends React.Component {
 
     appRequest({ url: action.url, method: action.method, json: body }, (err, res) => {
       if (err) {
-        console.error(err) // eslint-disable-line no-console
+        console.error(err)
         alert('ERROR! ' + JSON.stringify(err))
         return this.setState({ finalState, metaDataUpdateError: err })
       }
-      DEBUG_STATE && console.log({ res }) // eslint-disable-line no-console
+      DEBUG_STATE && console.log({ res })
       this.setState({ ...finalState, name: f.get(res, 'body.name') })
     })
   }

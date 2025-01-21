@@ -5,23 +5,17 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ampersandReactMixin = require('ampersand-react-mixin')
-const f = require('active-lodash')
-const t = require('../../../lib/i18n-translate.js')
-const RailsForm = require('../../lib/forms/rails-form.jsx')
-const FormButton = require('../../ui-components/FormButton.jsx')
-const ToggableLink = require('../../ui-components/ToggableLink.jsx')
-const Modal = require('../../ui-components/Modal.jsx')
-const xhr = require('xhr')
-const formXhr = require('../../../lib/form-xhr.js')
-const loadXhr = require('../../../lib/load-xhr.js')
-const Preloader = require('../../ui-components/Preloader.jsx')
-const Button = require('../../ui-components/Button.jsx')
-const Icon = require('../../ui-components/Icon.jsx')
-const SelectCollectionDialog = require('./SelectCollectionDialog.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import t from '../../../lib/i18n-translate.js'
+import RailsForm from '../../lib/forms/rails-form.jsx'
+import formXhr from '../../../lib/form-xhr.js'
+import Preloader from '../../ui-components/Preloader.jsx'
+import Button from '../../ui-components/Button.jsx'
+import SelectCollectionDialog from './SelectCollectionDialog.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'SelectCollection',
 
   getInitialState() {
@@ -98,23 +92,13 @@ module.exports = React.createClass({
   },
 
   render(param) {
-    let row
     if (param == null) {
       param = this.props
     }
-    let { authToken, get, onClose } = param
-    const error = this.state.error || get.error
+    let { authToken, get } = param
     if (this.state.get) {
       ;({ get } = this.state)
     }
-
-    const alerts = this.state.error ? (
-      <div className="ui-alerts" key="alerts">
-        <p className="ui-alert error">{this.state.error}</p>
-      </div>
-    ) : (
-      undefined
-    )
 
     const buttonMargins = {
       marginTop: '5px',
@@ -271,7 +255,7 @@ module.exports = React.createClass({
   }
 })
 
-var ControlledCheckbox = React.createClass({
+var ControlledCheckbox = createReactClass({
   displayName: 'ControlledCheckbox',
 
   getInitialState() {
@@ -288,11 +272,7 @@ var ControlledCheckbox = React.createClass({
     return this.setState({ checked: event.target.checked })
   },
 
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { children } = param
+  render() {
     return (
       <input
         className={this.props.className}

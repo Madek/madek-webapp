@@ -1,10 +1,7 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import l from 'lodash'
 import t from '../../lib/i18n-translate.js'
-import cx from 'classnames/dedupe'
 import BoxBatchEditMetaKeyForm from './BoxBatchEditMetaKeyForm.jsx'
-import BoxBatchEditFormKeyBubbles from './BoxBatchEditFormKeyBubbles.jsx'
 import BoxMetaKeySelector from './BoxMetaKeySelector.jsx'
 import Preloader from '../ui-components/Preloader.jsx'
 
@@ -14,7 +11,6 @@ class BoxBatchEditForm extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    var l = require('lodash')
     return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
   }
 
@@ -356,7 +352,6 @@ class BoxBatchEditForm extends React.Component {
       return null
     }
 
-    var total = this.totalCount()
     var toApply = this.toApplyCount()
 
     var pendingCount = () => {
@@ -556,7 +551,7 @@ class BoxBatchEditForm extends React.Component {
   }
 
   render() {
-    let { data, components } = this.stateBatch()
+    let { data } = this.stateBatch()
 
     if (!data.open) {
       return null

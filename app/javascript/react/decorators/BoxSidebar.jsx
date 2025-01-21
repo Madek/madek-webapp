@@ -127,8 +127,6 @@ class BoxSidebar extends React.Component {
   }
 
   renderNoJs() {
-    var config = this.props.config
-    var currentQuery = this.props.currentQuery
     return (
       <div>
         <div className="no-js">

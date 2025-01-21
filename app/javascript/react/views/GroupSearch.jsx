@@ -4,24 +4,20 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const f = require('lodash')
-const t = require('../../lib/i18n-translate.js')
-const RailsForm = require('../lib/forms/rails-form.jsx')
-const classnames = require('classnames')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'lodash'
+import t from '../../lib/i18n-translate.js'
+import RailsForm from '../lib/forms/rails-form.jsx'
+import cx from 'classnames'
 let AutoComplete = null
-const AskModal = require('../ui-components/AskModal.jsx')
-const loadXhr = require('../../lib/load-xhr.js')
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'GroupSearch',
 
   getInitialState() {
     return {
       mounted: false,
-      askDialog: false,
-      askFailure: false,
       loading: false,
       data: {
         initialUserIdList: f.map(this.props.get.members, 'uuid'),
@@ -39,8 +35,7 @@ module.exports = React.createClass({
               })
           )
           return result
-        })(),
-        failure: null
+        })()
       }
     }
   },
@@ -48,11 +43,6 @@ module.exports = React.createClass({
   componentDidMount() {
     AutoComplete = require('../lib/autocomplete.js')
     return this.setState({ mounted: true })
-  },
-
-  _onDelete() {
-    this.state.data.failure = null
-    return this.setState({ askDialog: true })
   },
 
   _onSelect(subject) {
@@ -78,32 +68,6 @@ module.exports = React.createClass({
     return this.setState({})
   },
 
-  _onModalOk() {
-    this.state.data.failure = null
-    this.setState({ loading: true })
-    return loadXhr(
-      {
-        method: 'DELETE',
-        url: this.props.get.url,
-        body: {
-          authToken: this.props.authToken
-        }
-      },
-      (result, data) => {
-        if (result === 'success') {
-          return (window.location = this.props.get.success_url)
-        } else {
-          this.state.data.failure = data.headers[0]
-          return this.setState({ loading: false })
-        }
-      }
-    )
-  },
-
-  _onModalCancel() {
-    return this.setState({ askDialog: false })
-  },
-
   render(param) {
     if (param == null) {
       param = this.props
@@ -111,24 +75,6 @@ module.exports = React.createClass({
     const { authToken, get } = param
     return (
       <div className="form-body bright">
-        {this.state.askDialog ? (
-          <AskModal
-            title={t('group_ask_delete_title')}
-            error={this.state.data.failure}
-            loading={this.state.loading}
-            onCancel={this._onModalCancel}
-            onOk={this._onModalOk}
-            okText={t('group_ask_delete_delete')}
-            cancelText={t('group_ask_delete_cancel')}>
-            <p className="pam by-center">
-              {t('group_ask_delete_question_pre')}
-              <strong>{get.name}</strong>
-              {t('group_ask_delete_question_post')}
-            </p>
-          </AskModal>
-        ) : (
-          undefined
-        )}
         <RailsForm name="group" action={get.url} method="put" authToken={authToken}>
           <div className="ui-form-group rowed">
             <label className="form-label" htmlFor="group_name">
@@ -221,21 +167,21 @@ module.exports = React.createClass({
   }
 })
 
-const Link = React.createClass({
+const Link = createReactClass({
   render(param) {
     if (param == null) {
       param = this.props
     }
     const { onClick, disabled, enabledClasses } = param
     if (disabled === true) {
-      return <span className={classnames(enabledClasses, { disabled: true })} />
+      return <span className={cx(enabledClasses, { disabled: true })} />
     } else {
       return <a onClick={onClick} className={enabledClasses} />
     }
   }
 })
 
-var MemberRow = React.createClass({
+var MemberRow = createReactClass({
   _onRemove() {
     if (!this.props.disabled) {
       return this.props.onRemove(this.props.user.id)
@@ -247,7 +193,6 @@ var MemberRow = React.createClass({
       param = this.props
     }
     const { user } = param
-    const Elm = this.props.disabled ? 'span' : 'a'
 
     return (
       <tr>

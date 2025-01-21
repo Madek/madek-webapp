@@ -89,7 +89,6 @@ class VideoJS extends Component {
       plugins: { ...titleBarConf, ...resolutionSwitcherConf }
     }
 
-    // eslint-disable-next-line react/no-string-refs
     const videoTag = this.refs.videojs
     if (!videoTag) throw new Error('no videojs tag!')
 
@@ -123,7 +122,7 @@ class VideoJS extends Component {
     const mediaProps = { type, width, height, poster, preload, controls }
     const classes = cx(className, 'videojs', 'video-js', 'video-fluid', 'vjs-default-skin')
     const playerContent = (
-      <MediaTag // eslint-disable-next-line react/no-string-refs
+      <MediaTag
         ref="videojs"
         {...mediaProps}
         height={options.height}

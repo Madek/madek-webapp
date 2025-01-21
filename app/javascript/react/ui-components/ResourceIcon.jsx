@@ -4,19 +4,17 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const ui = require('../lib/ui.js')
-const t = require('../../lib/i18n-translate.js')
-const Picture = require('./Picture.jsx')
-const Icon = require('./Icon.jsx')
-const cx = require('classnames')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import Icon from './Icon.jsx'
+import cx from 'classnames'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'ResourceIcon',
   propTypes: {
-    type: React.PropTypes.oneOf(['MediaEntry', 'Collection']).isRequired,
-    mediaType: React.PropTypes.string
+    type: PropTypes.oneOf(['MediaEntry', 'Collection']).isRequired,
+    mediaType: PropTypes.string
   },
 
   render(param) {

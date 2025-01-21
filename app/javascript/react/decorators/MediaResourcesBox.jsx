@@ -3,85 +3,59 @@ var _this = this
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__
  * DS205: Consider reworking code to avoid use of IIFEs
  * DS207: Consider shorter variations of null checks
  * DS208: Avoid top-level this
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const defaultsDeep = require('lodash/defaultsDeep')
-const fromPairs = require('lodash/fromPairs')
-const ampersandReactMixin = require('ampersand-react-mixin')
-const ui = require('../lib/ui.js')
-const { parseMods, cx } = ui
-const { t } = ui
-const setUrlParams = require('../../lib/set-params-for-url.js')
-const parseUrl = require('url').parse
-const stringifyUrl = require('url').format
-const parseQuery = require('qs').parse
-const Selection = require('../../lib/selection.js')
-const resourceListParams = require('../../shared/resource_list_params.js')
-const appRequest = require('../../lib/app-request.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
 
-const Waypoint = require('react-waypoint')
-const RailsForm = require('../lib/forms/rails-form.jsx')
-let {
-  Button,
-  ButtonGroup,
-  Icon,
-  Link,
-  Preloader,
-  Dropdown,
-  ActionsBar
-} = require('../ui-components/index.js')
-const { MenuItem } = Dropdown
-const SideFilter = require('../ui-components/ResourcesBox/SideFilter.jsx')
-const BoxToolBar = require('../ui-components/ResourcesBox/BoxToolBar.jsx')
+import urlModule from 'url'
+import localLinks from 'local-links'
+import f from 'active-lodash'
+import _ from 'lodash'
+import defaultsDeep from 'lodash/defaultsDeep'
+import History from 'history/lib/createBrowserHistory'
+import useBeforeUnload from 'history/lib/useBeforeUnload'
 
-// models
-const MediaEntries = require('../../models/media-entries.js')
-const Collections = require('../../models/collections.js')
-const CollectionChildren = require('../../models/collection-children.js')
+import { t } from '../lib/ui.js'
+import setUrlParams from '../../lib/set-params-for-url.js'
+import appRequest from '../../lib/app-request.js'
+import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
+import simpleXhr from '../../lib/simple-xhr.js'
+import railsFormPut from '../../lib/form-put-with-errors.js'
+import { resourceTypeSwitcher } from '../lib/resource-type-switcher.jsx'
 
-// interactive stuff, should be moved to controller
-const xhr = require('xhr')
-const getRailsCSRFToken = require('../../lib/rails-csrf-token.js')
-const BatchAddToSetModal = require('./BatchAddToSetModal.jsx')
-const BatchRemoveFromSetModal = require('./BatchRemoveFromSetModal.jsx')
-const BatchEditTitleModal = require('./BatchEditTitleModal.jsx').default
+import resourceListParams from '../../shared/resource_list_params.js'
 
-const simpleXhr = require('../../lib/simple-xhr.js')
+import { Icon, Link } from '../ui-components/index.js'
+import BoxToolBar from '../ui-components/ResourcesBox/BoxToolBar.jsx'
+import Preloader from '../ui-components/Preloader.jsx'
 
-const LoadXhr = require('../../lib/load-xhr.js')
-Preloader = require('../ui-components/Preloader.jsx')
+import ActionsDropdown from './resourcesbox/ActionsDropdown.jsx'
+import Clipboard from './resourcesbox/Clipboard.jsx'
+import InfoHeader from './resourcesbox/InfoHeader.jsx'
 
-const ActionsDropdown = require('./resourcesbox/ActionsDropdown.jsx')
-const Clipboard = require('./resourcesbox/Clipboard.jsx')
+import CreateCollectionModal from '../views/My/CreateCollectionModal.jsx'
 
-const railsFormPut = require('../../lib/form-put-with-errors.js')
-
-const setsFallbackUrl = require('../../lib/sets-fallback-url.js')
-const libUrl = require('url')
-const qs = require('qs')
-
-const BoxUtil = require('./BoxUtil.js')
-
-const BoxSetUrlParams = require('./BoxSetUrlParams.jsx')
-
-const BoxBatchEdit = require('./BoxBatchEdit.js')
-const BoxBatchEditForm = require('./BoxBatchEditForm.jsx')
-
-const BoxRedux = require('./BoxRedux.js')
-const BoxState = require('./BoxState.js')
-
-const BoxFilterButton = require('./BoxFilterButton.jsx')
-const CreateCollectionModal = require('../views/My/CreateCollectionModal.jsx')
-
-const { resourceTypeSwitcher } = require('../lib/resource-type-switcher.jsx')
-
-const InfoHeader = require('./resourcesbox/InfoHeader.jsx').default
+import BoxUtil from './BoxUtil.js'
+import BoxSetUrlParams from './BoxSetUrlParams.jsx'
+import BoxBatchEditForm from './BoxBatchEditForm.jsx'
+import BoxRedux from './BoxRedux.js'
+import BoxState from './BoxState.js'
+import BoxTitlebar from './BoxTitlebar.jsx'
+import BoxFilterButton from './BoxFilterButton.jsx'
+import BoxSetFallback from './BoxSetFallback.jsx'
+import BoxDestroy from './BoxDestroy.jsx'
+import BoxRenderResources from './BoxRenderResources.jsx'
+import BoxSidebar from './BoxSidebar.jsx'
+import BoxPaginationNav from './BoxPaginationNav.jsx'
+import BoxTransfer from './BoxTransfer.jsx'
+import BoxSelectionLimit from './BoxSelectionLimit.jsx'
+import BatchAddToSetModal from './BatchAddToSetModal.jsx'
+import BatchRemoveFromSetModal from './BatchRemoveFromSetModal.jsx'
+import BatchEditTitleModal from './BatchEditTitleModal.jsx'
 
 // Props/Config overview:
 // - props.get.has_user = should the UI offer any interaction
@@ -91,29 +65,24 @@ const InfoHeader = require('./resourcesbox/InfoHeader.jsx').default
 // - props.get.config.show_filter = if the filterBar should be shown
 
 const getLocalLink = function(event) {
-  const localLinks = require('local-links')
   return localLinks.pathname(event)
 }
 
 const routerGoto = function(path) {
-  const url = require('url')
-  const History = require('history/lib/createBrowserHistory')
-  const useBeforeUnload = require('history/lib/useBeforeUnload')
   const history = useBeforeUnload(History)()
-  return history.push(__guard__(url.parse(path), x => x.path))
+  const url = urlModule.parse(path)
+  return history.push(url ? url.path : undefined)
 }
 
 const isNewTab = function(event) {
-  let internalLink
-  const localLinks = require('local-links')
-  if ((internalLink = localLinks.pathname(event))) {
+  if (localLinks.pathname(event)) {
     return false
   } else {
     return true
   }
 }
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'MediaResourcesBox',
   propTypes: require('./BoxPropTypes.js').propTypes(),
 
@@ -127,8 +96,8 @@ module.exports = React.createClass({
       isClient: false,
       clipboardModal: 'hidden',
       batchAddToSet: false,
-      batchEditTitleResourceIds: undefined,
       batchRemoveFromSet: false,
+      batchEditTitleResourceIds: undefined,
       savedLayout: this.props.collectionData ? this.props.collectionData.layout : undefined,
       savedOrder: this.props.collectionData ? this.props.collectionData.order : undefined,
       savedContextId: f.get(this.props, 'collectionData.defaultContextId'),
@@ -157,7 +126,7 @@ module.exports = React.createClass({
     })
   },
 
-  initialBoxState(event) {
+  initialBoxState() {
     const props = { get: this.props.get }
 
     return BoxState({
@@ -213,7 +182,7 @@ module.exports = React.createClass({
     return this.nextBoxState(events)
   },
 
-  onBatchButton(event) {
+  onBatchButton() {
     return this.triggerComponentEvent(this.state.boxState.components.batch, { action: 'toggle' })
   },
 
@@ -225,7 +194,7 @@ module.exports = React.createClass({
     })
   },
 
-  onClickApplyAll(event) {
+  onClickApplyAll() {
     const events = [
       {
         path: [],
@@ -237,7 +206,7 @@ module.exports = React.createClass({
     return this.nextBoxState(events)
   },
 
-  onClickApplySelected(event) {
+  onClickApplySelected() {
     const events = [
       {
         path: [],
@@ -249,11 +218,11 @@ module.exports = React.createClass({
     return this.nextBoxState(events)
   },
 
-  onClickCancel(event) {
+  onClickCancel() {
     return this.triggetRootEvent({ action: 'cancel-all' })
   },
 
-  onClickIgnore(event) {
+  onClickIgnore() {
     return this.triggetRootEvent({ action: 'ignore-all' })
   },
 
@@ -266,7 +235,7 @@ module.exports = React.createClass({
       return this.props.get.json_path
     }
 
-    const path = parseUrl(this._currentUrl()).pathname
+    const path = urlModule.parse(this._currentUrl()).pathname
     if (
       path.indexOf('/relations/children') > 0 ||
       path.indexOf('/relations/siblings') > 0 ||
@@ -315,14 +284,8 @@ module.exports = React.createClass({
       this.fetchListData()
     }
 
-    // if f.includes(['MediaResources', 'MediaEntries', 'Collections'], @props.get.type)
-    //   selection = Selection.createEmpty(() =>
-    //     @setState(selectedResources: selection) if @isMounted()
-    //   )
-
     this.setState({
       isClient: true,
-      // selectedResources: selection,
       config: resourceListParams(window.location)
     })
 
@@ -334,7 +297,7 @@ module.exports = React.createClass({
   },
 
   // - custom actions:
-  _onFetchNextPage(event) {
+  _onFetchNextPage() {
     if (this.state.boxState.data.loadingNextPage) {
       return
     }
@@ -479,7 +442,9 @@ module.exports = React.createClass({
       )
     }
 
-    const href = parseUrl(BoxSetUrlParams(this._currentUrl(), { list: { order: targetOrder } }))
+    const href = urlModule.parse(
+      BoxSetUrlParams(this._currentUrl(), { list: { order: targetOrder } })
+    )
     routerGoto(href)
 
     return this.setState(
@@ -499,20 +464,23 @@ module.exports = React.createClass({
     return this.setState({ showSelectionLimit: false })
   },
 
+  // eslint-disable-next-line no-unused-vars
   _onHoverMenu(menu_id, event) {
+    // NOTE: Do not delete the `event` parameter although it seems to be unused!
+    //       Removing it will crash the menu rendering. I don't understand how this is
+    //       possible. Try it however if you don't believe it.
     return this.setState({ hoverMenuId: menu_id })
   },
 
   _currentUrl() {
     if (this.state.isClient && this.state.windowHref) {
-      // parseUrl(window.location.toString()).path
       return this.state.windowHref
     } else {
       return BoxSetUrlParams(this.props.get.config.for_url)
     }
   },
 
-  _showBatchTransferResponsibility(resources, event) {
+  _showBatchTransferResponsibility(resources) {
     return this.setState({
       showBatchTransferResponsibility: true,
       batchTransferResponsibilityResources: resources
@@ -539,7 +507,7 @@ module.exports = React.createClass({
       this._currentUrl() +
       '"></input>' +
       '<button type="button"></button>' +
-      require('lodash').join(
+      _.join(
         f.map(selected, s => {
           return `<input type="hidden" name="id[]" value="${s}"></input>`
         }),
@@ -563,7 +531,7 @@ module.exports = React.createClass({
   _persistListConfig(config) {
     const req = appRequest(
       { method: 'PATCH', url: this._routeUrl('session_list_config'), json: config },
-      function(err, res) {
+      function(err) {
         if (err) {
           return console.error(err)
         }
@@ -662,6 +630,12 @@ module.exports = React.createClass({
     return false
   },
 
+  _onBatchRemoveFromSet(resources, event) {
+    event.preventDefault()
+    this.setState({ batchRemoveFromSet: true })
+    return false
+  },
+
   _onBatchEditTitle(resourceIds, event) {
     event.preventDefault()
     this.setState({
@@ -699,17 +673,11 @@ module.exports = React.createClass({
     return this.setState({ clipboardModal: 'remove_selected' })
   },
 
-  _onBatchRemoveFromSet(resources, event) {
-    event.preventDefault()
-    this.setState({ batchRemoveFromSet: true })
-    return false
-  },
-
   _onCloseModal() {
     this.setState({ clipboardModal: 'hidden' })
     this.setState({ batchAddToSet: false })
-    this.setState({ batchEditTitleResourceIds: undefined })
     this.setState({ batchRemoveFromSet: false })
+    this.setState({ batchEditTitleResourceIds: undefined })
     this.setState({ batchDestroyResourcesModal: false })
   },
 
@@ -876,17 +844,7 @@ module.exports = React.createClass({
   },
 
   render() {
-    let {
-      get,
-      mods,
-      initial,
-      fallback,
-      heading,
-      listMods,
-      saveable,
-      authToken,
-      children
-    } = this.props
+    let { get, mods, fallback, heading, listMods, saveable, authToken, children } = this.props
 
     get = this._mergeGet(this.props, this.state)
 
@@ -903,9 +861,8 @@ module.exports = React.createClass({
     const currentUrl = this._currentUrl()
 
     const boxTitleBar = () => {
-      const { filter, layout, for_url, order } = config
+      const { layout, order } = config
       const totalCount = f.get(get, 'pagination.total_count')
-      const { isClient } = this.state
 
       const layouts = BoxUtil.allowedLayoutModes(this.props.disableListMode).map(layoutMode => {
         const href = BoxSetUrlParams(currentUrl, { list: { layout: layoutMode.mode } })
@@ -915,7 +872,6 @@ module.exports = React.createClass({
         })
       })
 
-      const BoxTitlebar = require('./BoxTitlebar.jsx')
       return (
         <BoxTitlebar
           actionName={this.props.actionName}
@@ -1028,7 +984,6 @@ module.exports = React.createClass({
       if (!config.show_filter) {
         return null
       }
-      const BoxSidebar = require('./BoxSidebar.jsx')
       return (
         <BoxSidebar
           config={config}
@@ -1047,7 +1002,6 @@ module.exports = React.createClass({
     })(get, this.state)
 
     const paginationNav = (resources, staticPagination) => {
-      const BoxPaginationNav = require('./BoxPaginationNav.jsx')
       return (
         <BoxPaginationNav
           resources={resources}
@@ -1071,7 +1025,6 @@ module.exports = React.createClass({
               MediaEntry: this._routeUrl('batch_update_transfer_responsibility_media_entries'),
               Collection: this._routeUrl('batch_update_transfer_responsibility_collections')
             }
-            const BoxTransfer = require('./BoxTransfer.jsx')
             return React.createElement(BoxTransfer, {
               authToken: this.props.authToken,
               transferResources: this.state.batchTransferResponsibilityResources,
@@ -1086,7 +1039,6 @@ module.exports = React.createClass({
         })()}
         {(() => {
           if (this.state.showSelectionLimit) {
-            const BoxSelectionLimit = require('./BoxSelectionLimit.jsx')
             return (
               <BoxSelectionLimit
                 showSelectionLimit={this.state.showSelectionLimit}
@@ -1142,7 +1094,6 @@ module.exports = React.createClass({
                   return <Preloader />
                 } else if (!f.present(resources) || resources.length === 0) {
                   return (() => {
-                    const BoxSetFallback = require('./BoxSetFallback.jsx')
                     return (
                       <BoxSetFallback
                         fallback={fallback}
@@ -1154,7 +1105,6 @@ module.exports = React.createClass({
                     )
                   })()
                 } else {
-                  const BoxRenderResources = require('./BoxRenderResources.jsx')
                   const positionProps = {
                     handlePositionChange: this.handlePositionChange,
                     changeable: f.get(this.props, 'collectionData.position_changeable', false),
@@ -1220,16 +1170,6 @@ module.exports = React.createClass({
         ) : (
           undefined
         )}
-        {this.state.batchEditTitleResourceIds ? (
-          <BatchEditTitleModal
-            resourceIds={this.state.batchEditTitleResourceIds}
-            authToken={this.props.authToken}
-            onClose={this._onCloseModal}
-            returnTo={currentUrl}
-          />
-        ) : (
-          undefined
-        )}
         {this.state.batchRemoveFromSet ? (
           <BatchRemoveFromSetModal
             collectionUuid={this.props.collectionData.uuid}
@@ -1242,9 +1182,18 @@ module.exports = React.createClass({
         ) : (
           undefined
         )}
+        {this.state.batchEditTitleResourceIds ? (
+          <BatchEditTitleModal
+            resourceIds={this.state.batchEditTitleResourceIds}
+            authToken={this.props.authToken}
+            onClose={this._onCloseModal}
+            returnTo={currentUrl}
+          />
+        ) : (
+          undefined
+        )}
         {(() => {
           if (this.state.batchDestroyResourcesModal) {
-            const BoxDestroy = require('./BoxDestroy.jsx')
             return (
               <BoxDestroy
                 loading={this.state.batchDestroyResourcesWaiting}
@@ -1263,7 +1212,3 @@ module.exports = React.createClass({
 
 // export helper
 module.exports.boxSetUrlParams = BoxSetUrlParams
-
-function __guard__(value, transform) {
-  return typeof value !== 'undefined' && value !== null ? transform(value) : undefined
-}

@@ -3,9 +3,9 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const AppCollection = require('./shared/app-collection.js')
-const MediaEntry = require('./media-entry.js')
-const PaginatedCollection = require('./shared/paginated-collection-factory.js')
+import AppCollection from './shared/app-collection.js'
+import MediaEntry from './media-entry.js'
+import PaginatedCollection from './shared/paginated-collection-factory.js'
 
 const MediaEntries = AppCollection.extend({
   type: 'MediaEntries',
@@ -17,8 +17,7 @@ const MediaEntries = AppCollection.extend({
   },
 
   getBatchPermissionEditableItems() {
-    let res
-    return (res = this.filter(item => item.permissions_editable))
+    return this.filter(item => item.permissions_editable)
   }
 })
 

@@ -3,7 +3,7 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const f = require('lodash')
+import f from 'lodash'
 
 const equal_meta_data_values = function(set_a, set_b, attribute) {
   // Compare the two arrays. First copy both, then remove iteratively an
@@ -84,7 +84,7 @@ const compare_datum_between_entries = function(meta_key_id, reference_datum, all
   // We do not explicitly check if we compare the entry against itself,
   // since this does not change the result.
 
-  f.each(all_entries, function(entry, index) {
+  f.each(all_entries, function(entry) {
     const other = entry.meta_data.meta_datum_by_meta_key_id[meta_key_id]
 
     // "other" may never be null.

@@ -4,15 +4,14 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const PageContent = require('../PageContent.jsx')
-const TabContent = require('../TabContent.jsx')
-const PageHeader = require('../../ui-components/PageHeader.js')
-const Modal = require('../../ui-components/Modal.jsx')
-const t = require('../../../lib/i18n-translate.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PageContent from '../PageContent.jsx'
+import TabContent from '../TabContent.jsx'
+import PageHeader from '../../ui-components/PageHeader.js'
+import t from '../../../lib/i18n-translate.js'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Shared.Share',
 
   _onClick(event) {
@@ -37,7 +36,7 @@ module.exports = React.createClass({
     if (param == null) {
       param = this.props
     }
-    const { authToken, get, fullPage } = param
+    const { get, fullPage } = param
     if (fullPage) {
       return (
         <PageContent>

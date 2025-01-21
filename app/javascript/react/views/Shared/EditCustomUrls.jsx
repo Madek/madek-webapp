@@ -5,21 +5,20 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const t = require('../../../lib/i18n-translate.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import t from '../../../lib/i18n-translate.js'
+import PageHeader from '../../ui-components/PageHeader.js'
+import RailsForm from '../../lib/forms/rails-form.jsx'
 
-const PageHeader = require('../../ui-components/PageHeader.js')
-const RailsForm = require('../../lib/forms/rails-form.jsx')
-
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Shared.EditCustomUrls',
 
   render(param) {
     if (param == null) {
       param = this.props
     }
-    const { authToken, get, title } = param
+    const { authToken, get } = param
     const { custom_urls_url } = this.props.get
 
     return (

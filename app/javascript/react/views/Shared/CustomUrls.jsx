@@ -4,18 +4,17 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const t = require('../../../lib/i18n-translate.js')
-const Moment = require('moment')
-const currentLocale = require('../../../lib/current-locale.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import t from '../../../lib/i18n-translate.js'
+import Moment from 'moment'
+import currentLocale from '../../../lib/current-locale.js'
+import PageHeader from '../../ui-components/PageHeader.js'
+import HeaderPrimaryButton from '../HeaderPrimaryButton.jsx'
+import RailsForm from '../../lib/forms/rails-form.jsx'
 
-const PageHeader = require('../../ui-components/PageHeader.js')
-const HeaderPrimaryButton = require('../HeaderPrimaryButton.jsx')
-const Button = require('../../ui-components/Button.jsx')
-const RailsForm = require('../../lib/forms/rails-form.jsx')
-
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Shared.CustomUrls',
 
   _renderCustomUrlRow(

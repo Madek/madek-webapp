@@ -1,10 +1,11 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import f from 'active-lodash'
+import l from 'lodash'
 import BoxTitlebarRender from './BoxTitlebarRender.jsx'
 import t from '../../lib/i18n-translate.js'
 import cx from 'classnames/dedupe'
 import boxSetUrlParams from './BoxSetUrlParams.jsx'
+import BoxUtil from './BoxUtil.js'
 
 class BoxTitlebar extends React.Component {
   constructor(props) {
@@ -12,7 +13,6 @@ class BoxTitlebar extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    var l = require('lodash')
     return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
   }
 
@@ -138,7 +138,6 @@ class BoxTitlebar extends React.Component {
   }
 
   toolbarClasses() {
-    var BoxUtil = require('./BoxUtil.js')
     var boxClasses = BoxUtil.boxClasses(this.props.mods)
 
     if (f.includes(boxClasses, 'rounded-right')) {

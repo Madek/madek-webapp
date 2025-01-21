@@ -1,9 +1,6 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import f from 'lodash'
 import t from '../../lib/i18n-translate.js'
-import cx from 'classnames/dedupe'
-import boxSetUrlParams from './BoxSetUrlParams.jsx'
 import Icon from '../ui-components/Icon.jsx'
 
 class BoxPageCounter extends React.Component {
@@ -12,8 +9,6 @@ class BoxPageCounter extends React.Component {
   }
 
   render() {
-    var resources = this.props.resources
-
     var pageResources = this.props.pageResources
 
     var pagination = this.props.pagination

@@ -5,8 +5,8 @@
  * DS201: Simplify complex destructure assignments
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const f = require('active-lodash')
-const AppResource = require('../shared/app-resource.js')
+import f from 'active-lodash'
+import AppResource from '../shared/app-resource.js'
 
 const PERMISSIONS = [
   ['public_permission', 'model'],
@@ -41,7 +41,7 @@ module.exports = function(name, baseModel) {
         const permsForType = f.flatten(f.map(allPerms, permissionName))
         const permsBySubject = f.groupBy(permsForType, 'subject.uuid')
 
-        const batchPerms = f.map(permsBySubject, function(perms, uuid) {
+        const batchPerms = f.map(permsBySubject, function(perms) {
           const combinedPerms = f.object(
             f.map(permissionTypes, function(key) {
               // its mixed when not all perms for all resources are equal

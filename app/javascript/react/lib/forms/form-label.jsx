@@ -5,14 +5,15 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const t = require('../../../lib/i18n-translate.js')
-const MadekPropTypes = require('../madek-prop-types.js')
-const Icon = require('../../ui-components/Icon.jsx')
-const Link = require('../../ui-components/Link.jsx')
-const Tooltipped = require('../../ui-components/Tooltipped.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import t from '../../../lib/i18n-translate.js'
+import MadekPropTypes from '../madek-prop-types.js'
+import Icon from '../../ui-components/Icon.jsx'
+import Link from '../../ui-components/Link.jsx'
+import Tooltipped from '../../ui-components/Tooltipped.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'MetaKeyFormLabel',
   propTypes: {
     metaKey: MadekPropTypes.metaKey

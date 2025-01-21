@@ -149,20 +149,15 @@
         "error"
       ],
       "react/prop-types": "off",
-      "react/no-deprecated": "warn",
-      "no-unused-vars": "warn",
-      "react/jsx-key": "warn",
-      "react/no-render-return-value": "warn",
-      "react/jsx-no-duplicate-props": "warn",
       "react/no-string-refs": "warn",
+      "react/no-find-dom-node": "warn",
       "react/no-is-mounted": "warn",
-      "no-console": "warn",
-      "react/display-name": "warn",
-      "react/no-find-dom-node": "warn"
+      "no-console": "warn"
     },
     "globals": {
       "$": "readonly",
-      "APP_CONFIG": "readonly"
+      "APP_CONFIG": "readonly",
+      "__dirname": "readonly"
     }
   }
 }

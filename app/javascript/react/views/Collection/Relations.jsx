@@ -5,19 +5,18 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const classnames = require('classnames')
-const t = require('../../../lib/i18n-translate.js')
-const ResourceThumbnail = require('../../decorators/ResourceThumbnail.jsx')
-const parseUrl = require('url').parse
-const buildUrl = require('url').format
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import cx from 'classnames'
+import t from '../../../lib/i18n-translate.js'
+import ResourceThumbnail from '../../decorators/ResourceThumbnail.jsx'
+import { parse as parseUrl, format as buildUrl } from 'url'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'views/Collection/Relations',
 
   render(param) {
-    let resource
     if (param == null) {
       param = this.props
     }
@@ -72,10 +71,9 @@ module.exports = React.createClass({
           </div>
         </div>
         <div
-          className={classnames(
-            'bright relationships-this-wrapper relationships-wrapper ui-container',
-            { 'pointing-bottom': get.type === 'Collection' }
-          )}
+          className={cx('bright relationships-this-wrapper relationships-wrapper ui-container', {
+            'pointing-bottom': get.type === 'Collection'
+          })}
           style={{ height: '360px' }}>
           <div
             className="bordered-right bright pointing-right relationships-this ui-container"

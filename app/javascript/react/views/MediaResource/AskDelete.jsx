@@ -4,15 +4,15 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ampersandReactMixin = require('ampersand-react-mixin')
-const f = require('active-lodash')
-const t = require('../../../lib/i18n-translate.js')
-const RailsForm = require('../../lib/forms/rails-form.jsx')
-const FormButton = require('../../ui-components/FormButton.jsx')
-const Modal = require('../../ui-components/Modal.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import t from '../../../lib/i18n-translate.js'
+import RailsForm from '../../lib/forms/rails-form.jsx'
+import FormButton from '../../ui-components/FormButton.jsx'
+import Modal from '../../ui-components/Modal.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'MediaResource.AskDelete',
 
   getInitialState() {

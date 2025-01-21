@@ -9,13 +9,11 @@ module.exports = (merged, nextResourcesLength) => {
 }
 
 var fetchNextPage = (merged, nextResourcesLength) => {
-  let { event, trigger, initial, components, data, nextProps } = merged
+  let { event, trigger, data, nextProps } = merged
 
   if (data.loadingNextPage && !(event.action == 'page-loaded')) {
     return
   }
-
-  var pagination = nextProps.get.pagination
 
   var pageSize = nextProps.get.config.per_page
 

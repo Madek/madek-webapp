@@ -5,21 +5,22 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const MadekPropTypes = require('../lib/madek-prop-types.js')
-const Text = require('../lib/forms/input-text-async.jsx')
-const InputTextDate = require('../lib/forms/InputTextDate.js').default
-const InputKeywords = require('../lib/forms/input-keywords.jsx')
-const InputPeople = require('../lib/forms/input-people.jsx')
-const InputJsonText = require('../lib/forms/InputJsonText.js').default
-const InputMediaEntry = require('../lib/forms/InputMediaEntry').default
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import Text from '../lib/forms/input-text-async.jsx'
+import InputTextDate from '../lib/forms/InputTextDate.js'
+import InputKeywords from '../lib/forms/input-keywords.jsx'
+import InputPeople from '../lib/forms/input-people.jsx'
+import InputJsonText from '../lib/forms/InputJsonText.js'
+import InputMediaEntry from '../lib/forms/InputMediaEntry'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'InputMetaDatum',
   propTypes: {
-    id: React.PropTypes.string.isRequired,
-    name: React.PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
   },
 
   render(param) {

@@ -4,10 +4,11 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ResourceThumbnail = require('./ResourceThumbnail.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import ResourceThumbnail from './ResourceThumbnail.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'SimpleResourceThumbnail',
 
   render(param) {

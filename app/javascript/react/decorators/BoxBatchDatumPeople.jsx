@@ -1,8 +1,6 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import l from 'lodash'
 import t from '../../lib/i18n-translate.js'
-import cx from 'classnames/dedupe'
 import BoxPopup from './BoxPopup.jsx'
 import BoxRenderLabel from './BoxRenderLabel.jsx'
 import BoxPeopleNewWidget from './BoxPeopleNewWidget.jsx'
@@ -13,7 +11,6 @@ class BoxBatchDatumPeople extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    var l = require('lodash')
     return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
   }
 
@@ -21,7 +18,7 @@ class BoxBatchDatumPeople extends React.Component {
     this.props.trigger(this.props.metaKeyForm, { action: 'change-text', text: text })
   }
 
-  onClose(event) {
+  onClose() {
     this.props.trigger(this.props.metaKeyForm, { action: 'close' })
   }
 
@@ -46,7 +43,7 @@ class BoxBatchDatumPeople extends React.Component {
     if (k.id) {
       return (
         <span key={i} style={{ fontStyle: 'normal', marginRight: '10px', color: '#000' }}>
-          <span onClick={e => this.removeKeywordById(k)} style={{ cursor: 'pointer' }}>
+          <span onClick={() => this.removeKeywordById(k)} style={{ cursor: 'pointer' }}>
             <i
               className="icon-close"
               style={{
@@ -75,7 +72,7 @@ class BoxBatchDatumPeople extends React.Component {
 
       return (
         <span key={i} style={{ fontStyle: 'italic', marginRight: '10px', color: '#aaa' }}>
-          <span onClick={e => this.removeKeywordByData(k)} style={{ cursor: 'pointer' }}>
+          <span onClick={() => this.removeKeywordByData(k)} style={{ cursor: 'pointer' }}>
             <i
               className="icon-close"
               style={{
@@ -91,7 +88,7 @@ class BoxBatchDatumPeople extends React.Component {
     } else if (k.subtype == 'PeopleGroup') {
       return (
         <span key={i} style={{ fontStyle: 'italic', marginRight: '10px', color: '#aaa' }}>
-          <span onClick={e => this.removeKeywordByData(k)} style={{ cursor: 'pointer' }}>
+          <span onClick={() => this.removeKeywordByData(k)} style={{ cursor: 'pointer' }}>
             <i
               className="icon-close"
               style={{
@@ -121,7 +118,7 @@ class BoxBatchDatumPeople extends React.Component {
     })
   }
 
-  onFocus(event) {
+  onFocus() {
     this.props.trigger(this.props.metaKeyForm, { action: 'input-focus' })
   }
 
@@ -200,7 +197,7 @@ class BoxBatchDatumPeople extends React.Component {
             width: '70%',
             verticalAlign: 'top'
           }}>
-          {l.join(l.map(this.props.metaKeyForm.data.keywords, (k, i) => k.label), ', ')}
+          {l.join(l.map(this.props.metaKeyForm.data.keywords, k => k.label), ', ')}
         </div>
       )
     }
@@ -235,8 +232,6 @@ class BoxBatchDatumPeople extends React.Component {
   }
 
   render() {
-    var metaKeyForm = this.props.metaKeyForm
-
     return (
       <div>
         <BoxRenderLabel

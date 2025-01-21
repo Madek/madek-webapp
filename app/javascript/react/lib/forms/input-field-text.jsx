@@ -4,20 +4,22 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const classNames = require('classnames')
-const _ = require('lodash')
-const jQuery = require('jquery')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import cx from 'classnames'
+import _ from 'lodash'
+import jQuery from 'jquery'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'InputFieldText',
   propTypes: {
-    name: React.PropTypes.string,
-    type: React.PropTypes.string,
-    value: React.PropTypes.string,
-    placeholder: React.PropTypes.string,
-    className: React.PropTypes.string,
-    onChange: React.PropTypes.func
+    name: PropTypes.string,
+    type: PropTypes.string,
+    value: PropTypes.string,
+    placeholder: PropTypes.string,
+    className: PropTypes.string,
+    onChange: PropTypes.func
   },
 
   setInputRef(element) {
@@ -50,7 +52,7 @@ module.exports = React.createClass({
       },
       {
         name: 'templates',
-        source: (query, syncResults, asyncResults) => {
+        source: (query, syncResults) => {
           return syncResults(this.suggestions())
         }
       }
@@ -85,7 +87,7 @@ module.exports = React.createClass({
     const commonProps = {
       name,
       placeholder,
-      className: classNames(className, 'block')
+      className: cx(className, 'block')
     }
 
     if (this.props.onChange) {

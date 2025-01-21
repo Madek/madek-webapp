@@ -1,6 +1,6 @@
-const AppCollection = require('./shared/app-collection.js')
-const Collection = require('./collection.js')
-const PaginatedCollection = require('./shared/paginated-collection-factory.js')
+import AppCollection from './shared/app-collection.js'
+import Collection from './collection.js'
+import PaginatedCollection from './shared/paginated-collection-factory.js'
 
 const Collections = AppCollection.extend({
   type: 'Collections',

@@ -4,17 +4,13 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
+import React from 'react'
+import createReactClass from 'create-react-class'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Tabs',
 
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { authToken } = param
+  render() {
     return <ul className="ui-tabs large">{this.props.children}</ul>
   }
 })

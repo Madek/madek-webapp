@@ -4,44 +4,42 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const async = require('async')
-const f = require('active-lodash')
-const cx = require('classnames')
-const ampersandReactMixin = require('ampersand-react-mixin')
-const t = require('../../lib/i18n-translate.js')
-const { Link, Icon, Thumbnail, Button, Preloader, AskModal } = require('../ui-components/index.js')
-const ResourceThumbnailRenderer = require('./ResourceThumbnailRenderer.jsx')
-const PinThumbnail = require('./PinThumbnail.jsx')
-const ListThumbnail = require('./ListThumbnail.jsx')
-const ResourceIcon = require('../ui-components/ResourceIcon.jsx')
-const Picture = require('../ui-components/Picture.jsx')
-const BoxFetchRelations = require('./BoxFetchRelations.js')
-const BoxFavorite = require('./BoxFavorite.js')
-const BoxDelete = require('./BoxDelete.js')
-const getMediaType = require('../../models/shared/get-media-type.js')
-const BoxBatchApplyButton = require('./BoxBatchApplyButton.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import l from 'lodash'
+import cx from 'classnames'
+import ampersandReactMixin from 'ampersand-react-mixin'
+import ResourceThumbnailRenderer from './ResourceThumbnailRenderer.jsx'
+import PinThumbnail from './PinThumbnail.jsx'
+import ListThumbnail from './ListThumbnail.jsx'
+import ResourceIcon from '../ui-components/ResourceIcon.jsx'
+import Picture from '../ui-components/Picture.jsx'
+import BoxFetchRelations from './BoxFetchRelations.js'
+import BoxFavorite from './BoxFavorite.js'
+import BoxDelete from './BoxDelete.js'
+import getMediaType from '../../models/shared/get-media-type.js'
 
 const CURSOR_SELECT_STYLE = { cursor: 'cell' }
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'ResourceThumbnail',
   mixins: [ampersandReactMixin],
   propTypes: {
-    authToken: React.PropTypes.string,
-    onSelect: React.PropTypes.func,
-    fetchRelations: React.PropTypes.bool,
-    elm: React.PropTypes.string, // type of html node of outer wrapper
-    get: React.PropTypes.shape({
-      type: React.PropTypes.oneOf(['MediaEntry', 'Collection'])
+    authToken: PropTypes.string,
+    onSelect: PropTypes.func,
+    fetchRelations: PropTypes.bool,
+    elm: PropTypes.string, // type of html node of outer wrapper
+    get: PropTypes.shape({
+      type: PropTypes.oneOf(['MediaEntry', 'Collection'])
     }),
-    resource: React.PropTypes.shape({
-      type: React.PropTypes.oneOf(['MediaEntry'])
+    resource: PropTypes.shape({
+      type: PropTypes.oneOf(['MediaEntry'])
     })
   },
 
   shouldComponentUpdate(nextProps, nextState) {
-    const l = require('lodash')
     return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
   },
 
@@ -130,7 +128,7 @@ module.exports = React.createClass({
     if (param == null) {
       param = this.props
     }
-    const { get, elm, isSelected, fetchRelations, authToken, positionProps } = param
+    const { get, elm, fetchRelations, authToken, positionProps } = param
     if (state == null) {
       ;({ state } = this)
     }
@@ -140,7 +138,6 @@ module.exports = React.createClass({
 
       if (parentRelations) {
         parentsCount = parentRelations.pagination.total_count
-        const parentsCountText = parentsCount + ' ' + t('resource_thumbnail_sets')
 
         if (parentsCount > 0) {
           parentThumbs = f.get(parentRelations, 'resources').map(item => (
@@ -162,7 +159,6 @@ module.exports = React.createClass({
 
       if (childRelations) {
         childrenCount = childRelations.pagination.total_count
-        const childrenCountText = childrenCount + ' ' + t('resource_thumbnail_contents')
 
         if (childrenCount > 0) {
           childThumbs = f.get(childRelations, 'resources').map(function(item) {
@@ -366,7 +362,7 @@ module.exports = React.createClass({
   }
 })
 
-var FlyoutImage = React.createClass({
+var FlyoutImage = createReactClass({
   displayName: 'FlyoutImage',
 
   render(param) {

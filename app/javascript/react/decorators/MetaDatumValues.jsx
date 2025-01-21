@@ -7,17 +7,15 @@
  */
 // Takes a MetaDatum and displays the values according to the type.
 
-const React = require('react')
-const f = require('active-lodash')
-const linkifyStr = require('linkifyjs/string')
-const MadekPropTypes = require('../lib/madek-prop-types.js')
-const resourceName = require('../lib/decorate-resource-names.js')
-const linkifyInnerHtml = require('../lib/linkify-inner-html.js')
-const t = require('../../lib/i18n-translate.js')
-const UI = require('../ui-components/index.js')
-const MetaDatumRolesCloud = require('./MetaDatumRolesCloud.js').default
-const MetaDatumText = require('./MetaDatumText.js').default
-const { labelize } = UI
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import MadekPropTypes from '../lib/madek-prop-types.js'
+import t from '../../lib/i18n-translate.js'
+import UI, { labelize } from '../ui-components/index.js'
+import MetaDatumRolesCloud from './MetaDatumRolesCloud.js'
+import MetaDatumText from './MetaDatumText.js'
 
 // Decorator for each type is single stateless-function-component,
 // the main/exported component just selects the right one.
@@ -89,7 +87,7 @@ const DecoratorsByType = {
     if (param == null) {
       param = this.props
     }
-    const { values, tagMods } = param
+    const { values } = param
     return <UI.TagCloud mod="person" mods="small" list={labelize(values)} />
   },
 
@@ -97,7 +95,7 @@ const DecoratorsByType = {
     if (param == null) {
       param = this.props
     }
-    const { values, tagMods, metaKeyId } = param
+    const { values, metaKeyId } = param
     return <MetaDatumRolesCloud personRoleTuples={values} metaKeyId={metaKeyId} />
   },
 
@@ -105,7 +103,7 @@ const DecoratorsByType = {
     if (param == null) {
       param = this.props
     }
-    const { values, tagMods } = param
+    const { values } = param
     return <UI.TagCloud mod="group" mods="small" list={labelize(values)} />
   },
 
@@ -113,7 +111,7 @@ const DecoratorsByType = {
     if (param == null) {
       param = this.props
     }
-    const { values, tagMods } = param
+    const { values } = param
     return <UI.TagCloud mod="label" mods="small" list={labelize(values)} />
   },
 
@@ -141,11 +139,11 @@ const DecoratorsByType = {
   }
 }
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Deco.MetaDatumValues',
   propTypes: {
     metaDatum: MadekPropTypes.metaDatum.isRequired,
-    tagMods: React.PropTypes.any
+    tagMods: PropTypes.any
   },
 
   render(props) {

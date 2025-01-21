@@ -6,20 +6,15 @@
  * DS205: Consider reworking code to avoid use of IIFEs
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const isEmpty = require('lodash/isEmpty')
-const ui = require('../lib/ui.js')
-const t = require('../../lib/i18n-translate.js')
-const PageHeader = require('../ui-components/PageHeader.js')
-const PageContent = require('./PageContent.jsx')
-const MediaResourcesBox = require('../decorators/MediaResourcesBox.jsx')
-const libUrl = require('url')
-const f = require('lodash')
-const parseUrl = require('url').parse
-const parseQuery = require('qs').parse
-const setUrlParams = require('../../lib/set-params-for-url.js')
-
-const link = (c, h) => <a href={h}>{c}</a>
+import React from 'react'
+import createReactClass from 'create-react-class'
+import isEmpty from 'lodash/isEmpty'
+import t from '../../lib/i18n-translate.js'
+import PageHeader from '../ui-components/PageHeader.js'
+import PageContent from './PageContent.jsx'
+import MediaResourcesBox from '../decorators/MediaResourcesBox.jsx'
+import libUrl from 'url'
+import f from 'lodash'
 
 const infotable = (group, members, vocabulary_permissions) =>
   f.compact([
@@ -56,7 +51,7 @@ const infotable = (group, members, vocabulary_permissions) =>
       : undefined
   ])
 
-const GroupShow = React.createClass({
+const GroupShow = createReactClass({
   displayName: 'GroupShow',
 
   forUrl() {

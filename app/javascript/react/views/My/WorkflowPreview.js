@@ -161,7 +161,7 @@ class WorkflowPreview extends React.Component {
       prevState.formAction !== this.state.formAction &&
       this.state.formAction === this.props.get.actions.save_and_not_finish.url
     ) {
-      ReactDOM.findDOMNode(this.form).submit() // eslint-disable-line react/no-find-dom-node
+      ReactDOM.findDOMNode(this.form).submit()
     }
   }
 
@@ -213,13 +213,7 @@ class WorkflowPreview extends React.Component {
   }
 
   renderResource(childResource, isFillDataMode) {
-    const {
-      resource,
-      type,
-      meta_meta_data: { meta_key_by_meta_key_id },
-      uuid: resourceId,
-      child_resources
-    } = childResource
+    const { resource, type, uuid: resourceId, child_resources } = childResource
     const title = f.presence(f.get(resource, 'title') || '')
     const { models, errors /*initialErrors*/ } = this.state
     const hasErrors = this.collectErrors(childResource) > 0

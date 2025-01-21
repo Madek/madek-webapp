@@ -1,12 +1,10 @@
 import React from 'react'
 import f from 'lodash'
-import ui from '../../lib/ui.js'
+import { t } from '../../lib/ui.js'
 import Moment from 'moment'
 import currentLocale from '../../../lib/current-locale'
-const t = ui.t
-
-const UI = require('../../ui-components/index.js')
-const RailsForm = require('../../lib/forms/rails-form.jsx')
+import UI from '../../ui-components/index.js'
+import RailsForm from '../../lib/forms/rails-form.jsx'
 
 // config
 const SECTIONS = [{ key: 'api_tokens', name: 'API Tokens' }]

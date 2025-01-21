@@ -4,15 +4,9 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let setUrlParams
-const parseUrl = require('url').parse
-const formatUrl = require('url').format
-const qs = require('qs')
-const { isString } = require('active-lodash')
-const { isObject } = require('active-lodash')
-const { merge } = require('active-lodash')
-const { reduce } = require('active-lodash')
-const { set } = require('active-lodash')
+import { parse as parseUrl, format as formatUrl } from 'url'
+import qs from 'qs'
+import { isString, isObject, merge, reduce, set } from 'active-lodash'
 
 const parseQuery = qs.parse
 const formatQuery = obj =>
@@ -24,7 +18,7 @@ const formatQuery = obj =>
 // setUrlParams('/foo?foo=1&bar[baz]=2', {bar: {baz: 3}}, …)
 // setUrlParams({path: '/foo', query: {foo: 1, bar: {baz: 2}}, {bar: {baz: 3}}, …)
 // >>> '/foo?foo=1&bar[baz]=3'
-module.exports = setUrlParams = function(currentUrl, ...params) {
+module.exports = function(currentUrl, ...params) {
   if (currentUrl == null) {
     currentUrl = ''
   }

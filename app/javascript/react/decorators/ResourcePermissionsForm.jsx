@@ -7,10 +7,12 @@
  */
 // Permissions Form for single or batch resources
 
-const React = require('react')
-const f = require('active-lodash')
-const t = require('../../lib/i18n-translate.js')
-const ampersandReactMixin = require('ampersand-react-mixin')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import t from '../../lib/i18n-translate.js'
+import ampersandReactMixin from 'ampersand-react-mixin'
 
 // NOTE: used for static (server-side) rendering (state.editing = false)
 let AutoComplete = null // only required client-side!
@@ -39,7 +41,7 @@ const doOptionalsInclude = function(optionals, type) {
   return f.some(types, t => f.contains(optionals, t))
 }
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'ResourcePermissionsForm',
   mixins: [ampersandReactMixin],
 
@@ -132,8 +134,8 @@ module.exports = React.createClass({
             const showTitles = i === 0 // show titles on first table only
             return (
               <PermissionsBySubjectType
+                key={i}
                 {...Object.assign({}, row, {
-                  key: i,
                   showTitles: showTitles,
                   editing: editing,
                   permissionTypes: get.permission_types
@@ -185,7 +187,7 @@ module.exports = React.createClass({
   }
 })
 
-var PermissionsBySubjectType = React.createClass({
+var PermissionsBySubjectType = createReactClass({
   displayName: 'PermissionsBySubjectType',
   mixins: [ampersandReactMixin],
 
@@ -272,7 +274,7 @@ var PermissionsBySubjectType = React.createClass({
   }
 })
 
-var PermissionsSubjectHeader = React.createClass({
+var PermissionsSubjectHeader = createReactClass({
   render() {
     const { name, icon, titles, showTitles } = this.props
     return (
@@ -292,7 +294,7 @@ var PermissionsSubjectHeader = React.createClass({
   }
 })
 
-var PermissionsSubject = React.createClass({
+var PermissionsSubject = createReactClass({
   mixins: [ampersandReactMixin],
 
   adjustCheckboxesDependingOnStrength(name, stronger) {
@@ -341,7 +343,7 @@ var PermissionsSubject = React.createClass({
     }
   },
 
-  onSubjectRemove(_event) {
+  onSubjectRemove() {
     return this.props.permissions.destroy()
   },
 
@@ -401,7 +403,7 @@ var PermissionsSubject = React.createClass({
   }
 })
 
-var RemoveButton = React.createClass({
+var RemoveButton = createReactClass({
   render() {
     return (
       <a
@@ -413,8 +415,8 @@ var RemoveButton = React.createClass({
   }
 })
 
-var TristateCheckbox = React.createClass({
-  propTypes: { checked: React.PropTypes.oneOf([true, false, 'mixed']) },
+var TristateCheckbox = createReactClass({
+  propTypes: { checked: PropTypes.oneOf([true, false, 'mixed']) },
   getDefaultProps() {
     return { onChange() {} }
   }, // noop

@@ -4,16 +4,15 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const f = require('lodash')
-const t = require('../../lib/i18n-translate.js')
-const parseUrl = require('url').parse
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'lodash'
+import t from '../../lib/i18n-translate.js'
+import { parse as parseUrl } from 'url'
+import PageContent from './PageContent.jsx'
+import PageHeader from '../ui-components/PageHeader.js'
 
-const PageContent = require('./PageContent.jsx')
-const PageHeader = require('../ui-components/PageHeader.js')
-
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Search',
 
   parsedQuery() {
@@ -29,7 +28,7 @@ module.exports = React.createClass({
     if (param == null) {
       param = this.props
     }
-    const { get, authToken, for_url, submit_url } = param
+    const { submit_url } = param
     const parsedQuery = this.parsedQuery()
 
     return (

@@ -4,18 +4,16 @@
  * DS205: Consider reworking code to avoid use of IIFEs
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const f = require('active-lodash')
-const parseUrl = require('url').parse
-const stringifyUrl = require('url').format
-const parseQuery = require('qs').parse
-const t = require('../../lib/i18n-translate.js')
-const setUrlParams = require('../../lib/set-params-for-url.js')
-const libUrl = require('url')
-const qs = require('qs')
-const Button = require('../ui-components/Button.jsx')
-const ButtonGroup = require('../ui-components/ButtonGroup.jsx')
+import React from 'react'
+import f from 'active-lodash'
+import libUrl from 'url'
+import { parse as parseUrl } from 'url'
+import { parse as parseQuery } from 'qs'
+import t from '../../lib/i18n-translate.js'
+import setUrlParams from '../../lib/set-params-for-url.js'
+import qs from 'qs'
+import Button from '../ui-components/Button.jsx'
+import ButtonGroup from '../ui-components/ButtonGroup.jsx'
 
 const resourceTypeSwitcher = function(forUrl, defaultType, showAll, onClick) {
   const currentType = qs.parse(libUrl.parse(forUrl).query).type || defaultType
@@ -40,11 +38,11 @@ const resourceTypeSwitcher = function(forUrl, defaultType, showAll, onClick) {
 
         return (
           <Button
-            {...Object.assign({}, btn, {
-              onClick: onClick,
-              href: btnUrl,
-              mods: isActive ? 'active' : undefined
-            })}>
+            onClick={onClick}
+            href={btnUrl}
+            mods={isActive ? 'active' : undefined}
+            key={btn.key}
+            name={btn.name}>
             {btn.name}
           </Button>
         )
@@ -71,8 +69,9 @@ var urlByType = function(url, currentType, newType) {
       const parsed = (() => {
         try {
           return JSON.parse(newParams.list.filter)
-          // eslint-disable-next-line no-empty
-        } catch (error) {}
+        } catch (error) {
+          // silently fallback
+        }
       })()
       if (parsed) {
         newParams.list.filter = JSON.stringify({ search: parsed.search })

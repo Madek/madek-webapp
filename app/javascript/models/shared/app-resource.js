@@ -4,11 +4,11 @@
  * DS205: Consider reworking code to avoid use of IIFEs
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const Model = require('ampersand-model')
-const xhr = require('xhr')
-const f = require('active-lodash')
-const getRailsCSRFToken = require('../../lib/rails-csrf-token.js')
-const RailsResource = require('./rails-resource-mixin.js')
+import Model from 'ampersand-model'
+import xhr from 'xhr'
+import f from 'active-lodash'
+import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
+import RailsResource from './rails-resource-mixin.js'
 
 const customDataTypes = {
   // tri-state, can be true, false or 'mixed'
@@ -69,8 +69,9 @@ module.exports = Model.extend(RailsResource, {
           (() => {
             try {
               return JSON.parse(body)
-              // eslint-disable-next-line no-empty
-            } catch (error) {}
+            } catch (error) {
+              // this is OK, just fallback to unparsed body
+            }
           })() || body
         return callback(err, res, data)
       }

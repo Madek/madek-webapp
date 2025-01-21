@@ -4,12 +4,10 @@
  * DS205: Consider reworking code to avoid use of IIFEs
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const f = require('active-lodash')
-const parseUrl = require('url').parse
-const stringifyUrl = require('url').format
-const parseQuery = require('qs').parse
-
-const setUrlParams = require('./set-params-for-url.js')
+import f from 'active-lodash'
+import { parse as parseUrl } from 'url'
+import { parse as parseQuery } from 'qs'
+import setUrlParams from './set-params-for-url.js'
 
 module.exports = function(url, usePathUrlReplacement) {
   // The fallback url is used for search results if there are no
@@ -34,8 +32,9 @@ module.exports = function(url, usePathUrlReplacement) {
       const parsed = (() => {
         try {
           return JSON.parse(newParams.list.filter)
-          // eslint-disable-next-line no-empty
-        } catch (error) {}
+        } catch (error) {
+          // silently ignore (bit shady...)
+        }
       })()
       if (parsed) {
         newParams.list.filter = JSON.stringify({ search: parsed.search })

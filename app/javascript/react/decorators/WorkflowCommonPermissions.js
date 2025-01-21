@@ -1,6 +1,4 @@
 import React from 'react'
-import f from 'lodash'
-import cx from 'classnames'
 import TagCloud from '../ui-components/TagCloud.jsx'
 import t from '../../lib/i18n-translate'
 import labelize from '../../lib/labelize'

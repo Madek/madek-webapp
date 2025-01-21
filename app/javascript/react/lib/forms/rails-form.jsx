@@ -6,12 +6,14 @@
  */
 // Rails-style general-purpose form
 
-const React = require('react')
-const ReactDOM = require('react-dom')
-const f = require('active-lodash')
-const ui = require('../../lib/ui.js')
-const $ = require('jquery')
-const parseUrl = require('url').parse
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import ReactDOM from 'react-dom'
+import f from 'active-lodash'
+import ui from '../../lib/ui.js'
+import $ from 'jquery'
+import { parse as parseUrl } from 'url'
 
 const checkForAuthToken = function({ method, authToken }) {
   const restMethod = (method || 'post').toLowerCase()
@@ -25,12 +27,12 @@ const checkForAuthToken = function({ method, authToken }) {
   return authToken
 }
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'RestForm',
   propTypes: {
-    name: React.PropTypes.string.isRequired,
-    action: React.PropTypes.string,
-    method: React.PropTypes.oneOf([
+    name: PropTypes.string.isRequired,
+    action: PropTypes.string,
+    method: PropTypes.oneOf([
       'get',
       'GET',
       'post',
@@ -42,16 +44,8 @@ module.exports = React.createClass({
       'delete',
       'DELETE'
     ]),
-    onSubmit: React.PropTypes.func,
-    authToken(props, propName, componentName) {
-      const check = checkForAuthToken(props)
-      // eslint-disable-next-line valid-typeof
-      if (typeof check === 'Error') {
-        return check
-      } else {
-        return null
-      }
-    }
+    onSubmit: PropTypes.func,
+    authToken: PropTypes.string
   },
 
   // public component method
@@ -79,10 +73,6 @@ module.exports = React.createClass({
     const authTokenParam = 'authenticity_token'
     const maybeAuthToken = checkForAuthToken({ method, authToken })
     // throw to catch erorrs server-side (PropTypes is only for dev)
-    // eslint-disable-next-line valid-typeof
-    if (typeof maybeAuthToken === 'Error') {
-      throw maybeAuthToken
-    }
 
     return (
       <form

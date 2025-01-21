@@ -3,14 +3,13 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ui = require('../../lib/ui.js')
-const { t } = ui
-const libUrl = require('url')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import { t } from '../../lib/ui.js'
+import libUrl from 'url'
+import MediaResourcesBox from '../../decorators/MediaResourcesBox.jsx'
 
-const MediaResourcesBox = require('../../decorators/MediaResourcesBox.jsx')
-
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'ClipboardBox',
 
   forUrl() {

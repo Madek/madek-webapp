@@ -4,16 +4,15 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const ampersandReactMixin = require('ampersand-react-mixin')
-const f = require('active-lodash')
-const async = require('async')
-const t = require('../../../lib/i18n-translate.js')
-const { ActionsBar, Button, Link } = require('../../ui-components/index.js')
-const MediaResourcesBox = require('../../decorators/MediaResourcesBox.jsx')
-const SuperBoxUpload = require('../../decorators/SuperBoxUpload.jsx')
-const parseUrl = require('url').parse
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import async from 'async'
+import t from '../../../lib/i18n-translate.js'
+import { ActionsBar, Button, Link } from '../../ui-components/index.js'
+import SuperBoxUpload from '../../decorators/SuperBoxUpload.jsx'
+import { parse as parseUrl } from 'url'
 
 let FileDrop = <div /> // client-side only
 const UPLOAD_CONCURRENCY = 4
@@ -24,13 +23,13 @@ const UploadQueue = async.queue(
   UPLOAD_CONCURRENCY
 )
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Uploader',
   propTypes: {
-    get: React.PropTypes.shape({
-      next_step: React.PropTypes.shape({
-        label: React.PropTypes.string.isRequired,
-        url: React.PropTypes.string.isRequired
+    get: PropTypes.shape({
+      next_step: PropTypes.shape({
+        label: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired
       }).isRequired
     }).isRequired
   },
@@ -63,7 +62,7 @@ module.exports = React.createClass({
     })
   },
 
-  onFilesDrop(files, event) {
+  onFilesDrop(files) {
     return this.addFiles(files)
   },
   onFilesSelect(event) {
@@ -109,7 +108,7 @@ module.exports = React.createClass({
     // immediately trigger upload!
     this.setState({ uploading: true })
     return f.each(added, model =>
-      UploadQueue.push(model, function(err, res) {
+      UploadQueue.push(model, function(err) {
         if (err) {
           return console.error('Uploader failed!', model, err)
         }

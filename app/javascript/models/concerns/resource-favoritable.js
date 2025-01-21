@@ -5,7 +5,7 @@
  */
 // Concern: FavoritableResource
 
-const f = require('active-lodash')
+import f from 'active-lodash'
 
 module.exports = {
   props: {

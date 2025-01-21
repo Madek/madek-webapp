@@ -4,22 +4,20 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const f = require('active-lodash')
-const t = require('../../../lib/i18n-translate.js')
-const MediaResourcesBox = require('../../decorators/MediaResourcesBox.jsx')
-const TabContent = require('../TabContent.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import t from '../../../lib/i18n-translate.js'
 
-const cx = require('classnames')
+import cx from 'classnames'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'HighlightedContents',
   render(param) {
     if (param == null) {
       param = this.props
     }
-    const { get, authToken } = param
+    const { get } = param
     if (
       f.isEmpty(
         get.highlighted_media_resources != null
@@ -53,7 +51,7 @@ module.exports = React.createClass({
   }
 })
 
-var HighlightedContent = React.createClass({
+var HighlightedContent = createReactClass({
   displayName: 'HighlightedContent',
 
   render(param) {

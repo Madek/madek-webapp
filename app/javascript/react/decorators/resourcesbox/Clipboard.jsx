@@ -3,16 +3,16 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const ui = require('../../lib/ui.js')
-const { t } = ui
-const Modal = require('../../ui-components/Modal.jsx')
-const setUrlParams = require('../../../lib/set-params-for-url.js')
-const railsFormPut = require('../../../lib/form-put-with-errors.js')
-const xhr = require('xhr')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import { t } from '../../lib/ui.js'
+import Modal from '../../ui-components/Modal.jsx'
+import setUrlParams from '../../../lib/set-params-for-url.js'
+import railsFormPut from '../../../lib/form-put-with-errors.js'
+import xhr from 'xhr'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Clipboard',
 
   getInitialState() {
@@ -204,7 +204,7 @@ module.exports = React.createClass({
     return (
       <div style={{ margin: '20px', marginBottom: '20px', textAlign: 'center' }}>
         <div className="ui-alerts" style={{ marginBottom: '20px' }}>
-          <div className="error ui-alert">{this.state.error}</div>
+          <div className="error ui-alert">{error}</div>
         </div>
       </div>
     )

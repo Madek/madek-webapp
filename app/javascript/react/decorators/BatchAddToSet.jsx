@@ -5,29 +5,19 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const t = require('../../lib/i18n-translate.js')
-const PageContent = require('../views/PageContent.jsx')
-const TabContent = require('../views/TabContent.jsx')
-const Tabs = require('../views/Tabs.jsx')
-const Tab = require('../views/Tab.jsx')
-const batchDiff = require('../../lib/batch-diff.js')
-const BatchHintBox = require('./BatchHintBox.jsx')
-const SelectCollectionDialog = require('../views/Collection/SelectCollectionDialog.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import t from '../../lib/i18n-translate.js'
+import SelectCollectionDialog from '../views/Collection/SelectCollectionDialog.jsx'
+import Button from '../ui-components/Button.jsx'
+import RailsForm from '../lib/forms/rails-form.jsx'
+import Preloader from '../ui-components/Preloader.jsx'
+import qs from 'qs'
+import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
+import xhr from 'xhr'
 
-const Button = require('../ui-components/Button.jsx')
-const Icon = require('../ui-components/Icon.jsx')
-const RailsForm = require('../lib/forms/rails-form.jsx')
-const formXhr = require('../../lib/form-xhr.js')
-const setUrlParams = require('../../lib/set-params-for-url.js')
-const Preloader = require('../ui-components/Preloader.jsx')
-
-const qs = require('qs')
-const getRailsCSRFToken = require('../../lib/rails-csrf-token.js')
-const xhr = require('xhr')
-
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'BatchAddToSet',
 
   getInitialState() {
@@ -115,7 +105,6 @@ module.exports = React.createClass({
   },
 
   render(param) {
-    let index
     if (param == null) {
       param = this.props
     }
@@ -245,7 +234,7 @@ Neues Set erstellen und Einträge hinzufügen\
             if (this.state.searching) {
               return <Preloader style={{ marginTop: '20px' }} />
             } else if (hasResultEntries) {
-              return f.map(get.search_results.collections, (collection, index) => (
+              return f.map(get.search_results.collections, collection => (
                 <li
                   style={{ paddingLeft: '60px', paddingRight: '200px' }}
                   key={collection.uuid}

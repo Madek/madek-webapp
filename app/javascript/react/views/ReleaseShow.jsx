@@ -4,22 +4,21 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const Moment = require('moment')
-const currentLocale = require('../../lib/current-locale.js')
-const isEmpty = require('lodash/isEmpty')
-const trim = require('lodash/trim')
-const t = require('../../lib/i18n-translate.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import Moment from 'moment'
+import currentLocale from '../../lib/current-locale.js'
+import isEmpty from 'lodash/isEmpty'
+import t from '../../lib/i18n-translate.js'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'ReleaseShow',
 
   render(param) {
     if (param == null) {
       param = this.props
     }
-    const { get, authToken } = param
+    const { get } = param
     return (
       <div className="app-body-ui-container">
         <div className="ui-body-title">
@@ -81,7 +80,7 @@ var DeploymentInfo = ({ tree_id, commit_id, build_time, deployed }) => {
   )
 }
 
-var ReleasesInfo = ({ releases, children }) => {
+var ReleasesInfo = ({ releases }) => {
   const current = releases[0]
   const past = releases.slice(1)
   const name = r => {

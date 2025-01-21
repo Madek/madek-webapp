@@ -5,31 +5,28 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const t = require('../../lib/i18n-translate.js')
-const setUrlParams = require('../../lib/set-params-for-url.js')
-const parseUrl = require('url').parse
-const formatUrl = require('url').format
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import t from '../../lib/i18n-translate.js'
+import setUrlParams from '../../lib/set-params-for-url.js'
+import { parse as parseUrl, format as formatUrl } from 'url'
 
-const Modal = require('../ui-components/Modal.jsx')
-const BatchHintBox = require('./BatchHintBox.jsx')
-const ResourcesBatchBox = require('./ResourcesBatchBox.jsx')
-const PageContent = require('../views/PageContent.jsx')
-const PageContentHeader = require('../views/PageContentHeader.jsx')
-const TabContent = require('../views/TabContent.jsx')
+import Modal from '../ui-components/Modal.jsx'
+import BatchHintBox from './BatchHintBox.jsx'
+import ResourcesBatchBox from './ResourcesBatchBox.jsx'
+import PageContent from '../views/PageContent.jsx'
+import PageContentHeader from '../views/PageContentHeader.jsx'
+import TabContent from '../views/TabContent.jsx'
 
-const batchDiff = require('../../lib/batch-diff.js')
+import xhr from 'xhr'
+import RailsForm from '../lib/forms/rails-form.jsx'
+import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 
-const xhr = require('xhr')
-const cx = require('classnames')
-const RailsForm = require('../lib/forms/rails-form.jsx')
-const getRailsCSRFToken = require('../../lib/rails-csrf-token.js')
+import validation from '../../lib/metadata-edit-validation.js'
+import Renderer from './metadataedit/MetadataEditRenderer.jsx'
 
-const validation = require('../../lib/metadata-edit-validation.js')
-const Renderer = require('./metadataedit/MetadataEditRenderer.jsx')
-
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'ResourceMetaDataPagePerContext',
 
   _onTabClick(currentTab, event) {
@@ -191,13 +188,6 @@ module.exports = React.createClass({
         })
       } else {
         throw new Error('Not supported anymore.')
-
-        // NOTE: the following line was already unreachable in the pre-convert cjsx (coffeescript) component.
-        // eslint-disable-next-line no-unreachable
-        diff = batchDiff(
-          this.props.get.meta_meta_data.meta_key_by_meta_key_id,
-          this.props.get.batch_entries
-        )
       }
 
       this.setState({ batchDiff: diff })
@@ -223,7 +213,7 @@ module.exports = React.createClass({
     return this.setState({ models })
   },
 
-  submit(actionType) {
+  submit() {
     this.setState({ saving: true, systemError: false })
     const serialized = this.refs.form.serialize()
     return xhr(
@@ -368,10 +358,10 @@ module.exports = React.createClass({
   },
 
   _disablePublish() {
-    let disablePublish
-    return (disablePublish =
+    return (
       this.state.saving ||
-      validation._validityForAll(this.props.get.meta_meta_data, this.state.models) !== 'valid')
+      validation._validityForAll(this.props.get.meta_meta_data, this.state.models) !== 'valid'
+    )
   },
 
   _showNoContextDefinedIfNeeded() {

@@ -3,38 +3,38 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const { PropTypes } = React
-const f = require('active-lodash')
-const ui = require('../lib/ui.js')
-const Icon = require('./Icon.jsx')
-const Link = require('./Link.jsx')
-const Picture = require('../ui-components/Picture.jsx')
-const ResourceIcon = require('../ui-components/ResourceIcon.jsx')
-const t = require('../../lib/i18n-translate.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import ui from '../lib/ui.js'
+import Link from './Link.jsx'
+import Picture from '../ui-components/Picture.jsx'
+import ResourceIcon from '../ui-components/ResourceIcon.jsx'
+import t from '../../lib/i18n-translate.js'
 
-const flyoutProps = React.PropTypes.shape({
-  title: React.PropTypes.string.isRequired,
-  caption: React.PropTypes.string.isRequired,
-  children: React.PropTypes.node
+const flyoutProps = PropTypes.shape({
+  title: PropTypes.string.isRequired,
+  caption: PropTypes.string.isRequired,
+  children: PropTypes.node
 })
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Thumbnail',
   propTypes: {
-    type: React.PropTypes.oneOf(['MediaEntry', 'Collection']).isRequired,
-    src: React.PropTypes.string,
-    mediaType: React.PropTypes.string,
+    type: PropTypes.oneOf(['MediaEntry', 'Collection']).isRequired,
+    src: PropTypes.string,
+    mediaType: PropTypes.string,
     mods: PropTypes.arrayOf(PropTypes.oneOf(['video'])),
-    alt: React.PropTypes.string,
-    href: React.PropTypes.string,
-    privacy: React.PropTypes.string,
-    meta: React.PropTypes.shape({
-      title: React.PropTypes.string.isRequired,
-      subtitle: React.PropTypes.string
+    alt: PropTypes.string,
+    href: PropTypes.string,
+    privacy: PropTypes.string,
+    meta: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      subtitle: PropTypes.string
     }),
-    actionsLeft: React.PropTypes.arrayOf(React.PropTypes.node),
-    actionsRight: React.PropTypes.arrayOf(React.PropTypes.node),
+    actionsLeft: PropTypes.arrayOf(PropTypes.node),
+    actionsRight: PropTypes.arrayOf(PropTypes.node),
     flyoutTop: flyoutProps,
     flyoutBottom: flyoutProps
   },
@@ -45,10 +45,7 @@ module.exports = React.createClass({
       type,
       src,
       alt,
-      href,
-      onPictureClick,
       meta,
-      iconCenter,
       badgeRight,
       badgeLeft,
       actionsLeft,
@@ -121,7 +118,7 @@ module.exports = React.createClass({
             backgroundColor: bubble.color
           }
           return (
-            <a key={bubble.key} href={bubble.href} key={index}>
+            <a href={bubble.href} key={index}>
               <div className="ui-bubble" style={style}>
                 {bubble.label}
               </div>

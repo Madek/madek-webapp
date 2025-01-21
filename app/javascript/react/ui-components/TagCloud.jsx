@@ -7,28 +7,29 @@
  */
 // Render a UI "Tag Cloud" from a list of tag *props*
 
-const React = require('react')
-const f = require('active-lodash')
-const classList = require('classnames')
-const { parseMods } = require('../lib/ui.js')
-const UIPropTypes = require('../ui-components/propTypes.js')
-const Link = require('./Link.jsx')
-const Icon = require('./Icon.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import cx from 'classnames'
+import { parseMods } from '../lib/ui.js'
+import Link from './Link.jsx'
+import Icon from './Icon.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'TagCloud',
   propTypes: {
-    list: React.PropTypes.arrayOf(
-      React.PropTypes.shape({
-        children: React.PropTypes.node.isRequired,
-        key: React.PropTypes.string,
-        href: React.PropTypes.string,
-        title: React.PropTypes.string,
-        count: React.PropTypes.string,
-        disabled: React.PropTypes.bool
+    list: PropTypes.arrayOf(
+      PropTypes.shape({
+        children: PropTypes.node.isRequired,
+        key: PropTypes.string,
+        href: PropTypes.string,
+        title: PropTypes.string,
+        count: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        disabled: PropTypes.bool
       })
     ).isRequired,
-    mod: React.PropTypes.oneOf(['label', 'person', 'group', 'role'])
+    mod: PropTypes.oneOf(['label', 'person', 'group', 'role'])
   },
 
   render(param) {
@@ -36,9 +37,8 @@ module.exports = React.createClass({
       param = this.props
     }
     let { list, mod, mods } = param
-    const baseClass = classList(parseMods(this.props), 'ui-tag-cloud')
-    const itemClass = classList('ui-tag-cloud-item', { block: mod === 'role' })
-    const tagClass = 'ui-tag-button'
+    const baseClass = cx(parseMods(this.props), 'ui-tag-cloud')
+    const itemClass = cx('ui-tag-cloud-item', { block: mod === 'role' })
 
     return (
       <ul
@@ -48,7 +48,7 @@ module.exports = React.createClass({
           const props = f.merge(f.omit(param, 'list'), listItem)
           const { count, children, mod, tag } = props
           const linkProps = f.merge(f.pick(props, 'href', 'disabled', 'onClick'), {
-            className: classList('ui-tag-button', parseMods(props))
+            className: cx('ui-tag-button', parseMods(props))
           })
           const key = props.key || JSON.stringify(listItem)
           let tagIcon = (() => {

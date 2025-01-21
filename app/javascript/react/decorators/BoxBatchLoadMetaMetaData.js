@@ -1,13 +1,9 @@
 import l from 'lodash'
-import t from '../../lib/i18n-translate.js'
-import cx from 'classnames/dedupe'
-import async from 'async'
-import url from 'url'
 import xhr from 'xhr'
 import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 
 module.exports = merged => {
-  let { event, trigger, initial, components, data, nextProps, path } = merged
+  let { event, trigger, initial, data, nextProps, path } = merged
 
   var next = () => {
     if (nextProps.mount) {

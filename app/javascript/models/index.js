@@ -3,10 +3,9 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const f = require('active-lodash')
-const requireBulk = require('bulk-require')
+import f from 'active-lodash'
+import requireBulk from 'bulk-require'
 
-// eslint-disable-next-line no-undef
 const index = requireBulk(__dirname, ['*.js'])
 
 const Models = f.object(

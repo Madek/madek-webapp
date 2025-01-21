@@ -1,17 +1,7 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import f from 'lodash'
-import ResourceThumbnail from './ResourceThumbnail.jsx'
-import Preloader from '../ui-components/Preloader.jsx'
-import Button from '../ui-components/Button.jsx'
-import Link from '../ui-components/Link.jsx'
-import SideFilter from '../ui-components/ResourcesBox/SideFilter.jsx'
-import RailsForm from '../lib/forms/rails-form.jsx'
-import setUrlParams from '../../lib/set-params-for-url.js'
-import t from '../../lib/i18n-translate.js'
 import cx from 'classnames/dedupe'
 import ButtonGroup from '../ui-components/ButtonGroup.jsx'
-import Icon from '../ui-components/Icon.jsx'
 import SortDropdown from './resourcesbox/SortDropdown.jsx'
 import BoxLayoutButton from './BoxLayoutButton.jsx'
 
@@ -34,7 +24,6 @@ class BoxTitlebarRender extends React.Component {
     {
       heading,
       centerActions,
-      layouts,
       mods,
       onSortItemClick,
       dropdownItems,

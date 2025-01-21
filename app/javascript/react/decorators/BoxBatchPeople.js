@@ -106,7 +106,7 @@ module.exports = merged => {
           last_name: person.lastname.trim(),
           pseudonym: person.pseudonym.trim()
         },
-        (v, k) => l.isNil(v) || v == ''
+        v => l.isNil(v) || v == ''
       )
       if (l.find(data.keywords, k => keywordMatch(k, newKeyword))) {
         return data.keywords

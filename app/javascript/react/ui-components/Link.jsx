@@ -4,17 +4,19 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const ui = require('../lib/ui.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import ui from '../lib/ui.js'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Link',
   propTypes: {
-    href: React.PropTypes.string,
-    onClick: React.PropTypes.func,
-    children: React.PropTypes.node,
-    disabled: React.PropTypes.bool
+    href: PropTypes.string,
+    onClick: PropTypes.func,
+    children: PropTypes.node,
+    disabled: PropTypes.bool
   },
 
   render(param) {

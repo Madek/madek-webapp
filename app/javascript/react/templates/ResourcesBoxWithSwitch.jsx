@@ -7,31 +7,29 @@
  */
 // Box for search result pages, allows switching the *route*!
 
-const React = require('react')
-const f = require('active-lodash')
-const ui = require('../lib/ui.js')
-const { t } = ui
-const parseUrl = require('url').parse
-const stringifyUrl = require('url').format
-const parseQuery = require('qs').parse
-
-const Button = require('../ui-components/Button.jsx')
-const ButtonGroup = require('../ui-components/ButtonGroup.jsx')
-const ResourcesBox = require('../decorators/MediaResourcesBox.jsx')
-const { boxSetUrlParams } = ResourcesBox
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import { t } from '../lib/ui.js'
+import { parse as parseUrl } from 'url'
+import { parse as parseQuery } from 'qs'
+import Button from '../ui-components/Button.jsx'
+import ButtonGroup from '../ui-components/ButtonGroup.jsx'
+import ResourcesBox, { boxSetUrlParams } from '../decorators/MediaResourcesBox.jsx'
 
 const TYPES = ['entries', 'sets'] // see `typeBbtns`, types are defined there
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'ResourcesBoxWithSwitch',
   propTypes: {
-    switches: React.PropTypes.shape({
-      currentType: React.PropTypes.oneOf(TYPES),
-      otherTypes: React.PropTypes.arrayOf(React.PropTypes.oneOf(TYPES))
+    switches: PropTypes.shape({
+      currentType: PropTypes.oneOf(TYPES),
+      otherTypes: PropTypes.arrayOf(PropTypes.oneOf(TYPES))
     }),
-    for_url: React.PropTypes.string.isRequired,
+    for_url: PropTypes.string.isRequired,
     // all other props are just passed through to ResourcesBox:
-    get: React.PropTypes.object.isRequired
+    get: PropTypes.object.isRequired
   },
 
   forUrl() {
@@ -64,10 +62,10 @@ module.exports = React.createClass({
             const isActive = btn.key === currentType // set active is current type
             return (
               <Button
-                {...Object.assign({}, btn, {
-                  href: urlByType(boxUrl, currentType, btn.key),
-                  mods: isActive ? 'active' : undefined
-                })}>
+                href={urlByType(boxUrl, currentType, btn.key)}
+                mods={isActive ? 'active' : undefined}
+                key={btn.key}
+                name={btn.name}>
                 {btn.name}
               </Button>
             )
@@ -104,8 +102,9 @@ var urlByType = function(url, currentType, newType) {
       const parsed = (() => {
         try {
           return JSON.parse(newParams.list.filter)
-          // eslint-disable-next-line no-empty
-        } catch (error) {}
+        } catch (error) {
+          // silently fall back
+        }
       })()
       if (parsed) {
         newParams.list.filter = JSON.stringify({ search: parsed.search })

@@ -1,11 +1,10 @@
-const f = require('active-lodash')
-const AppResource = require('./shared/app-resource.js')
-const Permissions = require('./media-entry/permissions.js')
-const Person = require('./person.js')
-const MetaData = require('./meta-data.js')
-const ResourceWithRelations = require('./concerns/resource-with-relations.js')
-const Favoritable = require('./concerns/resource-favoritable.js')
-const Deletable = require('./concerns/resource-deletable.js')
+import AppResource from './shared/app-resource.js'
+import Permissions from './media-entry/permissions.js'
+import Person from './person.js'
+import MetaData from './meta-data.js'
+import ResourceWithRelations from './concerns/resource-with-relations.js'
+import Favoritable from './concerns/resource-favoritable.js'
+import Deletable from './concerns/resource-deletable.js'
 
 module.exports = AppResource.extend(ResourceWithRelations, Favoritable, Deletable, {
   type: 'Collection',

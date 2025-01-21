@@ -4,19 +4,19 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const f = require('lodash')
-const Keyword = require('../../ui-components/Keyword.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'lodash'
+import Keyword from '../../ui-components/Keyword.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'ExploreKeywordsPage',
 
   render(param) {
     if (param == null) {
       param = this.props
     }
-    const { get, authToken } = param
+    const { get } = param
     return (
       <div>
         <div className="app-body-ui-container pts context-home">

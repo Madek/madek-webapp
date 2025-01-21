@@ -5,15 +5,16 @@
  * DS201: Simplify complex destructure assignments
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const isEmpty = require('lodash/isEmpty')
-const t = require('../../lib/i18n-translate.js')
-const PageHeader = require('../ui-components/PageHeader.js')
-const PageContent = require('./PageContent.jsx')
-const MediaResourcesBox = require('../decorators/MediaResourcesBox.jsx')
-const libUrl = require('url')
-const f = require('active-lodash')
-const { decorateExternalURI } = require('../../lib/URIAuthorityControl')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import isEmpty from 'lodash/isEmpty'
+import t from '../../lib/i18n-translate.js'
+import PageHeader from '../ui-components/PageHeader.js'
+import PageContent from './PageContent.jsx'
+import MediaResourcesBox from '../decorators/MediaResourcesBox.jsx'
+import libUrl from 'url'
+import f from 'active-lodash'
+import { decorateExternalURI } from '../../lib/URIAuthorityControl'
 
 const infotable = function(p) {
   const autority_links = f.filter(p.external_uris, 'authority_control.kind')
@@ -36,7 +37,7 @@ const infotable = function(p) {
   )
 }
 
-const PersonShow = React.createClass({
+const PersonShow = createReactClass({
   displayName: 'PersonShow',
 
   forUrl() {

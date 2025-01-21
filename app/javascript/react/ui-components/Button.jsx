@@ -5,21 +5,23 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const ui = require('../lib/ui.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import ui from '../lib/ui.js'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Button',
   propTypes: {
-    href: React.PropTypes.string,
-    type: React.PropTypes.string,
-    className: React.PropTypes.string,
-    style: React.PropTypes.object,
-    onClick: React.PropTypes.func,
-    mod: React.PropTypes.oneOf(['primary', 'tertiary']),
-    disabled: React.PropTypes.bool,
-    children: React.PropTypes.node.isRequired
+    href: PropTypes.string,
+    type: PropTypes.string,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    onClick: PropTypes.func,
+    mod: PropTypes.oneOf(['primary', 'tertiary']),
+    disabled: PropTypes.bool,
+    children: PropTypes.node.isRequired
   },
 
   render(param) {

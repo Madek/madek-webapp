@@ -5,15 +5,13 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'ExploreMenu',
-  render(...args) {
-    const val = args[0],
-      obj = val != null ? val : this.props
-    const index = 0
+  render() {
     return (
       <div className="app-body-sidebar bright ui-container table-cell bordered-right rounded-bottom-left table-side">
         <div className="ui-container rounded-left phm pvl">

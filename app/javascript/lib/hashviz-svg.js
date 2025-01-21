@@ -4,10 +4,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 // hashviz: build visual hash from input texts, in svg format
-let hashVizSVG
-const $ = require('jquery')
-const any_sha1 = require('any_sha1') // pick the right sha1 function in browsers/server
-const hashblot = require('hashblot')
+import $ from 'jquery'
+import any_sha1 from 'any_sha1' // pick the right sha1 function in browsers/server
+import hashblot from 'hashblot'
 
 // give hashblot acces to the sha1 function:
 hashblot.bindSha1(any_sha1.from(any_sha1.utf8.bytes))
@@ -28,7 +27,7 @@ const hashBlotPath = function(str) {
   }
 }
 
-module.exports = hashVizSVG = function(text) {
+module.exports = function(text) {
   const svg = $(EMPTY_SVG)
   const path = svg.find('path')[0]
   const cleaned_text = typeof text.replace === 'function' ? text.replace(/\s\s/g, ' ') : undefined

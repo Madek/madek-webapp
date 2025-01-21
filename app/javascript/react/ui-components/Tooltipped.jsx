@@ -6,17 +6,19 @@
  */
 // Wrap this around anything for bootstrap-style tooltips
 
-const React = require('react')
-const Tooltip = require('react-bootstrap/lib/Tooltip')
-const Overlay = require('react-bootstrap/lib/Overlay')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import Tooltip from 'react-bootstrap/lib/Tooltip'
+import Overlay from 'react-bootstrap/lib/Overlay'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Tooltipped',
   propTypes: {
-    text: React.PropTypes.string.isRequired,
-    link: React.PropTypes.element,
-    id: React.PropTypes.string.isRequired,
-    children: React.PropTypes.node.isRequired
+    text: PropTypes.string.isRequired,
+    link: PropTypes.element,
+    id: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired
   },
 
   getInitialState() {

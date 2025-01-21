@@ -1,5 +1,5 @@
-const AppResource = require('./shared/app-resource.js')
-const MetaKey = require('./meta-key.js')
+import AppResource from './shared/app-resource.js'
+import MetaKey from './meta-key.js'
 
 const MetaDatum = AppResource.extend({
   // base class

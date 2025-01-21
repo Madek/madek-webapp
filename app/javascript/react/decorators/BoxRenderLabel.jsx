@@ -1,10 +1,7 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import l from 'lodash'
-import t from '../../lib/i18n-translate.js'
-import cx from 'classnames/dedupe'
 import Tooltipped from '../ui-components/Tooltipped.jsx'
 import Icon from '../ui-components/Icon.jsx'
+import l from 'lodash'
 
 class BoxRenderLabel extends React.Component {
   constructor(props) {
@@ -12,11 +9,10 @@ class BoxRenderLabel extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    var l = require('lodash')
     return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
   }
 
-  onClose(event) {
+  onClose() {
     this.props.trigger(this.props.metaKeyForm, { action: 'close' })
   }
 

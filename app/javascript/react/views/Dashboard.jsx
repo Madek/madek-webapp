@@ -5,22 +5,17 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const f = require('active-lodash')
-const cx = require('classnames')
-const libUrl = require('url')
-const qs = require('qs')
-const PageContent = require('./PageContent.jsx')
-const DashboardHeader = require('./DashboardHeader.jsx')
-const t = require('../../lib/i18n-translate.js')
-const Sidebar = require('./Sidebar.jsx')
-const TagCloud = require('../ui-components/TagCloud.jsx')
-const DashboardSectionKeywords = require('./DashboardSectionKeywords.jsx')
-const DashboardSectionGroups = require('./DashboardSectionGroups.jsx')
-const DashboardSectionResources = require('./DashboardSectionResources.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import PageContent from './PageContent.jsx'
+import DashboardHeader from './DashboardHeader.jsx'
+import Sidebar from './Sidebar.jsx'
+import DashboardSectionKeywords from './DashboardSectionKeywords.jsx'
+import DashboardSectionGroups from './DashboardSectionGroups.jsx'
+import DashboardSectionResources from './DashboardSectionResources.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Dashboard',
 
   render(param) {

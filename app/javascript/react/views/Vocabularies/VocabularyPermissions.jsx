@@ -4,17 +4,13 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const f = require('lodash')
-const t = require('../../../lib/i18n-translate.js')
-const Icon = require('../../ui-components/Icon.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import t from '../../../lib/i18n-translate.js'
+import VocabularyPage from './VocabularyPage.jsx'
+import ResourcePermissionsForm from '../../decorators/ResourcePermissionsForm.jsx'
 
-const VocabularyPage = require('./VocabularyPage.jsx')
-
-const ResourcePermissionsForm = require('../../decorators/ResourcePermissionsForm.jsx')
-
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'VocabularyPermissions',
 
   render(param) {

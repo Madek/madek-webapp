@@ -7,7 +7,8 @@
 // so this won't alter any Data as long user does not explicitly change it!
 // (If this should ever work with real timestamps, 1 picker for duration might be better)
 
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import compact from 'lodash/compact'
 import isString from 'lodash/isString'
 import isEmpty from 'lodash/isEmpty'

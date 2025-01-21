@@ -4,17 +4,12 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const f = require('active-lodash')
-const classnames = require('classnames')
-const t = require('../../../lib/i18n-translate.js')
-const MediaResourcesBox = require('../../decorators/MediaResourcesBox.jsx')
-const TabContent = require('../TabContent.jsx')
-const LoadXhr = require('../../../lib/load-xhr.js')
-const libUrl = require('url')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import MediaResourcesBox from '../../decorators/MediaResourcesBox.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'CollectionDetailAdditional',
 
   render(param) {

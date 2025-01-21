@@ -4,21 +4,12 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ampersandReactMixin = require('ampersand-react-mixin')
-const f = require('active-lodash')
-const t = require('../../../lib/i18n-translate.js')
-const FormButton = require('../../ui-components/FormButton.jsx')
-const ToggableLink = require('../../ui-components/ToggableLink.jsx')
-const Modal = require('../../ui-components/Modal.jsx')
-const xhr = require('xhr')
-const formXhr = require('../../../lib/form-xhr.js')
-const loadXhr = require('../../../lib/load-xhr.js')
-const Preloader = require('../../ui-components/Preloader.jsx')
-const Button = require('../../ui-components/Button.jsx')
-const Icon = require('../../ui-components/Icon.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import Modal from '../../ui-components/Modal.jsx'
+import loadXhr from '../../../lib/load-xhr.js'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'AsyncModal',
 
   getInitialState() {
@@ -68,11 +59,7 @@ module.exports = React.createClass({
     )
   },
 
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { authToken, get, onClose } = param
+  render() {
     if (!this.state.get) {
       return <Modal loading={true} widthInPixel={this.props.widthInPixel} />
     } else {

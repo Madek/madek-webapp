@@ -1,6 +1,7 @@
-const React = require('react')
-const InputResources = require('./input-resources.jsx')
-const jQuery = require('jquery')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import InputResources from './input-resources.jsx'
+import jQuery from 'jquery'
 
 const autoCompleteSuggestionRenderer = person => {
   return jQuery('<div>')
@@ -17,8 +18,7 @@ const autoCompleteSuggestionRenderer = person => {
     )
 }
 
-// eslint-disable-next-line react/no-deprecated
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'InputPeople',
   render() {
     const { metaKey } = this.props

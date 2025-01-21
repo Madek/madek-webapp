@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import RenderDatePickerMadek from './RenderDatePickerMadek.jsx'
 
 class CustomDatePicker extends React.Component {

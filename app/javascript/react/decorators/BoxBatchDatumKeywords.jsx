@@ -10,7 +10,6 @@ class BoxBatchDatumKeywords extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    var l = require('lodash')
     return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
   }
 
@@ -28,7 +27,7 @@ class BoxBatchDatumKeywords extends React.Component {
     }
   }
 
-  onClose(event) {
+  onClose() {
     this.props.trigger(this.props.metaKeyForm, { action: 'close' })
   }
 
@@ -58,7 +57,7 @@ class BoxBatchDatumKeywords extends React.Component {
           marginRight: '10px',
           color: !k.id ? '#aaa' : '#000'
         }}>
-        <span onClick={e => this.removeKeyword(k)} style={{ cursor: 'pointer' }}>
+        <span onClick={() => this.removeKeyword(k)} style={{ cursor: 'pointer' }}>
           <i
             className="icon-close"
             style={{
@@ -85,7 +84,7 @@ class BoxBatchDatumKeywords extends React.Component {
     })
   }
 
-  onFocus(event) {
+  onFocus() {
     this.props.trigger(this.props.metaKeyForm, { action: 'input-focus' })
   }
 
@@ -163,7 +162,7 @@ class BoxBatchDatumKeywords extends React.Component {
             width: '70%',
             verticalAlign: 'top'
           }}>
-          {l.join(l.map(this.props.metaKeyForm.data.keywords, (k, i) => k.label), ', ')}
+          {l.join(l.map(this.props.metaKeyForm.data.keywords, k => k.label), ', ')}
         </div>
       )
     }
@@ -210,16 +209,6 @@ class BoxBatchDatumKeywords extends React.Component {
   }
 
   renderOptions() {
-    var className = option => {
-      if (this.props.metaKeyForm.data.option == option) {
-        return 'button active'
-      } else {
-        return 'button'
-      }
-    }
-
-    // <button className={className('remove')} onClick={(e) => this.onOptionRemove(e)}>Entfernen</button>
-
     return (
       <div style={{ textAlign: 'right' }}>
         <select onChange={e => this.onChangeOption(e)}>

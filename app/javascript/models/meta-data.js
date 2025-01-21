@@ -3,16 +3,14 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const f = require('active-lodash')
-const AppCollection = require('./shared/app-collection.js')
-const MetaDatum = require('./meta-datum.js')
+import f from 'active-lodash'
+import AppCollection from './shared/app-collection.js'
+import MetaDatum from './meta-datum.js'
 
 // `MetaDatum` is an object with subtypes (Models),
 // this (polymorph) collection to contain any of them.
 // If it has a parent resource, it can be saved back to the server.
 // Because of polymorphism, we need to override `#model` and `#isModel`
-const subtypes = f.keys(MetaDatum)
-
 module.exports = AppCollection.extend({
   type: 'MetaData',
 

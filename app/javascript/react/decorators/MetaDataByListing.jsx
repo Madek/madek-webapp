@@ -5,18 +5,19 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 // Display multiple Rows of MetaData Lists (by Context or by Vocabulary)
-const React = require('react')
-const f = require('active-lodash')
-const t = require('../../lib/i18n-translate.js')
-const MadekPropTypes = require('../lib/madek-prop-types.js')
-const MetaDataList = require('./MetaDataList.jsx')
-const listingHelper = require('../../lib/metadata-listing-helper.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import MadekPropTypes from '../lib/madek-prop-types.js'
+import MetaDataList from './MetaDataList.jsx'
+import listingHelper from '../../lib/metadata-listing-helper.js'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Deco.MetaDataByListing',
   propTypes: {
     list: MadekPropTypes.metaDataListing.isRequired,
-    vocabLinks: React.PropTypes.bool
+    vocabLinks: PropTypes.bool
   },
 
   render(param) {
@@ -27,7 +28,7 @@ module.exports = React.createClass({
     if (param == null) {
       param = this.props
     }
-    const { list, vocabLinks, hideSeparator } = param
+    const { list, hideSeparator } = param
     const onlyListsWithContent = f.reject(list, i => listingHelper._isEmptyContextOrVocab(i))
     const numVocabs = onlyListsWithContent.length
     const numColumns = f.max([2, f.min([4, numVocabs])])

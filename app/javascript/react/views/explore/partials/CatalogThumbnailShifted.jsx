@@ -4,10 +4,11 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const classnames = require('classnames')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import cx from 'classnames'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'CatalogThumbnailShifted',
   render(param) {
     if (param == null) {
@@ -15,7 +16,7 @@ module.exports = React.createClass({
     }
     const { imageUrl, count } = param
     const even = count % 2 === 0
-    const classes = classnames('ui-collage-item', { odd: !even }, { even })
+    const classes = cx('ui-collage-item', { odd: !even }, { even })
     return (
       <div className={classes}>
         <div className="ui-collage-item-wrapper">

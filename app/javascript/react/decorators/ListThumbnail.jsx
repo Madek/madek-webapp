@@ -4,32 +4,27 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const async = require('async')
-const f = require('active-lodash')
-const c = require('classnames')
-const t = require('../../lib/i18n-translate.js')
-const Picture = require('../ui-components/Picture.jsx')
-const Button = require('../ui-components/Button.jsx')
-const ResourceIcon = require('../ui-components/ResourceIcon.jsx')
-const Link = require('../ui-components/Link.jsx')
-const Icon = require('../ui-components/Icon.jsx')
-const TagCloud = require('../ui-components/TagCloud.jsx')
-const FavoriteButton = require('./thumbnail/FavoriteButton.jsx')
-const StatusIcon = require('./thumbnail/StatusIcon.jsx')
-const DeleteModal = require('./thumbnail/DeleteModal.jsx')
-const MetaDataList = require('./MetaDataList.jsx')
-const LoadXhr = require('../../lib/load-xhr.js')
-const Preloader = require('../ui-components/Preloader.jsx')
-const Thumbnail = require('../ui-components/Thumbnail.jsx')
-const MetaDataTable = require('./MetaDataTable.jsx')
-const MetaDataDefinitionList = require('./MetaDataDefinitionList.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import l from 'lodash'
+import cx from 'classnames'
+import t from '../../lib/i18n-translate.js'
+import Picture from '../ui-components/Picture.jsx'
+import Button from '../ui-components/Button.jsx'
+import ResourceIcon from '../ui-components/ResourceIcon.jsx'
+import Link from '../ui-components/Link.jsx'
+import Icon from '../ui-components/Icon.jsx'
+import FavoriteButton from './thumbnail/FavoriteButton.jsx'
+import DeleteModal from './thumbnail/DeleteModal.jsx'
+import MetaDataList from './MetaDataList.jsx'
+import Preloader from '../ui-components/Preloader.jsx'
+import MetaDataDefinitionList from './MetaDataDefinitionList.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'ListThumbnail',
 
   shouldComponentUpdate(nextProps, nextState) {
-    const l = require('lodash')
     return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
   },
 
@@ -42,7 +37,6 @@ module.exports = React.createClass({
       imageUrl,
       mediaType,
       title,
-      subtitle,
       mediaUrl,
       metaData,
       selectProps,
@@ -209,7 +203,7 @@ module.exports = React.createClass({
       const commonCss = f.merge(liStyle, {
         cursor: positionProps.disabled ? 'not-allowed' : 'pointer'
       })
-      const iconCssClass = c({ mid: positionProps.disabled })
+      const iconCssClass = cx({ mid: positionProps.disabled })
 
       actionList.push(
         React.createElement(
@@ -317,7 +311,7 @@ module.exports = React.createClass({
         </div>
         <div className="ui-resource-body">
           <div className="ui-resource-thumbnail">
-            <div className={c('ui-thumbnail', thumbnailClass)}>
+            <div className={cx('ui-thumbnail', thumbnailClass)}>
               <div className="ui-thumbnail-privacy">
                 <i className="icon-privacy-group" />
               </div>
@@ -340,7 +334,7 @@ module.exports = React.createClass({
           ) : null}
           {metaData ? (
             f
-              .map(listsWithClasses, (item, index) => {
+              .map(listsWithClasses, item => {
                 return (
                   <div className={item.className} key={item.key}>
                     <MetaDataList
@@ -374,13 +368,13 @@ module.exports = React.createClass({
   }
 })
 
-var Image = React.createClass({
+var Image = createReactClass({
   displayName: 'Image',
   render(param) {
     if (param == null) {
       param = this.props
     }
-    const { old, innerImage, mediaUrl } = param
+    const { innerImage, mediaUrl } = param
     return (
       <a
         className="ui-thumbnail-image-wrapper"
@@ -399,7 +393,7 @@ var Image = React.createClass({
   }
 })
 
-var Titles = React.createClass({
+var Titles = createReactClass({
   displayName: 'Titles',
   render() {
     return (

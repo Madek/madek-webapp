@@ -4,15 +4,15 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const Keyword = require('../../../ui-components/Keyword.jsx')
-const CatalogResource = require('./CatalogResource.jsx')
-const WorthThumbnail = require('./WorthThumbnail.jsx')
-const ResourceThumbnail = require('../../../decorators/ResourceThumbnail.jsx')
-const t = require('../../../../lib/i18n-translate')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import Keyword from '../../../ui-components/Keyword.jsx'
+import CatalogResource from './CatalogResource.jsx'
+import ResourceThumbnail from '../../../decorators/ResourceThumbnail.jsx'
+import t from '../../../../lib/i18n-translate'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'ResourcesSection',
   render(param) {
     if (param == null) {

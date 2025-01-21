@@ -1,20 +1,18 @@
-const React = require('react')
-// eslint-disable-next-line react/no-deprecated
-const PropTypes = React.PropTypes
-const f = require('active-lodash')
-const t = require('../../lib/i18n-translate.js')
-const cx = require('classnames')
-const qs = require('qs')
-const parseUrl = require('url').parse
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import t from '../../lib/i18n-translate.js'
+import cx from 'classnames'
+import qs from 'qs'
+import { parse as parseUrl } from 'url'
 
-// const Link = require('../ui-components/Link.jsx')
-const Icon = require('../ui-components/Icon.jsx')
-const Picture = require('../ui-components/Picture.jsx')
-const ResourceIcon = require('../ui-components/ResourceIcon.jsx')
-const MediaPlayer = require('../ui-components/MediaPlayer.jsx')
+import Icon from '../ui-components/Icon.jsx'
+import Picture from '../ui-components/Picture.jsx'
+import ResourceIcon from '../ui-components/ResourceIcon.jsx'
+import MediaPlayer from '../ui-components/MediaPlayer.jsx'
 
-// eslint-disable-next-line react/no-deprecated
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'MediaEntryPreview',
   propTypes: {
     get: PropTypes.shape({

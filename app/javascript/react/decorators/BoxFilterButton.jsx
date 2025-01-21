@@ -1,10 +1,8 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import f from 'active-lodash'
 import t from '../../lib/i18n-translate.js'
-import cx from 'classnames/dedupe'
 import Icon from '../ui-components/Icon.jsx'
 import Button from '../ui-components/Button.jsx'
+import l from 'lodash'
 
 class BoxFilterButton extends React.Component {
   constructor(props) {
@@ -12,7 +10,6 @@ class BoxFilterButton extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    var l = require('lodash')
     return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
   }
 

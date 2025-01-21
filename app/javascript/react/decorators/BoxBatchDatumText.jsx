@@ -1,9 +1,6 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import l from 'lodash'
-import t from '../../lib/i18n-translate.js'
-import cx from 'classnames/dedupe'
 import BoxRenderLabel from './BoxRenderLabel.jsx'
+import l from 'lodash'
 
 class BoxBatchDatumText extends React.Component {
   constructor(props) {
@@ -11,7 +8,6 @@ class BoxBatchDatumText extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    var l = require('lodash')
     return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
   }
 
@@ -64,8 +60,6 @@ class BoxBatchDatumText extends React.Component {
   }
 
   render() {
-    var metaKeyForm = this.props.metaKeyForm
-
     return (
       <div>
         <BoxRenderLabel

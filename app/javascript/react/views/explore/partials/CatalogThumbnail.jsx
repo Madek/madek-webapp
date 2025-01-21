@@ -4,11 +4,11 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('lodash')
-const t = require('../../../../lib/i18n-translate')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import t from '../../../../lib/i18n-translate'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'CatalogThumbnail',
 
   render(param) {

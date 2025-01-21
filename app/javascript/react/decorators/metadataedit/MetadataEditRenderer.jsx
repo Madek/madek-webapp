@@ -5,25 +5,24 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const t = require('../../../lib/i18n-translate.js')
-const cx = require('classnames')
-const InputMetaDatum = require('../InputMetaDatum.jsx')
-const MetaKeyFormLabel = require('../../lib/forms/form-label.jsx')
-const metadataEditValidation = require('../../../lib/metadata-edit-validation.js')
-const metadataEditGrouping = require('../../../lib/metadata-edit-grouping.js')
-const Picture = require('../../ui-components/Picture.jsx')
-const ResourceIcon = require('../../ui-components/ResourceIcon.jsx')
-const Tabs = require('../../views/Tabs.jsx')
-const Tab = require('../../views/Tab.jsx')
-const Icon = require('../../ui-components/Icon.jsx')
-const Link = require('../../ui-components/Link.jsx')
-const TagCloud = require('../../ui-components/TagCloud.jsx')
-const setUrlParams = require('../../../lib/set-params-for-url.js')
-const VocabTitleLink = require('../../ui-components/VocabTitleLink.jsx')
-const grouping = require('../../../lib/metadata-edit-grouping.js')
-const labelize = require('../../../lib/labelize').default
+import React from 'react'
+import f from 'active-lodash'
+import t from '../../../lib/i18n-translate.js'
+import cx from 'classnames'
+import InputMetaDatum from '../InputMetaDatum.jsx'
+import MetaKeyFormLabel from '../../lib/forms/form-label.jsx'
+import metadataEditValidation from '../../../lib/metadata-edit-validation.js'
+import Picture from '../../ui-components/Picture.jsx'
+import ResourceIcon from '../../ui-components/ResourceIcon.jsx'
+import Tabs from '../../views/Tabs.jsx'
+import Tab from '../../views/Tab.jsx'
+import Icon from '../../ui-components/Icon.jsx'
+import Link from '../../ui-components/Link.jsx'
+import TagCloud from '../../ui-components/TagCloud.jsx'
+import setUrlParams from '../../../lib/set-params-for-url.js'
+import VocabTitleLink from '../../ui-components/VocabTitleLink.jsx'
+import grouping from '../../../lib/metadata-edit-grouping.js'
+import labelize from '../../../lib/labelize'
 
 module.exports = {
   _renderValueFromWorkflowCommonSettings(workflow, meta_key_id) {
@@ -271,8 +270,7 @@ module.exports = {
     const meta_key_ids_in_current_context = f.map(
       meta_meta_data.context_key_ids_by_context_id[currentContextId],
       function(context_key_id) {
-        let meta_key_id
-        return (meta_key_id = meta_meta_data.meta_key_id_by_context_key_id[context_key_id])
+        return meta_meta_data.meta_key_id_by_context_key_id[context_key_id]
       }
     )
 
@@ -310,14 +308,13 @@ module.exports = {
   },
 
   _renderSubForms(bundle, bundleState, _toggleBundle, isInvalid, children) {
-    let subForms
     const style = {
       display: bundleState[bundle.bundle] || isInvalid ? 'block' : 'none',
       marginTop: '10px',
       marginBottom: '20px'
     }
 
-    return (subForms = [
+    return [
       <a
         key="sub-form-link"
         className={cx('button small form-item-extension-toggle mtm', { active: isInvalid })}
@@ -325,13 +322,12 @@ module.exports = {
         <i className="icon-plus-small" /> {t('meta_data_edit_more_data')}
       </a>,
       <div
-        key="sub-form-values"
         style={style}
         className="ui-container pam ui-container bordered rounded form-item-extension hidden"
         key={`block_${bundle.bundle}`}>
         {children}
       </div>
-    ])
+    ]
   },
 
   _context_keys(meta_meta_data, context_id) {
@@ -359,7 +355,7 @@ module.exports = {
       this._context_keys(meta_meta_data, context_id)
     )
 
-    const _renderItemByContextKeyId = (context_key_id, subForms, rowed, batchConflict) => {
+    const _renderItemByContextKeyId = (context_key_id, subForms, rowed) => {
       const contextKey = meta_meta_data.context_key_by_context_key_id[context_key_id]
 
       return this._renderItemByContext2(
@@ -523,8 +519,6 @@ module.exports = {
             ((vocabularies = this._sortedVocabularies(meta_meta_data)),
             f.flatten(
               f.map(vocabularies, (vocabulary, index) => {
-                const vocabMetaData = this._sortedMetadata(meta_meta_data, meta_data, vocabulary)
-
                 return [
                   <span
                     className="title-l"

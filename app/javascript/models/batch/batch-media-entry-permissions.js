@@ -1,5 +1,5 @@
-const MediaEntryPermissions = require('../media-entry/permissions.js')
-const BatchResourcePermissionsFactory = require('../shared/batch-resource-permissions-factory.js')
+import MediaEntryPermissions from '../media-entry/permissions.js'
+import BatchResourcePermissionsFactory from '../shared/batch-resource-permissions-factory.js'
 
 module.exports = BatchResourcePermissionsFactory(
   'BatchMediaEntryPermissions',

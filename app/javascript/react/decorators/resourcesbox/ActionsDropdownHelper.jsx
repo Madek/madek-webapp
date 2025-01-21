@@ -3,27 +3,19 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const ui = require('../../lib/ui.js')
-const { t } = ui
-const SelectionScope = require('../../../lib/selection-scope.js')
-const { Icon, Dropdown } = require('../../ui-components/index.js')
-const { MenuItem } = Dropdown
+import f from 'active-lodash'
+import SelectionScope from '../../../lib/selection-scope.js'
 
 const showActionsConfig = function(parameters) {
   const {
-    totalCount,
     withActions,
     selection,
     saveable,
     draftsView,
     isClient,
     collectionData,
-    config,
     featureToggles,
-    isClipboard,
-    content_type
+    isClipboard
   } = parameters
   const showActions = !withActions
     ? {}

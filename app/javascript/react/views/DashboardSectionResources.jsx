@@ -5,22 +5,14 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const f = require('active-lodash')
-const cx = require('classnames')
-const parseUrl = require('url').parse
-const buildUrl = require('url').format
-const qs = require('qs')
-const PageContent = require('./PageContent.jsx')
-const DashboardHeader = require('./DashboardHeader.jsx')
-const t = require('../../lib/i18n-translate.js')
-const AsyncDashboardSection = require('../lib/AsyncDashboardSection.jsx')
-const Sidebar = require('./Sidebar.jsx')
-const TagCloud = require('../ui-components/TagCloud.jsx')
-const Preloader = require('../ui-components/Preloader.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import { parse as parseUrl, format as buildUrl } from 'url'
+import t from '../../lib/i18n-translate.js'
+import AsyncDashboardSection from '../lib/AsyncDashboardSection.jsx'
+import Preloader from '../ui-components/Preloader.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'DashboardSectionResources',
 
   getInitialState() {
@@ -39,7 +31,6 @@ module.exports = React.createClass({
     }
     const { section, url } = param
     const is_clipboard = section.id === 'clipboard'
-    const is_unpublished_entries = section.id === 'unpublished_entries'
 
     const mods = ['unpaginated']
     const fallback = section['is_empty?'] ? true : false

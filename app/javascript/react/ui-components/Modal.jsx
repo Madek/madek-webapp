@@ -3,11 +3,11 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const Preloader = require('./Preloader.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import Preloader from './Preloader.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Modal',
 
   getInitialState() {

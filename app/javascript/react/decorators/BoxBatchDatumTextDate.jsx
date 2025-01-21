@@ -1,14 +1,14 @@
 import React from 'react'
-import l from 'lodash'
 import CustomDatePicker from '../lib/forms/CustomDatePicker.jsx'
 import DatePickerPopup from '../lib/forms/DatePickerPopup.jsx'
-import t from '../../lib/i18n-translate.js'
 import moment from 'moment'
 import BoxRenderLabel from './BoxRenderLabel.jsx'
+import l from 'lodash'
 
 // Just import (although not used here) since it sets some global stuff for
 // locales which are used in other components (tests failed).
 // Remove it and check the failing tests.
+// eslint-disable-next-line no-unused-vars
 import DatePicker from '../ui-components/DatePicker.js'
 
 class BoxBatchDatumTextDate extends React.Component {
@@ -17,7 +17,6 @@ class BoxBatchDatumTextDate extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    var l = require('lodash')
     return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
   }
 
@@ -35,8 +34,6 @@ class BoxBatchDatumTextDate extends React.Component {
   }
 
   render() {
-    var metaKeyForm = this.props.metaKeyForm
-
     return (
       <div>
         <BoxRenderLabel
@@ -139,7 +136,7 @@ class BoxBatchDatumTextDate extends React.Component {
           paddingTop: '62px'
         }}>
         {this.dateTripleToString(d)}
-        <div onClick={e => onDate()} className="button" style={{ marginLeft: '10px' }}>
+        <div onClick={() => onDate()} className="button" style={{ marginLeft: '10px' }}>
           <i className="fa fa-calendar"></i>
         </div>
       </div>
@@ -281,7 +278,7 @@ class BoxBatchDatumTextDate extends React.Component {
           {this.renderAtDatePicker()}
         </div>
         <div style={{ display: 'inline-block' }}>
-          <div onClick={e => this.showFromTo()} className="button" style={{ marginLeft: '10px' }}>
+          <div onClick={() => this.showFromTo()} className="button" style={{ marginLeft: '10px' }}>
             <i className="fa fa-calendar"></i>
             {' - '}
             <i className="fa fa-calendar"></i>

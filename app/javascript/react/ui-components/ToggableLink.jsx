@@ -4,10 +4,11 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'ToggableLink',
 
   render(param) {
@@ -17,7 +18,6 @@ module.exports = React.createClass({
     const { active } = param
     const restProps = f.omit(this.props, ['active'])
     const onClick = active ? this.props.onClick : null
-    const href = active ? this.props.href : null
 
     let style = active ? {} : { pointerEvents: 'none', cursor: 'default' }
     style = f.merge(this.props.style, style)

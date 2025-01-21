@@ -4,19 +4,16 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const classList = require('classnames/dedupe')
-const { parseMods } = require('../../lib/ui.js')
-const t = require('../../../lib/i18n-translate.js')
-const RailsForm = require('../../lib/forms/rails-form.jsx')
-const Button = require('../../ui-components/Button.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import RailsForm from '../../lib/forms/rails-form.jsx'
+import Button from '../../ui-components/Button.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'FavoriteButton',
 
   render(param) {
-    let favorButton, favoriteOnClick
+    let favoriteOnClick
     if (param == null) {
       param = this.props
     }
@@ -36,7 +33,7 @@ module.exports = React.createClass({
     if (!pendingFavorite) {
       favoriteOnClick = favorOnClick
     }
-    return (favorButton = stateIsClient ? (
+    return stateIsClient ? (
       <Button className={buttonClass} onClick={favoriteOnClick} data-pending={pendingFavorite}>
         {favoriteIcon}
       </Button>
@@ -46,6 +43,6 @@ module.exports = React.createClass({
           {favoriteIcon}
         </button>
       </RailsForm>
-    ))
+    )
   }
 })

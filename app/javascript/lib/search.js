@@ -4,11 +4,10 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const url = require('url')
-const f = require('active-lodash')
+import url from 'url'
+import f from 'active-lodash'
+import { t } from '../react/lib/ui.js'
 const Bloodhound = require('@eins78/typeahead.js/dist/bloodhound.js').noConflict()
-const ui = require('../react/lib/ui.js')
-const { t } = ui
 
 // NOTE: ignores RAILS_RELATIVE_URL_ROOT (this is OK given it runs on domain root)
 const resourcesConfig = {

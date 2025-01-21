@@ -1,19 +1,19 @@
-const React = require('react')
+import PropTypes from 'prop-types'
 
 module.exports = {
-  Clickable: React.PropTypes.shape({
-    name: React.PropTypes.node.isRequired,
-    isActive: React.PropTypes.bool,
-    href: React.PropTypes.string,
-    onClick: React.PropTypes.func
+  Clickable: PropTypes.shape({
+    name: PropTypes.node.isRequired,
+    isActive: PropTypes.bool,
+    href: PropTypes.string,
+    onClick: PropTypes.func
   }),
 
-  Toggleable: React.PropTypes.shape({
-    isActive: React.PropTypes.bool.isRequired,
-    isDirty: React.PropTypes.bool,
-    active: React.PropTypes.string,
-    inactive: React.PropTypes.string,
-    href: React.PropTypes.string,
-    onClick: React.PropTypes.func
+  Toggleable: PropTypes.shape({
+    isActive: PropTypes.bool.isRequired,
+    isDirty: PropTypes.bool,
+    active: PropTypes.string,
+    inactive: PropTypes.string,
+    href: PropTypes.string,
+    onClick: PropTypes.func
   })
 }

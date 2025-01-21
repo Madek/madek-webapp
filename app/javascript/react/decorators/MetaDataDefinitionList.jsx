@@ -4,12 +4,12 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const t = require('../../lib/i18n-translate.js')
-const MetaDatumValues = require('./MetaDatumValues.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import MetaDatumValues from './MetaDatumValues.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Deco.MetaDataDefinitionList',
 
   render(param) {

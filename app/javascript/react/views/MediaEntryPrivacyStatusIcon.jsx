@@ -4,13 +4,10 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const cx = require('classnames')
-const f = require('lodash')
-const Icon = require('../ui-components/Icon.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'MediaEntryPrivacyStatusIcon',
   render(param) {
     if (param == null) {

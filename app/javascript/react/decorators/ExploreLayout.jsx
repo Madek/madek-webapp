@@ -4,13 +4,11 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const f = require('active-lodash')
-const t = require('../../lib/i18n-translate.js')
-const PrettyThumbs = require('../views/explore/partials/PrettyThumbs.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'ExploreLayout',
 
   getInitialState() {
@@ -21,7 +19,7 @@ module.exports = React.createClass({
     if (param == null) {
       param = this.props
     }
-    const { authToken, sections, collageResources, pageTitle } = param
+    const { sections } = param
     return (
       <div>
         <div className="app-body-ui-container pts context-home" style={{ width: '1000px' }}>

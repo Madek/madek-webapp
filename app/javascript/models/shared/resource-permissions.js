@@ -4,7 +4,7 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const AppResource = require('./app-resource.js')
+import AppResource from './app-resource.js'
 
 // Base ResourcePermissions Model:
 module.exports = AppResource.extend({
@@ -25,7 +25,7 @@ module.exports = AppResource.extend({
     return [this.user_permissions, this.group_permissions, this.api_client_permissions].map(
       child => {
         if ((child != null ? child.on : undefined) != null) {
-          return this.listenTo(child, 'change add remove reset', e => this.trigger('change'))
+          return this.listenTo(child, 'change add remove reset', () => this.trigger('change'))
         }
       }
     )

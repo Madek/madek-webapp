@@ -27,7 +27,7 @@ class PersonEdit extends React.Component {
     this.handleUriRemove = this.handleUriRemove.bind(this)
   }
 
-  handleSubmit(e) {
+  handleSubmit() {
     this.setState({ isSaving: true })
   }
 
@@ -37,7 +37,7 @@ class PersonEdit extends React.Component {
     this.setState({ external_uris })
   }
 
-  handleUriAdd(e) {
+  handleUriAdd() {
     const external_uris = this.state.external_uris.slice(0)
     external_uris.push(decorateExternalURI(''))
     this.setState({ external_uris })

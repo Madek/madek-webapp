@@ -4,17 +4,18 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const classList = require('classnames/dedupe')
-const { parseMods } = require('../lib/ui.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import cx from 'classnames/dedupe'
+import { parseMods } from '../lib/ui.js'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'ResourceShowOverview',
   propTypes: {
-    content: React.PropTypes.node.isRequired,
-    preview: React.PropTypes.node,
-    previewLg: React.PropTypes.node
+    content: PropTypes.node.isRequired,
+    preview: PropTypes.node,
+    previewLg: PropTypes.node
   },
 
   render(param) {
@@ -23,7 +24,7 @@ module.exports = React.createClass({
     }
     const { content, preview, previewLg } = param
     return (
-      <div className={classList('ui-resource-overview', parseMods(this.props))}>
+      <div className={cx('ui-resource-overview', parseMods(this.props))}>
         {preview ? preview : undefined}
         {content}
         {previewLg ? previewLg : undefined}

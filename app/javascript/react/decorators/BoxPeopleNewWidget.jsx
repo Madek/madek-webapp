@@ -1,10 +1,7 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import l from 'lodash'
 import t from '../../lib/i18n-translate.js'
 import cx from 'classnames/dedupe'
-import BoxPopup from './BoxPopup.jsx'
-import BoxRenderLabel from './BoxRenderLabel.jsx'
 
 class BoxPeopleNewWidget extends React.Component {
   constructor(props) {
@@ -12,7 +9,6 @@ class BoxPeopleNewWidget extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    var l = require('lodash')
     return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
   }
 
@@ -21,7 +17,7 @@ class BoxPeopleNewWidget extends React.Component {
       <div className="mts">
         <a
           className="button small form-widget-toggle"
-          onClick={e => this.props.trigger(this.props.component, { action: 'open' })}>
+          onClick={() => this.props.trigger(this.props.component, { action: 'open' })}>
           <i className="small icon-privacy-private"></i> Neue Person oder Gruppe anlegen
         </a>
       </div>
@@ -41,7 +37,7 @@ class BoxPeopleNewWidget extends React.Component {
       return (
         <li className={cx('ui-tabs-item mll pls', { active: newWidget.selected == 'person' })}>
           <a
-            onClick={e =>
+            onClick={() =>
               this.props.trigger(this.props.component, { action: 'select-tab', tab: 'person' })
             }>
             {t('resources_box_batch_person_widget_tab_person')}
@@ -57,7 +53,7 @@ class BoxPeopleNewWidget extends React.Component {
       return (
         <li className={cx('ui-tabs-item', { active: newWidget.selected == 'group' })}>
           <a
-            onClick={e =>
+            onClick={() =>
               this.props.trigger(this.props.component, { action: 'select-tab', tab: 'group' })
             }>
             {t('resources_box_batch_person_widget_tab_group')}
@@ -127,7 +123,7 @@ class BoxPeopleNewWidget extends React.Component {
         <div className="ui-form-group rowed ptm limited-width-s">
           <button
             className="add-person button block"
-            onClick={e => this.props.trigger(this.props.component, { action: 'add-person' })}>
+            onClick={() => this.props.trigger(this.props.component, { action: 'add-person' })}>
             {t('resources_box_batch_person_widget_add_person')}
           </button>
         </div>
@@ -156,7 +152,7 @@ class BoxPeopleNewWidget extends React.Component {
         <div className="ui-form-group rowed ptm limited-width-s">
           <button
             className="add-group button block"
-            onClick={e => this.props.trigger(this.props.component, { action: 'add-group' })}>
+            onClick={() => this.props.trigger(this.props.component, { action: 'add-group' })}>
             {t('resources_box_batch_person_widget_add_group')}
           </button>
         </div>
@@ -186,7 +182,7 @@ class BoxPeopleNewWidget extends React.Component {
       <div className="mts">
         <a
           className="button small form-widget-toggle"
-          onClick={e => this.props.trigger(this.props.component, { action: 'close' })}>
+          onClick={() => this.props.trigger(this.props.component, { action: 'close' })}>
           <i className="small icon-privacy-private"></i>
         </a>
         <div className="form-widget">

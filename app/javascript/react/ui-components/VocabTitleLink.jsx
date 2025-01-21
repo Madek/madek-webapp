@@ -4,11 +4,12 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const Icon = require('./Icon.jsx')
-const cs = require('classnames')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import Icon from './Icon.jsx'
+import cx from 'classnames'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'VocabTitleLink',
 
   render(param) {
@@ -17,7 +18,7 @@ module.exports = React.createClass({
     }
     const { id, hi, text, href, separated, className } = param
     const H = hi ? hi : 'h3'
-    const defaultClasses = cs('title-l', { separated, mbm: separated })
+    const defaultClasses = cx('title-l', { separated, mbm: separated })
     const classes = className ? className : defaultClasses
     return (
       <H className={classes} id={id}>

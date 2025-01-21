@@ -5,33 +5,34 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const t = require('../../lib/i18n-translate.js')
-const appRequest = require('../../lib/app-request.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import t from '../../lib/i18n-translate.js'
+import appRequest from '../../lib/app-request.js'
+import UI from '../ui-components/index.js'
+import MadekPropTypes from '../lib/madek-prop-types.js'
+import MetaDataList from '../decorators/MetaDataList.jsx'
+import MediaEntryPreview from '../decorators/MediaEntryPreview.jsx'
+import MetaDataByListing from '../decorators/MetaDataByListing.jsx'
+import ResourceShowOverview from '../templates/ResourceShowOverview.jsx'
+import BrowseEntriesList from './MediaEntry/BrowseEntriesList.jsx'
+import MediaEntrySiblings from './MediaEntry/MediaEntrySiblings.jsx'
 
-const UI = require('../ui-components/index.js')
-const MadekPropTypes = require('../lib/madek-prop-types.js')
-const MetaDataList = require('../decorators/MetaDataList.jsx')
-const MediaEntryPreview = require('../decorators/MediaEntryPreview.jsx')
-const MetaDataByListing = require('../decorators/MetaDataByListing.jsx')
-const ResourceShowOverview = require('../templates/ResourceShowOverview.jsx')
-const BrowseEntriesList = require('./MediaEntry/BrowseEntriesList.jsx')
-const MediaEntrySiblings = require('./MediaEntry/MediaEntrySiblings.jsx').default
-
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Views.MediaEntryShow',
   propTypes: {
-    get: React.PropTypes.shape({
-      title: React.PropTypes.string.isRequired,
-      url: React.PropTypes.string.isRequired,
-      // image_url: React.PropTypes.string.isRequired
+    get: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+      // image_url: PropTypes.string.isRequired
       meta_data: MadekPropTypes.resourceMetaData.isRequired,
       responsible: MadekPropTypes.user.isRequired
       // tabs: UI.propTypes.TabList.isRequired
-      // more_data: React.PropTypes.object.isRequired
-      // relations: React.PropTypes.object.isRequired
-      // permissions: React.PropTypes.object.isRequired
+      // more_data: PropTypes.object.isRequired
+      // relations: PropTypes.object.isRequired
+      // permissions: PropTypes.object.isRequired
     }).isRequired
   },
 

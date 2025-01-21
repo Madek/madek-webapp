@@ -4,23 +4,20 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const async = require('async')
-const f = require('active-lodash')
-const cx = require('classnames')
-const ampersandReactMixin = require('ampersand-react-mixin')
-const t = require('../../lib/i18n-translate.js')
-const Models = require('../../models/index.js')
-const { Link, Icon, Thumbnail, Button, Preloader, AskModal } = require('../ui-components/index.js')
-const StatusIcon = require('./thumbnail/StatusIcon.jsx')
-const FavoriteButton = require('./thumbnail/FavoriteButton.jsx')
-const DeleteModal = require('./thumbnail/DeleteModal.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import l from 'lodash'
+import cx from 'classnames'
+import { Link, Icon, Thumbnail, Button, Preloader } from '../ui-components/index.js'
+import StatusIcon from './thumbnail/StatusIcon.jsx'
+import FavoriteButton from './thumbnail/FavoriteButton.jsx'
+import DeleteModal from './thumbnail/DeleteModal.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'ResourceThumbnailRenderer',
 
   shouldComponentUpdate(nextProps, nextState) {
-    const l = require('lodash')
     return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
   },
 
@@ -32,7 +29,6 @@ module.exports = React.createClass({
     const {
       resourceType,
       mediaType,
-      elm,
       get,
       onPictureClick,
       relationsProps,

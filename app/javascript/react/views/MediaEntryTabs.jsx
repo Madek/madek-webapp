@@ -4,14 +4,12 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const cx = require('classnames')
-const f = require('lodash')
-const Icon = require('../ui-components/Icon.jsx')
-const MediaEntryPrivacyStatusIcon = require('./MediaEntryPrivacyStatusIcon.jsx')
-
-const parseUrl = require('url').parse
+import React from 'react'
+import createReactClass from 'create-react-class'
+import cx from 'classnames'
+import f from 'lodash'
+import MediaEntryPrivacyStatusIcon from './MediaEntryPrivacyStatusIcon.jsx'
+import { parse as parseUrl } from 'url'
 
 const parseUrlState = function(location) {
   const urlParts = f.slice(parseUrl(location).pathname.split('/'), 1)
@@ -27,7 +25,7 @@ const parseUrlState = function(location) {
 
 const activeTabId = urlState => urlState.action
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'MediaEntryTabs',
 
   getInitialState() {

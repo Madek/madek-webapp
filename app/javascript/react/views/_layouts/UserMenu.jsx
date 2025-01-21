@@ -6,49 +6,49 @@
  */
 // The user menu, in app header on the right side
 
-const React = require('react')
-const f = require('active-lodash')
-const ui = require('../../lib/ui.js')
-const { t } = ui
-const Icon = require('../../ui-components/Icon.jsx')
-const Dropdown = require('../../ui-components/Dropdown.jsx')
-const { MenuItem } = Dropdown
-const RailsForm = require('../../lib/forms/rails-form.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import { t } from '../../lib/ui.js'
+import Icon from '../../ui-components/Icon.jsx'
+import Dropdown, { MenuItem } from '../../ui-components/Dropdown.jsx'
+import RailsForm from '../../lib/forms/rails-form.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'App.UserMenu',
   propTypes: {
-    user_name: React.PropTypes.string.isRequired,
-    my: React.PropTypes.shape({
-      drafts_url: React.PropTypes.string.isRequired,
-      entries_url: React.PropTypes.string.isRequired,
-      sets_url: React.PropTypes.string.isRequired,
-      favorite_entries_url: React.PropTypes.string.isRequired,
-      favorite_sets_url: React.PropTypes.string.isRequired,
-      groups: React.PropTypes.string.isRequired
+    user_name: PropTypes.string.isRequired,
+    my: PropTypes.shape({
+      drafts_url: PropTypes.string.isRequired,
+      entries_url: PropTypes.string.isRequired,
+      sets_url: PropTypes.string.isRequired,
+      favorite_entries_url: PropTypes.string.isRequired,
+      favorite_sets_url: PropTypes.string.isRequired,
+      groups: PropTypes.string.isRequired
     }).isRequired,
-    admin: React.PropTypes.shape({
+    admin: PropTypes.shape({
       // only set if user is admin
-      url: React.PropTypes.string.isRequired,
-      admin_mode_toggle: React.PropTypes.shape({
+      url: PropTypes.string.isRequired,
+      admin_mode_toggle: PropTypes.shape({
         // NOT implemented
-        url: React.PropTypes.string.isRequired,
-        method: React.PropTypes.string.isRequired
+        url: PropTypes.string.isRequired,
+        method: PropTypes.string.isRequired
       })
     }),
-    sign_out_action: React.PropTypes.shape({
-      url: React.PropTypes.string.isRequired,
-      method: React.PropTypes.string.isRequired
+    sign_out_action: PropTypes.shape({
+      url: PropTypes.string.isRequired,
+      method: PropTypes.string.isRequired
     }).isRequired,
 
-    authToken: React.PropTypes.string.isRequired
+    authToken: PropTypes.string.isRequired
   },
 
   render(param) {
     if (param == null) {
       param = this
     }
-    const { props, state } = param
+    const { props } = param
     const myContentItems = [
       {
         title: t('sitemap_my_unpublished'),
@@ -163,7 +163,7 @@ var WebappSignoutButton = ({ url, method, authToken }) => (
   />
 )
 
-var MenuItemButton = function({ name, action, method, icon, title, authToken }) {
+var MenuItemButton = function({ action, method, icon, title, authToken }) {
   // NOTE: needed style fixes for putting form in menu
   const styleFix = { width: '100%', textAlign: 'left', paddingLeft: '7px' }
 

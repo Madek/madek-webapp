@@ -4,14 +4,15 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const t = require('../../../lib/i18n-translate.js')
-const PageHeader = require('../../ui-components/PageHeader')
-const MetaDataList = require('../../decorators/MetaDataList.jsx')
-const ResourceThumbnail = require('../../decorators//ResourceThumbnail.jsx')
-const BrowseEntriesList = require('./BrowseEntriesList.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import t from '../../../lib/i18n-translate.js'
+import PageHeader from '../../ui-components/PageHeader'
+import MetaDataList from '../../decorators/MetaDataList.jsx'
+import ResourceThumbnail from '../../decorators//ResourceThumbnail.jsx'
+import BrowseEntriesList from './BrowseEntriesList.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'MediaEntryBrowse',
 
   render(props) {

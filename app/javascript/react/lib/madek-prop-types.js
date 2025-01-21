@@ -1,14 +1,14 @@
+import f from 'active-lodash'
+import PropTypes from 'prop-types'
+import validateUUID from 'uuid-validate'
+
 let M
-const f = require('active-lodash')
-const { PropTypes } = require('react')
-const validateUUID = require('uuid-validate')
 
 // Define all PropTypes that directly relate to Models/Presenters here.
 // NOTE: Never set the top-level as `isRequired`, that is up to the Component!
 
 // # Constants
 const NAMESPACE_MATCH = '[a-z0-9-_]+'
-const VOCABULARY_REGEX = RegExp(`^${NAMESPACE_MATCH}$`)
 const MKEY_REGEX = RegExp(`^${NAMESPACE_MATCH}:${NAMESPACE_MATCH}$`)
 const META_DATUM_TYPES = [
   'MetaDatum::Text',
@@ -26,13 +26,13 @@ const PEOPLE_SUBTYPES = ['Person', 'PeopleGroup', 'PeopleInstitutionalGroup']
 const MadekPropTypes = (M = {})
 
 // Basics
-M.uuid = function(props, propName, _componentName) {
+M.uuid = function(props, propName) {
   if (!validateUUID(props[propName], 4)) {
     return new Error('Malformed uuid!')
   }
 }
 
-M.metaKeyId = function(props, propName, _componentName) {
+M.metaKeyId = function(props, propName) {
   if (!MKEY_REGEX.test(props[propName])) {
     return new Error('Malformed metaKeyId!')
   }

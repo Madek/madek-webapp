@@ -1,9 +1,6 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import l from 'lodash'
 import t from '../../lib/i18n-translate.js'
-import cx from 'classnames/dedupe'
-import BoxBatchEditMetaKeyForm from './BoxBatchEditMetaKeyForm.jsx'
 import BoxBatchEditFormKeyBubbles from './BoxBatchEditFormKeyBubbles.jsx'
 
 class BoxMetaKeySelector extends React.Component {
@@ -12,7 +9,6 @@ class BoxMetaKeySelector extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    var l = require('lodash')
     return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
   }
 
@@ -27,7 +23,7 @@ class BoxMetaKeySelector extends React.Component {
 
   renderTemplateEntries() {
     return l.map(this.prepareContexts(), pc => {
-      let { type, context, contextKeys } = pc
+      let { context, contextKeys } = pc
 
       var isSelected = () => {
         return this.props.loadMetaMetaData.data.selectedTemplate == context.uuid
@@ -54,7 +50,7 @@ class BoxMetaKeySelector extends React.Component {
                 <span
                   className={isSelected() ? 'open' : null}
                   style={{ cursor: 'pointer' }}
-                  onClick={e =>
+                  onClick={() =>
                     this.props.trigger(this.props.loadMetaMetaData, {
                       action: 'select-template',
                       template: context.uuid
@@ -101,8 +97,6 @@ class BoxMetaKeySelector extends React.Component {
       {}
     )
 
-    var metaKeysWithTypes = this.props.loadMetaMetaData.data.metaKeysWithTypes
-
     return l.map(vocabularies, (v, k) => {
       var isSelected = () => {
         return this.props.loadMetaMetaData.data.selectedVocabulary == k
@@ -129,7 +123,7 @@ class BoxMetaKeySelector extends React.Component {
                 <span
                   className={isSelected() ? 'open' : null}
                   style={{ cursor: 'pointer' }}
-                  onClick={e =>
+                  onClick={() =>
                     this.props.trigger(this.props.loadMetaMetaData, {
                       action: 'select-vocabulary',
                       vocabulary: k
@@ -208,7 +202,7 @@ class BoxMetaKeySelector extends React.Component {
         }
       }
 
-      var onClick = e => {
+      var onClick = () => {
         this.props.trigger(this.props.loadMetaMetaData, { action: 'select-tab', selectedTab: tab })
       }
 

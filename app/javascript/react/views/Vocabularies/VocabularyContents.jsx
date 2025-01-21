@@ -4,22 +4,14 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const f = require('lodash')
-const t = require('../../../lib/i18n-translate.js')
-const Icon = require('../../ui-components/Icon.jsx')
-const PageContent = require('../PageContent.jsx')
-const PageHeader = require('../../ui-components/PageHeader.js')
-const Tabs = require('../Tabs.jsx')
-const Tab = require('../Tab.jsx')
-const TabContent = require('../TabContent.jsx')
-const parseUrl = require('url').parse
-const VocabularyPage = require('./VocabularyPage.jsx')
-const MediaResourcesBox = require('../../decorators/MediaResourcesBox.jsx')
-const libUrl = require('url')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import t from '../../../lib/i18n-translate.js'
+import VocabularyPage from './VocabularyPage.jsx'
+import MediaResourcesBox from '../../decorators/MediaResourcesBox.jsx'
+import libUrl from 'url'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'VocabularyContents',
 
   forUrl() {

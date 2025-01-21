@@ -4,25 +4,14 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const t = require('../../lib/i18n-translate.js')
-const PageContent = require('../views/PageContent.jsx')
-const TabContent = require('../views/TabContent.jsx')
-const Tabs = require('../views/Tabs.jsx')
-const Tab = require('../views/Tab.jsx')
-const batchDiff = require('../../lib/batch-diff.js')
-const BatchHintBox = require('./BatchHintBox.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import t from '../../lib/i18n-translate.js'
+import RailsForm from '../lib/forms/rails-form.jsx'
+import setUrlParams from '../../lib/set-params-for-url.js'
+import FormButton from '../ui-components/FormButton.jsx'
 
-const Button = require('../ui-components/Button.jsx')
-const Icon = require('../ui-components/Icon.jsx')
-const RailsForm = require('../lib/forms/rails-form.jsx')
-const formXhr = require('../../lib/form-xhr.js')
-const setUrlParams = require('../../lib/set-params-for-url.js')
-const Preloader = require('../ui-components/Preloader.jsx')
-const FormButton = require('../ui-components/FormButton.jsx')
-
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'BatchRemoveFromSet',
 
   _onCancel(event) {

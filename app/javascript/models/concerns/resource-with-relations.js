@@ -6,9 +6,8 @@
  */
 // Concern: ResourceWithRelations
 
-const f = require('active-lodash')
-const parseUrl = require('url').parse
-const buildUrl = require('url').format
+import f from 'active-lodash'
+import { parse as parseUrl, format as buildUrl } from 'url'
 
 module.exports = {
   props: {

@@ -3,7 +3,7 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const linkifyStr = require('linkifyjs/string')
+import linkifyStr from 'linkifyjs/string'
 
 //# build html string with auto-generated links
 module.exports = string => ({

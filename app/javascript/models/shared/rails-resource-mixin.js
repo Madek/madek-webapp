@@ -1,4 +1,4 @@
-const getRailsCSRFToken = require('../../lib/rails-csrf-token.js')
+import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 
 module.exports = {
   ajaxConfig: {

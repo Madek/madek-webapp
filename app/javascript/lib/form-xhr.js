@@ -3,8 +3,8 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const xhr = require('xhr')
-const getRailsCSRFToken = require('./rails-csrf-token.js')
+import xhr from 'xhr'
+import getRailsCSRFToken from './rails-csrf-token.js'
 
 module.exports = function(config, callback) {
   let { url } = config

@@ -8,26 +8,25 @@
 // Permissions View for a single resource, can be show or (inline-)edit
 // - has internal router to switch between show/edit by URL
 
-const React = require('react')
-const f = require('active-lodash')
-const t = require('../../lib/i18n-translate.js')
-const url = require('url')
-const ampersandReactMixin = require('ampersand-react-mixin')
-
-const ResourcePermissionsForm = require('../decorators/ResourcePermissionsForm.jsx')
-
-const Modal = require('../ui-components/Modal.jsx')
-const EditTransferResponsibility = require('../views/Shared/EditTransferResponsibility.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import t from '../../lib/i18n-translate.js'
+import url from 'url'
+import ampersandReactMixin from 'ampersand-react-mixin'
+import ResourcePermissionsForm from '../decorators/ResourcePermissionsForm.jsx'
+import Modal from '../ui-components/Modal.jsx'
+import EditTransferResponsibility from '../views/Shared/EditTransferResponsibility.jsx'
 
 // NOTE: used for static (server-side) rendering (state.editing = false)
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'ResourcePermissions',
 
   getInitialState() {
     return { editing: false, saving: false, transferModal: false }
   },
 
-  _showTransferModal(show, event) {
+  _showTransferModal(show) {
     return this.setState({ transferModal: show })
   },
 
@@ -60,7 +59,6 @@ module.exports = React.createClass({
 
   // this will only ever run on the client:
   componentDidMount() {
-    const AutoComplete = require('../lib/autocomplete.js')
     const router = require('../../lib/router.js')
 
     const editUrl = url.parse(this.props.get.edit_permissions_url).pathname
@@ -91,14 +89,14 @@ module.exports = React.createClass({
     return this._router.goTo(event.target.href)
   },
 
-  _onCancelEdit(event) {},
+  _onCancelEdit() {},
   // No special handler, just top-level-load the view url.
 
   _onSubmitForm(event) {
     event.preventDefault()
     this.setState({ saving: true })
     return this.state.model.save({
-      success: (model, res) => {
+      success: model => {
         this.setState({ saving: false, editing: false })
         return this._router.goTo(model.url)
       },
@@ -108,8 +106,9 @@ module.exports = React.createClass({
           `Error! ${(() => {
             try {
               return JSON.stringify((err != null ? err.body : undefined) || err, 0, 2)
-              // eslint-disable-next-line no-empty
-            } catch (error) {}
+            } catch (error) {
+              // just silently fall back and alert an empty string. Mh.
+            }
           })() || ''}`
         )
         return console.error(err)
@@ -178,7 +177,7 @@ module.exports = React.createClass({
 
 //
 
-var PermissionsOverview = React.createClass({
+var PermissionsOverview = createReactClass({
   mixins: [ampersandReactMixin],
 
   render() {

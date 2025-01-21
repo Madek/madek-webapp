@@ -1,7 +1,3 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import l from 'lodash'
-
 module.exports = {
   createUtil(propsYear, propsMonth) {
     return {

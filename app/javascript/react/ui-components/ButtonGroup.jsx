@@ -6,24 +6,23 @@
  */
 // ButtonGroup - give buttons as children or props.list
 
-const React = require('react')
-const f = require('active-lodash')
-const ui = require('../lib/ui.js')
-const UiPropTypes = require('./propTypes.js')
-const Button = require('./Button.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import ui from '../lib/ui.js'
+import UiPropTypes from './propTypes.js'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'ButtonGroup',
   proptypes: {
-    list: React.PropTypes.arrayOf(UiPropTypes.Clickable)
+    list: PropTypes.arrayOf(UiPropTypes.Clickable)
   },
-  // list: React.PropTypes.arrayOf(Button.propTypes)
 
   render(param) {
     if (param == null) {
       param = this.props
     }
-    const { list, children } = param
+    const { children } = param
     const classes = ui.cx(ui.parseMods(this.props), 'button-group')
 
     // build <Button/>s from given list of props

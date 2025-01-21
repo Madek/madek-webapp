@@ -3,13 +3,11 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let reactUjs
-const $ = require('jquery')
-const React = require('react')
-const ReactDOM = require('react-dom')
-const f = require('active-lodash')
-const url = require('url')
-const UI = require('../react/index.js')
+import $ from 'jquery'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import f from 'active-lodash'
+import UI from '../react/index.js'
 
 // UJS for React Views (and Decorators)
 //
@@ -27,7 +25,7 @@ const initByClass = {
   }
 }
 
-module.exports = reactUjs = () =>
+module.exports = () =>
   $('[data-react-class]').each(function() {
     const element = this
     const data = $(element).data()
@@ -46,6 +44,7 @@ module.exports = reactUjs = () =>
     }
 
     if (f.isFunction(init)) {
+      // eslint-disable-next-line react/no-render-return-value
       return init(data, enhanced => ReactDOM.render(enhanced, element))
     }
   })

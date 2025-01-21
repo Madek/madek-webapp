@@ -6,9 +6,11 @@
  */
 // A single icon (from styleguide) by name
 
-const React = require('react')
-const f = require('active-lodash')
-const ui = require('../lib/ui.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import ui from '../lib/ui.js'
 
 // The following icons come from 'fontawesome' (all others from 'madek-icon-font'):
 const FONT_AWESOME_ICONS = ['cloud', 'clock-o', 'flask']
@@ -17,10 +19,10 @@ const ICON_NAME_ALIASES = {
   'madek-workflow': 'flask'
 }
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Icon',
   propTypes: {
-    i: React.PropTypes.string.isRequired
+    i: PropTypes.string.isRequired
   },
 
   render(param) {

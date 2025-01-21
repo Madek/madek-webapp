@@ -4,25 +4,23 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const async = require('async')
-const f = require('active-lodash')
-const c = require('classnames')
-const t = require('../../lib/i18n-translate.js')
-const getRailsCSRFToken = require('../../lib/rails-csrf-token.js')
-const Models = require('../../models/index.js')
-const Picture = require('../ui-components/Picture.jsx')
-const Button = require('../ui-components/Button.jsx')
-const ResourceIcon = require('../ui-components/ResourceIcon.jsx')
-const FavoriteButton = require('./thumbnail/FavoriteButton.jsx')
-const DeleteModal = require('./thumbnail/DeleteModal.jsx')
-const StatusIcon = require('./thumbnail/StatusIcon.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import l from 'lodash'
+import cx from 'classnames'
+import t from '../../lib/i18n-translate.js'
+import Picture from '../ui-components/Picture.jsx'
+import Button from '../ui-components/Button.jsx'
+import ResourceIcon from '../ui-components/ResourceIcon.jsx'
+import FavoriteButton from './thumbnail/FavoriteButton.jsx'
+import DeleteModal from './thumbnail/DeleteModal.jsx'
+import StatusIcon from './thumbnail/StatusIcon.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'PinThumbnail',
 
   shouldComponentUpdate(nextProps, nextState) {
-    const l = require('lodash')
     return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
   },
 
@@ -89,7 +87,7 @@ module.exports = React.createClass({
               ? t('resources_box_selection_remove_selection')
               : t('resources_box_selection_select')
           }>
-          <i className={c('icon-checkbox', { active: selectProps.isSelected })} />
+          <i className={cx('icon-checkbox', { active: selectProps.isSelected })} />
         </a>
       )
       actionsLeft.push(selectAction)
@@ -141,7 +139,7 @@ module.exports = React.createClass({
             modalTitle={deleteProps.modalTitle}
           />
         ) : null}
-        <div className={c('ui-tile', { 'ui-tile--set': isCollection })}>
+        <div className={cx('ui-tile', { 'ui-tile--set': isCollection })}>
           <div className="ui-tile__head">
             {favoriteProps && favoriteProps.favoritePolicy && favoriteProps.modelFavored ? (
               <i

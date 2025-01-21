@@ -5,21 +5,17 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const HeaderButton = require('./HeaderButton.jsx')
-const PageContentHeader = require('./PageContentHeader.jsx')
-const f = require('active-lodash')
-const SelectCollection = require('./Collection/SelectCollection.jsx')
-const AsyncModal = require('./Collection/AsyncModal.jsx')
-const Dropdown = require('../ui-components/Dropdown.jsx')
-const { Menu } = Dropdown
-const { MenuItem } = Dropdown
-const Icon = require('../ui-components/Icon.jsx')
-const Link = require('../ui-components/Link.jsx')
-const t = require('../../lib/i18n-translate.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import HeaderButton from './HeaderButton.jsx'
+import PageContentHeader from './PageContentHeader.jsx'
+import f from 'active-lodash'
+import Dropdown, { Menu, MenuItem } from '../ui-components/Dropdown.jsx'
+import Icon from '../ui-components/Icon.jsx'
+import Link from '../ui-components/Link.jsx'
+import t from '../../lib/i18n-translate.js'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'MediaEntryHeader',
 
   getInitialState() {
@@ -89,7 +85,7 @@ module.exports = React.createClass({
         {f.map(buttons, button => {
           let onClick
           if (button.async_action) {
-            onClick = event => this._onClick(button.async_action)
+            onClick = () => this._onClick(button.async_action)
           }
           return (
             <HeaderButton
@@ -114,7 +110,7 @@ module.exports = React.createClass({
               {f.map(menuItems, button => {
                 let href, onClick
                 if (button.async_action) {
-                  onClick = event => this._onClick(button.async_action)
+                  onClick = () => this._onClick(button.async_action)
                 } else if (button.method === 'get') {
                   href = button.action
                 } else {

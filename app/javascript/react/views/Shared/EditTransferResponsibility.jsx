@@ -5,20 +5,16 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const f = require('active-lodash')
-const t = require('../../../lib/i18n-translate.js')
-const classnames = require('classnames')
-const xhr = require('xhr')
-const getRailsCSRFToken = require('../../../lib/rails-csrf-token.js')
-const setUrlParams = require('../../../lib/set-params-for-url.js')
-const RailsForm = require('../../lib/forms/rails-form.jsx')
-const railsFormPut = require('../../../lib/form-put-with-errors.js')
-const AutoComplete = require('../../lib/autocomplete-wrapper.jsx')
-const interpolateSplit = require('../../../lib/interpolate-split.js').default
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import t from '../../../lib/i18n-translate.js'
+import RailsForm from '../../lib/forms/rails-form.jsx'
+import railsFormPut from '../../../lib/form-put-with-errors.js'
+import AutoComplete from '../../lib/autocomplete-wrapper.jsx'
+import interpolateSplit from '../../../lib/interpolate-split.js'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Shared.EditTransferResponsibility',
 
   getInitialState() {
@@ -41,7 +37,7 @@ module.exports = React.createClass({
     return false
   },
 
-  _submit(clickEvent) {
+  _submit() {
     this.setState({ saving: true })
     return railsFormPut.byForm(this.refs.form, result => {
       if (result.result === 'error') {
@@ -69,7 +65,7 @@ module.exports = React.createClass({
     return this.setState({ selectedEntity: null })
   },
 
-  _onToggleCheckbox(level, event) {
+  _onToggleCheckbox(level) {
     if (level > this.state.permissionLevel) {
       return this.setState({ permissionLevel: level })
     } else {
@@ -114,7 +110,6 @@ module.exports = React.createClass({
       currentUser,
       batch,
       resourceType,
-      singleResourceUrl,
       singleResourceActionUrl,
       batchResourceIds,
       batchActionUrls,

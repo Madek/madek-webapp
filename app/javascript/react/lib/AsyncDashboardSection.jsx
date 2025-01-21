@@ -9,19 +9,17 @@
 // If it fails, a retry icon is shown, with a fallback link
 // If fetching is retryed 5 times only use fallback link (sync, for browser error)
 
-const React = require('react')
-const { PropTypes } = React
-const ReactDOM = require('react-dom')
-const f = require('active-lodash')
-const appRequest = require('../../lib/app-request.js')
-const getRailsCSRFToken = require('../../lib/rails-csrf-token.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import appRequest from '../../lib/app-request.js'
+import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
+import SuperBoxDashboard from '../decorators/SuperBoxDashboard.jsx'
+import Icon from '../ui-components/Icon.jsx'
+import Preloader from '../ui-components/Preloader.jsx'
 
-const SuperBoxDashboard = require('../decorators/SuperBoxDashboard.jsx')
-
-const Icon = require('../ui-components/Icon.jsx')
-const Preloader = require('../ui-components/Preloader.jsx')
-
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'AsyncDashboardSection',
   propTypes: {
     url: PropTypes.string.isRequired,

@@ -3,8 +3,8 @@
 // NOTE: this works with browserify and the 'brfs' transform
 //       - the CSV(!) will be inlined as a simple string.
 
-var f = require('active-lodash')
-var CSV = require('babyparse')
+const f = require('active-lodash')
+const CSV = require('babyparse')
 
 var ignoreColumnsDefault = ['comment']
 

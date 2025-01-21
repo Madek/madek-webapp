@@ -1,18 +1,14 @@
-const React = require('react')
-const f = require('active-lodash')
-// const cx = require('classnames')
-// const t = require('../../../lib/i18n-translate.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import MediaEntryPreview from '../../decorators/MediaEntryPreview.jsx'
 
-const MediaEntryPreview = require('../../decorators/MediaEntryPreview.jsx')
-
-// eslint-disable-next-line react/no-deprecated
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Views.MediaEntryEmbedded',
   propTypes: {
-    // eslint-disable-next-line react/no-deprecated
-    get: React.PropTypes.shape({
-      // eslint-disable-next-line react/no-deprecated
-      media_file: React.PropTypes.object.isRequired
+    get: PropTypes.shape({
+      media_file: PropTypes.object.isRequired
     }).isRequired
   },
 

@@ -4,6 +4,7 @@ import cx from 'classnames/dedupe'
 import ActionsDropdownHelper from './resourcesbox/ActionsDropdownHelper.jsx'
 import BoxRenderResource from './BoxRenderResource.jsx'
 import l from 'lodash'
+import BoxPageCounter from './BoxPageCounter.jsx'
 
 class BoxRenderResources extends React.Component {
   constructor(props) {
@@ -16,7 +17,6 @@ class BoxRenderResources extends React.Component {
 
   render() {
     var resources = this.props.resources
-    var listClasses = this.props.listClasses
     var actionsDropdownParameters = this.props.actionsDropdownParameters
     var selectedResources = this.props.selectedResources
     var isClient = this.props.isClient
@@ -25,7 +25,6 @@ class BoxRenderResources extends React.Component {
     var onSelectResource = this.props.onSelectResource
     var config = this.props.config
     var hoverMenuId = this.props.hoverMenuId
-    var authToken = this.props.authToken
     var withActions = this.props.withActions
     var listMods = this.props.listMods
     const { positionProps } = this.props
@@ -83,9 +82,6 @@ class BoxRenderResources extends React.Component {
 
       var renderCounter = () => {
         var pagination = this.props.pagination
-        var pageSize = this.props.perPage
-
-        var BoxPageCounter = require('./BoxPageCounter.jsx')
         return (
           <BoxPageCounter
             showActions={ActionsDropdownHelper.showActionsConfig(actionsDropdownParameters)}
@@ -113,7 +109,6 @@ class BoxRenderResources extends React.Component {
     }
 
     var renderPages = () => {
-      var pagination = this.props.pagination
       var pageSize = this.props.perPage
 
       return f.chunk(resources, pageSize).map((page, i) => {

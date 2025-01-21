@@ -4,13 +4,13 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const Modal = require('../../ui-components/Modal.jsx')
-const loadXhr = require('../../../lib/load-xhr.js')
-const CreateCollection = require('./CreateCollection.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import Modal from '../../ui-components/Modal.jsx'
+import loadXhr from '../../../lib/load-xhr.js'
+import CreateCollection from './CreateCollection.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'CreateCollectionModal',
 
   getInitialState() {
@@ -55,7 +55,7 @@ module.exports = React.createClass({
     if (param == null) {
       param = this.props
     }
-    const { authToken, get, onClose } = param
+    const { authToken, onClose } = param
     if (!this.state.get) {
       return <Modal loading={true} />
     }

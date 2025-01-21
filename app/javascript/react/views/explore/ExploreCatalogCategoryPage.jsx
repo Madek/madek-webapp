@@ -4,18 +4,18 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const t = require('../../../lib/i18n-translate.js')
-const f = require('lodash')
-const classnames = require('classnames')
-const UI = require('../../ui-components/index.js')
-const Preloader = require('../../ui-components/Preloader.jsx')
-const loadXhr = require('../../../lib/load-xhr.js')
-const libUrl = require('url')
-const setUrlParams = require('../../../lib/set-params-for-url.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import t from '../../../lib/i18n-translate.js'
+import f from 'lodash'
+import cx from 'classnames'
+import UI from '../../ui-components/index.js'
+import Preloader from '../../ui-components/Preloader.jsx'
+import loadXhr from '../../../lib/load-xhr.js'
+import libUrl from 'url'
+import setUrlParams from '../../../lib/set-params-for-url.js'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'ExploreCatalogCategoryPage',
 
   getInitialState() {
@@ -95,7 +95,6 @@ module.exports = React.createClass({
   },
 
   _isBottom() {
-    // console.log(@_scrollTop() + ' + ' + window.innerHeight + ' == ' + @_getDocHeight())
     return (
       this._scrollTop() + window.innerHeight > this._getDocHeight() * 0.3 ||
       window.innerHeight > this._getDocHeight() * 0.3
@@ -126,7 +125,7 @@ module.exports = React.createClass({
     if (param == null) {
       param = this.props
     }
-    const { get, authToken } = param
+    const { get } = param
     return (
       <div>
         <div className="app-body-ui-container pts context-home">
@@ -165,7 +164,7 @@ module.exports = React.createClass({
 })
 
 var MediaResourcesLine = function(param) {
-  const { keyword, asyncData } = param
+  const { keyword } = param
   const resources = f.map(keyword.media_entries, 'sparse_props')
 
   return (
@@ -176,7 +175,7 @@ var MediaResourcesLine = function(param) {
             {f.map(resources, ({ uuid, url, browse_url, image_url, media_type }) => (
               <li key={keyword.uuid + '_' + uuid} className="ui-featured-entries-item">
                 <a
-                  className={classnames('ui-featured-entry', {
+                  className={cx('ui-featured-entry', {
                     [`is-${media_type}`]: !!media_type
                   })}
                   href={url}>

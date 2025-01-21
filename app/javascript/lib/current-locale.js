@@ -1,5 +1,5 @@
-var get = require('lodash/get')
-var ampersandApp = require('ampersand-app')
+import get from 'lodash/get'
+import ampersandApp from 'ampersand-app'
 
 function currentLocale() {
   return get(ampersandApp, 'config.userLanguage')

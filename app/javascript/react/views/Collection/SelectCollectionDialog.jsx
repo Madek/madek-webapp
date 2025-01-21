@@ -4,23 +4,13 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const ampersandReactMixin = require('ampersand-react-mixin')
-const f = require('active-lodash')
-const t = require('../../../lib/i18n-translate.js')
-const RailsForm = require('../../lib/forms/rails-form.jsx')
-const FormButton = require('../../ui-components/FormButton.jsx')
-const ToggableLink = require('../../ui-components/ToggableLink.jsx')
-const Modal = require('../../ui-components/Modal.jsx')
-const xhr = require('xhr')
-const formXhr = require('../../../lib/form-xhr.js')
-const loadXhr = require('../../../lib/load-xhr.js')
-const Preloader = require('../../ui-components/Preloader.jsx')
-const Button = require('../../ui-components/Button.jsx')
-const Icon = require('../../ui-components/Icon.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import t from '../../../lib/i18n-translate.js'
+import RailsForm from '../../lib/forms/rails-form.jsx'
+import Button from '../../ui-components/Button.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'SelectCollectionDialog',
 
   _onCancel(event) {
@@ -37,18 +27,7 @@ module.exports = React.createClass({
     if (param == null) {
       param = this.props
     }
-    const {
-      children,
-      onCancel,
-      cancelUrl,
-      title,
-      toolbar,
-      action,
-      authToken,
-      content,
-      method,
-      showSave
-    } = param
+    const { cancelUrl, title, toolbar, action, authToken, content, method, showSave } = param
     return (
       <div>
         <SelectCollectionHeader onCancel={this._onCancel} cancelUrl={cancelUrl} title={title} />
@@ -68,7 +47,7 @@ module.exports = React.createClass({
   }
 })
 
-var SelectCollectionHeader = React.createClass({
+var SelectCollectionHeader = createReactClass({
   displayName: 'SelectCollectionHeader',
   render(param) {
     if (param == null) {
@@ -94,7 +73,7 @@ var SelectCollectionHeader = React.createClass({
   }
 })
 
-const SelectCollectionFooter = React.createClass({
+const SelectCollectionFooter = createReactClass({
   displayName: 'SelectCollectionFooter',
   render(param) {
     if (param == null) {
@@ -132,7 +111,7 @@ const SelectCollectionFooter = React.createClass({
   }
 })
 
-var SelectCollectionBody = React.createClass({
+var SelectCollectionBody = createReactClass({
   displayName: 'SelectCollectionBody',
   render(param) {
     if (param == null) {
@@ -147,7 +126,7 @@ var SelectCollectionBody = React.createClass({
   }
 })
 
-var SelectCollectionForm = React.createClass({
+var SelectCollectionForm = createReactClass({
   displayName: 'SelectCollectionForm',
   render(param) {
     if (param == null) {
@@ -160,7 +139,6 @@ var SelectCollectionForm = React.createClass({
         action={action}
         method={method}
         authToken={authToken}
-        className="dummy"
         className="save-arcs">
         {children}
         <SelectCollectionFooter
@@ -174,7 +152,7 @@ var SelectCollectionForm = React.createClass({
   }
 })
 
-var SelectCollectionToolbar = React.createClass({
+var SelectCollectionToolbar = createReactClass({
   displayName: 'SelectCollectionToolbar',
   render(param) {
     if (param == null) {

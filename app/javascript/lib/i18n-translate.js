@@ -1,10 +1,9 @@
 // provides string translation function.
 // usage
-// t = require('…'); t('hello') // => 'Hallo'
-/* global APP_CONFIG __dirname */ // for eslint
+// import/require as t; t('hello') // => 'Hallo'
 
-var f = require('active-lodash')
-var parseTranslationsFromCSV = require('./parse-translations-from-csv')
+import f from 'active-lodash'
+import parseTranslationsFromCSV from './parse-translations-from-csv'
 
 // NOTE: this works with browserify and the 'brfs' transform (embeds as string)
 var path = require('path')

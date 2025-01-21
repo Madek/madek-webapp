@@ -5,16 +5,18 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const t = require('../../lib/i18n-translate.js')
-const ResourceThumbnail = require('../decorators/ResourceThumbnail.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import t from '../../lib/i18n-translate.js'
+import ResourceThumbnail from '../decorators/ResourceThumbnail.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'ResourcesBatchBox',
   propTypes: {
-    resources: React.PropTypes.array.isRequired,
-    authToken: React.PropTypes.string.isRequired
+    resources: PropTypes.array.isRequired,
+    authToken: PropTypes.string.isRequired
   },
 
   render(param) {
@@ -64,8 +66,6 @@ module.exports = React.createClass({
                       float: 'left',
                       fontSize: '24px'
                     }
-
-                    const text = `+${batchCount - resources.length} ${t('meta_data_batch_more')}`
 
                     return (
                       <li style={style}>

@@ -5,18 +5,18 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const classnames = require('classnames')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import cx from 'classnames'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Tab',
   render(param) {
     if (param == null) {
       param = this.props
     }
     const { privacyStatus, label, href, iconType, active } = param
-    const classes = classnames({ active }, 'ui-tabs-item')
+    const classes = cx({ active }, 'ui-tabs-item')
     const icon = (() => {
       if (iconType === 'privacy_status_icon') {
         if (privacyStatus) {

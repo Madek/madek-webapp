@@ -4,19 +4,21 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const MadekPropTypes = require('../madek-prop-types.js')
-const InputResources = require('./input-resources.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import MadekPropTypes from '../madek-prop-types.js'
+import InputResources from './input-resources.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'InputKeywords',
   propTypes: {
-    name: React.PropTypes.string.isRequired,
-    values: React.PropTypes.array.isRequired,
+    name: PropTypes.string.isRequired,
+    values: PropTypes.array.isRequired,
     meta_key: MadekPropTypes.metaKey.isRequired,
-    show_checkboxes: React.PropTypes.bool.isRequired,
-    keywords: React.PropTypes.arrayOf(MadekPropTypes.keyword)
+    show_checkboxes: PropTypes.bool.isRequired,
+    keywords: PropTypes.arrayOf(MadekPropTypes.keyword)
   },
 
   _onChange(event) {

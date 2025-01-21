@@ -5,11 +5,11 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const RailsForm = require('../lib/forms/rails-form.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import RailsForm from '../lib/forms/rails-form.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'HeaderButton',
 
   _onClick(event) {
@@ -21,12 +21,12 @@ module.exports = React.createClass({
   },
 
   render(param) {
-    let authToken, fa, href, method, name, onClick, title
+    let authToken, fa, href, method, onClick, title
     let icon
     if (param == null) {
       param = this.props
     }
-    ;({ authToken, href, method, icon, fa, title, name } = param)
+    ;({ authToken, href, method, icon, fa, title } = param)
     if (!method) {
       method = 'post'
     }

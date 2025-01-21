@@ -4,16 +4,13 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const t = require('../../../lib/i18n-translate.js')
-const MediaResourcesBox = require('../../decorators/MediaResourcesBox.jsx')
-const TabContent = require('../TabContent.jsx')
-const ResourceThumbnail = require('../../decorators/ResourceThumbnail.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import t from '../../../lib/i18n-translate.js'
+import MediaResourcesBox from '../../decorators/MediaResourcesBox.jsx'
 
-const classnames = require('classnames')
-
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'RelationResources',
 
   render(param) {

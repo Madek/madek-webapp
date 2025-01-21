@@ -1,6 +1,6 @@
-const f = require('active-lodash')
-const Collection = require('ampersand-rest-collection')
-const RailsResource = require('./rails-resource-mixin.js')
+import f from 'active-lodash'
+import Collection from 'ampersand-rest-collection'
+import RailsResource from './rails-resource-mixin.js'
 
 // Base class for Restful Application Resource Collection
 module.exports = Collection.extend(RailsResource, {

@@ -1,11 +1,12 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
 import chunk from 'lodash/chunk'
 import sortBy from 'lodash/sortBy'
 import isEmpty from 'lodash/isEmpty'
 import t from '../../../lib/i18n-translate'
 
 import MadekPropTypes from '../../lib/madek-prop-types.js'
-import Icon from '../../ui-components/Icon.jsx'
 
 import VocabularyPage from './VocabularyPage.jsx'
 
@@ -39,12 +40,12 @@ const metaKeyInfo = mk => [
   ]
 ]
 
-const VocabulariesShow = React.createClass({
+const VocabulariesShow = createReactClass({
   displayName: 'VocabularyShow',
 
   render(get = this.props.get) {
     const { meta_keys } = get
-    const { label, url, description, enabled_for_public_view } = get.page.vocabulary
+    const { label, url, description } = get.page.vocabulary
 
     const metaKeys = sortBy(meta_keys, 'position')
     const numCols = Math.max(MIN_COLS, Math.min(MAX_COLS, metaKeys.length))

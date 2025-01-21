@@ -5,24 +5,25 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const t = require('../../lib/i18n-translate.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import t from '../../lib/i18n-translate.js'
+import AudioPlayer from './AudioPlayer'
+import VideoPlayer from './VideoPlayer'
 
-const AudioPlayer = require('./AudioPlayer').default
-const VideoPlayer = require('./VideoPlayer').default
-
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'MediaPlayer',
   propTypes: {
-    type: React.PropTypes.oneOf(['audio', 'video']).isRequired,
-    sources: React.PropTypes.arrayOf(
-      React.PropTypes.shape({
-        url: React.PropTypes.string.isRequired,
-        content_type: React.PropTypes.string.isRequired
+    type: PropTypes.oneOf(['audio', 'video']).isRequired,
+    sources: PropTypes.arrayOf(
+      PropTypes.shape({
+        url: PropTypes.string.isRequired,
+        content_type: PropTypes.string.isRequired
       }).isRequired
     ).isRequired,
-    poster: React.PropTypes.string
+    poster: PropTypes.string
   },
 
   getInitialState() {
@@ -50,8 +51,7 @@ module.exports = React.createClass({
     if (param == null) {
       param = this.props
     }
-    const { type, sources, poster } = param
-    const MediaTag = type
+    const { type, poster } = param
     const mediaProps = f.omit(this.props, 'originalUrl')
 
     if (type === 'audio') {

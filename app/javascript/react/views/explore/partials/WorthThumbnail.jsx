@@ -4,9 +4,10 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
+import React from 'react'
+import createReactClass from 'create-react-class'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'WorthThumbnail',
   render(param) {
     if (param == null) {

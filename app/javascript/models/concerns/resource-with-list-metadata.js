@@ -3,12 +3,9 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const f = require('active-lodash')
-const setUrlParams = require('../../lib/set-params-for-url.js')
-const parseUrl = require('url').parse
-const buildUrl = require('url').format
-const buildQuery = require('qs').stringify
-const parseQuery = require('qs').parse
+import setUrlParams from '../../lib/set-params-for-url.js'
+import { parse as parseUrl, format as buildUrl } from 'url'
+import { parse as parseQuery } from 'qs'
 
 module.exports = {
   props: {

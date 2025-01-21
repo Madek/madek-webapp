@@ -5,20 +5,17 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const cx = require('classnames')
-const f = require('lodash')
-const Icon = require('../ui-components/Icon.jsx')
-const { t } = require('../lib/ui.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'lodash'
+import { t } from '../lib/ui.js'
+import MediaEntryHeaderWithModal from './MediaEntryHeaderWithModal.jsx'
+import MediaEntryTabs from './MediaEntryTabs.jsx'
+import RelationResources from './Collection/RelationResources.jsx'
+import Relations from './Collection/Relations.jsx'
+import MediaEntryShow from './MediaEntryShow.jsx'
 
-const MediaEntryHeaderWithModal = require('./MediaEntryHeaderWithModal.jsx')
-const MediaEntryTabs = require('./MediaEntryTabs.jsx')
-const RelationResources = require('./Collection/RelationResources.jsx')
-const Relations = require('./Collection/Relations.jsx')
-const MediaEntryShow = require('./MediaEntryShow.jsx')
-
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'BaseTmpReact',
   render(param) {
     if (param == null) {

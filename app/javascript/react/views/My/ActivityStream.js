@@ -69,8 +69,7 @@ class MyTimeline extends React.Component {
             this._fetchPastLoop = setTimeout(() => loopCallback(), LOOP_TIME)
           })
         },
-        err => {
-          console.debug('Fetch past Loop Ended', err)
+        () => {
           this.setState({ fetchingPast: false, shouldFetchPast: false })
         }
       )
@@ -145,7 +144,7 @@ const combineActivityLists = obj =>
 const combineActivityItems = list => {
   return f.reduce(
     list,
-    (result, item, index) => {
+    (result, item) => {
       const prevGroup = result.slice(-1)[0]
       const prevResults = result.slice(0, -1)
 

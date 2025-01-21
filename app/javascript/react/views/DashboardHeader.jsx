@@ -4,14 +4,14 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const PageContentHeader = require('./PageContentHeader.jsx')
-const HeaderPrimaryButton = require('./HeaderPrimaryButton.jsx')
-const t = require('../../lib/i18n-translate.js')
-const CreateCollectionModal = require('./My/CreateCollectionModal.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PageContentHeader from './PageContentHeader.jsx'
+import HeaderPrimaryButton from './HeaderPrimaryButton.jsx'
+import t from '../../lib/i18n-translate.js'
+import CreateCollectionModal from './My/CreateCollectionModal.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'DashboardHeader',
 
   getInitialState() {

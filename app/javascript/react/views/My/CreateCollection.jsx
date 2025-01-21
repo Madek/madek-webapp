@@ -4,18 +4,17 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const t = require('../../../lib/i18n-translate.js')
-const RailsForm = require('../../lib/forms/rails-form.jsx')
-const InputFieldText = require('../../lib/forms/input-field-text.jsx')
-const FormButton = require('../../ui-components/FormButton.jsx')
-const ToggableLink = require('../../ui-components/ToggableLink.jsx')
-const Modal = require('../../ui-components/Modal.jsx')
-const formXhr = require('../../../lib/form-xhr.js')
-const Preloader = require('../../ui-components/Preloader.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import t from '../../../lib/i18n-translate.js'
+import RailsForm from '../../lib/forms/rails-form.jsx'
+import InputFieldText from '../../lib/forms/input-field-text.jsx'
+import FormButton from '../../ui-components/FormButton.jsx'
+import ToggableLink from '../../ui-components/ToggableLink.jsx'
+import formXhr from '../../../lib/form-xhr.js'
+import Preloader from '../../ui-components/Preloader.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'CreateCollection',
 
   getInitialState() {
@@ -74,7 +73,7 @@ module.exports = React.createClass({
     if (param == null) {
       param = this.props
     }
-    const { authToken, get, onClose } = param
+    const { authToken, get } = param
     const error = this.state.error || get.error
 
     const alerts = error ? (

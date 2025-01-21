@@ -5,26 +5,20 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const cx = require('classnames')
-const f = require('lodash')
-const Icon = require('../ui-components/Icon.jsx')
-const t = require('../../lib/i18n-translate.js')
-
-const MediaEntryHeaderWithModal = require('./MediaEntryHeaderWithModal.jsx')
-const MediaEntryTabs = require('./MediaEntryTabs.jsx')
-const RelationResources = require('./Collection/RelationResources.jsx')
-const Relations = require('./Collection/Relations.jsx')
-const MediaEntryShow = require('./MediaEntryShow.jsx')
-
-const MetaDataByListing = require('../decorators/MetaDataByListing.jsx')
-const MediaEntryPermissions = require('./MediaEntry/MediaEntryPermissions.jsx')
-const UsageData = require('../decorators/UsageData.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import cx from 'classnames'
+import f from 'lodash'
+import t from '../../lib/i18n-translate.js'
+import MediaEntryHeaderWithModal from './MediaEntryHeaderWithModal.jsx'
+import MediaEntryTabs from './MediaEntryTabs.jsx'
+import MetaDataByListing from '../decorators/MetaDataByListing.jsx'
+import MediaEntryPermissions from './MediaEntry/MediaEntryPermissions.jsx'
+import UsageData from '../decorators/UsageData.jsx'
 
 const WORKFLOW_STATES = { IN_PROGRESS: 'IN_PROGRESS', FINISHED: 'FINISHED' }
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Base',
   render(param) {
     if (param == null) {

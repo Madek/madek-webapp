@@ -5,11 +5,11 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const url = require('url')
-const f = require('active-lodash')
-const t = require('./i18n-translate.js')
-const History = require('history/lib/createBrowserHistory')
-const useBeforeUnload = require('history/lib/useBeforeUnload')
+import url from 'url'
+import f from 'active-lodash'
+import t from './i18n-translate.js'
+import History from 'history/lib/createBrowserHistory'
+import useBeforeUnload from 'history/lib/useBeforeUnload'
 
 const history = useBeforeUnload(History)()
 

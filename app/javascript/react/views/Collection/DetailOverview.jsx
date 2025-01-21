@@ -5,19 +5,20 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const MetaDataList = require('../../decorators/MetaDataList.jsx')
-const ResourceShowOverview = require('../../templates/ResourceShowOverview.jsx')
-const SimpleResourceThumbnail = require('../../decorators/SimpleResourceThumbnail.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import MetaDataList from '../../decorators/MetaDataList.jsx'
+import ResourceShowOverview from '../../templates/ResourceShowOverview.jsx'
+import SimpleResourceThumbnail from '../../decorators/SimpleResourceThumbnail.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'CollectionDetailOverview',
 
   render(param) {
     if (param == null) {
       param = this.props
     }
-    const { authToken, get } = param
+    const { get } = param
     const summary_context = (() => {
       switch (get.action) {
         case 'show':

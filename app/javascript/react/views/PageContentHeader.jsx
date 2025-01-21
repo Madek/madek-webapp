@@ -4,12 +4,13 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
+import React from 'react'
+import createReactClass from 'create-react-class'
 
 // This is just a wrapper around PageHader.js in order to map `children` to `actions` prop
-const PageHeader = require('../ui-components/PageHeader.js')
+import PageHeader from '../ui-components/PageHeader.js'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'PageContentHeader',
 
   render(param) {

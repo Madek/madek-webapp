@@ -8,11 +8,10 @@
 // ujs usage: an svg is inserted in every <el data-hashviz-container="foo"> using
 // text from first <el data-hashviz-target="foo"> as input for the hash
 
-let hashvizUjs
-const $ = require('jquery')
-const hashVizSVG = require('../lib/hashviz-svg.js')
+import $ from 'jquery'
+import hashVizSVG from '../lib/hashviz-svg.js'
 
-module.exports = hashvizUjs = () =>
+module.exports = () =>
   // for all enabled containers:
   $('[data-hashviz-container]').each(function() {
     const $container = $(this)

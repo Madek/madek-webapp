@@ -3,11 +3,10 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const cx = require('classnames')
+import React from 'react'
+import createReactClass from 'create-react-class'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'TabContent',
   render() {
     return (

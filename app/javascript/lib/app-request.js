@@ -11,12 +11,11 @@
 // - shortcut prop for 'sparse' request: `{sparse: {…}}`
 // - dynamically get CSRF token (since only used client-side)
 
-const xhr = require('xhr')
-const asyncRetry = require('async/retry')
-const parseHeaders = require('parse-headers')
-const f = require('active-lodash')
-const setParamsForUrl = require('./set-params-for-url.js')
-const getRailsCSRFToken = require('./rails-csrf-token.js')
+import xhr from 'xhr'
+import asyncRetry from 'async/retry'
+import f from 'active-lodash'
+import setParamsForUrl from './set-params-for-url.js'
+import getRailsCSRFToken from './rails-csrf-token.js'
 
 // merge headers regardless of casing ('Content-Type' vs. 'content-type')
 const mergeHeaders = arrayOfHeaders =>

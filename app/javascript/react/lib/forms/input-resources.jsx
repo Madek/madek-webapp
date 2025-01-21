@@ -6,33 +6,28 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const ui = require('../../lib/ui.js')
-const { t } = ui
-const decorateResource = require('../decorate-resource-names.js')
-const Tabs = require('react-bootstrap/lib/Tabs')
-const Tab = require('react-bootstrap/lib/Tab')
-const Nav = require('react-bootstrap/lib/Nav')
-const NavItem = require('react-bootstrap/lib/NavItem')
-const MadekPropTypes = require('../../lib/madek-prop-types.js')
-const { Icon, Tooltipped } = require('../../ui-components/index.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import { t } from '../../lib/ui.js'
+import decorateResource from '../decorate-resource-names.js'
+import NewPersonWidget from './new-person-widget.jsx'
 let AutoComplete = null // only required client-side!
-const NewPersonWidget = require('./new-person-widget.jsx')
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'InputResources',
   propTypes: {
-    name: React.PropTypes.string.isRequired,
-    resourceType: React.PropTypes.string.isRequired,
-    values: React.PropTypes.array.isRequired,
-    multiple: React.PropTypes.bool.isRequired,
-    extensible: React.PropTypes.bool, // only for Keywords
-    allowedTypes: React.PropTypes.array, // only for People
-    autocompleteConfig: React.PropTypes.shape({
-      minLength: React.PropTypes.number
+    name: PropTypes.string.isRequired,
+    resourceType: PropTypes.string.isRequired,
+    values: PropTypes.array.isRequired,
+    multiple: PropTypes.bool.isRequired,
+    extensible: PropTypes.bool, // only for Keywords
+    allowedTypes: PropTypes.array, // only for People
+    autocompleteConfig: PropTypes.shape({
+      minLength: PropTypes.number
     }),
-    autoCompleteSuggestionRenderer: React.PropTypes.func
+    autoCompleteSuggestionRenderer: PropTypes.func
   },
 
   getInitialState() {
@@ -258,7 +253,6 @@ module.exports = React.createClass({
   }, // show the adder again
 
   render() {
-    let item, i
     const { _onItemAdd, _onItemRemove, _onNewKeyword, _onNewPerson } = this
     let {
       name,
@@ -407,7 +401,7 @@ module.exports = React.createClass({
                       <table className="block mts">
                         <tbody>
                           {values.map((item, i) => {
-                            let role, e
+                            let role
                             return (
                               <tr key={i}>
                                 <td className="pas">

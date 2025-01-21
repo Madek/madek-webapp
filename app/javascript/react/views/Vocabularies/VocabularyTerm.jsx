@@ -5,19 +5,19 @@
  * DS201: Simplify complex destructure assignments
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const isEmpty = require('lodash/isEmpty')
-const ui = require('../../lib/ui.js')
-const t = require('../../../lib/i18n-translate.js')
-const PageHeader = require('../../ui-components/PageHeader.js')
-const PageContent = require('../PageContent.jsx')
-const MediaResourcesBox = require('../../decorators/MediaResourcesBox.jsx')
-const libUrl = require('url')
-const f = require('lodash')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import isEmpty from 'lodash/isEmpty'
+import t from '../../../lib/i18n-translate.js'
+import PageHeader from '../../ui-components/PageHeader.js'
+import PageContent from '../PageContent.jsx'
+import MediaResourcesBox from '../../decorators/MediaResourcesBox.jsx'
+import libUrl from 'url'
+import f from 'lodash'
 
 const link = (c, h) => <a href={h}>{c}</a>
 
-const infotable = (v, mk, kw, contentsPath) =>
+const infotable = (v, mk, kw) =>
   f.compact([
     [t('vocabulary_term_info_term'), link(kw.label, kw.url)],
     [t('vocabulary_term_info_description'), kw.description],
@@ -42,7 +42,7 @@ const infotable = (v, mk, kw, contentsPath) =>
     [t('sitemap_vocabulary'), link(v.label, v.url)]
   ])
 
-const VocabulariesShow = React.createClass({
+const VocabulariesShow = createReactClass({
   displayName: 'VocabularyTerm',
 
   forUrl() {
@@ -95,10 +95,10 @@ const VocabulariesShow = React.createClass({
   }
 })
 
-var deco_external_uris = uris => (
+var deco_external_uris = (uris, i) => (
   <ul className="list-unstyled">
     {uris.map(uri => (
-      <li>
+      <li key={i}>
         <a href={uri} target="_blank" rel="noreferrer noopener">
           {uri}
         </a>

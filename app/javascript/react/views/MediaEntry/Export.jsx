@@ -4,16 +4,14 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const ampersandReactMixin = require('ampersand-react-mixin')
-const f = require('active-lodash')
-const parseUrl = require('url').parse
-const t = require('../../../lib/i18n-translate.js')
-const Modal = require('../../ui-components/Modal.jsx')
-const setUrlParams = require('../../../lib/set-params-for-url.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import t from '../../../lib/i18n-translate.js'
+import Modal from '../../ui-components/Modal.jsx'
+import setUrlParams from '../../../lib/set-params-for-url.js'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'MediaEntryExport',
 
   getInitialState() {
@@ -24,9 +22,9 @@ module.exports = React.createClass({
     if (param == null) {
       param = this.props
     }
-    const { authToken, get } = param
+    const { get } = param
     let hasPreviews = false
-    f.each(get.media_file.previews, preview => f.each(preview, entry => (hasPreviews = true)))
+    f.each(get.media_file.previews, preview => f.each(preview, () => (hasPreviews = true)))
 
     const hasOriginal = get.media_file.original_file_url
     const hasNeither = !hasPreviews && !hasOriginal

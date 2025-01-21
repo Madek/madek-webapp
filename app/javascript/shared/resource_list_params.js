@@ -5,11 +5,10 @@
  */
 // NOTE: keep in sync with `app/controllers/concerns/resource_list_params.rb`!
 
-let resourceListParams
-const f = require('active-lodash')
-const qs = require('qs')
+import f from 'active-lodash'
+import qs from 'qs'
 
-module.exports = resourceListParams = function(location) {
+module.exports = function(location) {
   const query = qs.parse(location.search.slice(1))
   const base = 'list'
   const allowed = ['layout', 'filter', 'show_filter', 'accordion', 'page', 'per_page', 'order']

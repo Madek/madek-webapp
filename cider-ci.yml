@@ -72,16 +72,6 @@ jobs:
             submodule: [datalayer]
           - path: cider-ci/context-components/lint/rspec-lint.yml
             submodule: [datalayer]
-
-  js-lint:
-    name: 'JS linting'
-    description: |
-      JS Linting is not yet configured correctly for js (after decaf). Therefore not yet enforced on CI.
-    priority: 3
-    run_when: *DEFAULT_TRIGGERS
-    context:
-      contexts:
-        include:
           - path: cider-ci/context-components/lint/javascript-lint.yml
 
   precompilation:

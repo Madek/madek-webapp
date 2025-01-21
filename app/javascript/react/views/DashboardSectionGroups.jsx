@@ -4,19 +4,13 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const f = require('active-lodash')
-const cx = require('classnames')
-const libUrl = require('url')
-const qs = require('qs')
-const PageContent = require('./PageContent.jsx')
-const DashboardHeader = require('./DashboardHeader.jsx')
-const t = require('../../lib/i18n-translate.js')
-const Sidebar = require('./Sidebar.jsx')
-const TagCloud = require('../ui-components/TagCloud.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import t from '../../lib/i18n-translate.js'
+import TagCloud from '../ui-components/TagCloud.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'DashboardSectionGroups',
 
   render(param) {

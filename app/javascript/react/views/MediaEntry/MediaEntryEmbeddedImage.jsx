@@ -4,36 +4,37 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const cx = require('classnames')
-const t = require('../../../lib/i18n-translate.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import cx from 'classnames'
+import t from '../../../lib/i18n-translate.js'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Views.MediaEntryEmbeddedImage',
   propTypes: {
-    get: React.PropTypes.shape({
-      title: React.PropTypes.string,
-      caption_conf: React.PropTypes.shape({
-        title: React.PropTypes.string,
-        subtitle: React.PropTypes.string
+    get: PropTypes.shape({
+      title: PropTypes.string,
+      caption_conf: PropTypes.shape({
+        title: PropTypes.string,
+        subtitle: PropTypes.string
       }),
-      media_file: React.PropTypes.shape({
-        previews: React.PropTypes.shape({
-          images: React.PropTypes.objectOf(
-            React.PropTypes.shape({
-              url: React.PropTypes.string,
-              width: React.PropTypes.number
+      media_file: PropTypes.shape({
+        previews: PropTypes.shape({
+          images: PropTypes.objectOf(
+            PropTypes.shape({
+              url: PropTypes.string,
+              width: PropTypes.number
             })
           )
         }),
-        original_file_url: React.PropTypes.string
+        original_file_url: PropTypes.string
       }).isRequired,
-      embed_config: React.PropTypes.shape({
-        width: React.PropTypes.any,
-        height: React.PropTypes.any
+      embed_config: PropTypes.shape({
+        width: PropTypes.any,
+        height: PropTypes.any
       }),
-      url: React.PropTypes.string
+      url: PropTypes.string
     }).isRequired
   },
 
@@ -43,7 +44,7 @@ module.exports = React.createClass({
     }
     const { get } = param
     const { title, caption_conf, media_file, embed_config, url } = get
-    const { previews, original_file_url } = media_file
+    const { previews } = media_file
     const { width, height } = embed_config
 
     const style = {

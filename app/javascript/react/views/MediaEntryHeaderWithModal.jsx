@@ -5,33 +5,15 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const ReactDOM = require('react-dom')
-const f = require('lodash')
-const parseUrl = require('url').parse
-const buildUrl = require('url').format
-const t = require('../../lib/i18n-translate.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import { parse as parseUrl, format as buildUrl } from 'url'
+import AsyncModal from './Collection/AsyncModal.jsx'
+import SelectCollection from './Collection/SelectCollection.jsx'
+import MediaEntryHeader from './MediaEntryHeader.jsx'
+import Share from './Shared/Share.jsx'
 
-const RightsManagement = require('../templates/ResourcePermissions.jsx')
-const CollectionRelations = require('./Collection/Relations.jsx')
-const RelationResources = require('./Collection/RelationResources.jsx')
-const Tabs = require('./Tabs.jsx')
-const Tab = require('./Tab.jsx')
-const PageContent = require('./PageContent.jsx')
-const TabContent = require('./TabContent.jsx')
-const CollectionDetailOverview = require('./Collection/DetailOverview.jsx')
-const CollectionDetailAdditional = require('./Collection/DetailAdditional.jsx')
-const AsyncModal = require('./Collection/AsyncModal.jsx')
-const SelectCollection = require('./Collection/SelectCollection.jsx')
-const HighlightedContents = require('./Collection/HighlightedContents.jsx')
-const MediaEntryHeader = require('./MediaEntryHeader.jsx')
-const MetaDataByListing = require('../decorators/MetaDataByListing.jsx')
-const TagCloud = require('../ui-components/TagCloud.jsx')
-const resourceName = require('../lib/decorate-resource-names.js')
-const UsageData = require('../decorators/UsageData.jsx')
-const Share = require('./Shared/Share.jsx')
-
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'MediaEntryHeaderWithModal',
 
   getInitialState() {
@@ -51,7 +33,7 @@ module.exports = React.createClass({
 
   render(param) {
     let authToken
-    let onClose, contentForGet, get, extractGet, json, getUrl
+    let onClose, contentForGet, get, extractGet, getUrl
     if (param == null) {
       param = this.props
     }

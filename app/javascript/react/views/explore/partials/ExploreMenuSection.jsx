@@ -4,10 +4,11 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const cx = require('classnames')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import cx from 'classnames'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'ExploreMenuSection',
   render(param) {
     if (param == null) {

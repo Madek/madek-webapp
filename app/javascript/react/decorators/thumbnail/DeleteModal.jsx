@@ -4,15 +4,13 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const classList = require('classnames/dedupe')
-const { parseMods } = require('../../lib/ui.js')
-const t = require('../../../lib/i18n-translate.js')
-const Button = require('../../ui-components/Button.jsx')
-const AskModal = require('../../ui-components/AskModal.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import t from '../../../lib/i18n-translate.js'
+import AskModal from '../../ui-components/AskModal.jsx'
 
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'DeleteModal',
 
   render(param) {

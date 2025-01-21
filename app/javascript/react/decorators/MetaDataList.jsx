@@ -7,31 +7,28 @@
  */
 // A list of MetaData, either by Vocabulary or by Context
 
-const React = require('react')
-const f = require('active-lodash')
-const classList = require('classnames/dedupe')
-const { parseMods } = require('../lib/ui.js')
-const t = require('../../lib/i18n-translate.js')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
+import f from 'active-lodash'
+import classList from 'classnames/dedupe'
+import { parseMods } from '../lib/ui.js'
+import t from '../../lib/i18n-translate.js'
+import MadekPropTypes from '../lib/madek-prop-types.js'
+import VocabTitleLink from '../ui-components/VocabTitleLink.jsx'
+import listingHelper from '../../lib/metadata-listing-helper.js'
+import MetaDataTable from './MetaDataTable.jsx'
+import MetaDataDefinitionList from './MetaDataDefinitionList.jsx'
 
-const MadekPropTypes = require('../lib/madek-prop-types.js')
-
-const Icon = require('../ui-components/Icon.jsx')
-
-const VocabTitleLink = require('../ui-components/VocabTitleLink.jsx')
-const listingHelper = require('../../lib/metadata-listing-helper.js')
-
-const MetaDataTable = require('./MetaDataTable.jsx')
-const MetaDataDefinitionList = require('./MetaDataDefinitionList.jsx')
-
-module.exports = React.createClass({
+module.exports = createReactClass({
   displayName: 'Deco.MetaDataList',
   propTypes: {
-    vocabUrl: React.PropTypes.string,
+    vocabUrl: PropTypes.string,
     list: MadekPropTypes.metaDataByAny,
-    tagMods: React.PropTypes.any,
-    type: React.PropTypes.oneOf(['list', 'table']),
-    showTitle: React.PropTypes.bool,
-    showFallback: React.PropTypes.bool
+    tagMods: PropTypes.any,
+    type: PropTypes.oneOf(['list', 'table']),
+    showTitle: PropTypes.bool,
+    showFallback: PropTypes.bool
   },
 
   getDefaultProps() {

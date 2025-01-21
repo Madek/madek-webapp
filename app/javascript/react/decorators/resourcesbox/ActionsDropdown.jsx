@@ -4,26 +4,24 @@
  * DS205: Consider reworking code to avoid use of IIFEs
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-const React = require('react')
-const f = require('active-lodash')
-const ui = require('../../lib/ui.js')
-const { t } = ui
-const SelectionScope = require('../../../lib/selection-scope.js')
-const { Icon, Dropdown } = require('../../ui-components/index.js')
-const { MenuItem } = Dropdown
-const ActionsDropdownHelper = require('./ActionsDropdownHelper.jsx')
+import React from 'react'
+import createReactClass from 'create-react-class'
+import f from 'active-lodash'
+import l from 'lodash'
+import { t } from '../../lib/ui.js'
+import SelectionScope from '../../../lib/selection-scope.js'
+import { Icon, Dropdown } from '../../ui-components/index.js'
+import ActionsDropdownHelper from './ActionsDropdownHelper.jsx'
 
-module.exports = React.createClass({
+export default createReactClass({
   displayName: 'ActionsDropdown',
 
   shouldComponentUpdate(nextProps, nextState) {
-    const l = require('lodash')
     return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
   },
 
   render() {
-    const { parameters } = this.props
-    const { callbacks } = this.props
+    const { parameters, callbacks } = this.props
 
     const showActions = ActionsDropdownHelper.showActionsConfig(parameters)
 
@@ -33,20 +31,17 @@ module.exports = React.createClass({
 
     const {
       totalCount,
-      withActions,
       selection,
-      saveable,
-      draftsView,
-      isClient,
       collectionData,
-      config,
       isClipboard,
       content_type,
       showAddSetButton
     } = parameters
 
+    const nofSelected = selection ? selection.length : 0
+
     const createHoverActionItem = (enableEntryByOnClick, hoverId, count, icon, text) => (
-      <MenuItem
+      <Dropdown.MenuItem
         onClick={enableEntryByOnClick}
         onMouseEnter={f.curry(callbacks.onHoverMenu)(hoverId)}
         onMouseLeave={f.curry(callbacks.onHoverMenu)(null)}>
@@ -77,10 +72,10 @@ module.exports = React.createClass({
           undefined
         )}
         <span style={{ display: 'inline', marginLeft: '5px' }}>{text}</span>
-      </MenuItem>
+      </Dropdown.MenuItem>
     )
 
-    const actionsDropdown = f.any(f.values(showActions)) ? (
+    return (
       <Dropdown
         mods="stick-right mlm"
         testId="resources_box_dropdown"
@@ -88,7 +83,7 @@ module.exports = React.createClass({
         toggleProps={{ className: 'button' }}>
         <Dropdown.Menu className="ui-drop-menu">
           {showAddSetButton && (
-            <MenuItem onClick={callbacks.onShowCreateCollectionModal}>
+            <Dropdown.MenuItem onClick={callbacks.onShowCreateCollectionModal}>
               <Icon
                 i="plus"
                 mods="ui-drop-icon"
@@ -97,34 +92,33 @@ module.exports = React.createClass({
               <span style={{ display: 'inline', marginLeft: '5px' }}>
                 {t('resource_action_collection_create')}
               </span>
-            </MenuItem>
+            </Dropdown.MenuItem>
           )}
-          {showAddSetButton && <MenuItem className="separator" />}
-          {showActions.addToSet
-            ? createHoverActionItem(
-                selection.length > 0 ? f.curry(callbacks.onBatchAddToSet)(selection) : undefined,
-                'add_to_set',
-                selection.length,
-                'move',
-                t('resources_box_batch_actions_addtoset')
-              )
-            : undefined}
-          {showActions.removeFromSet
-            ? createHoverActionItem(
-                selection.length > 0
-                  ? f.curry(callbacks.onBatchRemoveFromSet)(selection)
-                  : undefined,
-                'remove_from_set',
-                selection.length,
-                'close',
-                t('resources_box_batch_actions_removefromset')
-              )
-            : undefined}
+          {showAddSetButton && <Dropdown.MenuItem className="separator" />}
+
+          {showActions.addToSet &&
+            createHoverActionItem(
+              nofSelected > 0 ? f.curry(callbacks.onBatchAddToSet)(selection) : undefined,
+              'add_to_set',
+              nofSelected,
+              'move',
+              t('resources_box_batch_actions_addtoset')
+            )}
+
+          {showActions.removeFromSet &&
+            createHoverActionItem(
+              nofSelected > 0 ? f.curry(callbacks.onBatchRemoveFromSet)(selection) : undefined,
+              'remove_from_set',
+              nofSelected,
+              'close',
+              t('resources_box_batch_actions_removefromset')
+            )}
+
           {(() => {
             if (showActions.edit) {
               if (
                 (collectionData || isClipboard) &&
-                (!selection || selection.length === 0) &&
+                nofSelected === 0 &&
                 (content_type === 'MediaEntry' || content_type === 'MediaResource')
               ) {
                 return createHoverActionItem(
@@ -151,8 +145,9 @@ module.exports = React.createClass({
               }
             }
           })()}
+
           {(() => {
-            // Titel von Medieneinträgen editieren
+            // Edit media entry titles
             if (showActions.edit) {
               const batchEditables = selection
                 ? SelectionScope.batchMetaDataResources(selection, ['MediaEntry'])
@@ -168,11 +163,12 @@ module.exports = React.createClass({
               )
             }
           })()}
+
           {(() => {
             if (showActions.editSets) {
               if (
                 (collectionData || isClipboard) &&
-                (!selection || selection.length === 0) &&
+                nofSelected === 0 &&
                 (content_type === 'Collection' || content_type === 'MediaResource')
               ) {
                 return createHoverActionItem(
@@ -201,8 +197,9 @@ module.exports = React.createClass({
               }
             }
           })()}
+
           {showActions.quickEdit ? (
-            <MenuItem onClick={this.props.callbacks.onQuickBatch}>
+            <Dropdown.MenuItem onClick={this.props.callbacks.onQuickBatch}>
               <i
                 className="fa fa-magic"
                 style={{
@@ -218,10 +215,11 @@ module.exports = React.createClass({
                 </span>{' '}
                 {t('resources_box_batch_actions_meta_data_batch')}
               </span>
-            </MenuItem>
+            </Dropdown.MenuItem>
           ) : (
             undefined
           )}
+
           {(() => {
             if (showActions.deleteResources) {
               let batchDestroyables
@@ -242,6 +240,7 @@ module.exports = React.createClass({
               )
             }
           })()}
+
           {(() => {
             if (showActions.managePermissions) {
               let batchPermissionEditables
@@ -261,6 +260,7 @@ module.exports = React.createClass({
               )
             }
           })()}
+
           {(() => {
             if (showActions.managePermissionsSets) {
               let batchPermissionSetsEditables
@@ -280,6 +280,7 @@ module.exports = React.createClass({
               )
             }
           })()}
+
           {(() => {
             if (showActions.transferResponsibility) {
               let batchTransferResponsibilityEditables
@@ -302,6 +303,7 @@ module.exports = React.createClass({
               )
             }
           })()}
+
           {(() => {
             if (showActions.transferResponsibilitySets) {
               let batchTransferResponsibilitySetsEditables
@@ -324,8 +326,9 @@ module.exports = React.createClass({
               )
             }
           })()}
+
           {showActions.addToClipboard
-            ? !selection || selection.length === 0
+            ? nofSelected === 0
               ? createHoverActionItem(
                   totalCount > 0 ? callbacks.onBatchAddAllToClipboard : undefined,
                   'add_all_to_clipboard',
@@ -336,17 +339,18 @@ module.exports = React.createClass({
                     t('resources_box_batch_actions_addalltoclipboard_2')
                 )
               : createHoverActionItem(
-                  selection.length > 0
+                  nofSelected > 0
                     ? f.curry(callbacks.onBatchAddSelectedToClipboard)(selection)
                     : undefined,
                   'add_selected_to_clipboard',
-                  selection.length,
+                  nofSelected,
                   'clipboard',
                   t('resources_box_batch_actions_addselectedtoclipboard')
                 )
             : undefined}
+
           {showActions.removeFromClipboard
-            ? !selection || selection.length === 0
+            ? nofSelected === 0
               ? createHoverActionItem(
                   totalCount > 0 ? callbacks.onBatchRemoveAllFromClipboard : undefined,
                   'remove_all_from_clipboard',
@@ -355,21 +359,17 @@ module.exports = React.createClass({
                   t('resources_box_batch_actions_clear_clipboard')
                 )
               : createHoverActionItem(
-                  selection.length > 0
+                  nofSelected > 0
                     ? f.curry(callbacks.onBatchRemoveFromClipboard)(selection)
                     : undefined,
                   'remove_from_clipboard',
-                  selection.length,
+                  nofSelected,
                   'close',
                   t('resources_box_batch_actions_removefromclipboard')
                 )
             : undefined}
         </Dropdown.Menu>
       </Dropdown>
-    ) : (
-      undefined
     )
-
-    return actionsDropdown
   }
 })
