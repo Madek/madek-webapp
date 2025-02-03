@@ -56,7 +56,7 @@ module Presenters
       end
 
       def conversion_progress
-        if (latest = latest_zencoder_job).present? && latest.submitted?
+        if (latest = latest_zencoder_job).present? && latest.submitted? && latest.fetch_progress
           latest.fetch_progress.round(1)
         end
       end
