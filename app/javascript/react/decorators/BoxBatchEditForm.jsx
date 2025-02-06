@@ -4,10 +4,14 @@ import t from '../../lib/i18n-translate.js'
 import BoxBatchEditMetaKeyForm from './BoxBatchEditMetaKeyForm.jsx'
 import BoxMetaKeySelector from './BoxMetaKeySelector.jsx'
 import Preloader from '../ui-components/Preloader.jsx'
+import AskModal from '../ui-components/AskModal.jsx'
 
 class BoxBatchEditForm extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      confirmBatchEdit: false
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -174,8 +178,18 @@ class BoxBatchEditForm extends React.Component {
       )
     }
 
+    const handleBatchEdit = () => {
+      console.debug('handleBatchEdit')
+
+      this.setState({ confirmBatchEdit: true })
+    }
+
+    const handleCancelBatchEdit = () => {
+      this.setState({ confirmBatchEdit: false })
+    }
+
     return (
-      <div style={{ width: '50%', float: 'left' }}>
+      <div style={{ width: '100%' }}>
         <div
           style={{
             backgroundColor: '#fff',
@@ -209,8 +223,10 @@ class BoxBatchEditForm extends React.Component {
                 t('resources_box_batch_stats_collections')}
             </div>
           </div>
-          <div
-            onClick={hasSelection() ? this.props.onClickApplySelected : null}
+
+          <button
+            type="button"
+            onClick={() => handleBatchEdit()}
             className="primary-button"
             disabled={hasSelection() ? null : 'disabled'}
             style={{
@@ -222,7 +238,18 @@ class BoxBatchEditForm extends React.Component {
               marginTop: '5px'
             }}>
             {renderText()}
-          </div>
+          </button>
+
+          {this.state.confirmBatchEdit && (
+            <AskModal
+              onCancel={() => handleCancelBatchEdit()}
+              onOk={() => this.props.onClickApplySelected()}
+              title="Please Confirm Batch Edit"
+              okText="Apply"
+              cancelText="Cancel">
+              <div>{`Do you really want to batch edit ${this.editableSelectedCount()} Media Entries?`}</div>
+            </AskModal>
+          )}
         </div>
       </div>
     )
@@ -257,94 +284,6 @@ class BoxBatchEditForm extends React.Component {
     // }
     //
     // return toApply > 0 || errorCount() > 0
-  }
-
-  renderApplyAll() {
-    if (!this.showButtons()) {
-      return null
-    }
-
-    if (this.stateBatch().components.metaKeyForms.length == 0) {
-      return null
-    }
-
-    var totalCount = () => {
-      return this.props.totalCount
-    }
-
-    var renderText = () => {
-      if (this.loadedCount() == totalCount()) {
-        return (
-          t('resources_box_batch_apply_on_all_1') +
-          this.editableCount() +
-          t('resources_box_batch_apply_on_all_2')
-        )
-      } else {
-        return t('resources_box_batch_load_all_pages')
-      }
-
-      // Auf alle anwenden
-    }
-
-    return (
-      <div style={{ width: '50%', float: 'left' }}>
-        <div
-          style={{
-            backgroundColor: '#fff',
-            borderRadius: '5px',
-            border: '1px solid #cccccc',
-            padding: '10px'
-          }}>
-          <div>
-            <h2 className="title-m ui-info-box-title mbm">
-              {t('resources_box_batch_all_content')}
-            </h2>
-            <div>{t('resources_box_batch_stats_total') + ' ' + this.props.totalCount}</div>
-            <div>{t('resources_box_batch_stats_where_loaded') + ' ' + this.loadedCount()}</div>
-            <div>{t('resources_box_batch_stats_where_editable') + ' ' + this.editableCount()}</div>
-          </div>
-          <div>
-            <div
-              style={{
-                marginTop: '10px',
-                fontSize: '20px'
-              }}>
-              {this.loadedCount() != totalCount() ? (
-                <span>&nbsp;</span>
-              ) : (
-                this.editableEntriesCount() +
-                ' ' +
-                t('resources_box_batch_stats_entries') +
-                ' / ' +
-                this.editableCollectionsCount() +
-                ' ' +
-                t('resources_box_batch_stats_collections')
-              )}
-            </div>
-          </div>
-          <div
-            onClick={
-              this.toApplyCount() > 0 || this.loadedCount() != totalCount()
-                ? null
-                : this.props.onClickApplyAll
-            }
-            className="primary-button"
-            disabled={
-              this.toApplyCount() > 0 || this.loadedCount() != totalCount() ? 'disabled' : null
-            }
-            style={{
-              display: 'inline-block',
-              padding: '0px 10px',
-              marginRight: '5px',
-              marginBottom: '5px',
-              cursor: 'pointer',
-              marginTop: '5px'
-            }}>
-            {renderText()}
-          </div>
-        </div>
-      </div>
-    )
   }
 
   renderProgress() {
@@ -538,7 +477,7 @@ class BoxBatchEditForm extends React.Component {
           {this.renderKeyForms()}
 
           <div style={{ marginTop: '20px' }}>
-            {this.renderApplyAll()}
+            {/* {this.renderApplyAll()} */}
             {this.renderApplySelected()}
           </div>
           <div style={{ paddingTop: '20px', clear: 'both' }}>

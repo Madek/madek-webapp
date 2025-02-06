@@ -194,18 +194,6 @@ module.exports = createReactClass({
     })
   },
 
-  onClickApplyAll() {
-    const events = [
-      {
-        path: [],
-        event: {
-          action: 'apply'
-        }
-      }
-    ]
-    return this.nextBoxState(events)
-  },
-
   onClickApplySelected() {
     const events = [
       {
@@ -1077,7 +1065,6 @@ module.exports = createReactClass({
                 onClose={e => this.onBatchButton(e)}
                 stateBox={this.state.boxState}
                 onClickKey={(e, k, ck) => this.onClickKey(e, k, ck)}
-                onClickApplyAll={e => this.onClickApplyAll(e)}
                 onClickApplySelected={e => this.onClickApplySelected(e)}
                 onClickCancel={e => this.onClickCancel(e)}
                 onClickIgnore={e => this.onClickIgnore(e)}
