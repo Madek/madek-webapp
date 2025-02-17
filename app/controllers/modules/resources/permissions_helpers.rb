@@ -55,24 +55,43 @@ module Modules
               .fetch("#{type}_permissions", [])
         end
 
+        def get_creator(perms)
+          creators = perms.map(&:creator)
+          if creators.size > 1
+            raise "Ambiguous creator for permissions."
+          else
+            creators.first
+          end
+        end
+
+        def add_creator_and_updator(p)
+          creator = get_creator(p)
+          if creator
+            p.merge(creator_id: creator.id,
+                    updator_id: current_user.id)
+          else
+            p.merge(creator_id: current_user.id)
+          end
+        end
+
         def update_user_permissions!(resource)
           resource.user_permissions.destroy_all
           user_permissions_params.each do |p| 
-            resource.user_permissions.create! p.merge(creator_id: current_user.id)
+            resource.user_permissions.create! add_creator_and_updator(p)
           end
         end
 
         def update_group_permissions!(resource)
           resource.group_permissions.destroy_all
           group_permissions_params.each do |p|
-            resource.group_permissions.create! p.merge(creator_id: current_user.id)
+            resource.group_permissions.create! add_creator_and_updator(p)
           end
         end
 
         def update_api_client_permissions!(resource)
           resource.api_client_permissions.destroy_all
           api_client_permissions_params.each do |p|
-            resource.api_client_permissions.create! p.merge(creator_id: current_user.id)
+            resource.api_client_permissions.create! add_creator_and_updator(p)
           end
         end
 

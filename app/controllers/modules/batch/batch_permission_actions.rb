@@ -145,6 +145,20 @@ module Modules
           .each(&:destroy!)
       end
 
+      def create_or_update_permissions_helper!(p, resource, attrs, perm_type)
+        if p
+          p.update!(
+            attrs.merge(updator_id: current_user.id)
+          )
+        else
+          class_name = "Permissions::#{resource.class}#{perm_type.to_s.camelcase}Permission"
+          class_name.constantize.create!(
+            attrs.merge(creator_id: current_user.id)
+          )
+        end
+      end
+
+
       def create_or_update_user_permissions_for_resource!(resource,
                                                           user_permissions)
         user_permissions.each do |p_data|
@@ -165,10 +179,13 @@ module Modules
           p = \
             resource
             .user_permissions
-            .find_or_create_by!(subject_type_id_key => subject_id) do |permission|
-              permission.creator_id = current_user.id
-            end
-          p.update!(sanitized_attributes)
+            .find_by(subject_type_id_key => subject_id)
+
+          create_or_update_permission_helper!(p,
+                                              resource,
+                                              sanitized_attributes,
+                                              :user)
+
         end
       end
 
@@ -178,13 +195,16 @@ module Modules
           sanitized_attributes = \
             sanitize_attributes p_data, resource.class, :group
           next if sanitized_attributes.empty?
+
           p = \
             resource
             .group_permissions
-            .find_or_create_by! group_id: p_data[:subject] do |permission|
-              permission.creator_id = current_user.id
-            end
-          p.update! sanitized_attributes
+            .find_by(group_id: p_data[:subject])
+
+          create_or_update_permission_helper!(p,
+                                              resource,
+                                              sanitized_attributes,
+                                              :group)
         end
       end
 
@@ -195,13 +215,16 @@ module Modules
           sanitized_attributes = \
             sanitize_attributes p_data, resource.class, :api_client
           next if sanitized_attributes.empty?
+
           p = \
             resource
             .api_client_permissions
-            .find_or_create_by! api_client_id: p_data[:subject] do |permission|
-              permission.creator_id = current_user.id
-            end
-          p.update! sanitized_attributes
+            .find_by(api_client_id: p_data[:subject])
+
+          create_or_update_permission_helper!(p,
+                                              resource,
+                                              sanitized_attributes,
+                                              :api_client)
         end
       end
 
