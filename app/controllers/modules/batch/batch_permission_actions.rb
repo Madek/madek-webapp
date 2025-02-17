@@ -165,10 +165,11 @@ module Modules
           p = \
             resource
             .user_permissions
-            .find_or_create_by!(subject_type_id_key => subject_id) do |permission|
-              permission.creator_id = current_user.id
-            end
-          p.update!(sanitized_attributes)
+            .find_or_initialize_by(subject_type_id_key => subject_id)         
+
+          with_creator_or_updator(p) do |cu_attrs|
+            p.update!(sanitized_attributes.merge(cu_attrs))
+          end
         end
       end
 
@@ -178,13 +179,15 @@ module Modules
           sanitized_attributes = \
             sanitize_attributes p_data, resource.class, :group
           next if sanitized_attributes.empty?
+
           p = \
             resource
             .group_permissions
-            .find_or_create_by! group_id: p_data[:subject] do |permission|
-              permission.creator_id = current_user.id
-            end
-          p.update! sanitized_attributes
+            .find_or_initialize_by(group_id: p_data[:subject])
+
+          with_creator_or_updator(p) do |cu_attrs|
+            p.update!(sanitized_attributes.merge(cu_attrs))
+          end
         end
       end
 
@@ -198,10 +201,11 @@ module Modules
           p = \
             resource
             .api_client_permissions
-            .find_or_create_by! api_client_id: p_data[:subject] do |permission|
-              permission.creator_id = current_user.id
-            end
-          p.update! sanitized_attributes
+            .find_or_initialize_by(api_client_id: p_data[:subject])
+
+          with_creator_or_updator(p) do |cu_attrs|
+            p.update!(sanitized_attributes.merge(cu_attrs))
+          end
         end
       end
 
@@ -209,6 +213,15 @@ module Modules
         p_data
           .reject { |k, v| k == :subject }
           .permit SANITIZATION_SPEC[resource_klass.name.to_sym][perm_type]
+      end
+
+      def with_creator_or_updator(p)
+        merge_attrs = if p.new_record?
+                        { creator_id: current_user.id }
+                      else
+                        { updator_id: current_user.id }
+                      end
+        yield(merge_attrs)
       end
     end
   end

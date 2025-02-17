@@ -55,24 +55,53 @@ module Modules
               .fetch("#{type}_permissions", [])
         end
 
+        def get_creator(perms)
+          creators = perms.map(&:creator).uniq
+          if creators.size > 1
+            raise "Ambiguous creator for permissions."
+          else
+            creators.first
+          end
+        end
+
+        def add_creator_and_updator(p, creator)
+          if creator
+            p.merge(creator_id: creator.id,
+                    updator_id: current_user.id)
+          else
+            p.merge(creator_id: current_user.id)
+          end
+        end
+
+        def enriched_by_creator_and_updator(resource)
+          creator = get_creator(resource.user_permissions)
+          yield(resource, creator)
+        end
+
         def update_user_permissions!(resource)
-          resource.user_permissions.destroy_all
-          user_permissions_params.each do |p| 
-            resource.user_permissions.create! p.merge(creator_id: current_user.id)
+          enriched_by_creator_and_updator(resource) do |resource, creator|
+            resource.user_permissions.destroy_all
+            user_permissions_params.each do |p| 
+              resource.user_permissions.create! add_creator_and_updator(p, creator)
+            end
           end
         end
 
         def update_group_permissions!(resource)
-          resource.group_permissions.destroy_all
-          group_permissions_params.each do |p|
-            resource.group_permissions.create! p.merge(creator_id: current_user.id)
+          enriched_by_creator_and_updator(resource) do |resource, creator|
+            resource.group_permissions.destroy_all
+            group_permissions_params.each do |p|
+              resource.group_permissions.create! add_creator_and_updator(p, creator)
+            end
           end
         end
 
         def update_api_client_permissions!(resource)
-          resource.api_client_permissions.destroy_all
-          api_client_permissions_params.each do |p|
-            resource.api_client_permissions.create! p.merge(creator_id: current_user.id)
+          enriched_by_creator_and_updator(resource) do |resource, creator|
+            resource.api_client_permissions.destroy_all
+            api_client_permissions_params.each do |p|
+              resource.api_client_permissions.create! add_creator_and_updator(p, creator)
+            end
           end
         end
 
