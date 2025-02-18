@@ -1,0 +1,21 @@
+---
+include:
+  - 'app/**/*.rb'
+  - 'spec/**/*.rb'
+  - 'lib/**/*.rb'
+  - 'config/**/*.rb'
+exclude: []
+require: []
+domains: []
+reporters:
+  - rubocop
+  - require_not_found
+formatter:
+  rubocop:
+    cops: safe
+    except: []
+    only: []
+    extra_args: []
+require_paths: []
+plugins: []
+max_files: 5000

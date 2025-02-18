@@ -139,6 +139,34 @@ feature 'Resource: MediaEntry' do
       find('button.primary-button').click
       expect(find('.media-data', text: @ck_label)).to have_content @value
     end
+
+    describe 'Flashs visible' do
+      given(:description) { Faker::Lorem.sentence }
+
+      context 'when admin mode is toggled' do
+        background do
+          Context
+            .find('core')
+            .update(descriptions: { de: description })
+        end
+
+        it 'displays not published warning and admin mode notification' do
+          prepare_data
+
+          sign_in_as('adam')
+          visit media_entry_path(@resource)
+
+          within('.ui-header-user') do
+            page.find('.dropdown-toggle').click
+            click_button(I18n.t(:user_menu_admin_mode_toogle_on))
+          end
+
+          expect(page).to have_content(I18n.t(:media_entry_not_published_warning_msg))
+          expect(page)
+            .to have_selector '.ui-alert.success', text: 'Admin-Modus aktiviert!'
+        end
+      end
+    end
   end
 end
 
