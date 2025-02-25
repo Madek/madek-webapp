@@ -1,5 +1,6 @@
 traits:
   asdf: true
+  ax101-06: true
 
 scripts:
 
@@ -10,7 +11,7 @@ scripts:
       #!/usr/bin/env bash
       set -euo pipefail
       cd $WEBAPP_DIR
-      ./bin/env/ruby-setup 
+      ./bin/env/ruby-setup
 
   test:
     start_when:
