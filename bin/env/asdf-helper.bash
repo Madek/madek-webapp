@@ -33,7 +33,7 @@ function asdf-update-plugin () {
       asdf-update-plugin-base
     else
       DIGEST=$(git log -1 HEAD --pretty=format:%T)
-      CACHE_FILE="${TMPDIR}asdf_cache_${PROJECT_NAME}_${DIGEST}"
+      CACHE_FILE="${TMPDIR}asdf_cache_${PROJECT_NAME}_${ASDF_PLUGIN}_${DIGEST}"
       if [[ -f $CACHE_FILE ]]; then
         echo "INFO $CACHE_FILE exists; skipping ${PROJECT_NAME} asdf update"
       else

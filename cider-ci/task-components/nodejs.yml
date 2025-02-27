@@ -1,5 +1,6 @@
 traits:
   asdf: true
+
 scripts:
   nodejs-asdf-install:
     exclusive_executor_resource: asdf-nodejs

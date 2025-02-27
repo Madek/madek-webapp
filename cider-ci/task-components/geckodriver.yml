@@ -1,5 +1,6 @@
 traits:
   asdf: true
+
 scripts:
   geckodriver-asdf-install:
     exclusive_executor_resource: asdf-geckodriver

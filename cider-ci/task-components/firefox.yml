@@ -1,5 +1,6 @@
 traits:
   asdf: true
+
 scripts:
   firefox-asdf-install:
     exclusive_executor_resource: asdf-firefox
