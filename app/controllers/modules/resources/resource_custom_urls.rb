@@ -138,18 +138,17 @@ module Modules
 
       def validate_confirmed(resource, current_resource, confirmed, existing_url)
         return true if confirmed
-        path = send(
-          "edit_custom_urls_#{resource.class.name.underscore}_path",
-          resource)
 
         type_string = resource.class.name.underscore
+        query_params = { needs_confirmation: true,
+                         address_id: existing_url.id,
+                         from_title: current_resource.title,
+                         to_title: resource.title,
+                         type: type_string }
 
-        redirect_to("#{path}" \
-          '?needs_confirmation=true' \
-          "&address_id=#{existing_url.id}" \
-          "&from_title=#{current_resource.title}" \
-          "&to_title=#{resource.title}" \
-          "&type=#{type_string}")
+        path = send("edit_custom_urls_#{type_string}_path",
+                    resource, query_params)
+        redirect_to path
 
         false
       end
