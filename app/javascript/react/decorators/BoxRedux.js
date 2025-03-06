@@ -12,48 +12,55 @@ var compactObject = function(o) {
   )
 }
 
-var mergeStateAndEvents = function(lastState, events) {
-  var foundEvent = __.find(events, e => __.isEqual(e.path, lastState.path))
+var mergeStateAndEvents = function(state, events) {
+  var foundEvent = __.find(events, e => __.isEqual(e.path, state.path))
 
   return {
-    id: lastState.id,
-    data: lastState.data ? lastState.data : {},
+    id: state.id,
+    data: state.data ? state.data : {},
     components: compactObject(
-      __.mapValues(
-        lastState.components,
-
-        function(v, k) {
-          if (!v) {
-            return null
-          }
-
-          if (Array.isArray(v)) {
-            return __.map(v, function(vi, i) {
-              var componentsArrayChild = function(lastState, k, i) {
-                return lastState && lastState.components[k] && i < lastState.components[k].length
-                  ? lastState.components[k][i]
-                  : null
-              }
-
-              return mergeStateAndEvents(componentsArrayChild(lastState, k, i), events)
-            })
-          } else {
-            return mergeStateAndEvents(lastState.components[k], events)
-          }
+      __.mapValues(state.components, function(component) {
+        if (!component) {
+          return null
         }
-      )
+        if (Array.isArray(component)) {
+          return __.map(component, function(indexedComponent) {
+            return mergeStateAndEvents(indexedComponent, events)
+          })
+        } else {
+          return mergeStateAndEvents(component, events)
+        }
+      })
     ),
-    props: lastState.props ? lastState.props : {},
+    props: state.props ? state.props : {},
     event: foundEvent && foundEvent.event ? foundEvent.event : {},
-    path: lastState.path
+    path: state.path
   }
 }
 
-var mergeStateAndEventsRoot = function(lastState, events) {
-  if (!lastState) {
+/**
+ * Copies a tree of state nodes, assigning the events to the nodes according to their `path`.
+ *
+ * The child nodes are in the `components` key, structured as follows:
+ * - node.components.a = componentStateA
+ * - node.components.b = componentStateB
+ * - node.components.c = [indexedComponentC1, indexedComponentC2, ...]
+ *
+ * Note that the `path` has nothing to do with the location of the nodes in the tree,
+ * it is just an outside-bound value, typically an array.
+ *
+ * A node can also have the keys `id`, `data`, `props` which are just copied to the output
+ * node (but `data` and `props` will be defaulted with `{}` when missing).
+ *
+ * See the example at the end of the file.
+ *
+ * PS: I don't know why it's called "Redux" ;)
+ */
+const mergeStateAndEventsRoot = function(state, events) {
+  if (!state) {
     return null
   } else {
-    return mergeStateAndEvents(lastState, events)
+    return mergeStateAndEvents(state, events)
   }
 }
 
@@ -66,3 +73,38 @@ module.exports = {
 
   mergeStateAndEventsRoot: mergeStateAndEventsRoot
 }
+
+/* 
+// Example:
+const state = {
+  path: 'p1',
+  components: {
+    raccoon: { path: 'p2', components: { sub: { path: 'p3' } } },
+    otherAnimals: [{ path: 'p2' }]
+  }
+}
+const events = [
+  { event: { action: 'plonk' }, path: 'p1' },
+  { event: { action: 'plenk' }, path: 'p2' }
+]
+const newState = mergeStateAndEventsRoot(state, events)
+// events
+console.log(newState.event.action === 'plonk')
+console.log(newState.components.raccoon.event.action === 'plenk')
+console.log(newState.components.otherAnimals[0].event.action === 'plenk')
+// node properties
+console.log(Object.keys(newState).toString() === 'id,data,components,props,event,path')
+console.log(JSON.stringify(newState.data) === '{}')
+console.log(JSON.stringify(newState.props) === '{}')
+console.log(
+  Object.keys(newState.components.raccoon).toString() === 'id,data,components,props,event,path'
+)
+console.log(
+  Object.keys(newState.components.raccoon.components.sub).toString() ===
+    'id,data,components,props,event,path'
+)
+console.log(
+  Object.keys(newState.components.otherAnimals[0]).toString() ===
+    'id,data,components,props,event,path'
+)
+*/
