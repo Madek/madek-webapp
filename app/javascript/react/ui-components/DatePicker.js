@@ -175,9 +175,7 @@ DatePicker.propTypes = {
 }
 
 DatePicker.defaultProps = {
-  id: Math.random()
-    .toString()
-    .slice(2)
+  id: Math.random().toString().slice(2)
 }
 
 export default DatePicker

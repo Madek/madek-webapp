@@ -29,14 +29,8 @@ export default createReactClass({
       return null
     }
 
-    const {
-      totalCount,
-      selection,
-      collectionData,
-      isClipboard,
-      content_type,
-      showAddSetButton
-    } = parameters
+    const { totalCount, selection, collectionData, isClipboard, content_type, showAddSetButton } =
+      parameters
 
     const nofSelected = selection ? selection.length : 0
 
@@ -68,9 +62,7 @@ export default createReactClass({
             }}>
             {count}
           </span>
-        ) : (
-          undefined
-        )}
+        ) : undefined}
         <span style={{ display: 'inline', marginLeft: '5px' }}>{text}</span>
       </Dropdown.MenuItem>
     )
@@ -216,9 +208,7 @@ export default createReactClass({
                 {t('resources_box_batch_actions_meta_data_batch')}
               </span>
             </Dropdown.MenuItem>
-          ) : (
-            undefined
-          )}
+          ) : undefined}
 
           {(() => {
             if (showActions.deleteResources) {
@@ -285,10 +275,8 @@ export default createReactClass({
             if (showActions.transferResponsibility) {
               let batchTransferResponsibilityEditables
               if (selection) {
-                batchTransferResponsibilityEditables = SelectionScope.batchTransferResponsibilityResources(
-                  selection,
-                  ['MediaEntry']
-                )
+                batchTransferResponsibilityEditables =
+                  SelectionScope.batchTransferResponsibilityResources(selection, ['MediaEntry'])
               }
               return createHoverActionItem(
                 f.present(batchTransferResponsibilityEditables)
@@ -308,10 +296,8 @@ export default createReactClass({
             if (showActions.transferResponsibilitySets) {
               let batchTransferResponsibilitySetsEditables
               if (selection) {
-                batchTransferResponsibilitySetsEditables = SelectionScope.batchTransferResponsibilityResources(
-                  selection,
-                  ['Collection']
-                )
+                batchTransferResponsibilitySetsEditables =
+                  SelectionScope.batchTransferResponsibilityResources(selection, ['Collection'])
               }
               return createHoverActionItem(
                 f.present(batchTransferResponsibilitySetsEditables)

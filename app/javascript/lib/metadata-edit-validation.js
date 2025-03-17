@@ -59,9 +59,9 @@ module.exports = {
     }
 
     let equal = true
-    f.each(arr1, function(value1) {
+    f.each(arr1, function (value1) {
       let found = false
-      f.each(arr2, function(value2) {
+      f.each(arr2, function (value2) {
         if (checkUuid === true) {
           if (value1.uuid === value2.uuid) {
             return (found = true)

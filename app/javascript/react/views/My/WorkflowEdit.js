@@ -487,8 +487,8 @@ const WorkflowEditor = ({
                                       str === 'Entries'
                                         ? t('workflow_md_edit_scope_entry')
                                         : str === 'Sets'
-                                        ? t('workflow_md_edit_scope_set')
-                                        : false
+                                          ? t('workflow_md_edit_scope_set')
+                                          : false
                                     )
                                     .join(' & ')
                                 )}
@@ -508,8 +508,8 @@ const WorkflowEditor = ({
                           problem === 'NOT_FOUND'
                             ? t('workflow_mk_error_not_found')
                             : problem === 'NOT_AUTHORIZED'
-                            ? t('workflow_mk_error_not_authorized')
-                            : t('workflow_mk_error_unknown')
+                              ? t('workflow_mk_error_not_authorized')
+                              : t('workflow_mk_error_unknown')
 
                         return (
                           <div key={problem}>
@@ -664,8 +664,8 @@ class MetadataEditor extends React.Component {
                   md.problem === 'NOT_FOUND'
                     ? t('workflow_md_edit_mk_error_not_found')
                     : md.problem === 'NOT_AUTHORIZED'
-                    ? t('workflow_md_edit_mk_error_not_authorized')
-                    : false
+                      ? t('workflow_md_edit_mk_error_not_authorized')
+                      : false
                 }>
                 {({ name, inputId, mkLabel, mkNiceUUID, mdValue, mkdValueError, problemDesc }) => (
                   <div

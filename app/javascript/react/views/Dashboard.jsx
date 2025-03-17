@@ -71,9 +71,7 @@ module.exports = createReactClass({
                     })(),
                     index < visible_sections.length - 1 ? (
                       <hr className="separator mbm" key={`separator${index}`} />
-                    ) : (
-                      undefined
-                    )
+                    ) : undefined
                   ])
                 })
               )}

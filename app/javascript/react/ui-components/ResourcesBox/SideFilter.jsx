@@ -517,7 +517,7 @@ module.exports = createReactClass({
         // Remove the filter, if it is in the section and consists only of
         // key, but has no value or match.
         // If multi is false, then we remove all from this section.
-        function(filter) {
+        function (filter) {
           const preventDuplicate = filter.key === parent.uuid && filter.value === item.uuid
           const removeSectionFilter =
             filter.key === parent.uuid &&
@@ -592,7 +592,7 @@ module.exports = createReactClass({
   }
 })
 
-var FilterItem = function(param) {
+var FilterItem = function (param) {
   if (param == null) {
     param = this.props
   }
@@ -607,13 +607,13 @@ var FilterItem = function(param) {
   )
 }
 
-var initializeFilterTreeFromProps = function(dynamicFilters, current) {
+var initializeFilterTreeFromProps = function (dynamicFilters, current) {
   let tree = initializeSections(dynamicFilters)
   return (tree = forCurrentFiltersSelectItemsInTree(tree, current))
 }
 
-var forCurrentFiltersSelectItemsInTree = function(tree, current) {
-  const selectItemForFilter = function(item, filter) {
+var forCurrentFiltersSelectItemsInTree = function (tree, current) {
+  const selectItemForFilter = function (item, filter) {
     if (item.uuid === filter.value) {
       return (item.selected = true)
     }
@@ -672,7 +672,7 @@ var forCurrentFiltersSelectItemsInTree = function(tree, current) {
 }
 
 var initializeSections = dynamicFilters =>
-  f.map(dynamicFilters, function(filter) {
+  f.map(dynamicFilters, function (filter) {
     const { filter_type, label, uuid, children } = filter
     return {
       filterType: filter_type || uuid,
@@ -683,16 +683,9 @@ var initializeSections = dynamicFilters =>
   })
 
 var initializeSubSections = filters =>
-  f.map(filters, function(filter) {
-    const {
-      children,
-      label,
-      uuid,
-      multi,
-      context_key_id,
-      meta_datum_object_type,
-      too_many_hits
-    } = filter
+  f.map(filters, function (filter) {
+    const { children, label, uuid, multi, context_key_id, meta_datum_object_type, too_many_hits } =
+      filter
     return {
       children: initializeItems(children),
       label,
@@ -709,7 +702,7 @@ var initializeSubSections = filters =>
   })
 
 var initializeItems = filters =>
-  f.map(filters, function(filter) {
+  f.map(filters, function (filter) {
     const { uuid, count, type, label, detailed_name } = filter
     return {
       label: detailed_name ? detailed_name : label,
@@ -720,7 +713,7 @@ var initializeItems = filters =>
     }
   })
 
-var getJsonPath = function(baseJsonPath, key) {
+var getJsonPath = function (baseJsonPath, key) {
   let jsonPath = baseJsonPath
   jsonPath = jsonPath.substring(0, jsonPath.length - 'resources'.length)
   jsonPath += `dynamic_filters.${key}`

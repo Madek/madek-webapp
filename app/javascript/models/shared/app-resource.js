@@ -64,7 +64,7 @@ module.exports = Model.extend(RailsResource, {
           'X-CSRF-Token': getRailsCSRFToken()
         }
       },
-      function(err, res, body) {
+      function (err, res, body) {
         const data =
           (() => {
             try {

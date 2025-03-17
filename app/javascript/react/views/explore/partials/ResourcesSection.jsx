@@ -29,14 +29,10 @@ module.exports = createReactClass({
                 <a className="strong" href={section.data.url}>
                   {section.show_all_text ? section.show_all_text : t('resources_section_show_all')}
                 </a>
-              ) : (
-                undefined
-              )}
+              ) : undefined}
             </h2>
           </div>
-        ) : (
-          undefined
-        )}
+        ) : undefined}
         {section.type === 'catalog' || section.type === 'catalog_category' ? (
           <ul className="grid ui-resources" style={{ marginBottom: '40px', marginTop: '0px' }}>
             {f.map(section.data.list, (resource, n) => {
@@ -62,7 +58,7 @@ module.exports = createReactClass({
           </ul>
         ) : section.type === 'vocabularies' ? (
           <ul className="ui-tag-cloud">
-            {f.map(section.data.list, function(resource, n) {
+            {f.map(section.data.list, function (resource, n) {
               let comma = ''
               if (n < f.size(section.data.list) - 1) {
                 comma = <span style={{ marginRight: '5px' }}>,</span>

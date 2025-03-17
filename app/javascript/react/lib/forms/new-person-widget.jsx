@@ -164,9 +164,7 @@ Group\
                 </Tab.Content>
               </div>
             </Tab.Container>
-          ) : (
-            undefined
-          )}
+          ) : undefined}
         </div>
       )
     }

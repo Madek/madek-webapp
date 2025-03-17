@@ -13,7 +13,7 @@ import hashVizSVG from '../lib/hashviz-svg.js'
 
 module.exports = () =>
   // for all enabled containers:
-  $('[data-hashviz-container]').each(function() {
+  $('[data-hashviz-container]').each(function () {
     const $container = $(this)
     // find source text, generate svg, replace container contents with it:
     const name = $container.data('hashviz-container')

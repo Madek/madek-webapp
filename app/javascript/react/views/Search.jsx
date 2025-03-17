@@ -40,9 +40,7 @@ module.exports = createReactClass({
               <input name="utf8" type="hidden" value="✓" />
               {parsedQuery ? (
                 <input type="hidden" name="lang" value={parsedQuery['lang']} />
-              ) : (
-                undefined
-              )}
+              ) : undefined}
               <div className="ui-search large mts">
                 <input
                   type="text"

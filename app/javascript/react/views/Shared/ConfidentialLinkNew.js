@@ -88,9 +88,7 @@ class ConfidentialLinkNew extends React.Component {
                   disabledDays={disabledDays}
                   initialMonth={this.state.expiresAtDate.toDate()}
                   fromMonth={Moment().toDate()}
-                  toMonth={Moment()
-                    .add(1, 'year')
-                    .toDate()}
+                  toMonth={Moment().add(1, 'year').toDate()}
                   selectedDays={day => Moment(day).isSame(this.state.expiresAtDate, 'day')}
                   localeUtils={MomentLocaleUtils}
                   locale={locale}

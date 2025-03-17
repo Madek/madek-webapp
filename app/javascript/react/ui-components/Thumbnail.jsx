@@ -75,9 +75,7 @@ module.exports = createReactClass({
         <ul className="ui-thumbnail-level-items">{flyout.children}</ul>
         <span className="ui-thumbnail-level-notes">{flyout.caption}</span>
       </div>
-    ) : (
-      undefined
-    )
+    ) : undefined
 
     flyoutBottom = f.present((flyout = this.props.flyoutBottom)) ? (
       <div className="ui-thumbnail-level-down-items">
@@ -85,9 +83,7 @@ module.exports = createReactClass({
         <ul className="ui-thumbnail-level-items">{flyout.children}</ul>
         <span className="ui-thumbnail-level-notes">{flyout.caption}</span>
       </div>
-    ) : (
-      undefined
-    )
+    ) : undefined
 
     badgeLeft = badgeLeft ? <div className="ui-thumbnail-privacy">{badgeLeft}</div> : undefined
 
@@ -132,18 +128,14 @@ module.exports = createReactClass({
 
     badgeRight = badgeRight ? (
       <div className="ui-thumbnail-filterset-flag">{badgeRight}</div>
-    ) : (
-      undefined
-    )
+    ) : undefined
 
     const metaElement = meta ? (
       <div className="ui-thumbnail-meta">
         <h3 className="ui-thumbnail-meta-title">{meta.title}</h3>
         <h4 className="ui-thumbnail-meta-subtitle">{meta.subtitle}</h4>
       </div>
-    ) : (
-      undefined
-    )
+    ) : undefined
 
     const actions = (
       <div className="ui-thumbnail-actions">

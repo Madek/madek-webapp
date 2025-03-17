@@ -17,7 +17,7 @@ module.exports = (config, callback) =>
         'X-CSRF-Token': getRailsCSRFToken()
       }
     },
-    function(err, res, body) {
+    function (err, res, body) {
       let data
       const errors = {
         headers: [],

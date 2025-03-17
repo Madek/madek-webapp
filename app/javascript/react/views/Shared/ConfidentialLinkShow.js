@@ -39,7 +39,7 @@ class ConfidentialLinkCreated extends React.Component {
               <p
                 className="ui-container bordered rounded xmam phl pbs"
                 style={{ wordBreak: 'break-all' }}>
-                <a href={get.secret_url} target="_blank">
+                <a href={get.secret_url} target="_blank" rel="noreferrer">
                   <samp className="title-m code b">{get.secret_url}</samp>
                 </a>
               </p>

@@ -26,7 +26,7 @@ const initByClass = {
 }
 
 module.exports = () =>
-  $('[data-react-class]').each(function() {
+  $('[data-react-class]').each(function () {
     const element = this
     const data = $(element).data()
     const componentClass = (data.reactClass || '').replace(/^UI./, '')
@@ -34,7 +34,7 @@ module.exports = () =>
     let init = initByClass[componentClass]
     // auto-init (for any components that simply render from props):
     if (!init) {
-      init = function(data, callback) {
+      init = function (data, callback) {
         const component = f.get(UI, componentClass)
         if (!component) {
           throw new Error(`No such component: \`${componentClass}\`!`)

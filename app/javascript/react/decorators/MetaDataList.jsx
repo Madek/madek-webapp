@@ -56,7 +56,7 @@ module.exports = createReactClass({
     const fallbackMsg = isEmpty && showFallback ? t('resource_meta_data_fallback') : undefined
 
     // build key/value pairs:
-    const listingData = f.map(metaData, function(dat) {
+    const listingData = f.map(metaData, function (dat) {
       // NOTE: either context or vocabulary…
       const [key, label, value] = Array.from(
         listingType === 'Vocabulary'
@@ -103,9 +103,7 @@ module.exports = createReactClass({
             ) : (
               <h3 className="title-l separated mbm">{title}</h3>
             )
-          ) : (
-            undefined
-          )}
+          ) : undefined}
           {type === 'list' ? (
             <MetaDataDefinitionList
               labelValuePairs={listingData}

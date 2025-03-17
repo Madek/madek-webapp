@@ -15,7 +15,7 @@ const PERMISSIONS = [
   ['api_client_permissions', 'collection']
 ]
 
-module.exports = function(name, baseModel) {
+module.exports = function (name, baseModel) {
   return baseModel.extend({
     type: name,
 
@@ -41,9 +41,9 @@ module.exports = function(name, baseModel) {
         const permsForType = f.flatten(f.map(allPerms, permissionName))
         const permsBySubject = f.groupBy(permsForType, 'subject.uuid')
 
-        const batchPerms = f.map(permsBySubject, function(perms) {
+        const batchPerms = f.map(permsBySubject, function (perms) {
           const combinedPerms = f.object(
-            f.map(permissionTypes, function(key) {
+            f.map(permissionTypes, function (key) {
               // its mixed when not all perms for all resources are equal
               const hasPermsForAll = allPerms.length === perms.length
               const allEqual = f.all(f.map(perms, key), b => b === f.first(perms)[key])
@@ -66,12 +66,12 @@ module.exports = function(name, baseModel) {
       return {
         resource_ids: f.map(this.batchResources, 'uuid'),
         permissions: f.object(
-          f.map(permissionSubjects, function(key) {
+          f.map(permissionSubjects, function (key) {
             let list = key === 'public_permission' ? [data[key]] : data[key]
             list = f.compact(
-              f.map(list, function(permissions) {
+              f.map(list, function (permissions) {
                 // cleanup mixed:
-                const perms = f.mapValues(permissions, function(permission) {
+                const perms = f.mapValues(permissions, function (permission) {
                   if (permission === 'mixed') {
                     return undefined
                   } else {

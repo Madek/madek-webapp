@@ -44,9 +44,7 @@ module.exports = createReactClass({
                 <a className="strong" href={link}>
                   {section.is_beta && show_beta ? (
                     <em style={{ fontStyle: 'italic', fontWeight: 'normal' }}>Beta: </em>
-                  ) : (
-                    undefined
-                  )}
+                  ) : undefined}
                   {section.title}
                   {section.counter ? (
                     <span
@@ -54,16 +52,12 @@ module.exports = createReactClass({
                       id={`side-navigation-${section_id}-counter`}>
                       ({section.counter})
                     </span>
-                  ) : (
-                    undefined
-                  )}
+                  ) : undefined}
                 </a>
               </li>,
               section_id !== f.last(f.keys(sections)) ? (
                 <li key={section_id + 'key2'} className="separator mini" />
-              ) : (
-                undefined
-              )
+              ) : undefined
             ])
           })
         )}

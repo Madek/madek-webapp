@@ -117,9 +117,7 @@ module.exports = createReactClass({
         <div className="ui-container midtone rounded-bottom pal well">
           <MetaDataByListing list={listContexts} />
         </div>
-      ) : (
-        undefined
-      )
+      ) : undefined
     }
 
     return (

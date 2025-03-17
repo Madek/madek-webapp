@@ -66,7 +66,7 @@ module.exports = createReactClass({
                   <table className="borderless">
                     <tbody>
                       {f.compact(
-                        f.map(list, function(item) {
+                        f.map(list, function (item) {
                           const key = item[0]
                           const value = item[1]
                           const mod = item[2]
@@ -83,9 +83,7 @@ module.exports = createReactClass({
                     </tbody>
                   </table>
                 </div>
-              ) : (
-                undefined
-              )}
+              ) : undefined}
             </div>
           </div>
         ]

@@ -29,7 +29,7 @@ import Share from './Shared/Share.jsx'
 
 const WORKFLOW_STATES = { IN_PROGRESS: 'IN_PROGRESS', FINISHED: 'FINISHED' }
 
-const parseUrlState = function(location) {
+const parseUrlState = function (location) {
   const urlParts = f.slice(parseUrl(location).pathname.split('/'), 1)
   if (urlParts.length < 3) {
     return { action: 'show', argument: null }

@@ -20,9 +20,7 @@ module.exports = createReactClass({
           <span>
             <i className={`icon-${icon}`} />{' '}
           </span>
-        ) : (
-          undefined
-        )}
+        ) : undefined}
         {text}
       </a>
     )

@@ -103,13 +103,15 @@ module.exports = createReactClass({
       error: (model, err) => {
         this.setState({ saving: false, editing: true })
         alert(
-          `Error! ${(() => {
-            try {
-              return JSON.stringify((err != null ? err.body : undefined) || err, 0, 2)
-            } catch (error) {
-              // just silently fall back and alert an empty string. Mh.
-            }
-          })() || ''}`
+          `Error! ${
+            (() => {
+              try {
+                return JSON.stringify((err != null ? err.body : undefined) || err, 0, 2)
+              } catch (error) {
+                // just silently fall back and alert an empty string. Mh.
+              }
+            })() || ''
+          }`
         )
         return console.error(err)
       }
@@ -153,9 +155,7 @@ module.exports = createReactClass({
               currentUser={this.props.get.current_user}
             />
           </Modal>
-        ) : (
-          undefined
-        )}
+        ) : undefined}
         <ResourcePermissionsForm
           get={model}
           editing={editing}
@@ -203,9 +203,7 @@ var PermissionsOverview = createReactClass({
                   {t('permissions_transfer_responsibility_link')}
                 </a>
               </ul>
-            ) : (
-              undefined
-            )}
+            ) : undefined}
           </div>
         </div>
         {get.current_user ? (
@@ -224,9 +222,7 @@ var PermissionsOverview = createReactClass({
               ))}
             </ul>
           </div>
-        ) : (
-          undefined
-        )}
+        ) : undefined}
       </div>
     )
   }

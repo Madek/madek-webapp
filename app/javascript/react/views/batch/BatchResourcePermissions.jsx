@@ -99,7 +99,7 @@ module.exports = createReactClass({
         }),
         headers: { 'X-CSRF-Token': this.props.authToken }
       },
-      function(err, res, body) {
+      function (err, res, body) {
         if (err || res.statusCode > 400 || !body.forward_url) {
           alert(`Error ${res.statusCode}!`)
           return console.error(err || body)

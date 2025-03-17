@@ -4,9 +4,8 @@
  * Modified by Madek Project (https://madek.zhdk.ch)
  * Licensed under the Apache-2.0 license. */
 
-;(function() {
+;(function () {
   /* jshint eqnull: true*/
-  /* global require */
   'use strict'
   var videojs = null
   if (typeof window.videojs === 'undefined' && typeof require === 'function') {
@@ -15,7 +14,7 @@
     videojs = window.videojs
   }
 
-  ;(function(window, videojs) {
+  ;(function (window, videojs) {
     var defaults = {},
       videoJsResolutionSwitcher,
       currentResolution = {}, // stores current resolution
@@ -30,7 +29,7 @@
         return customSourcePicker(player, sources, label)
       }
       return player.src(
-        sources.map(function(src) {
+        sources.map(function (src) {
           return { src: src.src, type: src.type, res: src.res }
         })
       )
@@ -41,7 +40,7 @@
      */
     var MenuItem = videojs.getComponent('MenuItem')
     var ResolutionMenuItem = videojs.extend(MenuItem, {
-      constructor: function(player, options, onClickListener, label) {
+      constructor: function (player, options, onClickListener, label) {
         this.onClickListener = onClickListener
         this.label = label
         // Sets this.player_, this.options_ and initializes the component
@@ -58,13 +57,13 @@
           this.addClass('vjs-selected')
         }
       },
-      showAsLabel: function() {
+      showAsLabel: function () {
         // Change menu button label to the label of this item if the menu button label is provided
         if (this.label) {
           this.label.innerHTML = this.options_.label
         }
       },
-      onClick: function(customSourcePicker) {
+      onClick: function (customSourcePicker) {
         this.onClickListener(this)
         // Remember player state
         var currentTime = this.player_.currentTime()
@@ -102,7 +101,7 @@
         var player = this.player_
         var handlerTriggered = false
 
-        var handler = function() {
+        var handler = function () {
           if (handlerTriggered) return
           handlerTriggered = true
           player.currentTime(currentTime)
@@ -118,7 +117,7 @@
 
         // force trigger the change on next loop when not preloaded
         if (player.preload() === 'none')
-          setTimeout(function() {
+          setTimeout(function () {
             player.trigger(handleSeekEvent)
           }, 100)
       }
@@ -129,7 +128,7 @@
      */
     var MenuButton = videojs.getComponent('MenuButton')
     var ResolutionMenuButton = videojs.extend(MenuButton, {
-      constructor: function(player, options, settings, label) {
+      constructor: function (player, options, settings, label) {
         this.sources = options.sources
         this.label = label
         this.label.innerHTML = options.initialySelectedLabel
@@ -145,18 +144,18 @@
           this.el().appendChild(staticLabel)
         }
       },
-      createItems: function() {
+      createItems: function () {
         var menuItems = []
         var labels = (this.sources && this.sources.label) || {}
-        var onClickUnselectOthers = function(clickedItem) {
-          menuItems.map(function(item) {
+        var onClickUnselectOthers = function (clickedItem) {
+          menuItems.map(function (item) {
             item.selected(item === clickedItem)
             item.removeClass('vjs-selected')
           })
         }
 
         for (var key in labels) {
-          if (labels.hasOwnProperty(key)) {
+          if (Object.prototype.hasOwnProperty.call(labels, key)) {
             menuItems.push(
               new ResolutionMenuItem(
                 this.player_,
@@ -182,7 +181,7 @@
      * Initialize the plugin.
      * @param {object} [options] configuration for the plugin
      */
-    videoJsResolutionSwitcher = function(options) {
+    videoJsResolutionSwitcher = function (options) {
       var settings = videojs.mergeOptions(defaults, options),
         player = this,
         label = document.createElement('span'),
@@ -195,7 +194,7 @@
        * @param   {Array}  [src] array of sources [{src: '', type: '', label: '', res: ''}]
        * @returns {Object|String|Array} videojs player object if used as setter or current source URL, object, or array of sources
        */
-      player.updateSrc = function(src) {
+      player.updateSrc = function (src) {
         //Return current src if src is not given
         if (!src) {
           return player.src()
@@ -206,7 +205,7 @@
           delete player.controlBar.resolutionSwitcher
         }
         // read resolution from data attribute
-        src = src.map(function(source) {
+        src = src.map(function (source) {
           source.res = source['data-resolution']
           return source
         })
@@ -230,7 +229,7 @@
           menuButton.el_,
           player.controlBar.getChild('fullscreenToggle').el_
         )
-        player.controlBar.resolutionSwitcher.dispose = function() {
+        player.controlBar.resolutionSwitcher.dispose = function () {
           this.parentNode.removeChild(this)
         }
         return setSourcesSanitized(player, choosen.sources, choosen.label)
@@ -242,7 +241,7 @@
        * @param {Function} [customSourcePicker] custom function to choose source. Takes 3 arguments: player, sources, label. Must return player object.
        * @returns {Object}   current resolution object {label: '', sources: []} if used as getter or player object if used as setter
        */
-      player.currentResolution = function(label, customSourcePicker) {
+      player.currentResolution = function (label, customSourcePicker) {
         if (label == null) {
           return currentResolution
         }
@@ -256,7 +255,7 @@
        * Returns grouped sources by label, resolution and type
        * @returns {Object} grouped sources: { label: { key: [] }, res: { key: [] }, type: { key: [] } }
        */
-      player.getGroupedSrc = function() {
+      player.getGroupedSrc = function () {
         return groupedSrc
       }
 
@@ -284,7 +283,7 @@
           res: {},
           type: {}
         }
-        src.map(function(source) {
+        src.map(function (source) {
           initResolutionKey(resolutions, 'label', source)
           initResolutionKey(resolutions, 'res', source)
           initResolutionKey(resolutions, 'type', source)
@@ -334,12 +333,12 @@
         player.tech_.ytPlayer.setPlaybackQuality('default')
 
         // Capture events
-        player.tech_.ytPlayer.addEventListener('onPlaybackQualityChange', function() {
+        player.tech_.ytPlayer.addEventListener('onPlaybackQualityChange', function () {
           player.trigger('resolutionchange')
         })
 
         // We must wait for play event
-        player.one('play', function() {
+        player.one('play', function () {
           var qualities = player.tech_.ytPlayer.getAvailableQualityLevels()
           // Map youtube qualities names
           var _yts = {
@@ -355,7 +354,7 @@
 
           var _sources = []
 
-          qualities.map(function(q) {
+          qualities.map(function (q) {
             _sources.push({
               src: player.src().src,
               type: player.src().type,
@@ -368,7 +367,7 @@
           groupedSrc = bucketSources(_sources)
 
           // Overwrite defualt sourcePicer function
-          var _customSourcePicker = function(_player, _sources) {
+          var _customSourcePicker = function (_player, _sources) {
             player.tech_.ytPlayer.setPlaybackQuality(_sources[0]._yt)
             return player
           }
@@ -391,7 +390,7 @@
         })
       }
 
-      player.ready(function() {
+      player.ready(function () {
         if (player.options_.sources.length > 1) {
           // tech: Html5 and Flash
           // Create resolution switcher for videos form <source> tag inside <video>

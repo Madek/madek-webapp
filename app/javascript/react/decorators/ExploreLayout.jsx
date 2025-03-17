@@ -26,7 +26,7 @@ module.exports = createReactClass({
           <a className="strong" style={{ position: 'relative', top: '20px' }} href="/explore">{`\
 Zurück\
 `}</a>
-          {f.map(sections, function(section, index) {
+          {f.map(sections, function (section, index) {
             const list = []
             const separator = <hr key={`separator_${index}`} className="separator" />
             if (index > 0) {

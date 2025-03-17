@@ -163,7 +163,7 @@ module.exports = createReactClass({
   }
 })
 
-var MediaResourcesLine = function(param) {
+var MediaResourcesLine = function (param) {
   const { keyword } = param
   const resources = f.map(keyword.media_entries, 'sparse_props')
 

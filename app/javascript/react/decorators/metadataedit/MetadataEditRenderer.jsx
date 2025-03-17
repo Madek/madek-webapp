@@ -131,7 +131,7 @@ module.exports = {
 
     const style = { float: 'right', maxWidth: '195px' }
 
-    const _onChange = function(event) {
+    const _onChange = function (event) {
       event.preventDefault()
       return onChangeBatchAction(meta_key_id, event.target.value)
     }
@@ -182,9 +182,7 @@ module.exports = {
           <div className="ui-alerts" style={{ marginBottom: '10px' }}>
             <div className="error ui-alert">{error}</div>
           </div>
-        ) : (
-          undefined
-        )}
+        ) : undefined}
         {this._renderLabelByContext(meta_meta_data, context_key_id)}
         {batch
           ? this._renderBatchDropdown(
@@ -240,9 +238,7 @@ module.exports = {
           <div className="ui-alerts" style={{ marginBottom: '10px' }}>
             <div className="error ui-alert">{error}</div>
           </div>
-        ) : (
-          undefined
-        )}
+        ) : undefined}
         {this._renderLabelByVocabularies(meta_meta_data, meta_key_id)}
         {batch
           ? this._renderBatchDropdown(
@@ -269,7 +265,7 @@ module.exports = {
   _renderHiddenKeysByContext(meta_meta_data, currentContextId, batch, models, name) {
     const meta_key_ids_in_current_context = f.map(
       meta_meta_data.context_key_ids_by_context_id[currentContextId],
-      function(context_key_id) {
+      function (context_key_id) {
         return meta_meta_data.meta_key_id_by_context_key_id[context_key_id]
       }
     )
@@ -287,9 +283,9 @@ module.exports = {
       return (
         <div style={{ display: 'none' }} key={meta_key_id}>
           {batch
-            ? this._renderBatchDropdown(meta_meta_data, meta_key_id, name, model, function() {})
+            ? this._renderBatchDropdown(meta_meta_data, meta_key_id, name, model, function () {})
             : undefined}
-          {this._renderValueByContext(function() {}, name, null, metaKey, batch, model)}
+          {this._renderValueByContext(function () {}, name, null, metaKey, batch, model)}
         </div>
       )
     })
@@ -406,7 +402,7 @@ module.exports = {
   },
 
   _sortedVocabularies(meta_meta_data) {
-    return f.sortBy(f.values(meta_meta_data.vocabularies_by_vocabulary_id), function(vocabulary) {
+    return f.sortBy(f.values(meta_meta_data.vocabularies_by_vocabulary_id), function (vocabulary) {
       if (vocabulary.uuid === 'madek_core') {
         return -1
       } else {
@@ -533,9 +529,7 @@ module.exports = {
                       style={{ paddingRight: '10px', paddingLeft: '10px', fontWeight: 'normal' }}>
                       |
                     </span>
-                  ) : (
-                    undefined
-                  )
+                  ) : undefined
                 ]
               })
             ))
@@ -554,14 +548,7 @@ module.exports = {
 
     if (resource.media_file && resource.media_file.previews) {
       const { previews } = resource.media_file
-      href =
-        href ||
-        f
-          .chain(previews.images)
-          .sortBy('width')
-          .last()
-          .get('url')
-          .run()
+      href = href || f.chain(previews.images).sortBy('width').last().get('url').run()
     }
 
     const alt = ''
@@ -585,7 +572,7 @@ module.exports = {
               <div className="ui-thumbnail-image-wrapper">
                 {href ? (
                   <div className="ui-has-magnifier">
-                    <a href={href} target="_blank">
+                    <a href={href} target="_blank" rel="noreferrer">
                       <div className="ui-thumbnail-image-holder">
                         <div className="ui-thumbnail-table-image-holder">
                           <div className="ui-thumbnail-cell-image-holder">
@@ -598,7 +585,8 @@ module.exports = {
                       href={href}
                       target="_blank"
                       className="ui-magnifier"
-                      style={{ textDecoration: 'none' }}>
+                      style={{ textDecoration: 'none' }}
+                      rel="noreferrer">
                       <Icon i="magnifier" mods="bright" />
                     </a>
                   </div>
@@ -647,7 +635,7 @@ module.exports = {
     let tabUrl, nextCurrentTab, active
     return (
       <Tabs>
-        {f.map(meta_meta_data.meta_data_edit_context_ids, function(context_id) {
+        {f.map(meta_meta_data.meta_data_edit_context_ids, function (context_id) {
           const context = meta_meta_data.contexts_by_context_id[context_id]
           tabUrl = (() => {
             if (batch) {

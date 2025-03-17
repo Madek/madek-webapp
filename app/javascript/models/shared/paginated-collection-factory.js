@@ -11,7 +11,7 @@ import State from 'ampersand-state'
 import xhr from 'xhr'
 import setUrlParams from '../../lib/set-params-for-url.js'
 
-const getOrThrow = function(obj, key) {
+const getOrThrow = function (obj, key) {
   const val = f.get(obj, key)
   if (!f.present(val)) {
     throw new Error('Missing config! ' + key)
@@ -19,7 +19,7 @@ const getOrThrow = function(obj, key) {
   return val
 }
 
-module.exports = function(collectionClass, { jsonPath }) {
+module.exports = function (collectionClass, { jsonPath }) {
   return State.extend({
     collections: {
       resources: collectionClass

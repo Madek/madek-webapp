@@ -2,29 +2,29 @@ import __ from 'lodash'
 
 var nextId = 0
 
-var compactObject = function(o) {
+var compactObject = function (o) {
   return __.fromPairs(
     __.compact(
-      __.map(o, function(v, k) {
+      __.map(o, function (v, k) {
         return !v ? null : [k, v]
       })
     )
   )
 }
 
-var mergeStateAndEvents = function(state, events) {
+var mergeStateAndEvents = function (state, events) {
   var foundEvent = __.find(events, e => __.isEqual(e.path, state.path))
 
   return {
     id: state.id,
     data: state.data ? state.data : {},
     components: compactObject(
-      __.mapValues(state.components, function(component) {
+      __.mapValues(state.components, function (component) {
         if (!component) {
           return null
         }
         if (Array.isArray(component)) {
-          return __.map(component, function(indexedComponent) {
+          return __.map(component, function (indexedComponent) {
             return mergeStateAndEvents(indexedComponent, events)
           })
         } else {
@@ -56,7 +56,7 @@ var mergeStateAndEvents = function(state, events) {
  *
  * PS: I don't know why it's called "Redux" ;)
  */
-const mergeStateAndEventsRoot = function(state, events) {
+const mergeStateAndEventsRoot = function (state, events) {
   if (!state) {
     return null
   } else {
@@ -65,7 +65,7 @@ const mergeStateAndEventsRoot = function(state, events) {
 }
 
 module.exports = {
-  nextId: function() {
+  nextId: function () {
     var ret = nextId
     nextId++
     return ret

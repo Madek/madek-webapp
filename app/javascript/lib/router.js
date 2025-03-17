@@ -41,7 +41,7 @@ module.exports = {
     })
 
     // listener for page *navigation* - fn can check the new location if needed
-    history.listenBefore(function(location) {
+    history.listenBefore(function (location) {
       if (check(location)) {
         return msg
       }
@@ -50,7 +50,7 @@ module.exports = {
     // listener for page *leaving* (close/refresh/…)
     // NOTE: browsers show a default text in case of "leaving",
     // BUT anyhow want a non-empty string returned…
-    return history.listenBeforeUnload(function() {
+    return history.listenBeforeUnload(function () {
       if (check()) {
         return msg
       }

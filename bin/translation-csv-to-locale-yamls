@@ -22,10 +22,10 @@ const CONFIG = {
 const mergeTranslationsWithPresets = (locales, presetsDir) => {
   return f.map(locales, (item) => {
     let presetContent
-    try {
-      const presetFile = path.join(presetsDir, `${item.lang}.yml`)
-      presetContent = YAML.safeLoad(fs.readFileSync(presetFile).toString())
-    } catch (err) { throw new Error('Can not read locale YAML preset!', err) }
+    //try {
+    const presetFile = path.join(presetsDir, `${item.lang}.yml`)
+    presetContent = YAML.load(fs.readFileSync(presetFile).toString())
+    //} catch (err) { throw new Error('Can not read locale YAML preset!', err) }
 
     return f.extend(item, {
       mapping: f.merge(presetContent, f.set({}, item.lang, item.mapping))
@@ -37,10 +37,12 @@ const mergeTranslationsWithPresets = (locales, presetsDir) => {
 const writeToLocaleFiles = (locales, outputDir) => {
   f.each(locales, (item) => {
     const outputFile = path.join(outputDir, `${item.lang}.yml`)
-    const text = YAML.safeDump(item.mapping)
+    const text = YAML.dump(item.mapping)
     try {
       fs.outputFileSync(outputFile, text, 'utf8')
-    } catch (err) { throw new Error(`Can't write file '${outputFile}'!`, err) }
+    } catch (err) {
+      throw new Error(`Can't write file '${outputFile}'!`, err)
+    }
   })
 }
 

@@ -9,7 +9,7 @@ import { parse as parseUrl } from 'url'
 import { parse as parseQuery } from 'qs'
 import setUrlParams from './set-params-for-url.js'
 
-module.exports = function(url, usePathUrlReplacement) {
+module.exports = function (url, usePathUrlReplacement) {
   // The fallback url is used for search results if there are no
   // entries found but potentially sets.
   // If we are on a box which toggles between /entries and /sets,

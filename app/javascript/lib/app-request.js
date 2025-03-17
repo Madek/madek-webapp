@@ -23,7 +23,7 @@ const mergeHeaders = arrayOfHeaders =>
     .map(headers => f.object(f.map(headers, (v, k) => [k.toLowerCase(), v])))
     .reduce((headers, res) => f.merge(res, headers), {})
 
-module.exports = function(config, callback) {
+module.exports = function (config, callback) {
   let csrfHeader, sparsedUrl
   if (!f.isObject(config)) {
     throw new TypeError('No config!')
@@ -65,7 +65,7 @@ module.exports = function(config, callback) {
   )
 
   const request = callback =>
-    xhr(requestConfig, function(err, res, body) {
+    xhr(requestConfig, function (err, res, body) {
       // handle HTTP errors
       if (!err && res.statusCode >= 400) {
         let msg = `Error ${res.statusCode}!`

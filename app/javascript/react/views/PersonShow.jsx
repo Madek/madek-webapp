@@ -16,7 +16,7 @@ import libUrl from 'url'
 import f from 'active-lodash'
 import { decorateExternalURI } from '../../lib/URIAuthorityControl'
 
-const infotable = function(p) {
+const infotable = function (p) {
   const autority_links = f.filter(p.external_uris, 'authority_control.kind')
   const external_links = f.difference(p.external_uris, autority_links)
 
@@ -54,9 +54,7 @@ const PersonShow = createReactClass({
       <a href={get.actions.edit.url} className="primary-button">
         {t('person_show_edit_btn')}
       </a>
-    ) : (
-      undefined
-    )
+    ) : undefined
 
     return (
       <PageContent>
@@ -65,7 +63,7 @@ const PersonShow = createReactClass({
           <div className="ui-container pal">
             <table className="borderless">
               <tbody>
-                {f.map(infotable(get), function(...args) {
+                {f.map(infotable(get), function (...args) {
                   const [label, value] = Array.from(args[0]),
                     i = args[1]
                   if (isEmpty(value)) {
@@ -97,11 +95,11 @@ const PersonShow = createReactClass({
   }
 })
 
-var deco_external_uris = function(uris) {
+var deco_external_uris = function (uris) {
   uris = f.sortBy(uris, 'authority_control.kind')
   return (
     <ul className="list-unstyled">
-      {uris.map(function(uri, i) {
+      {uris.map(function (uri, i) {
         let label = uri.uri
         let badge = false
         if (f.get(uri, 'authority_control.kind')) {

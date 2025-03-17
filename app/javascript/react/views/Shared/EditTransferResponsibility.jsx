@@ -149,9 +149,7 @@ module.exports = createReactClass({
             <div className="ui-alerts" style={{ marginBottom: '10px' }}>
               <div className="error ui-alert">{this.state.errorMessage}</div>
             </div>
-          ) : (
-            undefined
-          )}
+          ) : undefined}
           {batch ? (
             <h2 className="title-l ui-info-box-title mbm">
               {interpolateSplit(t('transfer_responsibility_title_batch'), {
@@ -236,9 +234,7 @@ module.exports = createReactClass({
                     <td style={{ textAlign: 'center', border: '0px' }}>
                       {t('permission_name_get_full_size')}
                     </td>
-                  ) : (
-                    undefined
-                  )}
+                  ) : undefined}
                   <td style={{ textAlign: 'center', border: '0px' }}>
                     {resourceType === 'Collection'
                       ? t('permission_name_edit_metadata_and_relations')
@@ -266,9 +262,7 @@ module.exports = createReactClass({
                         onChange={event => this._onToggleCheckbox(2, event)}
                       />
                     </td>
-                  ) : (
-                    undefined
-                  )}
+                  ) : undefined}
                   <td style={{ textAlign: 'center', border: '0px' }}>
                     <input
                       type="checkbox"

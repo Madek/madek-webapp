@@ -71,9 +71,7 @@ module.exports = createReactClass({
           })}
         </ul>
       </div>
-    ) : (
-      undefined
-    )
+    ) : undefined
 
     return (
       <PageContentHeader
@@ -144,9 +142,7 @@ module.exports = createReactClass({
               })}
             </Menu>
           </Dropdown>
-        ) : (
-          undefined
-        )}
+        ) : undefined}
       </PageContentHeader>
     )
   }

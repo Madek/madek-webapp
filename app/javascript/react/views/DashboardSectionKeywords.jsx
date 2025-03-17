@@ -42,9 +42,7 @@ module.exports = createReactClass({
           <div className="ui-container pbh" style={{ paddingTop: '15px' }}>
             <TagCloud mod="label" list={keywords} />
           </div>
-        ) : (
-          undefined
-        )}
+        ) : undefined}
       </div>
     )
   }

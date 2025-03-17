@@ -1,4 +1,3 @@
-/* global APP_CONFIG */
 require('./env')
 
 //= depend_on 'translations.csv'

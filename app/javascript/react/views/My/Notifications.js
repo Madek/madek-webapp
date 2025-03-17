@@ -214,9 +214,8 @@ class MyNotifications extends React.Component {
 
   _updateNotifications(notifications) {
     this.setState({ notifications })
-    document.querySelector(
-      '#side-navigation-notifications-counter'
-    ).innerHTML = `(${notifications.length})`
+    document.querySelector('#side-navigation-notifications-counter').innerHTML =
+      `(${notifications.length})`
   }
 
   _acknowledge(id) {

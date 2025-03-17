@@ -6,7 +6,7 @@
 import xhr from 'xhr'
 import getRailsCSRFToken from './rails-csrf-token.js'
 
-module.exports = function(config, callback) {
+module.exports = function (config, callback) {
   let { url } = config
   let body = config.form.serialize()
   if (config.method === 'GET') {
@@ -25,7 +25,7 @@ module.exports = function(config, callback) {
         'X-CSRF-Token': getRailsCSRFToken()
       }
     },
-    function(err, res, body) {
+    function (err, res, body) {
       let data
       const errors = {
         headers: [],

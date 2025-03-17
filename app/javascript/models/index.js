@@ -10,7 +10,7 @@ const index = requireBulk(__dirname, ['*.js'])
 
 const Models = f.object(
   f.filter(
-    f.map(index, function(val, key) {
+    f.map(index, function (val, key) {
       if (!(key === 'index')) {
         return [f.capitalize(f.camelCase(key)), val]
       }

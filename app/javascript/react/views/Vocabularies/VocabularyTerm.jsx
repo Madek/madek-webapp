@@ -63,7 +63,7 @@ const VocabulariesShow = createReactClass({
           <div className="ui-container pal">
             <table className="borderless">
               <tbody>
-                {f.map(infotable(vocabulary, meta_key, keyword, contents_path), function(...args) {
+                {f.map(infotable(vocabulary, meta_key, keyword, contents_path), function (...args) {
                   const [label, value] = Array.from(args[0]),
                     i = args[1]
                   if (isEmpty(value)) {

@@ -165,7 +165,7 @@ module.exports = createReactClass({
 
 // helpers
 
-var prettifyJson = function(obj) {
+var prettifyJson = function (obj) {
   try {
     return JSON.stringify(obj, 0, 2)
   } catch (error) {

@@ -16,7 +16,8 @@ import { parse as parseUrl } from 'url'
 import { parse as parseQuery } from 'qs'
 import Button from '../ui-components/Button.jsx'
 import ButtonGroup from '../ui-components/ButtonGroup.jsx'
-import ResourcesBox, { boxSetUrlParams } from '../decorators/MediaResourcesBox.jsx'
+import MediaResourcesBox from '../decorators/MediaResourcesBox.jsx'
+import boxSetUrlParams from '../decorators/BoxSetUrlParams.jsx'
 
 const TYPES = ['entries', 'sets'] // see `typeBbtns`, types are defined there
 
@@ -75,7 +76,7 @@ module.exports = createReactClass({
     }
 
     return (
-      <ResourcesBox
+      <MediaResourcesBox
         {...Object.assign({}, props, {
           resourceTypeSwitcherConfig: { customRenderer: renderSwitcher }
         })}
@@ -84,7 +85,7 @@ module.exports = createReactClass({
   }
 })
 
-var urlByType = function(url, currentType, newType) {
+var urlByType = function (url, currentType, newType) {
   if (currentType === newType) {
     return url
   }

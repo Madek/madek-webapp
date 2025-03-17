@@ -26,7 +26,7 @@
   "dependencies": {
     "@eins78/typeahead.js": "0.11.2-pre.1",
     "@eins78/typopro-open-sans": "0.0.0",
-    "@prettier/plugin-ruby": "^0.15.0",
+    "@prettier/plugin-ruby": "^4.0.4",
     "active-lodash": "1.2.2",
     "ampersand-app": "2.0.0",
     "ampersand-model": "6.0.2",
@@ -76,13 +76,13 @@
     "browserify-incremental": "^3.1.1",
     "bulkify": "^1.4.2",
     "cheerio": "^0.22.0",
-    "eslint": "^4.19.1",
-    "eslint-config-prettier": "^2.7.0",
-    "eslint-plugin-prettier": "^2.3.1",
-    "eslint-plugin-react": "^7.4.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-react": "^7.37.4",
     "i18n-iso-countries": "^1.11.0",
-    "prettier": "^1.15.3",
-    "prettier-eslint": "^8.2.1",
+    "prettier": "^3.5.3",
+    "prettier-eslint": "^12.0.0",
     "watchify": "^4.0.0"
   },
   "browserify": {
@@ -117,7 +117,8 @@
     "semi": false,
     "trailingComma": "none",
     "bracketSpacing": true,
-    "jsxBracketSameLine": true
+    "jsxBracketSameLine": true,
+    "arrowParens": "avoid"
   },
   "eslintConfig": {
     "env": {
@@ -126,7 +127,7 @@
       "commonjs": true
     },
     "parserOptions": {
-      "ecmaVersion": 2016,
+      "ecmaVersion": 2022,
       "sourceType": "module",
       "ecmaFeatures": {
         "impliedStrict": true,
@@ -138,10 +139,14 @@
       "prettier",
       "react"
     ],
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    },
     "extends": [
       "eslint:recommended",
       "prettier",
-      "prettier/react",
       "plugin:react/recommended"
     ],
     "rules": {

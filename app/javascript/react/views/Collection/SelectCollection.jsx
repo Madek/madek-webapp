@@ -192,7 +192,7 @@ module.exports = createReactClass({
             if (this.state.searching) {
               return <Preloader style={{ marginTop: '20px' }} />
             } else if (hasResultEntries) {
-              return f.map(get.collection_rows, function(row) {
+              return f.map(get.collection_rows, function (row) {
                 const { collection } = row
                 const checked = row.contains_media_entry
                 return (

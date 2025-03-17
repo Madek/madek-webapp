@@ -15,7 +15,7 @@ import ui from '../../lib/ui.js'
 import $ from 'jquery'
 import { parse as parseUrl } from 'url'
 
-const checkForAuthToken = function({ method, authToken }) {
+const checkForAuthToken = function ({ method, authToken }) {
   const restMethod = (method || 'post').toLowerCase()
   const needsAuthToken = !(restMethod === 'get')
   if (!needsAuthToken) {
@@ -86,15 +86,11 @@ module.exports = createReactClass({
         <input name="utf8" type="hidden" value="✓" />
         {f.has(queryParams, 'lang') ? (
           <input name="lang" type="hidden" value={queryParams['lang']} />
-        ) : (
-          undefined
-        )}
+        ) : undefined}
         {emulateHTTP ? <input name="_method" type="hidden" value={restMethod} /> : undefined}
         {maybeAuthToken ? (
           <input name={authTokenParam} type="hidden" value={maybeAuthToken} />
-        ) : (
-          undefined
-        )}
+        ) : undefined}
         {children}
       </form>
     )

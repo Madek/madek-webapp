@@ -16,7 +16,7 @@ module.exports = createReactClass({
       <div className="app-body-sidebar bright ui-container table-cell bordered-right rounded-bottom-left table-side">
         <div className="ui-container rounded-left phm pvl">
           <ul className="ui-side-navigation">
-            {f.map(this.props.children, function(child, index) {
+            {f.map(this.props.children, function (child, index) {
               const list = []
               const separator = <li key={`separator_${index}`} className="separator mini" />
               if (index > 0) {

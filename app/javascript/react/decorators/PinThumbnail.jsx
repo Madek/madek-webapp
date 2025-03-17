@@ -146,9 +146,7 @@ module.exports = createReactClass({
                 className="icon-star"
                 style={{ position: 'absolute', padding: '7px', textShadow: starShadow }}
               />
-            ) : (
-              undefined
-            )}
+            ) : undefined}
             <ul className="ui-tile__actions left by-left">
               {f.map(actionsLeft, (action, index) => (
                 <li className="ui-tile__action" key={`action_left_${index}`}>

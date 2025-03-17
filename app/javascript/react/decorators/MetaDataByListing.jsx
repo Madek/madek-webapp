@@ -39,10 +39,8 @@ module.exports = createReactClass({
         {colums.map(row => [
           <div
             className="ui-container media-entry-metadata"
-            key={f(row)
-              .map('context.uuid')
-              .join()}>
-            {row.map(function(data) {
+            key={f(row).map('context.uuid').join()}>
+            {row.map(function (data) {
               const key = (data.context || data.vocabulary).uuid
               const vocabUrl = f.get(data, 'vocabulary.url', '')
               return (
@@ -58,9 +56,7 @@ module.exports = createReactClass({
             ) : (
               <div className="mvl" />
             )
-          ) : (
-            undefined
-          )
+          ) : undefined
         ])}
       </div>
     )

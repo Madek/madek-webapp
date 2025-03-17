@@ -7,7 +7,7 @@
 import classnames from 'classnames/dedupe'
 import i18nTranslate from '../../lib/i18n-translate.js'
 
-const parseModsfromProps = function(param) {
+const parseModsfromProps = function (param) {
   const { className, mods } = param
   return [mods, className]
 }

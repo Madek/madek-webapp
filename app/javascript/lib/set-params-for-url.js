@@ -18,7 +18,7 @@ const formatQuery = obj =>
 // setUrlParams('/foo?foo=1&bar[baz]=2', {bar: {baz: 3}}, …)
 // setUrlParams({path: '/foo', query: {foo: 1, bar: {baz: 2}}, {bar: {baz: 3}}, …)
 // >>> '/foo?foo=1&bar[baz]=3'
-module.exports = function(currentUrl, ...params) {
+module.exports = function (currentUrl, ...params) {
   if (currentUrl == null) {
     currentUrl = ''
   }
@@ -27,12 +27,17 @@ module.exports = function(currentUrl, ...params) {
     merge(url, {
       path: null,
       pathname: url.pathname || url.path,
-      search: formatQuery(merge(parseQuery(url.query), reduce(params, (a, b) => merge(a, b))))
+      search: formatQuery(
+        merge(
+          parseQuery(url.query),
+          reduce(params, (a, b) => merge(a, b))
+        )
+      )
     })
   )
 }
 
-var urlFromStringOrObject = function(url) {
+var urlFromStringOrObject = function (url) {
   // NOTE: `path` must only be used if no `pathname` is given!
   switch (false) {
     case !isObject(url) || (!isString(url.path) && !isString(url.pathname)):

@@ -26,13 +26,13 @@ const PEOPLE_SUBTYPES = ['Person', 'PeopleGroup', 'PeopleInstitutionalGroup']
 const MadekPropTypes = (M = {})
 
 // Basics
-M.uuid = function(props, propName) {
+M.uuid = function (props, propName) {
   if (!validateUUID(props[propName], 4)) {
     return new Error('Malformed uuid!')
   }
 }
 
-M.metaKeyId = function(props, propName) {
+M.metaKeyId = function (props, propName) {
   if (!MKEY_REGEX.test(props[propName])) {
     return new Error('Malformed metaKeyId!')
   }

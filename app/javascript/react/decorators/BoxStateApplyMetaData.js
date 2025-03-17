@@ -86,13 +86,16 @@ var applyResourceMetaData = ({ batchComponent, trigger, resource, formData }) =>
 
   var metaData = () => {
     return l.fromPairs(
-      l.map(l.filter(formData, fd => l.includes(fd.props.metaKey.scope, mapScope())), fd => [
-        fd.props.metaKeyId,
-        {
-          values: formToData(fd),
-          options: fd.data.option ? { action: fd.data.option } : null
-        }
-      ])
+      l.map(
+        l.filter(formData, fd => l.includes(fd.props.metaKey.scope, mapScope())),
+        fd => [
+          fd.props.metaKeyId,
+          {
+            values: formToData(fd),
+            options: fd.data.option ? { action: fd.data.option } : null
+          }
+        ]
+      )
     )
   }
 
@@ -148,7 +151,10 @@ var applyResourceMetaData = ({ batchComponent, trigger, resource, formData }) =>
             if (!fd) {
               return null
             } else {
-              return l.join(l.map(fd.data.keywords, k => k.label), '; ')
+              return l.join(
+                l.map(fd.data.keywords, k => k.label),
+                '; '
+              )
             }
           }
           return {

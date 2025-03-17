@@ -15,7 +15,7 @@ var translationsCSVText = require('fs').readFileSync(
 // parses CSV and returns list like: [{lang: 'en', mapping: {key: 'value'}}, …]
 var translationsList = parseTranslationsFromCSV(translationsCSVText)
 var translations = f.zipObject(
-  f.map(translationsList, function(item) {
+  f.map(translationsList, function (item) {
     return [item.lang, item.mapping]
   })
 )

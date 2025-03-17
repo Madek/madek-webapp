@@ -163,7 +163,7 @@ var WebappSignoutButton = ({ url, method, authToken }) => (
   />
 )
 
-var MenuItemButton = function({ action, method, icon, title, authToken }) {
+var MenuItemButton = function ({ action, method, icon, title, authToken }) {
   // NOTE: needed style fixes for putting form in menu
   const styleFix = { width: '100%', textAlign: 'left', paddingLeft: '7px' }
 

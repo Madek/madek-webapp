@@ -21,7 +21,7 @@ module.exports = {
           'X-CSRF-Token': getRailsCSRFToken()
         }
       },
-      function(err, res, body) {
+      function (err, res, body) {
         if (err) {
           callback({
             result: 'error',

@@ -28,7 +28,7 @@ const infotable = (group, members, vocabulary_permissions) =>
     vocabulary_permissions
       ? [
           t('group_show_vocabulary_permissions'),
-          f.map(vocabulary_permissions, function(permissions) {
+          f.map(vocabulary_permissions, function (permissions) {
             const { url } = permissions.vocabulary
             const { label } = permissions.vocabulary
             const rights = (() => {
@@ -69,9 +69,7 @@ const GroupShow = createReactClass({
       <a href={get.group.edit_url} className="primary-button">
         {t('group_show_edit_button')}
       </a>
-    ) : (
-      undefined
-    )
+    ) : undefined
 
     return (
       <PageContent>
@@ -80,22 +78,23 @@ const GroupShow = createReactClass({
           <div className="ui-container pal">
             <table className="borderless">
               <tbody>
-                {f.map(infotable(group, get.members, get.vocabulary_permissions), function(
-                  ...args
-                ) {
-                  const [label, value] = Array.from(args[0]),
-                    i = args[1]
-                  if (isEmpty(value)) {
-                    return null
-                  } else {
-                    return (
-                      <tr key={label + i}>
-                        <td className="ui-summary-label">{label}</td>
-                        <td className="ui-summary-content">{value}</td>
-                      </tr>
-                    )
+                {f.map(
+                  infotable(group, get.members, get.vocabulary_permissions),
+                  function (...args) {
+                    const [label, value] = Array.from(args[0]),
+                      i = args[1]
+                    if (isEmpty(value)) {
+                      return null
+                    } else {
+                      return (
+                        <tr key={label + i}>
+                          <td className="ui-summary-label">{label}</td>
+                          <td className="ui-summary-content">{value}</td>
+                        </tr>
+                      )
+                    }
                   }
-                })}
+                )}
               </tbody>
             </table>
           </div>

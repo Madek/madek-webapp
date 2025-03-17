@@ -161,7 +161,7 @@ module.exports = createReactClass({
         childrenCount = childRelations.pagination.total_count
 
         if (childrenCount > 0) {
-          childThumbs = f.get(childRelations, 'resources').map(function(item) {
+          childThumbs = f.get(childRelations, 'resources').map(function (item) {
             let classes = 'ui-thumbnail-level-item media_set set odd'
             if (item.type === 'MediaEntry') {
               classes = 'ui-thumbnail-level-item media_entry image odd'

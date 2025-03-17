@@ -15,7 +15,7 @@ import qs from 'qs'
 import Button from '../ui-components/Button.jsx'
 import ButtonGroup from '../ui-components/ButtonGroup.jsx'
 
-const resourceTypeSwitcher = function(forUrl, defaultType, showAll, onClick) {
+const resourceTypeSwitcher = function (forUrl, defaultType, showAll, onClick) {
   const currentType = qs.parse(libUrl.parse(forUrl).query).type || defaultType
   const typeBbtns = f.compact([
     showAll ? { key: 'all', name: t('resources_type_all') } : undefined,
@@ -51,7 +51,7 @@ const resourceTypeSwitcher = function(forUrl, defaultType, showAll, onClick) {
   )
 }
 
-var urlByType = function(url, currentType, newType) {
+var urlByType = function (url, currentType, newType) {
   if (currentType === newType) {
     return url
   }

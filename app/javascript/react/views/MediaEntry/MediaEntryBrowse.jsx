@@ -41,7 +41,7 @@ module.exports = createReactClass({
   }
 })
 
-var SideBarContent = function({ get, authToken }) {
+var SideBarContent = function ({ get, authToken }) {
   let entry, summaryContext
   return (
     ({ entry } = get),

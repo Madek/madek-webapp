@@ -18,7 +18,7 @@ module.exports = (config, callback) =>
         'X-CSRF-Token': getRailsCSRFToken()
       }
     },
-    function(err, res) {
+    function (err, res) {
       let error = null
       if (err) {
         console.error('Connection problem.', err)

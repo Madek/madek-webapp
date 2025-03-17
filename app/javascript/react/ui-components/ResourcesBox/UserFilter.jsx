@@ -56,7 +56,10 @@ module.exports = createReactClass({
                 )
               )
             } else {
-              return f.sortBy(f.filter(this.props.node.children, user => !user.selected), 'label')
+              return f.sortBy(
+                f.filter(this.props.node.children, user => !user.selected),
+                'label'
+              )
             }
           })()
 
@@ -69,7 +72,7 @@ module.exports = createReactClass({
       return this.props.userChanged(value, 'add')
     }
 
-    return typeahead.on('typeahead:select typeahead:autocomplete', function(event, item) {
+    return typeahead.on('typeahead:select typeahead:autocomplete', function (event, item) {
       event.preventDefault()
       jNode.typeahead('val', '')
       return onSelect(item)
@@ -110,9 +113,7 @@ module.exports = createReactClass({
               selected.label,
               selected.label ? (
                 <span className="ui-lvl3-item-count">{selected.count}</span>
-              ) : (
-                undefined
-              )
+              ) : undefined
             )
           )
         )}

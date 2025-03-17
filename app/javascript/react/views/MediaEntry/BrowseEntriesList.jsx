@@ -35,27 +35,27 @@ module.exports = createReactClass({
     }
 
     // main view
-    const keyword_clusters = f.map(browse.entry_ids_by_shared_keywords, function({
-      keyword_ids,
-      entry_ids
-    }) {
-      const keywords = keyword_ids.map(function(id) {
-        const kw = browse.keywords_by_id[id]
-        const mk = browse.meta_keys_by_id[kw.meta_key_id]
-        const voc = browse.vocabularies_by_id[mk.vocabulary_id]
-        return f.assign({}, kw, { metaKey: f.assign({}, mk, { vocabulary: voc }) })
-      })
-      const keywordsGrouped = f.values(f.groupBy(keywords, 'meta_key_id'))
-      const keywordsSorted = f.sortBy(
-        f.sortBy(keywordsGrouped, '0.metaKey.position'),
-        '0.metaKey.vocabulary.position'
-      )
+    const keyword_clusters = f.map(
+      browse.entry_ids_by_shared_keywords,
+      function ({ keyword_ids, entry_ids }) {
+        const keywords = keyword_ids.map(function (id) {
+          const kw = browse.keywords_by_id[id]
+          const mk = browse.meta_keys_by_id[kw.meta_key_id]
+          const voc = browse.vocabularies_by_id[mk.vocabulary_id]
+          return f.assign({}, kw, { metaKey: f.assign({}, mk, { vocabulary: voc }) })
+        })
+        const keywordsGrouped = f.values(f.groupBy(keywords, 'meta_key_id'))
+        const keywordsSorted = f.sortBy(
+          f.sortBy(keywordsGrouped, '0.metaKey.position'),
+          '0.metaKey.vocabulary.position'
+        )
 
-      return {
-        entries: entry_ids.map(id => browse.entries_by_id[id]),
-        keywordsByMetaKey: keywordsSorted
+        return {
+          entries: entry_ids.map(id => browse.entries_by_id[id]),
+          keywordsByMetaKey: keywordsSorted
+        }
       }
-    })
+    )
 
     return (
       <div data-ui-entry-browse-list={true}>
@@ -69,7 +69,7 @@ module.exports = createReactClass({
                 resources={entries}
                 authToken={authToken}
                 key={f.get(entries, '0.uuid')}>
-                {f.map(keywordsByMetaKey, function(keywords) {
+                {f.map(keywordsByMetaKey, function (keywords) {
                   const metaKey = f.get(keywords, '0.metaKey')
 
                   return (

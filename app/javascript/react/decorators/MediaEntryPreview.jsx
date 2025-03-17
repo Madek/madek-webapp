@@ -38,12 +38,7 @@ module.exports = createReactClass({
     // get the largest image and use it as 'full size link'
     // NOTE: we want this link even if the file is the same,
     // for consistency and bc it's easier for users…
-    const imageHref = f
-      .chain(previews.images)
-      .sortBy('width')
-      .last()
-      .get('url')
-      .run()
+    const imageHref = f.chain(previews.images).sortBy('width').last().get('url').run()
 
     // just the picure element (might be wrapped)
     // prefer the given image_url, but fallback to largest

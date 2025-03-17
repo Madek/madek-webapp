@@ -39,9 +39,7 @@ module.exports = createReactClass({
           <div className="form-item-add">
             <InputFieldText name={name} />
           </div>
-        ) : (
-          undefined
-        )}
+        ) : undefined}
         {this.props.subForms}
       </div>
     )

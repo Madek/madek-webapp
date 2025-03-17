@@ -80,9 +80,7 @@ module.exports = createReactClass({
       <div className="ui-alerts" key="alerts">
         <p className="ui-alert error">{error}</p>
       </div>
-    ) : (
-      undefined
-    )
+    ) : undefined
 
     return (
       <RailsForm
@@ -112,9 +110,7 @@ module.exports = createReactClass({
               {t('collection_new_dialog_parent_warning')}
               <code style={{ display: 'block' }}>{get.parent_collection_title}</code>
             </div>
-          ) : (
-            undefined
-          )}
+          ) : undefined}
           {this.state.saving ? (
             <Preloader />
           ) : (

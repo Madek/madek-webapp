@@ -6,7 +6,7 @@
 import f from 'active-lodash'
 import MediaEntry from '../models/media-entry.js'
 
-module.exports = function(data, callback) {
+module.exports = function (data, callback) {
   const entry = new MediaEntry({ url: data.entry })
 
   return entry.fetch({

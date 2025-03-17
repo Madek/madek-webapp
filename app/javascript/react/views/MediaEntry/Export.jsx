@@ -40,7 +40,8 @@ module.exports = createReactClass({
         <a
           href={forceDownload(get.media_file.original_file_url)}
           target="_blank"
-          className="primary-button">
+          className="primary-button"
+          rel="noreferrer">
           {t('media_entry_export_download')}
         </a>
       </div>
@@ -67,11 +68,15 @@ module.exports = createReactClass({
                 </td>
                 <td style={{ textAlign: 'right' }}>
                   {!!plain_text_url && (
-                    <a href={plain_text_url} target="_blank" className="primary-button">
+                    <a
+                      href={plain_text_url}
+                      target="_blank"
+                      className="primary-button"
+                      rel="noreferrer">
                       <i className="icon-eye" />
                     </a>
                   )}{' '}
-                  <a href={url} target="_blank" className="primary-button">
+                  <a href={url} target="_blank" className="primary-button" rel="noreferrer">
                     <i className="icon-dload" />
                   </a>
                 </td>
@@ -100,9 +105,7 @@ module.exports = createReactClass({
             <div className="ui-export-block" id="original-meta-data">
               {t('media_entry_export_no_content')}
             </div>
-          ) : (
-            undefined
-          )}
+          ) : undefined}
           {hasNeither === false ? (
             <div className="ui-export-block" id="original-meta-data">
               <h2 className="title-l ui-resource-title mbs">{t('media_entry_export_original')}</h2>
@@ -114,9 +117,7 @@ module.exports = createReactClass({
                 </div>
               )}
             </div>
-          ) : (
-            undefined
-          )}
+          ) : undefined}
           {hasPreviews
             ? f.map(get.media_file.previews, (preview, type) => (
                 <div key={type} className="align-left bg-light mbm pbs">
@@ -145,7 +146,8 @@ module.exports = createReactClass({
                               href={forceDownload(image.url)}
                               target="_blank"
                               className="primary-button"
-                              style={{ float: 'right' }}>
+                              style={{ float: 'right' }}
+                              rel="noreferrer">
                               <i className="icon-dload" />
                             </a>
                           </td>

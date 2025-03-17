@@ -91,9 +91,7 @@ const SelectCollectionFooter = createReactClass({
             </div>
             <hr className="separator" style={{ marginBottom: '20px' }} />
           </div>
-        ) : (
-          undefined
-        )}
+        ) : undefined}
         <div className="ui-actions">
           <a href={cancelUrl} className={className} onClick={onCancel}>
             {t('resource_select_collection_cancel')}
@@ -102,9 +100,7 @@ const SelectCollectionFooter = createReactClass({
             <Button className="primary-button" type="submit">
               {t('resource_select_collection_save')}
             </Button>
-          ) : (
-            undefined
-          )}
+          ) : undefined}
         </div>
       </div>
     )

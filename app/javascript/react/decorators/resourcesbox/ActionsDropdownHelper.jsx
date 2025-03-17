@@ -6,7 +6,7 @@
 import f from 'active-lodash'
 import SelectionScope from '../../../lib/selection-scope.js'
 
-const showActionsConfig = function(parameters) {
+const showActionsConfig = function (parameters) {
   const {
     withActions,
     selection,
@@ -38,7 +38,7 @@ const showActionsConfig = function(parameters) {
   return showActions
 }
 
-const highlightingRules = function(item, isSelected) {
+const highlightingRules = function (item, isSelected) {
   const highlighting_rules = [
     {
       hoverMenuId: 'media_entries_edit_all',
@@ -171,7 +171,7 @@ const highlightingRules = function(item, isSelected) {
   return highlighting_rules
 }
 
-const isResourceNotInScope = function(item, isSelected, hoverMenuId) {
+const isResourceNotInScope = function (item, isSelected, hoverMenuId) {
   const found_rules = f.filter(highlightingRules(item, isSelected), { hoverMenuId })
   return !f.isEmpty(found_rules) && f.first(found_rules).rule() === true
 }

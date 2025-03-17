@@ -44,7 +44,7 @@ module.exports = createReactClass({
       <ul
         className={baseClass}
         style={f.includes(mods, 'inline') ? { display: 'inline-block' } : {}}>
-        {list.map(function(listItem) {
+        {list.map(function (listItem) {
           const props = f.merge(f.omit(param, 'list'), listItem)
           const { count, children, mod, tag } = props
           const linkProps = f.merge(f.pick(props, 'href', 'disabled', 'onClick'), {

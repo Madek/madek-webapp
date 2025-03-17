@@ -84,7 +84,7 @@ var HighlightedContent = createReactClass({
           .chain(images)
           .values()
           .uniq('url')
-          .map(function({ url, width }) {
+          .map(function ({ url, width }) {
             if (url && width) {
               return `${url} ${width}w`
             }

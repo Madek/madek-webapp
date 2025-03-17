@@ -41,9 +41,7 @@ module.exports = createReactClass({
                   {counts.all_resources - counts.authorized_resources}
                   {t('meta_data_batch_some_ignored_2')}
                 </span>
-              ) : (
-                undefined
-              )}
+              ) : undefined}
             </h2>
           </div>
           <div style={{ overflow: 'hidden' }} className="ui-resources-media">

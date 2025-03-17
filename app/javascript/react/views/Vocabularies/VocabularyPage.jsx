@@ -70,7 +70,7 @@ module.exports = createReactClass({
       <PageContent>
         <PageHeader title={label} icon="tags" actions={headerActions} />
         <Tabs>
-          {f.map(this._tabsConfig(actions), function(tab) {
+          {f.map(this._tabsConfig(actions), function (tab) {
             if (tab.visible || tab.path === currentPath) {
               return (
                 <Tab

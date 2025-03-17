@@ -23,7 +23,7 @@ module.exports = createReactClass({
       param = this.props
     }
     const { privacyStatus, iconClass } = param
-    const privacyIcon = (function(status) {
+    const privacyIcon = (function (status) {
       const iconMapping = { public: 'open', private: 'private', shared: 'group' }
       const iconName = `privacy-${iconMapping[status]}`
       return <Icon i={iconName} title={privacyStatus} className={iconClass} />

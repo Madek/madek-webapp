@@ -103,7 +103,7 @@ const initTypeahead = (
 
   const $input = jQuery(domNode)
   const typeahead = $input.typeahead(typeaheadConfig, ...dataSets)
-  typeahead.on('typeahead:render', function() {
+  typeahead.on('typeahead:render', function () {
     const container = jQuery(this).closest('.ui-autocomplete-holder')
     container.find('.tt-dataset-CompoundSearch').remove()
 

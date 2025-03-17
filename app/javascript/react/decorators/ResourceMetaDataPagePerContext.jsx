@@ -125,7 +125,7 @@ module.exports = createReactClass({
     f.each(models, model => (model.originalValues = f.map(model.values, value => value)))
 
     if (diff) {
-      f.each(models, function(model, meta_key_id) {
+      f.each(models, function (model, meta_key_id) {
         if (!diff[meta_key_id].all_equal) {
           model.originalValues = []
           return (model.values = [])
@@ -434,9 +434,7 @@ There are no contexts defined. Please configure them in the admin tool.\
               {t('meta_data_form_saving')}
             </div>
           </Modal>
-        ) : (
-          undefined
-        )}
+        ) : undefined}
         <PageContentHeader icon="pen" title={this._title(get)} />
         {this.props.batch ? (
           <ResourcesBatchBox
@@ -445,9 +443,7 @@ There are no contexts defined. Please configure them in the admin tool.\
             resources={get.resources.resources}
             authToken={authToken}
           />
-        ) : (
-          undefined
-        )}
+        ) : undefined}
         {Renderer._renderTabs(
           this.props.get.meta_meta_data,
           this.props.batch,
@@ -485,18 +481,14 @@ There are no contexts defined. Please configure them in the admin tool.\
                     <div className="ui-alerts" style={{ marginBottom: '10px' }}>
                       <div className="error ui-alert">{this.state.systemError}</div>
                     </div>
-                  ) : (
-                    undefined
-                  )}
+                  ) : undefined}
                   {this.state.errors && f.keys(this.state.errors).length > 0 ? (
                     <div className="ui-alerts" style={{ marginBottom: '10px' }}>
                       <div className="error ui-alert">
                         {t('resource_meta_data_has_validation_errors')}
                       </div>
                     </div>
-                  ) : (
-                    undefined
-                  )}
+                  ) : undefined}
                   <div className="form-body">
                     {this.props.batch && !get.collection_id
                       ? f.map(get.batch_ids, id => (

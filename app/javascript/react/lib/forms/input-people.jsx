@@ -6,16 +6,8 @@ import jQuery from 'jquery'
 const autoCompleteSuggestionRenderer = person => {
   return jQuery('<div>')
     .addClass('ui-autocomplete__person-suggestion')
-    .append(
-      jQuery('<div>')
-        .addClass('ui-autocomplete__person-suggestion__col1')
-        .text(person.name)
-    )
-    .append(
-      jQuery('<div>')
-        .addClass('ui-autocomplete__person-suggestion__col2')
-        .text(person.info)
-    )
+    .append(jQuery('<div>').addClass('ui-autocomplete__person-suggestion__col1').text(person.name))
+    .append(jQuery('<div>').addClass('ui-autocomplete__person-suggestion__col2').text(person.info))
 }
 
 module.exports = createReactClass({

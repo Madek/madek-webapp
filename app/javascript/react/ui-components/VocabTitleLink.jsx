@@ -28,9 +28,7 @@ module.exports = createReactClass({
           <a href={href} style={{ textDecoration: 'none' }}>
             <Icon i="link" />
           </a>
-        ) : (
-          undefined
-        )}
+        ) : undefined}
       </H>
     )
   }

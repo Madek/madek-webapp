@@ -35,7 +35,7 @@ const decorators = {
   }
 }
 
-module.exports = function(o) {
+module.exports = function (o) {
   let decorate
   if (!f.isObject(o) || !f.isFunction((decorate = decorators[o.type]))) {
     throw new Error(
@@ -46,7 +46,7 @@ module.exports = function(o) {
   return decorate(...arguments)
 }
 
-var buildPersonName = function(o, withRole) {
+var buildPersonName = function (o, withRole) {
   const fullName = f.any([o.first_name, o.last_name], f.present)
     ? f.trim(`${o.first_name || ''} ${o.last_name || ''}`)
     : undefined

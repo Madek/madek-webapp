@@ -1,5 +1,3 @@
-var _this = this
-
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -8,8 +6,7 @@ var _this = this
  * DS208: Avoid top-level this
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-import React from 'react'
-import createReactClass from 'create-react-class'
+import React, { Component } from 'react'
 
 import urlModule from 'url'
 import localLinks from 'local-links'
@@ -64,17 +61,17 @@ import BatchEditTitleModal from './BatchEditTitleModal.jsx'
 // - props.get.filter = the currently active filter
 // - props.get.config.show_filter = if the filterBar should be shown
 
-const getLocalLink = function(event) {
+const getLocalLink = function (event) {
   return localLinks.pathname(event)
 }
 
-const routerGoto = function(path) {
+const routerGoto = function (path) {
   const history = useBeforeUnload(History)()
   const url = urlModule.parse(path)
   return history.push(url ? url.path : undefined)
 }
 
-const isNewTab = function(event) {
+const isNewTab = function (event) {
   if (localLinks.pathname(event)) {
     return false
   } else {
@@ -82,65 +79,59 @@ const isNewTab = function(event) {
   }
 }
 
-module.exports = createReactClass({
-  displayName: 'MediaResourcesBox',
-  propTypes: require('./BoxPropTypes.js').propTypes(),
+class MediaResourcesBox extends Component {
+  static defaultProps = { fallback: true }
 
-  getDefaultProps() {
-    return { fallback: true }
-  },
-
-  // kick of client-side mode:
-  getInitialState() {
-    return {
+  constructor(props) {
+    super(props)
+    this.state = {
       isClient: false,
       clipboardModal: 'hidden',
       batchAddToSet: false,
       batchRemoveFromSet: false,
       batchEditTitleResourceIds: undefined,
-      savedLayout: this.props.collectionData ? this.props.collectionData.layout : undefined,
-      savedOrder: this.props.collectionData ? this.props.collectionData.order : undefined,
-      savedContextId: f.get(this.props, 'collectionData.defaultContextId'),
+      savedLayout: props.collectionData ? props.collectionData.layout : undefined,
+      savedOrder: props.collectionData ? props.collectionData.order : undefined,
+      savedContextId: f.get(props, 'collectionData.defaultContextId'),
       savedResourceType:
-        this.props.collectionData != null
-          ? this.props.collectionData.defaultResourceType
-          : undefined,
+        props.collectionData != null ? props.collectionData.defaultResourceType : undefined,
       showBatchTransferResponsibility: false,
       batchTransferResponsibilityResources: [],
       batchDestroyResourcesModal: false,
       batchDestroyResourcesWaiting: false,
       showSelectionLimit: false,
-      boxState: this.initialBoxState({}),
+      boxState: this.initialBoxState(props),
       showCreateCollectionModal: false
     }
-  },
 
-  doOnUnmount: [], // to be filled with functions to be called on unmount
+    this.doOnUnmount = [] // to be filled with functions to be called on unmount
+    this.requestId = Math.random()
+  }
+
   componentWillUnmount() {
-    return f.each(f.compact(this.doOnUnmount), function(fn) {
+    return f.each(f.compact(this.doOnUnmount), function (fn) {
       if (f.isFunction(fn)) {
         return fn()
       } else {
         return console.error('Not a Function!', fn)
       }
     })
-  },
+  }
 
-  initialBoxState() {
-    const props = { get: this.props.get }
-
+  initialBoxState = props => {
     return BoxState({
       event: {},
       trigger: this.triggerComponentEvent,
       initial: true,
       components: {},
       data: {},
-      nextProps: props,
+      nextProps: { get: props.get },
       path: []
     })
-  },
+  }
 
-  nextBoxState(events) {
+  nextBoxState = events => {
+    //console.log('nextBoxState', events.length, events[0].path, events[0].event)
     const merged = BoxRedux.mergeStateAndEventsRoot(this.state.boxState, events)
 
     const props = {
@@ -159,78 +150,62 @@ module.exports = createReactClass({
       path: []
     })
 
-    return this.setState({ boxState })
-  },
+    this.setState({ boxState })
+  }
 
-  triggetRootEvent(event) {
+  triggerRootEvent = event => {
     const events = [
       {
         path: [],
         event
       }
     ]
-    return this.nextBoxState(events)
-  },
+    this.nextBoxState(events)
+  }
 
-  triggerComponentEvent(component, event) {
+  triggerComponentEvent = (component, event) => {
     const events = [
       {
         path: component.path,
         event
       }
     ]
-    return this.nextBoxState(events)
-  },
+    this.nextBoxState(events)
+  }
 
-  onBatchButton() {
-    return this.triggerComponentEvent(this.state.boxState.components.batch, { action: 'toggle' })
-  },
+  onBatchButton = () => {
+    this.triggerComponentEvent(this.state.boxState.components.batch, { action: 'toggle' })
+  }
 
-  onClickKey(event, metaKeyId, contextKey) {
-    return this.triggerComponentEvent(this.state.boxState.components.batch, {
+  onClickKey = (event, metaKeyId, contextKey) => {
+    this.triggerComponentEvent(this.state.boxState.components.batch, {
       action: 'select-key',
       metaKeyId,
       contextKey
     })
-  },
+  }
 
-  onClickApplyAll() {
-    const events = [
-      {
-        path: [],
-        event: {
-          action: 'apply'
-        }
-      }
-    ]
-    return this.nextBoxState(events)
-  },
+  onClickApplyAll = () => {
+    this.triggerRootEvent({ action: 'apply' })
+  }
 
-  onClickApplySelected() {
-    const events = [
-      {
-        path: [],
-        event: {
-          action: 'apply-selected'
-        }
-      }
-    ]
-    return this.nextBoxState(events)
-  },
+  onClickApplySelected = () => {
+    this.triggerRootEvent({ action: 'apply-selected' })
+  }
 
-  onClickCancel() {
-    return this.triggetRootEvent({ action: 'cancel-all' })
-  },
+  onClickCancel = () => {
+    this.triggerRootEvent({ action: 'cancel-all' })
+  }
 
-  onClickIgnore() {
-    return this.triggetRootEvent({ action: 'ignore-all' })
-  },
+  onClickIgnore = () => {
+    this.triggerRootEvent({ action: 'ignore-all' })
+  }
 
-  getResources() {
+  getResources = () => {
     return f.map(this.state.boxState.components.resources, r => r.data.resource)
-  },
+  }
 
-  getJsonPath() {
+  getJsonPath = () => {
     if (this.props.get.json_path) {
       return this.props.get.json_path
     }
@@ -271,15 +246,13 @@ module.exports = createReactClass({
     } else if (this.props.get.type === 'Collections') {
       return 'resources'
     }
-  },
+  }
 
-  requestId: Math.random(),
+  fetchListData = () => {
+    return this.triggerRootEvent({ action: 'fetch-list-data' })
+  }
 
-  fetchListData() {
-    return this.triggetRootEvent({ action: 'fetch-list-data' })
-  },
-
-  componentDidMount() {
+  componentDidMount = () => {
     if (this._mergeGet(this.props, this.state).config.layout === 'list') {
       this.fetchListData()
     }
@@ -289,32 +262,32 @@ module.exports = createReactClass({
       config: resourceListParams(window.location)
     })
 
-    return this.triggetRootEvent({ action: 'mount' })
-  },
+    return this.triggerRootEvent({ action: 'mount' })
+  }
 
-  forceFetchNextPage() {
-    return this.triggetRootEvent({ action: 'force-fetch-next-page' })
-  },
+  forceFetchNextPage = () => {
+    return this.triggerRootEvent({ action: 'force-fetch-next-page' })
+  }
 
   // - custom actions:
-  _onFetchNextPage() {
+  _onFetchNextPage = () => {
     if (this.state.boxState.data.loadingNextPage) {
       return
     }
-    return this.triggetRootEvent({ action: 'fetch-next-page' })
-  },
+    this.triggerRootEvent({ action: 'fetch-next-page' })
+  }
 
-  _onFilterChange(event, newParams) {
+  _onFilterChange = (event, newParams) => {
     if (event && f.isFunction(event.preventDefault)) {
       event.preventDefault()
     }
 
     // make sure that the new result starts on page 1
     const newLocation = BoxSetUrlParams(this._currentUrl(), newParams, { list: { page: 1 } })
-    return (window.location = newLocation)
-  }, // SYNC!
+    window.location = newLocation
+  } // SYNC!
 
-  _onFilterToggle(event, showFilter) {
+  _onFilterToggle = (event, showFilter) => {
     if (isNewTab(event)) {
       return
     }
@@ -323,7 +296,7 @@ module.exports = createReactClass({
     const href = getLocalLink(event)
 
     routerGoto(href)
-    return this.setState(
+    this.setState(
       {
         config: f.merge(this.state.config, { show_filter: showFilter }),
         windowHref: href
@@ -332,9 +305,9 @@ module.exports = createReactClass({
         return this._persistListConfig({ list_config: { show_filter: showFilter } })
       }
     )
-  },
+  }
 
-  _onSearch(event, refValues) {
+  _onSearch = (event, refValues) => {
     const searchFilter = () => {
       if (!this._supportsFilesearch() || refValues.searchTypeFulltextChecked) {
         return {
@@ -364,28 +337,28 @@ module.exports = createReactClass({
 
     const buildFilter = () => f.merge(searchFilter(), filenameFilter())
 
-    return this._onFilterChange(event, {
+    this._onFilterChange(event, {
       list: {
         filter: buildFilter(),
         accordion: {}
       }
     })
-  },
+  }
 
-  _onSideFilterChange(event) {
+  _onSideFilterChange = event => {
     return this._onFilterChange(event, {
       list: {
         filter: event.current,
         accordion: event.accordion
       }
     })
-  },
+  }
 
-  _selectionLimit() {
+  _selectionLimit = () => {
     return 256
-  },
+  }
 
-  _onSelectResource(resource, event) {
+  _onSelectResource = (resource, event) => {
     // toggles selection item
     event.preventDefault()
     const selection = this.state.boxState.data.selectedResources
@@ -393,16 +366,16 @@ module.exports = createReactClass({
       !f.find(selection, s => s.uuid === resource.uuid) &&
       selection.length > this._selectionLimit() - 1
     ) {
-      return this._showSelectionLimit('single-selection')
+      this._showSelectionLimit('single-selection')
     } else {
-      return this.triggetRootEvent({
+      this.triggerRootEvent({
         action: 'toggle-resource-selection',
         resourceUuid: resource.uuid
       })
     }
-  },
+  }
 
-  handlePositionChange(resourceId, direction, event) {
+  handlePositionChange = (resourceId, direction, event) => {
     event.preventDefault()
 
     if (this.state.boxState.data.loadingNextPage) {
@@ -454,47 +427,47 @@ module.exports = createReactClass({
       },
       persistPosition
     )
-  },
+  }
 
-  _showSelectionLimit(version) {
+  _showSelectionLimit = version => {
     return this.setState({ showSelectionLimit: version })
-  },
+  }
 
-  _closeSelectionLimit() {
+  _closeSelectionLimit = () => {
     return this.setState({ showSelectionLimit: false })
-  },
+  }
 
   // eslint-disable-next-line no-unused-vars
-  _onHoverMenu(menu_id, event) {
+  _onHoverMenu = (menu_id, event) => {
     // NOTE: Do not delete the `event` parameter although it seems to be unused!
     //       Removing it will crash the menu rendering. I don't understand how this is
     //       possible. Try it however if you don't believe it.
-    return this.setState({ hoverMenuId: menu_id })
-  },
+    this.setState({ hoverMenuId: menu_id })
+  }
 
-  _currentUrl() {
+  _currentUrl = () => {
     if (this.state.isClient && this.state.windowHref) {
       return this.state.windowHref
     } else {
       return BoxSetUrlParams(this.props.get.config.for_url)
     }
-  },
+  }
 
-  _showBatchTransferResponsibility(resources) {
+  _showBatchTransferResponsibility = resources => {
     return this.setState({
       showBatchTransferResponsibility: true,
       batchTransferResponsibilityResources: resources
     })
-  },
+  }
 
-  _hideBatchTransferResponsibility() {
+  _hideBatchTransferResponsibility = () => {
     return this.setState({
       showBatchTransferResponsibility: false,
       batchTransferResponsibilityResources: []
     })
-  },
+  }
 
-  _sharedOnBatch(resources, event, path) {
+  _sharedOnBatch = (resources, event, path) => {
     event.preventDefault()
     const selected = f.map(resources, 'uuid')
 
@@ -518,57 +491,57 @@ module.exports = createReactClass({
     const form = $(html)
     document.body.appendChild(form[0])
     return form.submit()
-  },
+  }
 
-  _sharedOnBatchAll(event, type) {
+  _sharedOnBatchAll = (event, type) => {
     event.preventDefault()
     const id = this.props.collectionData.uuid
     const path = `/sets/${id}/batch_edit_all`
     const url = setUrlParams(path, { type, return_to: this._currentUrl() })
     return (window.location = url)
-  },
+  }
 
-  _persistListConfig(config) {
+  _persistListConfig = config => {
     const req = appRequest(
       { method: 'PATCH', url: this._routeUrl('session_list_config'), json: config },
-      function(err) {
+      function (err) {
         if (err) {
           return console.error(err)
         }
       }
     )
-    return this.doOnUnmount.push(function() {
+    return this.doOnUnmount.push(function () {
       if (req && req.abort) {
         return req.abort()
       }
     })
-  },
+  }
 
-  _onBatchEditAll(event) {
-    return this._sharedOnBatchAll(event, 'media_entry')
-  },
+  _onBatchEditAll = event => {
+    this._sharedOnBatchAll(event, 'media_entry')
+  }
 
-  _onBatchEdit(resources, event) {
-    return this._sharedOnBatch(
+  _onBatchEdit = (resources, event) => {
+    this._sharedOnBatch(
       resources,
       event,
       this._routeUrl('batch_edit_meta_data_by_context_media_entries')
     )
-  },
+  }
 
-  _onBatchEditAllSets(event) {
-    return this._sharedOnBatchAll(event, 'collection')
-  },
+  _onBatchEditAllSets = event => {
+    this._sharedOnBatchAll(event, 'collection')
+  }
 
-  _onBatchEditSets(resources, event) {
-    return this._sharedOnBatch(
+  _onBatchEditSets = (resources, event) => {
+    this._sharedOnBatch(
       resources,
       event,
       this._routeUrl('batch_edit_meta_data_by_context_collections')
     )
-  },
+  }
 
-  _onBatchDeleteResources(resources, event) {
+  _onBatchDeleteResources = (resources, event) => {
     event.preventDefault()
     this.setState({
       batchDestroyResourcesModal: true,
@@ -580,9 +553,9 @@ module.exports = createReactClass({
       }))
     })
     return false
-  },
+  }
 
-  _onExecuteBatchDeleteResources() {
+  _onExecuteBatchDeleteResources = () => {
     this.setState({ batchDestroyResourcesWaiting: true })
     const resourceIds = this.state.batchDestroyResourceIdsWithTypes
     const url = setUrlParams(this._routeUrl('batch_destroy_resources'), {})
@@ -598,45 +571,37 @@ module.exports = createReactClass({
       }
     })
     return false
-  },
+  }
 
-  _onBatchPermissionsEdit(resources, event) {
-    return this._sharedOnBatch(
-      resources,
-      event,
-      this._routeUrl('batch_edit_permissions_media_entries')
-    )
-  },
+  _onBatchPermissionsEdit = (resources, event) => {
+    this._sharedOnBatch(resources, event, this._routeUrl('batch_edit_permissions_media_entries'))
+  }
 
-  _onBatchPermissionsSetsEdit(resources, event) {
-    return this._sharedOnBatch(
-      resources,
-      event,
-      this._routeUrl('batch_edit_permissions_collections')
-    )
-  },
+  _onBatchPermissionsSetsEdit = (resources, event) => {
+    this._sharedOnBatch(resources, event, this._routeUrl('batch_edit_permissions_collections'))
+  }
 
-  _onBatchTransferResponsibilityEdit(resources, event) {
-    return this._showBatchTransferResponsibility(resources, event)
-  },
+  _onBatchTransferResponsibilityEdit = (resources, event) => {
+    this._showBatchTransferResponsibility(resources, event)
+  }
 
-  _onBatchTransferResponsibilitySetsEdit(resources, event) {
-    return this._showBatchTransferResponsibility(resources, event)
-  },
+  _onBatchTransferResponsibilitySetsEdit = (resources, event) => {
+    this._showBatchTransferResponsibility(resources, event)
+  }
 
-  _onBatchAddToSet(resources, event) {
+  _onBatchAddToSet = (resources, event) => {
     event.preventDefault()
     this.setState({ batchAddToSet: true })
     return false
-  },
+  }
 
-  _onBatchRemoveFromSet(resources, event) {
+  _onBatchRemoveFromSet = (resources, event) => {
     event.preventDefault()
     this.setState({ batchRemoveFromSet: true })
     return false
-  },
+  }
 
-  _onBatchEditTitle(resourceIds, event) {
+  _onBatchEditTitle = (resourceIds, event) => {
     event.preventDefault()
     this.setState({
       batchEditTitleResourceIds: this._selectedResourceIdsWithTypes().filter(resource =>
@@ -644,59 +609,50 @@ module.exports = createReactClass({
       )
     })
     return false
-  },
+  }
 
-  _selectedResourceIdsWithTypes() {
+  _selectedResourceIdsWithTypes = () => {
     return this.state.boxState.data.selectedResources.map(model => ({
       uuid: model.uuid,
       type: model.type
     }))
-  },
+  }
 
-  _onBatchAddAllToClipboard(event) {
+  _onBatchAddAllToClipboard = event => {
     event.preventDefault()
-    return this.setState({ clipboardModal: 'add_all' })
-  },
+    this.setState({ clipboardModal: 'add_all' })
+  }
 
-  _onBatchAddSelectedToClipboard(resources, event) {
+  _onBatchAddSelectedToClipboard = (resources, event) => {
     event.preventDefault()
-    return this.setState({ clipboardModal: 'add_selected' })
-  },
+    this.setState({ clipboardModal: 'add_selected' })
+  }
 
-  _onBatchRemoveAllFromClipboard(event) {
+  _onBatchRemoveAllFromClipboard = event => {
     event.preventDefault()
-    return this.setState({ clipboardModal: 'remove_all' })
-  },
+    this.setState({ clipboardModal: 'remove_all' })
+  }
 
-  _onBatchRemoveFromClipboard(resources, event) {
+  _onBatchRemoveFromClipboard = (resources, event) => {
     event.preventDefault()
-    return this.setState({ clipboardModal: 'remove_selected' })
-  },
+    this.setState({ clipboardModal: 'remove_selected' })
+  }
 
-  _onCloseModal() {
+  _onCloseModal = () => {
     this.setState({ clipboardModal: 'hidden' })
     this.setState({ batchAddToSet: false })
     this.setState({ batchRemoveFromSet: false })
     this.setState({ batchEditTitleResourceIds: undefined })
     this.setState({ batchDestroyResourcesModal: false })
-  },
+  }
 
-  setLayout: layoutMode => {
-    // NOTE: this is a hack and goes around the router :/
-    if (
-      !f.includes(
-        f.map(BoxUtil.allowedLayoutModes(_this.props.disableListMode), 'mode'),
-        layoutMode
-      )
-    ) {
-      throw new Error('Invalid Layout!')
-    }
-    return _this.setState({ config: f.merge(_this.state.config, { layout: layoutMode }) })
-  },
-
-  _mergeGet(props, state) {
+  /**
+   * Returns `props.get`, adding default data from various sources to `props.get.config`
+   */
+  _mergeGet = (props, state) => {
     return f.extend(props.get, {
       config: defaultsDeep(
+        // first wins!
         {},
         state.config,
         props.get.config,
@@ -713,21 +669,21 @@ module.exports = createReactClass({
         }
       )
     })
-  },
+  }
 
-  _supportsFilesearch() {
+  _supportsFilesearch = () => {
     const { get } = this.props
     return (
       !get.disable_file_search &&
       !(get.config && get.config.for_url && get.config.for_url.query.type === 'collections')
     )
-  },
+  }
 
-  _routeUrl(name) {
+  _routeUrl = name => {
     return this.props.get.route_urls[name]
-  },
+  }
 
-  _resetFilterLink(config) {
+  _resetFilterLink = config => {
     const resetFilterHref = BoxSetUrlParams(this._currentUrl(), {
       list: { page: 1, filter: {}, accordion: {} }
     })
@@ -741,23 +697,23 @@ module.exports = createReactClass({
         )
       }
     }
-  },
+  }
 
-  unselectResources(resources) {
-    return this.triggetRootEvent({
+  unselectResources = resources => {
+    return this.triggerRootEvent({
       action: 'unselect-resources',
       resourceUuids: f.map(resources, r => r.uuid)
     })
-  },
+  }
 
-  selectResources(resources) {
-    return this.triggetRootEvent({
+  selectResources = resources => {
+    return this.triggerRootEvent({
       action: 'select-resources',
       resourceUuids: f.map(resources, r => r.uuid)
     })
-  },
+  }
 
-  onSortItemClick(event, itemKey) {
+  onSortItemClick = (event, itemKey) => {
     if (isNewTab(event)) {
       return
     }
@@ -782,9 +738,9 @@ module.exports = createReactClass({
         return this._persistListConfig({ list_config: { order: itemKey } })
       }
     )
-  },
+  }
 
-  onLayoutClick(event, layoutMode) {
+  onLayoutClick = (event, layoutMode) => {
     if (isNewTab(event)) {
       return
     }
@@ -803,9 +759,9 @@ module.exports = createReactClass({
         return this._persistListConfig({ list_config: { layout: layoutMode.mode } })
       }
     )
-  },
+  }
 
-  layoutSave(event) {
+  layoutSave = event => {
     event.preventDefault()
     const { config } = this._mergeGet(this.props, this.state)
     const { layout } = config
@@ -841,7 +797,7 @@ module.exports = createReactClass({
       }
     )
     return false
-  },
+  }
 
   render() {
     let { get, mods, fallback, heading, listMods, saveable, authToken, children } = this.props
@@ -1053,9 +1009,7 @@ module.exports = createReactClass({
           <div className="mam">
             <InfoHeader {...Object.assign({}, get.info_header)} />
           </div>
-        ) : (
-          undefined
-        )}
+        ) : undefined}
         {boxToolBar()}
         {this.state.showCreateCollectionModal ? (
           <CreateCollectionModal
@@ -1065,9 +1019,7 @@ module.exports = createReactClass({
             onClose={() => this.setState({ showCreateCollectionModal: false })}
             newCollectionUrl={f.get(this.props, 'collectionData.newCollectionUrl')}
           />
-        ) : (
-          undefined
-        )}
+        ) : undefined}
         <div className="ui-resources-holder pam">
           <div className="ui-container table auto">
             {sidebar}
@@ -1135,7 +1087,7 @@ module.exports = createReactClass({
                           this.state.boxState.components.batch.components.metaKeyForms.length > 0
                       }}
                       unselectResources={this.unselectResources}
-                      selectResources={this.selectResources}
+                      selectResources={resources => this.selectResources(resources)}
                       trigger={this.triggerComponentEvent}
                       selectionMode={this.state.boxState.components.batch.data.open}
                     />
@@ -1156,9 +1108,7 @@ module.exports = createReactClass({
             forUrl={this.props.for_url}
             jsonPath={this.getJsonPath()}
           />
-        ) : (
-          undefined
-        )}
+        ) : undefined}
         {this.state.batchAddToSet ? (
           <BatchAddToSetModal
             resourceIds={this._selectedResourceIdsWithTypes()}
@@ -1167,9 +1117,7 @@ module.exports = createReactClass({
             onClose={this._onCloseModal}
             returnTo={currentUrl}
           />
-        ) : (
-          undefined
-        )}
+        ) : undefined}
         {this.state.batchRemoveFromSet ? (
           <BatchRemoveFromSetModal
             collectionUuid={this.props.collectionData.uuid}
@@ -1179,9 +1127,7 @@ module.exports = createReactClass({
             onClose={this._onCloseModal}
             returnTo={currentUrl}
           />
-        ) : (
-          undefined
-        )}
+        ) : undefined}
         {this.state.batchEditTitleResourceIds ? (
           <BatchEditTitleModal
             resourceIds={this.state.batchEditTitleResourceIds}
@@ -1189,9 +1135,7 @@ module.exports = createReactClass({
             onClose={this._onCloseModal}
             returnTo={currentUrl}
           />
-        ) : (
-          undefined
-        )}
+        ) : undefined}
         {(() => {
           if (this.state.batchDestroyResourcesModal) {
             return (
@@ -1208,7 +1152,7 @@ module.exports = createReactClass({
       </div>
     )
   }
-})
+}
 
-// export helper
-module.exports.boxSetUrlParams = BoxSetUrlParams
+MediaResourcesBox.propTypes = require('./BoxPropTypes.js').propTypes()
+module.exports = MediaResourcesBox

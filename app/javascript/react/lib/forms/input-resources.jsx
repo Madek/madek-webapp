@@ -60,15 +60,11 @@ module.exports = createReactClass({
     this._adding = true
     const is_duplicate = (() => {
       if (f.present(item.uuid)) {
-        return f(this.state.values)
-          .map('uuid')
-          .includes(item.uuid)
+        return f(this.state.values).map('uuid').includes(item.uuid)
       } else {
         // check for NEW values…
         if (item.type === 'Keyword') {
-          return f(this.state.values)
-            .map('term')
-            .includes(item.term)
+          return f(this.state.values).map('term').includes(item.term)
         } else if (item.type === 'Person') {
           return f.any(this.state.values, o => f.isEqual(o, item))
         } else {
@@ -331,9 +327,7 @@ module.exports = createReactClass({
                         allowedTypes={allowedTypes}
                         onAddValue={_onNewPerson}
                       />
-                    ) : (
-                      undefined
-                    )}
+                    ) : undefined}
                     {(() => {
                       if (withRoles && f.present(this.state.editedItem)) {
                         const { _onRoleSelect, _onNewRole } = this
@@ -357,9 +351,7 @@ module.exports = createReactClass({
                                     }}>
                                     {selectedRole.label}
                                   </div>
-                                ) : (
-                                  undefined
-                                )}
+                                ) : undefined}
                                 <div className="multi-select-input-holder mtn">
                                   <AutoComplete
                                     className="multi-select-input mbx"
@@ -440,9 +432,7 @@ module.exports = createReactClass({
                                       className="button small">
                                       + {t('meta_data_role_add_another_btn')}
                                     </a>
-                                  ) : (
-                                    undefined
-                                  )}
+                                  ) : undefined}
                                   {!f.present(item.role) ? (
                                     <a
                                       href="#"
@@ -450,9 +440,7 @@ module.exports = createReactClass({
                                       className="button small">
                                       + {t('meta_data_role_add_btn')}
                                     </a>
-                                  ) : (
-                                    undefined
-                                  )}
+                                  ) : undefined}
                                 </td>
                                 <td style={{ width: '32px' }} className="pvs by-center">
                                   {i < values.length - 1 && (
@@ -482,16 +470,14 @@ module.exports = createReactClass({
                           })}
                         </tbody>
                       </table>
-                    ) : (
-                      undefined
-                    )}
+                    ) : undefined}
                   </div>
                 )
               }
             })()}
           </ul>
         </div>
-        {f.map(f(values).presence() || [''], function(item) {
+        {f.map(f(values).presence() || [''], function (item) {
           // persisted resources have and only need a uuid (as string)
           const keyValuePairs = (() => {
             if (item.uuid && !f.has(item, 'role')) {
@@ -504,7 +490,7 @@ module.exports = createReactClass({
               const newItem = item.isNew ? item : f.pick(item, ['uuid', 'role'])
               return f(newItem)
                 .omit(['type', 'isNew'])
-                .map(function(val, key) {
+                .map(function (val, key) {
                   // pairs; build keys; clean & stringify values:
                   if (f.isArray(val)) {
                     val = val.map(v => v.id).join(',')
@@ -538,10 +524,8 @@ module.exports = createReactClass({
                 name={`${name}[_hash]`}
                 defaultValue="_start"
               />
-            ) : (
-              undefined
-            ),
-            f.map(keyValuePairs, function(item) {
+            ) : undefined,
+            f.map(keyValuePairs, function (item) {
               const [fieldName, value] = Array.from(item)
               return (
                 <input

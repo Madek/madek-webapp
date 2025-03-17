@@ -5,8 +5,8 @@ import BoxStatePrecalculate from './BoxStatePrecalculate.js'
 import BoxStateFetchNextPage from './BoxStateFetchNextPage.js'
 
 module.exports = merged => {
-  let { event, trigger, initial, components, data, nextProps, path } = merged
-  let {
+  const { event, trigger, initial, components, data, nextProps, path } = merged
+  const {
     // cachedToApplyMetaData,
     willFetch,
     willStartApply,
@@ -14,7 +14,7 @@ module.exports = merged => {
     todoLoadMetaData
   } = BoxStatePrecalculate(merged)
 
-  var next = () => {
+  const next = () => {
     if (willFetch) {
       BoxStateFetchNextPage(merged, nextResources().length)
     }
@@ -33,7 +33,7 @@ module.exports = merged => {
     }
   }
 
-  var nextSelectedResources = () => {
+  const nextSelectedResources = () => {
     if (initial) {
       return null
     }
@@ -68,7 +68,7 @@ module.exports = merged => {
     }
   }
 
-  var nextLoadingNextPage = () => {
+  const nextLoadingNextPage = () => {
     if (initial) {
       return false
     }
@@ -82,8 +82,8 @@ module.exports = merged => {
     }
   }
 
-  var nextBatch = () => {
-    var applyResources = () => {
+  const nextBatch = () => {
+    const applyResources = () => {
       if (!willStartApply) {
         return null
       }
@@ -100,14 +100,14 @@ module.exports = merged => {
       }
     }
 
-    var retryResources = () => {
+    const retryResources = () => {
       return l.map(
         l.filter(components.resources, rs => rs.event.action == 'retry'),
         rs => rs.data.resource
       )
     }
 
-    var props = {
+    const props = {
       mount: event.action == 'mount',
       // cachedToApplyMetaData: cachedToApplyMetaData,
       willStartApply: willStartApply,
@@ -129,11 +129,11 @@ module.exports = merged => {
     })
   }
 
-  var nextResources = () => {
-    var nextResourceProps = resource => {
-      var thumbnailMetaData = () => {
+  const nextResources = () => {
+    const nextResourceProps = resource => {
+      const thumbnailMetaData = () => {
         if (components.batch && components.batch.event.action == 'apply-success') {
-          var event = components.batch.event
+          const event = components.batch.event
           if (event.resourceId == resource.uuid) {
             return event.thumbnailMetaData
           }
@@ -157,9 +157,9 @@ module.exports = merged => {
       }
     }
 
-    var mapResourceState = resourceState => {
-      var resource = resourceState.data.resource
-      var resourceProps = nextResourceProps(resource)
+    const mapResourceState = resourceState => {
+      const resource = resourceState.data.resource
+      const resourceProps = nextResourceProps(resource)
 
       return BoxResource({
         event: resourceState.event,
@@ -172,8 +172,8 @@ module.exports = merged => {
       })
     }
 
-    var mapResource = (resource, index) => {
-      var resourceProps = nextResourceProps(resource)
+    const mapResource = (resource, index) => {
+      const resourceProps = nextResourceProps(resource)
 
       return BoxResource({
         event: {},

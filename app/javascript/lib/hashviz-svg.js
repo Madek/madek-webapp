@@ -19,7 +19,7 @@ viewBox='0 0 255 255'> \
 <path id='p1' d='M 0 0'></path> \
 </svg>`
 
-const hashBlotPath = function(str) {
+const hashBlotPath = function (str) {
   if (typeof str === 'string') {
     return hashblot.sha1qpd(str)
   } else {
@@ -27,7 +27,7 @@ const hashBlotPath = function(str) {
   }
 }
 
-module.exports = function(text) {
+module.exports = function (text) {
   const svg = $(EMPTY_SVG)
   const path = svg.find('path')[0]
   const cleaned_text = typeof text.replace === 'function' ? text.replace(/\s\s/g, ' ') : undefined

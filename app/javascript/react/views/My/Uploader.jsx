@@ -108,7 +108,7 @@ module.exports = createReactClass({
     // immediately trigger upload!
     this.setState({ uploading: true })
     return f.each(added, model =>
-      UploadQueue.push(model, function(err) {
+      UploadQueue.push(model, function (err) {
         if (err) {
           return console.error('Uploader failed!', model, err)
         }
@@ -205,15 +205,11 @@ module.exports = createReactClass({
                 )}
                 {this.state.customUrlsAlreadyMoved ? (
                   <span> → {t('media_entry_duplicator_custom_urls_already_moved')}</span>
-                ) : (
-                  undefined
-                )}
+                ) : undefined}
               </label>
             </div>
           </div>
-        ) : (
-          undefined
-        )}
+        ) : undefined}
         <FileDrop onDrop={this.onFilesDrop} targetAlwaysVisible={true}>
           <SuperBoxUpload
             ref="polybox"

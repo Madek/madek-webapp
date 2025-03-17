@@ -89,7 +89,7 @@ module.exports = createReactClass({
                       </tr>
                     </thead>
                     <tbody>
-                      {f.map(get.child_presenters.resources, function(resource) {
+                      {f.map(get.child_presenters.resources, function (resource) {
                         const checked = get.uuid_to_checked_hash[resource.uuid]
 
                         return (
@@ -176,9 +176,7 @@ module.exports = createReactClass({
               </a>
               {!f.isEmpty(get.child_presenters.resources) ? (
                 <FormButton text={get.i18n.save} />
-              ) : (
-                undefined
-              )}
+              ) : undefined}
             </div>
           </div>
         </RailsForm>

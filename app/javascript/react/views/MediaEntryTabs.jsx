@@ -11,7 +11,7 @@ import f from 'lodash'
 import MediaEntryPrivacyStatusIcon from './MediaEntryPrivacyStatusIcon.jsx'
 import { parse as parseUrl } from 'url'
 
-const parseUrlState = function(location) {
+const parseUrlState = function (location) {
   const urlParts = f.slice(parseUrl(location).pathname.split('/'), 1)
   if (urlParts.length < 3) {
     return { action: 'show', argument: null }
@@ -53,15 +53,13 @@ module.exports = createReactClass({
     const media_entry_path = get.url
 
     const tabs = f.fromPairs(
-      f.map(get.tabs, function(tab) {
+      f.map(get.tabs, function (tab) {
         const path = tab.href ? tab.href : media_entry_path
 
         const icon =
           tab.icon_type === 'privacy_status_icon' ? (
             <MediaEntryPrivacyStatusIcon get={get} />
-          ) : (
-            undefined
-          )
+          ) : undefined
 
         return [path, f.merge(tab, { icon })]
       })
@@ -69,7 +67,7 @@ module.exports = createReactClass({
 
     return (
       <ul className="ui-tabs large">
-        {f.map(tabs, function(tab, path) {
+        {f.map(tabs, function (tab, path) {
           const active = tab.id === activeTabId(urlState)
 
           const classes = cx('ui-tabs-item', { active: active })

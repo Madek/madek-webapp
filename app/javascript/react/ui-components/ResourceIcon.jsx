@@ -24,7 +24,7 @@ module.exports = createReactClass({
     }
     const { type, mediaType, overrideClasses } = param
     var mediaTypeIcon = (() => {
-      const mediaTypeIconMapping = function(mediaType) {
+      const mediaTypeIconMapping = function (mediaType) {
         const map = {
           image: 'fa fa-file-image-o',
           audio: 'fa fa-file-audio-o',

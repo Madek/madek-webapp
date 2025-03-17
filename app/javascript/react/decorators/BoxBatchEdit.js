@@ -8,11 +8,11 @@ import BoxStateApplyMetaData from './BoxStateApplyMetaData.js'
 import BoxBatchEditInvalids from './BoxBatchEditInvalids.js'
 
 module.exports = merged => {
-  let { event, trigger, initial, components, data, nextProps, path } = merged
+  const { event, trigger, initial, components, data, nextProps, path } = merged
 
-  var cachedAllMetaKeysById = null
+  let cachedAllMetaKeysById = null
 
-  var next = () => {
+  const next = () => {
     return {
       props: nextProps,
       path: path,
@@ -29,7 +29,7 @@ module.exports = merged => {
     }
   }
 
-  var nextApplyJob = () => {
+  const nextApplyJob = () => {
     if (initial) {
       return null
     }
@@ -38,9 +38,9 @@ module.exports = merged => {
       return null
     }
 
-    var job = data.applyJob
+    const job = data.applyJob
 
-    var anyFormEvent = () => {
+    const anyFormEvent = () => {
       return (
         l.find(components.metaKeyForms, mkf => mkf.event.action) || event.action == 'select-key'
       )
@@ -64,14 +64,14 @@ module.exports = merged => {
       return null
     }
 
-    var maxParallel = (() => {
+    const maxParallel = (() => {
       if (!job) {
         return 1
       }
       // The first update is sent isolated (not in parallel), because we need the first
       // to create the not existing keywords. Otherwise several will try to create them
       // in parallel resulting in not unique exceptions.
-      var hasDone = job.success.length > 0 || event.action == 'apply-success'
+      const hasDone = job.success.length > 0 || event.action == 'apply-success'
       if (!hasDone) {
         return 1
       } else {
@@ -79,7 +79,7 @@ module.exports = merged => {
       }
     })()
 
-    var formData = (() => {
+    const formData = (() => {
       if (nextProps.willStartApply) {
         return l.map(components.metaKeyForms, mkf => {
           return {
@@ -92,7 +92,7 @@ module.exports = merged => {
       }
     })()
 
-    var ongoing = (() => {
+    const ongoing = (() => {
       if (nextProps.willStartApply) {
         return []
       } else {
@@ -105,7 +105,7 @@ module.exports = merged => {
       }
     })()
 
-    var success = (() => {
+    const success = (() => {
       if (nextProps.willStartApply) {
         return []
       } else {
@@ -119,7 +119,7 @@ module.exports = merged => {
       }
     })()
 
-    var failure = (() => {
+    const failure = (() => {
       if (nextProps.willStartApply) {
         return []
       } else {
@@ -133,7 +133,7 @@ module.exports = merged => {
       }
     })()
 
-    var cancelled = (() => {
+    const cancelled = (() => {
       if (nextProps.willStartApply) {
         return []
       } else if (nextProps.cancelAll) {
@@ -143,7 +143,7 @@ module.exports = merged => {
       }
     })()
 
-    var toLoad = (() => {
+    const toLoad = (() => {
       if (nextProps.willStartApply) {
         return l.slice(nextProps.applyResources, 0, maxParallel)
       } else if (nextProps.cancelAll) {
@@ -157,7 +157,7 @@ module.exports = merged => {
       }
     })()
 
-    var pending = (() => {
+    const pending = (() => {
       if (nextProps.willStartApply) {
         return l.slice(nextProps.applyResources, maxParallel)
       } else if (nextProps.cancelAll) {
@@ -169,7 +169,7 @@ module.exports = merged => {
       }
     })()
 
-    var processing = (() => {
+    const processing = (() => {
       return l.concat(toLoad, ongoing)
     })()
 
@@ -189,7 +189,7 @@ module.exports = merged => {
     }
   }
 
-  var nextApplyFormData = () => {
+  const nextApplyFormData = () => {
     if (initial) {
       return null
     }
@@ -206,23 +206,23 @@ module.exports = merged => {
     }
   }
 
-  var nextInvalidMetaKeyUuids = () => {
+  const nextInvalidMetaKeyUuids = () => {
     if (initial) {
       return []
     } else {
-      var invalidUuids = () => {
+      const invalidUuids = () => {
         return l.map(BoxBatchEditInvalids(merged), i => i.props.metaKey.uuid)
       }
 
-      var formsWithClose = () => {
+      const formsWithClose = () => {
         return l.filter(components.metaKeyForms, mkf => mkf.event.action == 'close')
       }
 
-      var anyCloseAction = () => {
+      const anyCloseAction = () => {
         return !l.isEmpty(formsWithClose())
       }
 
-      var rejectClosed = () => {
+      const rejectClosed = () => {
         return l.reject(data.invalidMetaKeyUuids, id =>
           l.find(formsWithClose(), f => {
             return f.props.metaKeyId == id
@@ -242,8 +242,8 @@ module.exports = merged => {
     }
   }
 
-  var nextLoadMetaMetaData = () => {
-    var props = {
+  const nextLoadMetaMetaData = () => {
+    const props = {
       mount: nextProps.mount
     }
 
@@ -258,16 +258,16 @@ module.exports = merged => {
     })
   }
 
-  var nextMetaKeyForms = () => {
+  const nextMetaKeyForms = () => {
     if (initial) {
       return []
     }
 
-    var findMetaKeyForm = () => {
+    const findMetaKeyForm = () => {
       return l.find(components.metaKeyForms, f => f.props.metaKeyId == event.metaKeyId)
     }
 
-    var allMetaKeysById = () => {
+    const allMetaKeysById = () => {
       if (!cachedAllMetaKeysById) {
         cachedAllMetaKeysById = l.fromPairs(
           l.flatten(
@@ -280,7 +280,7 @@ module.exports = merged => {
       return cachedAllMetaKeysById
     }
 
-    var mandatoryForTypes = metaKeyId => {
+    const mandatoryForTypes = metaKeyId => {
       return l.map(
         l.filter(components.loadMetaMetaData.data.metaMetaData, mmd =>
           l.includes(l.keys(mmd.data.mandatory_by_meta_key_id), metaKeyId)
@@ -289,16 +289,16 @@ module.exports = merged => {
       )
     }
 
-    var findMetaKey = metaKeyId => {
+    const findMetaKey = metaKeyId => {
       return allMetaKeysById()[metaKeyId]
     }
 
-    var withoutClosed = () => {
+    const withoutClosed = () => {
       return l.filter(components.metaKeyForms, f => f.event.action != 'close')
     }
 
-    var reuseMetaKeyForm = (metaKeyForm, componentId, metaKeyId, contextKey, index) => {
-      var props = {
+    const reuseMetaKeyForm = (metaKeyForm, componentId, metaKeyId, contextKey, index) => {
+      const props = {
         metaKeyId: metaKeyId,
         metaKey: findMetaKey(metaKeyId),
         contextKey: contextKey,
@@ -317,8 +317,8 @@ module.exports = merged => {
       })
     }
 
-    var newMetaKeyForm = (componentId, metaKeyId, contextKey, index) => {
-      var props = {
+    const newMetaKeyForm = (componentId, metaKeyId, contextKey, index) => {
+      const props = {
         metaKeyId: metaKeyId,
         metaKey: findMetaKey(metaKeyId),
         contextKey: contextKey,
@@ -337,26 +337,26 @@ module.exports = merged => {
       })
     }
 
-    var mapExisting = () => {
+    const mapExisting = () => {
       return l.map(withoutClosed(), (c, i) =>
         reuseMetaKeyForm(c, c.id, c.props.metaKeyId, c.props.contextKey, i)
       )
     }
 
-    var decideComponents = metaKeyId => {
-      var mapping = {
+    const decideComponents = metaKeyId => {
+      const mapping = {
         'MetaDatum::Text': BoxBatchTextInput,
         'MetaDatum::TextDate': BoxBatchTextDateInput,
         'MetaDatum::Keywords': BoxBatchKeywords,
         'MetaDatum::People': BoxBatchPeople
       }
-      var type = findMetaKey(metaKeyId).value_type
+      const type = findMetaKey(metaKeyId).value_type
       if (!mapping[type]) throw 'not implemented for ' + type
       return mapping[type]
     }
 
     if (event.action == 'select-key' && !findMetaKeyForm(event.metaKeyId)) {
-      var existing = mapExisting()
+      const existing = mapExisting()
       return l.concat(
         existing,
         newMetaKeyForm(null, event.metaKeyId, event.contextKey, existing.length)
@@ -366,7 +366,7 @@ module.exports = merged => {
     }
   }
 
-  var nextOpen = () => {
+  const nextOpen = () => {
     if (initial) {
       return false
     }

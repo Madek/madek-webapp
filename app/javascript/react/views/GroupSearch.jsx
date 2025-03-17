@@ -140,9 +140,7 @@ module.exports = createReactClass({
                   />
                 </div>
               </div>
-            ) : (
-              undefined
-            )}
+            ) : undefined}
           </div>
           {!f.includes(this.state.data.userIdList, get.current_user_id) ? (
             <div className="form-head">
@@ -150,9 +148,7 @@ module.exports = createReactClass({
                 <div className="ui-alert warning">{t('group_edit_hint_remove_yourself')}</div>
               </div>
             </div>
-          ) : (
-            undefined
-          )}
+          ) : undefined}
           <div className="ui-actions phl pbl mtl">
             <a href={get.cancel_url} className="link weak">
               {t('group_edit_cancel')}

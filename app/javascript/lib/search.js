@@ -30,7 +30,7 @@ const resourcesConfig = {
   Roles: { url: '/roles', key: 'label', params: ['meta_key_id'] }
 }
 
-module.exports = function(resourceType, parameters = null, localData) {
+module.exports = function (resourceType, parameters = null, localData) {
   let baseConfig
   if ((baseConfig = resourcesConfig[resourceType]) == null) {
     throw new Error(`Search: Unknown resourceType: ${resourceType}!`)
@@ -60,7 +60,7 @@ const tokenizer = (
 
 const langQueryParam = () => f.pick(url.parse(location.href, true).query, 'lang')
 
-var BloodhoundFactory = function(config, parameters, localData) {
+var BloodhoundFactory = function (config, parameters, localData) {
   const engine = new Bloodhound({
     datumTokenizer: tokenizer,
     queryTokenizer: tokenizer,
@@ -78,7 +78,7 @@ var BloodhoundFactory = function(config, parameters, localData) {
   if (!localData) {
     return engine
   } else {
-    return function(query, syncCallback, asyncCallback) {
+    return function (query, syncCallback, asyncCallback) {
       if (query === '') {
         return syncCallback(engine.all())
       } else {

@@ -8,7 +8,7 @@
 import f from 'active-lodash'
 import qs from 'qs'
 
-module.exports = function(location) {
+module.exports = function (location) {
   const query = qs.parse(location.search.slice(1))
   const base = 'list'
   const allowed = ['layout', 'filter', 'show_filter', 'accordion', 'page', 'per_page', 'order']
@@ -30,7 +30,7 @@ module.exports = function(location) {
 
 // private
 
-var coerceTypes = function(types, val, key) {
+var coerceTypes = function (types, val, key) {
   switch (false) {
     case !f.include(types.bools, key):
       return [key, val === 'true']
@@ -41,7 +41,7 @@ var coerceTypes = function(types, val, key) {
   }
 }
 
-var parseJsonParam = function(key, val) {
+var parseJsonParam = function (key, val) {
   try {
     return JSON.parse(val)
   } catch (e) {

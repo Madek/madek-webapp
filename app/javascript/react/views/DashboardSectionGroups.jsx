@@ -26,7 +26,7 @@ module.exports = createReactClass({
           authentication: t('authentication_groups'),
           external: t('external_groups')
         },
-        function(label, type) {
+        function (label, type) {
           const groups = f.map(sectionResources[type], entry => ({
             children: entry.detailed_name,
             href: entry.url
@@ -45,7 +45,7 @@ module.exports = createReactClass({
           </a>
         </div>
         <div className="ui-container pbl">
-          {f.map(group_types, function(groups, type) {
+          {f.map(group_types, function (groups, type) {
             if (groups.list) {
               return (
                 <label className="ui-form-group columned phn" key={type}>

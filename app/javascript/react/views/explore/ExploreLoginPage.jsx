@@ -25,7 +25,7 @@ module.exports = createReactClass({
     const welcomeMessage = get.welcome_message
 
     const sectionsElements = f.compact(
-      f.map(get.sections, function(section, m) {
+      f.map(get.sections, function (section, m) {
         if (section['empty?']) {
           return
         }
@@ -95,7 +95,7 @@ module.exports = createReactClass({
         {homeClaimPitchHero}
         <div className="app-body-ui-container pts context-home">
           <hr className="separator" />
-          {f.map(sectionsElements, function(section, index) {
+          {f.map(sectionsElements, function (section, index) {
             const list = []
             const separator = <hr key={`separator_${index}`} className="separator" />
             if (index > 0) {

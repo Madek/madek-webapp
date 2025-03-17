@@ -62,10 +62,14 @@ module.exports = createReactClass({
       <div
         className={cx('embed-box', !style.height ? 'embed-box--responsive-height' : undefined)}
         style={style}>
-        <a className="embed-box__img-container" href={url} target="_blank">
+        <a className="embed-box__img-container" href={url} target="_blank" rel="noreferrer">
           <img className="embed-box__img" src={imageHref} title={titleTxt} alt={altTxt} />
         </a>
-        <a className="embed-box__caption embed-box-caption" href={url} target="_blank">
+        <a
+          className="embed-box__caption embed-box-caption"
+          href={url}
+          target="_blank"
+          rel="noreferrer">
           <span className="embed-box-caption__icon">
             <i className="icon-link" />
           </span>

@@ -52,7 +52,7 @@ module.exports = createReactClass({
             <div className="ui-metadata-box">
               <table className="borderless">
                 <tbody>
-                  {f.map(edit_sessions, function(edit_session) {
+                  {f.map(edit_sessions, function (edit_session) {
                     if (!edit_session.user) {
                       return
                     }
@@ -99,9 +99,7 @@ module.exports = createReactClass({
                       </span>
                     </td>
                   </tr>
-                ) : (
-                  undefined
-                )}
+                ) : undefined}
               </tbody>
             </table>
           </div>

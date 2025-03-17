@@ -14,7 +14,7 @@ import VocabularyPage from './VocabularyPage.jsx'
 const MIN_COLS = 2 // for layout
 const MAX_COLS = 4
 
-const MetakeyItem = function({ meta_key, keywords }) {
+const MetakeyItem = function ({ meta_key, keywords }) {
   const [sortLabel, sortTitle] = Array.from([
     t('meta_key_order_alphabetical'),
     t('meta_key_order_alphabetical_hint')

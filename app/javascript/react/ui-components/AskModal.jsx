@@ -39,9 +39,7 @@ module.exports = createReactClass({
             <div className="ui-alerts">
               <div className="error ui-alert">{error}</div>
             </div>
-          ) : (
-            undefined
-          )}
+          ) : undefined}
           {!loading ? this.props.children : undefined}
         </div>
         <div className="ui-modal-footer">

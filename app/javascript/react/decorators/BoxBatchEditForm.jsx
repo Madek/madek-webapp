@@ -16,8 +16,8 @@ class BoxBatchEditForm extends React.Component {
 
   renderMetaKeyForm(metaKeyForm, resourceStates) {
     var vocabLabel = () => {
-      var metaMetaData = this.props.stateBox.components.batch.components.loadMetaMetaData.data
-        .metaMetaData
+      var metaMetaData =
+        this.props.stateBox.components.batch.components.loadMetaMetaData.data.metaMetaData
       var mmd = l.find(
         metaMetaData,
         mmd => mmd.data.vocabularies_by_vocabulary_id[metaKeyForm.props.metaKey.vocabulary_id]

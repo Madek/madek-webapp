@@ -42,9 +42,7 @@ module.exports = createReactClass({
                   <a className="strong" href={get.relations_parents_url}>
                     {t('collection_relations_show_all')}
                   </a>
-                ) : (
-                  undefined
-                )}
+                ) : undefined}
               </h2>
               <p className="mll mts">{t(typeKebab + '_relations_parents_hint')}</p>
             </div>
@@ -55,9 +53,7 @@ module.exports = createReactClass({
                     {t('collection_relations_no_parent_sets')}
                   </div>
                 </div>
-              ) : (
-                undefined
-              )}
+              ) : undefined}
               {f.map(get.relations.parent_collections.resources, resource => (
                 <ResourceThumbnail
                   key={resource.uuid}
@@ -107,9 +103,7 @@ module.exports = createReactClass({
                     <a className="strong" href={get.relations_siblings_url}>
                       {t('collection_relations_show_all')}
                     </a>
-                  ) : (
-                    undefined
-                  )}
+                  ) : undefined}
                 </h2>
                 <p className="mll mts">{t(typeKebab + '_relations_siblings_hint')}</p>
               </div>
@@ -120,9 +114,7 @@ module.exports = createReactClass({
                       {t('collection_relations_no_sibling_sets')}
                     </div>
                   </div>
-                ) : (
-                  undefined
-                )}
+                ) : undefined}
                 {f.map(get.relations.sibling_collections.resources, resource => (
                   <ResourceThumbnail
                     key={resource.uuid}
@@ -155,9 +147,7 @@ module.exports = createReactClass({
                         <a className="strong" href={childUrl}>
                           {t('collection_relations_show_all')}
                         </a>
-                      ) : (
-                        undefined
-                      )}
+                      ) : undefined}
                     </h2>
                     <p className="mll mts">{t('collection_relations_children_hint')}</p>
                   </div>
@@ -168,9 +158,7 @@ module.exports = createReactClass({
                           {t('collection_relations_no_child_sets')}
                         </div>
                       </div>
-                    ) : (
-                      undefined
-                    )}
+                    ) : undefined}
                     {f.map(get.relations.child_collections.resources, resource => (
                       <ResourceThumbnail
                         key={resource.uuid}

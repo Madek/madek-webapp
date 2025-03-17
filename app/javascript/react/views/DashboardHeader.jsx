@@ -64,9 +64,7 @@ module.exports = createReactClass({
             onClose={this._onClose}
             newCollectionUrl={get.new_collection_url}
           />
-        ) : (
-          undefined
-        )}
+        ) : undefined}
       </div>
     )
   }

@@ -52,7 +52,7 @@ $(document).ready(() => each(ujs, init => init()))
 
 // language switcher
 $(() =>
-  $('#lang_switcher').on('change', function(e) {
+  $('#lang_switcher').on('change', function (e) {
     const parsedUrl = parseUrl(location.href, true)
     parsedUrl.query['lang'] = $(e.currentTarget).val()
     delete parsedUrl.search

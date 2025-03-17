@@ -84,7 +84,7 @@ const UIDropdown = createReactClass({
 })
 
 UIDropdown.Menu = Dropdown.Menu
-UIDropdown.MenuItem = function(props) {
+UIDropdown.MenuItem = function (props) {
   if (props == null) {
     ;({ props } = this)
   }

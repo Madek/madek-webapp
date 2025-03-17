@@ -36,7 +36,7 @@ const defaultSubjectDecos = {
   }
 }
 
-const doOptionalsInclude = function(optionals, type) {
+const doOptionalsInclude = function (optionals, type) {
   const types = f.isArray(type) ? type : [type]
   return f.some(types, t => f.contains(optionals, t))
 }
@@ -130,7 +130,7 @@ module.exports = createReactClass({
       <form name="ui-rights-management" onSubmit={onSubmit}>
         {children}
         <div className="ui-rights-management">
-          {rows.map(function(row, i) {
+          {rows.map(function (row, i) {
             const showTitles = i === 0 // show titles on first table only
             return (
               <PermissionsBySubjectType
@@ -166,16 +166,12 @@ module.exports = createReactClass({
                         <a className="link weak" href={get.url} onClick={onCancel}>
                           {t('permissions_table_cancel_btn')}
                         </a>
-                      ) : (
-                        undefined
-                      )}
+                      ) : undefined}
                       {onSubmit ? (
                         <button className="primary-button large" disabled={saving}>
                           {t('permissions_table_save_btn')}
                         </button>
-                      ) : (
-                        undefined
-                      )}
+                      ) : undefined}
                     </div>
                   )
               }
@@ -218,10 +214,7 @@ var PermissionsBySubjectType = createReactClass({
     }
 
     return (
-      <div
-        className={
-          `ui-rights-management-users${editing}` ? ' ui-rights-management-editing' : undefined
-        }>
+      <div className="ui-rights-management-editing">
         <div className="ui-rights-body">
           <table className="ui-rights-group">
             <PermissionsSubjectHeader
@@ -231,7 +224,7 @@ var PermissionsBySubjectType = createReactClass({
               showTitles={showTitles}
             />
             <tbody>
-              {permissionsList.map(function(permissions) {
+              {permissionsList.map(function (permissions) {
                 const subject = permissions.subject || subjectName
 
                 return (
@@ -265,9 +258,7 @@ var PermissionsBySubjectType = createReactClass({
                   : undefined}
               </div>
             </div>
-          ) : (
-            undefined
-          )}
+          ) : undefined}
         </div>
       </div>
     )
@@ -356,12 +347,10 @@ var PermissionsSubject = createReactClass({
         <td className="ui-rights-user">
           {editing && permissions.subject != null ? (
             <RemoveButton onClick={onSubjectRemove} />
-          ) : (
-            undefined
-          )}
+          ) : undefined}
           <SubjectDeco subject={subject} />
         </td>
-        {permissionTypes.map(function(name) {
+        {permissionTypes.map(function (name) {
           const isEnabled = f.present(permissions[name])
           const curState = permissions[name] // true/false/mixed
           const isOverridden = overriddenBy ? overriddenBy[name] === true : false

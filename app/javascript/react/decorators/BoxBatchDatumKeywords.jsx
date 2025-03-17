@@ -162,7 +162,10 @@ class BoxBatchDatumKeywords extends React.Component {
             width: '70%',
             verticalAlign: 'top'
           }}>
-          {l.join(l.map(this.props.metaKeyForm.data.keywords, k => k.label), ', ')}
+          {l.join(
+            l.map(this.props.metaKeyForm.data.keywords, k => k.label),
+            ', '
+          )}
         </div>
       )
     }
