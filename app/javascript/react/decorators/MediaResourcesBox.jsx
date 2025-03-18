@@ -108,6 +108,8 @@ class MediaResourcesBox extends Component {
     this.requestId = Math.random()
   }
 
+  currentLoaderScope = 0
+
   componentWillUnmount() {
     return f.each(f.compact(this.doOnUnmount), function (fn) {
       if (f.isFunction(fn)) {
@@ -131,7 +133,7 @@ class MediaResourcesBox extends Component {
   }
 
   nextBoxState = events => {
-    //console.log('nextBoxState', events.length, events[0].path, events[0].event)
+    //console.log('nextBoxState', events[0].path, events[0].event)
     const merged = BoxRedux.mergeStateAndEventsRoot(this.state.boxState, events)
 
     const props = {
@@ -262,11 +264,15 @@ class MediaResourcesBox extends Component {
       config: resourceListParams(window.location)
     })
 
-    return this.triggerRootEvent({ action: 'mount' })
+    return this.triggerRootEvent({ action: 'mount', currentLoaderScope: this.currentLoaderScope })
   }
 
   forceFetchNextPage = () => {
-    return this.triggerRootEvent({ action: 'force-fetch-next-page' })
+    this.currentLoaderScope = Math.random()
+    return this.triggerRootEvent({
+      action: 'force-fetch-next-page',
+      currentLoaderScope: this.currentLoaderScope
+    })
   }
 
   // - custom actions:
@@ -274,7 +280,10 @@ class MediaResourcesBox extends Component {
     if (this.state.boxState.data.loadingNextPage) {
       return
     }
-    this.triggerRootEvent({ action: 'fetch-next-page' })
+    this.triggerRootEvent({
+      action: 'fetch-next-page',
+      currentLoaderScope: this.currentLoaderScope
+    })
   }
 
   _onFilterChange = (event, newParams) => {

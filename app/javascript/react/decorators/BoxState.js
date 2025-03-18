@@ -24,7 +24,11 @@ module.exports = merged => {
       path: path,
       data: {
         loadingNextPage: nextLoadingNextPage(),
-        selectedResources: nextSelectedResources()
+        selectedResources: nextSelectedResources(),
+        currentLoaderScope:
+          event.action === 'force-fetch-next-page' || event.action === 'mount'
+            ? event.currentLoaderScope
+            : data.currentLoaderScope
       },
       components: {
         resources: nextResources(),
@@ -191,10 +195,18 @@ module.exports = merged => {
     } else if (event.action == 'force-fetch-next-page') {
       return []
     } else if (event.action == 'page-loaded') {
-      return l.concat(
-        l.map(components.resources, rs => mapResourceState(rs)),
-        l.map(event.resources, (r, i) => mapResource(r, components.resources.length + i))
-      )
+      if (event.currentLoaderScope === data.currentLoaderScope) {
+        console.log('page-loaded')
+        return l.concat(
+          l.map(components.resources, rs => mapResourceState(rs)),
+          l.map(event.resources, (r, i) => mapResource(r, components.resources.length + i))
+        )
+      } else {
+        console.warn(
+          `page-loaded rejected because event loader scope ${event.currentLoaderScope} does not match current scope ${data.currentLoaderScope}`
+        )
+        return l.map(components.resources, rs => mapResourceState(rs))
+      }
     } else {
       return l.map(components.resources, rs => mapResourceState(rs))
     }
