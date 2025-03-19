@@ -103,10 +103,19 @@ class MediaResourcesBox extends Component {
       boxState: this.initialBoxState(props),
       showCreateCollectionModal: false
     }
-
-    this.doOnUnmount = [] // to be filled with functions to be called on unmount
-    this.requestId = Math.random()
   }
+
+  /**
+   * To be filled with functions to be called on unmount
+   */
+  doOnUnmount = []
+
+  /**
+   * Resources are loaded in a series of requests. This id will change when the resource list is
+   * cleared and a new request series is started, in order to be able to reject results from
+   * the outdated request series.
+   */
+  currentRequestSeriesId = 0
 
   componentWillUnmount() {
     return f.each(f.compact(this.doOnUnmount), function (fn) {
@@ -131,7 +140,7 @@ class MediaResourcesBox extends Component {
   }
 
   nextBoxState = events => {
-    //console.log('nextBoxState', events.length, events[0].path, events[0].event)
+    //console.log('nextBoxState', events[0].path, events[0].event)
     const merged = BoxRedux.mergeStateAndEventsRoot(this.state.boxState, events)
 
     const props = {
@@ -262,11 +271,18 @@ class MediaResourcesBox extends Component {
       config: resourceListParams(window.location)
     })
 
-    return this.triggerRootEvent({ action: 'mount' })
+    return this.triggerRootEvent({
+      action: 'mount',
+      currentRequestSeriesId: this.currentRequestSeriesId
+    })
   }
 
   forceFetchNextPage = () => {
-    return this.triggerRootEvent({ action: 'force-fetch-next-page' })
+    this.currentRequestSeriesId = Math.random()
+    return this.triggerRootEvent({
+      action: 'force-fetch-next-page',
+      currentRequestSeriesId: this.currentRequestSeriesId
+    })
   }
 
   // - custom actions:
@@ -274,7 +290,10 @@ class MediaResourcesBox extends Component {
     if (this.state.boxState.data.loadingNextPage) {
       return
     }
-    this.triggerRootEvent({ action: 'fetch-next-page' })
+    this.triggerRootEvent({
+      action: 'fetch-next-page',
+      currentRequestSeriesId: this.currentRequestSeriesId
+    })
   }
 
   _onFilterChange = (event, newParams) => {

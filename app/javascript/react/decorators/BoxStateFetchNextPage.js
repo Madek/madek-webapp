@@ -2,13 +2,7 @@ import l from 'lodash'
 import xhr from 'xhr'
 import setUrlParams from '../../lib/set-params-for-url.js'
 
-var requestId = Math.random()
-
 module.exports = (merged, nextResourcesLength) => {
-  return fetchNextPage(merged, nextResourcesLength)
-}
-
-var fetchNextPage = (merged, nextResourcesLength) => {
   let { event, trigger, data, nextProps } = merged
 
   if (data.loadingNextPage && !(event.action == 'page-loaded')) {
@@ -29,23 +23,15 @@ var fetchNextPage = (merged, nextResourcesLength) => {
     }
   )
 
-  // We compare the request id when sending started
-  // with the request id when the answer arrives and
-  // only process the answer when its still the same id.
-  var localRequestId = requestId
-
   return xhr.get(
     {
       url: nextUrl,
       json: true
     },
     (err, res, body) => {
-      if (requestId != localRequestId) {
-        return
-      }
-
       trigger(merged, {
         action: res.statusCode === 200 ? 'page-loaded' : 'page-load-failed',
+        currentRequestSeriesId: event.currentRequestSeriesId,
         resources: l.get(body, nextProps.getJsonPath())
       })
     }

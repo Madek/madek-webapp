@@ -24,7 +24,11 @@ module.exports = merged => {
       path: path,
       data: {
         loadingNextPage: nextLoadingNextPage(),
-        selectedResources: nextSelectedResources()
+        selectedResources: nextSelectedResources(),
+        currentRequestSeriesId:
+          event.action === 'force-fetch-next-page' || event.action === 'mount'
+            ? event.currentRequestSeriesId
+            : data.currentRequestSeriesId
       },
       components: {
         resources: nextResources(),
@@ -191,10 +195,16 @@ module.exports = merged => {
     } else if (event.action == 'force-fetch-next-page') {
       return []
     } else if (event.action == 'page-loaded') {
-      return l.concat(
-        l.map(components.resources, rs => mapResourceState(rs)),
-        l.map(event.resources, (r, i) => mapResource(r, components.resources.length + i))
-      )
+      if (event.currentRequestSeriesId === data.currentRequestSeriesId) {
+        return l.concat(
+          l.map(components.resources, rs => mapResourceState(rs)),
+          l.map(event.resources, (r, i) => mapResource(r, components.resources.length + i))
+        )
+      } else {
+        // ignore newly loaded resources when they come from an expired request series
+        // (e.g. when sorting was changed while resources where still loading)
+        return l.map(components.resources, rs => mapResourceState(rs))
+      }
     } else {
       return l.map(components.resources, rs => mapResourceState(rs))
     }
