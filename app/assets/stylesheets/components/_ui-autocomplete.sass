@@ -126,16 +126,14 @@
 // rendering of a person suggestion line
 .ui-autocomplete__person-suggestion
   display: flex
-  // flex-wrap: wrap
-  min-width: 450px
-  max-width: 600px
+  gap: 10px
+  width: 600px
 
   &__col1
-    flex: 1 0 35%
-    max-width: 50%
+    flex: 0 0 35%
+    text-wrap: wrap
 
   &__col2
-    padding-left: 10px
-    flex: 1 1 60%
+    padding-left: 5px
+    flex: 0 0 60%
     text-wrap: wrap
-    color: $mono-mid

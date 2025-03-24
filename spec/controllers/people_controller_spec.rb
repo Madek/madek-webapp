@@ -133,7 +133,8 @@ describe PeopleController do
 
     context 'delivers person info according to app settings' do
       before(:each) do
-        FactoryBot.create :person, identification_info: 'cool', institution: 'moma', institutional_id: '123', last_name: 'SmithX77'
+        FactoryBot.create :person, identification_info: 'cool', institution: 'moma',
+          institutional_id: '123', institutional_directory_infos: ['Faculty', 'Staff'], last_name: 'SmithX77'
       end
 
       example 'default' do
@@ -146,7 +147,7 @@ describe PeopleController do
             session: { user_id: user.id }
         assert_response :success
         p = JSON.parse(response.body).first
-        expect(p['info']).to eq 'cool'
+        expect(p['info']).to eq ['cool']
       end
 
       example 'no info' do
@@ -161,7 +162,7 @@ describe PeopleController do
             session: { user_id: user.id }
         assert_response :success
         p = JSON.parse(response.body).first
-        expect(p['info']).to be_nil
+        expect(p['info']).to eq []
       end
 
       example 'with institutional id' do
@@ -176,7 +177,7 @@ describe PeopleController do
             session: { user_id: user.id }
         assert_response :success
         p = JSON.parse(response.body).first
-        expect(p['info']).to eq 'moma 123'
+        expect(p['info']).to eq ['moma 123']
       end
 
       example 'with identification info' do
@@ -191,11 +192,11 @@ describe PeopleController do
             session: { user_id: user.id }
         assert_response :success
         p = JSON.parse(response.body).first
-        expect(p['info']).to eq 'cool'
+        expect(p['info']).to eq ['cool']
       end
 
-      example 'with both' do
-        AppSetting.first.update person_info_fields: ['institutional_id', 'identification_info']
+      example 'with institutional directory infos' do
+        AppSetting.first.update person_info_fields: ['institutional_directory_infos']
 
         get :index,
             params: {
@@ -206,7 +207,22 @@ describe PeopleController do
             session: { user_id: user.id }
         assert_response :success
         p = JSON.parse(response.body).first
-        expect(p['info']).to eq 'moma 123 - cool'
+        expect(p['info']).to eq ['Faculty', 'Staff']
+      end
+
+      example 'with all info fields' do
+        AppSetting.first.update person_info_fields: ['institutional_id', 'identification_info', 'institutional_directory_infos']
+
+        get :index,
+            params: {
+              meta_key_id: meta_key_people.id,
+              search_term: 'SmithX77',
+              limit: 1,
+              format: :json },
+            session: { user_id: user.id }
+        assert_response :success
+        p = JSON.parse(response.body).first
+        expect(p['info']).to eq ['moma 123', 'cool', 'Faculty', 'Staff']
       end
     end
   end

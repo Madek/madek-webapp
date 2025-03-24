@@ -16,7 +16,10 @@ module Presenters
         if fields.include?('identification_info') && @app_resource.identification_info
           fragments << @app_resource.identification_info
         end
-        fragments.join(' - ') unless fragments.empty?
+        if fields.include?('institutional_directory_infos') && @app_resource.institutional_directory_infos.any?
+          fragments += @app_resource.institutional_directory_infos
+        end
+        fragments
       end
     end
   end
