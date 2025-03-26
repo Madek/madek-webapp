@@ -8,7 +8,7 @@ import l from 'lodash'
 // Just import (although not used here) since it sets some global stuff for
 // locales which are used in other components (tests failed).
 // Remove it and check the failing tests.
-// eslint-disable-next-line no-unused-vars
+
 import DatePicker from '../ui-components/DatePicker.js'
 
 class BoxBatchDatumTextDate extends React.Component {

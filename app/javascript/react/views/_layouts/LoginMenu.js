@@ -9,7 +9,6 @@ class LoginMenu extends React.Component {
     this.state = { loginName: '' }
   }
 
-  // eslint-disable-next-line no-unused-vars
   render({ authToken, for_url, returnTo, lang, className, ...restProps } = this.props) {
     // (`no-unused-vars` because `authToken` and `for_url` are passed to props due to force majeure,
     // but are not needed here and otherwise would go to the DOM via restProps)

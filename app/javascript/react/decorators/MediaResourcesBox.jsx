@@ -456,7 +456,6 @@ class MediaResourcesBox extends Component {
     return this.setState({ showSelectionLimit: false })
   }
 
-  // eslint-disable-next-line no-unused-vars
   _onHoverMenu = (menu_id, event) => {
     // NOTE: Do not delete the `event` parameter although it seems to be unused!
     //       Removing it will crash the menu rendering. I don't understand how this is

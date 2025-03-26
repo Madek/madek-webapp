@@ -151,7 +151,7 @@ module.exports = AppResource.extend(
           progress = (loaded / total) * 100
         } catch (error) {
           // Why the log? see https://github.com/Madek/Madek/issues/669
-          // eslint-disable-next-line no-console
+
           console.error('Could not calculate percentage for loaded/total:', loaded, total, error)
           progress = -1
         }
@@ -175,14 +175,14 @@ module.exports = AppResource.extend(
               error = err
             } else if (res) {
               // Why the log? see above
-              // eslint-disable-next-line no-console
+
               console.error(`Response status code = ${res.statusCode}`)
               error = res.body
             } else {
               error = 'Error: no response data'
             }
             // Why the log? see above
-            // eslint-disable-next-line no-console
+
             console.log('Date', Date())
             this.set('uploading', f.merge(this.uploading, { error }))
           } else {

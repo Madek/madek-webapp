@@ -44,7 +44,6 @@ module.exports = () =>
     }
 
     if (f.isFunction(init)) {
-      // eslint-disable-next-line react/no-render-return-value
       return init(data, enhanced => ReactDOM.render(enhanced, element))
     }
   })

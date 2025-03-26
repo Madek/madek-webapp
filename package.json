@@ -26,6 +26,7 @@
   "dependencies": {
     "@eins78/typeahead.js": "0.11.2-pre.1",
     "@eins78/typopro-open-sans": "0.0.0",
+    "@eslint/js": "^9.23.0",
     "@prettier/plugin-ruby": "^4.0.4",
     "active-lodash": "1.2.2",
     "ampersand-app": "2.0.0",
@@ -76,10 +77,11 @@
     "browserify-incremental": "^3.1.1",
     "bulkify": "^1.4.2",
     "cheerio": "^0.22.0",
-    "eslint": "^8.57.1",
+    "eslint": "^9.23.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-react": "^7.37.4",
+    "globals": "^16.0.0",
     "i18n-iso-countries": "^1.11.0",
     "prettier": "^3.5.3",
     "prettier-eslint": "^12.0.0",
@@ -119,50 +121,5 @@
     "bracketSpacing": true,
     "jsxBracketSameLine": true,
     "arrowParens": "avoid"
-  },
-  "eslintConfig": {
-    "env": {
-      "es6": true,
-      "browser": true,
-      "commonjs": true
-    },
-    "parserOptions": {
-      "ecmaVersion": 2022,
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "impliedStrict": true,
-        "jsx": true,
-        "experimentalObjectRestSpread": true
-      }
-    },
-    "plugins": [
-      "prettier",
-      "react"
-    ],
-    "settings": {
-      "react": {
-        "version": "detect"
-      }
-    },
-    "extends": [
-      "eslint:recommended",
-      "prettier",
-      "plugin:react/recommended"
-    ],
-    "rules": {
-      "prettier/prettier": [
-        "error"
-      ],
-      "react/prop-types": "off",
-      "react/no-string-refs": "warn",
-      "react/no-find-dom-node": "warn",
-      "react/no-is-mounted": "warn",
-      "no-console": "warn"
-    },
-    "globals": {
-      "$": "readonly",
-      "APP_CONFIG": "readonly",
-      "__dirname": "readonly"
-    }
   }
 }
