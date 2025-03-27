@@ -35,7 +35,7 @@ module.exports = {
           data = undefined
           try {
             data = JSON.parse(body)
-          } catch (error1) {
+          } catch {
             callback({
               result: 'error',
               type: 'client-error',
@@ -57,7 +57,7 @@ module.exports = {
           data = undefined
           try {
             data = JSON.parse(body)
-          } catch (error2) {
+          } catch {
             callback({
               result: 'error',
               type: 'server-error',

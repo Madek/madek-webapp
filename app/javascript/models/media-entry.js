@@ -190,7 +190,7 @@ module.exports = AppResource.extend(
             const attrs = (() => {
               try {
                 return JSON.parse(res.body)
-              } catch (error1) {
+              } catch {
                 // silently ignore
               }
             })()

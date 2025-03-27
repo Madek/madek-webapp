@@ -87,7 +87,7 @@ const SelectingTextarea = props => {
       let selectionLength
       try {
         selectionLength = target.value.length
-      } catch (e) {
+      } catch {
         selectionLength = 9999
       }
       target.setSelectionRange(0, selectionLength)

@@ -69,7 +69,7 @@ module.exports = Model.extend(RailsResource, {
           (() => {
             try {
               return JSON.parse(body)
-            } catch (error) {
+            } catch {
               // this is OK, just fallback to unparsed body
             }
           })() || body

@@ -77,7 +77,7 @@ function formatValue(value) {
   if (isString(value)) return value
   try {
     return JSON.stringify(value)
-  } catch (e) {
+  } catch {
     return String(value)
   }
 }
@@ -100,7 +100,7 @@ function ensureText(value) {
   if (!value || isString(value)) return value
   try {
     return JSON.stringify(value, 0, 2)
-  } catch (e) {
+  } catch {
     return String(value)
   }
 }

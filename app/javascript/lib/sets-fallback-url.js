@@ -32,7 +32,7 @@ module.exports = function (url, usePathUrlReplacement) {
       const parsed = (() => {
         try {
           return JSON.parse(newParams.list.filter)
-        } catch (error) {
+        } catch {
           // silently ignore (bit shady...)
         }
       })()

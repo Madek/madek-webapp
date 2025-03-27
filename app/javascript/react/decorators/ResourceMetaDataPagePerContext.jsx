@@ -239,7 +239,7 @@ module.exports = createReactClass({
 
         try {
           data = JSON.parse(body)
-        } catch (error) {
+        } catch {
           window.scrollTo(0, 0)
           if (this.isMounted()) {
             this.setState({

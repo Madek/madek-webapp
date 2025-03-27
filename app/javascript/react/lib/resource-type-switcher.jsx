@@ -69,7 +69,7 @@ var urlByType = function (url, currentType, newType) {
       const parsed = (() => {
         try {
           return JSON.parse(newParams.list.filter)
-        } catch (error) {
+        } catch {
           // silently fallback
         }
       })()
