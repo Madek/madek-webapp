@@ -16,6 +16,7 @@ class ApplicationController < ActionController::Base
   include RespondersSetup
   include LangParams
   include Errors
+  include BannerMessage
 
   before_action :notify_if_session_expiring_soon
 

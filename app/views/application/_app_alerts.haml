@@ -16,9 +16,9 @@
     ].include?(action_name)
 
     unless @get.published?
-        content_for(:app_alerts) do
-          component('alert', level: 'warning', text: t(:media_entry_not_published_warning_msg))
-        end
+      content_for(:app_alerts) do
+        component('alert', level: 'warning', text: t(:media_entry_not_published_warning_msg))
+      end
     end
 
   end
