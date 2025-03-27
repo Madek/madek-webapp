@@ -100,14 +100,15 @@ module.exports = createReactClass({
         this.setState({ saving: false, editing: false })
         return this._router.goTo(model.url)
       },
-      error: (model, err) => {
+      error: (_, err) => {
         this.setState({ saving: false, editing: true })
         alert(
           `Error! ${
             (() => {
               try {
                 return JSON.stringify((err != null ? err.body : undefined) || err, 0, 2)
-              } catch (error) {
+                // eslint-disable-next-line no-unused-vars
+              } catch (e) {
                 // just silently fall back and alert an empty string. Mh.
               }
             })() || ''

@@ -35,7 +35,9 @@ module.exports = {
           data = undefined
           try {
             data = JSON.parse(body)
-          } catch (error1) {
+
+            // eslint-disable-next-line no-unused-vars
+          } catch (e) {
             callback({
               result: 'error',
               type: 'client-error',
@@ -57,7 +59,9 @@ module.exports = {
           data = undefined
           try {
             data = JSON.parse(body)
-          } catch (error2) {
+
+            // eslint-disable-next-line no-unused-vars
+          } catch (e) {
             callback({
               result: 'error',
               type: 'server-error',

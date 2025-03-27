@@ -239,7 +239,9 @@ module.exports = createReactClass({
 
         try {
           data = JSON.parse(body)
-        } catch (error) {
+
+          // eslint-disable-next-line no-unused-vars
+        } catch (e) {
           window.scrollTo(0, 0)
           if (this.isMounted()) {
             this.setState({

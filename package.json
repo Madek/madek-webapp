@@ -16,7 +16,10 @@
     "build:server": "NODE_ENV=production browserify app/javascript/react-server-side.js -v -o public/assets/bundles/bundle-react-server-side.js",
     "build:server:dev": "NODE_ENV=development browserify app/javascript/react-server-side.js -v -o public/assets/bundles/bundle-react-server-side.js",
     "build:integration": "NODE_ENV=production browserify app/javascript/integration-testbed.js -v -o public/assets/bundles/bundle-integration-testbed.js",
+    "format": "prettier 'app/javascript/**/*.{js,jsx}' --write",
+    "format:check": "prettier 'app/javascript/**/*.{js,jsx}' --check",
     "lint": "eslint 'app/javascript/**/*.{js,jsx}'",
+    "lint:errors": "eslint --quiet 'app/javascript/**/*.{js,jsx}'",
     "lint:fix": "eslint --fix 'app/javascript/**/*.{js,jsx}'",
     "devtools": "NODE_ENV=development npm run -s build-devtools",
     "devtools-js": "NODE_ENV=development npm run -s build-devtools && node -r ./tmp/devtools.js",
@@ -67,6 +70,7 @@
   },
   "devDependencies": {
     "@eins78/rspec-render-docs": "^1.0.0-alpha.4",
+    "@eslint/js": "^9.23.0",
     "babel-plugin-transform-runtime": "^6.15.0",
     "babel-polyfill": "^6.22.0",
     "babel-preset-react-app": "^2.0.1",
@@ -76,13 +80,14 @@
     "browserify-incremental": "^3.1.1",
     "bulkify": "^1.4.2",
     "cheerio": "^0.22.0",
-    "eslint": "^8.57.1",
+    "eslint": "^9.23.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-react": "^7.37.4",
+    "globals": "^16.0.0",
     "i18n-iso-countries": "^1.11.0",
     "prettier": "^3.5.3",
-    "prettier-eslint": "^12.0.0",
+    "prettier-eslint": "^16.3.0",
     "watchify": "^4.0.0"
   },
   "browserify": {
@@ -110,59 +115,5 @@
       "type": "GNU GPLv3",
       "url": "http://www.gnu.org/copyleft/gpl.html"
     }
-  ],
-  "prettier": {
-    "printWidth": 100,
-    "singleQuote": true,
-    "semi": false,
-    "trailingComma": "none",
-    "bracketSpacing": true,
-    "jsxBracketSameLine": true,
-    "arrowParens": "avoid"
-  },
-  "eslintConfig": {
-    "env": {
-      "es6": true,
-      "browser": true,
-      "commonjs": true
-    },
-    "parserOptions": {
-      "ecmaVersion": 2022,
-      "sourceType": "module",
-      "ecmaFeatures": {
-        "impliedStrict": true,
-        "jsx": true,
-        "experimentalObjectRestSpread": true
-      }
-    },
-    "plugins": [
-      "prettier",
-      "react"
-    ],
-    "settings": {
-      "react": {
-        "version": "detect"
-      }
-    },
-    "extends": [
-      "eslint:recommended",
-      "prettier",
-      "plugin:react/recommended"
-    ],
-    "rules": {
-      "prettier/prettier": [
-        "error"
-      ],
-      "react/prop-types": "off",
-      "react/no-string-refs": "warn",
-      "react/no-find-dom-node": "warn",
-      "react/no-is-mounted": "warn",
-      "no-console": "warn"
-    },
-    "globals": {
-      "$": "readonly",
-      "APP_CONFIG": "readonly",
-      "__dirname": "readonly"
-    }
-  }
+  ]
 }

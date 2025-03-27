@@ -77,6 +77,8 @@ function formatValue(value) {
   if (isString(value)) return value
   try {
     return JSON.stringify(value)
+
+    // eslint-disable-next-line no-unused-vars
   } catch (e) {
     return String(value)
   }
@@ -100,6 +102,7 @@ function ensureText(value) {
   if (!value || isString(value)) return value
   try {
     return JSON.stringify(value, 0, 2)
+    // eslint-disable-next-line no-unused-vars
   } catch (e) {
     return String(value)
   }

@@ -87,6 +87,8 @@ const SelectingTextarea = props => {
       let selectionLength
       try {
         selectionLength = target.value.length
+
+        // eslint-disable-next-line no-unused-vars
       } catch (e) {
         selectionLength = 9999
       }

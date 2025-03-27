@@ -32,7 +32,9 @@ module.exports = function (url, usePathUrlReplacement) {
       const parsed = (() => {
         try {
           return JSON.parse(newParams.list.filter)
-        } catch (error) {
+
+          // eslint-disable-next-line no-unused-vars
+        } catch (e) {
           // silently ignore (bit shady...)
         }
       })()

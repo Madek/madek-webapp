@@ -103,7 +103,8 @@ var urlByType = function (url, currentType, newType) {
       const parsed = (() => {
         try {
           return JSON.parse(newParams.list.filter)
-        } catch (error) {
+          // eslint-disable-next-line no-unused-vars
+        } catch (e) {
           // silently fall back
         }
       })()

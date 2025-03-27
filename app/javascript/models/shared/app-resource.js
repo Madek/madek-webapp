@@ -69,7 +69,9 @@ module.exports = Model.extend(RailsResource, {
           (() => {
             try {
               return JSON.parse(body)
-            } catch (error) {
+
+              // eslint-disable-next-line no-unused-vars
+            } catch (e) {
               // this is OK, just fallback to unparsed body
             }
           })() || body

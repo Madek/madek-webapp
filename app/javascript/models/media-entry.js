@@ -190,7 +190,8 @@ module.exports = AppResource.extend(
             const attrs = (() => {
               try {
                 return JSON.parse(res.body)
-              } catch (error1) {
+                // eslint-disable-next-line no-unused-vars
+              } catch (e) {
                 // silently ignore
               }
             })()

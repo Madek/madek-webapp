@@ -557,6 +557,7 @@ const WorkflowEditor = ({
           {t('workflow_actions_validate')}
         </button>
         */}
+          {/* eslint-disable-next-line */}
           {canEdit && false && (
             <RailsForm
               action={get.actions.preview.url}
