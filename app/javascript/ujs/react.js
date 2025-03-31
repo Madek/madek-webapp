@@ -20,6 +20,7 @@ const initByClass = {
   'Views.My.Uploader'(data, callback) {
     const MediaEntries = require('../models/media-entries.js')
     const Uploader = require('../react/views/My/Uploader.jsx')
+
     const props = f.set(data.reactProps, 'appCollection', new MediaEntries())
     return callback(React.createElement(Uploader, props))
   }

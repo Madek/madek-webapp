@@ -1,11 +1,4 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import React from 'react'
-import createReactClass from 'create-react-class'
 import PropTypes from 'prop-types'
 import f from 'active-lodash'
 import async from 'async'
@@ -23,24 +16,31 @@ const UploadQueue = async.queue(
   UPLOAD_CONCURRENCY
 )
 
-module.exports = createReactClass({
-  displayName: 'Uploader',
-  propTypes: {
+class Uploader extends React.Component {
+  static propTypes = {
     get: PropTypes.shape({
       next_step: PropTypes.shape({
         label: PropTypes.string.isRequired,
         url: PropTypes.string.isRequired
       }).isRequired
     }).isRequired
-  },
+  }
 
-  getInitialState() {
-    return {
+  constructor(props) {
+    super(props)
+    this.state = {
       isClient: false,
       customUrlsAlreadyMoved: false,
-      duplicatorConfiguration: f.get(this.props, 'get.duplicator_defaults')
+      duplicatorConfiguration: f.get(this.props, 'get.duplicator_defaults'),
+      uploadError: []
     }
-  },
+
+    this.onFilesDrop = this.onFilesDrop.bind(this)
+    this.onFilesSelect = this.onFilesSelect.bind(this)
+    this.addFiles = this.addFiles.bind(this)
+    this.isChecked = this.isChecked.bind(this)
+    this.onCheckboxToggle = this.onCheckboxToggle.bind(this)
+  }
 
   componentDidMount() {
     FileDrop = require('react-file-drop')
@@ -49,38 +49,77 @@ module.exports = createReactClass({
     }
     this.setState({ isClient: true, uploading: false, uploads: UploadQueue })
 
-    // listen to events from UploadQueue:
+    // Set up event listeners for UploadQueue
     UploadQueue.drain = () => {
-      if (this.isMounted()) {
-        return this.setState({ uploading: false })
+      if (this._isMounted) {
+        this.setState({ uploading: false })
       }
     }
-    return (UploadQueue.saturated = () => {
-      if (this.isMounted()) {
-        return this.setState({ waiting: true })
+    UploadQueue.saturated = () => {
+      if (this._isMounted) {
+        this.setState({ waiting: true })
       }
+    }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
+  }
+
+  checkFiles(files) {
+    const fileArray = !Array.isArray(files) && files.length ? Array.from(files) : files
+
+    this.setState({ uploadError: [] })
+
+    let validFiles = []
+
+    fileArray.forEach((file, index) => {
+      const img = new Image()
+
+      img.onload = () => {
+        if (img.width > 16000 || img.height > 16000) {
+          this.setState(prev => ({
+            uploadError: [
+              ...prev.uploadError,
+              `File ${file.name} exceeds the size limit of 16000px.`
+            ]
+          }))
+          fileArray.splice(index, 1)
+        }
+
+        if (img.width < 16000 && img.height < 16000) {
+          validFiles.push(file)
+        }
+
+        if (validFiles.length && validFiles.length === fileArray.length) {
+          // Proceed with the following code only if all files are valid
+          this.addFiles(validFiles)
+        }
+      }
+
+      img.src = URL.createObjectURL(file)
     })
-  },
+  }
 
   onFilesDrop(files) {
-    return this.addFiles(files)
-  },
-  onFilesSelect(event) {
-    this.addFiles(f.get(event, 'target.files'))
+    this.checkFiles(files)
+  }
 
-    // Ensure the event is fired again if selecting the same file again.
-    // http://stackoverflow.com/questions/12030686/html-input-file-selection-event-not-firing-upon-selecting-the-same-file
-    return (event.target.value = null)
-  },
+  onFilesSelect(event) {
+    this.checkFiles(event.target.files)
+
+    event.target.value = null
+  }
 
   addFiles(files) {
-    if (!f.present(files)) {
+    if (!Array.isArray(files) || !files.length) {
       return
     }
 
     const parsedUrl = parseUrl(window.location.href, true)
-    const workflowId = f.get(parsedUrl, 'query.workflow_id')
-    const copyMdFromId = f.get(this.props, 'get.copy_md_from.uuid')
+    const workflowId = parsedUrl.query.workflow_id
+    const copyMdFromId = this.props.get.copy_md_from ? this.props.get.copy_md_from.uuid : null
+
     const copyMdFrom = copyMdFromId
       ? {
           id: copyMdFromId,
@@ -89,12 +128,12 @@ module.exports = createReactClass({
       : undefined
 
     if (
-      (this.state.duplicatorConfiguration != null
-        ? this.state.duplicatorConfiguration.move_custom_urls
-        : undefined) === true
+      this.state.duplicatorConfiguration !== null &&
+      this.state.duplicatorConfiguration.move_custom_urls === true
     ) {
       const configuration = f.assign({}, this.state.duplicatorConfiguration)
       configuration.move_custom_urls = false
+
       this.setState({
         customUrlsAlreadyMoved: true,
         duplicatorConfiguration: configuration
@@ -102,31 +141,31 @@ module.exports = createReactClass({
     }
 
     const added = this.props.appCollection.add(
-      f.map(files, file => ({ uploading: { file, workflowId, copyMdFrom } }))
+      files.map(file => ({ uploading: { file, workflowId, copyMdFrom } }))
     )
 
     // immediately trigger upload!
     this.setState({ uploading: true })
-    return f.each(added, model =>
+    added.map(model =>
       UploadQueue.push(model, function (err) {
         if (err) {
-          return console.error('Uploader failed!', model, err)
+          console.error('Uploader failed!', model, err)
         }
       })
     )
-  },
+  }
 
   isChecked(name) {
     return f.get(this.state, ['duplicatorConfiguration', name], false)
-  },
+  }
 
   onCheckboxToggle(e) {
     const configKey = e.target.name
     const { checked } = e.target
     const configuration = f.assign({}, this.state.duplicatorConfiguration)
     configuration[configKey] = checked
-    return this.setState({ duplicatorConfiguration: configuration })
-  },
+    this.setState({ duplicatorConfiguration: configuration })
+  }
 
   renderCheckbox(name, props) {
     return (
@@ -138,110 +177,118 @@ module.exports = createReactClass({
         disabled={f.get(props, 'disabled', this.state.uploading)}
       />
     )
-  },
+  }
 
-  render(param) {
-    if (param == null) {
-      param = this
-    }
-    const { props, state } = param
+  render() {
+    const { props, state } = this
     const name = 'media_entry'
     if (!state.isClient) {
       return null
     }
 
     return (
-      <div id="ui-uploader">
-        {props.get.copy_md_from ? (
-          <div
-            className="notice mtm pam"
-            style={{
-              border: '1px solid #ffeeba',
-              backgroundColor: '#fff3cd',
-              color: '#856404',
-              borderRadius: '3px'
-            }}>
-            {t('media_entry_duplicator_desc_pre')}{' '}
-            <Link href={props.get.copy_md_from.url} className="block">
-              {props.get.copy_md_from.title}
-            </Link>{' '}
-            {t('media_entry_duplicator_desc_post')}
-            <div id="duplicator-configuration" className="ptm">
-              <span>{t('media_entry_duplicator_configuration_instructions')}</span>
-              <label className="block">
-                {this.renderCheckbox('copy_meta_data')}{' '}
-                {t('media_entry_duplicator_configuration_copy_meta_data')}
-              </label>
-              <label className="block">
-                {this.renderCheckbox('copy_permissions')}{' '}
-                {t('media_entry_duplicator_configuration_copy_permissions')}
-              </label>
-              <label className="block">
-                {this.renderCheckbox('copy_relations')}{' '}
-                {t('media_entry_duplicator_configuration_copy_relations')}
-              </label>
-              <label className="block">
-                {this.renderCheckbox('annotate_as_new_version_of')}{' '}
-                {t('media_entry_duplicator_configuration_annotate_as_new_version_of_pre')}{' '}
-                <Link href={props.get.copy_md_from.url} className="block">
-                  {props.get.copy_md_from.title}
-                </Link>{' '}
-                {t('media_entry_duplicator_configuration_annotate_as_new_version_of_post')}
-              </label>
-              <label className="block">
-                {this.renderCheckbox('move_custom_urls', {
-                  disabled:
-                    !f.get(this.props, 'get.copy_md_from.custom_urls?', false) ||
-                    this.state.customUrlsAlreadyMoved ||
-                    this.state.uploading
-                })}{' '}
-                {!f.get(this.props, 'get.copy_md_from.custom_urls?', false) ||
-                this.state.customUrlsAlreadyMoved ? (
-                  <span style={{ textDecoration: 'line-through' }}>
-                    {t('media_entry_duplicator_configuration_move_custom_urls')}
-                  </span>
-                ) : (
-                  t('media_entry_duplicator_configuration_move_custom_urls')
-                )}
-                {this.state.customUrlsAlreadyMoved ? (
-                  <span> → {t('media_entry_duplicator_custom_urls_already_moved')}</span>
-                ) : undefined}
-              </label>
-            </div>
+      <div>
+        {this.state.uploadError.length > 0 ? (
+          <div className="ui-alert error">
+            {this.state.uploadError.map((error, index) => (
+              <div key={index}>{error}</div>
+            ))}
           </div>
         ) : undefined}
-        <FileDrop onDrop={this.onFilesDrop} targetAlwaysVisible={true}>
-          <SuperBoxUpload
-            ref="polybox"
-            authToken={props.authToken}
-            ampersandCollection={props.appCollection}>
-            <div className="ui-form-group rowed by-center">
-              <h3 className="title-l">
-                {t('media_entry_media_import_inside') + ' '}
-                <label className="primary-button" style={{ fontSize: '16px', top: '-2px' }}>
-                  {t('media_entry_media_import_select_media')}
-                  <input
-                    type="file"
-                    multiple={true}
-                    style={{ display: 'none' }}
-                    name={name + '[media_file][]'}
-                    onChange={this.onFilesSelect}
-                  />
+        <div id="ui-uploader">
+          {props.get.copy_md_from ? (
+            <div
+              className="notice mtm pam"
+              style={{
+                border: '1px solid #ffeeba',
+                backgroundColor: '#fff3cd',
+                color: '#856404',
+                borderRadius: '3px'
+              }}>
+              {t('media_entry_duplicator_desc_pre')}{' '}
+              <Link href={props.get.copy_md_from.url} className="block">
+                {props.get.copy_md_from.title}
+              </Link>{' '}
+              {t('media_entry_duplicator_desc_post')}
+              <div id="duplicator-configuration" className="ptm">
+                <span>{t('media_entry_duplicator_configuration_instructions')}</span>
+                <label className="block">
+                  {this.renderCheckbox('copy_meta_data')}{' '}
+                  {t('media_entry_duplicator_configuration_copy_meta_data')}
                 </label>
-              </h3>
+                <label className="block">
+                  {this.renderCheckbox('copy_permissions')}{' '}
+                  {t('media_entry_duplicator_configuration_copy_permissions')}
+                </label>
+                <label className="block">
+                  {this.renderCheckbox('copy_relations')}{' '}
+                  {t('media_entry_duplicator_configuration_copy_relations')}
+                </label>
+                <label className="block">
+                  {this.renderCheckbox('annotate_as_new_version_of')}{' '}
+                  {t('media_entry_duplicator_configuration_annotate_as_new_version_of_pre')}{' '}
+                  <Link href={props.get.copy_md_from.url} className="block">
+                    {props.get.copy_md_from.title}
+                  </Link>{' '}
+                  {t('media_entry_duplicator_configuration_annotate_as_new_version_of_post')}
+                </label>
+                <label className="block">
+                  {this.renderCheckbox('move_custom_urls', {
+                    disabled:
+                      !f.get(this.props, 'get.copy_md_from.custom_urls?', false) ||
+                      this.state.customUrlsAlreadyMoved ||
+                      this.state.uploading
+                  })}{' '}
+                  {!f.get(this.props, 'get.copy_md_from.custom_urls?', false) ||
+                  this.state.customUrlsAlreadyMoved ? (
+                    <span style={{ textDecoration: 'line-through' }}>
+                      {t('media_entry_duplicator_configuration_move_custom_urls')}
+                    </span>
+                  ) : (
+                    t('media_entry_duplicator_configuration_move_custom_urls')
+                  )}
+                  {this.state.customUrlsAlreadyMoved ? (
+                    <span> → {t('media_entry_duplicator_custom_urls_already_moved')}</span>
+                  ) : undefined}
+                </label>
+              </div>
             </div>
-          </SuperBoxUpload>
-        </FileDrop>
-        <ActionsBar>
-          <Button
-            mod="primary"
-            mods="large"
-            href={props.get.next_step.url}
-            disabled={state.uploading}>
-            {props.get.next_step.label}
-          </Button>
-        </ActionsBar>
+          ) : undefined}
+          <FileDrop onDrop={this.onFilesDrop} targetAlwaysVisible={true}>
+            <SuperBoxUpload
+              ref={el => (this.polybox = el)}
+              authToken={props.authToken}
+              ampersandCollection={props.appCollection}>
+              <div className="ui-form-group rowed by-center">
+                <h3 className="title-l">
+                  {t('media_entry_media_import_inside') + ' '}
+                  <label className="primary-button" style={{ fontSize: '16px', top: '-2px' }}>
+                    {t('media_entry_media_import_select_media')}
+                    <input
+                      type="file"
+                      multiple={true}
+                      style={{ display: 'none' }}
+                      name={name + '[media_file][]'}
+                      onChange={this.onFilesSelect}
+                    />
+                  </label>
+                </h3>
+              </div>
+            </SuperBoxUpload>
+          </FileDrop>
+          <ActionsBar>
+            <Button
+              mod="primary"
+              mods="large"
+              href={props.get.next_step.url}
+              disabled={state.uploading}>
+              {props.get.next_step.label}
+            </Button>
+          </ActionsBar>
+        </div>
       </div>
     )
   }
-})
+}
+
+module.exports = Uploader
