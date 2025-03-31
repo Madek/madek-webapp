@@ -43,8 +43,8 @@ feature 'My: Notifications' do
         "Alle Notifikationen löschen\n" + 
         "#{Date.today.strftime("%d.%m.%Y")}\n(4)\n" +
         "#{2.days.ago.strftime("%d.%m.%Y")}\n(2)\n" +
-        "#{current_time}\n–\nVerantwortlichkeit für Medieneintrag Best coffee in town wurde von Mocha Joe an Sie übertragen.\n" +
-        "#{current_time}\n–\nVerantwortlichkeit für Medieneintrag A muffin-like scone wurde von Mocha Joe an Sie übertragen.\n" +
+        "#{(Time.now - 2 * 86400).strftime("%H:%M")}\n–\nVerantwortlichkeit für Medieneintrag Best coffee in town wurde von Mocha Joe an Sie übertragen.\n" +
+        "#{(Time.now - 2 * 86400).strftime("%H:%M")}\n–\nVerantwortlichkeit für Medieneintrag A muffin-like scone wurde von Mocha Joe an Sie übertragen.\n" +
         "#{4.days.ago.strftime("%d.%m.%Y")}\n–\nVerantwortlichkeit für Medieneintrag A wobbly table wurde von Mocha Joe an Sie übertragen."
       )
 
