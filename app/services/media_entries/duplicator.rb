@@ -21,7 +21,11 @@ class MediaEntries::Duplicator
         media_entry.save(validate: false)
       end
       copy_meta_data if config.copy_meta_data
-      copy_permissions if config.copy_permissions
+      if config.copy_permissions
+        copy_permissions 
+      else
+        media_entry.update!(get_metadata_and_previews: false, get_full_size: false) 
+      end
       copy_relations if config.copy_relations
       move_custom_urls if config.move_custom_urls
       annotate_as_new_version_of if config.annotate_as_new_version_of

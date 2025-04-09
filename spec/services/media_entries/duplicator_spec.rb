@@ -46,7 +46,9 @@ describe MediaEntries::Duplicator do
   end
 
   describe '#call' do
-    let(:originator) { create(:media_entry_with_title, :fat) }
+    let(:originator) do 
+      create(:media_entry_with_title, :fat, {get_metadata_and_previews: true, get_full_size: true})
+    end
     let(:user) { create(:user) }
     let(:config) { {} }
     let(:new_media_entry) { described_class.new(originator, user, config).call }
@@ -194,6 +196,24 @@ describe MediaEntries::Duplicator do
               end
             end
           end
+        end
+      end
+
+      context 'when copy_permission config is set to false' do
+        let(:config) { { copy_permissions: false } }
+
+        it 'does not copy any permissions' do
+          expect(originator.get_metadata_and_previews).to be true
+          expect(originator.get_full_size).to be true
+          expect(originator.user_permissions.size).to be_between(1, 3)
+          expect(originator.group_permissions.size).to be_between(1, 3)
+          expect(originator.api_client_permissions.size).to be_between(1, 3)
+
+          expect(new_media_entry.get_metadata_and_previews).to be false
+          expect(new_media_entry.get_full_size).to be false
+          expect(new_media_entry.user_permissions.size).to be 0
+          expect(new_media_entry.group_permissions.size).to be 0
+          expect(new_media_entry.api_client_permissions.size).to be 0
         end
       end
 
