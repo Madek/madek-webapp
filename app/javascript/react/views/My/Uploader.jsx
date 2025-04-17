@@ -81,7 +81,7 @@ class Uploader extends React.Component {
           this.setState(prev => ({
             uploadError: [
               ...prev.uploadError,
-              `File ${file.name} exceeds the size limit of 16000px.`
+              `${file.name} ${t('media_entry_media_import_upload_error')}`
             ]
           }))
           fileArray.splice(index, 1)
