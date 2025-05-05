@@ -11,7 +11,9 @@ module Presenters
         fields = AppSetting.first.person_info_fields
         fragments = []
         if fields.include?('institutional_id') && @app_resource.institutional_id
-          fragments << "#{@app_resource.institution} #{@app_resource.institutional_id}"
+          fragments << "#{@app_resource.institutional_directory_inactive_since ? "(" : ""}" +
+            "#{@app_resource.institution == "zhdk.ch" ? "ZHdK" : @app_resource.institution} #{@app_resource.institutional_id}" +
+            "#{@app_resource.institutional_directory_inactive_since ? ")" : ""}"
         end
         if fields.include?('identification_info') && @app_resource.identification_info
           fragments << @app_resource.identification_info
