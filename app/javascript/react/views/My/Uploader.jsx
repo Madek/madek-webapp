@@ -74,30 +74,39 @@ class Uploader extends React.Component {
     let validFiles = []
 
     fileArray.forEach((file, index) => {
-      const img = new Image()
+      if (file.type.includes('image/')) {
+        const img = new Image()
 
-      img.onload = () => {
-        if (img.width > 16000 || img.height > 16000) {
-          this.setState(prev => ({
-            uploadError: [
-              ...prev.uploadError,
-              `${file.name} ${t('media_entry_media_import_upload_error')}`
-            ]
-          }))
-          fileArray.splice(index, 1)
+        img.onload = () => {
+          if (img.width > 16000 || img.height > 16000) {
+            this.setState(prev => ({
+              uploadError: [
+                ...prev.uploadError,
+                `${file.name} ${t('media_entry_media_import_upload_error')}`
+              ]
+            }))
+            fileArray.splice(index, 1)
+          }
+
+          if (img.width < 16000 && img.height < 16000) {
+            validFiles.push(file)
+          }
+
+          if (validFiles.length && validFiles.length === fileArray.length) {
+            // Proceed with the following code only if all files are valid
+            this.addFiles(validFiles)
+          }
         }
 
-        if (img.width < 16000 && img.height < 16000) {
-          validFiles.push(file)
-        }
-
+        img.src = URL.createObjectURL(file)
+      } else {
+        // If the file is not an image, add it to the validFiles array
+        validFiles.push(file)
         if (validFiles.length && validFiles.length === fileArray.length) {
           // Proceed with the following code only if all files are valid
           this.addFiles(validFiles)
         }
       }
-
-      img.src = URL.createObjectURL(file)
     })
   }
 
