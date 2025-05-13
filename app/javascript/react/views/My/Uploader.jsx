@@ -32,7 +32,8 @@ class Uploader extends React.Component {
       isClient: false,
       customUrlsAlreadyMoved: false,
       duplicatorConfiguration: f.get(this.props, 'get.duplicator_defaults'),
-      uploadError: []
+      uploadError: [],
+      uploading: false
     }
 
     this.onFilesDrop = this.onFilesDrop.bind(this)
@@ -51,19 +52,11 @@ class Uploader extends React.Component {
 
     // Set up event listeners for UploadQueue
     UploadQueue.drain = () => {
-      if (this._isMounted) {
-        this.setState({ uploading: false })
-      }
+      this.setState({ uploading: false })
     }
     UploadQueue.saturated = () => {
-      if (this._isMounted) {
-        this.setState({ waiting: true })
-      }
+      this.setState({ waiting: true })
     }
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false
   }
 
   checkFiles(files) {
@@ -153,12 +146,12 @@ class Uploader extends React.Component {
       files.map(file => ({ uploading: { file, workflowId, copyMdFrom } }))
     )
 
-    // immediately trigger upload!
     this.setState({ uploading: true })
-    added.map(model =>
-      UploadQueue.push(model, function (err) {
+
+    return added.map(model =>
+      UploadQueue.push(model, err => {
         if (err) {
-          console.error('Uploader failed!', model, err)
+          return console.error('Uploader failed!', model, err)
         }
       })
     )
