@@ -52,8 +52,32 @@ class VideoPlayer extends React.Component {
       key: `${source.url}${source.content_type}`
     }))
 
+    const mp4s = videoSources
+      .filter(source => source.type === 'video/mp4')
+      .sort((a, b) => {
+        if (a.label === 'SD') {
+          return -1
+        } else if (b.label === 'SD') {
+          return 1
+        }
+        return 0
+      })
+
+    const webms = videoSources
+      .filter(source => source.type === 'video/webm')
+      .sort((a, b) => {
+        if (a.label === 'SD') {
+          return -1
+        } else if (b.label === 'SD') {
+          return 1
+        }
+        return 0
+      })
+
+    const sortedSources = mp4s.concat(webms)
+
     return (
-      <VideoJS {...props} sources={videoSources} options={{ ...VIDEOJS_OPTIONS, ...options }} />
+      <VideoJS {...props} sources={sortedSources} options={{ ...VIDEOJS_OPTIONS, ...options }} />
     )
   }
 }
