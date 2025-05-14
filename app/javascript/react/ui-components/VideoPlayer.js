@@ -44,13 +44,17 @@ const sourceLabel = ({ profile }) => (endsWith(profile, '_HD') ? 'HD' : 'SD')
 
 class VideoPlayer extends React.Component {
   render({ sources, options, ...props } = this.props) {
-    const videoSources = sources.map(source => ({
-      src: source.url,
-      type: source.content_type,
-      label: sourceLabel(source),
-      res: source.height,
-      key: `${source.url}${source.content_type}`
-    }))
+    const videoSources = sources
+      .map(source => ({
+        src: source.url,
+        type: source.content_type,
+        label: sourceLabel(source),
+        res: source.height,
+        key: `${source.url}${source.content_type}`
+      }))
+      .sort((a, b) => {
+        return a.type === 'video/mp4' ? -1 : b.type === 'video/mp4' ? 1 : 0
+      })
 
     return (
       <VideoJS {...props} sources={videoSources} options={{ ...VIDEOJS_OPTIONS, ...options }} />
