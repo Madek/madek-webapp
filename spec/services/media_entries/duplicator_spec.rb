@@ -387,6 +387,19 @@ describe MediaEntries::Duplicator do
           end
         end
       end
+
+      context 'when originator\'s responsible is a delegation' do
+        let(:delegation) { create(:delegation) }
+        let(:user) { create(:user) }
+        let(:originator) do
+          create(:media_entry_with_title, :fat, { responsible_user: nil, responsible_delegation: delegation })
+        end
+        let(:new_media_entry) { described_class.new(originator, user, config).call }
+        it 'sets responsible user of the new entry to the user performing the operation (and not to the originally responsible delegation)' do
+          expect(new_media_entry.responsible_user).to eq user
+          expect(new_media_entry.responsible_delegation).to be_nil
+        end
+      end
     end
   end
 end

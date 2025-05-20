@@ -48,6 +48,7 @@ class MediaEntries::Duplicator
     new_media_entry = originator.dup
     new_media_entry.is_published = determine_published_state
     new_media_entry.responsible_user = user
+    new_media_entry.responsible_delegation = nil
     if config.copy_timestamps
       new_media_entry.created_at = originator.created_at
       new_media_entry.updated_at = originator.updated_at
