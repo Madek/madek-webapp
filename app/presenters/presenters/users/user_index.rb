@@ -5,7 +5,7 @@ module Presenters
 
       def name
         if is_deactivated
-          I18n.t(:user_name_deactivated)
+          "usr-#{@app_resource.id[0, 8]}"
         else
           @app_resource.to_s
         end

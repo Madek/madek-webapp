@@ -6,7 +6,6 @@ require_relative './_shared'
 include MediaEntryPermissionsShared
 
 feature 'Resource: MediaEntry' do
-  let(:deactivated_user_string) { I18n.t(:user_name_deactivated) }
   background do
     @user = User.find_by(login: 'normin')
     @responsible_user = FactoryBot.create(:user)
@@ -29,7 +28,7 @@ feature 'Resource: MediaEntry' do
 
     expect(
       find('.ui-rights-body', text: 'Nutzer/innen')
-        .find('td.ui-rights-user', text: deactivated_user_string)
+        .find('td.ui-rights-user', text: "usr-#{user.id[0, 8]}")
     ).to be
   end
 
@@ -42,7 +41,7 @@ feature 'Resource: MediaEntry' do
       find(
         '.ui-info-box',
         text: I18n.t(:permissions_responsible_user_and_responsibility_group_title)
-      ).find('.person-tag', text: deactivated_user_string)
+      ).find('.person-tag', text: "usr-#{@responsible_user.id[0, 8]}")
     ).to be
   end
 

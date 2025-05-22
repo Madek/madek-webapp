@@ -13,11 +13,13 @@ feature 'Users' do
                                 responsible_user: @user)
   end
 
-  scenario 'show deactivated user as Gelöschter User' do
+  scenario 'show deactivated user as user-xxxxxxxx' do
+    deactivated_user_string = "usr-#{@another_user.id[0, 8]}"
+
     sign_in_as @user.login
     open_permission_editable
 
-    expect(page).not_to have_content(I18n.t(:user_name_deactivated))
+    expect(page).not_to have_content(deactivated_user_string)
 
     test_perm = permission_types[0]
 
@@ -33,7 +35,7 @@ feature 'Users' do
 
     page.evaluate_script('window.location.reload()')
 
-    expect(page).to have_content(I18n.t(:user_name_deactivated))
+    expect(page).to have_content(deactivated_user_string)
     expect(page).not_to have_content(@another_user.to_s)
   end
 
