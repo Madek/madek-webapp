@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
     @app_layout_data = Presenters::AppView::LayoutData.new(
       user: current_user,
       return_to: params[:return_to].presence || request.original_fullpath,
-      auth_anti_csrf_token: cookies['madek.auth.anti-csrf-token'])
+      auth_anti_csrf_token: cookies['madek-auth_anti-csrf-token'])
   end
 
   def root
