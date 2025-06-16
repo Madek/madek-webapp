@@ -82,12 +82,6 @@ feature 'Resource: MediaEntry' do
         '[data-react-class="UI.Views.MediaEntry.MediaEntryEmbedded"]'
       end
 
-      before do
-        allow_any_instance_of(MediaEntriesController)
-          .to receive(:embed_whitelisted?)
-          .and_return(true)
-      end
-
       ['audio'].each do |type|
         context 'when accessToken as param is given' do
           scenario 'it works' do

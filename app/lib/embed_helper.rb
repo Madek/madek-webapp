@@ -5,8 +5,6 @@ module EmbedHelper
   UI_MIN_WIDTH = Madek::Constants::Webapp::EMBED_UI_MIN_WIDTH
   UI_MIN_HEIGHT = Madek::Constants::Webapp::EMBED_UI_MIN_HEIGHT
   UI_DEFAULT_RATIO = Madek::Constants::Webapp::EMBED_UI_DEFAULT_RATIO
-  EMBED_INTERNAL_HOST_WHITELIST = Madek::Constants::Webapp::
-    EMBED_INTERNAL_HOST_WHITELIST
   IMAGE_CAPTION_HEIGHT = Madek::Constants::Webapp::EMBED_UI_IMAGE_CAPTION_HEIGHT
 
   def get_iframe_size_for_audio_video(maxwidth: nil, ratio: nil)
@@ -74,13 +72,6 @@ module EmbedHelper
   def parse_ratio(ratio)
     a, b = ratio.split(':')
     !b ? ratio.to_f : (a.to_i.to_f / b.to_i)
-  end
-
-  def embed_whitelisted?
-    from_origin = request.env['HTTP_REFERER']
-    return false unless from_origin
-    EMBED_INTERNAL_HOST_WHITELIST
-      .any? { |h| URI.join(h, '/') == URI.join(from_origin, '/') }
   end
 
   def referer_info
