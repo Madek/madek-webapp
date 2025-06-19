@@ -121,12 +121,16 @@ module.exports = createReactClass({
     }
     const batchResources = props.get.batch_resources.resources
     const pageTitle =
-      t('permissions_batch_title_pre') + batchResources.length + t('permissions_batch_title_post')
+      t('permissions_batch_title_pre') + props.get.batch_length + t('permissions_batch_title_post')
 
     return (
       <PageContent>
         <PageContentHeader icon="pen" title={pageTitle} />
-        <ResourcesBatchBox resources={batchResources} authToken={props.authToken} />
+        <ResourcesBatchBox
+          batchCount={this.props.get.batch_length}
+          resources={batchResources}
+          authToken={props.authToken}
+        />
         <TabContent>
           <div className="bright pal rounded-bottom rounded-top-right ui-container">
             {!this.state.isClient ? (

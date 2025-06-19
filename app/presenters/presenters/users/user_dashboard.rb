@@ -232,7 +232,7 @@ module Presenters
 
       def delegations
         @user_scopes[:user_delegations].order(:name).map do |delegation|
-          Presenters::Delegations::DelegationIndex.new(delegation)
+          Presenters::Delegations::DelegationIndex.new(delegation, with_resources_count: true)
         end
       end
 

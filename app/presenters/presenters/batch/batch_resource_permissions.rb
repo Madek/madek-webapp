@@ -16,7 +16,13 @@ module Presenters
 
       # needed to show the resources box:
       def batch_resources
-        Presenters::Shared::MediaResource::IndexResources.new(@user, @resources)
+        Presenters::Shared::MediaResource::IndexResources.new(
+          @user, @resources.limit(4)
+        )
+      end
+
+      def batch_length
+        @resources.count
       end
 
       # batch data to be edited:
