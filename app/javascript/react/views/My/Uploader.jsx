@@ -67,7 +67,14 @@ class Uploader extends React.Component {
     let validFiles = []
 
     fileArray.forEach((file, index) => {
-      if (file.type.includes('image/')) {
+      if (
+        file.type.includes('image/jpeg') ||
+        file.type.includes('image/png') ||
+        file.type.includes('image/webp') ||
+        file.type.includes('image/bmp') ||
+        file.type.includes('image/svg+xml') ||
+        file.type.includes('image/gif')
+      ) {
         const img = new Image()
 
         img.onload = () => {

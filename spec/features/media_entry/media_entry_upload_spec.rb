@@ -40,7 +40,7 @@ feature 'Resource: MediaEntry' do
 
     end
 
-    scenario 'upload a single image' do
+    scenario 'upload a single jpg image' do
       # go to dashboard and import button
       visit my_dashboard_path
       within('.ui-body-title-actions') do
@@ -49,6 +49,19 @@ feature 'Resource: MediaEntry' do
       expect(current_path).to eq new_media_entry_path
       attach_file('media_entry[media_file][]', Rails.root.join('spec', 'data', 'sample.jpg'), make_visible: true)
       expect(page).to have_css('img[title="sample.jpg"]')
+
+      expect(page).to have_no_css('a.disabled', text: 'Medieneinträge vervollständigen')
+    end
+
+    scenario 'upload a single tiff image' do
+      # go to dashboard and import button
+      visit my_dashboard_path
+      within('.ui-body-title-actions') do
+        find('a', text: I18n.t('dashboard_create_media_entry_btn')).click
+      end
+      expect(current_path).to eq new_media_entry_path
+      attach_file('media_entry[media_file][]', Rails.root.join('spec', 'data', 'sample.tif'), make_visible: true)
+      expect(page).to have_css('img[title="sample.tif"]')
 
       expect(page).to have_no_css('a.disabled', text: 'Medieneinträge vervollständigen')
     end
