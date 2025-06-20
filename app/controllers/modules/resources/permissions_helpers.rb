@@ -56,7 +56,7 @@ module Modules
         end
 
         def get_creator(perms)
-          creators = perms.map(&:creator).uniq
+          creators = perms.map(&:creator).uniq.compact
           if creators.size > 1
             raise "Ambiguous creator for permissions."
           else
