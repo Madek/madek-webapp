@@ -16,8 +16,6 @@ module Presenters
       def entrusted_media_resources_count
         if @with_resources_count
           Delegation.with_resources_count.where(id: @app_resource.id).first&.resources_count
-        else
-          -1
         end
       end
 
