@@ -61,8 +61,6 @@ module Modules
           resources,
           return_to)
 
-        @get.dump
-
         respond_with(@get, template: 'batch/batch_edit_entry_permissions')
       end
 
