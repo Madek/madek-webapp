@@ -65,4 +65,5 @@ group :development do
   # gem 'ruby-prof'
   gem 'zencoder-fetcher'
   # gem 'better_errors' # NOTE: including this breaks rails and pry in weird ways…
+  # gem 'rack-mini-profiler'
 end

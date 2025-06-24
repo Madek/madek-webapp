@@ -22,20 +22,20 @@ module Presenters
       # NOTE: always returns PreviewPresenters, for non-images an Array of them
       def previews
         @_previews ||= {
-          images: image_previews,
-          audios: get_previews_by_type('audio'),
-          videos: get_previews_by_type('video')
+          images: get_image_preview_presenters,
+          audios: get_preview_presenters_by_type('audio'),
+          videos: get_preview_presenters_by_type('video')
         }.compact.presence
       end
 
-      def image_previews
-        return @image_previews if @image_previews.present?
+      def get_image_preview_presenters
+        return @_image_preview_presenters if @_image_preview_presenters.present?
 
         # NOTE: only return *large* previews from video (for consistent frames)
         img_sizes = \
           @app_resource.media_type == 'video' ? [:large] : THUMBNAIL_SIZES.keys
 
-        @image_previews ||= img_sizes.map do |size|
+        @_image_preview_presenters ||= img_sizes.map do |size|
           [size, get_image_by(size: size)]
         end.to_h.compact
       end
@@ -51,8 +51,9 @@ module Presenters
 
       def get_image_by(size:)
         # NOTE: optimize/memo
-        @image_previews ||= @app_resource.previews.where(media_type: :image)
-        get_image_preview(@image_previews, size)
+        @_image_previews ||= @app_resource.previews.to_a
+          .select { |x| x.media_type == "image" }.to_a
+        get_image_preview(@_image_previews, size)
       end
 
       def conversion_progress
@@ -76,24 +77,27 @@ module Presenters
 
         if previews.present? and previews[0].media_file.representable_as_image?
           # find by size class
-          images = previews.where(thumbnail: size)
-            .reorder(created_at: :desc).presence
+          images = previews.select { |p| p.thumbnail == size.to_s }
+            .sort_by { |p| -p.created_at.to_i }.presence
           # OR newest, smallest previews that are AT LEAST the wanted size
           images ||= previews
-            .where('previews.height >= ?', wanted_height)
-            .reorder(height: :asc, created_at: :desc).presence
+            .select { |p| wanted_height && p.height && p.height >= wanted_height }
+            .sort_by { |p| [p.height, -p.created_at.to_i] }.presence
           # OR if that doesnt exist, get the LARGEST there are
           images ||= previews
-            .reorder(height: :desc, created_at: :desc).presence
+            .sort_by { |p| [-p.height.to_i, -p.created_at.to_i] }.presence
           # select first or apply 30% rule for videos
           image = get_first_or_30_percent(images) if images
         end
         Presenters::Previews::Preview.new(image, @access_token) if image.present?
       end
 
-      def get_previews_by_type(type)
-        @app_resource.previews.where(media_type: type)
-          .reorder(created_at: :desc).uniq(&:filename).map do |preview|
+      def get_preview_presenters_by_type(type)
+        @app_resource.previews.to_a
+          .select { |preview| preview.media_type == type }
+          .sort_by { |preview| -preview.created_at.to_i }
+          .uniq(&:filename)
+          .map do |preview|
           Presenters::Previews::Preview.new(preview, @access_token) if preview.present?
         end.compact.presence
       end
