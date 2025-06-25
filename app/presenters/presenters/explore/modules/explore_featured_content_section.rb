@@ -72,10 +72,14 @@ module Presenters
 
               order = allowed_sorting(set)
 
+              media_entries = auth_policy_scope(@user, set.media_entries).to_a
+              collections = auth_policy_scope(@user, set.collections).to_a
+              ids = (media_entries + collections).map(&:id)
+
               load_concrete_models(
-                auth_policy_scope(@user, set.child_media_resources)
-                  .custom_order_by(order)
-                  .limit(6)
+                MediaResource.where(id: ids)
+                    .custom_order_by(order)
+                    .limit(6)
               )
             end
         end
