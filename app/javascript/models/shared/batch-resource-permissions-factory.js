@@ -20,10 +20,8 @@ module.exports = function (name, baseModel) {
     type: name,
 
     props: {
-      // batch_permissions: 'array' # initial "raw" data, not needed
-
-      batchResources: 'array', // for overview box as well as submitting
-
+      batchResourceIds: 'array', // complete list of ids for submitting
+      batchResources: 'array', // for overview box (can be trimmed!)
       return_to: 'string'
     },
 
@@ -56,7 +54,8 @@ module.exports = function (name, baseModel) {
         return this[permissionName].set(modelType === 'model' ? batchPerms[0] : batchPerms)
       })
       this.set('permission_types', permissionTypes)
-      return this.set('batchResources', props.batch_resources.resources)
+      this.set('batchResources', props.batch_resources.resources)
+      this.set('batchResourceIds', f.map(props.batch_permissions, 'uuid'))
     },
 
     // custom serialize to match what rails expects — used on this.save()
@@ -64,7 +63,7 @@ module.exports = function (name, baseModel) {
       const data = AppResource.prototype.serialize.call(this)
       const permissionSubjects = f.map(PERMISSIONS, f.first)
       return {
-        resource_ids: f.map(this.batchResources, 'uuid'),
+        resource_ids: this.batchResourceIds,
         permissions: f.object(
           f.map(permissionSubjects, function (key) {
             let list = key === 'public_permission' ? [data[key]] : data[key]
