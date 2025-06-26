@@ -36,7 +36,7 @@ module Presenters
 
         def latest_media_entries
           @latest_media_entries ||= \
-            auth_policy_scope(nil, MediaEntry)
+            auth_policy_scope(@user, MediaEntry)
             .reorder(created_at: :desc)
             .limit(12)
         end
