@@ -63,8 +63,11 @@ class ApplicationController < ActionController::Base
     if authenticated?
       redirect_to(my_dashboard_path)
     else
-      @get = Presenters::Explore::ExploreLoginPage.new(
-        current_user, settings, show_login: true)
+      @get = Rails.cache.fetch('explore_login_page', expires_in: 10.minutes) do
+        Presenters::Explore::ExploreLoginPage.new(
+          current_user, settings, show_login: true
+        )
+      end
       respond_with @get
     end
   end
