@@ -1,1 +1,7 @@
-= react('App.UserMenu', @app_layout_data.user_menu)
+:ruby
+  cache_key = cache_key_for_user_menu(current_user, @app_layout_data.user_menu)
+
+-# `capture` together with low-level caching is needed to avoid template render error.
+= capture do 
+  - Rails.cache.fetch(cache_key) do
+    = react('App.UserMenu', @app_layout_data.user_menu)
