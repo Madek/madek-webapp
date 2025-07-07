@@ -257,73 +257,79 @@
   name: "./spec/features/embed_player/oembed_spec.rb[1:1]"
   description: 'App: oEmbed endpoint oEmbed discovery link from Resource detail page'
   environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:18"
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:19"
     RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:1]"
 "./spec/features/embed_player/oembed_spec.rb[1:2:1]":
   name: "./spec/features/embed_player/oembed_spec.rb[1:2:1]"
   description: 'App: oEmbed endpoint oEmbed API: `video` type'
   environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:49"
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:50"
     RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:2:1]"
 "./spec/features/embed_player/oembed_spec.rb[1:2:2]":
   name: "./spec/features/embed_player/oembed_spec.rb[1:2:2]"
   description: 'App: oEmbed endpoint oEmbed API: supports the `maxwidth` param'
   environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:71"
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:72"
     RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:2:2]"
 "./spec/features/embed_player/oembed_spec.rb[1:2:3]":
   name: "./spec/features/embed_player/oembed_spec.rb[1:2:3]"
   description: 'App: oEmbed endpoint oEmbed API: supports the `maxheight` param'
   environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:81"
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:82"
     RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:2:3]"
 "./spec/features/embed_player/oembed_spec.rb[1:2:4]":
   name: "./spec/features/embed_player/oembed_spec.rb[1:2:4]"
   description: 'App: oEmbed endpoint oEmbed API: does support XML format'
   environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:92"
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:93"
     RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:2:4]"
 "./spec/features/embed_player/oembed_spec.rb[1:2:5]":
   name: "./spec/features/embed_player/oembed_spec.rb[1:2:5]"
-  description: 'App: oEmbed endpoint oEmbed API: returns error when URL in url `param`
-    is not supported'
+  description: 'App: oEmbed endpoint oEmbed API: does support custom urls'
   environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:109"
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:108"
     RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:2:5]"
 "./spec/features/embed_player/oembed_spec.rb[1:2:6]":
   name: "./spec/features/embed_player/oembed_spec.rb[1:2:6]"
-  description: 'App: oEmbed endpoint oEmbed API: returns error when resource is not
-    found by url `param`'
+  description: 'App: oEmbed endpoint oEmbed API: returns error when URL in url `param`
+    is not supported'
   environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:115"
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:116"
     RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:2:6]"
 "./spec/features/embed_player/oembed_spec.rb[1:2:7]":
   name: "./spec/features/embed_player/oembed_spec.rb[1:2:7]"
+  description: 'App: oEmbed endpoint oEmbed API: returns error when resource is not
+    found by url `param`'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:122"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:2:7]"
+"./spec/features/embed_player/oembed_spec.rb[1:2:8]":
+  name: "./spec/features/embed_player/oembed_spec.rb[1:2:8]"
   description: 'App: oEmbed endpoint oEmbed API: only supports "public" resources,
     returns correct error'
   environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:121"
-    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:2:7]"
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:128"
+    RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:2:8]"
 "./spec/features/embed_player/oembed_spec.rb[1:3:1:1]":
   name: "./spec/features/embed_player/oembed_spec.rb[1:3:1:1]"
   description: 'App: oEmbed endpoint oembed API for images basics responds with status
     OK and all oEmbed values are there'
   environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:135"
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:142"
     RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:1:1]"
 "./spec/features/embed_player/oembed_spec.rb[1:3:2:1]":
   name: "./spec/features/embed_player/oembed_spec.rb[1:3:2:1]"
   description: 'App: oEmbed endpoint oembed API for images iframe size calculation
     for landscape format (1024 x 709) no parameters -> default width'
   environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:159"
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:166"
     RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:2:1]"
 "./spec/features/embed_player/oembed_spec.rb[1:3:2:2]":
   name: "./spec/features/embed_player/oembed_spec.rb[1:3:2:2]"
   description: 'App: oEmbed endpoint oembed API for images iframe size calculation
     for landscape format (1024 x 709) maxwidth 400 -> width 400'
   environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:168"
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:175"
     RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:2:2]"
 "./spec/features/embed_player/oembed_spec.rb[1:3:2:3]":
   name: "./spec/features/embed_player/oembed_spec.rb[1:3:2:3]"
@@ -331,14 +337,14 @@
     for landscape format (1024 x 709) maxwidth 2000 -> width 1024 (avoiding left/right
     gutter)'
   environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:177"
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:184"
     RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:2:3]"
 "./spec/features/embed_player/oembed_spec.rb[1:3:2:4]":
   name: "./spec/features/embed_player/oembed_spec.rb[1:3:2:4]"
   description: 'App: oEmbed endpoint oembed API for images iframe size calculation
     for landscape format (1024 x 709) maxwidth 1 -> width 1 (no minimum size is enforced)'
   environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:186"
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:193"
     RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:2:4]"
 "./spec/features/embed_player/oembed_spec.rb[1:3:2:5]":
   name: "./spec/features/embed_player/oembed_spec.rb[1:3:2:5]"
@@ -346,7 +352,7 @@
     for landscape format (1024 x 709) maxwidth 400, maxheight 400 -> maxheight has
     no effect'
   environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:195"
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:202"
     RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:2:5]"
 "./spec/features/embed_player/oembed_spec.rb[1:3:2:6]":
   name: "./spec/features/embed_player/oembed_spec.rb[1:3:2:6]"
@@ -354,7 +360,7 @@
     for landscape format (1024 x 709) maxwidth 1000, maxheight 400 -> maxheight will
     be applied'
   environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:204"
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:211"
     RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:2:6]"
 "./spec/features/embed_player/oembed_spec.rb[1:3:3:1]":
   name: "./spec/features/embed_player/oembed_spec.rb[1:3:3:1]"
@@ -362,14 +368,14 @@
     for portrait format (532 x 768) no parameters -> default width, but height constrained
     to media height'
   environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:219"
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:226"
     RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:3:1]"
 "./spec/features/embed_player/oembed_spec.rb[1:3:3:2]":
   name: "./spec/features/embed_player/oembed_spec.rb[1:3:3:2]"
   description: 'App: oEmbed endpoint oembed API for images iframe size calculation
     for portrait format (532 x 768) maxwidth 400 -> width 400'
   environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:228"
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:235"
     RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:3:2]"
 "./spec/features/embed_player/oembed_spec.rb[1:3:3:3]":
   name: "./spec/features/embed_player/oembed_spec.rb[1:3:3:3]"
@@ -377,14 +383,14 @@
     for portrait format (532 x 768) maxwidth 1000 -> width 1000, but height constrained
     to media height'
   environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:237"
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:244"
     RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:3:3]"
 "./spec/features/embed_player/oembed_spec.rb[1:3:3:4]":
   name: "./spec/features/embed_player/oembed_spec.rb[1:3:3:4]"
   description: 'App: oEmbed endpoint oembed API for images iframe size calculation
     for portrait format (532 x 768) maxwidth 1 -> width 1 (no minimum size is enforced)'
   environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:246"
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:253"
     RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:3:4]"
 "./spec/features/embed_player/oembed_spec.rb[1:3:3:5]":
   name: "./spec/features/embed_player/oembed_spec.rb[1:3:3:5]"
@@ -392,19 +398,19 @@
     for portrait format (532 x 768) maxwidth 400, maxheight 1000 -> maxheight has
     no effect'
   environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:255"
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:262"
     RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:3:5]"
 "./spec/features/embed_player/oembed_spec.rb[1:3:3:6]":
   name: "./spec/features/embed_player/oembed_spec.rb[1:3:3:6]"
   description: 'App: oEmbed endpoint oembed API for images iframe size calculation
     for portrait format (532 x 768) maxwidth 400, maxheight 400 -> height is set maxheight'
   environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:264"
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:271"
     RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:3:6]"
 "./spec/features/embed_player/oembed_spec.rb[1:3:3:7]":
   name: "./spec/features/embed_player/oembed_spec.rb[1:3:3:7]"
   description: 'App: oEmbed endpoint oembed API for images iframe size calculation
     for portrait format (532 x 768) maxheight 400 -> default width x maxheight'
   environment_variables:
-    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:273"
+    RSPEC_NAME: "./spec/features/embed_player/oembed_spec.rb:280"
     RSPEC_TEST: "./spec/features/embed_player/oembed_spec.rb[1:3:3:7]"

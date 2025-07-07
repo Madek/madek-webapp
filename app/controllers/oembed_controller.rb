@@ -34,7 +34,7 @@ class OembedController < ApplicationController
         return error_response('invalid `url`!', 422)
       end
       resource_class = route_params[:controller].classify.constantize
-      resource_class.find(route_params[:id])
+      resource_class.find_by_id_or_custom_url_id_or_raise(route_params[:id])
     rescue ActionController::RoutingError => err
       return error_response(err, 422)
     rescue ActiveRecord::RecordNotFound => err

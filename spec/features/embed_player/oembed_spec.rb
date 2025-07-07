@@ -5,6 +5,7 @@ require_relative './_shared'
 # NOTE: uses personas data! (hardcoded expectations)
 VIDEO_ENTRY = '/entries/924057ea-5f9a-4a81-85dc-aa067577d6f1'.freeze
 PRIVATE_ENTRY = '/entries/c22b6f3f-55ff-4e56-86f9-233af6f4cdc8'.freeze
+CUSTOM_URL_ENTRY = '/entries/canorta'.freeze
 
 PORT = ENV['CAPYBARA_SERVER_PORT'] || 3101
 BASE_URL = URI.parse("http://localhost:#{PORT}").freeze
@@ -102,6 +103,12 @@ feature 'App: oEmbed endpoint', ci_group: :embed do
 
       expect_valid_oembed_response(response_json)
       expect(xml_body).to eq(json_body), 'XML format has same content as JSON'
+    end
+
+    it 'does support custom urls' do
+      response = get_json(
+        set_params_for_url(API_URL, url: full_url(CUSTOM_URL_ENTRY)))
+      expect(response[:status]).to be 200
     end
 
     # errors:
