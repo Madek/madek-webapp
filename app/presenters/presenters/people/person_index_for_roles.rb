@@ -4,7 +4,7 @@ module Presenters
 
       attr_reader :role
 
-      # app_resource is MetaDatum::Role instance
+      # app_resource is MetaDatum::People instance
       def initialize(app_resource)
         super(app_resource.person)
 

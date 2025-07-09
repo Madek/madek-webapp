@@ -26,8 +26,7 @@ module Presenters
             tmp_children = values.map { |v| v.slice(*children_attrs) }
 
             # Limit People
-            too_many_hits = (context_key.meta_key.value_type == 'MetaDatum::People' || 
-                            context_key.meta_key.value_type == 'MetaDatum::Roles') &&
+            too_many_hits = (context_key.meta_key.value_type == 'MetaDatum::People') &&
                             tmp_children.filter{ |v| v["type"] == "person" }.count > max_people
             tmp_children = if too_many_hits
                              tmp_children.filter{ |v| v["type"] == "person" }.take(max_people) +
