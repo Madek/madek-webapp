@@ -105,10 +105,6 @@ module Presenters
             	union all
 
               #{meta_datum_people_query(singular)}
-
-              union all
-
-              #{meta_datum_roles_query(singular)}
             )
 
             select
@@ -173,13 +169,13 @@ module Presenters
               (
 
                 select
-                  sub.meta_key_id, sub.#{singular}_id, sub.meta_data_type, array_agg(sub.person_id) as value_ids
+                  sub.meta_key_id, sub.#{singular}_id, sub.meta_data_type, array_agg(sub.person_role_id) as value_ids
 
                 from
                 (
 
                   select
-                    meta_data.meta_key_id as meta_key_id, meta_data.#{singular}_id as #{singular}_id, meta_data_people.person_id as person_id, meta_data.type as meta_data_type
+                    meta_data.meta_key_id as meta_key_id, meta_data.#{singular}_id as #{singular}_id, ARRAY [meta_data_people.person_id, meta_data_people.role_id] as person_role_id, meta_data.type as meta_data_type
                   from
                     sub1,
                     meta_data,
@@ -189,91 +185,7 @@ module Presenters
                     and meta_data.type = 'MetaDatum::People'
                     and meta_data_people.meta_datum_id = meta_data.id
                   order by
-                    meta_data.meta_key_id, meta_data.#{singular}_id, meta_data_people.person_id
-
-                ) as sub
-
-                group by
-                  (sub.meta_key_id, sub.#{singular}_id, sub.meta_data_type)
-              ) as sub2
-
-              group by
-                (sub2.meta_key_id, sub2.value_ids, sub2.meta_data_type)
-
-              order by
-                meta_key_id asc, resource_count desc
-            )
-          SQL
-        end
-
-        def meta_datum_roles_query(singular)
-          <<-SQL
-            (
-              select
-                sub2.meta_key_id as meta_key_id, sub2.meta_data_type, sub2.value_ids as multi_values, null as single_value, count(sub2.#{singular}_id) as resource_count
-              from
-              (
-
-                select
-                  sub.meta_key_id, sub.#{singular}_id, sub.meta_data_type, array_agg(sub.person_role_id) as value_ids
-
-                from
-                (
-
-                  select
-                    meta_data.meta_key_id as meta_key_id, meta_data.#{singular}_id as #{singular}_id, ARRAY [meta_data_roles.person_id, meta_data_roles.role_id] as person_role_id, meta_data.type as meta_data_type
-                  from
-                    sub1,
-                    meta_data,
-                    meta_data_roles
-                  where
-                    meta_data.#{singular}_id = sub1.id
-                    and meta_data.type = 'MetaDatum::Roles'
-                    and meta_data_roles.meta_datum_id = meta_data.id
-                  order by
-                    meta_data.meta_key_id, meta_data.#{singular}_id, meta_data_roles.person_id, meta_data_roles.role_id
-
-                ) as sub
-
-                group by
-                  (sub.meta_key_id, sub.#{singular}_id, sub.meta_data_type)
-              ) as sub2
-
-              group by
-                (sub2.meta_key_id, sub2.value_ids, sub2.meta_data_type)
-
-              order by
-                meta_key_id asc, resource_count desc
-            )
-          SQL
-        end
-
-        def meta_datum_media_entry_query(singular)
-          <<-SQL
-            (
-              select
-                sub2.meta_key_id as meta_key_id, sub2.meta_data_type, sub2.value_ids as multi_values, null as single_value, count(sub2.#{singular}_id) as resource_count
-              from
-              (
-
-                select
-                  sub.meta_key_id, sub.#{singular}_id, sub.meta_data_type, array_agg(sub.person_role_id) as value_ids
-
-                from
-                (
-
-                  select
-                    meta_data.meta_key_id as meta_key_id, meta_data.#{singular}_id as #{singular}_id, ARRAY [meta_data_roles.person_id, meta_data_roles.role_id] as person_role_id, meta_data.type as meta_data_type
-                  from
-                    sub1,
-                    meta_data,
-                    meta_data_roles
-                  where
-                    meta_data.#{singular}_id = sub1.id
-                    and meta_data.type = 'MetaDatum::Roles'
-                    and meta_data_roles.meta_datum_id = meta_data.id
-                  order by
-                    meta_data.meta_key_id, meta_data.#{singular}_id, meta_data_roles.person_id, meta_data_roles.role_id
+                    meta_data.meta_key_id, meta_data.#{singular}_id, meta_data_people.person_id, meta_data_people.role_id
 
                 ) as sub
 

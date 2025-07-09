@@ -77,7 +77,7 @@ module Presenters
           Presenters::Keywords::KeywordIndex.new(value)
         when 'Role'
           Presenters::Roles::RoleIndex.new(value)
-        when 'MetaDatum::Role'
+        when 'MetaDatum::Person'
           Presenters::People::PersonIndexForRoles.new(value)
         when 'PersonWithRoles'
           Presenters::People::PersonIndexForRoles.new(value)

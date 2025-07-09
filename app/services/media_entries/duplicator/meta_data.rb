@@ -5,7 +5,6 @@ module MediaEntries::Duplicator::MetaData
     copy_meta_data_text
     copy_meta_data_keywords
     copy_meta_data_people
-    copy_meta_data_roles
     originator.meta_data
   end
 
@@ -44,20 +43,6 @@ module MediaEntries::Duplicator::MetaData
         new_mdp = mdp.dup
         new_mdp.meta_datum = new_md
         new_mdp.save!
-      end
-    end
-  end
-
-  def copy_meta_data_roles
-    originator.meta_data.where(type: 'MetaDatum::Roles').each do |md|
-      new_md = md.dup
-      new_md.media_entry = media_entry
-      new_md.save!
-
-      md.meta_data_roles.each do |mdr|
-        new_mdr = mdr.dup
-        new_mdr.meta_datum = new_md
-        new_mdr.save!
       end
     end
   end

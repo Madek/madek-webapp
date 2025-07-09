@@ -94,7 +94,7 @@ describe MediaEntriesController do
       expect(
         @media_entry.meta_data
         .find_by_meta_key_id(@unused_meta_key_people)
-        .value
+        .people
       ).to match_array [person, onthefly_person, onthefly_bunch]
     end
 

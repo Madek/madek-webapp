@@ -26,6 +26,12 @@ module Presenters
             @app_resource.text_type # is 'line' or 'block'
           end
         end
+
+        if @app_resource.meta_datum_object_type == 'MetaDatum::People'
+          define_singleton_method :with_roles do
+            @app_resource.can_have_roles?
+          end
+        end
       end
 
       def label

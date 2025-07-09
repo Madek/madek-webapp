@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import setUrlParams from '../../lib/set-params-for-url.js'
 import cx from 'classnames'
+import Icon from '../ui-components/Icon.jsx'
 
 /*
 Group in the following way: [p1, p1, p2, p1] -> [p1, p2, p1]
@@ -34,6 +35,7 @@ export default function MetaDatumRolesCloud({ personRoleTuples, metaKeyId }) {
               'ui-tag-cloud-person-roles-item block clearfix': anyRolePresent
             })}>
             <a href={url} className="link ui-tag-button ui-link">
+              <Icon i="user-mini" mods="ui-tag-icon" />
               {label}
             </a>
             {roles.length > 0 && (
