@@ -1,1 +1,4 @@
 = render('application/root/welcome_and_login_section')
+
+- unless @get.vocabularies_section.empty?
+  = render "application/root/vocabularies_section", section_content: @get.vocabularies_section.content

@@ -1,9 +1,9 @@
 .container{style: "margin:0px;padding:20px;margin-left:auto;margin-right:auto;border:0px;box-shadow:none;padding-top:40px;width:1000px;padding-left:0px;padding-right:0px;background:none;"}
   .col2of3
     .pitch-claim{style: "padding-left:0px;"}
-      %h1.title-xxl= @get[:welcome_message][:title]
+      %h1.title-xxl= @get.welcome_message[:title]
       .ptm
-        = raw @get[:welcome_message][:text][:__html]
+        = raw @get.welcome_message[:text][:__html]
   .col1of3
     .pitch-login
       #login_menu

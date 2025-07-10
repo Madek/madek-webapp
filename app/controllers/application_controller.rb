@@ -65,7 +65,7 @@ class ApplicationController < ActionController::Base
     else
       @get = Presenters::Explore::ExploreLoginPage.new(
         current_user, settings, show_login: true
-      ).dump
+      )
       respond_with @get
     end
   end
