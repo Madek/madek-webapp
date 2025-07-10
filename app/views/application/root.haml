@@ -1,9 +1,1 @@
-:ruby
-  cache_key = cache_key_for_root(@get)
-
-= capture do 
-  - Rails.cache.fetch(cache_key) do
-    = react('Views.explore.ExploreLoginPage',
-      get: @get,
-        returnTo: request.original_fullpath,
-          lang: I18n.locale)
+= render('application/root/welcome_and_login_section')
