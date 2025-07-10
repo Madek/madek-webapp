@@ -1,4 +1,11 @@
 = render('application/root/welcome_and_login_section')
 
-- unless @get.vocabularies_section.empty?
-  = render "application/root/vocabularies_section", section_content: @get.vocabularies_section.content
+.app-body-ui-container.pts.context-home
+
+  - unless @get.keywords_section.empty?
+    %hr.separator
+    = render "application/root/keywords_section", section_content: @get.keywords_section.content
+
+  - unless @get.vocabularies_section.empty?
+    %hr.separator
+    = render "application/root/vocabularies_section", section_content: @get.vocabularies_section.content

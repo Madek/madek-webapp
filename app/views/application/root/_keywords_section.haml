@@ -1,4 +1,4 @@
-.ui-resources-holder.pal#vocabularies
+.ui-resources-holder.pal#keywords
   .ui-resources-header
     %h2.title-l.ui-resource-title
       = section_content[:data][:title]
@@ -7,7 +7,6 @@
           = section_content[:show_all_text]
         - else
           = t(:vocabularies_show_all)
-  %ul.ui-tag-cloud
-    - size = section_content[:data][:list].size
-    - section_content[:data][:list].each_with_index do |vocabulary, i|
-      = render 'application/root/vocabularies/vocabulary', vocabulary: vocabulary, last: i == size - 1
+  %ul.ui-tag-cloud{style: "margin-bottom:40px;"}
+    - section_content[:data][:list].each do |keyword|
+      = render "application/root/keywords/keyword", keyword: keyword
