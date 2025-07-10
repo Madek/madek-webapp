@@ -1,0 +1,11 @@
+.ui-resources-holder.pal#vocabularies
+  = render "application/root/section_title", section_content: section.content
+
+  :ruby
+    latest_media_entry = @get.latest_section.send(:latest_media_entries).first
+    cache_key = cache_key_for_root_latest_media_entry(latest_media_entry)
+
+  = capture do
+    - Rails.cache.fetch(cache_key) do
+      = react('Views.explore.partials.ThumbnailResourceList',
+        { resources: section.content[:data][:list].dump[:resources] })

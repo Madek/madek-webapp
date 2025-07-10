@@ -2,6 +2,10 @@
 
 .app-body-ui-container.pts.context-home
 
+  - unless @get.latest_section.empty?
+    %hr.separator
+    = render "application/root/latest_section", section: @get.latest_section
+
   - unless @get.keywords_section.empty?
     %hr.separator
     = render "application/root/keywords_section", section_content: @get.keywords_section.content

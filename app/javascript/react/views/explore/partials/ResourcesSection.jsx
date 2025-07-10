@@ -10,6 +10,7 @@ import f from 'active-lodash'
 import Keyword from '../../../ui-components/Keyword.jsx'
 import CatalogResource from './CatalogResource.jsx'
 import ResourceThumbnail from '../../../decorators/ResourceThumbnail.jsx'
+import ThumbnailResourceList from './ThumbnailResourceList.jsx'
 import t from '../../../../lib/i18n-translate'
 
 module.exports = createReactClass({
@@ -40,11 +41,7 @@ module.exports = createReactClass({
             })}
           </ul>
         ) : section.type === 'thumbnail' ? (
-          <ul className="grid ui-resources">
-            {f.map(section.data.list.resources, (resource, n) => (
-              <ResourceThumbnail key={`key_${n}`} elm="div" get={resource} authToken={authToken} />
-            ))}
-          </ul>
+          <ThumbnailResourceList resources={section.data.list.resources} authToken={authToken} />
         ) : section.type === 'keyword' ? (
           <ul className="ui-tag-cloud" style={{ marginBottom: '40px' }}>
             {f.map(section.data.list, (resource, n) => (
