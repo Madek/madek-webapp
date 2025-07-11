@@ -1,0 +1,8 @@
+:ruby
+  dump = list.dump
+  cache_key = "root-featured-content/#{dump.hash}"
+
+= capture do
+  - Rails.cache.fetch(cache_key) do
+    = react('Views.explore.partials.ThumbnailResourceList',
+      { resources: dump[:resources] })

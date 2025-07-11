@@ -1,5 +1,5 @@
-.ui-resources-holder.pal#keywords
-  = render "application/root/section_title", section_content: section_content
+.ui-resources-holder.pal{id: section.content[:id]}
+  = render "application/root/section_title", section_content: section.content
   %ul.ui-tag-cloud{style: "margin-bottom:40px;"}
-    - section_content[:data][:list].each do |keyword|
+    - section.content[:data][:list].each do |keyword|
       = render "application/root/keywords/keyword", keyword: keyword
