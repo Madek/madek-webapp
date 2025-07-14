@@ -1,20 +1,21 @@
 .container{style: "margin:0px;padding:20px;margin-left:auto;margin-right:auto;border:0px;box-shadow:none;padding-top:40px;width:1000px;padding-left:0px;padding-right:0px;background:none;"}
-  .col2of3
+  %div{class: current_user ? "col1of1" : "col2of3"}
     .pitch-claim{style: "padding-left:0px;"}
       %h1.title-xxl= @get.welcome_message[:title]
       .ptm
         = raw @get.welcome_message[:text][:__html]
-  .col1of3
-    .pitch-login
-      #login_menu
-        .ui-tab-content.tab-content
-          %form{method: "GET", action: "/auth/sign-in/auth-systems/"}
-            .form-body
-              .ui-form-group.rowed.compact
-                %label.form-label= t('login_box_title')
-                %input.block.large{type: "text", name: "email-or-login", placeholder: t('login_box_email_or_login')}
-              .ui-form-group.rowed.compact
-                %input{type: "hidden", name: "return-to", value: "/"}
-                %input{type: "hidden", name: "lang", value: locale}
-                %button.primary-button.block.large{type: "submit"}= t('login_box_login_btn')
-  .clearfix{style: "clear:both;"}
+  - unless current_user
+    .col1of3
+      .pitch-login
+        #login_menu
+          .ui-tab-content.tab-content
+            %form{method: "GET", action: "/auth/sign-in/auth-systems/"}
+              .form-body
+                .ui-form-group.rowed.compact
+                  %label.form-label= t('login_box_title')
+                  %input.block.large{type: "text", name: "email-or-login", placeholder: t('login_box_email_or_login')}
+                .ui-form-group.rowed.compact
+                  %input{type: "hidden", name: "return-to", value: "/"}
+                  %input{type: "hidden", name: "lang", value: locale}
+                  %button.primary-button.block.large{type: "submit"}= t('login_box_login_btn')
+    .clearfix{style: "clear:both;"}
