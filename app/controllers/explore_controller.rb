@@ -7,7 +7,12 @@ class ExploreController < ApplicationController
   end
 
   def index
-    @get = Presenters::Explore::ExploreLoginPage.new(current_user, settings)
+    @get = Presenters::Explore::ExploreLoginPage.new(
+      current_user, settings
+    )
+    @catalog_section = Rails.cache.fetch('explore_catalog_section', expires_in: 1.hour) do
+      @get.catalog_section.dump
+    end
     respond_with @get, template: 'application/root'
   end
 

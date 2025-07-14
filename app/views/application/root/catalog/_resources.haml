@@ -1,8 +1,7 @@
 :ruby
-  dump = list.map(&:dump)
-  cache_key = "root-catalog-content/#{dump.hash}"
+  cache_key = "root-catalog-content/#{list.hash}"
 
 = capture do
   - Rails.cache.fetch(cache_key) do
     = react('Views.explore.partials.CatalogResourceList',
-      { resources: dump })
+      { resources: list })

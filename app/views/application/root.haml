@@ -2,9 +2,9 @@
 
 .app-body-ui-container.pts.context-home
 
-  - unless @get.catalog_section.empty?
+  - unless @catalog_section.empty?
     %hr.separator
-    = render "application/root/catalog_section", section: @get.catalog_section
+    = render "application/root/catalog_section", section: @catalog_section
 
   - unless @get.latest_section.empty?
     %hr.separator

@@ -66,6 +66,9 @@ class ApplicationController < ActionController::Base
       @get = Presenters::Explore::ExploreLoginPage.new(
         current_user, settings, show_login: true
       )
+      @catalog_section = Rails.cache.fetch('explore_catalog_section', expires_in: 3.hours) do
+        @get.catalog_section.dump
+      end
       respond_with @get
     end
   end
