@@ -7,7 +7,7 @@ module.exports = createReactClass({
   displayName: 'ThumbnailResourceList',
   render() {
     const { resources, authToken } = this.props
-    
+
     return (
       <ul className="grid ui-resources">
         {f.map(resources, (resource, n) => (

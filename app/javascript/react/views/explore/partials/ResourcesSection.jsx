@@ -35,11 +35,7 @@ module.exports = createReactClass({
           </div>
         ) : undefined}
         {section.type === 'catalog' || section.type === 'catalog_category' ? (
-          <ul className="grid ui-resources" style={{ marginBottom: '40px', marginTop: '0px' }}>
-            {f.map(section.data.list, (resource, n) => {
-              return <CatalogResource key={`key_${n}`} resource={resource} />
-            })}
-          </ul>
+          <CatalogResourceList resources={section.data.list.resources} authToken={authToken} />
         ) : section.type === 'thumbnail' ? (
           <ThumbnailResourceList resources={section.data.list.resources} authToken={authToken} />
         ) : section.type === 'keyword' ? (
