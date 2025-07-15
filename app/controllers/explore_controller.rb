@@ -1,5 +1,6 @@
 class ExploreController < ApplicationController
 
+  include CatalogCache
   include Presenters::Explore::Modules::NewestEntryWithImage
 
   before_action do
@@ -7,7 +8,12 @@ class ExploreController < ApplicationController
   end
 
   def index
-    @get = Presenters::Explore::ExploreLoginPage.new(current_user, settings)
+    @get = Presenters::Explore::ExploreLoginPage.new(
+      current_user, settings
+    )
+    @catalog_section = catalog_cache do
+      @get.catalog_section.dump
+    end
     respond_with @get, template: 'application/root'
   end
 

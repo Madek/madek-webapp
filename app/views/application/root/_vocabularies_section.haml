@@ -1,0 +1,6 @@
+.ui-resources-holder.pal#vocabularies
+  = render "application/root/section_title", section_content: section.content
+  %ul.ui-tag-cloud
+    - size = section.content[:data][:list].size
+    - section.content[:data][:list].each_with_index do |vocabulary, i|
+      = render 'application/root/vocabularies/vocabulary', vocabulary: vocabulary, last: i == size - 1

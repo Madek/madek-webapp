@@ -1,0 +1,4 @@
+.ui-resources-holder.pal{id: section.content[:id]}
+  = render "application/root/section_title", section_content: section.content
+  = render "application/root/latest/resources", list: section.content[:data][:list]
+
