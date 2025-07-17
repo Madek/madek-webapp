@@ -316,15 +316,6 @@ module.exports = createReactClass({
             if (isOpen) {
               switch (child.metaDatumObjectType) {
                 case 'MetaDatum::People':
-                  return this.renderPersonSelect(
-                    current,
-                    child,
-                    child.children,
-                    filterType,
-                    togglebodyClass,
-                    false
-                  )
-                case 'MetaDatum::Roles':
                   return f.map(['person', 'role'], type => {
                     const items = child.children.filter(x => x.type === type)
                     if (items.length === 0) {

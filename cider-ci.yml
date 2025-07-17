@@ -18,10 +18,10 @@ jobs:
   general-feature-tests:
     name: 'General Feature Tests'
     depends_on: &PLAIN_DEP
-      basic-rspec-tests:
-        job_key: basic-rspec-tests
-        type: job
-        states: [passed]
+      #basic-rspec-tests:
+      #  job_key: basic-rspec-tests
+      #  type: job
+      #  states: [passed]
       check-feature_tasks:
         job_key: check-feature-tasks
         type: job
@@ -33,7 +33,7 @@ jobs:
   embed-feature-tests:
     name: 'Embed Feature Tests'
     priority: 2
-    depends_on: *PLAIN_DEP
+    #depends_on: *PLAIN_DEP
     run_when: *PLAIN_DEP
     context:
       include: cider-ci/context-components/embed-feature-tests.yml
@@ -41,7 +41,7 @@ jobs:
   error-support-feature-tests:
     name: 'Error-Support Feature Tests'
     priority: 2
-    depends_on: *PLAIN_DEP
+    #depends_on: *PLAIN_DEP
     run_when: *PLAIN_DEP
     context:
       include: cider-ci/context-components/error-support-feature-tests.yml
@@ -49,7 +49,7 @@ jobs:
   custom-path-feature-tests:
     name: 'Custom-Path Feature Tests'
     priority: 2
-    depends_on: *PLAIN_DEP
+    #depends_on: *PLAIN_DEP
     run_when: *PLAIN_DEP
     context:
       include: cider-ci/context-components/custom-path-feature-tests.yml
