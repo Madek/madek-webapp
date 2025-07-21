@@ -139,11 +139,11 @@ describe Presenters::MediaEntries::BatchDiffQuery do
 
       context 'when values are different' do
         it 'counts correctly' do
-          create(:meta_datum_roles, media_entry: media_entry_1)
-          create(:meta_datum_roles, media_entry: media_entry_2)
+          create(:meta_datum_people_with_roles, media_entry: media_entry_1)
+          create(:meta_datum_people_with_roles, media_entry: media_entry_2)
 
-          expect(result('test:roles')).to eq(
-            'meta_key_id' => 'test:roles',
+          expect(result('test:people_with_roles')).to eq(
+            'meta_key_id' => 'test:people_with_roles',
             'max' => 1,
             'count' => 2
           )
@@ -261,7 +261,6 @@ describe Presenters::MediaEntries::BatchDiffQuery do
   end
 
   def result(meta_key_id)
-    binding.pry
     described_class.diff(MediaEntry, media_entries).detect do |i|
       i['meta_key_id'] == meta_key_id
     end
