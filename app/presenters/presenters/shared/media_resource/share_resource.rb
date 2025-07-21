@@ -35,6 +35,26 @@ module Presenters
           )
         end
 
+        def embed_html_code
+          return unless @app_resource.is_a?(MediaEntry)
+          w = Madek::Constants::Webapp::EMBED_UI_DEFAULT_WIDTH
+          h = (w / Madek::Constants::Webapp::EMBED_UI_DEFAULT_RATIO).to_i
+          url = @base_url + prepend_url_context(
+            embedded_media_entry_path(@app_resource, width: w, height: h)
+          )
+          # NOTE: based on app/controllers/oembed_controller.rb
+          <<-HTML.strip_heredoc.tr("\n", ' ').strip
+            <div class="___madek-embed"><iframe
+            src="#{ERB::Util.html_escape(url)}"
+            frameborder="0"
+            width="#{w}"
+            height="#{h}"
+            style="margin:0;padding:0;border:0"
+            allowfullscreen webkitallowfullscreen mozallowfullscreen
+            ></iframe></div>
+          HTML
+        end
+
         private
 
         def underscore
