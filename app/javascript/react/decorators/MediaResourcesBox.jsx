@@ -38,7 +38,6 @@ import CreateCollectionModal from '../views/My/CreateCollectionModal.jsx'
 
 import BoxUtil from './BoxUtil.js'
 import BoxSetUrlParams from './BoxSetUrlParams.jsx'
-import BoxBatchEditForm from './BoxBatchEditForm.jsx'
 import BoxRedux from './BoxRedux.js'
 import BoxState from './BoxState.js'
 import BoxTitlebar from './BoxTitlebar.jsx'
@@ -180,34 +179,6 @@ class MediaResourcesBox extends Component {
       }
     ]
     this.nextBoxState(events)
-  }
-
-  onBatchButton = () => {
-    this.triggerComponentEvent(this.state.boxState.components.batch, { action: 'toggle' })
-  }
-
-  onClickKey = (event, metaKeyId, contextKey) => {
-    this.triggerComponentEvent(this.state.boxState.components.batch, {
-      action: 'select-key',
-      metaKeyId,
-      contextKey
-    })
-  }
-
-  onClickApplyAll = () => {
-    this.triggerRootEvent({ action: 'apply' })
-  }
-
-  onClickApplySelected = () => {
-    this.triggerRootEvent({ action: 'apply-selected' })
-  }
-
-  onClickCancel = () => {
-    this.triggerRootEvent({ action: 'cancel-all' })
-  }
-
-  onClickIgnore = () => {
-    this.triggerRootEvent({ action: 'ignore-all' })
   }
 
   getResources = () => {
@@ -887,7 +858,6 @@ class MediaResourcesBox extends Component {
       isClient: this.state.isClient,
       collectionData: this.props.collectionData,
       config,
-      featureToggles: get.feature_toggles,
       isClipboard: this.props.initial ? this.props.initial.is_clipboard : false,
       content_type: this.props.get.content_type,
       showAddSetButton: f.get(this.props, 'showAddSetButton', false)
@@ -915,7 +885,6 @@ class MediaResourcesBox extends Component {
             onBatchTransferResponsibilityEdit: this._onBatchTransferResponsibilityEdit,
             onBatchTransferResponsibilitySetsEdit: this._onBatchTransferResponsibilitySetsEdit,
             onHoverMenu: this._onHoverMenu,
-            onQuickBatch: this.onBatchButton,
             onShowCreateCollectionModal: () => this.setState({ showCreateCollectionModal: true })
           }}
         />
@@ -1044,22 +1013,6 @@ class MediaResourcesBox extends Component {
             {sidebar}
             <div className="ui-container table-cell table-substance">
               {children}
-              <BoxBatchEditForm
-                onClose={e => this.onBatchButton(e)}
-                stateBox={this.state.boxState}
-                onClickKey={(e, k, ck) => this.onClickKey(e, k, ck)}
-                onClickApplyAll={e => this.onClickApplyAll(e)}
-                onClickApplySelected={e => this.onClickApplySelected(e)}
-                onClickCancel={e => this.onClickCancel(e)}
-                onClickIgnore={e => this.onClickIgnore(e)}
-                totalCount={this.props.get.pagination.total_count}
-                allLoaded={
-                  this.props.get.pagination &&
-                  this.state.boxState.components.resources.length ===
-                    this.props.get.pagination.total_count
-                }
-                trigger={this.triggerComponentEvent}
-              />
               {(() => {
                 if (resources.length === 0 && this.state.boxState.data.loadingNextPage) {
                   return <Preloader />
@@ -1085,7 +1038,6 @@ class MediaResourcesBox extends Component {
                   return (
                     <BoxRenderResources
                       resources={f.map(this.state.boxState.components.resources, r => r)}
-                      applyJob={this.state.boxState.components.batch.data.applyJob}
                       actionsDropdownParameters={actionsDropdownParameters}
                       selectedResources={this.state.boxState.data.selectedResources}
                       isClient={this.state.isClient}
@@ -1100,15 +1052,9 @@ class MediaResourcesBox extends Component {
                       listMods={listMods}
                       pagination={this.props.get.pagination}
                       perPage={this.props.get.config.per_page}
-                      showBatchButtons={{
-                        editMode:
-                          this.state.boxState.components.batch.data.open &&
-                          this.state.boxState.components.batch.components.metaKeyForms.length > 0
-                      }}
                       unselectResources={this.unselectResources}
                       selectResources={resources => this.selectResources(resources)}
                       trigger={this.triggerComponentEvent}
-                      selectionMode={this.state.boxState.components.batch.data.open}
                     />
                   )
                 }

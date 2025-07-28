@@ -26,15 +26,24 @@ const PEOPLE_SUBTYPES = ['Person', 'PeopleGroup', 'PeopleInstitutionalGroup']
 const MadekPropTypes = (M = {})
 
 // Basics
-M.uuid = function (props, propName) {
-  if (!validateUUID(props[propName], 4)) {
-    return new Error('Malformed uuid!')
+M.uuid = function (props, propName, componentName) {
+  const value = props[propName]
+  if (!value || !validateUUID(value, 4)) {
+    console.log(
+      `Invalid prop \`${propName}\` supplied to \`${componentName}\`. Expected a non-empty UUID, got ${value}.`
+    )
+    return new Error(
+      `Invalid prop \`${propName}\` supplied to \`${componentName}\`. Expected a non-empty UUID, got ${value}.`
+    )
   }
 }
 
-M.metaKeyId = function (props, propName) {
-  if (!MKEY_REGEX.test(props[propName])) {
-    return new Error('Malformed metaKeyId!')
+M.metaKeyId = function (props, propName, componentName) {
+  const value = props[propName]
+  if (!value || !MKEY_REGEX.test(value)) {
+    return new Error(
+      `Invalid prop \`${propName}\` supplied to \`${componentName}\`. Expected a non-empty meta key name, e.g. "madek_core:title".`
+    )
   }
 }
 
@@ -42,21 +51,21 @@ M.metaKeyId = function (props, propName) {
 M.user = PropTypes.object
 
 M.vocabulary = PropTypes.shape({
-  uuid: M.uuid.isRequired,
+  uuid: PropTypes.string.isRequired, // (it's NOT an actual UUID)
   label: PropTypes.string.isRequired,
   description: PropTypes.string,
   hint: PropTypes.string
 })
 
 M.context = PropTypes.shape({
-  uuid: M.uuid.isRequired,
+  uuid: PropTypes.string.isRequired, // (it's NOT an actual UUID)
   label: PropTypes.string,
   description: PropTypes.string,
   hint: PropTypes.string
 })
 
 const metaKey = {
-  uuid: M.metaKeyId.isRequired,
+  uuid: M.metaKeyId,
   label: PropTypes.string.isRequired,
   description: PropTypes.string,
   hint: PropTypes.string,
@@ -77,7 +86,7 @@ M.VocabularyMetaKey = PropTypes.shape(
 )
 
 M.contextKey = PropTypes.shape({
-  uuid: M.uuid.isRequired,
+  uuid: M.uuid,
   position: PropTypes.number.isRequired,
   label: PropTypes.string,
   description: PropTypes.string,
@@ -92,8 +101,8 @@ M.keyword = PropTypes.shape({
 
 // Concern: MetaData
 M.metaDatum = PropTypes.shape({
-  uuid: M.uuid.isRequired,
-  meta_key_id: M.metaKeyId.isRequired,
+  uuid: M.uuid,
+  meta_key_id: M.metaKeyId,
   type: PropTypes.oneOf(META_DATUM_TYPES).isRequired
 })
 
@@ -134,11 +143,11 @@ const ResourceFiltersMetaData = f.values({
   // 1
   keyUuid: PropTypes.shape({
     key: PropTypes.string.isRequired,
-    value: M.uuid.isRequired
+    value: M.uuid
   }),
   // 2
   keyMatch: PropTypes.shape({
-    key: M.metaKeyId.isRequired,
+    key: M.metaKeyId,
     match: PropTypes.string.isRequired
   }),
   // 3
@@ -154,11 +163,11 @@ const ResourceFiltersMetaData = f.values({
   }),
   // 5
   hasKey: PropTypes.shape({
-    key: M.metaKeyId.isRequired
+    key: M.metaKeyId
   }),
   // 6
   notKey: PropTypes.shape({
-    not_key: M.metaKeyId.isRequired
+    not_key: M.metaKeyId
   })
 })
 
@@ -176,7 +185,7 @@ M.resourceFilter = PropTypes.shape({
       PropTypes.shape({
         key: PropTypes.oneOf(['responsible_user', 'entrusted_to_user', 'entrusted_to_group'])
           .isRequired,
-        value: M.uuid.isRequired
+        value: M.uuid
       }),
       PropTypes.shape({
         key: PropTypes.oneOf(['public']).isRequired,

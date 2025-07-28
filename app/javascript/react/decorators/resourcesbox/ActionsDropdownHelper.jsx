@@ -7,16 +7,8 @@ import f from 'active-lodash'
 import SelectionScope from '../../../lib/selection-scope.js'
 
 const showActionsConfig = function (parameters) {
-  const {
-    withActions,
-    selection,
-    saveable,
-    draftsView,
-    isClient,
-    collectionData,
-    featureToggles,
-    isClipboard
-  } = parameters
+  const { withActions, selection, saveable, draftsView, isClient, collectionData, isClipboard } =
+    parameters
   const showActions = !withActions
     ? {}
     : {
@@ -32,8 +24,7 @@ const showActionsConfig = function (parameters) {
         removeFromSet:
           !isClipboard && selection && f.present(collectionData) && !draftsView ? true : undefined,
         transferResponsibility: !draftsView && selection ? true : undefined,
-        transferResponsibilitySets: !draftsView && selection ? true : undefined,
-        quickEdit: !!featureToggles.beta_test_quick_edit
+        transferResponsibilitySets: !draftsView && selection ? true : undefined
       }
   return showActions
 }

@@ -3,7 +3,6 @@ import f from 'active-lodash'
 import l from 'lodash'
 import ActionsDropdownHelper from './resourcesbox/ActionsDropdownHelper.jsx'
 import ResourceThumbnail from './ResourceThumbnail.jsx'
-import BoxBatchApplyButton from './BoxBatchApplyButton.jsx'
 
 class BoxRenderResource extends React.Component {
   constructor(props) {
@@ -47,7 +46,7 @@ class BoxRenderResource extends React.Component {
       var onSelect = this.boundOnSelect
       // if in selection mode, intercept clicks as 'select toggle'
       var onPictureClick = null
-      if (config.layout == 'miniature' || this.props.selectionMode) {
+      if (config.layout == 'miniature') {
         // && selection.length > 0) {
         onPictureClick = onSelect
         pictureLinkStyle = { cursor: 'cell' }
@@ -56,11 +55,6 @@ class BoxRenderResource extends React.Component {
       //  when hightlighting editables, we just dim everything else:
       if (ActionsDropdownHelper.isResourceNotInScope(item, isSelected, hoverMenuId)) {
         style = { opacity: 0.35 }
-      }
-
-      if (this.props.selectionMode && isSelected) {
-        pictureLinkStyle.boxShadow =
-          'rgb(255, 255, 255) 0px 0px 0px 5px, rgb(122, 157, 41) 0px 0px 0px 10px' //'0 0 0px 10px #7a9d29'
       }
     }
 
@@ -92,25 +86,6 @@ class BoxRenderResource extends React.Component {
       }
     }
 
-    var renderBatchApplyButton = () => {
-      if (!this.props.showBatchButtons) {
-        return null
-      }
-      if (!item.editable) {
-        return null
-      }
-
-      return (
-        <BoxBatchApplyButton
-          trigger={this.props.trigger}
-          resourceState={itemState}
-          layout={config.layout}
-          batchStatus={this.props.batchStatus}
-          showBatchButtons={this.props.showBatchButtons}
-        />
-      )
-    }
-
     return (
       <ResourceThumbnail
         elm="div"
@@ -130,7 +105,6 @@ class BoxRenderResource extends React.Component {
         listThumb={config.layout == 'list'}
         list_meta_data={itemState.data.listMetaData}
         trigger={this.props.trigger}
-        batchApplyButton={renderBatchApplyButton()}
       />
     )
   }

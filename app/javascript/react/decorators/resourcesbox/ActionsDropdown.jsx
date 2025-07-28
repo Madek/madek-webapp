@@ -190,26 +190,6 @@ export default createReactClass({
             }
           })()}
 
-          {showActions.quickEdit ? (
-            <Dropdown.MenuItem onClick={this.props.callbacks.onQuickBatch}>
-              <i
-                className="fa fa-magic"
-                style={{
-                  position: 'static',
-                  display: 'inline-block',
-                  minWidth: '20px',
-                  marginLeft: '5px'
-                }}
-              />
-              <span style={{ display: 'inline', marginLeft: '5px' }}>
-                <span style={{ color: '#9a9a9a' }}>
-                  {t('resources_box_batch_actions_meta_data_batch_new')}
-                </span>{' '}
-                {t('resources_box_batch_actions_meta_data_batch')}
-              </span>
-            </Dropdown.MenuItem>
-          ) : undefined}
-
           {(() => {
             if (showActions.deleteResources) {
               let batchDestroyables

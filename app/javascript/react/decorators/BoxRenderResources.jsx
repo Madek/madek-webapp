@@ -34,26 +34,6 @@ class BoxRenderResources extends React.Component {
 
     var renderPage = (page, i) => {
       var renderItem = itemState => {
-        var resourceId = itemState.data.resource.uuid
-        var job = this.props.applyJob
-        var batchStatus = () => {
-          if (!job || (job.processing.length == 0 && job.failure.length == 0)) {
-            return null
-          } else if (l.find(job.pending, p => p.uuid == resourceId)) {
-            return 'pending'
-          } else if (l.find(job.processing, p => p.uuid == resourceId)) {
-            return 'processing'
-          } else if (l.find(job.success, p => p.uuid == resourceId)) {
-            return 'success'
-          } else if (l.find(job.failure, p => p.uuid == resourceId)) {
-            return 'failure'
-          } else if (l.find(job.cancelled, p => p.uuid == resourceId)) {
-            return 'cancelled'
-          } else {
-            return 'sleep'
-          }
-        }
-
         return (
           <BoxRenderResource
             resourceState={itemState}
@@ -62,14 +42,11 @@ class BoxRenderResources extends React.Component {
             positionProps={positionProps}
             config={config}
             hoverMenuId={hoverMenuId}
-            showBatchButtons={this.props.showBatchButtons}
             fetchRelations={fetchRelations}
             key={itemState.data.resource.uuid}
             trigger={this.props.trigger}
             isSelected={f.find(selectedResources, sr => sr.uuid == itemState.data.resource.uuid)}
             showActions={ActionsDropdownHelper.showActionsConfig(actionsDropdownParameters)}
-            selectionMode={this.props.selectionMode}
-            batchStatus={batchStatus()}
           />
         )
       }

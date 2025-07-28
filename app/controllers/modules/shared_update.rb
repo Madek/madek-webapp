@@ -23,39 +23,6 @@ module Modules
       errors
     end
 
-    def determine_values_by_options(resource, meta_key_id, data)
-      if data['options'] && data['options']['action'] == 'add'
-        existing = resource.meta_data.where(meta_key_id: meta_key_id).first
-        if existing && existing.keywords
-          existing.keywords.map(&:id) + data['values']
-        else
-          data['values']
-        end
-      else
-        data['values']
-      end
-    end
-
-    def advanced_update_all_meta_data_transaction!(resource, meta_data_params)
-      errors = {}
-
-      ActiveRecord::Base.transaction do
-        meta_data_params.each do |meta_key_id, data|
-          begin
-            values = determine_values_by_options(resource, meta_key_id, data)
-            handle_meta_datum_in_case_of_single_update!(
-              resource, meta_key_id, values)
-          rescue => e
-            errors[meta_key_id] = [e.message]
-          end
-
-        end
-        raise ActiveRecord::Rollback unless errors.empty?
-      end
-
-      errors
-    end
-
     def handle_meta_datum_in_case_of_single_update!(resource, meta_key_id, value)
       # These 4 cases are handled by the datalayer:
       # 1. MD exists, value is present: update MD

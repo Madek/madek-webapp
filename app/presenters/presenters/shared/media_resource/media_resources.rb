@@ -110,12 +110,6 @@ module Presenters
           my_dashboard_section_path(:clipboard)
         end
 
-        def feature_toggles
-          {
-            beta_test_quick_edit: auth_policy(@user, :user).beta_test_quick_edit?
-          }
-        end
-
         private
 
         def build_config(list_conf)
