@@ -1,4 +1,3 @@
-# common gems from datalayer, if checked out (otherwise GitHub cant parse this file!)
 SHARED_GEMFILE = './datalayer/Gemfile'
 eval_gemfile(SHARED_GEMFILE) if File.exist?(SHARED_GEMFILE)
 
@@ -44,6 +43,7 @@ gem 'json'
 gem 'kaminari'
 gem 'pundit'
 gem 'rubyzip', '~> 1.0'
+gem 'sitemap_generator'
 gem 'sorted_set'
 gem 'uglifier'
 
