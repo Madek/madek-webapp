@@ -7,7 +7,7 @@
   site_title = begin; localize(settings.site_titles); rescue; end
   site_title ||= 'Madek' # fallback
   title = begin; @get[:title]; rescue; end
-  lang = 'de-CH'
+  lang = locale
   body_data = begin; { 'referer-host': @get[:embed_config]['referer_info']['host'] }; rescue; end || {}
 
 !!!

@@ -1,4 +1,6 @@
 :ruby
+  content_for(:title_head) { @get.title }
+
   if @collection.try(:deleted_at).try(:present?)
     content_for(:app_alerts) do
       component('alert', level: 'error', text: t(:collection_deleted))

@@ -170,7 +170,8 @@ Madek::Application.routes.draw do
   end
 
   resources :media_files, path: :files, only: :show
-  resources :previews, path: 'media', only: :show
+  resources :previews, path: 'media', only: :show, defaults: { lang: nil }
+  # (`lang: nil` to prevent passing along the current locale to media urls via `default_url_options`)
 
   # MetaData & Meta-Resources:
   resources :meta_data
