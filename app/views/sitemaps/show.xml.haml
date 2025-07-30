@@ -1,0 +1,19 @@
+!!! XML
+%urlset{xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9"}
+  %url
+    %loc= root_url
+    %lastmod= Date.current.iso8601
+    %changefreq daily
+    %priority 1.0
+  
+  - @media_entries.each do |media_entry|
+    %url
+      %loc= media_entry_url(media_entry)
+      %lastmod= media_entry.updated_at.iso8601
+      %priority 0.8
+  
+  - @collections.each do |collection|
+    %url
+      %loc= collection_url(collection)
+      %lastmod= collection.updated_at.iso8601
+      %priority 0.7

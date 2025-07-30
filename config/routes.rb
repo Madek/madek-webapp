@@ -3,6 +3,8 @@ Madek::Application.routes.draw do
 
   root to: 'application#root'
 
+  get '/sitemap.xml', to: 'sitemaps#show', format: :xml
+
   scope path: '/in-admin', as: :admin do
     get 'entries/:id' => redirect("/admin/media_entries/%{id}"), as: :entry
     get 'sets/:id' => redirect("/admin/collections/%{id}/"), as: :collection

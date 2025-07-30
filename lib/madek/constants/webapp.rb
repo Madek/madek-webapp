@@ -49,9 +49,9 @@ module Madek
         [ConfigurationManagementBackdoorController,
          ErrorsController,
          MadekZhdkIntegration::AuthenticationController,
+         SitemapsController,
          StyleguideController,
          ZencoderJobsController]
-
       # From v2, unused but kept here for reference:
       # # Config files here.
       # METADATA_CONFIG_DIR = "#{Rails.root}/config/definitions/metadata"
