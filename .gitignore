@@ -53,6 +53,8 @@ log/*.log
 log/searchd.development.pid
 log/searchd.test.pid
 public/previews/
+public/sitemaps/*
+!/sitemaps/.gitkeep
 rerun*.txt
 tags
 tmp/

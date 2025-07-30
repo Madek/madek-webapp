@@ -1,0 +1,6 @@
+- name: create symlink for sitemaps
+  file:
+    state: link
+    src: /madek/server/webapp/public/sitemaps
+    dest: /var/www/madek/sitemaps
+    force: yes
