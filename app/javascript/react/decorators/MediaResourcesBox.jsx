@@ -38,7 +38,7 @@ import CreateCollectionModal from '../views/My/CreateCollectionModal.jsx'
 
 import BoxUtil from './BoxUtil.js'
 import BoxSetUrlParams from './BoxSetUrlParams.jsx'
-import { BoxState, mergeEventsIntoState } from './media-resources-box-state/BoxState.js'
+import { transferState, mergeEventsIntoState } from './media-resources-box-state/state.js'
 import BoxTitlebar from './BoxTitlebar.jsx'
 import BoxFilterButton from './BoxFilterButton.jsx'
 import BoxSetFallback from './BoxSetFallback.jsx'
@@ -126,7 +126,7 @@ class MediaResourcesBox extends Component {
   }
 
   initialBoxState = props => {
-    return BoxState({
+    return transferState({
       event: {},
       trigger: this.triggerComponentEvent,
       initial: true,
@@ -138,8 +138,7 @@ class MediaResourcesBox extends Component {
   }
 
   nextBoxState = events => {
-    //console.log('nextBoxState', events[0].path, events[0].event)
-    const merged = mergeEventsIntoState(this.state.boxState, events)
+    const mergedState = mergeEventsIntoState(this.state.boxState, events)
 
     const props = {
       get: this._mergeGet(this.props, this.state),
@@ -147,12 +146,12 @@ class MediaResourcesBox extends Component {
       getJsonPath: this.getJsonPath
     }
 
-    const boxState = BoxState({
-      event: merged.event,
+    const boxState = transferState({
+      event: mergedState.event,
       trigger: this.triggerComponentEvent,
       initial: false,
-      components: merged.components,
-      data: merged.data,
+      components: mergedState.components,
+      data: mergedState.data,
       nextProps: props,
       path: []
     })

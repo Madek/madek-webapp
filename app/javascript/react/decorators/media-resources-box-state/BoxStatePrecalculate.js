@@ -1,7 +1,7 @@
 import l from 'lodash'
 
-module.exports = merged => {
-  let { event, initial, components, nextProps } = merged
+module.exports = input => {
+  let { event, initial, components, nextProps } = input
 
   var todoLoadMetaData = () => {
     if (nextProps.get.config.layout != 'list') {

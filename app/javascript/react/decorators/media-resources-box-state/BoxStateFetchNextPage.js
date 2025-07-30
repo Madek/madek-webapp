@@ -2,8 +2,8 @@ import l from 'lodash'
 import xhr from 'xhr'
 import setUrlParams from '../../../lib/set-params-for-url.js'
 
-module.exports = (merged, nextResourcesLength) => {
-  let { event, trigger, data, nextProps } = merged
+module.exports = (input, nextResourcesLength) => {
+  let { event, trigger, data, nextProps } = input
 
   if (data.loadingNextPage && !(event.action == 'page-loaded')) {
     return
@@ -29,7 +29,7 @@ module.exports = (merged, nextResourcesLength) => {
       json: true
     },
     (err, res, body) => {
-      trigger(merged, {
+      trigger(input, {
         action: res.statusCode === 200 ? 'page-loaded' : 'page-load-failed',
         currentRequestSeriesId: event.currentRequestSeriesId,
         resources: l.get(body, nextProps.getJsonPath())

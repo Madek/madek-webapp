@@ -8,8 +8,8 @@ var parseUrl = url.parse
 var buildUrl = url.format
 var parseQuery = qs.parse
 
-module.exports = merged => {
-  let { event, trigger, initial, data, nextProps, path } = merged
+module.exports = input => {
+  let { event, trigger, initial, data, nextProps, path } = input
 
   var next = () => {
     if (nextProps.loadMetaData) {
@@ -136,9 +136,9 @@ module.exports = merged => {
   var loadMetaData = () => {
     sharedLoadMetaData({
       success: json => {
-        trigger(merged, { action: 'load-meta-data-success', json: json })
+        trigger(input, { action: 'load-meta-data-success', json: json })
       },
-      error: () => trigger(merged, { action: 'load-meta-data-failure' })
+      error: () => trigger(input, { action: 'load-meta-data-failure' })
     })
   }
 

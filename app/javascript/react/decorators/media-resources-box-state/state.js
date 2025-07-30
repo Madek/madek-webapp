@@ -3,13 +3,18 @@ import BoxResource from './BoxResource.js'
 import BoxStatePrecalculate from './BoxStatePrecalculate.js'
 import BoxStateFetchNextPage from './BoxStateFetchNextPage.js'
 
-const BoxState = merged => {
-  const { event, trigger, initial, components, data, nextProps, path } = merged
-  const { willFetch, todoLoadMetaData } = BoxStatePrecalculate(merged)
+/**
+ * Takes the old state, resolves events and returns the new state
+ * @param {Object} input Old state and commands
+ * @returns New state (props, path, data, components)
+ */
+const transferState = input => {
+  const { event, trigger, initial, components, data, nextProps, path } = input
+  const { willFetch, todoLoadMetaData } = BoxStatePrecalculate(input)
 
   const next = () => {
     if (willFetch) {
-      BoxStateFetchNextPage(merged, nextResources().length)
+      BoxStateFetchNextPage(input, nextResources().length)
     }
 
     return {
@@ -141,20 +146,19 @@ const BoxState = merged => {
 }
 
 /**
- * Copies a tree of state nodes, assigning the events to the nodes according to their `path`.
+ * Recursively copies a tree of state nodes, assigning the events to the nodes according to their `path`.
  *
  * The child nodes are in the `components` key, structured as follows:
  * - node.components.a = componentStateA
  * - node.components.b = componentStateB
- * - node.components.c = [indexedComponentC1, indexedComponentC2, ...]
+ * - node.components.c = [indexedComponentStateC1, indexedComponentStateC2, ...]
  *
  * Note that the `path` has nothing to do with the location of the nodes in the tree,
  * it is just an outside-bound value, typically an array.
  *
- * A node can also have the keys `id`, `data`, `props` which are just copied to the output
- * node (but `data` and `props` will be defaulted with `{}` when missing).
+ * Apart from `path` and `components`, each node also has `data` and `props` which are just wired through.
  *
- * See the example at the end of the file.
+ * See the examples (mini unit tests) below this function.
  */
 const mergeEventsIntoState = function (state, events) {
   if (!state) {
@@ -173,8 +177,7 @@ const mergeEventsIntoState = function (state, events) {
   const foundEvent = __.find(events, e => __.isEqual(e.path, state.path))
 
   return {
-    id: state.id,
-    data: state.data ? state.data : {},
+    event: foundEvent && foundEvent.event ? foundEvent.event : {},
     components: compactObject(
       __.mapValues(state.components, function (component) {
         if (!component) {
@@ -189,9 +192,9 @@ const mergeEventsIntoState = function (state, events) {
         }
       })
     ),
-    props: state.props ? state.props : {},
-    event: foundEvent && foundEvent.event ? foundEvent.event : {},
-    path: state.path
+    path: state.path,
+    data: state.data,
+    props: state.props
   }
 }
 
@@ -214,23 +217,22 @@ console.log(newState.event.action === 'plonk')
 console.log(newState.components.raccoon.event.action === 'plenk')
 console.log(newState.components.otherAnimals[0].event.action === 'plenk')
 // node properties
-console.log(Object.keys(newState).toString() === 'id,data,components,props,event,path')
+console.log(Object.keys(newState).toString() === 'data,components,props,event,path')
 console.log(JSON.stringify(newState.data) === '{}')
 console.log(JSON.stringify(newState.props) === '{}')
 console.log(
-  Object.keys(newState.components.raccoon).toString() === 'id,data,components,props,event,path'
+  Object.keys(newState.components.raccoon).toString() === 'data,components,props,event,path'
 )
 console.log(
   Object.keys(newState.components.raccoon.components.sub).toString() ===
-    'id,data,components,props,event,path'
+    'data,components,props,event,path'
 )
 console.log(
-  Object.keys(newState.components.otherAnimals[0]).toString() ===
-    'id,data,components,props,event,path'
+  Object.keys(newState.components.otherAnimals[0]).toString() === 'data,components,props,event,path'
 )
 */
 
 module.exports = {
-  BoxState,
+  transferState,
   mergeEventsIntoState
 }
