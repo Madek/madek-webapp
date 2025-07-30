@@ -1,5 +1,5 @@
 import xhr from 'xhr'
-import setUrlParams from '../../lib/set-params-for-url.js'
+import setUrlParams from '../../../lib/set-params-for-url.js'
 
 import url from 'url'
 import qs from 'qs'

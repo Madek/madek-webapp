@@ -38,8 +38,7 @@ import CreateCollectionModal from '../views/My/CreateCollectionModal.jsx'
 
 import BoxUtil from './BoxUtil.js'
 import BoxSetUrlParams from './BoxSetUrlParams.jsx'
-import BoxRedux from './BoxRedux.js'
-import BoxState from './BoxState.js'
+import { BoxState, mergeEventsIntoState } from './media-resources-box-state/BoxState.js'
 import BoxTitlebar from './BoxTitlebar.jsx'
 import BoxFilterButton from './BoxFilterButton.jsx'
 import BoxSetFallback from './BoxSetFallback.jsx'
@@ -140,7 +139,7 @@ class MediaResourcesBox extends Component {
 
   nextBoxState = events => {
     //console.log('nextBoxState', events[0].path, events[0].event)
-    const merged = BoxRedux.mergeStateAndEventsRoot(this.state.boxState, events)
+    const merged = mergeEventsIntoState(this.state.boxState, events)
 
     const props = {
       get: this._mergeGet(this.props, this.state),
