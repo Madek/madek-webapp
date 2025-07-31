@@ -1,37 +1,83 @@
 import __ from 'lodash'
 import getResourceIdsToLoadMetadataFor from './getResourceIdsToLoadMetadataFor.js'
-import loadResourceMetadata from './loadResourceMetadata.js'
-import loadNextPage from './loadNextPage.js'
+import handleResource from './handleResource.js'
+import loadNextPageEffect from './loadNextPageEffect.js'
+
+// This is refactored version of the old BoxState/BoxRedux-complex, but still far from ideal.
+// It's kind of a state machine which transforms "world 1" to "world 2", running also loading side effects
+// There is a primary `state`, which contains `components.resources`, which have the same state model as `state` itself.
 
 /**
- * TODO - describe me and/or improve me
- * @param {Object} Old state (path, data, nextProps, components, initital, event, trigger)
- * @returns New state (path, data, props, components)
+ * "Transform" state of the MediaResourcesBox component (reduce with side effects)
  */
-const resolveEvents = input => {
+function nextState(input) {
   const { event, trigger, initial, components, data, nextProps, path } = input
-  console.log('resolveEvents', event)
+  //console.log('nextState', event)
 
-  const isPageLoad = event.action == 'load-next-page' || event.action == 'force-load-next-page'
-  const resourceIdsToLoadMetadataFor = getResourceIdsToLoadMetadataFor(input)
+  function nextResources() {
+    const resourceIdsToLoadMetadataFor = getResourceIdsToLoadMetadataFor(input)
 
-  const next = () => {
-    const resources = nextResources()
-
-    if (isPageLoad && !data.loadingNextPage) {
-      loadNextPage(input, resources.length)
+    function getPropsForResource(resource) {
+      return {
+        resource: resource,
+        loadMetaData: resourceIdsToLoadMetadataFor[resource.uuid] ? true : false,
+        thumbnailMetaData: null,
+        resetListMetaData: false
+      }
     }
 
-    const NEWDATA = nextData()
-    console.log(NEWDATA)
+    /**
+     * "Transform" state of an pre-existing resource state (reduce with side effects)
+     */
+    function getNextResourceState(resourceState) {
+      const resource = resourceState.data.resource
+      return handleResource({
+        event: resourceState.event,
+        trigger: trigger,
+        initial: false,
+        components: resourceState.components,
+        data: resourceState.data,
+        nextProps: getPropsForResource(resource),
+        path: resourceState.path
+      })
+    }
 
-    return {
-      props: nextProps,
-      path: path,
-      data: nextData(),
-      components: {
-        resources
-      }
+    /**
+     * Create initial state for a newly loaded resource object
+     */
+    function getInitialResourceState(resource, index) {
+      return handleResource({
+        event: {},
+        trigger: trigger,
+        initial: true,
+        components: {},
+        data: {},
+        nextProps: getPropsForResource(resource),
+        path: __.concat([], [['resources', index]])
+      })
+    }
+
+    if (initial) {
+      return __.map(nextProps.get.resources, (r, i) => getInitialResourceState(r, i))
+    }
+
+    switch (event.action) {
+      case 'force-load-next-page':
+        return []
+      case 'page-loaded':
+        if (event.currentRequestSeriesId === data.currentRequestSeriesId) {
+          const n = components.resources.length
+          return __.concat(
+            __.map(components.resources, rs => getNextResourceState(rs)),
+            __.map(event.resources, (r, i) => getInitialResourceState(r, n + i))
+          )
+        } else {
+          // ignore newly loaded resources when they come from an expired request series
+          // (e.g. when sorting was changed while resources where still loading)
+          return __.map(components.resources, rs => getNextResourceState(rs))
+        }
+      default:
+        return __.map(components.resources, rs => getNextResourceState(rs))
     }
   }
 
@@ -94,66 +140,23 @@ const resolveEvents = input => {
     }
   }
 
-  const nextResources = () => {
-    const nextResourceProps = resource => {
-      return {
-        resource: resource,
-        loadMetaData: resourceIdsToLoadMetadataFor[resource.uuid] ? true : false,
-        thumbnailMetaData: null,
-        resetListMetaData: false
-      }
-    }
+  const resources = nextResources()
 
-    const mapResourceState = resourceState => {
-      const resource = resourceState.data.resource
-      const resourceProps = nextResourceProps(resource)
-
-      return loadResourceMetadata({
-        event: resourceState.event,
-        trigger: trigger,
-        initial: false,
-        components: resourceState.components,
-        data: resourceState.data,
-        nextProps: resourceProps,
-        path: resourceState.path
-      })
-    }
-
-    const mapResource = (resource, index) => {
-      const resourceProps = nextResourceProps(resource)
-
-      return loadResourceMetadata({
-        event: {},
-        trigger: trigger,
-        initial: true,
-        components: {},
-        data: {},
-        nextProps: resourceProps,
-        path: __.concat([], [['resources', index]])
-      })
-    }
-
-    if (initial) {
-      return __.map(nextProps.get.resources, (r, i) => mapResource(r, i))
-    } else if (event.action == 'force-load-next-page') {
-      return []
-    } else if (event.action == 'page-loaded') {
-      if (event.currentRequestSeriesId === data.currentRequestSeriesId) {
-        return __.concat(
-          __.map(components.resources, rs => mapResourceState(rs)),
-          __.map(event.resources, (r, i) => mapResource(r, components.resources.length + i))
-        )
-      } else {
-        // ignore newly loaded resources when they come from an expired request series
-        // (e.g. when sorting was changed while resources where still loading)
-        return __.map(components.resources, rs => mapResourceState(rs))
-      }
-    } else {
-      return __.map(components.resources, rs => mapResourceState(rs))
-    }
+  if (
+    (event.action == 'load-next-page' || event.action == 'force-load-next-page') &&
+    !data.loadingNextPage
+  ) {
+    loadNextPageEffect(input, resources.length)
   }
 
-  return next()
+  return {
+    props: nextProps,
+    path: path,
+    data: nextData(),
+    components: {
+      resources
+    }
+  }
 }
 
 function _toggleResourceSelection(oldSelectedResources, resourceUuid, allResources) {
@@ -271,6 +274,6 @@ console.log(
  */
 
 module.exports = {
-  resolveEvents,
+  nextState,
   mergeEventsIntoState
 }

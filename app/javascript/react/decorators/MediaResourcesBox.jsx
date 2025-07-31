@@ -38,7 +38,7 @@ import CreateCollectionModal from '../views/My/CreateCollectionModal.jsx'
 
 import BoxUtil from './BoxUtil.js'
 import BoxSetUrlParams from './BoxSetUrlParams.jsx'
-import { resolveEvents, mergeEventsIntoState } from './mediaResourcesBoxState/state.js'
+import { nextState, mergeEventsIntoState } from './mediaResourcesBoxState/state.js'
 import BoxTitlebar from './BoxTitlebar.jsx'
 import BoxFilterButton from './BoxFilterButton.jsx'
 import BoxSetFallback from './BoxSetFallback.jsx'
@@ -126,7 +126,7 @@ class MediaResourcesBox extends Component {
   }
 
   initialBoxState = props => {
-    return resolveEvents({
+    return nextState({
       event: {},
       trigger: this.triggerComponentEvent,
       initial: true,
@@ -146,7 +146,7 @@ class MediaResourcesBox extends Component {
       getJsonPath: this.getJsonPath
     }
 
-    const boxState = resolveEvents({
+    const boxState = nextState({
       event: mergedState.event,
       trigger: this.triggerComponentEvent,
       initial: false,
