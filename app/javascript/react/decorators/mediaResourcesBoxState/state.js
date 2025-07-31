@@ -1,7 +1,7 @@
 import __ from 'lodash'
 import getResourceIdsToLoadMetadataFor from './getResourceIdsToLoadMetadataFor.js'
 import { nextResourceState } from './resourceState.js'
-import executePageLoad from './executePageLoad.js'
+import { fetchPage } from './dataFetchers.js'
 
 /*
 This is refactored version of the old BoxState/BoxRedux-complex, but still not supercool.
@@ -11,8 +11,8 @@ It's kind of a state machine which takes "old world as input and returns "next s
 
 "Transforming" includes also executing side effects (i.e. data fetching).
 
-There is a `state`, which contains `components.resources` which is an array of `resourceState`
-(`resourceState` objects have the same state model as `state` itself).
+`state` contains `components.resources` which is an array of `resourceState`
+(having the same state model as `state` itself).
  */
 
 /**
@@ -152,7 +152,19 @@ function nextState(input) {
     (event.action == 'load-next-page' || event.action == 'force-load-next-page') &&
     !data.loadingNextPage
   ) {
-    executePageLoad(input, resources.length)
+    const currentPage = Math.ceil(resources.length / nextProps.get.config.per_page)
+    fetchPage({
+      currentUrl: nextProps.currentUrl,
+      sparsePath: nextProps.getJsonPath(),
+      page: currentPage + 1,
+      onFetched: ({ success, resources }) => {
+        trigger(input, {
+          action: success ? 'page-loaded' : 'page-load-failed',
+          currentRequestSeriesId: event.currentRequestSeriesId,
+          resources
+        })
+      }
+    })
   }
 
   return {
