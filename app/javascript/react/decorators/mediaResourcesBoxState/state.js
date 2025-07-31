@@ -1,20 +1,23 @@
 import __ from 'lodash'
-import BoxResource from './BoxResource.js'
-import BoxStatePrecalculate from './BoxStatePrecalculate.js'
-import BoxStateFetchNextPage from './BoxStateFetchNextPage.js'
+import getResourceIdsToLoadMetadataFor from './getResourceIdsToLoadMetadataFor.js'
+import loadResourceMetadata from './loadResourceMetadata.js'
+import loadNextPage from './loadNextPage.js'
 
 /**
- * Takes the old state, resolves events and returns the new state
- * @param {Object} input Old state and commands
- * @returns New state (props, path, data, components)
+ * TODO - describe me and/or improve me
+ * @param {Object} Old state (path, data, nextProps, components, initital, event, trigger)
+ * @returns New state (path, data, props, components)
  */
-const transferState = input => {
+const resolveEvents = input => {
   const { event, trigger, initial, components, data, nextProps, path } = input
-  const { willFetch, todoLoadMetaData } = BoxStatePrecalculate(input)
+  console.log('resolveEvents', event, initial)
+
+  const isPageLoad = event.action == 'load-next-page' || event.action == 'force-load-next-page'
+  const resourceIdsToLoadMetadataFor = getResourceIdsToLoadMetadataFor(input)
 
   const next = () => {
-    if (willFetch) {
-      BoxStateFetchNextPage(input, nextResources().length)
+    if (isPageLoad) {
+      loadNextPage(input, nextResources().length)
     }
 
     return {
@@ -24,7 +27,7 @@ const transferState = input => {
         loadingNextPage: nextLoadingNextPage(),
         selectedResources: nextSelectedResources(),
         currentRequestSeriesId:
-          event.action === 'force-fetch-next-page' || event.action === 'mount'
+          event.action === 'force-load-next-page' || event.action === 'mount'
             ? event.currentRequestSeriesId
             : data.currentRequestSeriesId
       },
@@ -74,7 +77,7 @@ const transferState = input => {
       return false
     }
 
-    if (willFetch) {
+    if (isPageLoad) {
       return true
     } else if (event.action == 'page-loaded') {
       return false
@@ -87,7 +90,7 @@ const transferState = input => {
     const nextResourceProps = resource => {
       return {
         resource: resource,
-        loadMetaData: todoLoadMetaData[resource.uuid] ? true : false,
+        loadMetaData: resourceIdsToLoadMetadataFor[resource.uuid] ? true : false,
         thumbnailMetaData: null,
         resetListMetaData: false
       }
@@ -97,7 +100,7 @@ const transferState = input => {
       const resource = resourceState.data.resource
       const resourceProps = nextResourceProps(resource)
 
-      return BoxResource({
+      return loadResourceMetadata({
         event: resourceState.event,
         trigger: trigger,
         initial: false,
@@ -111,7 +114,7 @@ const transferState = input => {
     const mapResource = (resource, index) => {
       const resourceProps = nextResourceProps(resource)
 
-      return BoxResource({
+      return loadResourceMetadata({
         event: {},
         trigger: trigger,
         initial: true,
@@ -124,7 +127,7 @@ const transferState = input => {
 
     if (initial) {
       return __.map(nextProps.get.resources, (r, i) => mapResource(r, i))
-    } else if (event.action == 'force-fetch-next-page') {
+    } else if (event.action == 'force-load-next-page') {
       return []
     } else if (event.action == 'page-loaded') {
       if (event.currentRequestSeriesId === data.currentRequestSeriesId) {
@@ -156,7 +159,7 @@ const transferState = input => {
  * Note that the `path` has nothing to do with the location of the nodes in the tree,
  * it is just an outside-bound value, typically an array.
  *
- * Apart from `path` and `components`, each node also has `data` and `props` which are just wired through.
+ * Apart from `path` and `components`, each node also has `data` and `props` payload (being copied without modification).
  *
  * See the examples (mini unit tests) below this function.
  */
@@ -177,7 +180,9 @@ const mergeEventsIntoState = function (state, events) {
   const foundEvent = __.find(events, e => __.isEqual(e.path, state.path))
 
   return {
-    event: foundEvent && foundEvent.event ? foundEvent.event : {},
+    path: state.path,
+    data: state.data,
+    props: state.props,
     components: compactObject(
       __.mapValues(state.components, function (component) {
         if (!component) {
@@ -192,20 +197,20 @@ const mergeEventsIntoState = function (state, events) {
         }
       })
     ),
-    path: state.path,
-    data: state.data,
-    props: state.props
+    event: foundEvent && foundEvent.event ? foundEvent.event : {}
   }
 }
 
-/* 
+/*
 // Example for `mergeEventsIntoState`:
 const state = {
   path: 'p1',
   components: {
     raccoon: { path: 'p2', components: { sub: { path: 'p3' } } },
     otherAnimals: [{ path: 'p2' }]
-  }
+  },
+  data: {},
+  props: {}
 }
 const events = [
   { event: { action: 'plonk' }, path: 'p1' },
@@ -217,22 +222,22 @@ console.log(newState.event.action === 'plonk')
 console.log(newState.components.raccoon.event.action === 'plenk')
 console.log(newState.components.otherAnimals[0].event.action === 'plenk')
 // node properties
-console.log(Object.keys(newState).toString() === 'data,components,props,event,path')
+console.log(Object.keys(newState).toString() === 'path,data,props,components,event')
 console.log(JSON.stringify(newState.data) === '{}')
 console.log(JSON.stringify(newState.props) === '{}')
 console.log(
-  Object.keys(newState.components.raccoon).toString() === 'data,components,props,event,path'
+  Object.keys(newState.components.raccoon).toString() === 'path,data,props,components,event'
 )
 console.log(
   Object.keys(newState.components.raccoon.components.sub).toString() ===
-    'data,components,props,event,path'
+    'path,data,props,components,event'
 )
 console.log(
-  Object.keys(newState.components.otherAnimals[0]).toString() === 'data,components,props,event,path'
+  Object.keys(newState.components.otherAnimals[0]).toString() === 'path,data,props,components,event'
 )
-*/
+ */
 
 module.exports = {
-  transferState,
+  resolveEvents,
   mergeEventsIntoState
 }

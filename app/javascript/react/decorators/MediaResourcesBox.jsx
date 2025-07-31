@@ -38,7 +38,7 @@ import CreateCollectionModal from '../views/My/CreateCollectionModal.jsx'
 
 import BoxUtil from './BoxUtil.js'
 import BoxSetUrlParams from './BoxSetUrlParams.jsx'
-import { transferState, mergeEventsIntoState } from './media-resources-box-state/state.js'
+import { resolveEvents, mergeEventsIntoState } from './mediaResourcesBoxState/state.js'
 import BoxTitlebar from './BoxTitlebar.jsx'
 import BoxFilterButton from './BoxFilterButton.jsx'
 import BoxSetFallback from './BoxSetFallback.jsx'
@@ -126,7 +126,7 @@ class MediaResourcesBox extends Component {
   }
 
   initialBoxState = props => {
-    return transferState({
+    return resolveEvents({
       event: {},
       trigger: this.triggerComponentEvent,
       initial: true,
@@ -146,7 +146,7 @@ class MediaResourcesBox extends Component {
       getJsonPath: this.getJsonPath
     }
 
-    const boxState = transferState({
+    const boxState = resolveEvents({
       event: mergedState.event,
       trigger: this.triggerComponentEvent,
       initial: false,
@@ -249,7 +249,7 @@ class MediaResourcesBox extends Component {
   forceFetchNextPage = () => {
     this.currentRequestSeriesId = Math.random()
     return this.triggerRootEvent({
-      action: 'force-fetch-next-page',
+      action: 'force-load-next-page',
       currentRequestSeriesId: this.currentRequestSeriesId
     })
   }
@@ -260,7 +260,7 @@ class MediaResourcesBox extends Component {
       return
     }
     this.triggerRootEvent({
-      action: 'fetch-next-page',
+      action: 'load-next-page',
       currentRequestSeriesId: this.currentRequestSeriesId
     })
   }
