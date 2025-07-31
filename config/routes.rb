@@ -32,7 +32,6 @@ Madek::Application.routes.draw do
       get 'meta_data/edit/by_context(/:context_id)', action: :edit_meta_data_by_context, as: 'edit_meta_data_by_context'
       get 'meta_data/edit/by_vocabularies', action: :edit_meta_data_by_vocabularies, as: 'edit_meta_data_by_vocabularies'
       put 'meta_data', action: :meta_data_update
-      put 'advanced_meta_data', action: :advanced_meta_data_update
       get 'more_data'
       get 'usage_data'
       get 'list_meta_data'
@@ -135,7 +134,6 @@ Madek::Application.routes.draw do
       get 'meta_data/edit/by_context(/:context_id)', action: :edit_meta_data_by_context, as: 'edit_meta_data_by_context'
       get 'meta_data/edit/by_vocabularies', action: :edit_meta_data_by_vocabularies, as: 'edit_meta_data_by_vocabularies'
       put 'meta_data', action: :meta_data_update
-      put 'advanced_meta_data', action: :advanced_meta_data_update
       put 'batch_update_all', action: :batch_update_all, as: 'batch_update_all'
 
       get 'batch_edit_all', action: :batch_edit_all, as: 'batch_edit_all'
@@ -201,8 +199,6 @@ Madek::Application.routes.draw do
   get 'vocabulary/:vocab_id/people', to: 'vocabularies#people', as: 'vocabulary_people'
   get 'vocabulary/:vocab_id/content', to: 'vocabularies#contents', as: 'vocabulary_contents'
   get 'vocabulary/:vocab_id/permissions', to: 'vocabularies#permissions', as: 'vocabulary_permissions'
-
-  get 'meta_meta_data', to: 'meta_meta_data#index'
 
   resources :meta_keys, only: :index
   resources :keywords, only: :index

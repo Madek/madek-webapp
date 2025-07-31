@@ -9,10 +9,12 @@ module RespondersSetup
       respond_to do |f|
         f.html do
           # "unwrap" resource from presenter for responders:
-          if resource.is_a?(Presenters::Shared::AppResource)
-            resource = resource.instance_variable_get('@app_resource')
-          end
-          respond_with_default(resource, location: location, **options)
+          unwrapped_resource = if resource.is_a?(Presenters::Shared::AppResource)
+                                 resource.instance_variable_get('@app_resource')
+                               else
+                                 resource
+                               end
+          respond_with_default(unwrapped_resource, location: location, **options)
         end
         f.json { respond_with_default(resource, **options) }
         f.yaml { respond_with_default(resource, **options) }

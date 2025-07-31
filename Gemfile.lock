@@ -223,7 +223,7 @@ GEM
       nokogiri (~> 1)
       rake
     mini_mime (1.1.5)
-    mini_portile2 (2.8.7)
+    mini_portile2 (2.8.9)
     minitest (5.25.1)
     multi_json (1.15.0)
     multi_xml (0.5.5)
@@ -238,7 +238,7 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.7.3)
-    nokogiri (1.16.7)
+    nokogiri (1.18.9)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     numerizer (0.1.1)
@@ -460,6 +460,7 @@ DEPENDENCIES
   listen
   madek_zhdk_integration!
   mimemagic
+  nokogiri (>= 1.18.9)
   pg
   pg_tasks!
   pry

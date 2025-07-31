@@ -3,6 +3,7 @@ import f from 'lodash'
 import { ConfidentialLinkHead, ConfidentialLinkRow } from './ConfidentialLinks'
 import ui from '../../lib/ui.js'
 import UI from '../../ui-components/index.js'
+import SelectingTextarea from '../../lib/forms/SelectingTextarea.jsx'
 const t = ui.t
 
 class ConfidentialLinkCreated extends React.Component {
@@ -78,39 +79,3 @@ class ConfidentialLinkCreated extends React.Component {
 }
 
 module.exports = ConfidentialLinkCreated
-
-const SelectingTextarea = props => {
-  const doSelect = event => {
-    const { target } = event
-    setTimeout(() => {
-      // NOTE: Mobile Safari does not support `select()`, use this fallback:
-      let selectionLength
-      try {
-        selectionLength = target.value.length
-
-        // eslint-disable-next-line no-unused-vars
-      } catch (e) {
-        selectionLength = 9999
-      }
-      target.setSelectionRange(0, selectionLength)
-      target.focus()
-    }, 1)
-  }
-  return (
-    <textarea
-      rows="1"
-      {...props}
-      value={props.value || props.children}
-      style={{
-        display: 'inline-block',
-        textIndent: 0,
-        fontSize: '85%',
-        minHeight: 0,
-        ...props.style
-      }}
-      onClick={doSelect}
-      onFocus={doSelect}
-      onChange={doSelect}
-    />
-  )
-}

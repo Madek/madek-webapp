@@ -1,0 +1,7 @@
+:ruby
+  cache_key = "root-catalog-content/#{list.hash}"
+
+= capture do
+  - Rails.cache.fetch(cache_key) do
+    = react('Views.explore.partials.CatalogResourceList',
+      { resources: list })

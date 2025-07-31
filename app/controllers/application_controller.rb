@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
 
   include AuthorizationSetup
   include Modules::VerifyAuthorized
+  include CatalogCache
   include ControllerHelpers
   include MadekCookieSession
   include RespondersSetup
@@ -64,7 +65,11 @@ class ApplicationController < ActionController::Base
       redirect_to(my_dashboard_path)
     else
       @get = Presenters::Explore::ExploreLoginPage.new(
-        current_user, settings, show_login: true)
+        current_user, settings, show_login: true
+      )
+      @catalog_section = catalog_cache do
+        @get.catalog_section.dump
+      end
       respond_with @get
     end
   end

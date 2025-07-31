@@ -1,0 +1,23 @@
+= render('application/root/welcome_and_login_section')
+
+.app-body-ui-container.pts.context-home
+
+  - unless @catalog_section[:empty?]
+    %hr.separator
+    = render "application/root/catalog_section", section: @catalog_section
+
+  - unless @get.latest_section.empty?
+    %hr.separator
+    = render "application/root/latest_section", section: @get.latest_section
+
+  - unless @get.featured_content_section.empty?
+    %hr.separator
+    = render "application/root/featured_section", section: @get.featured_content_section
+
+  - unless @get.keywords_section.empty?
+    %hr.separator
+    = render "application/root/keywords_section", section: @get.keywords_section
+
+  - unless @get.vocabularies_section.empty?
+    %hr.separator
+    = render "application/root/vocabularies_section", section: @get.vocabularies_section

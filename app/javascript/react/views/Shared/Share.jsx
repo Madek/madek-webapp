@@ -10,6 +10,7 @@ import PageContent from '../PageContent.jsx'
 import TabContent from '../TabContent.jsx'
 import PageHeader from '../../ui-components/PageHeader.js'
 import t from '../../../lib/i18n-translate.js'
+import SelectingTextarea from '../../lib/forms/SelectingTextarea.jsx'
 
 module.exports = createReactClass({
   displayName: 'Shared.Share',
@@ -101,53 +102,62 @@ module.exports = createReactClass({
   },
 
   renderContent(get) {
-    return React.createElement(
-      'div',
-      null,
-      React.createElement(
-        'div',
-        { className: 'ui-info-box prm mbs' },
-        <h2 className="title-l ui-info-box-title mbs">{t('share_uuid_url_subtitle')}</h2>,
-        <div>{t(`share_uuid_url_hint_${this._typeUnderscore()}`)}</div>,
-        <div>{t('share_uuid_url_hint_exporter')}</div>,
-        React.createElement(
-          'div',
-          null,
-          React.createElement('input', {
-            className: 'mtm',
-            type: 'text',
-            value: this._uuidUrl(),
-            onChange() {},
-            style: { width: '100%' }
-          })
-        )
-      ),
-      <div className="ui-info-box prm mbs mtl">
-        <h2 className="title-l ui-info-box-title mbs">{t('share_custom_url_subtitle')}</h2>
-        {t(`share_custom_url_hint_${this._typeUnderscore()}`)}
-        {get.primary_custom_url ? (
-          React.createElement(
-            'div',
-            null,
-            React.createElement('input', {
-              className: 'mtm',
-              type: 'text',
-              value: this._primaryCustomUrl(),
-              onChange() {},
-              style: { width: '100%' }
-            })
-          )
-        ) : (
+    return (
+      <div>
+        <div className="ui-info-box prm mbs">
+          <h2 className="title-l ui-info-box-title mbs">{t('share_uuid_url_subtitle')}</h2>
+          <div>{t(`share_uuid_url_hint_${this._typeUnderscore()}`)}</div>
+          <div>{t('share_uuid_url_hint_exporter')}</div>
           <div>
             <input
-              disabled={true}
-              className="mtm"
               type="text"
-              defaultValue={t('share_custom_url_none_available')}
-              style={{ width: '100%', color: '#999', textAlign: 'center' }}
+              className="mtm"
+              value={this._uuidUrl()}
+              onChange={() => {}}
+              style={{ width: '100%' }}
             />
           </div>
+        </div>
+        {get.type === 'MediaEntry' && (
+          <div className="ui-info-box prm mbs mtl">
+            <h2 className="title-l ui-info-box-title mbs">{t('share_embed_hint_subtitle')}</h2>
+            <div className="mbm">{t('share_embed_hint_oembed')}</div>
+            <div className="mbm">{t('share_embed_hint_iframe')}</div>
+            <details open>
+              <summary>{t('share_embed_hint_iframe_code')}</summary>
+              <SelectingTextarea className="code block pas">
+                {get.embed_html_code}
+              </SelectingTextarea>
+            </details>
+          </div>
         )}
+        <div className="ui-info-box prm mbs mtl">
+          <h2 className="title-l ui-info-box-title mbs">{t('share_custom_url_subtitle')}</h2>
+          {t(`share_custom_url_hint_${this._typeUnderscore()}`)}
+          {get.primary_custom_url ? (
+            React.createElement(
+              'div',
+              null,
+              React.createElement('input', {
+                className: 'mtm',
+                type: 'text',
+                value: this._primaryCustomUrl(),
+                onChange() {},
+                style: { width: '100%' }
+              })
+            )
+          ) : (
+            <div>
+              <input
+                disabled={true}
+                className="mtm"
+                type="text"
+                defaultValue={t('share_custom_url_none_available')}
+                style={{ width: '100%', color: '#999', textAlign: 'center' }}
+              />
+            </div>
+          )}
+        </div>{' '}
       </div>
     )
   }

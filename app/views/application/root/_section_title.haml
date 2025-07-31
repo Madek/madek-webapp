@@ -1,0 +1,7 @@
+- if section_content[:show_title]
+  .ui-resources-header
+    %h2.title-l.ui-resource-title
+      = section_content[:data][:title]
+      - if section_content[:show_all_link]
+        %a.strong{href: section_content[:data][:url]}
+          = section_content[:show_all_text] || t('resources_section_show_all')

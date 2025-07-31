@@ -284,12 +284,6 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/batch_edit/batch_dropdown_spec.rb:16"
     RSPEC_TEST: "./spec/features/batch_edit/batch_dropdown_spec.rb[1:1]"
-"./spec/features/batch_edit/batch_dropdown_spec.rb[1:2]":
-  name: "./spec/features/batch_edit/batch_dropdown_spec.rb[1:2]"
-  description: Batch dropdown Check dropdown menu and for `beta_test_quick_edit` group
-  environment_variables:
-    RSPEC_NAME: "./spec/features/batch_edit/batch_dropdown_spec.rb:106"
-    RSPEC_TEST: "./spec/features/batch_edit/batch_dropdown_spec.rb[1:2]"
 "./spec/features/batch_edit/batch_edit_metadata_spec.rb[1:1]":
   name: "./spec/features/batch_edit/batch_edit_metadata_spec.rb[1:1]"
   description: Batch edit metadata Ignore resources of wrong type
@@ -485,7 +479,7 @@
   name: "./spec/features/clipboard_spec.rb[1:5]"
   description: clipboard add selected to clipboard
   environment_variables:
-    RSPEC_NAME: "./spec/features/clipboard_spec.rb:62"
+    RSPEC_NAME: "./spec/features/clipboard_spec.rb:61"
     RSPEC_TEST: "./spec/features/clipboard_spec.rb[1:5]"
 "./spec/features/collection/collection_context_tabs_spec.rb[1:1]":
   name: "./spec/features/collection/collection_context_tabs_spec.rb[1:1]"

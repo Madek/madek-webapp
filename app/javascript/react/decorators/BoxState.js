@@ -1,18 +1,11 @@
 import l from 'lodash'
-import BoxBatchEdit from './BoxBatchEdit.js'
 import BoxResource from './BoxResource.js'
 import BoxStatePrecalculate from './BoxStatePrecalculate.js'
 import BoxStateFetchNextPage from './BoxStateFetchNextPage.js'
 
 module.exports = merged => {
   const { event, trigger, initial, components, data, nextProps, path } = merged
-  const {
-    // cachedToApplyMetaData,
-    willFetch,
-    willStartApply,
-    anyApplyAction,
-    todoLoadMetaData
-  } = BoxStatePrecalculate(merged)
+  const { willFetch, todoLoadMetaData } = BoxStatePrecalculate(merged)
 
   const next = () => {
     if (willFetch) {
@@ -31,8 +24,7 @@ module.exports = merged => {
             : data.currentRequestSeriesId
       },
       components: {
-        resources: nextResources(),
-        batch: nextBatch()
+        resources: nextResources()
       }
     }
   }
@@ -86,78 +78,13 @@ module.exports = merged => {
     }
   }
 
-  const nextBatch = () => {
-    const applyResources = () => {
-      if (!willStartApply) {
-        return null
-      }
-
-      if (event.action == 'apply') {
-        return l.map(components.resources, rs => rs.data.resource)
-      } else if (event.action == 'apply-selected') {
-        return l.map(data.selectedResources, r => r)
-      } else {
-        return l.map(
-          l.filter(components.resources, rs => rs.event.action == 'apply'),
-          rs => rs.data.resource
-        )
-      }
-    }
-
-    const retryResources = () => {
-      return l.map(
-        l.filter(components.resources, rs => rs.event.action == 'retry'),
-        rs => rs.data.resource
-      )
-    }
-
-    const props = {
-      mount: event.action == 'mount',
-      // cachedToApplyMetaData: cachedToApplyMetaData,
-      willStartApply: willStartApply,
-      anyApplyAction: anyApplyAction,
-      applyResources: applyResources(),
-      retryResources: retryResources(),
-      cancelAll: event.action == 'cancel-all',
-      ignoreAll: event.action == 'ignore-all'
-    }
-
-    return BoxBatchEdit({
-      event: initial ? {} : components.batch.event,
-      trigger: trigger,
-      initial: initial,
-      components: initial ? {} : components.batch.components,
-      data: initial ? {} : components.batch.data,
-      nextProps: props,
-      path: ['batch']
-    })
-  }
-
   const nextResources = () => {
     const nextResourceProps = resource => {
-      const thumbnailMetaData = () => {
-        if (components.batch && components.batch.event.action == 'apply-success') {
-          const event = components.batch.event
-          if (event.resourceId == resource.uuid) {
-            return event.thumbnailMetaData
-          }
-        }
-        return null
-      }
-
       return {
         resource: resource,
         loadMetaData: todoLoadMetaData[resource.uuid] ? true : false,
-        thumbnailMetaData: thumbnailMetaData(),
-        resetListMetaData:
-          willStartApply &&
-          (event.action == 'apply' ||
-            (event.action == 'apply-selected' &&
-              l.find(data.selectedResources, r => r.uuid == resource.uuid)) ||
-            l.find(
-              components.resources,
-              rs => rs.data.resource.uuid == resource.uuid && rs.event.action == 'apply'
-            ))
+        thumbnailMetaData: null,
+        resetListMetaData: false
       }
     }
 

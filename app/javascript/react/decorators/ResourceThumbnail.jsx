@@ -280,7 +280,6 @@ module.exports = createReactClass({
             'is-video': get.media_type === 'video',
             'ui-selected': selectProps && selectProps.isSelected
           })}>
-          {this.props.batchApplyButton}
           <PinThumbnail
             resourceType={this.props.get.type}
             imageUrl={f.get(get, 'media_file.previews.images.large.url', get.image_url)}
@@ -308,7 +307,6 @@ module.exports = createReactClass({
       }
       return (
         <li className={cx(classes)} style={this.props.style}>
-          {this.props.batchApplyButton}
           <ListThumbnail
             resourceType={this.props.get.type}
             imageUrl={get.image_url}
@@ -339,7 +337,6 @@ module.exports = createReactClass({
           style={this.props.style}
           className={cx(classes)}
           onMouseOver={relationsProps ? relationsProps.onHover : undefined}>
-          {this.props.batchApplyButton}
           <ResourceThumbnailRenderer
             resourceType={this.props.get.type}
             mediaType={resourceMediaType}

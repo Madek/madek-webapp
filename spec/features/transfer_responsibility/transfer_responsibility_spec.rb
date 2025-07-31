@@ -129,8 +129,7 @@ feature 'transfer responsibility shared' do
       media_entries_permissions: { count: 0, active: false },
       collections_permissions: { count: 0, active: false },
       media_entries_transfer_responsibility: { count: 0, active: false },
-      collections_transfer_responsibility: { count: 0, active: false },
-      meta_data_batch: false
+      collections_transfer_responsibility: { count: 0, active: false }
     )
     click_dropdown
 
@@ -172,8 +171,7 @@ feature 'transfer responsibility shared' do
         highlights: [media_entry1] },
       collections_transfer_responsibility: {
         count: 1,
-        highlights: [collection1] },
-      meta_data_batch: false
+        highlights: [collection1] }
     )
   end
 end

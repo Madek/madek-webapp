@@ -1,4 +1,13 @@
 :ruby
+  user_or_login_menu = nil
+  if params[:action] != 'root'
+    if current_user
+      user_or_login_menu = render('user_menu')
+    elsif controller.controller_name != 'errors'
+      user_or_login_menu = render('login_menu')
+    end
+  end
+
   header = {
 
     # - responsive brand section on the left:
@@ -46,7 +55,7 @@
     ),
 
     # user/login section, right
-    user: (params[:action] != 'root') ? current_user ? render('user_menu') : controller.controller_name != "errors" ? render('login_menu') : nil : nil
+    user: user_or_login_menu
   }
 
 = combo('header', header)

@@ -20,12 +20,32 @@ module Presenters
 
       def sections
         [
-          Presenters::Explore::Modules::ExploreCatalogSection.new(@settings),
-          Presenters::Explore::Modules::ExploreLatestSection.new(@user, @settings),
-          Presenters::Explore::Modules::ExploreFeaturedContentSection.new(@user, @settings),
-          Presenters::Explore::Modules::ExploreKeywordsSection.new,
-          Presenters::Explore::Modules::ExploreVocabulariesSection.new(@user, @settings)
+          catalog_section,
+          latest_section,
+          featured_content_section,
+          keywords_section,
+          vocabularies_section
         ].compact
+      end
+
+      def catalog_section
+        Presenters::Explore::Modules::ExploreCatalogSection.new(@settings)
+      end
+
+      def latest_section
+        Presenters::Explore::Modules::ExploreLatestSection.new(@user, @settings)
+      end
+
+      def featured_content_section
+        Presenters::Explore::Modules::ExploreFeaturedContentSection.new(@user, @settings)
+      end
+
+      def keywords_section
+        Presenters::Explore::Modules::ExploreKeywordsSection.new
+      end
+
+      def vocabularies_section
+        Presenters::Explore::Modules::ExploreVocabulariesSection.new(@user, @settings)
       end
 
       def show_login

@@ -34,14 +34,6 @@ module Modules
         handle_meta_data_update_result(resource, errors)
       end
 
-      def advanced_shared_meta_data_update
-        resource = get_authorized_resource
-        errors = advanced_update_all_meta_data_transaction!(
-          resource, meta_data_params)
-
-        handle_meta_data_update_result(resource, errors)
-      end
-
       private
 
       def handle_meta_data_update_result(resource, errors)
