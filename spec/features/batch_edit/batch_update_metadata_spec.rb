@@ -169,7 +169,7 @@ feature 'Batch update media entries' do
 
     # case 5:
     expect(
-      me1.meta_data.find_by_meta_key_id(meta_key_people.id).value.map(&:to_s)
+      me1.meta_data.find_by_meta_key_id(meta_key_people.id).value.map(&:person).map(&:to_s)
     ).to match_array [@person.to_s]
 
     ########################################################################
@@ -194,7 +194,7 @@ feature 'Batch update media entries' do
 
     # case 5:
     expect(
-      me2.meta_data.find_by_meta_key_id(meta_key_people.id).value.map(&:to_s)
+      me2.meta_data.find_by_meta_key_id(meta_key_people.id).value.map(&:person).map(&:to_s)
     ).to match_array [@person.to_s]
   end
 end
