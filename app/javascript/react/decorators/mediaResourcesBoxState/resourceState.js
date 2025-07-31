@@ -1,20 +1,20 @@
 import executeResourceMetadataLoad from './executeResourceMetadataLoad.js'
 
 function nextResourceState(input) {
-  const { event, initial, data, nextProps, path } = input
+  const { event, initial, data, context, path } = input
   //console.log('nextResourceState', event, initial)
 
   function nextData() {
     if (initial) {
       // should be a fr*cking event!!!
       return {
-        resource: nextProps.resource,
-        listMetadata: nextProps.resource.list_meta_data ? nextProps.resource.list_meta_data : null,
-        loadingListMetadata: nextProps.loadMetadata
+        resource: context.resource,
+        listMetadata: context.resource.list_meta_data ? context.resource.list_meta_data : null,
+        loadingListMetadata: context.loadMetadata
       }
     }
 
-    if (nextProps.loadMetadata) {
+    if (context.loadMetadata) {
       // should be a fr*cking event!!!
       return { ...data, loadingListMetadata: true }
     }
@@ -31,12 +31,12 @@ function nextResourceState(input) {
     }
   }
 
-  if (nextProps.loadMetadata) {
+  if (context.loadMetadata) {
     executeResourceMetadataLoad(input)
   }
 
   return {
-    props: nextProps,
+    context: context,
     path: path,
     data: nextData(),
     components: {}

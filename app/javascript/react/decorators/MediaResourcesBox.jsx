@@ -132,7 +132,7 @@ class MediaResourcesBox extends Component {
       initial: true,
       components: {},
       data: {},
-      nextProps: { get: props.get },
+      context: { get: props.get },
       path: []
     })
   }
@@ -140,19 +140,17 @@ class MediaResourcesBox extends Component {
   nextBoxState = events => {
     const mergedState = mergeEventsIntoState(this.state.boxState, events)
 
-    const props = {
-      get: this._mergeGet(this.props, this.state),
-      currentUrl: this._currentUrl(),
-      getJsonPath: this.getJsonPath
-    }
-
     const boxState = nextState({
       event: mergedState.event,
       trigger: this.triggerComponentEvent,
       initial: false,
       components: mergedState.components,
       data: mergedState.data,
-      nextProps: props,
+      context: {
+        get: this._mergeGet(this.props, this.state),
+        currentUrl: this._currentUrl(),
+        getJsonPath: this.getJsonPath
+      },
       path: []
     })
 

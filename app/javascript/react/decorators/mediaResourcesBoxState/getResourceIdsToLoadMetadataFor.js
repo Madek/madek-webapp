@@ -1,9 +1,9 @@
 import __ from 'lodash'
 
 module.exports = input => {
-  let { event, initial, components, nextProps } = input
+  let { event, initial, components, context } = input
 
-  if (nextProps.get.config.layout != 'list') {
+  if (context.get.config.layout != 'list') {
     return {}
   }
 
@@ -37,7 +37,7 @@ module.exports = input => {
 
   function additionalOnes() {
     if (initial) {
-      return __.filter(nextProps.get.resources, r => !r.list_meta_data)
+      return __.filter(context.get.resources, r => !r.list_meta_data)
     } else if (event.action == 'page-loaded') {
       return __.filter(event.resources, r => !r.list_meta_data)
     } else {

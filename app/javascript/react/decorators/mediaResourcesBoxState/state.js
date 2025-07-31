@@ -19,13 +19,13 @@ It's kind of a state machine which takes "old world as input and returns "next s
  * Transform state of the MediaResourcesBox component
  */
 function nextState(input) {
-  const { event, trigger, initial, components, data, nextProps, path } = input
+  const { event, trigger, initial, components, data, context, path } = input
   //console.log('nextState', event)
 
   function nextResources() {
     const resourceIdsToLoadMetadataFor = getResourceIdsToLoadMetadataFor(input)
 
-    function getPropsForResource(resource) {
+    function getContextForResource(resource) {
       return {
         resource: resource,
         loadMetadata: resourceIdsToLoadMetadataFor[resource.uuid] ? true : false
@@ -43,7 +43,7 @@ function nextState(input) {
         initial: false,
         components: resourceState.components,
         data: resourceState.data,
-        nextProps: getPropsForResource(resource),
+        context: getContextForResource(resource),
         path: resourceState.path
       })
     }
@@ -58,13 +58,13 @@ function nextState(input) {
         initial: true,
         components: {},
         data: {},
-        nextProps: getPropsForResource(resource),
+        context: getContextForResource(resource),
         path: __.concat([], [['resources', index]])
       })
     }
 
     if (initial) {
-      return __.map(nextProps.get.resources, (r, i) => getInitialResourceState(r, i))
+      return __.map(context.get.resources, (r, i) => getInitialResourceState(r, i))
     }
 
     switch (event.action) {
@@ -152,10 +152,10 @@ function nextState(input) {
     (event.action == 'load-next-page' || event.action == 'force-load-next-page') &&
     !data.loadingNextPage
   ) {
-    const currentPage = Math.ceil(resources.length / nextProps.get.config.per_page)
+    const currentPage = Math.ceil(resources.length / context.get.config.per_page)
     fetchPage({
-      currentUrl: nextProps.currentUrl,
-      sparsePath: nextProps.getJsonPath(),
+      currentUrl: context.currentUrl,
+      sparsePath: context.getJsonPath(),
       page: currentPage + 1,
       onFetched: ({ success, resources }) => {
         trigger(input, {
@@ -168,7 +168,7 @@ function nextState(input) {
   }
 
   return {
-    props: nextProps,
+    context: context,
     path: path,
     data: nextData(),
     components: {
@@ -227,7 +227,7 @@ const mergeEventsIntoState = function (state, events) {
   return {
     path: state.path,
     data: state.data,
-    props: state.props,
+    context: state.context,
     components: compactObject(
       __.mapValues(state.components, function (component) {
         if (!component) {
@@ -262,7 +262,7 @@ const state = {
     otherAnimals: [{ path: 'p2' }]
   },
   data: {},
-  props: {}
+  context: {}
 }
 const events = [
   { event: { action: 'plonk' }, path: 'p1' },
@@ -274,17 +274,17 @@ console.log(newState.event.action === 'plonk')
 console.log(newState.components.raccoon.event.action === 'plenk')
 console.log(newState.components.otherAnimals[0].event.action === 'plenk')
 // node properties
-console.log(Object.keys(newState).toString() === 'path,data,props,components,event')
+console.log(Object.keys(newState).toString() === 'path,data,context,components,event')
 console.log(JSON.stringify(newState.data) === '{}')
-console.log(JSON.stringify(newState.props) === '{}')
+console.log(JSON.stringify(newState.context) === '{}')
 console.log(
-  Object.keys(newState.components.raccoon).toString() === 'path,data,props,components,event'
+  Object.keys(newState.components.raccoon).toString() === 'path,data,context,components,event'
 )
 console.log(
   Object.keys(newState.components.raccoon.components.sub).toString() ===
-    'path,data,props,components,event'
+    'path,data,context,components,event'
 )
 console.log(
-  Object.keys(newState.components.otherAnimals[0]).toString() === 'path,data,props,components,event'
+  Object.keys(newState.components.otherAnimals[0]).toString() === 'path,data,context,components,event'
 )
  */
