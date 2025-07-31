@@ -3,11 +3,7 @@ import xhr from 'xhr'
 import setUrlParams from '../../../lib/set-params-for-url.js'
 
 module.exports = (input, nextResourcesLength) => {
-  let { event, trigger, data, nextProps } = input
-
-  if (data.loadingNextPage && !(event.action == 'page-loaded')) {
-    return
-  }
+  let { event, trigger, nextProps } = input
 
   var pageSize = nextProps.get.config.per_page
 

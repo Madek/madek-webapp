@@ -10,79 +10,87 @@ import loadNextPage from './loadNextPage.js'
  */
 const resolveEvents = input => {
   const { event, trigger, initial, components, data, nextProps, path } = input
-  console.log('resolveEvents', event, initial)
+  console.log('resolveEvents', event)
 
   const isPageLoad = event.action == 'load-next-page' || event.action == 'force-load-next-page'
   const resourceIdsToLoadMetadataFor = getResourceIdsToLoadMetadataFor(input)
 
   const next = () => {
-    if (isPageLoad) {
-      loadNextPage(input, nextResources().length)
+    const resources = nextResources()
+
+    if (isPageLoad && !data.loadingNextPage) {
+      loadNextPage(input, resources.length)
     }
+
+    const NEWDATA = nextData()
+    console.log(NEWDATA)
 
     return {
       props: nextProps,
       path: path,
-      data: {
-        loadingNextPage: nextLoadingNextPage(),
-        selectedResources: nextSelectedResources(),
-        currentRequestSeriesId:
-          event.action === 'force-load-next-page' || event.action === 'mount'
-            ? event.currentRequestSeriesId
-            : data.currentRequestSeriesId
-      },
+      data: nextData(),
       components: {
-        resources: nextResources()
+        resources
       }
     }
   }
 
-  const nextSelectedResources = () => {
+  function nextData() {
     if (initial) {
-      return null
+      return { loadingNextPage: false, selectedResources: null, currentRequestSeriesId: null }
     }
+    switch (event.action) {
+      case 'mount':
+        return {
+          ...data,
+          selectedResources: [],
+          currentRequestSeriesId: event.currentRequestSeriesId
+        }
+      case 'load-next-page':
+        return { ...data, loadingNextPage: true }
+      case 'force-load-next-page':
+        return {
+          ...data,
+          loadingNextPage: true,
+          currentRequestSeriesId: event.currentRequestSeriesId
+        }
+      case 'page-loaded':
+        return { ...data, loadingNextPage: false }
+      case 'page-load-failed':
+        return { ...data }
 
-    if (
-      event.action == 'mount' &&
-      __.includes(['MediaResources', 'MediaEntries', 'Collections'], nextProps.get.type)
-    ) {
-      return []
-    } else if (event.action == 'toggle-resource-selection') {
-      if (__.find(data.selectedResources, sr => sr.uuid == event.resourceUuid)) {
-        return __.reject(data.selectedResources, sr => sr.uuid == event.resourceUuid)
-      } else {
-        return __.concat(
-          data.selectedResources,
-          __.find(components.resources, cr => cr.data.resource.uuid == event.resourceUuid).data
-            .resource
-        )
-      }
-    } else if (event.action == 'unselect-resources') {
-      return __.reject(data.selectedResources, sr => __.includes(event.resourceUuids, sr.uuid))
-    } else if (event.action == 'select-resources') {
-      return __.concat(
-        data.selectedResources,
-        __.map(
-          event.resourceUuids,
-          rid => __.find(components.resources, cr => cr.data.resource.uuid == rid).data.resource
-        )
-      )
-    } else {
-      return data.selectedResources
-    }
-  }
+      // selection
+      case 'toggle-resource-selection':
+        return {
+          ...data,
+          selectedResources: _toggleResourceSelection(
+            data.selectedResources,
+            event.resourceUuid,
+            components.resources
+          )
+        }
+      case 'select-resources':
+        return {
+          ...data,
+          selectedResources: _selectResources(
+            data.selectedResources,
+            event.resourceUuids,
+            components.resources
+          )
+        }
+      case 'unselect-resources':
+        return {
+          ...data,
+          selectedResources: _unselectResources(data.selectedResources, event.resourceUuids)
+        }
 
-  const nextLoadingNextPage = () => {
-    if (initial) {
-      return false
-    }
+      // other which do not mutate data
+      case 'fetch-list-data':
+      case undefined:
+        return data
 
-    if (isPageLoad) {
-      return true
-    } else if (event.action == 'page-loaded') {
-      return false
-    } else {
-      return data.loadingNextPage
+      default:
+        throw new Error(`unsupported action ${event.action}`)
     }
   }
 
@@ -146,6 +154,31 @@ const resolveEvents = input => {
   }
 
   return next()
+}
+
+function _toggleResourceSelection(oldSelectedResources, resourceUuid, allResources) {
+  if (__.find(oldSelectedResources, sr => sr.uuid == resourceUuid)) {
+    return __.reject(oldSelectedResources, sr => sr.uuid == resourceUuid)
+  } else {
+    return __.concat(
+      oldSelectedResources,
+      __.find(allResources, cr => cr.data.resource.uuid == resourceUuid).data.resource
+    )
+  }
+}
+
+function _selectResources(oldSelectedResources, resourceUuids, allResources) {
+  return __.concat(
+    oldSelectedResources,
+    __.map(
+      resourceUuids,
+      rid => __.find(allResources, cr => cr.data.resource.uuid == rid).data.resource
+    )
+  )
+}
+
+function _unselectResources(oldSelectedResources, resourceUuids) {
+  return __.reject(oldSelectedResources, sr => __.includes(resourceUuids, sr.uuid))
 }
 
 /**
