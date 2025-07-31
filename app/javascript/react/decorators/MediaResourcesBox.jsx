@@ -38,8 +38,7 @@ import CreateCollectionModal from '../views/My/CreateCollectionModal.jsx'
 
 import BoxUtil from './BoxUtil.js'
 import BoxSetUrlParams from './BoxSetUrlParams.jsx'
-import BoxRedux from './BoxRedux.js'
-import BoxState from './BoxState.js'
+import { nextState, mergeEventsIntoState } from './mediaResourcesBoxState/state.js'
 import BoxTitlebar from './BoxTitlebar.jsx'
 import BoxFilterButton from './BoxFilterButton.jsx'
 import BoxSetFallback from './BoxSetFallback.jsx'
@@ -127,35 +126,30 @@ class MediaResourcesBox extends Component {
   }
 
   initialBoxState = props => {
-    return BoxState({
-      event: {},
-      trigger: this.triggerComponentEvent,
-      initial: true,
-      components: {},
+    return nextState({
+      path: [],
       data: {},
-      nextProps: { get: props.get },
-      path: []
+      context: { get: props.get },
+      components: {},
+      event: { action: 'init' },
+      trigger: this.triggerComponentEvent
     })
   }
 
   nextBoxState = events => {
-    //console.log('nextBoxState', events[0].path, events[0].event)
-    const merged = BoxRedux.mergeStateAndEventsRoot(this.state.boxState, events)
+    const mergedState = mergeEventsIntoState(this.state.boxState, events)
 
-    const props = {
-      get: this._mergeGet(this.props, this.state),
-      currentUrl: this._currentUrl(),
-      getJsonPath: this.getJsonPath
-    }
-
-    const boxState = BoxState({
-      event: merged.event,
-      trigger: this.triggerComponentEvent,
-      initial: false,
-      components: merged.components,
-      data: merged.data,
-      nextProps: props,
-      path: []
+    const boxState = nextState({
+      path: mergedState.path,
+      data: mergedState.data,
+      context: {
+        get: this._mergeGet(this.props, this.state),
+        currentUrl: this._currentUrl(),
+        getJsonPath: this.getJsonPath
+      },
+      components: mergedState.components,
+      event: mergedState.event,
+      trigger: this.triggerComponentEvent
     })
 
     this.setState({ boxState })
@@ -251,7 +245,7 @@ class MediaResourcesBox extends Component {
   forceFetchNextPage = () => {
     this.currentRequestSeriesId = Math.random()
     return this.triggerRootEvent({
-      action: 'force-fetch-next-page',
+      action: 'force-load-next-page',
       currentRequestSeriesId: this.currentRequestSeriesId
     })
   }
@@ -262,7 +256,7 @@ class MediaResourcesBox extends Component {
       return
     }
     this.triggerRootEvent({
-      action: 'fetch-next-page',
+      action: 'load-next-page',
       currentRequestSeriesId: this.currentRequestSeriesId
     })
   }
