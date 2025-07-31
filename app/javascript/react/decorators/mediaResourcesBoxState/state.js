@@ -19,7 +19,7 @@ It's kind of a state machine which takes "old world as input and returns "next s
  * Transform state of the MediaResourcesBox component
  */
 function nextState(input) {
-  const { event, trigger, initial, components, data, context, path } = input
+  const { event, trigger, components, data, context, path } = input
   //console.log('nextState', event)
 
   function nextResources() {
@@ -40,7 +40,6 @@ function nextState(input) {
       return nextResourceState({
         event: resourceState.event,
         trigger: trigger,
-        initial: false,
         components: resourceState.components,
         data: resourceState.data,
         context: getContextForResource(resource),
@@ -53,9 +52,8 @@ function nextState(input) {
      */
     function getInitialResourceState(resource, index) {
       return nextResourceState({
-        event: {},
+        event: { action: 'init' },
         trigger: trigger,
-        initial: true,
         components: {},
         data: {},
         context: getContextForResource(resource),
@@ -63,11 +61,9 @@ function nextState(input) {
       })
     }
 
-    if (initial) {
-      return __.map(context.get.resources, (r, i) => getInitialResourceState(r, i))
-    }
-
     switch (event.action) {
+      case 'init':
+        return __.map(context.get.resources, (r, i) => getInitialResourceState(r, i))
       case 'force-load-next-page':
         return []
       case 'page-loaded':
@@ -88,10 +84,9 @@ function nextState(input) {
   }
 
   function nextData() {
-    if (initial) {
-      return { loadingNextPage: false, selectedResources: null, currentRequestSeriesId: null }
-    }
     switch (event.action) {
+      case 'init':
+        return { loadingNextPage: false, selectedResources: null, currentRequestSeriesId: null }
       case 'mount':
         return {
           ...data,

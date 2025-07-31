@@ -25,11 +25,11 @@ function fetch(url, { success, error }) {
 }
 
 function executeResourceMetadataLoad(input) {
-  const { trigger, initial, context, data } = input
+  const { trigger, event, context, data } = input
 
   const currentQuery = parseQuery(parseUrl(window.location.toString()).query)
   const getResourceUrl = () => {
-    if (initial) {
+    if (event.action === 'init') {
       return context.resource.list_meta_data_url
     } else {
       return data.resource.list_meta_data_url

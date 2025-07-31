@@ -1,7 +1,7 @@
 import __ from 'lodash'
 
 module.exports = input => {
-  let { event, initial, components, context } = input
+  let { event, components, context } = input
 
   if (context.get.config.layout != 'list') {
     return {}
@@ -36,7 +36,7 @@ module.exports = input => {
   }
 
   function additionalOnes() {
-    if (initial) {
+    if (event.action === 'init') {
       return __.filter(context.get.resources, r => !r.list_meta_data)
     } else if (event.action == 'page-loaded') {
       return __.filter(event.resources, r => !r.list_meta_data)
