@@ -58,40 +58,11 @@ class BoxRenderResource extends React.Component {
       }
     }
 
-    var overrideTexts = () => {
-      var metaData = itemState.data.thumbnailMetaData
-      if (!metaData) {
-        return null
-      }
-
-      var getTitle = () => {
-        if (metaData.title) {
-          return metaData.title
-        } else {
-          return null
-        }
-      }
-
-      var getSubtitle = () => {
-        if (metaData.authors) {
-          return metaData.authors
-        } else {
-          return null
-        }
-      }
-
-      return {
-        title: getTitle(),
-        subtitle: getSubtitle()
-      }
-    }
-
     return (
       <ResourceThumbnail
         elm="div"
         style={style}
         get={item}
-        overrideTexts={overrideTexts()}
         isClient={isClient}
         fetchRelations={fetchRelations}
         isSelected={isSelected}
@@ -103,7 +74,7 @@ class BoxRenderResource extends React.Component {
         key={key}
         pinThumb={config.layout == 'tiles'}
         listThumb={config.layout == 'list'}
-        list_meta_data={itemState.data.listMetaData}
+        list_meta_data={itemState.data.listMetadata}
         trigger={this.props.trigger}
       />
     )

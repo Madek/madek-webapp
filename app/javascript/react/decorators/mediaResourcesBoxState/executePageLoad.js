@@ -3,15 +3,15 @@ import xhr from 'xhr'
 import setUrlParams from '../../../lib/set-params-for-url.js'
 
 module.exports = (input, nextResourcesLength) => {
-  let { event, trigger, nextProps } = input
+  const { event, trigger, nextProps } = input
 
-  var pageSize = nextProps.get.config.per_page
+  const pageSize = nextProps.get.config.per_page
 
-  var page = Math.ceil(nextResourcesLength / pageSize)
+  const page = Math.ceil(nextResourcesLength / pageSize)
 
-  var nextPage = page + 1
+  const nextPage = page + 1
 
-  var nextUrl = setUrlParams(
+  const nextUrl = setUrlParams(
     nextProps.currentUrl,
     { list: { page: nextPage } },
     {

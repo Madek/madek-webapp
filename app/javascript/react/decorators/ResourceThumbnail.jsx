@@ -237,22 +237,6 @@ module.exports = createReactClass({
     }
 
     const getTextProps = () => {
-      const getTitle = () => {
-        if (this.props.overrideTexts && this.props.overrideTexts.title) {
-          return this.props.overrideTexts.title
-        } else {
-          return get.title
-        }
-      }
-
-      const getSubtitle = () => {
-        if (this.props.overrideTexts && this.props.overrideTexts.subtitle) {
-          return this.props.overrideTexts.subtitle
-        } else {
-          return get.authors_pretty
-        }
-      }
-
       if (get.uploadStatus) {
         return {
           title: get.uploadStatus[0],
@@ -260,8 +244,8 @@ module.exports = createReactClass({
         }
       } else {
         return {
-          title: getTitle(),
-          subtitle: getSubtitle()
+          title: get.title,
+          subtitle: get.authors_pretty
         }
       }
     }

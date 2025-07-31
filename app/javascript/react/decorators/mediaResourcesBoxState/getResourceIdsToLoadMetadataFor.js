@@ -7,35 +7,35 @@ module.exports = input => {
     return {}
   }
 
-  var alreadyLoadingCount = () => {
+  function alreadyLoadingCount() {
     return __.filter(components.resources, r => {
       return (
-        r.data.loadingListMetaData &&
+        r.data.loadingListMetadata &&
         !(r.event.action == 'load-meta-data-success') &&
         !(r.event.action == 'load-meta-data-failure')
       )
     }).length
   }
 
-  var availableCount = () => {
+  function availableCount() {
     return 10 - alreadyLoadingCount()
   }
 
-  var needLoading = () => {
+  function needLoading() {
     return __.filter(components.resources, r => {
       return (
-        !r.data.listMetaData &&
-        !r.data.loadingListMetaData &&
+        !r.data.listMetadata &&
+        !r.data.loadingListMetadata &&
         !(r.event.action == 'load-meta-data-success')
       )
     })
   }
 
-  var existingUuidsToLoad = () => {
+  function existingUuidsToLoad() {
     return __.map(needLoading(), r => r.data.resource.uuid)
   }
 
-  var additionalOnes = () => {
+  function additionalOnes() {
     if (initial) {
       return __.filter(nextProps.get.resources, r => !r.list_meta_data)
     } else if (event.action == 'page-loaded') {
@@ -45,11 +45,11 @@ module.exports = input => {
     }
   }
 
-  var newUuidsToLoad = () => {
+  function newUuidsToLoad() {
     return __.map(additionalOnes(), r => r.uuid)
   }
 
-  var uuidsToLoad = () => {
+  function uuidsToLoad() {
     return __.slice(__.concat(existingUuidsToLoad(), newUuidsToLoad()), 0, availableCount())
   }
 

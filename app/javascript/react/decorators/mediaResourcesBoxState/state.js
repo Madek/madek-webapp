@@ -1,14 +1,22 @@
 import __ from 'lodash'
 import getResourceIdsToLoadMetadataFor from './getResourceIdsToLoadMetadataFor.js'
-import handleResource from './handleResource.js'
-import loadNextPageEffect from './loadNextPageEffect.js'
+import { nextResourceState } from './resourceState.js'
+import executePageLoad from './executePageLoad.js'
 
-// This is refactored version of the old BoxState/BoxRedux-complex, but still far from ideal.
-// It's kind of a state machine which transforms "world 1" to "world 2", running also loading side effects
-// There is a primary `state`, which contains `components.resources`, which have the same state model as `state` itself.
+/*
+This is refactored version of the old BoxState/BoxRedux-complex, but still not supercool.
+
+It's kind of a state machine which takes "old world as input and returns "next state".
+("old world" consists of "old state" + "event" + "context").
+
+"Transforming" includes also executing side effects (i.e. data fetching).
+
+There is a `state`, which contains `components.resources` which is an array of `resourceState`
+(`resourceState` objects have the same state model as `state` itself).
+ */
 
 /**
- * "Transform" state of the MediaResourcesBox component (reduce with side effects)
+ * Transform state of the MediaResourcesBox component
  */
 function nextState(input) {
   const { event, trigger, initial, components, data, nextProps, path } = input
@@ -20,18 +28,16 @@ function nextState(input) {
     function getPropsForResource(resource) {
       return {
         resource: resource,
-        loadMetaData: resourceIdsToLoadMetadataFor[resource.uuid] ? true : false,
-        thumbnailMetaData: null,
-        resetListMetaData: false
+        loadMetadata: resourceIdsToLoadMetadataFor[resource.uuid] ? true : false
       }
     }
 
     /**
-     * "Transform" state of an pre-existing resource state (reduce with side effects)
+     * Transform pre-existing resource state
      */
     function getNextResourceState(resourceState) {
       const resource = resourceState.data.resource
-      return handleResource({
+      return nextResourceState({
         event: resourceState.event,
         trigger: trigger,
         initial: false,
@@ -46,7 +52,7 @@ function nextState(input) {
      * Create initial state for a newly loaded resource object
      */
     function getInitialResourceState(resource, index) {
-      return handleResource({
+      return nextResourceState({
         event: {},
         trigger: trigger,
         initial: true,
@@ -109,7 +115,7 @@ function nextState(input) {
       case 'toggle-resource-selection':
         return {
           ...data,
-          selectedResources: _toggleResourceSelection(
+          selectedResources: toggleResourceSelection(
             data.selectedResources,
             event.resourceUuid,
             components.resources
@@ -118,7 +124,7 @@ function nextState(input) {
       case 'select-resources':
         return {
           ...data,
-          selectedResources: _selectResources(
+          selectedResources: selectResources(
             data.selectedResources,
             event.resourceUuids,
             components.resources
@@ -127,10 +133,10 @@ function nextState(input) {
       case 'unselect-resources':
         return {
           ...data,
-          selectedResources: _unselectResources(data.selectedResources, event.resourceUuids)
+          selectedResources: unselectResources(data.selectedResources, event.resourceUuids)
         }
 
-      // other which do not mutate data
+      // other which do not mutate data:
       case 'fetch-list-data':
       case undefined:
         return data
@@ -146,7 +152,7 @@ function nextState(input) {
     (event.action == 'load-next-page' || event.action == 'force-load-next-page') &&
     !data.loadingNextPage
   ) {
-    loadNextPageEffect(input, resources.length)
+    executePageLoad(input, resources.length)
   }
 
   return {
@@ -159,7 +165,9 @@ function nextState(input) {
   }
 }
 
-function _toggleResourceSelection(oldSelectedResources, resourceUuid, allResources) {
+// Some reducers (pure functions):
+
+function toggleResourceSelection(oldSelectedResources, resourceUuid, allResources) {
   if (__.find(oldSelectedResources, sr => sr.uuid == resourceUuid)) {
     return __.reject(oldSelectedResources, sr => sr.uuid == resourceUuid)
   } else {
@@ -169,8 +177,7 @@ function _toggleResourceSelection(oldSelectedResources, resourceUuid, allResourc
     )
   }
 }
-
-function _selectResources(oldSelectedResources, resourceUuids, allResources) {
+function selectResources(oldSelectedResources, resourceUuids, allResources) {
   return __.concat(
     oldSelectedResources,
     __.map(
@@ -179,25 +186,15 @@ function _selectResources(oldSelectedResources, resourceUuids, allResources) {
     )
   )
 }
-
-function _unselectResources(oldSelectedResources, resourceUuids) {
+function unselectResources(oldSelectedResources, resourceUuids) {
   return __.reject(oldSelectedResources, sr => __.includes(resourceUuids, sr.uuid))
 }
 
 /**
- * Recursively copies a tree of state nodes, assigning the events to the nodes according to their `path`.
+ * Distributes `events` to the state nodes (`state.event` or `state.components.resources[n].event`),
+ * matching the event's `path` against the node's.
  *
- * The child nodes are in the `components` key, structured as follows:
- * - node.components.a = componentStateA
- * - node.components.b = componentStateB
- * - node.components.c = [indexedComponentStateC1, indexedComponentStateC2, ...]
- *
- * Note that the `path` has nothing to do with the location of the nodes in the tree,
- * it is just an outside-bound value, typically an array.
- *
- * Apart from `path` and `components`, each node also has `data` and `props` payload (being copied without modification).
- *
- * See the examples (mini unit tests) below this function.
+ * See the examples at the end of this file.
  */
 const mergeEventsIntoState = function (state, events) {
   if (!state) {
@@ -237,8 +234,15 @@ const mergeEventsIntoState = function (state, events) {
   }
 }
 
+module.exports = {
+  nextState,
+  mergeEventsIntoState
+}
+
 /*
 // Example for `mergeEventsIntoState`:
+// (note thate `components` can contain arbitrary keys (single object or array), although the
+// state machine actually only works with `components.resources` (array))
 const state = {
   path: 'p1',
   components: {
@@ -272,8 +276,3 @@ console.log(
   Object.keys(newState.components.otherAnimals[0]).toString() === 'path,data,props,components,event'
 )
  */
-
-module.exports = {
-  nextState,
-  mergeEventsIntoState
-}
