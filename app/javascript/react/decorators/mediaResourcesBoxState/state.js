@@ -1,5 +1,4 @@
 import __ from 'lodash'
-import getResourceIdsToLoadMetadataFor from './getResourceIdsToLoadMetadataFor.js'
 import { nextResourceState } from './resourceState.js'
 import { fetchPage } from './dataFetchers.js'
 
@@ -22,8 +21,44 @@ function nextState(input) {
   const { event, trigger, components, data, context, path } = input
   //console.log('nextState', event)
 
+  function uuidsOfListMetadataToLoad() {
+    // 1) resource states already present, but missing list metadata; and after-load was requested via event
+    function uuidsFromExistingState() {
+      return __.filter(components.resources, r => {
+        return (
+          !r.data.listMetadata &&
+          !r.data.loadingListMetadata &&
+          !(r.event.action == 'load-meta-data-success')
+        )
+      }).map(r => r.data.resource.uuid)
+    }
+
+    // 2) resources introduced in the current cycle, but delivered without list metadata
+    function uuidsFromNewResources() {
+      if (event.action === 'init') {
+        return __.filter(context.get.resources, r => !r.list_meta_data).map(r => r.uuid)
+      } else if (event.action == 'page-loaded') {
+        return __.filter(event.resources, r => !r.list_meta_data).map(r => r.uuid)
+      } else {
+        return []
+      }
+    }
+
+    const runningFetchesCount = __.filter(
+      components.resources,
+      r => r.data.loadingListMetadata
+    ).length
+    const maxNewFetchesCount = 10 - runningFetchesCount
+
+    const uuids = __.concat(uuidsFromExistingState(), uuidsFromNewResources())
+    const uuidsToLoad = __.slice(uuids, 0, maxNewFetchesCount)
+
+    return __.fromPairs(__.map(uuidsToLoad, uuid => [uuid, uuid]))
+  }
+
   function nextResources() {
-    const resourceIdsToLoadMetadataFor = getResourceIdsToLoadMetadataFor(input)
+    const resourceIdsToLoadMetadataFor =
+      context.get.config.layout === 'list' ? uuidsOfListMetadataToLoad(input) : {}
 
     function getContextForResource(resource) {
       return {
