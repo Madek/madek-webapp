@@ -1,9 +1,6 @@
 import { fetchListMetadata } from './dataFetchers.js'
 
-function nextResourceState(input) {
-  const { event, data, context, path, triggerEvent } = input
-  //console.log('nextResourceState', event)
-
+function nextResourceState({ handle, data, context, event, triggerEvent }) {
   function nextData() {
     if (context.loadMetadata) {
       // should be a fr*cking event!!!
@@ -11,10 +8,10 @@ function nextResourceState(input) {
     }
 
     switch (event.action) {
-      case 'init':
+      case 'init-resource':
         return {
-          resource: context.resource,
-          listMetadata: context.resource.list_meta_data ? context.resource.list_meta_data : null,
+          resource: event.resource,
+          listMetadata: event.resource.list_meta_data,
           loadingListMetadata: context.loadMetadata
         }
       case 'load-meta-data-success':
@@ -30,17 +27,17 @@ function nextResourceState(input) {
 
   if (context.loadMetadata) {
     const resourceUrl =
-      event.action === 'init'
-        ? context.resource.list_meta_data_url
+      event.action === 'init-resource'
+        ? event.resource.list_meta_data_url
         : data.resource.list_meta_data_url
 
     fetchListMetadata({
       resourceUrl,
       onFetched: ({ success, json }) => {
         if (success) {
-          triggerEvent(path, { action: 'load-meta-data-success', json: json })
+          triggerEvent(handle, { action: 'load-meta-data-success', json: json })
         } else {
-          triggerEvent(path, { action: 'load-meta-data-failure' })
+          triggerEvent(handle, { action: 'load-meta-data-failure' })
         }
       }
     })
@@ -48,7 +45,7 @@ function nextResourceState(input) {
 
   return {
     context: context,
-    path: path,
+    handle: handle,
     data: nextData(),
     components: {}
   }

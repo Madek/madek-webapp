@@ -151,8 +151,8 @@ class MediaResourcesBox extends Component {
     this.nextBoxState([{ event }])
   }
 
-  triggerComponentEvent = (path, event) => {
-    this.nextBoxState([{ path, event }])
+  triggerComponentEvent = (handle, event) => {
+    this.nextBoxState([{ handle, event }])
   }
 
   getResources = () => {
@@ -202,13 +202,13 @@ class MediaResourcesBox extends Component {
     }
   }
 
-  fetchListData = () => {
-    return this.triggerRootEvent({ action: 'fetch-list-data' })
+  fetchListMetadata = () => {
+    this.triggerRootEvent({ action: 'fetch-list-metadata' })
   }
 
   componentDidMount = () => {
     if (this._mergeGet(this.props, this.state).config.layout === 'list') {
-      this.fetchListData()
+      this.fetchListMetadata()
     }
 
     this.setState({
@@ -222,7 +222,7 @@ class MediaResourcesBox extends Component {
     })
   }
 
-  forceFetchNextPage = () => {
+  forceLoadNextPage = () => {
     this.currentRequestSeriesId = Math.random()
     return this.triggerRootEvent({
       action: 'force-load-next-page',
@@ -231,10 +231,7 @@ class MediaResourcesBox extends Component {
   }
 
   // - custom actions:
-  _onFetchNextPage = () => {
-    if (this.state.boxState.data.loadingNextPage) {
-      return
-    }
+  loadNextPage = () => {
     this.triggerRootEvent({
       action: 'load-next-page',
       currentRequestSeriesId: this.currentRequestSeriesId
@@ -373,7 +370,7 @@ class MediaResourcesBox extends Component {
             return alert(error)
           } else {
             this._persistListConfig({ list_config: { order: targetOrder } })
-            return this.forceFetchNextPage()
+            return this.forceLoadNextPage()
           }
         }
       )
@@ -698,7 +695,7 @@ class MediaResourcesBox extends Component {
         //   query: url.query
         // })
 
-        this.forceFetchNextPage()
+        this.forceLoadNextPage()
         return this._persistListConfig({ list_config: { order: itemKey } })
       }
     )
@@ -718,7 +715,7 @@ class MediaResourcesBox extends Component {
       },
       () => {
         if (layoutMode.mode === 'list') {
-          this.fetchListData()
+          this.fetchListMetadata()
         }
         return this._persistListConfig({ list_config: { layout: layoutMode.mode } })
       }
@@ -924,7 +921,7 @@ class MediaResourcesBox extends Component {
         <BoxPaginationNav
           resources={resources}
           staticPagination={staticPagination}
-          onFetchNextPage={this._onFetchNextPage}
+          onFetchNextPage={this.loadNextPage}
           loadingNextPage={this.state.boxState.data.loadingNextPage}
           isClient={this.state.isClient}
           permaLink={BoxSetUrlParams(this._currentUrl(), currentQuery)}

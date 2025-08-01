@@ -19,49 +19,49 @@ function nextState({
 
   console.log('action =', event.action)
 
-  function uuidsOfListMetadataToLoad() {
-    // 1) resource states already present, but missing list metadata; and after-load was requested via event
-    function uuidsFromExistingState() {
-      return __.filter(components.resources, r => {
-        return (
-          !r.data.listMetadata &&
-          !r.data.loadingListMetadata &&
-          !(r.event.action == 'load-meta-data-success')
-        )
-      }).map(r => r.data.resource.uuid)
-    }
-
-    // 2) resources introduced in the current cycle, but delivered without list metadata
-    function uuidsFromNewResources() {
-      if (event.action === 'init') {
-        return __.filter(event.resources, r => !r.list_meta_data).map(r => r.uuid)
-      } else if (event.action == 'page-loaded') {
-        return __.filter(event.resources, r => !r.list_meta_data).map(r => r.uuid)
-      } else {
-        return []
-      }
-    }
-
-    const runningFetchesCount = __.filter(
-      components.resources,
-      r => r.data.loadingListMetadata
-    ).length
-    const maxNewFetchesCount = 10 - runningFetchesCount
-
-    const uuids = __.concat(uuidsFromExistingState(), uuidsFromNewResources())
-    const uuidsToLoad = __.slice(uuids, 0, maxNewFetchesCount)
-
-    return __.fromPairs(__.map(uuidsToLoad, uuid => [uuid, uuid]))
-  }
-
   function nextResources() {
-    const resourceIdsToLoadMetadataFor =
-      context.layout === 'list' ? uuidsOfListMetadataToLoad() : {}
+    function determineUuidsOfListMetadataToLoad() {
+      if (context.layout !== 'list') {
+        return {}
+      }
+
+      // 1) resource states already present, but missing list metadata (and loading never started)
+      function uuidsFromExistingState() {
+        return __.filter(components.resources, r => {
+          return (
+            !r.data.listMetadata &&
+            !r.data.loadingListMetadata &&
+            !(r.event.action == 'load-meta-data-success')
+          )
+        }).map(r => r.data.resource.uuid)
+      }
+
+      // 2) resources introduced in the current cycle, but delivered without list metadata
+      function uuidsFromNewResources() {
+        if (event.action === 'init') {
+          return __.filter(event.resources, r => !r.list_meta_data).map(r => r.uuid)
+        } else if (event.action == 'page-loaded') {
+          return __.filter(event.resources, r => !r.list_meta_data).map(r => r.uuid)
+        } else {
+          return []
+        }
+      }
+
+      const runningFetches = __.filter(components.resources, r => r.data.loadingListMetadata)
+      const maxNewFetchesCount = 10 - runningFetches.length
+
+      const uuids = __.concat(uuidsFromExistingState(), uuidsFromNewResources())
+      const uuidsToLoad = __.slice(uuids, 0, maxNewFetchesCount)
+
+      return __.fromPairs(__.map(uuidsToLoad, uuid => [uuid, uuid]))
+    }
+
+    const uuidsToLoadMetadataFor = determineUuidsOfListMetadataToLoad()
 
     function getContextForResource(resource) {
       return {
         resource: resource,
-        loadMetadata: resourceIdsToLoadMetadataFor[resource.uuid] ? true : false
+        loadMetadata: uuidsToLoadMetadataFor[resource.uuid] ? true : false
       }
     }
 
@@ -76,7 +76,7 @@ function nextState({
         components: resourceState.components,
         data: resourceState.data,
         context: getContextForResource(resource),
-        path: resourceState.path
+        handle: resourceState.handle
       })
     }
 
@@ -85,12 +85,12 @@ function nextState({
      */
     function getInitialResourceState(resource, index) {
       return nextResourceState({
-        event: { action: 'init' },
+        event: { action: 'init-resource', resource },
         triggerEvent: triggerEvent,
         components: {},
         data: {},
         context: getContextForResource(resource),
-        path: __.concat([], ['resources', index])
+        handle: ['resources', index]
       })
     }
 
@@ -164,9 +164,9 @@ function nextState({
           selectedResources: unselectResources(data.selectedResources, event.resourceUuids)
         }
 
-      // other which do not mutate data:
-      case 'fetch-list-data':
+      case 'fetch-list-metadata':
       case undefined:
+        // no action on root state but on components.resources
         return data
 
       default:
@@ -242,7 +242,7 @@ const mergeEventsIntoState = function (state, events) {
       )
     )
   }
-  const foundEvent = __.find(events, e => __.isEqual(e.path, state.path))
+  const foundEvent = __.find(events, e => __.isEqual(e.handle, state.handle))
 
   return {
     ...state,
