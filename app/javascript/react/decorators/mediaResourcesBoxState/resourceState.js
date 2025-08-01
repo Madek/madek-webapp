@@ -1,38 +1,41 @@
 import { fetchListMetadata } from './dataFetchers.js'
 
-function nextResourceState({ handle, data, context, event, triggerEvent }) {
-  function nextData() {
-    if (context.loadMetadata) {
-      // should be a fr*cking event!!!
-      return { ...data, loadingListMetadata: true }
-    }
+function initializeResourceState({ handle, resource }) {
+  return nextResourceState({
+    handle,
+    event: { action: 'init-resource', resource }
+  })
+}
 
+function nextResourceState({ handle, data = {}, event, triggerEvent }) {
+  if (event) {
+    console.log(handle.toString(), event)
+  }
+
+  function nextData() {
+    if (!event) {
+      return data
+    }
     switch (event.action) {
       case 'init-resource':
         return {
           resource: event.resource,
-          listMetadata: event.resource.list_meta_data,
-          loadingListMetadata: context.loadMetadata
+          listMetadata: event.resource.list_meta_data
         }
+      case 'load-meta-data':
+        return { ...data, loadingListMetadata: true }
       case 'load-meta-data-success':
         return { ...data, listMetadata: event.json, loadingListMetadata: false }
       case 'load-meta-data-failure':
         return { ...data, loadingListMetadata: false }
-      case undefined:
-        return data
       default:
         throw new Error(`unsupported action ${event.action}`)
     }
   }
 
-  if (context.loadMetadata) {
-    const resourceUrl =
-      event.action === 'init-resource'
-        ? event.resource.list_meta_data_url
-        : data.resource.list_meta_data_url
-
+  if (event && event.action === 'load-meta-data') {
     fetchListMetadata({
-      resourceUrl,
+      resourceUrl: data.resource.list_meta_data_url,
       onFetched: ({ success, json }) => {
         if (success) {
           triggerEvent(handle, { action: 'load-meta-data-success', json: json })
@@ -44,13 +47,9 @@ function nextResourceState({ handle, data, context, event, triggerEvent }) {
   }
 
   return {
-    context: context,
     handle: handle,
-    data: nextData(),
-    components: {}
+    data: nextData()
   }
 }
 
-module.exports = {
-  nextResourceState
-}
+module.exports = { initializeResourceState, nextResourceState }

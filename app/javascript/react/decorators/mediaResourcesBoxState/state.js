@@ -1,5 +1,5 @@
 import __ from 'lodash'
-import { nextResourceState } from './resourceState.js'
+import { initializeResourceState, nextResourceState } from './resourceState.js'
 import { fetchPage } from './dataFetchers.js'
 
 function initializeState({ initialResources }) {
@@ -16,8 +16,9 @@ function nextState({
 }) {
   const { data } = state
   const { event, components } = mergeEventsIntoState(state, events)
+  const action = event ? event.action : undefined
 
-  console.log('action =', event.action)
+  console.log('root action', action)
 
   function nextResources() {
     function determineUuidsOfListMetadataToLoad() {
@@ -28,19 +29,15 @@ function nextState({
       // 1) resource states already present, but missing list metadata (and loading never started)
       function uuidsFromExistingState() {
         return __.filter(components.resources, r => {
-          return (
-            !r.data.listMetadata &&
-            !r.data.loadingListMetadata &&
-            !(r.event.action == 'load-meta-data-success')
-          )
+          return !r.data.listMetadata && !r.data.loadingListMetadata
         }).map(r => r.data.resource.uuid)
       }
 
       // 2) resources introduced in the current cycle, but delivered without list metadata
       function uuidsFromNewResources() {
-        if (event.action === 'init') {
+        if (action === 'init') {
           return __.filter(event.resources, r => !r.list_meta_data).map(r => r.uuid)
-        } else if (event.action == 'page-loaded') {
+        } else if (action == 'page-loaded') {
           return __.filter(event.resources, r => !r.list_meta_data).map(r => r.uuid)
         } else {
           return []
@@ -58,43 +55,26 @@ function nextState({
 
     const uuidsToLoadMetadataFor = determineUuidsOfListMetadataToLoad()
 
-    function getContextForResource(resource) {
-      return {
-        resource: resource,
-        loadMetadata: uuidsToLoadMetadataFor[resource.uuid] ? true : false
-      }
-    }
-
-    /**
-     * Transform pre-existing resource state
-     */
     function getNextResourceState(resourceState) {
       const resource = resourceState.data.resource
+      const mustLoad = Boolean(uuidsToLoadMetadataFor[resource.uuid])
+      const implicitLoadEvent = mustLoad ? { action: 'load-meta-data' } : undefined
       return nextResourceState({
-        event: resourceState.event,
+        event: resourceState.event || implicitLoadEvent,
         triggerEvent: triggerEvent,
-        components: resourceState.components,
         data: resourceState.data,
-        context: getContextForResource(resource),
         handle: resourceState.handle
       })
     }
 
-    /**
-     * Create initial state for a newly loaded resource object
-     */
     function getInitialResourceState(resource, index) {
-      return nextResourceState({
-        event: { action: 'init-resource', resource },
-        triggerEvent: triggerEvent,
-        components: {},
-        data: {},
-        context: getContextForResource(resource),
-        handle: ['resources', index]
+      return initializeResourceState({
+        handle: ['resources', index],
+        resource
       })
     }
 
-    switch (event.action) {
+    switch (action) {
       case 'init':
         return __.map(event.resources, (r, i) => getInitialResourceState(r, i))
       case 'force-load-next-page':
@@ -117,6 +97,9 @@ function nextState({
   }
 
   function nextData() {
+    if (!event) {
+      return data
+    }
     switch (event.action) {
       case 'init':
         return { loadingNextPage: false, selectedResources: null, currentRequestSeriesId: null }
@@ -165,7 +148,6 @@ function nextState({
         }
 
       case 'fetch-list-metadata':
-      case undefined:
         // no action on root state but on components.resources
         return data
 
@@ -176,10 +158,7 @@ function nextState({
 
   const resources = nextResources()
 
-  if (
-    (event.action == 'load-next-page' || event.action == 'force-load-next-page') &&
-    !data.loadingNextPage
-  ) {
+  if ((action == 'load-next-page' || action == 'force-load-next-page') && !data.loadingNextPage) {
     const currentPage = Math.ceil(resources.length / context.pageSize)
     fetchPage({
       currentUrl: context.currentUrl,
@@ -260,6 +239,6 @@ const mergeEventsIntoState = function (state, events) {
         }
       })
     ),
-    event: foundEvent && foundEvent.event ? foundEvent.event : {}
+    event: foundEvent && foundEvent.event ? foundEvent.event : undefined
   }
 }
