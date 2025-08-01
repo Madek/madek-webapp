@@ -1,7 +1,7 @@
 import { fetchListMetadata } from './dataFetchers.js'
 
 function nextResourceState(input) {
-  const { event, data, context, path, trigger } = input
+  const { event, data, context, path, triggerEvent } = input
   //console.log('nextResourceState', event)
 
   function nextData() {
@@ -38,9 +38,9 @@ function nextResourceState(input) {
       resourceUrl,
       onFetched: ({ success, json }) => {
         if (success) {
-          trigger(input, { action: 'load-meta-data-success', json: json })
+          triggerEvent(path, { action: 'load-meta-data-success', json: json })
         } else {
-          trigger(input, { action: 'load-meta-data-failure' })
+          triggerEvent(path, { action: 'load-meta-data-failure' })
         }
       }
     })

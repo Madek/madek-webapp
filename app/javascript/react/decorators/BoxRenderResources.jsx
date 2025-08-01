@@ -44,7 +44,6 @@ class BoxRenderResources extends React.Component {
             hoverMenuId={hoverMenuId}
             fetchRelations={fetchRelations}
             key={itemState.data.resource.uuid}
-            trigger={this.props.trigger}
             isSelected={f.find(selectedResources, sr => sr.uuid == itemState.data.resource.uuid)}
             showActions={ActionsDropdownHelper.showActionsConfig(actionsDropdownParameters)}
           />

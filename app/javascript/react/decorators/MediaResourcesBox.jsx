@@ -132,7 +132,7 @@ class MediaResourcesBox extends Component {
       context: { get: props.get },
       components: {},
       event: { action: 'init', resources: props.get.resources },
-      trigger: this.triggerComponentEvent
+      triggerEvent: this.triggerComponentEvent
     })
   }
 
@@ -152,7 +152,7 @@ class MediaResourcesBox extends Component {
       },
       components: stateWithEvents.components,
       event: stateWithEvents.event,
-      trigger: this.triggerComponentEvent
+      triggerEvent: this.triggerComponentEvent
     })
 
     this.setState({ boxState })
@@ -168,14 +168,8 @@ class MediaResourcesBox extends Component {
     this.nextBoxState(events)
   }
 
-  triggerComponentEvent = (component, event) => {
-    const events = [
-      {
-        path: component.path,
-        event
-      }
-    ]
-    this.nextBoxState(events)
+  triggerComponentEvent = (path, event) => {
+    this.nextBoxState([{ path, event }])
   }
 
   getResources = () => {
@@ -1051,7 +1045,6 @@ class MediaResourcesBox extends Component {
                       perPage={this.props.get.config.per_page}
                       unselectResources={this.unselectResources}
                       selectResources={resources => this.selectResources(resources)}
-                      trigger={this.triggerComponentEvent}
                     />
                   )
                 }

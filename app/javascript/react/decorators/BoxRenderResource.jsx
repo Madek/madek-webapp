@@ -75,7 +75,6 @@ class BoxRenderResource extends React.Component {
         pinThumb={config.layout == 'tiles'}
         listThumb={config.layout == 'list'}
         list_meta_data={itemState.data.listMetadata}
-        trigger={this.props.trigger}
       />
     )
   }

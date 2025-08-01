@@ -3,7 +3,7 @@ import { nextResourceState } from './resourceState.js'
 import { fetchPage } from './dataFetchers.js'
 
 function nextState(input) {
-  const { event, trigger, components, data, context, path } = input
+  const { event, triggerEvent, components, data, context, path } = input
   console.log(event)
 
   function uuidsOfListMetadataToLoad() {
@@ -59,7 +59,7 @@ function nextState(input) {
       const resource = resourceState.data.resource
       return nextResourceState({
         event: resourceState.event,
-        trigger: trigger,
+        triggerEvent: triggerEvent,
         components: resourceState.components,
         data: resourceState.data,
         context: getContextForResource(resource),
@@ -73,11 +73,11 @@ function nextState(input) {
     function getInitialResourceState(resource, index) {
       return nextResourceState({
         event: { action: 'init' },
-        trigger: trigger,
+        triggerEvent: triggerEvent,
         components: {},
         data: {},
         context: getContextForResource(resource),
-        path: __.concat([], [['resources', index]])
+        path: __.concat([], ['resources', index])
       })
     }
 
@@ -173,7 +173,7 @@ function nextState(input) {
       sparsePath: context.getJsonPath(),
       page: currentPage + 1,
       onFetched: ({ success, resources }) => {
-        trigger(input, {
+        triggerEvent(path, {
           action: success ? 'page-loaded' : 'page-load-failed',
           currentRequestSeriesId: event.currentRequestSeriesId,
           resources
