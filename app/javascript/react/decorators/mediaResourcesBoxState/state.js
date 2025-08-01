@@ -2,24 +2,9 @@ import __ from 'lodash'
 import { nextResourceState } from './resourceState.js'
 import { fetchPage } from './dataFetchers.js'
 
-/*
-This is refactored version of the old BoxState/BoxRedux-complex, but still not supercool.
-
-It's kind of a state machine which takes "old world as input and returns "next state".
-("old world" consists of "old state" + "event" + "context").
-
-"Transforming" includes also executing side effects (i.e. data fetching).
-
-`state` contains `components.resources` which is an array of `resourceState`
-(having the same state model as `state` itself).
- */
-
-/**
- * Transform state of the MediaResourcesBox component
- */
 function nextState(input) {
   const { event, trigger, components, data, context, path } = input
-  //console.log('nextState', event)
+  console.log(event)
 
   function uuidsOfListMetadataToLoad() {
     // 1) resource states already present, but missing list metadata; and after-load was requested via event
@@ -36,7 +21,7 @@ function nextState(input) {
     // 2) resources introduced in the current cycle, but delivered without list metadata
     function uuidsFromNewResources() {
       if (event.action === 'init') {
-        return __.filter(context.get.resources, r => !r.list_meta_data).map(r => r.uuid)
+        return __.filter(event.resources, r => !r.list_meta_data).map(r => r.uuid)
       } else if (event.action == 'page-loaded') {
         return __.filter(event.resources, r => !r.list_meta_data).map(r => r.uuid)
       } else {
@@ -58,7 +43,7 @@ function nextState(input) {
 
   function nextResources() {
     const resourceIdsToLoadMetadataFor =
-      context.get.config.layout === 'list' ? uuidsOfListMetadataToLoad(input) : {}
+      context.layout === 'list' ? uuidsOfListMetadataToLoad(input) : {}
 
     function getContextForResource(resource) {
       return {
@@ -98,7 +83,7 @@ function nextState(input) {
 
     switch (event.action) {
       case 'init':
-        return __.map(context.get.resources, (r, i) => getInitialResourceState(r, i))
+        return __.map(event.resources, (r, i) => getInitialResourceState(r, i))
       case 'force-load-next-page':
         return []
       case 'page-loaded':
@@ -182,7 +167,7 @@ function nextState(input) {
     (event.action == 'load-next-page' || event.action == 'force-load-next-page') &&
     !data.loadingNextPage
   ) {
-    const currentPage = Math.ceil(resources.length / context.get.config.per_page)
+    const currentPage = Math.ceil(resources.length / context.pageSize)
     fetchPage({
       currentUrl: context.currentUrl,
       sparsePath: context.getJsonPath(),
