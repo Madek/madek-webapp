@@ -38,8 +38,7 @@ import CreateCollectionModal from '../views/My/CreateCollectionModal.jsx'
 
 import BoxUtil from './BoxUtil.js'
 import BoxSetUrlParams from './BoxSetUrlParams.jsx'
-import BoxRedux from './BoxRedux.js'
-import BoxState from './BoxState.js'
+import { initializeState, nextState } from './mediaResourcesBoxState/state.js'
 import BoxTitlebar from './BoxTitlebar.jsx'
 import BoxFilterButton from './BoxFilterButton.jsx'
 import BoxSetFallback from './BoxSetFallback.jsx'
@@ -127,58 +126,33 @@ class MediaResourcesBox extends Component {
   }
 
   initialBoxState = props => {
-    return BoxState({
-      event: {},
-      trigger: this.triggerComponentEvent,
-      initial: true,
-      components: {},
-      data: {},
-      nextProps: { get: props.get },
-      path: []
-    })
+    return initializeState({ initialResources: props.get.resources })
   }
 
   nextBoxState = events => {
-    //console.log('nextBoxState', events[0].path, events[0].event)
-    const merged = BoxRedux.mergeStateAndEventsRoot(this.state.boxState, events)
+    const { config } = this._mergeGet(this.props, this.state)
 
-    const props = {
-      get: this._mergeGet(this.props, this.state),
-      currentUrl: this._currentUrl(),
-      getJsonPath: this.getJsonPath
-    }
-
-    const boxState = BoxState({
-      event: merged.event,
-      trigger: this.triggerComponentEvent,
-      initial: false,
-      components: merged.components,
-      data: merged.data,
-      nextProps: props,
-      path: []
+    const boxState = nextState({
+      state: this.state.boxState,
+      context: {
+        pageSize: config.per_page,
+        layout: config.layout,
+        currentUrl: this._currentUrl(),
+        getJsonPath: this.getJsonPath
+      },
+      events,
+      triggerEvent: this.triggerComponentEvent
     })
 
     this.setState({ boxState })
   }
 
   triggerRootEvent = event => {
-    const events = [
-      {
-        path: [],
-        event
-      }
-    ]
-    this.nextBoxState(events)
+    this.nextBoxState([{ event }])
   }
 
-  triggerComponentEvent = (component, event) => {
-    const events = [
-      {
-        path: component.path,
-        event
-      }
-    ]
-    this.nextBoxState(events)
+  triggerComponentEvent = (handle, event) => {
+    this.nextBoxState([{ handle, event }])
   }
 
   getResources = () => {
@@ -228,13 +202,13 @@ class MediaResourcesBox extends Component {
     }
   }
 
-  fetchListData = () => {
-    return this.triggerRootEvent({ action: 'fetch-list-data' })
+  fetchListMetadata = () => {
+    this.triggerRootEvent({ action: 'fetch-list-metadata' })
   }
 
   componentDidMount = () => {
     if (this._mergeGet(this.props, this.state).config.layout === 'list') {
-      this.fetchListData()
+      this.fetchListMetadata()
     }
 
     this.setState({
@@ -248,21 +222,18 @@ class MediaResourcesBox extends Component {
     })
   }
 
-  forceFetchNextPage = () => {
+  forceLoadNextPage = () => {
     this.currentRequestSeriesId = Math.random()
     return this.triggerRootEvent({
-      action: 'force-fetch-next-page',
+      action: 'force-load-next-page',
       currentRequestSeriesId: this.currentRequestSeriesId
     })
   }
 
   // - custom actions:
-  _onFetchNextPage = () => {
-    if (this.state.boxState.data.loadingNextPage) {
-      return
-    }
+  loadNextPage = () => {
     this.triggerRootEvent({
-      action: 'fetch-next-page',
+      action: 'load-next-page',
       currentRequestSeriesId: this.currentRequestSeriesId
     })
   }
@@ -399,7 +370,7 @@ class MediaResourcesBox extends Component {
             return alert(error)
           } else {
             this._persistListConfig({ list_config: { order: targetOrder } })
-            return this.forceFetchNextPage()
+            return this.forceLoadNextPage()
           }
         }
       )
@@ -724,7 +695,7 @@ class MediaResourcesBox extends Component {
         //   query: url.query
         // })
 
-        this.forceFetchNextPage()
+        this.forceLoadNextPage()
         return this._persistListConfig({ list_config: { order: itemKey } })
       }
     )
@@ -744,7 +715,7 @@ class MediaResourcesBox extends Component {
       },
       () => {
         if (layoutMode.mode === 'list') {
-          this.fetchListData()
+          this.fetchListMetadata()
         }
         return this._persistListConfig({ list_config: { layout: layoutMode.mode } })
       }
@@ -950,7 +921,7 @@ class MediaResourcesBox extends Component {
         <BoxPaginationNav
           resources={resources}
           staticPagination={staticPagination}
-          onFetchNextPage={this._onFetchNextPage}
+          onFetchNextPage={this.loadNextPage}
           loadingNextPage={this.state.boxState.data.loadingNextPage}
           isClient={this.state.isClient}
           permaLink={BoxSetUrlParams(this._currentUrl(), currentQuery)}
@@ -1054,7 +1025,6 @@ class MediaResourcesBox extends Component {
                       perPage={this.props.get.config.per_page}
                       unselectResources={this.unselectResources}
                       selectResources={resources => this.selectResources(resources)}
-                      trigger={this.triggerComponentEvent}
                     />
                   )
                 }
