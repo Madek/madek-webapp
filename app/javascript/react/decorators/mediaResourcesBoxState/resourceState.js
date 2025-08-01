@@ -1,7 +1,7 @@
-import executeResourceMetadataLoad from './executeResourceMetadataLoad.js'
+import { fetchListMetadata } from './dataFetchers.js'
 
 function nextResourceState(input) {
-  const { event, data, context, path } = input
+  const { event, data, context, path, trigger } = input
   //console.log('nextResourceState', event)
 
   function nextData() {
@@ -29,7 +29,21 @@ function nextResourceState(input) {
   }
 
   if (context.loadMetadata) {
-    executeResourceMetadataLoad(input)
+    const resourceUrl =
+      event.action === 'init'
+        ? context.resource.list_meta_data_url
+        : data.resource.list_meta_data_url
+
+    fetchListMetadata({
+      resourceUrl,
+      onFetched: ({ success, json }) => {
+        if (success) {
+          trigger(input, { action: 'load-meta-data-success', json: json })
+        } else {
+          trigger(input, { action: 'load-meta-data-failure' })
+        }
+      }
+    })
   }
 
   return {
