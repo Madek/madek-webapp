@@ -38,7 +38,7 @@ import CreateCollectionModal from '../views/My/CreateCollectionModal.jsx'
 
 import BoxUtil from './BoxUtil.js'
 import BoxSetUrlParams from './BoxSetUrlParams.jsx'
-import { nextState, mergeEventsIntoState } from './mediaResourcesBoxState/state.js'
+import { initializeState, nextState } from './mediaResourcesBoxState/state.js'
 import BoxTitlebar from './BoxTitlebar.jsx'
 import BoxFilterButton from './BoxFilterButton.jsx'
 import BoxSetFallback from './BoxSetFallback.jsx'
@@ -126,32 +126,21 @@ class MediaResourcesBox extends Component {
   }
 
   initialBoxState = props => {
-    return nextState({
-      path: [],
-      data: {},
-      context: { get: props.get },
-      components: {},
-      event: { action: 'init', resources: props.get.resources },
-      triggerEvent: this.triggerComponentEvent
-    })
+    return initializeState({ initialResources: props.get.resources })
   }
 
   nextBoxState = events => {
-    const stateWithEvents = mergeEventsIntoState(this.state.boxState, events)
-
     const { config } = this._mergeGet(this.props, this.state)
 
     const boxState = nextState({
-      path: stateWithEvents.path,
-      data: stateWithEvents.data,
+      state: this.state.boxState,
       context: {
         pageSize: config.per_page,
         layout: config.layout,
         currentUrl: this._currentUrl(),
         getJsonPath: this.getJsonPath
       },
-      components: stateWithEvents.components,
-      event: stateWithEvents.event,
+      events,
       triggerEvent: this.triggerComponentEvent
     })
 
@@ -159,13 +148,7 @@ class MediaResourcesBox extends Component {
   }
 
   triggerRootEvent = event => {
-    const events = [
-      {
-        path: [],
-        event
-      }
-    ]
-    this.nextBoxState(events)
+    this.nextBoxState([{ event }])
   }
 
   triggerComponentEvent = (path, event) => {

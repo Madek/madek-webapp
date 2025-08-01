@@ -2,9 +2,22 @@ import __ from 'lodash'
 import { nextResourceState } from './resourceState.js'
 import { fetchPage } from './dataFetchers.js'
 
-function nextState(input) {
-  const { event, triggerEvent, components, data, context, path } = input
-  console.log(event)
+function initializeState({ initialResources }) {
+  return nextState({
+    events: [{ event: { action: 'init', resources: initialResources } }]
+  })
+}
+
+function nextState({
+  state = { data: {}, components: {} },
+  context = {},
+  events = [],
+  triggerEvent
+}) {
+  const { data } = state
+  const { event, components } = mergeEventsIntoState(state, events)
+
+  console.log('action =', event.action)
 
   function uuidsOfListMetadataToLoad() {
     // 1) resource states already present, but missing list metadata; and after-load was requested via event
@@ -43,7 +56,7 @@ function nextState(input) {
 
   function nextResources() {
     const resourceIdsToLoadMetadataFor =
-      context.layout === 'list' ? uuidsOfListMetadataToLoad(input) : {}
+      context.layout === 'list' ? uuidsOfListMetadataToLoad() : {}
 
     function getContextForResource(resource) {
       return {
@@ -173,7 +186,7 @@ function nextState(input) {
       sparsePath: context.getJsonPath(),
       page: currentPage + 1,
       onFetched: ({ success, resources }) => {
-        triggerEvent(path, {
+        triggerEvent(undefined, {
           action: success ? 'page-loaded' : 'page-load-failed',
           currentRequestSeriesId: event.currentRequestSeriesId,
           resources
@@ -183,14 +196,16 @@ function nextState(input) {
   }
 
   return {
-    context: context,
-    path: path,
     data: nextData(),
     components: {
       resources
     }
   }
 }
+
+module.exports = { initializeState, nextState }
+
+// -------------------------------- "Private" methods --------------------------------
 
 // Some reducers (pure functions):
 
@@ -217,17 +232,7 @@ function unselectResources(oldSelectedResources, resourceUuids) {
   return __.reject(oldSelectedResources, sr => __.includes(resourceUuids, sr.uuid))
 }
 
-/**
- * Distributes `events` to the state nodes (`state.event` or `state.components.resources[n].event`),
- * matching the event's `path` against the node's.
- *
- * See the examples at the end of this file.
- */
 const mergeEventsIntoState = function (state, events) {
-  if (!state) {
-    return null
-  }
-
   function compactObject(o) {
     return __.fromPairs(
       __.compact(
@@ -240,9 +245,7 @@ const mergeEventsIntoState = function (state, events) {
   const foundEvent = __.find(events, e => __.isEqual(e.path, state.path))
 
   return {
-    path: state.path,
-    data: state.data,
-    context: state.context,
+    ...state,
     components: compactObject(
       __.mapValues(state.components, function (component) {
         if (!component) {
@@ -260,46 +263,3 @@ const mergeEventsIntoState = function (state, events) {
     event: foundEvent && foundEvent.event ? foundEvent.event : {}
   }
 }
-
-module.exports = {
-  nextState,
-  mergeEventsIntoState
-}
-
-/*
-// Example for `mergeEventsIntoState`:
-// (note thate `components` can contain arbitrary keys (single object or array), although the
-// state machine actually only works with `components.resources` (array))
-const state = {
-  path: 'p1',
-  components: {
-    raccoon: { path: 'p2', components: { sub: { path: 'p3' } } },
-    otherAnimals: [{ path: 'p2' }]
-  },
-  data: {},
-  context: {}
-}
-const events = [
-  { event: { action: 'plonk' }, path: 'p1' },
-  { event: { action: 'plenk' }, path: 'p2' }
-]
-const newState = mergeEventsIntoState(state, events)
-// events
-console.log(newState.event.action === 'plonk')
-console.log(newState.components.raccoon.event.action === 'plenk')
-console.log(newState.components.otherAnimals[0].event.action === 'plenk')
-// node properties
-console.log(Object.keys(newState).toString() === 'path,data,context,components,event')
-console.log(JSON.stringify(newState.data) === '{}')
-console.log(JSON.stringify(newState.context) === '{}')
-console.log(
-  Object.keys(newState.components.raccoon).toString() === 'path,data,context,components,event'
-)
-console.log(
-  Object.keys(newState.components.raccoon.components.sub).toString() ===
-    'path,data,context,components,event'
-)
-console.log(
-  Object.keys(newState.components.otherAnimals[0]).toString() === 'path,data,context,components,event'
-)
- */
