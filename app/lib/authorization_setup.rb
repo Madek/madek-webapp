@@ -17,7 +17,7 @@
 
 module AuthorizationSetup
   extend ActiveSupport::Concern
-  include Pundit
+  include Pundit::Authorization
 
   included do
 
