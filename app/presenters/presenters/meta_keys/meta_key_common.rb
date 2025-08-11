@@ -11,13 +11,19 @@ module Presenters
 
         # props for special types
 
-        if @app_resource.can_have_keywords? || @app_resource.can_have_roles?
+        if @app_resource.can_have_keywords?
           define_singleton_method :is_extensible do
             @app_resource.is_extensible_list? ? true : false # coerce to bool
           end
 
           define_singleton_method :alphabetical_order do
             @app_resource.keywords_alphabetical_order
+          end
+        end
+
+        if @app_resource.can_have_roles?
+          define_singleton_method :is_extensible do
+            @app_resource.roles_list && @app_resource.roles_list.is_extensible_list? ? true : false # coerce to bool
           end
         end
 
