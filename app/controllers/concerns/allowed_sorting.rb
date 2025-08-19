@@ -10,11 +10,19 @@ module AllowedSorting
     'manual ASC',
     'manual DESC'].freeze
 
+  ALIASES = { 'last_change' => 'last_change DESC' }
+
   def allowed_sorting(collection)
-    if ALLOWED_SORTING.include? collection.sorting
-      collection.sorting
+    sorting = ALIASES[collection.sorting] || collection.sorting
+    if ALLOWED_SORTING.include? sorting
+      sorting
     else
       'created_at DESC'
     end
+  end
+
+  def normalize_sortorder(sorting)
+    s = ALIASES[sorting] || sorting
+    return s if ALLOWED_SORTING.include?(s)
   end
 end

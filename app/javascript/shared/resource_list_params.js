@@ -31,11 +31,13 @@ module.exports = function (location) {
 // private
 
 var coerceTypes = function (types, val, key) {
-  switch (false) {
-    case !f.include(types.bools, key):
+  switch (true) {
+    case f.include(types.bools, key):
       return [key, val === 'true']
-    case !f.include(types.jsons, key):
+    case f.include(types.jsons, key):
       return [key, parseJsonParam(key, val)]
+    case key === 'order':
+      return [key, val === 'last_change' ? 'last_change DESC' : val]
     default:
       return [key, val]
   }
