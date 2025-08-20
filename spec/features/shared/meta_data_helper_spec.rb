@@ -54,9 +54,9 @@ module MetaDataHelper
       media_entry: resource)
   end
 
-  def add_roles_datum(resource, meta_key_id)
+  def add_people_with_roles_datum(resource, meta_key_id)
     FactoryBot.create(
-      :meta_datum_roles,
+      :meta_datum_people_with_roles,
       meta_key: MetaKey.find_by(id: meta_key_id),
       media_entry: resource)
   end

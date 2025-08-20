@@ -13,6 +13,8 @@ module Modules
             handle_meta_datum_in_case_of_single_update!(
               resource, meta_key_id, value)
           rescue => e
+            Rails.logger.warn e.message
+            Rails.logger.warn e.backtrace.take(10).join("\n")
             errors[meta_key_id] = [e.message]
           end
 

@@ -7,7 +7,7 @@
   site_title = begin; localize(settings.site_titles); rescue; end
   site_title ||= 'Madek' # fallback
   title = begin; @get[:title]; rescue nil; end
-  lang = locale
+  lang = 'de-CH'
 
 !!!
 %html{lang: lang}

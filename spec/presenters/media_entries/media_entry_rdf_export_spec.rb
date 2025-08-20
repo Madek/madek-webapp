@@ -32,11 +32,10 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
       media_entry: media_entry, people: [person_1, person_2, person_with_external_uri]
     )
   end
-  let!(:meta_key_roles) { create(:meta_key_roles) }
-  let!(:meta_datum_roles) do
-    create(:meta_datum_roles, media_entry: media_entry)
+  let!(:meta_datum_people_with_roles) do
+    create(:meta_datum_people_with_roles, media_entry: media_entry)
   end
-  let(:meta_data_roles) { meta_datum_roles.meta_data_roles }
+  let(:meta_data_people_with_roles) { meta_datum_people_with_roles.meta_data_people }
   subject { Presenters::MediaEntries::MediaEntryRdfExport.new(media_entry, user) }
 
   before { allow(Settings).to receive(:madek_external_base_url).and_return(base_url) }
@@ -77,7 +76,7 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
       # MATCH HASH, without sub-arrays!
       meta_keys_with_array_values = [
         'madek_test:keywords', 'madek_test:people',
-        'madek_test:json', 'madek_' + meta_datum_roles.meta_key_id]
+        'madek_test:json', 'madek_' + meta_datum_people_with_roles.meta_key_id]
 
       expected_entry_md_graph = {
         '@id' => (base_url + '/entries/' + media_entry.id),
@@ -86,12 +85,12 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
         'madek_test:textdate' => {
           '@value' => meta_datum_text_date.string, '@type' => 'madek:TextDate'
         },
-        **meta_datum_roles.meta_data_roles.select(&:role_id).map do |md|
+        **meta_datum_people_with_roles.meta_data_people.select(&:role_id).map do |md|
           ["Role:#{md.role_id}".to_sym, { '@id' => base_url + '/people/' + md.person_id }]
         end.to_h
       }
 
-      expected_roles_graph = meta_datum_roles.meta_data_roles.select(&:role_id).map do |md|
+      expected_roles_graph = meta_datum_people_with_roles.meta_data_people.select(&:role_id).map do |md|
           ["Role:#{md.role_id}".to_sym, { '@id' => base_url + '/people/' + md.person_id }]
       end.to_h
 
@@ -127,18 +126,18 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
         ]
       )
 
-      expect(entry_md.fetch(meta_datum_roles.meta_key_id)).to be_an(Array)
-      expect(entry_md.fetch(meta_datum_roles.meta_key_id)).to match_array(
+      expect(entry_md.fetch(meta_datum_people_with_roles.meta_key_id)).to be_an(Array)
+      expect(entry_md.fetch(meta_datum_people_with_roles.meta_key_id)).to match_array(
         [
           {
             '@type' => 'madek:::Roles',
             '@list' => [
               {
-                '@id' => base_url + '/people/' + meta_data_roles[0].person_id,
+                '@id' => base_url + '/people/' + meta_data_people[0].person_id,
                 '@type' => 'madek:Person'
               },
               {
-                '@id' => base_url + '/roles/' + meta_data_roles[0].role_id,
+                '@id' => base_url + '/roles/' + meta_data_people[0].role_id,
                 '@type' => 'madek:Role'
               }
             ]
@@ -147,11 +146,11 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
             '@type' => 'madek:MetaDatum::Roles',
             '@list' => [
               {
-                '@id' => base_url + '/people/' + meta_data_roles[1].person_id,
+                '@id' => base_url + '/people/' + meta_data_people[1].person_id,
                 '@type' => 'madek:Person'
               },
               {
-                '@id' => base_url + '/roles/' + meta_data_roles[1].role_id,
+                '@id' => base_url + '/roles/' + meta_data_people[1].role_id,
                 '@type' => 'madek:Role'
               }
             ]
@@ -160,11 +159,11 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
             '@type' => 'madek:MetaDatum::Roles',
             '@list' => [
               {
-                '@id' => base_url + '/people/' + meta_data_roles[2].person_id,
+                '@id' => base_url + '/people/' + meta_data_people[2].person_id,
                 '@type' => 'madek:Person'
               },
               {
-                '@id' => base_url + '/roles/' + meta_data_roles[2].role_id,
+                '@id' => base_url + '/roles/' + meta_data_people[2].role_id,
                 '@type' => 'madek:Role'
               }
             ]
@@ -173,7 +172,7 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
             '@type' => 'madek:MetaDatum::Roles',
             '@list' => [
               {
-                '@id' => base_url + '/people/' + meta_data_roles[3].person_id,
+                '@id' => base_url + '/people/' + meta_data_people[3].person_id,
                 '@type' => 'madek:Person'
               }
             ]
@@ -217,39 +216,39 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
             'owl:sameAs' => [person_external_uri]
           },
           {
-            '@id' => base_url + '/people/' + meta_data_roles[0].person_id,
+            '@id' => base_url + '/people/' + meta_data_people[0].person_id,
             '@type' => 'madek:Person',
-            'rdfs:label' => meta_data_roles[0].person.to_s
+            'rdfs:label' => meta_data_people[0].person.to_s
           },
           {
-            '@id' => base_url + '/roles/' + meta_data_roles[0].role_id,
+            '@id' => base_url + '/roles/' + meta_data_people[0].role_id,
             '@type' => 'madek:Role',
-            'rdfs:label' => meta_data_roles[0].role.to_s
+            'rdfs:label' => meta_data_people[0].role.to_s
           },
           {
-            '@id' => base_url + '/people/' + meta_data_roles[1].person_id,
+            '@id' => base_url + '/people/' + meta_data_people[1].person_id,
             '@type' => 'madek:Person',
-            'rdfs:label' => meta_data_roles[1].person.to_s
+            'rdfs:label' => meta_data_people[1].person.to_s
           },
           {
-            '@id' => base_url + '/roles/' + meta_data_roles[1].role_id,
+            '@id' => base_url + '/roles/' + meta_data_people[1].role_id,
             '@type' => 'madek:Role',
-            'rdfs:label' => meta_data_roles[1].role.to_s
+            'rdfs:label' => meta_data_people[1].role.to_s
           },
           {
-            '@id' => base_url + '/people/' + meta_data_roles[2].person_id,
+            '@id' => base_url + '/people/' + meta_data_people[2].person_id,
             '@type' => 'madek:Person',
-            'rdfs:label' => meta_data_roles[2].person.to_s
+            'rdfs:label' => meta_data_people[2].person.to_s
           },
           {
-            '@id' => base_url + '/roles/' + meta_data_roles[2].role_id,
+            '@id' => base_url + '/roles/' + meta_data_people[2].role_id,
             '@type' => 'madek:Role',
-            'rdfs:label' => meta_data_roles[2].role.to_s
+            'rdfs:label' => meta_data_people[2].role.to_s
           },
           {
-            '@id' => base_url + '/people/' + meta_data_roles[3].person_id,
+            '@id' => base_url + '/people/' + meta_data_people[3].person_id,
             '@type' => 'madek:Person',
-            'rdfs:label' => meta_data_roles[3].person.to_s
+            'rdfs:label' => meta_data_people[3].person.to_s
           }
         ]
       )
@@ -298,15 +297,15 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
       )
       expect_triple(
         turtle,
-        meta_datum_roles.meta_key_id,
+        meta_datum_people_with_roles.meta_key_id,
         [
-          "\\(<#{base_url}/people/#{meta_data_roles[0].person_id}> "\
-          "<#{base_url}/roles/#{meta_data_roles[0].role_id}>\\)",
-          "\\(<#{base_url}/people/#{meta_data_roles[1].person_id}> "\
-          "<#{base_url}/roles/#{meta_data_roles[1].role_id}>\\)",
-          "\\(<#{base_url}/people/#{meta_data_roles[2].person_id}> "\
-          "<#{base_url}/roles/#{meta_data_roles[2].role_id}>\\)",
-          "\\(<#{base_url}/people/#{meta_data_roles[3].person_id}>\\)"
+          "\\(<#{base_url}/people/#{meta_data_people[0].person_id}> "\
+          "<#{base_url}/roles/#{meta_data_people[0].role_id}>\\)",
+          "\\(<#{base_url}/people/#{meta_data_people[1].person_id}> "\
+          "<#{base_url}/roles/#{meta_data_people[1].role_id}>\\)",
+          "\\(<#{base_url}/people/#{meta_data_people[2].person_id}> "\
+          "<#{base_url}/roles/#{meta_data_people[2].role_id}>\\)",
+          "\\(<#{base_url}/people/#{meta_data_people[3].person_id}>\\)"
         ]
       )
       expect_entity(
@@ -336,45 +335,45 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
       )
       expect_entity(
         turtle,
-        "<#{base_url}/people/#{meta_data_roles[0].person_id}>",
+        "<#{base_url}/people/#{meta_data_people[0].person_id}>",
         'madek:Person',
-        rdfs_label_for_person(meta_data_roles[0].person)
+        rdfs_label_for_person(meta_data_people[0].person)
       )
       expect_entity(
         turtle,
-        "<#{base_url}/roles/#{meta_data_roles[0].role_id}>",
+        "<#{base_url}/roles/#{meta_data_people[0].role_id}>",
         'madek:Role',
-        "rdfs:label \"#{meta_data_roles[0].role}\""
+        "rdfs:label \"#{meta_data_people[0].role}\""
       )
       expect_entity(
         turtle,
-        "<#{base_url}/people/#{meta_data_roles[1].person_id}>",
+        "<#{base_url}/people/#{meta_data_people[1].person_id}>",
         'madek:Person',
-        rdfs_label_for_person(meta_data_roles[1].person)
+        rdfs_label_for_person(meta_data_people[1].person)
       )
       expect_entity(
         turtle,
-        "<#{base_url}/roles/#{meta_data_roles[1].role_id}>",
+        "<#{base_url}/roles/#{meta_data_people[1].role_id}>",
         'madek:Role',
-        "rdfs:label \"#{meta_data_roles[1].role}\""
+        "rdfs:label \"#{meta_data_people[1].role}\""
       )
       expect_entity(
         turtle,
-        "<#{base_url}/people/#{meta_data_roles[2].person_id}>",
+        "<#{base_url}/people/#{meta_data_people[2].person_id}>",
         'madek:Person',
-        rdfs_label_for_person(meta_data_roles[2].person)
+        rdfs_label_for_person(meta_data_people[2].person)
       )
       expect_entity(
         turtle,
-        "<#{base_url}/roles/#{meta_data_roles[2].role_id}>",
+        "<#{base_url}/roles/#{meta_data_people[2].role_id}>",
         'madek:Role',
-        "rdfs:label \"#{meta_data_roles[2].role}\""
+        "rdfs:label \"#{meta_data_people[2].role}\""
       )
       expect_entity(
         turtle,
-        "<#{base_url}/people/#{meta_data_roles[3].person_id}>",
+        "<#{base_url}/people/#{meta_data_people[3].person_id}>",
         'madek:Person',
-        rdfs_label_for_person(meta_data_roles[3].person)
+        rdfs_label_for_person(meta_data_people[3].person)
       )
     end
   end
@@ -442,40 +441,40 @@ describe Presenters::MediaEntries::MediaEntryRdfExport do
       expect_resource_node(media_entry_node, person_2)
       expect_resource_node(media_entry_node, person_with_external_uri)
 
-      meta_key_id = meta_datum_roles.meta_key_id.split(':').second
+      meta_key_id = meta_datum_people_with_roles.meta_key_id.split(':').second
       expect_resource_node(
         media_entry_node,
-        meta_data_roles[0].person,
+        meta_data_people[0].person,
         meta_key_id: meta_key_id
       )
       expect_resource_node(
         media_entry_node,
-        meta_data_roles[0].role,
+        meta_data_people[0].role,
         meta_key_id: meta_key_id
       )
       expect_resource_node(
         media_entry_node,
-        meta_data_roles[1].person,
+        meta_data_people[1].person,
         meta_key_id: meta_key_id
       )
       expect_resource_node(
         media_entry_node,
-        meta_data_roles[1].role,
+        meta_data_people[1].role,
         meta_key_id: meta_key_id
       )
       expect_resource_node(
         media_entry_node,
-        meta_data_roles[2].person,
+        meta_data_people[2].person,
         meta_key_id: meta_key_id
       )
       expect_resource_node(
         media_entry_node,
-        meta_data_roles[2].role,
+        meta_data_people[2].role,
         meta_key_id: meta_key_id
       )
       expect_resource_node(
         media_entry_node,
-        meta_data_roles[3].person,
+        meta_data_people[3].person,
         meta_key_id: meta_key_id
       )
     end
@@ -523,8 +522,6 @@ def resource_path(klass_name)
     '/vocabulary/keyword/'
   when 'Person'
     '/people/'
-  when 'Role'
-    '/roles/'
   else
     raise "[#{klass_name}] class is not supported"
   end

@@ -38,7 +38,8 @@ import CreateCollectionModal from '../views/My/CreateCollectionModal.jsx'
 
 import BoxUtil from './BoxUtil.js'
 import BoxSetUrlParams from './BoxSetUrlParams.jsx'
-import { nextState } from './mediaResourcesBoxState/state.js'
+import BoxRedux from './BoxRedux.js'
+import BoxState from './BoxState.js'
 import BoxTitlebar from './BoxTitlebar.jsx'
 import BoxFilterButton from './BoxFilterButton.jsx'
 import BoxSetFallback from './BoxSetFallback.jsx'
@@ -108,6 +109,13 @@ class MediaResourcesBox extends Component {
    */
   doOnUnmount = []
 
+  /**
+   * Resources are loaded in a series of requests. This id will change when the resource list is
+   * cleared and a new request series is started, in order to be able to reject results from
+   * the outdated request series.
+   */
+  currentRequestSeriesId = 0
+
   componentWillUnmount() {
     return f.each(f.compact(this.doOnUnmount), function (fn) {
       if (f.isFunction(fn)) {
@@ -119,37 +127,62 @@ class MediaResourcesBox extends Component {
   }
 
   initialBoxState = props => {
-    return nextState({ event: { action: 'init', resources: props.get.resources } })
+    return BoxState({
+      event: {},
+      trigger: this.triggerComponentEvent,
+      initial: true,
+      components: {},
+      data: {},
+      nextProps: { get: props.get },
+      path: []
+    })
   }
 
-  nextBoxState = event => {
-    const { config } = this._mergeGet(this.props, this.state)
+  nextBoxState = events => {
+    //console.log('nextBoxState', events[0].path, events[0].event)
+    const merged = BoxRedux.mergeStateAndEventsRoot(this.state.boxState, events)
 
-    const boxState = nextState({
-      state: this.state.boxState,
-      context: {
-        pageSize: config.per_page,
-        layout: config.layout,
-        currentUrl: this._currentUrl(),
-        getJsonPath: this.getJsonPath
-      },
-      event,
-      triggerEvent: this.triggerComponentEvent
+    const props = {
+      get: this._mergeGet(this.props, this.state),
+      currentUrl: this._currentUrl(),
+      getJsonPath: this.getJsonPath
+    }
+
+    const boxState = BoxState({
+      event: merged.event,
+      trigger: this.triggerComponentEvent,
+      initial: false,
+      components: merged.components,
+      data: merged.data,
+      nextProps: props,
+      path: []
     })
 
     this.setState({ boxState })
   }
 
   triggerRootEvent = event => {
-    this.nextBoxState(event)
+    const events = [
+      {
+        path: [],
+        event
+      }
+    ]
+    this.nextBoxState(events)
   }
 
-  triggerComponentEvent = event => {
-    this.nextBoxState(event)
+  triggerComponentEvent = (component, event) => {
+    const events = [
+      {
+        path: component.path,
+        event
+      }
+    ]
+    this.nextBoxState(events)
   }
 
   getResources = () => {
-    return f.map(this.state.boxState.resourceStates, r => r.resource)
+    return f.map(this.state.boxState.components.resources, r => r.data.resource)
   }
 
   getJsonPath = () => {
@@ -195,32 +228,42 @@ class MediaResourcesBox extends Component {
     }
   }
 
-  fetchListMetadata = () => {
-    this.triggerRootEvent({ action: 'load-list-metadata' })
+  fetchListData = () => {
+    return this.triggerRootEvent({ action: 'fetch-list-data' })
   }
 
   componentDidMount = () => {
+    if (this._mergeGet(this.props, this.state).config.layout === 'list') {
+      this.fetchListData()
+    }
+
     this.setState({
       isClient: true,
       config: resourceListParams(window.location)
     })
 
     return this.triggerRootEvent({
-      action: 'mount'
+      action: 'mount',
+      currentRequestSeriesId: this.currentRequestSeriesId
     })
   }
 
-  clearAndLoadNextPage = () => {
+  forceFetchNextPage = () => {
+    this.currentRequestSeriesId = Math.random()
     return this.triggerRootEvent({
-      action: 'load-next-page',
-      clear: true
+      action: 'force-fetch-next-page',
+      currentRequestSeriesId: this.currentRequestSeriesId
     })
   }
 
   // - custom actions:
-  loadNextPage = () => {
+  _onFetchNextPage = () => {
+    if (this.state.boxState.data.loadingNextPage) {
+      return
+    }
     this.triggerRootEvent({
-      action: 'load-next-page'
+      action: 'fetch-next-page',
+      currentRequestSeriesId: this.currentRequestSeriesId
     })
   }
 
@@ -308,7 +351,7 @@ class MediaResourcesBox extends Component {
   _onSelectResource = (resource, event) => {
     // toggles selection item
     event.preventDefault()
-    const selection = this.state.boxState.selectedResources
+    const selection = this.state.boxState.data.selectedResources
     if (
       !f.find(selection, s => s.uuid === resource.uuid) &&
       selection.length > this._selectionLimit() - 1
@@ -325,7 +368,7 @@ class MediaResourcesBox extends Component {
   handlePositionChange = (resourceId, direction, event) => {
     event.preventDefault()
 
-    if (this.state.boxState.loadingNextPage) {
+    if (this.state.boxState.data.loadingNextPage) {
       return
     }
 
@@ -356,7 +399,7 @@ class MediaResourcesBox extends Component {
             return alert(error)
           } else {
             this._persistListConfig({ list_config: { order: targetOrder } })
-            return this.clearAndLoadNextPage()
+            return this.forceFetchNextPage()
           }
         }
       )
@@ -559,7 +602,7 @@ class MediaResourcesBox extends Component {
   }
 
   _selectedResourceIdsWithTypes = () => {
-    return this.state.boxState.selectedResources.map(model => ({
+    return this.state.boxState.data.selectedResources.map(model => ({
       uuid: model.uuid,
       type: model.type
     }))
@@ -681,7 +724,7 @@ class MediaResourcesBox extends Component {
         //   query: url.query
         // })
 
-        this.clearAndLoadNextPage()
+        this.forceFetchNextPage()
         return this._persistListConfig({ list_config: { order: itemKey } })
       }
     )
@@ -701,7 +744,7 @@ class MediaResourcesBox extends Component {
       },
       () => {
         if (layoutMode.mode === 'list') {
-          this.fetchListMetadata()
+          this.fetchListData()
         }
         return this._persistListConfig({ list_config: { layout: layoutMode.mode } })
       }
@@ -809,7 +852,7 @@ class MediaResourcesBox extends Component {
     const actionsDropdownParameters = {
       totalCount: this.props.get.pagination ? this.props.get.pagination.total_count : undefined,
       withActions: get.has_user,
-      selection: this.state.boxState.selectedResources || false,
+      selection: this.state.boxState.data.selectedResources || false,
       saveable: saveable || false,
       draftsView: this.props.draftsView,
       isClient: this.state.isClient,
@@ -907,8 +950,8 @@ class MediaResourcesBox extends Component {
         <BoxPaginationNav
           resources={resources}
           staticPagination={staticPagination}
-          onFetchNextPage={this.loadNextPage}
-          loadingNextPage={this.state.boxState.loadingNextPage}
+          onFetchNextPage={this._onFetchNextPage}
+          loadingNextPage={this.state.boxState.data.loadingNextPage}
           isClient={this.state.isClient}
           permaLink={BoxSetUrlParams(this._currentUrl(), currentQuery)}
           currentUrl={currentUrl}
@@ -971,7 +1014,7 @@ class MediaResourcesBox extends Component {
             <div className="ui-container table-cell table-substance">
               {children}
               {(() => {
-                if (resources.length === 0 && this.state.boxState.loadingNextPage) {
+                if (resources.length === 0 && this.state.boxState.data.loadingNextPage) {
                   return <Preloader />
                 } else if (!f.present(resources) || resources.length === 0) {
                   return (() => {
@@ -989,14 +1032,14 @@ class MediaResourcesBox extends Component {
                   const positionProps = {
                     handlePositionChange: this.handlePositionChange,
                     changeable: f.get(this.props, 'collectionData.position_changeable', false),
-                    disabled: this.state.boxState.loadingNextPage
+                    disabled: this.state.boxState.data.loadingNextPage
                   }
 
                   return (
                     <BoxRenderResources
-                      resources={f.map(this.state.boxState.resourceStates, r => r)}
+                      resources={f.map(this.state.boxState.components.resources, r => r)}
                       actionsDropdownParameters={actionsDropdownParameters}
-                      selectedResources={this.state.boxState.selectedResources}
+                      selectedResources={this.state.boxState.data.selectedResources}
                       isClient={this.state.isClient}
                       showSelectionLimit={this._showSelectionLimit}
                       selectionLimit={this._selectionLimit()}
@@ -1011,6 +1054,7 @@ class MediaResourcesBox extends Component {
                       perPage={this.props.get.config.per_page}
                       unselectResources={this.unselectResources}
                       selectResources={resources => this.selectResources(resources)}
+                      trigger={this.triggerComponentEvent}
                     />
                   )
                 }
@@ -1024,7 +1068,7 @@ class MediaResourcesBox extends Component {
             type={this.state.clipboardModal}
             onClose={() => this.setState({ clipboardModal: 'hidden' })}
             resources={this.getResources()}
-            selectedResources={this.state.boxState.selectedResources}
+            selectedResources={this.state.boxState.data.selectedResources}
             pagination={this.props.get.pagination}
             forUrl={this.props.for_url}
             jsonPath={this.getJsonPath()}

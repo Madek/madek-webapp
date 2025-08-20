@@ -158,13 +158,13 @@ describe MediaEntries::Duplicator do
 
         context 'MetaDatum::People' do
           specify 'existence of meta data' do
-            expect(meta_data_for(originator, 'MetaDatum::People').size).to be_between(1, 3)
-            expect(meta_data_for(originator, 'MetaDatum::People').size)
-              .to eq(meta_data_for(new_media_entry, 'MetaDatum::People').size)
+            expect(meta_data_for(originator, 'MetaDatum::People').select { |md| not md.meta_key.can_have_roles? }.size).to be_between(1, 3)
+            expect(meta_data_for(originator, 'MetaDatum::People').select { |md| not md.meta_key.can_have_roles? }.size)
+              .to eq(meta_data_for(new_media_entry, 'MetaDatum::People').select { |md| not md.meta_key.can_have_roles? }.size)
           end
 
           it 'copies meta data' do
-            meta_data_for(originator, 'MetaDatum::People') do |md|
+            meta_data_for(originator, 'MetaDatum::People').select { |md| not md.meta_key.can_have_roles? }.each do |md|
               new_md = find_new_md_for(new_media_entry, like: md)
               md.meta_data_people.each do |mdp|
                 expect(
@@ -175,22 +175,22 @@ describe MediaEntries::Duplicator do
           end
         end
 
-        context 'MetaDatum::Roles' do
+        context 'MetaDatum::People (with roles)' do
           specify 'existence of meta data' do
-            expect(meta_data_for(originator, 'MetaDatum::Roles').size).to be_between(1, 3)
-            expect(meta_data_for(originator, 'MetaDatum::Roles').size)
-              .to eq(meta_data_for(new_media_entry, 'MetaDatum::Roles').size)
+            expect(meta_data_for(originator, 'MetaDatum::People').select { |md| md.meta_key.can_have_roles? }.size).to be_between(1, 3)
+            expect(meta_data_for(originator, 'MetaDatum::People').select { |md| md.meta_key.can_have_roles? }.size)
+              .to eq(meta_data_for(new_media_entry, 'MetaDatum::People').select { |md| md.meta_key.can_have_roles? }.size)
           end
 
           it 'copies meta data' do
-            meta_data_for(originator, 'MetaDatum::Roles') do |md|
+            meta_data_for(originator, 'MetaDatum::People').select { |md| md.meta_key.can_have_roles? }.each do |md|
               new_md = find_new_md_for(new_media_entry, like: md)
-              md.meta_data_roles.each do |mdr|
+              md.meta_data_people.each do |mdp|
                 expect(
-                  new_md.meta_data_roles.find_by(
-                    person: mdr.person,
-                    role: mdr.role,
-                    position: mdr.position
+                  new_md.meta_data_people.find_by(
+                    person: mdp.person,
+                    role: mdp.role,
+                    created_by: mdp.created_by
                   )
                 ).to be
               end

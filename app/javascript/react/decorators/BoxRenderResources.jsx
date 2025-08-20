@@ -43,8 +43,9 @@ class BoxRenderResources extends React.Component {
             config={config}
             hoverMenuId={hoverMenuId}
             fetchRelations={fetchRelations}
-            key={itemState.resource.uuid}
-            isSelected={f.find(selectedResources, sr => sr.uuid == itemState.resource.uuid)}
+            key={itemState.data.resource.uuid}
+            trigger={this.props.trigger}
+            isSelected={f.find(selectedResources, sr => sr.uuid == itemState.data.resource.uuid)}
             showActions={ActionsDropdownHelper.showActionsConfig(actionsDropdownParameters)}
           />
         )
@@ -65,7 +66,7 @@ class BoxRenderResources extends React.Component {
             isClient={isClient}
             showSelectionLimit={showSelectionLimit}
             resources={resources}
-            pageResources={f.map(page, i => i.resource)}
+            pageResources={f.map(page, i => i.data.resource)}
             selectionLimit={selectionLimit}
             pagination={pagination}
             perPage={this.props.perPage}

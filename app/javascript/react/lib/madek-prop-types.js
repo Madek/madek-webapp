@@ -14,7 +14,6 @@ const META_DATUM_TYPES = [
   'MetaDatum::Text',
   'MetaDatum::TextDate',
   'MetaDatum::People',
-  'MetaDatum::Roles',
   'MetaDatum::Keywords',
   'MetaDatum::JSON',
   'MetaDatum::MediaEntry'

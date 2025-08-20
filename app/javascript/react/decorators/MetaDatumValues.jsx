@@ -87,16 +87,12 @@ const DecoratorsByType = {
     if (param == null) {
       param = this.props
     }
-    const { values } = param
-    return <UI.TagCloud mod="person" mods="small" list={labelize(values)} />
-  },
-
-  Roles(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { values, metaKeyId } = param
-    return <MetaDatumRolesCloud personRoleTuples={values} metaKeyId={metaKeyId} />
+    const { values, metaKeyId, withRoles } = param
+    return withRoles ? (
+      <MetaDatumRolesCloud personRoleTuples={values} metaKeyId={metaKeyId} />
+    ) : (
+      <UI.TagCloud mod="person" mods="small" list={labelize(values)} />
+    )
   },
 
   Groups(param) {
@@ -148,7 +144,7 @@ module.exports = createReactClass({
 
   render(props) {
     if (props == null) {
-      ;({ props } = this)
+      props = this.props
     }
     const { type, values, api_data_stream_url, tagMods, meta_key_id } = props.metaDatum
     const DecoratorByType = DecoratorsByType[f.last(type.split('::'))]
@@ -158,6 +154,7 @@ module.exports = createReactClass({
         tagMods={tagMods}
         apiUrl={api_data_stream_url}
         metaKeyId={meta_key_id}
+        withRoles={props.metaDatum.meta_key.with_roles}
       />
     )
   }

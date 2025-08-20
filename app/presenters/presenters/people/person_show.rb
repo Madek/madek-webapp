@@ -97,14 +97,7 @@ module Presenters
             ON meta_data.id = meta_data_people.meta_datum_id
           SQL
         )
-        .joins(
-          <<-SQL
-            LEFT OUTER JOIN meta_data_roles
-            ON meta_data.id = meta_data_roles.meta_datum_id
-          SQL
-        )
-        .where('meta_data_people.person_id = :person_id OR '\
-               'meta_data_roles.person_id = :person_id', person_id: person.id)
+        .where('meta_data_people.person_id = :person_id', person_id: person.id)
         .distinct
 
         auth_policy_scope(@user, scope)

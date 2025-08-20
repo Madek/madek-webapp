@@ -83,30 +83,30 @@ module Presenters
               end
 
             when 'MetaDatum::People'
-              md.people.map do |p|
-                val = { '@id': iri_person(p) }
-                related[:people].push(map_person(p))
-                { cid_meta_key(md.meta_key) => val }
-              end
-
-            # NOTE: Roles map to Properties themselves!
-            when 'MetaDatum::Roles'
-              md.meta_data_roles.map do |mdr|
-                val = { '@id': iri_person(mdr.person) }
-
-                related[:people].push(map_person(mdr.person))
-
-                if !mdr.role
+              if !md.meta_key.can_have_roles?
+                md.people.map do |p|
+                  val = { '@id': iri_person(p) }
+                  related[:people].push(map_person(p))
                   { cid_meta_key(md.meta_key) => val }
-                else
-                  related[:roles].push(
-                    '@id': iri_role(mdr.role),
-                    '@type': MD_ROLE_TYPE,
-                    'rdfs:subPropertyOf': iri_meta_key(md.meta_key)
-                  )
-                  { iri_role(mdr.role) => val }
                 end
+              else
+                # NOTE: Roles map to Properties themselves!
+                md.meta_data_people.map do |mdr|
+                  val = { '@id': iri_person(mdr.person) }
 
+                  related[:people].push(map_person(mdr.person))
+
+                  if !mdr.role
+                    { cid_meta_key(md.meta_key) => val }
+                  else
+                    related[:roles].push(
+                      '@id': iri_role(mdr.role),
+                      '@type': MD_ROLE_TYPE,
+                      'rdfs:subPropertyOf': iri_meta_key(md.meta_key)
+                    )
+                    { iri_role(mdr.role) => val }
+                  end
+                end
               end
 
             else

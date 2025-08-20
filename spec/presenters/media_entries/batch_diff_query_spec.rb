@@ -105,27 +105,32 @@ describe Presenters::MediaEntries::BatchDiffQuery do
       end
     end
 
-    context 'MetaDatum::Roles' do
+    context 'MetaDatum::People with roles' do
       context 'when values are equal' do
         it 'counts correctly' do
           role_1 = create(:role)
           create(:role)
           person_1 = create(:person)
           person_2 = create(:person)
-          mdr_1 = create(:meta_datum_roles,
+          meta_key = create(:meta_key_people_with_roles, roles: [role_1])
+
+          mdr_1 = create(:meta_datum_people_with_roles,
                          media_entry: media_entry_1,
-                         create_sample_data: false)
-          mdr_2 = create(:meta_datum_roles,
+                         meta_key: meta_key,
+                         people_with_roles: [
+                           { person: person_1, role: role_1 },
+                           { person: person_2, role: nil }
+                         ])
+          mdr_2 = create(:meta_datum_people_with_roles,
                          media_entry: media_entry_2,
-                         create_sample_data: false)
+                         meta_key: meta_key,
+                         people_with_roles: [
+                           { person: person_1, role: role_1 },
+                           { person: person_2, role: nil }
+                         ])
 
-          create(:meta_datum_role, meta_datum: mdr_1, role: role_1, person: person_1)
-          create(:meta_datum_role, meta_datum: mdr_1, role: nil, person: person_2)
-          create(:meta_datum_role, meta_datum: mdr_2, role: role_1, person: person_1)
-          create(:meta_datum_role, meta_datum: mdr_2, role: nil, person: person_2)
-
-          expect(result('test:roles')).to eq(
-            'meta_key_id' => 'test:roles',
+          expect(result(meta_key.id)).to eq(
+            'meta_key_id' => meta_key.id,
             'max' => 2,
             'count' => 2
           )
@@ -134,11 +139,11 @@ describe Presenters::MediaEntries::BatchDiffQuery do
 
       context 'when values are different' do
         it 'counts correctly' do
-          create(:meta_datum_roles, media_entry: media_entry_1)
-          create(:meta_datum_roles, media_entry: media_entry_2)
+          create(:meta_datum_people_with_roles, media_entry: media_entry_1)
+          create(:meta_datum_people_with_roles, media_entry: media_entry_2)
 
-          expect(result('test:roles')).to eq(
-            'meta_key_id' => 'test:roles',
+          expect(result('test:people_with_roles')).to eq(
+            'meta_key_id' => 'test:people_with_roles',
             'max' => 1,
             'count' => 2
           )

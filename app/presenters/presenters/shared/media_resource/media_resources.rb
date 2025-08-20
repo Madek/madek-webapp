@@ -18,7 +18,6 @@ module Presenters
 
       class MediaResources < Presenter
         include AuthorizationSetup
-        include AllowedSorting
         include Presenters::Shared::MediaResource::Modules::IndexPresenterByClass
         include Presenters::Shared::Modules::CurrentUser
 
@@ -113,21 +112,10 @@ module Presenters
 
         private
 
-        def coerce_sort_order(order_value)
-          order = normalize_sortorder(order_value)
-          if not order
-            raise ActionController::BadRequest, "unkown sorting '#{order_value}'"
-          end
-          order
-        end
-
         def build_config(list_conf)
-          lambda_coerce_sort_order = lambda { |order| coerce_sort_order(order) }
           DEFAULT_LIST_CONFIG.merge(list_conf) # combine with given config…
             .instance_eval do |conf| # coerce types…
-              conf.merge(page: conf[:page].to_i, 
-                         per_page: conf[:per_page].to_i, 
-                         order: lambda_coerce_sort_order.call(conf[:order]))
+              conf.merge(page: conf[:page].to_i, per_page: conf[:per_page].to_i)
             end
         end
 

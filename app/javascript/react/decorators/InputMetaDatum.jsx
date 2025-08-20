@@ -76,7 +76,7 @@ module.exports = createReactClass({
           subForms={this.props.subForms}
         />
       )
-    } else if (f.includes(['People', 'Roles'], resourceType)) {
+    } else if (resourceType === 'People') {
       return (
         <InputPeople
           metaKey={this.props.metaKey}
@@ -85,7 +85,7 @@ module.exports = createReactClass({
           multiple={multiple}
           values={values}
           subForms={this.props.subForms}
-          withRoles={resourceType === 'Roles'}
+          withRoles={this.props.metaKey.with_roles}
         />
       )
     } else if (resourceType === 'Keywords') {

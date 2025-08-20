@@ -11,7 +11,7 @@ module Presenters
 
         # props for special types
 
-        if @app_resource.can_have_keywords? || @app_resource.can_have_roles?
+        if @app_resource.can_have_keywords?
           define_singleton_method :is_extensible do
             @app_resource.is_extensible_list? ? true : false # coerce to bool
           end
@@ -21,9 +21,21 @@ module Presenters
           end
         end
 
+        if @app_resource.can_have_roles?
+          define_singleton_method :is_extensible do
+            @app_resource.roles_list && @app_resource.roles_list.is_extensible_list? ? true : false # coerce to bool
+          end
+        end
+
         if @app_resource.meta_datum_object_type == 'MetaDatum::Text'
           define_singleton_method :text_type do
             @app_resource.text_type # is 'line' or 'block'
+          end
+        end
+
+        if @app_resource.meta_datum_object_type == 'MetaDatum::People'
+          define_singleton_method :with_roles do
+            @app_resource.can_have_roles?
           end
         end
       end

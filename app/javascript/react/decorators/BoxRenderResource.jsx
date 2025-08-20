@@ -15,7 +15,7 @@ class BoxRenderResource extends React.Component {
   }
 
   onSelect(event) {
-    this.props.onSelectResource(this.props.resourceState.resource, event)
+    this.props.onSelectResource(this.props.resourceState.data.resource, event)
   }
 
   render() {
@@ -27,7 +27,7 @@ class BoxRenderResource extends React.Component {
     var authToken = this.props.authToken
     const { positionProps } = this.props
 
-    var item = itemState.resource
+    var item = itemState.data.resource
 
     if (!item.uuid) {
       // should not be the case anymore after uploader is not using this box anymore
@@ -58,11 +58,40 @@ class BoxRenderResource extends React.Component {
       }
     }
 
+    var overrideTexts = () => {
+      var metaData = itemState.data.thumbnailMetaData
+      if (!metaData) {
+        return null
+      }
+
+      var getTitle = () => {
+        if (metaData.title) {
+          return metaData.title
+        } else {
+          return null
+        }
+      }
+
+      var getSubtitle = () => {
+        if (metaData.authors) {
+          return metaData.authors
+        } else {
+          return null
+        }
+      }
+
+      return {
+        title: getTitle(),
+        subtitle: getSubtitle()
+      }
+    }
+
     return (
       <ResourceThumbnail
         elm="div"
         style={style}
         get={item}
+        overrideTexts={overrideTexts()}
         isClient={isClient}
         fetchRelations={fetchRelations}
         isSelected={isSelected}
@@ -74,7 +103,8 @@ class BoxRenderResource extends React.Component {
         key={key}
         pinThumb={config.layout == 'tiles'}
         listThumb={config.layout == 'list'}
-        list_meta_data={itemState.listMetadata}
+        list_meta_data={itemState.data.listMetaData}
+        trigger={this.props.trigger}
       />
     )
   }

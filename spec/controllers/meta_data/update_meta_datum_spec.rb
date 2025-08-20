@@ -62,7 +62,7 @@ describe MetaDataController do
       expect(meta_datum.reload.string).to eq new_text_date
     end
 
-    it 'add MetaDatum::People' do
+    it 'MetaDatum::People: assign one (keep existing assignments)' do
       meta_key = FactoryBot.create(:meta_key_people)
       create_vocabulary_permissions(meta_key.vocabulary)
       meta_datum = create(:meta_datum_people,
@@ -85,7 +85,7 @@ describe MetaDataController do
         .to match_array new_people_ids
     end
 
-    it 'replace MetaDatum::People' do
+    it 'MetaDatum::People: assign one (replace existing assignments)' do
       meta_key = FactoryBot.create(:meta_key_people)
       create_vocabulary_permissions(meta_key.vocabulary)
       meta_datum = create(:meta_datum_people,
@@ -99,13 +99,76 @@ describe MetaDataController do
               id: meta_datum.id,
               media_entry_id: @media_entry.id,
               meta_key: meta_key.id,
-              type: 'MetaDatum::People', values: new_people_ids },
+              type: 'MetaDatum::People',
+              values: new_people_ids
+            },
             session: { user_id: @user.id }
 
       assert_response 303
 
       expect(meta_datum.reload.people.map(&:id))
         .to match_array new_people_ids
+      expect(meta_datum.people.first.creator_id).to be_nil
+    end
+
+    it 'MetaDatum::People, create person' do
+      meta_key = FactoryBot.create(:meta_key_people)
+      create_vocabulary_permissions(meta_key.vocabulary)
+      meta_datum = create(:meta_datum_people,
+                          meta_key: meta_key,
+                          media_entry: @media_entry)
+
+      patch :update, 
+            params: {
+              id: meta_datum.id,
+              media_entry_id: @media_entry.id,
+              meta_key: meta_key.id,
+              type: 'MetaDatum::People',
+              values: [{first_name: 'Ping', last_name: 'Pong'}]
+            },
+            session: { user_id: @user.id }
+                        
+      assert_response 303
+
+      p = meta_datum.reload.people.first
+      expect(p.first_name).to eq 'Ping'
+      expect(p.last_name).to eq 'Pong'
+      expect(p.creator_id).to eq @user.id
+    end
+
+    it 'MetaDatum::People: assign people and roles (and create role)' do
+      meta_key = FactoryBot.create(:meta_key_people_with_roles)
+      create_vocabulary_permissions(meta_key.vocabulary)
+      meta_datum = create(:meta_datum_people,
+                          meta_key: meta_key,
+                          media_entry: @media_entry)
+
+      new_role = FactoryBot.create(:role, roles_lists: [meta_key.roles_list],
+                                   labels: { de: 'Nitai', en: 'Nitai' })
+      new_person = FactoryBot.create(:person)
+
+      new_role_2_term = { term: 'Sweeper' }
+      new_person_2 = FactoryBot.create(:person)
+      new_person_3 = FactoryBot.create(:person)
+
+      patch(:update,
+            params: { id: meta_datum.id,
+                      media_entry_id: @media_entry.id,
+                      meta_key: meta_key.id,
+                      type: 'MetaDatum::People',
+                      values: [{ uuid: new_person.id, role: new_role.id },
+                               { uuid: new_person_2.id, role: new_role_2_term },
+                               { uuid: new_person_3.id, role: new_role_2_term }] },
+            session: { user_id: @user.id })
+
+      assert_response 303
+
+      expect(meta_datum.reload.meta_data_people.map(&:role_id))
+        .to match_array [new_role.id,
+                         Role.find { |r| r.labels['en'] == new_role_2_term[:term] }.id,
+                         Role.find { |r| r.labels['en'] == new_role_2_term[:term] }.id]
+      expect(meta_datum.reload.meta_data_people.map(&:person_id))
+        .to match_array [new_person.id, new_person_2.id, new_person_3.id]
     end
 
     it 'add MetaDatum::Keywords' do
@@ -176,41 +239,6 @@ describe MetaDataController do
       assert_response 303
       expect(meta_datum.reload.keywords.map(&:id))
         .to match_array new_keyword_ids
-    end
-
-    it 'add NEW MetaDatum::Roles' do
-      meta_key = FactoryBot.create(:meta_key_roles)
-      create_vocabulary_permissions(meta_key.vocabulary)
-      meta_datum = create(:meta_datum_roles,
-                          meta_key: meta_key,
-                          media_entry: @media_entry)
-
-      new_role = FactoryBot.create(:role, meta_key: meta_key,
-                                   labels: { de: 'Nitai', en: 'Nitai' })
-      new_person = FactoryBot.create(:person)
-
-      new_role_2_term = { term: 'Sweeper' }
-      new_person_2 = FactoryBot.create(:person)
-      new_person_3 = FactoryBot.create(:person)
-
-      patch(:update,
-            params: { id: meta_datum.id,
-                      media_entry_id: @media_entry.id,
-                      meta_key: meta_key.id,
-                      type: 'MetaDatum::Roles',
-                      values: [{ uuid: new_person.id, role: new_role.id },
-                               { uuid: new_person_2.id, role: new_role_2_term },
-                               { uuid: new_person_3.id, role: new_role_2_term }] },
-            session: { user_id: @user.id })
-
-      assert_response 303
-
-      expect(meta_datum.reload.meta_data_roles.map(&:role_id))
-        .to match_array [new_role.id,
-                         Role.find { |r| r.labels['en'] == new_role_2_term[:term] }.id,
-                         Role.find { |r| r.labels['en'] == new_role_2_term[:term] }.id]
-      expect(meta_datum.reload.meta_data_roles.map(&:person_id))
-        .to match_array [new_person.id, new_person_2.id, new_person_3.id]
     end
 
     context 'empty update deletes meta_datum' do

@@ -191,33 +191,35 @@ end
 
 def prepare_roles
   mk_roles_movie = create(
-    :meta_key_roles,
+    :meta_key_people_with_roles,
     labels: { de: 'Funktionen (Film)' },
     id: 'media_object:roles_movie')
   mk_roles_music = create(
-    :meta_key_roles,
+    :meta_key_people_with_roles,
     labels: { de: 'Funktionen (Musik)' },
     id: 'media_object:roles_music')
   mk_roles_theater = create(
-    :meta_key_roles,
+    :meta_key_people_with_roles,
     labels: { de: 'Funktionen (Theater)' },
     id: 'media_object:roles_theater')
 
   create_roles_for(mk_roles_movie, mk_roles_music, mk_roles_theater)
   create_context_key_for(mk_roles_movie, mk_roles_music, mk_roles_theater)
 
-  add_roles_datum(@resource, mk_roles_movie.id)
+  add_people_with_roles_datum(@resource, mk_roles_movie.id)
 
   md = find_datum(@resource, 'media_object:roles_movie')
-  expect(md.meta_data_roles.where(role_id: nil).size).to eq 1
-  expect(md.meta_data_roles.where.not(role_id: nil).size).to eq 3
+  expect(md.meta_data_people.where(role_id: nil).size).to eq 1
+  expect(md.meta_data_people.where.not(role_id: nil).size).to eq 2
 
   @person_with_role = create_or_find_person 'Ruby master'
 end
 
 def create_roles_for(*meta_keys)
   meta_keys.each do |meta_key|
-    3.times { create :role, meta_key: meta_key }
+    3.times do
+      meta_key.roles_list.roles << create(:role)
+    end
   end
 end
 
