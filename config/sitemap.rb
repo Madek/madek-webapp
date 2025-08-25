@@ -1,64 +1,56 @@
-# config/sitemap.rb
+require "fileutils"
 
-require 'fileutils'
-
-# Base URL (e.g., "https://example.org"); in dev you have "http://localhost:3100"
-base_url = Settings.madek_external_base_url.to_s.chomp('/')
+base_url = Settings.madek_external_base_url.to_s.chomp("/")
 puts "base_url: #{base_url}"
 
-# Toggle to stop early (useful for quick local tests)
-# You can also set: EARLY_EXIT=1 bundle exec rake sitemap:refresh:no_ping
-early_exit = true
+early_exit = false
 
-SitemapGenerator::Sitemap.default_host  = base_url
-SitemapGenerator::Sitemap.sitemaps_path = 'sitemaps'   # default folder; groups can override
-SitemapGenerator::Sitemap.create_index  = true
-SitemapGenerator::Sitemap.compress      = true
+SitemapGenerator::Sitemap.default_host = base_url
+SitemapGenerator::Sitemap.sitemaps_path = "sitemaps"
+SitemapGenerator::Sitemap.create_index = true
+SitemapGenerator::Sitemap.compress = true
 
 SitemapGenerator::Sitemap.create do
   helpers = Rails.application.routes.url_helpers
 
   # Lambda so it works inside group{} blocks
-  abs_url = ->(path, lang = 'de') do
-    clean  = "/#{path.to_s.sub(%r{^/}, '')}"
-    suffix = (lang == 'de') ? '' : "?lang=#{lang}"
+  abs_url = ->(path, lang = "de") do
+    clean = "/#{path.to_s.sub(%r{^/}, "")}"
+    suffix = (lang == "de") ? "" : "?lang=#{lang}"
     "#{base_url}#{clean}#{suffix}"
   end
 
   # -------------------- HOMEPAGE --------------------
   alternates_home = [
-    { href: abs_url.call('/'),       lang: 'de' },
-    { href: abs_url.call('/', 'en'), lang: 'en' },
-    { href: abs_url.call('/'),       lang: 'x-default' }
+    {href: abs_url.call("/"), lang: "de"},
+    {href: abs_url.call("/", "en"), lang: "en"},
+    {href: abs_url.call("/"), lang: "x-default"}
   ]
 
-  # DE homepage
-  group(sitemaps_path: 'sitemaps/de', filename: :sitemap) do
-    add '/', lastmod: Time.current, changefreq: 'daily', priority: 1.0, alternates: alternates_home
+  group(sitemaps_path: "sitemaps/de", filename: :sitemap) do
+    add "/", lastmod: Time.current, changefreq: "daily", priority: 1.0, alternates: alternates_home
   end
 
-  # EN homepage
-  group(sitemaps_path: 'sitemaps/en', filename: :sitemap) do
-    add '/?lang=en', lastmod: Time.current, changefreq: 'daily', priority: 1.0, alternates: alternates_home
+  group(sitemaps_path: "sitemaps/en", filename: :sitemap) do
+    add "/?lang=en", lastmod: Time.current, changefreq: "daily", priority: 1.0, alternates: alternates_home
   end
 
   # -------------------- MEDIA ENTRIES --------------------
-  # DE media entries
-  group(sitemaps_path: 'sitemaps/de', filename: :media_entry) do
+  group(sitemaps_path: "sitemaps/de", filename: :media_entry) do
     stop = false
     MediaEntry.viewable_by_public.find_in_batches(batch_size: 1000) do |batch|
       break if stop
       batch.each do |media_entry|
-        path       = helpers.media_entry_path(media_entry) # e.g. "/entries/uuid"
+        path = helpers.media_entry_path(media_entry) # e.g. "/entries/uuid"
         updated_at = media_entry.updated_at
 
         alternates = [
-          { href: abs_url.call(path),       lang: 'de' },
-          { href: abs_url.call(path, 'en'), lang: 'en' },
-          { href: abs_url.call(path),       lang: 'x-default' }
+          {href: abs_url.call(path), lang: "de"},
+          {href: abs_url.call(path, "en"), lang: "en"},
+          {href: abs_url.call(path), lang: "x-default"}
         ]
 
-        add path, lastmod: updated_at, changefreq: 'daily', priority: 0.8, alternates: alternates
+        add path, lastmod: updated_at, changefreq: "daily", priority: 0.8, alternates: alternates
 
         if early_exit
           stop = true
@@ -68,22 +60,21 @@ SitemapGenerator::Sitemap.create do
     end
   end
 
-  # EN media entries
-  group(sitemaps_path: 'sitemaps/en', filename: :media_entry) do
+  group(sitemaps_path: "sitemaps/en", filename: :media_entry) do
     stop = false
     MediaEntry.viewable_by_public.find_in_batches(batch_size: 1000) do |batch|
       break if stop
       batch.each do |media_entry|
-        path       = helpers.media_entry_path(media_entry)
+        path = helpers.media_entry_path(media_entry)
         updated_at = media_entry.updated_at
 
         alternates = [
-          { href: abs_url.call(path),       lang: 'de' },
-          { href: abs_url.call(path, 'en'), lang: 'en' },
-          { href: abs_url.call(path),       lang: 'x-default' }
+          {href: abs_url.call(path), lang: "de"},
+          {href: abs_url.call(path, "en"), lang: "en"},
+          {href: abs_url.call(path), lang: "x-default"}
         ]
 
-        add "#{path}?lang=en", lastmod: updated_at, changefreq: 'daily', priority: 0.8, alternates: alternates
+        add "#{path}?lang=en", lastmod: updated_at, changefreq: "daily", priority: 0.8, alternates: alternates
 
         if early_exit
           stop = true
@@ -93,25 +84,24 @@ SitemapGenerator::Sitemap.create do
     end
   end
 
-  puts "Sitemap: added #{MediaEntry.viewable_by_public.count} media entries#{' (early exit)' if early_exit}."
+  puts "Sitemap: added #{MediaEntry.viewable_by_public.count} media entries#{" (early exit)" if early_exit}."
 
   # -------------------- COLLECTIONS --------------------
-  # DE collections
-  group(sitemaps_path: 'sitemaps/de', filename: :collection) do
+  group(sitemaps_path: "sitemaps/de", filename: :collection) do
     stop = false
     Collection.viewable_by_public.find_in_batches(batch_size: 1000) do |batch|
       break if stop
       batch.each do |collection|
-        path       = helpers.collection_path(collection)  # e.g. "/sets/uuid"
+        path = helpers.collection_path(collection)  # e.g. "/sets/uuid"
         updated_at = collection.updated_at
 
         alternates = [
-          { href: abs_url.call(path),       lang: 'de' },
-          { href: abs_url.call(path, 'en'), lang: 'en' },
-          { href: abs_url.call(path),       lang: 'x-default' }
+          {href: abs_url.call(path), lang: "de"},
+          {href: abs_url.call(path, "en"), lang: "en"},
+          {href: abs_url.call(path), lang: "x-default"}
         ]
 
-        add path, lastmod: updated_at, changefreq: 'daily', priority: 0.8, alternates: alternates
+        add path, lastmod: updated_at, changefreq: "daily", priority: 0.8, alternates: alternates
 
         if early_exit
           stop = true
@@ -121,22 +111,21 @@ SitemapGenerator::Sitemap.create do
     end
   end
 
-  # EN collections
-  group(sitemaps_path: 'sitemaps/en', filename: :collection) do
+  group(sitemaps_path: "sitemaps/en", filename: :collection) do
     stop = false
     Collection.viewable_by_public.find_in_batches(batch_size: 1000) do |batch|
       break if stop
       batch.each do |collection|
-        path       = helpers.collection_path(collection)
+        path = helpers.collection_path(collection)
         updated_at = collection.updated_at
 
         alternates = [
-          { href: abs_url.call(path),       lang: 'de' },
-          { href: abs_url.call(path, 'en'), lang: 'en' },
-          { href: abs_url.call(path),       lang: 'x-default' }
+          {href: abs_url.call(path), lang: "de"},
+          {href: abs_url.call(path, "en"), lang: "en"},
+          {href: abs_url.call(path), lang: "x-default"}
         ]
 
-        add "#{path}?lang=en", lastmod: updated_at, changefreq: 'daily', priority: 0.8, alternates: alternates
+        add "#{path}?lang=en", lastmod: updated_at, changefreq: "daily", priority: 0.8, alternates: alternates
 
         if early_exit
           stop = true
@@ -150,7 +139,7 @@ end
 # -------------------- robots.txt updater --------------------
 module RobotsTxtHelper
   module_function
-  # Ensures robots.txt contains exactly one Sitemap line pointing to the global index.
+
   def ensure_sitemap_line!(url:, path:)
     FileUtils.mkdir_p(File.dirname(path))
     content =
@@ -163,7 +152,6 @@ module RobotsTxtHelper
     line = "Sitemap: #{url}"
 
     if content.match?(/^Sitemap:\s*\S+/)
-      # Replace ALL existing Sitemap lines with the desired one
       content = content.gsub(/^Sitemap:.*$/i, line)
     elsif !content.include?(line)
       content = content.rstrip + "\n" + line + "\n"
@@ -176,8 +164,7 @@ module RobotsTxtHelper
   end
 end
 
-# Write/replace the sitemap line in public/robots.txt
 RobotsTxtHelper.ensure_sitemap_line!(
-  url:  "#{base_url}/sitemaps/sitemap.xml.gz",
-  path: Rails.root.join('public', 'robots.txt')
+  url: "#{base_url}/sitemaps/sitemap.xml.gz",
+  path: Rails.root.join("public", "robots.txt")
 )
