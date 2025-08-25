@@ -1,12 +1,14 @@
 # config/sitemap.rb
 
+require 'fileutils'
+
 # Base URL (e.g., "https://example.org"); in dev you have "http://localhost:3100"
 base_url = Settings.madek_external_base_url.to_s.chomp('/')
 puts "base_url: #{base_url}"
 
 # Toggle to stop early (useful for quick local tests)
 # You can also set: EARLY_EXIT=1 bundle exec rake sitemap:refresh:no_ping
-early_exit = false
+early_exit = true
 
 SitemapGenerator::Sitemap.default_host  = base_url
 SitemapGenerator::Sitemap.sitemaps_path = 'sitemaps'   # default folder; groups can override
@@ -93,7 +95,7 @@ SitemapGenerator::Sitemap.create do
 
   puts "Sitemap: added #{MediaEntry.viewable_by_public.count} media entries#{' (early exit)' if early_exit}."
 
-  # -------------------- COLLECTIONS (optional; uncomment to include) --------------------
+  # -------------------- COLLECTIONS --------------------
   # DE collections
   group(sitemaps_path: 'sitemaps/de', filename: :collection) do
     stop = false
@@ -144,3 +146,38 @@ SitemapGenerator::Sitemap.create do
     end
   end
 end
+
+# -------------------- robots.txt updater --------------------
+module RobotsTxtHelper
+  module_function
+  # Ensures robots.txt contains exactly one Sitemap line pointing to the global index.
+  def ensure_sitemap_line!(url:, path:)
+    FileUtils.mkdir_p(File.dirname(path))
+    content =
+      if File.exist?(path)
+        File.read(path)
+      else
+        "# robots.txt\nUser-agent: *\nAllow: /\n"
+      end
+
+    line = "Sitemap: #{url}"
+
+    if content.match?(/^Sitemap:\s*\S+/)
+      # Replace ALL existing Sitemap lines with the desired one
+      content = content.gsub(/^Sitemap:.*$/i, line)
+    elsif !content.include?(line)
+      content = content.rstrip + "\n" + line + "\n"
+    end
+
+    File.write(path, content)
+    puts "robots.txt updated → #{line}"
+  rescue => e
+    warn "robots.txt update failed: #{e.class}: #{e.message}"
+  end
+end
+
+# Write/replace the sitemap line in public/robots.txt
+RobotsTxtHelper.ensure_sitemap_line!(
+  url:  "#{base_url}/sitemaps/sitemap.xml.gz",
+  path: Rails.root.join('public', 'robots.txt')
+)
