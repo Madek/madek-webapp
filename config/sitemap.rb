@@ -1,79 +1,116 @@
-SitemapGenerator::Sitemap.default_host = Settings.madek_external_base_url
-SitemapGenerator::Sitemap.sitemaps_path = "sitemaps/"
-SitemapGenerator::Sitemap.create_index = true
+# config/sitemap.rb
+
+base_url = Settings.madek_external_base_url.to_s.chomp('/')
+
+puts "base_url: #{base_url}"
+
+SitemapGenerator::Sitemap.default_host  = base_url
+SitemapGenerator::Sitemap.sitemaps_path = 'sitemaps'   # no trailing slash
+SitemapGenerator::Sitemap.create_index  = true
+SitemapGenerator::Sitemap.compress      = true
 
 SitemapGenerator::Sitemap.create do
-  def create_url (path, lang = "de", with_base_url = true)
-    postfix = lang == "de" ? "" : "?lang=#{lang}"
-    if with_base_url
-      "#{Settings.madek_external_base_url}#{path}#{postfix}"
-    else
-      "#{path}#{postfix}"
-    end
+  helpers = Rails.application.routes.url_helpers
+
+  # Build ABSOLUTE URL for alternates; `add` will receive only PATHS.
+  def absolute_with_lang(base_url, path, lang = 'de')
+    path = "/#{path.to_s.sub(%r{^/}, '')}"
+    postfix = (lang == 'de') ? '' : "?lang=#{lang}"
+    "#{base_url}#{path}#{postfix}"
   end
 
-  add root_path, priority: 1.0, changefreq: 'daily'
+  # ---------- Homepage (pass PATHS to `add`) ----------
+  de_path = '/'            # path only
+  en_path = '/?lang=en'
 
-  MediaEntry.viewable_by_public.find_in_batches(batch_size: 10000) do |batch|
+  de_abs = absolute_with_lang(base_url, '/')
+  en_abs = absolute_with_lang(base_url, '/', 'en')
+
+  alternates_home = [
+    { href: de_abs, href_lang: 'de' },
+    { href: en_abs, href_lang: 'en' },
+    { href: de_abs, href_lang: 'x-default' }
+  ]
+
+  add de_path,
+      lastmod: Time.current,
+      changefreq: 'daily',
+      priority: 1.0,
+      alternates: alternates_home
+
+  add en_path,
+      lastmod: Time.current,
+      changefreq: 'daily',
+      priority: 0.9,
+      alternates: alternates_home
+
+  # ---------- Media entries ----------
+  MediaEntry.viewable_by_public.find_in_batches(batch_size: 1000) do |batch|
     batch.each do |media_entry|
-      ["de", "en"].each do |lang|
-        priority = lang == "de" ? 0.8 : 0.7
-        path = media_entry_path(media_entry)
-        updated_at = media_entry.updated_at
-        alternatives = [{
-                          href: create_url(path, 'en'),
-                          lastmod: updated_at,
-                          lang: 'en'
-                        }, {
-                          href: create_url(path),
-                          lastmod: updated_at,
-                          lang: 'de'
-                        }, {
-                          href: create_url(path),
-                          lastmod: updated_at,
-                          lang: 'x-default'
-                        }]
+      path       = helpers.media_entry_path(media_entry)  # e.g. "/entries/uuid"
+      updated_at = media_entry.updated_at
 
-        add create_url(path, lang, false),
-            lastmod: updated_at,
-            priority: priority,
-            alternates: alternatives
-      end
+      de_path = path
+      en_path = "#{path}?lang=en"
 
+      de_abs = absolute_with_lang(base_url, path)
+      en_abs = absolute_with_lang(base_url, path, 'en')
+
+      alternates = [
+        { href: de_abs, href_lang: 'de' },
+        { href: en_abs, href_lang: 'en' },
+        { href: de_abs, href_lang: 'x-default' }
+      ]
+
+      add de_path,
+          lastmod:  updated_at,
+          changefreq: 'daily',
+          priority: 0.8,
+          alternates: alternates
+
+      add en_path,
+          lastmod:  updated_at,
+          changefreq: 'daily',
+          priority: 0.7,
+          alternates: alternates
       break
     end
     break
   end
-  puts "Sitemap created with #{MediaEntry.viewable_by_public.count} sitemaps."
+  puts "Sitemap: added #{MediaEntry.viewable_by_public.count} media entries (de+en)."
 
-  Collection.viewable_by_public.find_each do |collection|
-
-    ["de", "en"].each do |lang|
-      priority = lang == "de" ? 0.8 : 0.7
-      path = collection_path(collection)
+  # ---------- Collections ----------
+  Collection.viewable_by_public.find_in_batches(batch_size: 1000) do |batch|
+    batch.each do |collection|
+      path       = helpers.collection_path(collection)    # e.g. "/sets/uuid"
       updated_at = collection.updated_at
-      alternatives = [{
-                        href: create_url(path, 'en'),
-                        lastmod: updated_at,
-                        lang: 'en'
-                      }, {
-                        href: create_url(path),
-                        lastmod: updated_at,
-                        lang: 'de'
-                      }, {
-                        href: create_url(path),
-                        lastmod: updated_at,
-                        lang: 'x-default'
-                      }]
 
-      add create_url(path, lang, false),
-          lastmod: updated_at,
-          priority: priority,
-          alternates: alternatives
+      de_path = path
+      en_path = "#{path}?lang=en"
+
+      de_abs = absolute_with_lang(base_url, path)
+      en_abs = absolute_with_lang(base_url, path, 'en')
+
+      alternates = [
+        { href: de_abs, href_lang: 'de' },
+        { href: en_abs, href_lang: 'en' },
+        { href: de_abs, href_lang: 'x-default' }
+      ]
+
+      add de_path,
+          lastmod:  updated_at,
+          changefreq: 'daily',
+          priority: 0.8,
+          alternates: alternates
+
+      add en_path,
+          lastmod:  updated_at,
+          changefreq: 'daily',
+          priority: 0.7,
+          alternates: alternates
+      break
     end
-
     break
   end
-  puts "Sitemap created with #{Collection.viewable_by_public.count} sitemaps."
-
+  puts "Sitemap: added #{Collection.viewable_by_public.count} collections (de+en)."
 end
