@@ -1,10 +1,21 @@
 require "fileutils"
+require "net/http"
+require "uri"
+require "fileutils"
+
+EXTERNAL_URL_PROD = "medienarchiv.zhdk.ch"
+EARLY_EXIT = false
 
 base_url = Settings.madek_external_base_url.to_s.chomp("/")
-puts "base_url: #{base_url}"
+puts "Sitemap: deleting old sitemaps..."
+sitemap_path = "public/sitemaps"
+if Dir.exist?(sitemap_path)
+  FileUtils.rm_r(sitemap_path, secure: true)
+else
+  puts "Sitemap: no existing sitemaps to delete."
+end
 
-early_exit = false
-
+puts "Sitemap: generating new sitemaps..."
 SitemapGenerator::Sitemap.default_host = base_url
 SitemapGenerator::Sitemap.sitemaps_path = "sitemaps"
 SitemapGenerator::Sitemap.create_index = true
@@ -36,7 +47,8 @@ SitemapGenerator::Sitemap.create do
   end
 
   # -------------------- MEDIA ENTRIES --------------------
-  group(sitemaps_path: "sitemaps/de", filename: :media_entry) do
+  scope = "sitemaps/de"
+  group(sitemaps_path: scope, filename: :media_entry) do
     stop = false
     MediaEntry.viewable_by_public.find_in_batches(batch_size: 1000) do |batch|
       break if stop
@@ -52,15 +64,17 @@ SitemapGenerator::Sitemap.create do
 
         add path, lastmod: updated_at, changefreq: "daily", priority: 0.8, alternates: alternates
 
-        if early_exit
+        if EARLY_EXIT
           stop = true
           break
         end
       end
     end
   end
+  puts "Sitemap: added #{MediaEntry.viewable_by_public.count} media entries, scope: #{scope}"
 
-  group(sitemaps_path: "sitemaps/en", filename: :media_entry) do
+  scope = "sitemaps/en"
+  group(sitemaps_path: scope, filename: :media_entry) do
     stop = false
     MediaEntry.viewable_by_public.find_in_batches(batch_size: 1000) do |batch|
       break if stop
@@ -76,18 +90,18 @@ SitemapGenerator::Sitemap.create do
 
         add "#{path}?lang=en", lastmod: updated_at, changefreq: "daily", priority: 0.8, alternates: alternates
 
-        if early_exit
+        if EARLY_EXIT
           stop = true
           break
         end
       end
     end
   end
-
-  puts "Sitemap: added #{MediaEntry.viewable_by_public.count} media entries#{" (early exit)" if early_exit}."
+  puts "Sitemap: added #{MediaEntry.viewable_by_public.count} media entries, scope: #{scope}"
 
   # -------------------- COLLECTIONS --------------------
-  group(sitemaps_path: "sitemaps/de", filename: :collection) do
+  scope = "sitemaps/de"
+  group(sitemaps_path: scope, filename: :collection) do
     stop = false
     Collection.viewable_by_public.find_in_batches(batch_size: 1000) do |batch|
       break if stop
@@ -103,15 +117,17 @@ SitemapGenerator::Sitemap.create do
 
         add path, lastmod: updated_at, changefreq: "daily", priority: 0.8, alternates: alternates
 
-        if early_exit
+        if EARLY_EXIT
           stop = true
           break
         end
       end
     end
   end
+  puts "Sitemap: added #{Collection.viewable_by_public.count} collections, scope: #{scope}"
 
-  group(sitemaps_path: "sitemaps/en", filename: :collection) do
+  scope = "sitemaps/en"
+  group(sitemaps_path: scope, filename: :collection) do
     stop = false
     Collection.viewable_by_public.find_in_batches(batch_size: 1000) do |batch|
       break if stop
@@ -127,11 +143,25 @@ SitemapGenerator::Sitemap.create do
 
         add "#{path}?lang=en", lastmod: updated_at, changefreq: "daily", priority: 0.8, alternates: alternates
 
-        if early_exit
+        if EARLY_EXIT
           stop = true
           break
         end
       end
     end
   end
+  puts "Sitemap: added #{Collection.viewable_by_public.count} collections, scope: #{scope}"
+end
+puts "Sitemap: finished."
+
+if (Settings.madek_external_base_url || "").include?(EXTERNAL_URL_PROD)
+  puts "Sitemap: pinging search engines..."
+
+  file_ending = SitemapGenerator::Sitemap.compress ? ".xml.gz" : ".xml"
+  uri = URI("https://www.google.com/ping?sitemap=#{base_url}/sitemaps/sitemap#{file_ending}")
+  puts "Sitemap: google-url: #{uri}"
+  response = Net::HTTP.get_response(uri)
+  puts "Sitemap: pinged search engines, response status: #{response.code}"
+else
+  puts "Sitemap: skipping pinging search engines in non-production environment."
 end
