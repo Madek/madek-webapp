@@ -27,6 +27,7 @@ const initTypeahead = (
   params,
   conf,
   existingValues,
+  valueGetter,
   valueFilter,
   onSelect,
   onAdd,
@@ -76,20 +77,22 @@ const initTypeahead = (
         notFound: `<div class="ui-autocomplete-empty">${notFoundPrefix(searchBackend)}${t(
           'app_autocomplete_no_results'
         )}</div>`,
-        suggestion: value => {
-          const content = f.get(value, searchBackend.displayKey)
+        suggestion: record => {
+          const content = f.get(record, searchBackend.displayKey)
+          const value = valueGetter ? valueGetter(record) : content
+          const isDisabled =
+            (existingValues && f.includes(existingValues(), value)) ||
+            (valueFilter && valueFilter(record))
+
           const renderLine =
             suggestionRenderer ||
             (() => {
               return jQuery('<span>').text(content)
             })
-          const line = renderLine(value)
+          const line = renderLine(record)
 
           const node = jQuery('<div>').append(line)
-          if (
-            (existingValues && f.includes(existingValues(), content)) ||
-            (valueFilter && valueFilter(value))
-          ) {
+          if (isDisabled) {
             node.attr({
               class: 'ui-autocomplete-disabled',
               title: f.presence(existingValueHint) || t('meta_data_input_keywords_existing')
@@ -169,6 +172,7 @@ module.exports = createReactClass({
       autoFocus,
       config,
       existingValues,
+      valueGetter,
       valueFilter,
       onSelect,
       onAddValue,
@@ -184,6 +188,7 @@ module.exports = createReactClass({
       searchParams,
       conf,
       existingValues,
+      valueGetter,
       valueFilter,
       onSelect,
       onAddValue,

@@ -76,10 +76,9 @@ module.exports = createReactClass({
     const newValues = this.state.values.concat(item)
     if (!is_duplicate) {
       this.setState({ values: newValues })
-    }
-
-    if (this.props.onChange) {
-      return this.props.onChange(newValues)
+      if (this.props.onChange) {
+        return this.props.onChange(newValues)
+      }
     }
   },
 
@@ -314,7 +313,10 @@ module.exports = createReactClass({
                         searchParams={searchParams}
                         onSelect={_onItemAdd}
                         config={autocompleteConfig}
-                        existingValues={() => f.map(this.state.values, 'label')}
+                        existingValues={() =>
+                          f.map(this.state.values, resourceType === 'People' ? 'uuid' : 'label')
+                        }
+                        valueGetter={resourceType === 'People' ? x => x.uuid : undefined}
                         onAddValue={addNewValue}
                         ref="ListAdder"
                         suggestionRenderer={autoCompleteSuggestionRenderer}
