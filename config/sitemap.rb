@@ -3,7 +3,6 @@ require "net/http"
 require "uri"
 require "fileutils"
 
-EXTERNAL_URL_PROD = "medienarchiv.zhdk.ch"
 EARLY_EXIT = false
 
 base_url = Settings.madek_external_base_url.to_s.chomp("/")
@@ -153,15 +152,3 @@ SitemapGenerator::Sitemap.create do
   puts "Sitemap: added #{Collection.viewable_by_public.count} collections, scope: #{scope}"
 end
 puts "Sitemap: finished."
-
-if (Settings.madek_external_base_url || "").include?(EXTERNAL_URL_PROD)
-  puts "Sitemap: pinging search engines..."
-
-  file_ending = SitemapGenerator::Sitemap.compress ? ".xml.gz" : ".xml"
-  uri = URI("https://www.google.com/ping?sitemap=#{base_url}/sitemaps/sitemap#{file_ending}")
-  puts "Sitemap: google-url: #{uri}"
-  response = Net::HTTP.get_response(uri)
-  puts "Sitemap: pinged search engines, response status: #{response.code}"
-else
-  puts "Sitemap: skipping pinging search engines in non-production environment."
-end
