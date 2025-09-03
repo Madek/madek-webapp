@@ -32,9 +32,9 @@ SitemapGenerator::Sitemap.create do
 
   # -------------------- HOMEPAGE --------------------
   alternates_home = [
-    {href: abs_url.call("/"), lang: "de"},
-    {href: abs_url.call("/", "en"), lang: "en"},
-    {href: abs_url.call("/"), lang: "x-default"}
+    { href: abs_url.call("/"), lang: "de" },
+    { href: abs_url.call("/", "en"), lang: "en" },
+    { href: abs_url.call("/"), lang: "x-default" }
   ]
 
   group(sitemaps_path: "sitemaps/de", filename: :sitemap) do
@@ -56,9 +56,9 @@ SitemapGenerator::Sitemap.create do
         updated_at = media_entry.updated_at
 
         alternates = [
-          {href: abs_url.call(path), lang: "de"},
-          {href: abs_url.call(path, "en"), lang: "en"},
-          {href: abs_url.call(path), lang: "x-default"}
+          { href: abs_url.call(path), lang: "de" },
+          { href: abs_url.call(path, "en"), lang: "en" },
+          { href: abs_url.call(path), lang: "x-default" }
         ]
 
         add path, lastmod: updated_at, changefreq: "daily", priority: 0.8, alternates: alternates
@@ -82,9 +82,9 @@ SitemapGenerator::Sitemap.create do
         updated_at = media_entry.updated_at
 
         alternates = [
-          {href: abs_url.call(path), lang: "de"},
-          {href: abs_url.call(path, "en"), lang: "en"},
-          {href: abs_url.call(path), lang: "x-default"}
+          { href: abs_url.call(path), lang: "de" },
+          { href: abs_url.call(path, "en"), lang: "en" },
+          { href: abs_url.call(path), lang: "x-default" }
         ]
 
         add "#{path}?lang=en", lastmod: updated_at, changefreq: "daily", priority: 0.8, alternates: alternates
@@ -105,13 +105,13 @@ SitemapGenerator::Sitemap.create do
     Collection.viewable_by_public.find_in_batches(batch_size: 1000) do |batch|
       break if stop
       batch.each do |collection|
-        path = helpers.collection_path(collection)  # e.g. "/sets/uuid"
+        path = helpers.collection_path(collection) # e.g. "/sets/uuid"
         updated_at = collection.updated_at
 
         alternates = [
-          {href: abs_url.call(path), lang: "de"},
-          {href: abs_url.call(path, "en"), lang: "en"},
-          {href: abs_url.call(path), lang: "x-default"}
+          { href: abs_url.call(path), lang: "de" },
+          { href: abs_url.call(path, "en"), lang: "en" },
+          { href: abs_url.call(path), lang: "x-default" }
         ]
 
         add path, lastmod: updated_at, changefreq: "daily", priority: 0.8, alternates: alternates
@@ -135,9 +135,9 @@ SitemapGenerator::Sitemap.create do
         updated_at = collection.updated_at
 
         alternates = [
-          {href: abs_url.call(path), lang: "de"},
-          {href: abs_url.call(path, "en"), lang: "en"},
-          {href: abs_url.call(path), lang: "x-default"}
+          { href: abs_url.call(path), lang: "de" },
+          { href: abs_url.call(path, "en"), lang: "en" },
+          { href: abs_url.call(path), lang: "x-default" }
         ]
 
         add "#{path}?lang=en", lastmod: updated_at, changefreq: "daily", priority: 0.8, alternates: alternates
