@@ -1,5 +1,5 @@
 %li.ui-tag-cloud-item
-  %a.ui-tag-button{href: keyword[:url], title: keyword[:keyword].label}
+  %a.ui-tag-button{href: keyword[:keyword].url, title: keyword[:keyword].label}
     %i.icon-tag-mini.ui-tag-icon
     = keyword[:keyword].label
     %small.ui-tag-counter= keyword[:keyword].usage_count
