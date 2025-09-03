@@ -3,8 +3,7 @@ require "net/http"
 require "uri"
 require "fileutils"
 
-EXTERNAL_URL_PROD = "medienarchiv.zhdk.ch"
-EARLY_EXIT = false
+EARLY_EXIT = true
 
 base_url = Settings.madek_external_base_url.to_s.chomp("/")
 puts "Sitemap: deleting old sitemaps..."
@@ -33,9 +32,9 @@ SitemapGenerator::Sitemap.create do
 
   # -------------------- HOMEPAGE --------------------
   alternates_home = [
-    {href: abs_url.call("/"), lang: "de"},
-    {href: abs_url.call("/", "en"), lang: "en"},
-    {href: abs_url.call("/"), lang: "x-default"}
+    { href: abs_url.call("/"), lang: "de" },
+    { href: abs_url.call("/", "en"), lang: "en" },
+    { href: abs_url.call("/"), lang: "x-default" }
   ]
 
   group(sitemaps_path: "sitemaps/de", filename: :sitemap) do
@@ -57,9 +56,9 @@ SitemapGenerator::Sitemap.create do
         updated_at = media_entry.updated_at
 
         alternates = [
-          {href: abs_url.call(path), lang: "de"},
-          {href: abs_url.call(path, "en"), lang: "en"},
-          {href: abs_url.call(path), lang: "x-default"}
+          { href: abs_url.call(path), lang: "de" },
+          { href: abs_url.call(path, "en"), lang: "en" },
+          { href: abs_url.call(path), lang: "x-default" }
         ]
 
         add path, lastmod: updated_at, changefreq: "daily", priority: 0.8, alternates: alternates
@@ -83,9 +82,9 @@ SitemapGenerator::Sitemap.create do
         updated_at = media_entry.updated_at
 
         alternates = [
-          {href: abs_url.call(path), lang: "de"},
-          {href: abs_url.call(path, "en"), lang: "en"},
-          {href: abs_url.call(path), lang: "x-default"}
+          { href: abs_url.call(path), lang: "de" },
+          { href: abs_url.call(path, "en"), lang: "en" },
+          { href: abs_url.call(path), lang: "x-default" }
         ]
 
         add "#{path}?lang=en", lastmod: updated_at, changefreq: "daily", priority: 0.8, alternates: alternates
@@ -106,13 +105,13 @@ SitemapGenerator::Sitemap.create do
     Collection.viewable_by_public.find_in_batches(batch_size: 1000) do |batch|
       break if stop
       batch.each do |collection|
-        path = helpers.collection_path(collection)  # e.g. "/sets/uuid"
+        path = helpers.collection_path(collection) # e.g. "/sets/uuid"
         updated_at = collection.updated_at
 
         alternates = [
-          {href: abs_url.call(path), lang: "de"},
-          {href: abs_url.call(path, "en"), lang: "en"},
-          {href: abs_url.call(path), lang: "x-default"}
+          { href: abs_url.call(path), lang: "de" },
+          { href: abs_url.call(path, "en"), lang: "en" },
+          { href: abs_url.call(path), lang: "x-default" }
         ]
 
         add path, lastmod: updated_at, changefreq: "daily", priority: 0.8, alternates: alternates
@@ -136,9 +135,9 @@ SitemapGenerator::Sitemap.create do
         updated_at = collection.updated_at
 
         alternates = [
-          {href: abs_url.call(path), lang: "de"},
-          {href: abs_url.call(path, "en"), lang: "en"},
-          {href: abs_url.call(path), lang: "x-default"}
+          { href: abs_url.call(path), lang: "de" },
+          { href: abs_url.call(path, "en"), lang: "en" },
+          { href: abs_url.call(path), lang: "x-default" }
         ]
 
         add "#{path}?lang=en", lastmod: updated_at, changefreq: "daily", priority: 0.8, alternates: alternates
@@ -154,14 +153,30 @@ SitemapGenerator::Sitemap.create do
 end
 puts "Sitemap: finished."
 
-if (Settings.madek_external_base_url || "").include?(EXTERNAL_URL_PROD)
-  puts "Sitemap: pinging search engines..."
+# remove this
 
-  file_ending = SitemapGenerator::Sitemap.compress ? ".xml.gz" : ".xml"
-  uri = URI("https://www.google.com/ping?sitemap=#{base_url}/sitemaps/sitemap#{file_ending}")
-  puts "Sitemap: google-url: #{uri}"
-  response = Net::HTTP.get_response(uri)
-  puts "Sitemap: pinged search engines, response status: #{response.code}"
-else
-  puts "Sitemap: skipping pinging search engines in non-production environment."
+scope = "sitemaps2/en"
+group(sitemaps_path: scope, filename: :collection) do
+  stop = false
+  Collection.viewable_by_public.find_in_batches(batch_size: 1000) do |batch|
+    break if stop
+    batch.each do |collection|
+      path = helpers.collection_path(collection)
+      updated_at = collection.updated_at
+
+      alternates = [
+        { href: abs_url.call(path), lang: "de" },
+        { href: abs_url.call(path, "en"), lang: "en" },
+        { href: abs_url.call(path), lang: "x-default" }
+      ]
+
+      add "#{path}?lang=en", lastmod: updated_at, changefreq: "daily", priority: 0.8, alternates: alternates
+
+      if EARLY_EXIT
+        stop = true
+        break
+      end
+    end
+  end
 end
+puts "Sitemap: added #{Collection.viewable_by_public.count} collections, scope: #{scope}"
