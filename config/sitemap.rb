@@ -153,30 +153,40 @@ SitemapGenerator::Sitemap.create do
 end
 puts "Sitemap: finished."
 
-# remove this
+puts "Sitemap: generating new sitemaps..."
+SitemapGenerator::Sitemap.default_host = base_url
+SitemapGenerator::Sitemap.sitemaps_path = "sitemaps2"
+SitemapGenerator::Sitemap.create_index = true
+SitemapGenerator::Sitemap.compress = true
 
-scope = "sitemaps2/en"
-group(sitemaps_path: scope, filename: :collection) do
-  stop = false
-  Collection.viewable_by_public.find_in_batches(batch_size: 1000) do |batch|
-    break if stop
-    batch.each do |collection|
-      path = helpers.collection_path(collection)
-      updated_at = collection.updated_at
+SitemapGenerator::Sitemap.create do
 
-      alternates = [
-        { href: abs_url.call(path), lang: "de" },
-        { href: abs_url.call(path, "en"), lang: "en" },
-        { href: abs_url.call(path), lang: "x-default" }
-      ]
+  # TODO: remove this
+  scope = "sitemaps2/en"
+  group(sitemaps_path: scope, filename: :collection) do
+    stop = false
+    Collection.viewable_by_public.find_in_batches(batch_size: 1000) do |batch|
+      break if stop
+      batch.each do |collection|
+        path = helpers.collection_path(collection)
+        updated_at = collection.updated_at
 
-      add "#{path}?lang=en", lastmod: updated_at, changefreq: "daily", priority: 0.8, alternates: alternates
+        alternates = [
+          { href: abs_url.call(path), lang: "de" },
+          { href: abs_url.call(path, "en"), lang: "en" },
+          { href: abs_url.call(path), lang: "x-default" }
+        ]
 
-      if EARLY_EXIT
-        stop = true
-        break
+        add "#{path}?lang=en", lastmod: updated_at, changefreq: "daily", priority: 0.8, alternates: alternates
+
+        if EARLY_EXIT
+          stop = true
+          break
+        end
       end
     end
   end
+  puts "Sitemap: added #{Collection.viewable_by_public.count} collections, scope: #{scope}"
 end
-puts "Sitemap: added #{Collection.viewable_by_public.count} collections, scope: #{scope}"
+
+
