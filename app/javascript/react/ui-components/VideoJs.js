@@ -55,7 +55,9 @@ const propTypes = {
 class VideoJS extends Component {
   constructor() {
     super()
-    this.state = { active: !!(window && window.document) }
+    this.state = {
+      active: typeof window !== 'undefined' && !!(window && window.document)
+    }
     this.toCallOnUnmount = []
   }
 

@@ -44,7 +44,7 @@ class Uploader extends React.Component {
   }
 
   componentDidMount() {
-    FileDrop = require('react-file-drop')
+    FileDrop = require('react-file-drop').FileDrop
     if (!f.get(this.props, 'appCollection.isCollection')) {
       throw new Error('No AppCollection given!')
     }

@@ -20,12 +20,10 @@ module.exports = createReactClass({
     const onClick = active ? this.props.onClick : null
 
     let style = active ? {} : { pointerEvents: 'none', cursor: 'default' }
-    style = f.merge(this.props.style, style)
+    style = { ...this.props.style, ...style }
 
-    return (
-      <a {...Object.assign({}, restProps, { onClick: onClick, style: style })}>
-        {this.props.children}
-      </a>
-    )
+    const newProps = Object.assign({}, restProps, { onClick: onClick, style: style })
+
+    return <a {...newProps}>{this.props.children}</a>
   }
 })

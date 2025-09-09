@@ -62,7 +62,7 @@ module.exports = createReactClass({
     return this.setState({ isMounted: true })
   },
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.for_url === this.props.for_url) {
       return
     }

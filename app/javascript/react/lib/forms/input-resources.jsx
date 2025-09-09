@@ -47,10 +47,10 @@ module.exports = createReactClass({
   },
 
   // NOTE: use a react legacy API to force updates to internal state when props changes.
-  // Using `componentWillReceiveProps` is *generally* not recommended, but in this case this is the most safe workaround for the current setup:
+  // Using `UNSAFE_componentWillReceiveProps` is *generally* not recommended, but in this case this is the most safe workaround for the current setup:
   // This component is effectivly a fully constrolled, the internal state is only used for "derived state" and logic,
   // which means its ok to do the "Anti-pattern: Erasing state when props change" here… 🤞
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.values !== nextProps.values) {
       return this.setState({ values: nextProps.values })
     }

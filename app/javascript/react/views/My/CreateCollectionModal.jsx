@@ -21,7 +21,7 @@ module.exports = createReactClass({
     }
   },
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     return this.setState({ get: this.props.get, newCollectionUrl: this.props.newCollectionUrl })
   },
 

@@ -161,7 +161,7 @@ module.exports = createReactClass({
     return this.setState({ mounted: true })
   },
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     let diff
     const currentTab = this._determineCurrentTab(
       this.props.get.context_id,

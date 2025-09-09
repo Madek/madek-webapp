@@ -33,7 +33,7 @@ module.exports = createReactClass({
   lastRequest: null,
   sendTimeoutRef: null,
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     return this.setState({ get: this.props.get, searchTerm: this.props.get.search_term })
   },
 

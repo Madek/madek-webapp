@@ -23,7 +23,7 @@ gem 'madek_zhdk_integration', path: 'zhdk-integration'
 # FRONTEND
 gem 'haml-rails'
 gem 'kramdown'
-gem 'react-rails', '= 1.9.0'
+gem 'react-rails', '= 1.10.0'
 gem 'sass'
 gem 'sass-rails'
 gem 'sprockets-rails', '>= 3.5'

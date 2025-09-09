@@ -72,7 +72,7 @@ class DatePicker extends Component {
   }
 
   // set day and formatted value when day selection from calendar
-  _onDaySelect(_e, day, { disabled }) {
+  _onDaySelect(day, { disabled }) {
     if (disabled) return
     const value = moment(day).format('L')
     this.props.onChange(value)
@@ -103,10 +103,10 @@ class DatePicker extends Component {
   // - onChange is triggered when value changes (likely updates value prop in parent)
   // - therefore, if value prop changes, we must also set the state
   // - also, calendar-handling is not in constructor because it is a side effect
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this._setDatefromText(this.props.value)
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.props.value) {
       this._setDatefromText(nextProps.value)
     }
@@ -118,7 +118,7 @@ class DatePicker extends Component {
 
   render({ props, state } = this) {
     // extract props. rest goes to DayPicker
-    const { id, className, placeholder, laterThan, ...restProps } = props
+    const { id, className, placeholder, laterThan, initialDate, ...restProps } = props
 
     return (
       <div id={`${id}.DatePicker`} className="ui-datepicker">
@@ -147,12 +147,13 @@ class DatePicker extends Component {
               locale={LOCALE}
               localeUtils={MomentLocaleUtils}
               onDayClick={this._onDaySelect}
-              selectedDays={day => DateUtils.isSameDay(state.day, day)}
+              selectedDays={state.day}
               disabledDays={day => {
                 if (!laterThan) return
                 const beforeDate = lazyDate(laterThan)
                 return day < beforeDate || DateUtils.isSameDay(day, beforeDate)
               }}
+              initialMonth={state.day || lazyDate(initialDate)}
               ref={el => {
                 this.dayPicker = el
               }}

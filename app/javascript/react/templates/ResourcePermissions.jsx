@@ -30,7 +30,7 @@ module.exports = createReactClass({
     return this.setState({ transferModal: show })
   },
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const model = (() => {
       if (this.props.get.isState) {
         return this.props.get

@@ -69,7 +69,7 @@ class InputTextDate extends Component {
 
   // NOTE: because value is kept in internal state (for perf and simplicity),
   // and it is based on
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const curVals = this.state.values
     const newVals = parseDuration(nextProps.values)
     // debugger

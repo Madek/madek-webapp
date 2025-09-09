@@ -46,7 +46,7 @@ module.exports = createReactClass({
   },
 
   // init state model in any case:
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     // get type from first item in resource list
     const Model = (() => {
       switch (this.props.get.batch_permissions[0].type) {

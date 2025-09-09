@@ -24,7 +24,7 @@ class ConfidentialLinkNew extends React.Component {
     this.setState(current => ({ useExpiryDate: !current.useExpiryDate }))
   }
 
-  _handleDayClick(e, day, modifiers) {
+  _handleDayClick(day, modifiers) {
     if (f.get(modifiers, 'disabled', false) === false) this.setState({ expiresAtDate: Moment(day) })
   }
 
@@ -84,14 +84,16 @@ class ConfidentialLinkNew extends React.Component {
                   value={this.state.expiresAtDate.format()}
                 />
                 <DayPicker
+                  mode="single"
                   onDayClick={this._handleDayClick.bind(this)}
                   disabledDays={disabledDays}
                   initialMonth={this.state.expiresAtDate.toDate()}
                   fromMonth={Moment().toDate()}
                   toMonth={Moment().add(1, 'year').toDate()}
-                  selectedDays={day => Moment(day).isSame(this.state.expiresAtDate, 'day')}
+                  selectedDays={this.state.expiresAtDate.toDate()}
                   localeUtils={MomentLocaleUtils}
                   locale={locale}
+                  key={this.state.expiresAtDate.toString()}
                 />
               </div>
             )}

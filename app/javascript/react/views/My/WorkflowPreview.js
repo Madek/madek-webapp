@@ -53,7 +53,7 @@ class WorkflowPreview extends React.Component {
     return resources
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { errors, models, initialErrors } = this.state
     const { workflow } = this.props.get.master_collection
 

@@ -27,7 +27,7 @@ module.exports = createReactClass({
 
   lastRequest: null,
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (this.props.get) {
       return this.setState({
         get: this.props.get,

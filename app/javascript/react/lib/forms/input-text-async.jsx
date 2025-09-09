@@ -22,7 +22,7 @@ module.exports = createReactClass({
     }
   },
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     return this.setState({ values: this.props.values })
   },
 
