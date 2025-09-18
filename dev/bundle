@@ -5,7 +5,7 @@ set -eux
 
 git submodule update --init --recursive
 bundle install
-npm install
+npm ci --ignore-scripts
 
 cd datalayer
 bundle install
