@@ -14,7 +14,7 @@ gem 'configuration_management_backdoor',
 gem 'responders'
 
 # Webserver
-gem 'puma'
+gem 'puma', '~> 6.4'
 gem 'puma_worker_killer'
 
 # ZHDK-INTEGRATION
@@ -39,7 +39,7 @@ gem 'equivalent-xml'
 gem 'cider_ci-open_session', '>= 1.0.0', '< 2.0.0'
 gem 'execjs'
 gem 'exiftool_vendored'
-gem 'git'
+gem 'git', '~> 1.13'
 gem 'json'
 gem 'kaminari'
 gem 'pundit'
