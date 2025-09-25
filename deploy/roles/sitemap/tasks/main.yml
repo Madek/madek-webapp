@@ -4,3 +4,12 @@
     src: /madek/server/webapp/public/sitemaps
     dest: /var/www/madek/sitemaps
     force: yes
+
+- name: Ensure sitemap directory is writable by madek_user
+  file:
+    path: /madek/server/webapp/public/sitemaps
+    state: directory
+    owner: "{{ madek_user }}"
+    group: "{{ madek_user }}"
+    mode: '0755'
+    recurse: yes
