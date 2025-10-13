@@ -185,7 +185,7 @@ module Presenters
       end
 
       def entrusted_users_for_scope(scope)
-        User.where("users.id IN (#{entrusted_user_ids(scope)})")
+        User.where("users.id IN (#{entrusted_user_ids(scope)})").unscope(:order)
       end
 
       def entrusted_groups_for_scope(scope)
