@@ -5,7 +5,7 @@
  */
 import $ from 'jquery'
 import React from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client'
 import f from 'active-lodash'
 import UI from '../react/index.js'
 
@@ -26,6 +26,9 @@ const initByClass = {
   }
 }
 
+// Store roots for cleanup if needed
+const reactRoots = new Map()
+
 module.exports = () =>
   $('[data-react-class]').each(function () {
     const element = this
@@ -45,7 +48,14 @@ module.exports = () =>
     }
 
     if (f.isFunction(init)) {
-      // eslint-disable-next-line react/no-render-return-value
-      return init(data, enhanced => ReactDOM.render(enhanced, element))
+      return init(data, enhanced => {
+        // Create root if not exists, otherwise reuse
+        let root = reactRoots.get(element)
+        if (!root) {
+          root = ReactDOM.createRoot(element)
+          reactRoots.set(element, root)
+        }
+        root.render(enhanced)
+      })
     }
   })

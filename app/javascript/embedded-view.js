@@ -9,7 +9,7 @@ require('./env')
 // local requires
 const present = require('active-lodash').present
 const React = require('react')
-const ReactDOM = require('react-dom')
+const ReactDOM = require('react-dom/client')
 const MediaEntryEmbedded = require('./react/views/MediaEntry/MediaEntryEmbedded.jsx')
 
 // see: `frontend_app_config.rb`
@@ -24,7 +24,8 @@ function main() {
   if (!rootEl || !rootEl.dataset || !rootEl.dataset.reactProps) return false
   const props = JSON.parse(rootEl.dataset.reactProps)
   const view = React.createElement(MediaEntryEmbedded, props)
-  ReactDOM.render(view, rootEl)
+  const root = ReactDOM.createRoot(rootEl)
+  root.render(view)
 }
 
 // init

@@ -46,7 +46,7 @@ module.exports = createReactClass({
   },
 
   // init state model in any case:
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     // get type from first item in resource list
     const Model = (() => {
       switch (this.props.get.batch_permissions[0].type) {
@@ -59,18 +59,12 @@ module.exports = createReactClass({
       }
     })()
 
-    return this.setState({ model: new Model(this.props.get) })
+    this.setState({ model: new Model(this.props.get) })
+
+    this.state.model.on('change', () => this.forceUpdate())
+    this.setState({ isClient: true })
   },
 
-  // NOTE: UI has no fallback, so even though this view only supports
-  // 'editing' state, we only activate it on mount to prevent accidental submit
-  getInitialState() {
-    return { isClient: false }
-  },
-  componentDidMount() {
-    this.state.model.on('change', () => this.forceUpdate())
-    return this.setState({ isClient: true })
-  },
   componentWillUnmount() {
     return this.state.model.off()
   },

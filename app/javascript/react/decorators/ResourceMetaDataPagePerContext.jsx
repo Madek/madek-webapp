@@ -158,10 +158,8 @@ module.exports = createReactClass({
   },
 
   componentDidMount() {
-    return this.setState({ mounted: true })
-  },
+    this.setState({ mounted: true })
 
-  UNSAFE_componentWillMount() {
     let diff
     const currentTab = this._determineCurrentTab(
       this.props.get.context_id,
@@ -198,7 +196,7 @@ module.exports = createReactClass({
       this.props.get.meta_data,
       diff
     )
-    return this.setState({ models })
+    this.setState({ models })
   },
 
   _onChangeForm(meta_key_id, values) {

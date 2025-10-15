@@ -62,8 +62,8 @@ module.exports = createReactClass({
     return this.setState({ isMounted: true })
   },
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.for_url === this.props.for_url) {
+  componentDidUpdate(prevProps) {
+    if (this.props.for_url === prevProps.for_url) {
       return
     }
     return this.setState({ urlState: parseUrlState(this.props.for_url) })

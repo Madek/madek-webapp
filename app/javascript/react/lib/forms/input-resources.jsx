@@ -50,9 +50,16 @@ module.exports = createReactClass({
   // Using `UNSAFE_componentWillReceiveProps` is *generally* not recommended, but in this case this is the most safe workaround for the current setup:
   // This component is effectivly a fully constrolled, the internal state is only used for "derived state" and logic,
   // which means its ok to do the "Anti-pattern: Erasing state when props change" here… 🤞
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.values !== nextProps.values) {
-      return this.setState({ values: nextProps.values })
+  componentDidUpdate(prevProps) {
+    if (this.props.values !== prevProps.values) {
+      this.setState({ values: this.props.values })
+    }
+
+    if (this._adding) {
+      this._adding = false
+      if (this.refs.ListAdder) {
+        setTimeout(this.refs.ListAdder.focus, 1)
+      }
     }
   },
 
@@ -234,15 +241,6 @@ module.exports = createReactClass({
 
       if (this.props.onChange) {
         return this.props.onChange(newValues)
-      }
-    }
-  },
-
-  componentDidUpdate() {
-    if (this._adding) {
-      this._adding = false
-      if (this.refs.ListAdder) {
-        return setTimeout(this.refs.ListAdder.focus, 1)
       }
     }
   }, // show the adder again

@@ -32,12 +32,9 @@ module.exports = createReactClass({
   lastRequest: null,
   sendTimeoutRef: null,
 
-  UNSAFE_componentWillMount() {
-    return this.setState({ get: this.props.get, searchTerm: this.props.get.search_term })
-  },
-
   componentDidMount() {
-    return this.setState({ mounted: true })
+    this.setState({ get: this.props.get, searchTerm: this.props.get.search_term })
+    this.setState({ mounted: true })
   },
 
   _onChange(event) {
@@ -264,7 +261,7 @@ var ControlledCheckbox = createReactClass({
     }
   },
 
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     return this.setState({ checked: this.props.checked })
   },
 

@@ -30,7 +30,8 @@ module.exports = createReactClass({
     return this.setState({ transferModal: show })
   },
 
-  UNSAFE_componentWillMount() {
+  // this will only ever run on the client:
+  componentDidMount() {
     const model = (() => {
       if (this.props.get.isState) {
         return this.props.get
@@ -48,17 +49,8 @@ module.exports = createReactClass({
       return model.on(eventName, () => this.forceUpdate())
     })
 
-    return this.setState({ model })
-  },
+    this.setState({ model })
 
-  // functions to be called on unmount (cleanup):
-  _toBeCalledOnUnmount: [],
-  componentWillUnmount() {
-    return f.each(this._toBeCalledOnUnmount, fn => fn())
-  },
-
-  // this will only ever run on the client:
-  componentDidMount() {
     const router = require('../../lib/router.js')
 
     const editUrl = url.parse(this.props.get.edit_permissions_url).pathname
@@ -80,6 +72,12 @@ module.exports = createReactClass({
     // "attach" and start the router
     this._router = router // internal ref, NOT in state!
     return router.start()
+  },
+
+  // functions to be called on unmount (cleanup):
+  _toBeCalledOnUnmount: [],
+  componentWillUnmount() {
+    return f.each(this._toBeCalledOnUnmount, fn => fn())
   },
 
   _onStartEdit(event) {

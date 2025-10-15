@@ -33,7 +33,7 @@ const labelize = (resourceList, { withLink = false, onDelete, creatorId = null }
             className="multi-select-tag-remove"
             style={{ background: 'transparent' }}
             onClick={ev => {
-              ev.preventDefault(), onDelete(resource)
+              ;(ev.preventDefault(), onDelete(resource))
             }}>
             <i className="icon-close"></i>
           </button>

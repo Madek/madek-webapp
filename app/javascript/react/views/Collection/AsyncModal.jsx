@@ -27,16 +27,14 @@ module.exports = createReactClass({
 
   lastRequest: null,
 
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     if (this.props.get) {
-      return this.setState({
+      this.setState({
         get: this.props.get,
         children: this.props.contentForGet(this.props.get)
       })
     }
-  },
 
-  componentDidMount() {
     this.setState({ ready: true, mounted: true, loading: true })
 
     return loadXhr(

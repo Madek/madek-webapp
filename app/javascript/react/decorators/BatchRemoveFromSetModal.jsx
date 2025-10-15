@@ -19,7 +19,7 @@ module.exports = createReactClass({
     }
   },
 
-  UNSAFE_componentWillMount() {},
+  componentDidMount() {},
 
   _contentForGet(get) {
     return (

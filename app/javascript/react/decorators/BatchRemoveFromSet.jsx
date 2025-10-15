@@ -38,12 +38,9 @@ module.exports = createReactClass({
     }
   },
 
-  UNSAFE_componentWillMount() {
-    return this.setState({ get: this.props.get })
-  },
-
   componentDidMount() {
-    return this.setState({ mounted: true })
+    this.setState({ get: this.props.get })
+    this.setState({ mounted: true })
   },
 
   render(param) {

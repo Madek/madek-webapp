@@ -103,12 +103,12 @@ class DatePicker extends Component {
   // - onChange is triggered when value changes (likely updates value prop in parent)
   // - therefore, if value prop changes, we must also set the state
   // - also, calendar-handling is not in constructor because it is a side effect
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     this._setDatefromText(this.props.value)
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.value !== this.props.value) {
-      this._setDatefromText(nextProps.value)
+  componentDidUpdate(prevProps) {
+    if (this.props.value !== prevProps.value) {
+      this._setDatefromText(this.props.value)
     }
   }
   // cleanup
