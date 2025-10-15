@@ -48,6 +48,7 @@ db/test_structure.sql
 deb/seeds.rb
 design/icon-font-sources/*.svg
 dev/node_modules/
+node_modules/
 doc/api/yard
 log/*.log
 log/searchd.development.pid
