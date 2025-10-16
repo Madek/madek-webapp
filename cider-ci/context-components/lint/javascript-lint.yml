@@ -13,4 +13,5 @@
             #!/usr/bin/env bash
             set -euo pipefail
             ./bin/env/nodejs-setup
+            npm ci --legacy-peer-deps --ignore-scripts
             npm run lint
