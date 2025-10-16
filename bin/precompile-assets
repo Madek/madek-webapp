@@ -18,7 +18,7 @@ if [ -d "public/assets" ]; then
 fi
 
 # install js dependencies
-npm ci
+npm ci --legacy-peer-deps --ignore-scripts
 
 # build locale files
 npm run build
