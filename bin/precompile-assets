@@ -21,6 +21,7 @@ fi
 bin/translation-csv-to-locale-yamls
 
 # bundle js
+npm ci
 npm run -s build
 
 # precompilation: js, css, fonts, images
