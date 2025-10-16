@@ -17,11 +17,14 @@ if [ -d "public/assets" ]; then
   find public/assets -type f -not -name ".git*" -and -not -name "dev-*" -exec rm -f {} +
 fi
 
+# install js dependencies
+npm ci
+
 # build locale files
+npm run build
 bin/translation-csv-to-locale-yamls
 
 # bundle js
-npm ci
 npm run -s build
 
 # precompilation: js, css, fonts, images
