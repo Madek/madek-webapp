@@ -29,6 +29,12 @@ Modified 5 files to work with webpack:
 - `app/javascript/react/ui-components/index.js`
 - `app/javascript/lib/i18n-translate.js`
 
+**Bonus:** Simplified `bin/translation-csv-to-locale-yamls`:
+- Rewrote to use only Node.js standard library
+- Removed dependencies on `fs-extra` and `active-lodash`
+- Now only requires `js-yaml` for YAML parsing
+- Same functionality, cleaner code
+
 ### 4. Configuration Files
 - ✅ Created `webpack.config.js` with production and development modes
 - ✅ Updated `package.json` scripts and dependencies

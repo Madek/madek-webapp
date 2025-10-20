@@ -4,8 +4,7 @@
 // NOTE: see also the opposite script, `./dev/utilities/locale-yamls-to-csv.js`
 
 const path = require('path')
-const fs = require('fs-extra')
-const f = require('active-lodash')
+const fs = require('fs')
 const YAML = require('js-yaml')
 const parseTranslationsFromCSV = require('../app/javascript/lib/parse-translations-from-csv')
 
@@ -18,28 +17,45 @@ const CONFIG = {
 
 // helpers
 
+// Deep merge two objects
+const deepMerge = (target, source) => {
+  const result = { ...target }
+  for (const key in source) {
+    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+      result[key] = deepMerge(result[key] || {}, source[key])
+    } else {
+      result[key] = source[key]
+    }
+  }
+  return result
+}
+
 // merges translations with presets
 const mergeTranslationsWithPresets = (locales, presetsDir) => {
-  return f.map(locales, (item) => {
+  return locales.map((item) => {
     let presetContent
-    //try {
     const presetFile = path.join(presetsDir, `${item.lang}.yml`)
-    presetContent = YAML.load(fs.readFileSync(presetFile).toString())
-    //} catch (err) { throw new Error('Can not read locale YAML preset!', err) }
+    presetContent = YAML.load(fs.readFileSync(presetFile, 'utf8'))
 
-    return f.extend(item, {
-      mapping: f.merge(presetContent, f.set({}, item.lang, item.mapping))
-    })
+    return {
+      ...item,
+      mapping: deepMerge(presetContent, { [item.lang]: item.mapping })
+    }
   })
 }
 
 // writes translations to Rails' locale files (YAML)
 const writeToLocaleFiles = (locales, outputDir) => {
-  f.each(locales, (item) => {
+  // Ensure output directory exists
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true })
+  }
+  
+  locales.forEach((item) => {
     const outputFile = path.join(outputDir, `${item.lang}.yml`)
     const text = YAML.dump(item.mapping)
     try {
-      fs.outputFileSync(outputFile, text, 'utf8')
+      fs.writeFileSync(outputFile, text, 'utf8')
     } catch (err) {
       throw new Error(`Can't write file '${outputFile}'!`, err)
     }
@@ -57,6 +73,6 @@ const locales = mergeTranslationsWithPresets(translations, CONFIG.localePresetsD
 writeToLocaleFiles(locales, CONFIG.outputDir)
 
 console.error('=> Building translations… OK!', {
-  languages: f.map(locales, 'lang'),
+  languages: locales.map(l => l.lang),
   translationsCount: Object.keys(translations[0].mapping).length
 })
