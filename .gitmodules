@@ -1,6 +1,3 @@
-[submodule "node_modules"]
-	path = node_modules
-	url = https://github.com/Madek/madek-webapp-node-modules.git
 [submodule "public/assets"]
 	path = public/assets
 	url = https://github.com/Madek/madek_webapp_assets.git

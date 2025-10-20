@@ -17,6 +17,8 @@ if [ -d "public/assets" ]; then
   find public/assets -type f -not -name ".git*" -and -not -name "dev-*" -exec rm -f {} +
 fi
 
+npm ci --ignore-scripts --no-audit
+
 # build locale files
 bin/translation-csv-to-locale-yamls
 

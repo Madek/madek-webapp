@@ -60,3 +60,5 @@ tags
 tmp/
 vendor/bundle/
 webapp.tar.gz
+
+node_modules/

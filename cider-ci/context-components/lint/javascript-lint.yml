@@ -13,4 +13,5 @@
             #!/usr/bin/env bash
             set -euo pipefail
             ./bin/env/nodejs-setup
+            npm ci --ignore-scripts --no-audit
             npm run lint
