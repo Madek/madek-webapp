@@ -187,8 +187,8 @@ M.resourceFilter = PropTypes.shape({
         value: M.uuid
       }),
       PropTypes.shape({
-        key: PropTypes.oneOf(['public']).isRequired,
-        value: PropTypes.oneOf([true, false]).isRequired
+        key: PropTypes.oneOf(['visibility']).isRequired,
+        value: PropTypes.oneOf(['public', 'user_or_group']).isRequired
       })
     ])
   )

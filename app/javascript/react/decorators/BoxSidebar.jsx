@@ -185,6 +185,7 @@ class BoxSidebar extends React.Component {
         current={this.props.config.filter ? this.props.config.filter : {}}
         accordion={this.props.config.accordion ? this.props.config.accordion : {}}
         onChange={this.props.onSideFilterChange}
+        anyResourcesShown={this.props.anyResourcesShown}
       />
     )
   }

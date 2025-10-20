@@ -898,6 +898,7 @@ class MediaResourcesBox extends Component {
           parentState={this.state}
           onSideFilterChange={this._onSideFilterChange}
           jsonPath={this.getJsonPath()}
+          anyResourcesShown={this.state.boxState.resourceStates.length > 0}
         />
       )
     })(get, this.state)

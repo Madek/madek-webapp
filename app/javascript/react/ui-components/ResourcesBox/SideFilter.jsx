@@ -1,15 +1,4 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-// decorates: DynamicFilters
-// fallback: no # only used interactive (client-side)
-
 import React from 'react'
-import createReactClass from 'create-react-class'
 import PropTypes from 'prop-types'
 import f from 'active-lodash'
 import t from '../../../lib/i18n-translate.js'
@@ -25,14 +14,15 @@ import { parse as parseQuery } from 'qs'
 import setUrlParams from '../../../lib/set-params-for-url.js'
 import loadXhr from '../../../lib/load-xhr.js'
 
-module.exports = createReactClass({
-  displayName: 'SideFilter',
-  propTypes: {
-    dynamic: PropTypes.array,
+class SideFilter extends React.Component {
+  static propTypes = {
+    forUrl: PropTypes.object,
+    jsonPath: PropTypes.string,
     accordion: PropTypes.objectOf(PropTypes.object).isRequired,
     current: MadekPropTypes.resourceFilter.isRequired,
-    onChange: PropTypes.func
-  },
+    onChange: PropTypes.func,
+    anyResourcesShown: PropTypes.bool
+  }
 
   // Note: We list in the menu the sections based on the meta data contexts.
   // But furthermore, we also for example list the media types as a section
@@ -40,6 +30,31 @@ module.exports = createReactClass({
   // for example, when a context has the id "file". Thats why section uuids must
   // be concatenated with the filter_type.
   // E.g. meta_data:copyright or media_files:file
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      javascript: false,
+      accordion: this.props.accordion || {},
+      sectionGroups: [
+        {
+          key: 'section_group_media_files',
+          status: 'initial',
+          data: null
+        },
+        {
+          key: 'section_group_permissions',
+          status: 'initial',
+          data: null
+        },
+        {
+          key: 'section_group_meta_data',
+          status: 'initial',
+          data: null
+        }
+      ]
+    }
+  }
 
   getAccordionSection(sectionUuid) {
     const { accordion } = this.state
@@ -56,7 +71,7 @@ module.exports = createReactClass({
       accordion.sections[sectionUuid] = section
     }
     return section
-  },
+  }
 
   getAccordionSubSection(sectionUuid, subSectionUuid) {
     const section = this.getAccordionSection(sectionUuid)
@@ -69,106 +84,130 @@ module.exports = createReactClass({
       section.subSections[subSectionUuid] = subSection
     }
     return subSection
-  },
+  }
 
-  toggleSection(sectionUuid) {
-    const section = this.getAccordionSection(sectionUuid)
-    section.isOpen = !section.isOpen
+  toggleSection(sectionUuid, section) {
+    const sectionState = this.getAccordionSection(sectionUuid)
+    sectionState.isOpen = !sectionState.isOpen
+
+    if (sectionState.isOpen && section.triggersLoadForGroup) {
+      const sectionGroupToLoad = this.state.sectionGroups.find(
+        x => x.key === section.triggersLoadForGroup
+      )
+      const urlAndQuery = this._getUrlAndQuery()
+      this._fetchSectionGroup(sectionGroupToLoad, urlAndQuery)
+    }
+
     return this.setState({ accordion: this.state.accordion })
-  },
+  }
 
   toggleSubSection(sectionUuid, subSectionUuid) {
     const subSection = this.getAccordionSubSection(sectionUuid, subSectionUuid)
     subSection.isOpen = !subSection.isOpen
     return this.setState({ accordion: this.state.accordion })
-  },
-
-  getInitialState() {
-    return {
-      javascript: false,
-      accordion: this.props.accordion || {},
-      sectionGroups: [
-        {
-          key: 'section_group_media_files',
-          loaded: false,
-          dynamic: null
-        },
-        {
-          key: 'section_group_permissions',
-          loaded: false,
-          dynamic: null
-        },
-        {
-          key: 'section_group_meta_data',
-          loaded: false,
-          dynamic: null
-        }
-      ]
-    }
-  },
+  }
 
   componentDidMount() {
     this._isMounted = true
     this.setState({ javascript: true })
 
-    return this._loadData()
-  },
+    this._initialFetch()
+  }
 
   componentWillUnmount() {
     return (this._isMounted = false)
-  },
+  }
 
-  _loadData() {
-    const currentUrl = this.props.forUrl
-
-    const currentParams = parseQuery(currentUrl.query)
-    const newParams = f.cloneDeep(currentParams)
-
-    if (!newParams.list) {
-      newParams.list = {}
+  _getUrlAndQuery() {
+    const url = this.props.forUrl
+    const query = parseQuery(url.query)
+    if (!query.list) {
+      query.list = {}
     }
+    query.list.sparse_filter = true
+    query.list.show_filter = true
+    return { url, query }
+  }
 
-    newParams.list.sparse_filter = true
-    newParams.list.show_filter = true
+  _fetchSectionGroup(group, { url, query }) {
+    const { key } = group
 
-    return f.each(this.state.sectionGroups, group => {
-      const { key } = group
+    const jsonPath = getJsonPath(this.props.jsonPath, key)
 
-      const jsonPath = getJsonPath(this.props.jsonPath, key)
-
-      return loadXhr(
-        {
-          method: 'GET',
-          url: setUrlParams(currentUrl, newParams, {
-            ___sparse: JSON.stringify(f.set({}, jsonPath, {}))
-          })
-        },
-        (result, json) => {
-          if (!this._isMounted) {
-            return
-          }
-          if (result === 'success') {
-            const newSectionGroups = f.clone(this.state.sectionGroups)
-            const element = f.get(json, jsonPath)
-
-            const sectionGroup = f.find(newSectionGroups, { key })
-            sectionGroup.dynamic = element
-            sectionGroup.loaded = true
-
-            this.setState({ sectionGroups: newSectionGroups })
-
-            return this._updateAccordion(
-              f.flatten(f.compact(f.map(newSectionGroups, sectionGroup => sectionGroup.dynamic)))
-            )
-          } else {
-            return console.error('Could not load side filter data.')
-          }
+    return loadXhr(
+      {
+        method: 'GET',
+        url: setUrlParams(url, query, {
+          ___sparse: JSON.stringify(f.set({}, jsonPath, {}))
+        })
+      },
+      (result, json) => {
+        if (!this._isMounted) {
+          return
         }
-      )
-    })
-  },
+        if (result === 'success') {
+          const data = f.get(json, jsonPath)
 
-  _updateAccordion(dynamic) {
+          const newSectionGroups = this.state.sectionGroups.map(sectionGroup => {
+            if (sectionGroup.key === key) {
+              return { ...sectionGroup, data, status: 'loaded' }
+            } else {
+              return sectionGroup
+            }
+          })
+
+          this.setState({ sectionGroups: newSectionGroups })
+
+          this._updateAccordion(
+            f.flatten(f.compact(f.map(newSectionGroups, sectionGroup => sectionGroup.data)))
+          )
+        } else {
+          return console.error('Could not load side filter data.')
+        }
+      }
+    )
+  }
+
+  _stubPermissionGroup() {
+    const key = 'section_group_permissions'
+    const newSectionGroups = this.state.sectionGroups.map(sectionGroup => {
+      if (sectionGroup.key === key) {
+        if (this.props.anyResourcesShown) {
+          return {
+            ...sectionGroup,
+            data: [
+              {
+                label: t('dynamic_filters_authorization'),
+                filter_type: 'permissions',
+                uuid: 'permissions',
+                children: [],
+                triggersLoadForGroup: key
+              }
+            ],
+            status: 'stubbed'
+          }
+        } else {
+          return { ...sectionGroup, data: [], status: 'loaded' }
+        }
+      } else {
+        return sectionGroup
+      }
+    })
+    this.setState({ sectionGroups: newSectionGroups })
+  }
+
+  _initialFetch() {
+    const urlAndQuery = this._getUrlAndQuery()
+    this.state.sectionGroups.forEach(sectionGroup => {
+      if (sectionGroup.key === 'section_group_permissions' && !this.props.current.permissions) {
+        this._stubPermissionGroup()
+      } else {
+        this._fetchSectionGroup(sectionGroup, urlAndQuery)
+      }
+    })
+  }
+
+  _updateAccordion(data) {
     f.each(
       [
         this.props.current.media_files,
@@ -177,7 +216,7 @@ module.exports = createReactClass({
       ],
       array => {
         return f.each(array, media_file_or_meta_datum_or_permission => {
-          return f.each(dynamic, section => {
+          return f.each(data, section => {
             return f.each(section.children, subSection => {
               return f.each(subSection.children, filter => {
                 if (filter.uuid === media_file_or_meta_datum_or_permission.value) {
@@ -195,25 +234,20 @@ module.exports = createReactClass({
       }
     )
     return this.setState({ accordion: this.state.accordion })
-  },
+  }
 
-  render(param) {
-    // # TMP: ignore invalid dynamicFilters
-    // if !(f.isArray(dynamic) and f.present(f.isArray(dynamic)))
-    //   return null
-
-    if (param == null) {
-      param = this.props
-    }
-    let { current } = param
-    const dynamic = f.flatten(
-      f.compact(f.map(this.state.sectionGroups, sectionGroup => sectionGroup.dynamic))
+  render() {
+    let { current } = this.props
+    const sectionsData = f.flatten(
+      f.compact(f.map(this.state.sectionGroups, sectionGroup => sectionGroup.data))
     )
 
-    if (f.isEmpty(dynamic)) {
-      if (!f.isEmpty(f.filter(this.state.sectionGroups, { loaded: false }))) {
+    if (sectionsData.length === 0) {
+      // No sections to show. Check whether we are still loading data
+      const someWaiting = this.state.sectionGroups.find(x => x.status === 'initial')
+      if (someWaiting) {
         return (
-          <ul className={baseClass} data-test-id="side-filter">
+          <ul data-test-id="side-filter">
             <Preloader mods="small" />
           </ul>
         )
@@ -222,25 +256,22 @@ module.exports = createReactClass({
       }
     }
 
-    // Clone the current filters, so as we can manipulate them
-    // to give the result back to the parent component.
-    current = f.clone(current)
-
-    var baseClass = ui.cx(ui.parseMods(this.props), 'ui-side-filter-list')
-
     return (
-      <ul className={baseClass} data-test-id="side-filter">
+      <ul
+        className={ui.cx(ui.parseMods(this.props), 'ui-side-filter-list')}
+        data-test-id="side-filter">
         {f.flatten(
           f.compact(
             f.map(this.state.sectionGroups, sectionGroup => {
-              if (!sectionGroup.loaded) {
+              if (sectionGroup.status == 'initial') {
                 return <Preloader key={`preloader_${sectionGroup.key}`} mods="small" />
-              } else if (!sectionGroup.dynamic) {
+              } else if (!sectionGroup.data) {
                 return null
               } else {
-                const filters = initializeFilterTreeFromProps(sectionGroup.dynamic, current)
-                return f.map(filters, filter => {
-                  return this.renderSection(current, filter)
+                const sections = getSections(sectionGroup.data)
+                applyCurrentSelectionToFilterTree(sections, current)
+                return f.map(sections, section => {
+                  return this.renderSection(current, section)
                 })
               }
             })
@@ -248,36 +279,40 @@ module.exports = createReactClass({
         )}
       </ul>
     )
-  },
+  }
 
-  renderSection(current, filter) {
+  renderSection(current, section) {
     const itemClass = 'ui-side-filter-lvl1-item ui-side-filter-item'
 
-    const { filterType } = filter
-    const { uuid } = filter
-    const { isOpen } = this.getAccordionSection(filterType + '-' + uuid)
-    const href = null
+    const { filterType, uuid, label, children, triggersLoadForGroup } = section
+    const sectionUuid = filterType + '-' + uuid
+    const { isOpen } = this.getAccordionSection(sectionUuid)
 
-    const toggleOnClick = () => this.toggleSection(filterType + '-' + filter.uuid)
+    const toggleOnClick = () => this.toggleSection(sectionUuid, section)
 
     return (
-      <li className={itemClass} key={filterType + '-' + filter.uuid}>
+      <li className={itemClass} key={sectionUuid}>
         <a
           className={cx('ui-accordion-toggle', 'strong', { open: isOpen })}
-          href={href}
+          href={null}
           onClick={toggleOnClick}>
-          {filter.label} <i className="ui-side-filter-lvl1-marker" />
+          {label} <i className="ui-side-filter-lvl1-marker" />
         </a>
         <ul className={cx('ui-accordion-body', 'ui-side-filter-lvl2', { open: isOpen })}>
-          {isOpen
-            ? f.map(filter.children, child => {
-                return this.renderSubSection(current, filterType, filter, child)
+          {isOpen &&
+            (triggersLoadForGroup && children.length === 0 ? (
+              <li>
+                <Preloader mods="small" />
+              </li>
+            ) : (
+              f.map(children, child => {
+                return this.renderSubSection(current, filterType, section, child)
               })
-            : undefined}
+            ))}
         </ul>
       </li>
     )
-  },
+  }
 
   renderSubSection(current, filterType, parent, child) {
     const { isOpen } = this.getAccordionSubSection(filterType + '-' + parent.uuid, child.uuid)
@@ -348,7 +383,7 @@ module.exports = createReactClass({
                             <strong>{t('dynamic_filters_role_header')}</strong>
                           </li>
                           {f.map(items, item => {
-                            return this.renderItem(parent.uuid, current, child, item, filterType)
+                            return this.renderItem(current, child, item, filterType)
                           })}
                         </ul>
                       )
@@ -358,7 +393,7 @@ module.exports = createReactClass({
                   return (
                     <ul className={togglebodyClass}>
                       {f.map(child.children, item => {
-                        return this.renderItem(parent.uuid, current, child, item, filterType)
+                        return this.renderItem(current, child, item, filterType)
                       })}
                     </ul>
                   )
@@ -368,13 +403,13 @@ module.exports = createReactClass({
         })()}
       </li>
     )
-  },
+  }
 
   renderPersonSelect(current, child, items, filterType, className, withTitle) {
     const onSelect = person =>
       this.addItemFilter(this.props.onChange, current, child, person, filterType)
     const onClear = person =>
-      this.removeItemFilter(this.props.onChange, current, child, person, filterType)
+      this.removeItemFilter(this.props.onChange, current, person, filterType)
     const jsonPath = getJsonPath(this.props.jsonPath, 'section_group_meta_data')
     return (
       <PersonFilter
@@ -390,13 +425,13 @@ module.exports = createReactClass({
         jsonPath={jsonPath}
       />
     )
-  },
+  }
 
   renderResponsibleUser(node, parentUuid, current, parent, filterType, togglebodyClass) {
     const userChanged = user => {
       const { onChange } = this.props
       if (user.selected) {
-        return this.removeItemFilter(onChange, current, parent, user, filterType)
+        return this.removeItemFilter(onChange, current, user, filterType)
       } else {
         return this.addItemFilter(onChange, current, parent, user, filterType)
       }
@@ -420,27 +455,27 @@ module.exports = createReactClass({
         togglebodyClass={togglebodyClass}
       />
     )
-  },
+  }
 
-  renderItem(parentUuid, current, parent, item, filterType) {
+  renderItem(current, parent, item, filterType) {
     const { onChange } = this.props
-    const addRemoveClick = () => {
+    const onItemClick = () => {
       if (item.selected) {
-        return this.removeItemFilter(onChange, current, parent, item, filterType)
+        return this.removeItemFilter(onChange, current, item, filterType)
       } else {
         return this.addItemFilter(onChange, current, parent, item, filterType)
       }
     }
 
     return (
-      <FilterItem
-        {...Object.assign({ parentUuid: parentUuid }, item, {
-          key: item.uuid,
-          onClick: addRemoveClick
-        })}
-      />
+      <li key={item.uuid} className={cx('ui-side-filter-lvl3-item', { active: item.selected })}>
+        <Link mods="weak" onClick={onItemClick}>
+          {item.label || item.uuid || '(empty)'}{' '}
+          <span className="ui-lvl3-item-count">{item.count}</span>
+        </Link>
+      </li>
     )
-  },
+  }
 
   createToggleSubSection(filterType, parent, child, isOpen) {
     const href = null
@@ -458,7 +493,7 @@ module.exports = createReactClass({
         {child.label}
       </a>
     )
-  },
+  }
 
   createMultiSelectBox(child, current, filterType, allowSelectAll) {
     let icon, onChange, title
@@ -505,7 +540,7 @@ module.exports = createReactClass({
     }
 
     return multiSelectBox
-  },
+  }
 
   addItemFilter(onChange, current, parent, item, filterType) {
     let currentPerType = current[filterType] || []
@@ -538,7 +573,7 @@ module.exports = createReactClass({
         accordion: this.state.accordion
       })
     }
-  },
+  }
 
   addSubSectionFilter(onChange, current, parent, filterType) {
     let currentPerType = current[filterType] || []
@@ -560,11 +595,10 @@ module.exports = createReactClass({
         accordion: this.state.accordion
       })
     }
-  },
+  }
 
-  removeItemFilter(onChange, current, parent, item, filterType) {
+  removeItemFilter(onChange, current, item, filterType) {
     let currentPerType = current[filterType] || []
-    // Remove the item filter.
     currentPerType = f.reject(currentPerType, filter => filter.value === item.uuid)
     current[filterType] = currentPerType
     if (onChange) {
@@ -575,7 +609,7 @@ module.exports = createReactClass({
         accordion: this.state.accordion
       })
     }
-  },
+  }
 
   removeSubSectionFilter(onChange, current, parent, filterType) {
     let currentPerType = current[filterType] || []
@@ -590,104 +624,27 @@ module.exports = createReactClass({
       })
     }
   }
-})
-
-var FilterItem = function (param) {
-  if (param == null) {
-    param = this.props
-  }
-  let { label, uuid, selected, count, onClick } = param
-  label = f.presence(label || uuid) || (console.error('empty FilterItem label!') && '(empty)')
-  return (
-    <li className={cx('ui-side-filter-lvl3-item', { active: selected })}>
-      <Link mods="weak" onClick={onClick}>
-        {label} <span className="ui-lvl3-item-count">{count}</span>
-      </Link>
-    </li>
-  )
 }
 
-var initializeFilterTreeFromProps = function (dynamicFilters, current) {
-  let tree = initializeSections(dynamicFilters)
-  return (tree = forCurrentFiltersSelectItemsInTree(tree, current))
+module.exports = SideFilter
+
+// Tree structure in `data`: sections -> filters -> filter items
+// E.g. "File information" -> "Media type" -> "video"
+
+function getSections(data) {
+  return data.map(({ filter_type, label, uuid, children, triggersLoadForGroup }) => ({
+    filterType: filter_type || uuid,
+    children: getFilters(children),
+    label,
+    uuid,
+    triggersLoadForGroup
+  }))
 }
 
-var forCurrentFiltersSelectItemsInTree = function (tree, current) {
-  const selectItemForFilter = function (item, filter) {
-    if (item.uuid === filter.value) {
-      return (item.selected = true)
-    }
-  }
-
-  const selectInSubSection = (subSection, filter) =>
-    (() => {
-      const result = []
-      for (var i in subSection.children) {
-        var item = subSection.children[i]
-        if (subSection.uuid === filter.key) {
-          subSection.selected = true
-        }
-        result.push(selectItemForFilter(item, filter))
-      }
-      return result
-    })()
-
-  const selectInSection = (section, filter) =>
-    (() => {
-      const result = []
-      for (var i in section.children) {
-        var subSection = section.children[i]
-        if (subSection.uuid === filter.key) {
-          result.push(selectInSubSection(subSection, filter))
-        } else {
-          result.push(undefined)
-        }
-      }
-      return result
-    })()
-
-  const selectInTreePerFilter = (filterType, filter) =>
-    (() => {
-      const result = []
-      for (var i in tree) {
-        var section = tree[i]
-        if (section.filterType === filterType) {
-          result.push(selectInSection(section, filter))
-        } else {
-          result.push(undefined)
-        }
-      }
-      return result
-    })()
-
-  for (var filterType in current) {
-    var filtersPerType = current[filterType]
-    for (var i in filtersPerType) {
-      var filter = filtersPerType[i]
-      selectInTreePerFilter(filterType, filter)
-    }
-  }
-
-  return tree
-}
-
-var initializeSections = dynamicFilters =>
-  f.map(dynamicFilters, function (filter) {
-    const { filter_type, label, uuid, children } = filter
-    return {
-      filterType: filter_type || uuid,
-      children: initializeSubSections(children),
-      label,
-      uuid
-    }
-  })
-
-var initializeSubSections = filters =>
-  f.map(filters, function (filter) {
-    const { children, label, uuid, multi, context_key_id, meta_datum_object_type, too_many_hits } =
-      filter
-    return {
-      children: initializeItems(children),
+function getFilters(data) {
+  return data.map(
+    ({ children, label, uuid, multi, context_key_id, meta_datum_object_type, too_many_hits }) => ({
+      children: getFilterItems(children),
       label,
       uuid,
       // The default value of multi is true. This means, we only
@@ -698,11 +655,12 @@ var initializeSubSections = filters =>
       contextKeyId: context_key_id,
       metaDatumObjectType: meta_datum_object_type,
       tooManyHits: too_many_hits
-    }
-  })
+    })
+  )
+}
 
-var initializeItems = filters =>
-  f.map(filters, function (filter) {
+function getFilterItems(data) {
+  return data.map(filter => {
     const { uuid, count, type, label, detailed_name } = filter
     return {
       label: detailed_name ? detailed_name : label,
@@ -712,8 +670,65 @@ var initializeItems = filters =>
       type
     }
   })
+}
 
-var getJsonPath = function (baseJsonPath, key) {
+function applyCurrentSelectionToFilterTree(sections, current) {
+  const selectItemForFilter = (item, filter) => {
+    if (item.uuid === filter.value) {
+      return (item.selected = true)
+    }
+  }
+
+  const selectInSubSection = (subSection, filter) => {
+    const result = []
+    for (const i in subSection.children) {
+      const item = subSection.children[i]
+      if (subSection.uuid === filter.key) {
+        subSection.selected = true
+      }
+      result.push(selectItemForFilter(item, filter))
+    }
+    return result
+  }
+
+  const selectInSection = (section, filter) => {
+    const result = []
+    for (const i in section.children) {
+      const subSection = section.children[i]
+      if (subSection.uuid === filter.key) {
+        result.push(selectInSubSection(subSection, filter))
+      } else {
+        result.push(undefined)
+      }
+    }
+    return result
+  }
+
+  const selectInTreePerFilter = (filterType, filter) => {
+    const result = []
+    for (const i in sections) {
+      const section = sections[i]
+      if (section.filterType === filterType) {
+        result.push(selectInSection(section, filter))
+      } else {
+        result.push(undefined)
+      }
+    }
+    return result
+  }
+
+  for (const filterType in current) {
+    const filtersPerType = current[filterType]
+    for (const i in filtersPerType) {
+      const filter = filtersPerType[i]
+      selectInTreePerFilter(filterType, filter)
+    }
+  }
+
+  return sections
+}
+
+function getJsonPath(baseJsonPath, key) {
   let jsonPath = baseJsonPath
   jsonPath = jsonPath.substring(0, jsonPath.length - 'resources'.length)
   jsonPath += `dynamic_filters.${key}`
