@@ -4,9 +4,17 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 import f from 'active-lodash'
-import requireBulk from 'bulk-require'
 
-const index = requireBulk(__dirname, ['*.js'])
+// Use webpack's require.context instead of bulk-require
+const context = require.context('./', false, /\.js$/)
+const index = {}
+
+context.keys().forEach(key => {
+  const moduleName = key.replace(/^\.\//, '').replace(/\.js$/, '')
+  if (moduleName !== 'index') {
+    index[moduleName] = context(key)
+  }
+})
 
 const Models = f.object(
   f.filter(

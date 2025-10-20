@@ -3,10 +3,17 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-const requireBulk = require('bulk-require')
 const resourceName = require('../lib/decorate-resource-names.js')
 
-const UILibrary = requireBulk(__dirname, ['*.jsx'])
+// Use webpack's require.context instead of bulk-require
+const context = require.context('./', false, /\.jsx$/)
+const UILibrary = {}
+
+context.keys().forEach(key => {
+  const moduleName = key.replace(/^\.\//, '').replace(/\.jsx$/, '')
+  UILibrary[moduleName] = context(key).default || context(key)
+})
+
 UILibrary.propTypes = require('./propTypes.js')
 
 // helpers

@@ -5,12 +5,8 @@
 import f from 'active-lodash'
 import parseTranslationsFromCSV from './parse-translations-from-csv'
 
-// NOTE: this works with browserify and the 'brfs' transform (embeds as string)
-var path = require('path')
-var translationsCSVText = require('fs').readFileSync(
-  path.join(__dirname, '../../../config/locale/translations.csv'),
-  'utf8'
-)
+// NOTE: webpack handles CSV imports directly with asset/source
+import translationsCSVText from '../../../config/locale/translations.csv'
 
 // parses CSV and returns list like: [{lang: 'en', mapping: {key: 'value'}}, …]
 var translationsList = parseTranslationsFromCSV(translationsCSVText)

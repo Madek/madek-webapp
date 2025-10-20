@@ -6,16 +6,16 @@
     "start": "npm run -s watch",
     "watch": "mkdir -p public/assets/bundles && npm run -s watch:app",
     "watch-all": "mkdir -p public/assets/bundles && npm run -s watch:app & npm run -s watch:app-embedded-view & npm run -s watch:server",
-    "build": "mkdir -p public/assets/bundles && npm run -s build:app && npm run -s build:app-embedded-view && npm run -s build:server && npm run -s build:integration",
-    "watch:app": "NODE_ENV=development watchify app/javascript/application.js -d -v -o public/assets/bundles/dev-bundle.js",
-    "watch:app-embedded-view": "NODE_ENV=development watchify app/javascript/embedded-view.js -d -v -o public/assets/bundles/dev-bundle-embedded-view.js",
-    "watch:server": "NODE_ENV=development watchify app/javascript/react-server-side.js -d -v -o public/assets/bundles/dev-bundle-react-server-side.js",
-    "build:app": "NODE_ENV=production browserify app/javascript/application.js -v -o public/assets/bundles/bundle.js",
-    "build:app-embedded-view": "NODE_ENV=production browserify app/javascript/embedded-view.js -v -o public/assets/bundles/bundle-embedded-view.js",
-    "build:dev-app-embedded-view": "NODE_ENV=development browserify app/javascript/embedded-view.js -v -o public/assets/bundles/dev-bundle-embedded-view.js",
-    "build:server": "NODE_ENV=production browserify app/javascript/react-server-side.js -v -o public/assets/bundles/bundle-react-server-side.js",
-    "build:server:dev": "NODE_ENV=development browserify app/javascript/react-server-side.js -v -o public/assets/bundles/bundle-react-server-side.js",
-    "build:integration": "NODE_ENV=production browserify app/javascript/integration-testbed.js -v -o public/assets/bundles/bundle-integration-testbed.js",
+    "build": "mkdir -p public/assets/bundles && NODE_ENV=production webpack",
+    "watch:app": "NODE_ENV=development webpack --watch",
+    "watch:app-embedded-view": "NODE_ENV=development webpack --watch",
+    "watch:server": "NODE_ENV=development webpack --watch",
+    "build:app": "NODE_ENV=production webpack",
+    "build:app-embedded-view": "NODE_ENV=production webpack",
+    "build:dev-app-embedded-view": "NODE_ENV=development webpack",
+    "build:server": "NODE_ENV=production webpack",
+    "build:server:dev": "NODE_ENV=development webpack",
+    "build:integration": "NODE_ENV=production webpack",
     "format": "prettier 'app/javascript/**/*.{js,jsx}' --write",
     "format:check": "prettier 'app/javascript/**/*.{js,jsx}' --check",
     "lint": "eslint 'app/javascript/**/*.{js,jsx}'",
@@ -23,10 +23,10 @@
     "lint:fix": "eslint --fix 'app/javascript/**/*.{js,jsx}'",
     "devtools": "NODE_ENV=development npm run -s build-devtools",
     "devtools-js": "NODE_ENV=development npm run -s build-devtools && node -r ./tmp/devtools.js",
-    "build-devtools": "NODE_ENV=production npm run -s browserify -- app/javascript/developer-tools.js > tmp/devtools.js",
-    "browserify": "browserify"
+    "build-devtools": "NODE_ENV=production webpack --entry ./app/javascript/developer-tools.js --output-path ./tmp --output-filename devtools.js"
   },
   "dependencies": {
+    "@babel/runtime": "^7.26.0",
     "@eins78/typeahead.js": "0.11.2-pre.1",
     "@eins78/typopro-open-sans": "0.0.0",
     "active-lodash": "1.2.2",
@@ -36,15 +36,10 @@
     "ampersand-rest-collection": "^6.0.0",
     "any_sha1": "0.1.1",
     "async": "^2.6.4",
-    "babel-preset-react": "6.24.1",
-    "babel-runtime": "6.23.0",
     "babyparse": "0.4.6",
-    "bulk-require": "^1.0.1",
-    "check-dependencies": "^2.0.0",
     "classnames": "2.2.5",
     "create-react-class": "^15.7.0",
     "font-awesome": "4.6.3",
-    "fs-extra": "3.0.1",
     "global": "4.3.2",
     "hashblot": "0.4.5",
     "history": "2.1.2",
@@ -67,42 +62,24 @@
     "xhr": "2.4.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.28.4",
+    "@babel/plugin-transform-runtime": "^7.28.3",
+    "@babel/preset-env": "^7.28.3",
+    "@babel/preset-react": "^7.27.1",
     "@eins78/rspec-render-docs": "^1.0.0-alpha.4",
     "@eslint/js": "^9.23.0",
-    "babel-plugin-transform-runtime": "^6.15.0",
-    "babel-polyfill": "^6.22.0",
-    "babel-preset-react-app": "^2.0.1",
-    "babelify": "^7.3.0",
-    "brfs": "^1.4.3",
-    "browserify": "^14.0.0",
-    "browserify-incremental": "^3.1.1",
-    "bulkify": "^1.4.2",
+    "babel-loader": "^9.2.1",
     "eslint": "^9.23.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-react": "^7.37.4",
     "globals": "^16.0.0",
+    "path-browserify": "^1.0.1",
     "prettier": "^3.5.3",
     "prettier-eslint": "^16.3.0",
-    "watchify": "^4.0.0"
-  },
-  "browserify": {
-    "transform": [
-      "babelify",
-      "bulkify",
-      "brfs"
-    ],
-    "ignore": [
-      "crypto"
-    ]
-  },
-  "babel": {
-    "plugins": [
-      "transform-runtime"
-    ],
-    "presets": [
-      "react-app"
-    ]
+    "url": "^0.11.4",
+    "webpack": "^5.102.1",
+    "webpack-cli": "^5.1.4"
   },
   "author": "Max Albrecht <max.albrecht@zhdk.ch>",
   "repository": "https://github.com/Madek/madek-webapp.git",
