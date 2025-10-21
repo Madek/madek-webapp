@@ -1,76 +1,65 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 // Wrap this around anything for bootstrap-style tooltips
 
-import React from 'react'
-import createReactClass from 'create-react-class'
+import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import Tooltip from 'react-bootstrap/lib/Tooltip'
 import Overlay from 'react-bootstrap/lib/Overlay'
 
-module.exports = createReactClass({
-  displayName: 'Tooltipped',
-  propTypes: {
-    text: PropTypes.string.isRequired,
-    link: PropTypes.element,
-    id: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired
-  },
+const Tooltipped = ({ text, link, id, children }) => {
+  const [showTooltip, setShowTooltip] = useState(false)
+  const targetRef = useRef(null)
+  const timerRef = useRef(null)
 
-  getInitialState() {
-    return { showTooltip: false }
-  },
-
-  showTooltip() {
-    if (this._timer) {
-      clearTimeout(this._timer)
+  const handleShowTooltip = () => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current)
     }
-    return this.setState({ showTooltip: true })
-  },
+    setShowTooltip(true)
+  }
 
-  hideTooltip() {
-    return (this._timer = setTimeout(() => this.setState({ showTooltip: false }), 30))
-  },
+  const handleHideTooltip = () => {
+    timerRef.current = setTimeout(() => setShowTooltip(false), 30)
+  }
 
-  getTriggerEl(children) {
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+      }
+    }
+  }, [])
+
+  const getTriggerEl = children => {
     const child = React.Children.toArray(children)[0]
 
     return React.cloneElement(child, {
-      onMouseEnter: this.showTooltip,
-      onMouseLeave: this.hideTooltip,
+      onMouseEnter: handleShowTooltip,
+      onMouseLeave: handleHideTooltip,
       ref: el => {
-        return (this._target = el)
+        targetRef.current = el
       }
     })
-  },
-
-  componentWillUnmount() {
-    if (this._timer) {
-      return clearTimeout(this._timer)
-    }
-  },
-
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { text, link, id, children } = param
-    const { showTooltip } = this.state
-
-    return (
-      <span>
-        {this.getTriggerEl(children)}
-        <Overlay show={showTooltip} target={this._target} placement="top">
-          <Tooltip id={id} onMouseEnter={this.showTooltip} onMouseLeave={this.hideTooltip}>
-            {text}
-            {link ? <div>({link})</div> : undefined}
-          </Tooltip>
-        </Overlay>
-      </span>
-    )
   }
-})
+
+  return (
+    <span>
+      {getTriggerEl(children)}
+      <Overlay show={showTooltip} target={targetRef.current} placement="top">
+        <Tooltip id={id} onMouseEnter={handleShowTooltip} onMouseLeave={handleHideTooltip}>
+          {text}
+          {link && <div>({link})</div>}
+        </Tooltip>
+      </Overlay>
+    </span>
+  )
+}
+
+Tooltipped.propTypes = {
+  text: PropTypes.string.isRequired,
+  link: PropTypes.element,
+  id: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired
+}
+
+export default Tooltipped
+module.exports = Tooltipped

@@ -1,24 +1,15 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-import React from 'react'
-import createReactClass from 'create-react-class'
+import React, { useState, useEffect } from 'react'
 
-let AutoComplete = null
+const AutoCompleteWrapper = props => {
+  const [AutoComplete, setAutoComplete] = useState(null)
 
-module.exports = createReactClass({
-  displayName: 'AutoCompleteWrapper',
+  useEffect(() => {
+    const AC = require('./autocomplete.js')
+    setAutoComplete(() => AC)
+  }, [])
 
-  componentDidMount() {
-    AutoComplete = require('./autocomplete.js')
-    return this.forceUpdate()
-  },
+  return <div>{AutoComplete ? <AutoComplete {...props} /> : null}</div>
+}
 
-  render() {
-    return (
-      <div>{AutoComplete ? <AutoComplete {...Object.assign({}, this.props)} /> : undefined}</div>
-    )
-  }
-})
+export default AutoCompleteWrapper
+module.exports = AutoCompleteWrapper

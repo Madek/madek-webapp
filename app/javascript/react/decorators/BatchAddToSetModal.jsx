@@ -1,39 +1,26 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-import React from 'react'
-import createReactClass from 'create-react-class'
+import React, { useState, useEffect } from 'react'
 import BatchAddToSet from './BatchAddToSet.jsx'
 import qs from 'qs'
 import xhr from 'xhr'
 import Modal from '../ui-components/Modal.jsx'
 import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 
-module.exports = createReactClass({
-  displayName: 'BatchAddToSetModal',
+const BatchAddToSetModal = ({ resourceIds, returnTo, authToken, onClose }) => {
+  const [loading, setLoading] = useState(true)
+  const [get, setGet] = useState(null)
 
-  getInitialState() {
-    return {
-      mounted: false,
-      loading: true
-    }
-  },
-
-  componentDidMount() {
+  useEffect(() => {
     const data = {
       search_term: '',
-      resource_id: this.props.resourceIds,
-      return_to: this.props.returnTo
+      resource_id: resourceIds,
+      return_to: returnTo
     }
 
     const body = qs.stringify(data, {
       arrayFormat: 'brackets' // NOTE: Do it like rails.
     })
 
-    return xhr(
+    xhr(
       {
         url: '/batch_select_add_to_set',
         method: 'POST',
@@ -48,30 +35,29 @@ module.exports = createReactClass({
         if (err || res.statusCode !== 200) {
           return
         } else {
-          return this.setState({
-            get: JSON.parse(json),
-            loading: false
-          })
+          setGet(JSON.parse(json))
+          setLoading(false)
         }
       }
     )
-  },
+  }, [resourceIds, returnTo])
 
-  render() {
-    if (this.state.loading) {
-      return <Modal loading={true} />
-    } else {
-      return (
-        <Modal loading={false}>
-          <BatchAddToSet
-            returnTo={this.props.returnTo}
-            get={this.state.get}
-            async={true}
-            authToken={this.props.authToken}
-            onClose={this.props.onClose}
-          />
-        </Modal>
-      )
-    }
+  if (loading) {
+    return <Modal loading={true} />
   }
-})
+
+  return (
+    <Modal loading={false}>
+      <BatchAddToSet
+        returnTo={returnTo}
+        get={get}
+        async={true}
+        authToken={authToken}
+        onClose={onClose}
+      />
+    </Modal>
+  )
+}
+
+export default BatchAddToSetModal
+module.exports = BatchAddToSetModal
