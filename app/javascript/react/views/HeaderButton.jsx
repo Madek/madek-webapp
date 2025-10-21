@@ -2,7 +2,7 @@ import React from 'react'
 import RailsForm from '../lib/forms/rails-form.jsx'
 
 const HeaderButton = ({ authToken, href, method = 'post', icon, fa, title, onClick, children }) => {
-  const handleClick = (event) => {
+  const handleClick = event => {
     event.preventDefault()
     if (onClick) {
       onClick(event)

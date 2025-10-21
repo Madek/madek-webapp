@@ -11,7 +11,7 @@ const MetaDataDefinitionList = ({ labelValuePairs, fallbackMsg, tagMods }) => {
       {fallbackMsg ? (
         <dt className={keyClass}>{fallbackMsg}</dt>
       ) : (
-        labelValuePairs.map((item) =>
+        labelValuePairs.map(item =>
           // NOTE: weird array + keys because of <http://facebook.github.io/react/tips/maximum-number-of-jsx-root-nodes.html>
           [
             <dt key={`dt_${item.key}`} className={keyClass}>
