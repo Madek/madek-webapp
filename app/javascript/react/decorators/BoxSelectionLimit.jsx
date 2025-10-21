@@ -2,45 +2,40 @@ import React from 'react'
 import t from '../../lib/i18n-translate.js'
 import Modal from '../ui-components/Modal.jsx'
 
-class BoxSelectionLimit extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
-  renderText() {
-    if (this.props.showSelectionLimit == 'page-selection') {
+const BoxSelectionLimit = ({ showSelectionLimit, selectionLimit, onClose }) => {
+  const renderText = () => {
+    if (showSelectionLimit === 'page-selection') {
       return (
         t('resources_box_selection_limit_page_1') +
-        this.props.selectionLimit +
+        selectionLimit +
         t('resources_box_selection_limit_page_2')
       )
-    } else if (this.props.showSelectionLimit == 'single-selection') {
+    } else if (showSelectionLimit === 'single-selection') {
       return (
         t('resources_box_selection_limit_single_1') +
-        this.props.selectionLimit +
+        selectionLimit +
         t('resources_box_selection_limit_single_2')
       )
     } else {
-      throw new Error('Unexpected show selection limit: ' + this.props.showSelectionLimit)
+      throw new Error('Unexpected show selection limit: ' + showSelectionLimit)
     }
   }
 
-  render() {
-    return (
-      <Modal widthInPixel={400}>
-        <div style={{ margin: '20px', marginBottom: '20px', textAlign: 'center' }}>
-          {this.renderText()}
+  return (
+    <Modal widthInPixel={400}>
+      <div style={{ margin: '20px', marginBottom: '20px', textAlign: 'center' }}>
+        {renderText()}
+      </div>
+      <div style={{ margin: '20px', marginBottom: '20px', textAlign: 'center' }}>
+        <div className="ui-actions">
+          <a onClick={onClose} className="primary-button">
+            {t('resources_box_selection_limit_ok')}
+          </a>
         </div>
-        <div style={{ margin: '20px', marginBottom: '20px', textAlign: 'center' }}>
-          <div className="ui-actions">
-            <a onClick={this.props.onClose} className="primary-button">
-              {t('resources_box_selection_limit_ok')}
-            </a>
-          </div>
-        </div>
-      </Modal>
-    )
-  }
+      </div>
+    </Modal>
+  )
 }
 
+export default BoxSelectionLimit
 module.exports = BoxSelectionLimit

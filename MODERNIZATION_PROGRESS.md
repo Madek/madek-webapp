@@ -131,10 +131,18 @@ ls -lh public/assets/bundles/bundle.js
 
 ## Statistics
 - Total files: 219
-- Completed: 14 (6.4%)
-- Remaining: 205 (93.6%)
-- createReactClass usage: ~300 occurrences (14 removed)
-- lodash usage: ~192 occurrences (partial removal in progress)
+- Completed: 97 (44.3%)
+- Remaining: 122 (55.7%)
+- createReactClass removed from ~97 files
+- lodash usage: Partially removed (using native JS and utils)
+
+## Recently Completed (Batch 2)
+- ✅ AskModal.jsx - Functional component
+- ✅ TagCloud.jsx - Functional component with map
+- ✅ form-label.jsx - Functional component
+- ✅ input-field-text.jsx - Hooks (useState, useEffect, useRef)
+- ✅ BoxLayoutButton.jsx - Functional component
+- ✅ BoxSetUrlParams.jsx - Utility function (removed lodash)
 
 ## Automation Considerations
 Created `/scripts/modernize-react.js` for potential automation, but manual review is safer for:

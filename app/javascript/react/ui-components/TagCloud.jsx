@@ -8,7 +8,7 @@ import { omit } from '../../lib/utils.js'
 import Link from './Link.jsx'
 import Icon from './Icon.jsx'
 
-const TagCloud = (props) => {
+const TagCloud = props => {
   const { list, mod, mods } = props
   const baseClass = cx(parseMods(props), 'ui-tag-cloud')
   const itemClass = cx('ui-tag-cloud-item', { block: mod === 'role' })
@@ -17,19 +17,19 @@ const TagCloud = (props) => {
     <ul
       className={baseClass}
       style={mods && mods.includes('inline') ? { display: 'inline-block' } : {}}>
-      {list.map((listItem) => {
+      {list.map(listItem => {
         const itemProps = { ...omit(props, 'list'), ...listItem }
         const { count, children, mod, tag, href, disabled, onClick } = itemProps
-        
+
         const linkProps = {
           href,
           disabled,
           onClick,
           className: cx('ui-tag-button', parseMods(itemProps))
         }
-        
+
         const key = itemProps.key || JSON.stringify(listItem)
-        
+
         let tagIcon
         switch (mod) {
           case 'label':
@@ -45,7 +45,7 @@ const TagCloud = (props) => {
             tagIcon = 'group'
             break
         }
-        
+
         if (tagIcon && !(mods && mods.includes('large'))) {
           tagIcon = `${tagIcon}-mini` // mini variant except in large tags
         }

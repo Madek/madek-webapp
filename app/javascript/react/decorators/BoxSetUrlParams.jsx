@@ -1,25 +1,24 @@
-import f from 'lodash'
 import setUrlParams from '../../lib/set-params-for-url.js'
 
-module.exports = (url, ...params) => {
-  var p = params.map(param => {
-    return f.fromPairs(
-      f.map(param, (val, key) => {
+const BoxSetUrlParams = (url, ...params) => {
+  const p = params.map(param => {
+    return Object.fromEntries(
+      Object.entries(param).map(([key, val]) => {
         if (key === 'list') {
           return [
             key,
-            f.fromPairs(
-              f.compact(
-                f.map(val, (v, k) => {
-                  if (f.includes(['accordion', 'filter'], k)) {
+            Object.fromEntries(
+              Object.entries(val)
+                .map(([k, v]) => {
+                  if (['accordion', 'filter'].includes(k)) {
                     if (v == null) {
-                      return
+                      return null
                     }
                     return [k, typeof v === 'object' ? JSON.stringify(v) : v]
                   }
                   return [k, v]
                 })
-              )
+                .filter(Boolean)
             )
           ]
         }
@@ -30,3 +29,6 @@ module.exports = (url, ...params) => {
 
   return setUrlParams(url, ...p)
 }
+
+export default BoxSetUrlParams
+module.exports = BoxSetUrlParams
