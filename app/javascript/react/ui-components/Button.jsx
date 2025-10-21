@@ -3,26 +3,34 @@ import PropTypes from 'prop-types'
 import ui from '../lib/ui.js'
 import { omit } from '../../lib/utils.js'
 
-const Button = ({ href, onClick, type, mod, disabled, children, className, ...restProps }) => {
+const Button = props => {
+  const { href, onClick, type, mod, disabled, children, className, ...restProps } = props
   const cleanProps = omit(restProps, ['mod', 'mods'])
   const baseClass = className ? className : mod ? `${mod}-button` : 'button'
   const isDisabled = disabled || !(href || onClick || type)
 
-  const classes = ui.cx({ disabled: isDisabled }, ui.parseMods(restProps), baseClass)
+  const classes = ui.cx({ disabled: isDisabled }, ui.parseMods(props), baseClass)
 
-  // Determine element type
-  let Elm = 'span'
+  // Determine element type and build appropriate props
   if (href || onClick) {
-    Elm = 'a'
+    return (
+      <a {...cleanProps} href={href} onClick={onClick} className={classes}>
+        {children}
+      </a>
+    )
   } else if (type) {
-    Elm = 'button'
+    return (
+      <button {...cleanProps} type={type} onClick={onClick} className={classes}>
+        {children}
+      </button>
+    )
+  } else {
+    return (
+      <span {...cleanProps} className={classes}>
+        {children}
+      </span>
+    )
   }
-
-  return (
-    <Elm {...cleanProps} className={classes}>
-      {children}
-    </Elm>
-  )
 }
 
 Button.propTypes = {
