@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import f from 'active-lodash'
 import async from 'async'
 import t from '../../../lib/i18n-translate.js'
 import { ActionsBar, Button, Link } from '../../ui-components/index.js'
 import SuperBoxUpload from '../../decorators/SuperBoxUpload.jsx'
 import { parse as parseUrl } from 'url'
+import { get } from '../../../lib/utils.js'
 
 let FileDrop = <div /> // client-side only
 const UPLOAD_CONCURRENCY = 4
@@ -31,7 +31,7 @@ class Uploader extends React.Component {
     this.state = {
       isClient: false,
       customUrlsAlreadyMoved: false,
-      duplicatorConfiguration: f.get(this.props, 'get.duplicator_defaults'),
+      duplicatorConfiguration: get(this.props, 'get.duplicator_defaults'),
       uploadError: [],
       uploading: false
     }
@@ -45,7 +45,7 @@ class Uploader extends React.Component {
 
   componentDidMount() {
     FileDrop = require('react-file-drop').FileDrop
-    if (!f.get(this.props, 'appCollection.isCollection')) {
+    if (!get(this.props, 'appCollection.isCollection')) {
       throw new Error('No AppCollection given!')
     }
     this.setState({ isClient: true, uploading: false, uploads: UploadQueue })
@@ -140,7 +140,7 @@ class Uploader extends React.Component {
       this.state.duplicatorConfiguration !== null &&
       this.state.duplicatorConfiguration.move_custom_urls === true
     ) {
-      const configuration = f.assign({}, this.state.duplicatorConfiguration)
+      const configuration = { ...this.state.duplicatorConfiguration }
       configuration.move_custom_urls = false
 
       this.setState({
@@ -165,13 +165,13 @@ class Uploader extends React.Component {
   }
 
   isChecked(name) {
-    return f.get(this.state, ['duplicatorConfiguration', name], false)
+    return get(this.state, ['duplicatorConfiguration', name], false)
   }
 
   onCheckboxToggle(e) {
     const configKey = e.target.name
     const { checked } = e.target
-    const configuration = f.assign({}, this.state.duplicatorConfiguration)
+    const configuration = { ...this.state.duplicatorConfiguration }
     configuration[configKey] = checked
     this.setState({ duplicatorConfiguration: configuration })
   }
@@ -183,7 +183,7 @@ class Uploader extends React.Component {
         name={name}
         checked={this.isChecked(name)}
         onChange={this.onCheckboxToggle}
-        disabled={f.get(props, 'disabled', this.state.uploading)}
+        disabled={get(props, 'disabled', this.state.uploading)}
       />
     )
   }
@@ -244,11 +244,11 @@ class Uploader extends React.Component {
                 <label className="block">
                   {this.renderCheckbox('move_custom_urls', {
                     disabled:
-                      !f.get(this.props, 'get.copy_md_from.custom_urls?', false) ||
+                      !get(this.props, 'get.copy_md_from.custom_urls?', false) ||
                       this.state.customUrlsAlreadyMoved ||
                       this.state.uploading
                   })}{' '}
-                  {!f.get(this.props, 'get.copy_md_from.custom_urls?', false) ||
+                  {!get(this.props, 'get.copy_md_from.custom_urls?', false) ||
                   this.state.customUrlsAlreadyMoved ? (
                     <span style={{ textDecoration: 'line-through' }}>
                       {t('media_entry_duplicator_configuration_move_custom_urls')}
@@ -267,7 +267,7 @@ class Uploader extends React.Component {
             <SuperBoxUpload
               ref={el => (this.polybox = el)}
               authToken={props.authToken}
-              ampersandCollection={props.appCollection}>
+              collection={props.appCollection}>
               <div className="ui-form-group rowed by-center">
                 <h3 className="title-l">
                   {t('media_entry_media_import_inside') + ' '}

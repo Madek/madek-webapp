@@ -32,7 +32,6 @@
     "active-lodash": "1.2.2",
     "ampersand-app": "2.0.0",
     "ampersand-model": "^8.0.1",
-    "ampersand-react-mixin": "github:eins78/ampersand-react-mixin#1e7b0c4",
     "ampersand-rest-collection": "^6.0.0",
     "any_sha1": "0.1.1",
     "async": "^2.6.4",

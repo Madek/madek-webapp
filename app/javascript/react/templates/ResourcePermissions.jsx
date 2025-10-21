@@ -10,10 +10,8 @@
 
 import React from 'react'
 import createReactClass from 'create-react-class'
-import f from 'active-lodash'
 import t from '../../lib/i18n-translate.js'
 import url from 'url'
-import ampersandReactMixin from 'ampersand-react-mixin'
 import ResourcePermissionsForm from '../decorators/ResourcePermissionsForm.jsx'
 import Modal from '../ui-components/Modal.jsx'
 import EditTransferResponsibility from '../views/Shared/EditTransferResponsibility.jsx'
@@ -44,7 +42,7 @@ module.exports = createReactClass({
     })()
 
     // set up auto-update for model:
-    f.each(['add', 'remove', 'reset', 'change'], eventName => {
+    ;['add', 'remove', 'reset', 'change'].forEach(eventName => {
       return model.on(eventName, () => this.forceUpdate())
     })
 
@@ -54,7 +52,7 @@ module.exports = createReactClass({
   // functions to be called on unmount (cleanup):
   _toBeCalledOnUnmount: [],
   componentWillUnmount() {
-    return f.each(this._toBeCalledOnUnmount, fn => fn())
+    return this._toBeCalledOnUnmount.forEach(fn => fn())
   },
 
   // this will only ever run on the client:
@@ -68,7 +66,7 @@ module.exports = createReactClass({
     // set state according to url from router
     const stopListen = router.listen(location => {
       // runs once initially when router is started!
-      return this.setState({ editing: f.isEqual(location.pathname, editUrl) })
+      return this.setState({ editing: location.pathname === editUrl })
     })
     this._toBeCalledOnUnmount.push(stopListen)
 
@@ -179,8 +177,6 @@ module.exports = createReactClass({
 //
 
 var PermissionsOverview = createReactClass({
-  mixins: [ampersandReactMixin],
-
   render() {
     const { get } = this.props
 

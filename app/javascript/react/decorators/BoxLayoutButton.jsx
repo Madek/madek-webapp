@@ -3,30 +3,26 @@ import Button from '../ui-components/Button.jsx'
 import cx from 'classnames/dedupe'
 import Icon from '../ui-components/Icon.jsx'
 
-class BoxLayoutButton extends React.Component {
-  constructor(props) {
-    super(props)
+const BoxLayoutButton = ({ layout, onLayoutClick }) => {
+  const handleClick = event => {
+    onLayoutClick(event, layout)
   }
 
-  onClick(event) {
-    this.props.onLayoutClick(event, this.props.layout)
-  }
+  const mods = cx('small', 'ui-toolbar-vis-button', layout.mods)
 
-  render({ layout } = this.props) {
-    var mods = cx('small', 'ui-toolbar-vis-button', layout.mods)
-    return (
-      <Button
-        mode={layout.mode}
-        title={layout.title}
-        icon={layout.icon}
-        href={layout.href}
-        onClick={e => this.onClick(e)}
-        mods={mods}
-        key={layout.mode}>
-        <Icon i={layout.icon} title={layout.title} />
-      </Button>
-    )
-  }
+  return (
+    <Button
+      mode={layout.mode}
+      title={layout.title}
+      icon={layout.icon}
+      href={layout.href}
+      onClick={handleClick}
+      mods={mods}
+      key={layout.mode}>
+      <Icon i={layout.icon} title={layout.title} />
+    </Button>
+  )
 }
 
+export default BoxLayoutButton
 module.exports = BoxLayoutButton

@@ -157,7 +157,6 @@ def select_all_in_box_and_choose_from_menu(text)
   within(page.find('.ui-polybox')) do
     within('.ui-filterbar') do
       find('.dropdown-toggle, .ui-drop-toggle', text: 'Aktionen').click
-      binding.pry
       find('.dropdown-menu a', text: text).click
     end
   end

@@ -1,109 +1,26 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS201: Simplify complex destructure assignments
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import React from 'react'
-import createReactClass from 'create-react-class'
-import isEmpty from 'lodash/isEmpty'
+import { isEmpty, getPath } from '../../lib/utils.js'
 import t from '../../lib/i18n-translate.js'
 import PageHeader from '../ui-components/PageHeader.js'
 import PageContent from './PageContent.jsx'
 import MediaResourcesBox from '../decorators/MediaResourcesBox.jsx'
-import libUrl from 'url'
-import f from 'active-lodash'
+import { format as formatUrl } from 'url'
 import { decorateExternalURI } from '../../lib/URIAuthorityControl'
 
-const infotable = function (p) {
-  const autority_links = f.filter(p.external_uris, 'authority_control.kind')
-  const external_links = f.difference(p.external_uris, autority_links)
+const decoExternalUris = uris => {
+  const sortedUris = uris.slice().sort((a, b) => {
+    const aKind = getPath(a, 'authority_control.kind') || ''
+    const bKind = getPath(b, 'authority_control.kind') || ''
+    return aKind.localeCompare(bKind)
+  })
 
-  const nameFields = [[t('person_show_only_name'), p.label]]
-
-  return f.compact(
-    []
-      .concat(nameFields)
-      .concat([
-        f.isEmpty(external_links)
-          ? null
-          : [t('person_show_external_uris'), deco_external_uris(external_links)],
-        f.isEmpty(autority_links)
-          ? null
-          : [t('person_show_external_uris_autority_control'), deco_external_uris(autority_links)],
-        [t('person_show_description'), p.description]
-      ])
-  )
-}
-
-const PersonShow = createReactClass({
-  displayName: 'PersonShow',
-
-  forUrl() {
-    return libUrl.format(this.props.for_url)
-  },
-
-  render() {
-    const { get } = this.props
-    const title = get.to_s
-    const { resources } = get
-    get.external_uris = f.map(get.external_uris, uri => decorateExternalURI(uri))
-
-    const actions = get.actions.edit.url ? (
-      <a href={get.actions.edit.url} className="primary-button">
-        {t('person_show_edit_btn')}
-      </a>
-    ) : undefined
-
-    return (
-      <PageContent>
-        <PageHeader title={title} icon="tag" actions={actions} />
-        <div className="ui-container tab-content bordered bright rounded-right rounded-bottom">
-          <div className="ui-container pal">
-            <table className="borderless">
-              <tbody>
-                {f.map(infotable(get), function (...args) {
-                  const [label, value] = Array.from(args[0]),
-                    i = args[1]
-                  if (isEmpty(value)) {
-                    return null
-                  } else {
-                    return (
-                      <tr key={label + i}>
-                        <td className="ui-summary-label">{label}</td>
-                        <td className="ui-summary-content measure-double">{value}</td>
-                      </tr>
-                    )
-                  }
-                })}
-              </tbody>
-            </table>
-          </div>
-          <MediaResourcesBox
-            for_url={this.forUrl()}
-            get={resources}
-            authToken={this.props.authToken}
-            mods={[{ bordered: false }, 'rounded-bottom']}
-            resourceTypeSwitcherConfig={{ showAll: false }}
-            enableOrdering={true}
-            enableOrderByTitle={true}
-          />
-        </div>
-      </PageContent>
-    )
-  }
-})
-
-var deco_external_uris = function (uris) {
-  uris = f.sortBy(uris, 'authority_control.kind')
   return (
     <ul className="list-unstyled">
-      {uris.map(function (uri, i) {
+      {sortedUris.map((uri, i) => {
         let label = uri.uri
         let badge = false
-        if (f.get(uri, 'authority_control.kind')) {
-          ;({ label } = uri.authority_control)
+        if (getPath(uri, 'authority_control.kind')) {
+          label = uri.authority_control.label
           const providerLabel = uri.authority_control.provider.label
           badge = (
             <span className="ui-authority-control-badge">
@@ -129,5 +46,72 @@ var deco_external_uris = function (uris) {
   )
 }
 
+const infotable = p => {
+  const autority_links = p.external_uris.filter(uri => getPath(uri, 'authority_control.kind'))
+  const external_links = p.external_uris.filter(uri => !getPath(uri, 'authority_control.kind'))
+
+  const nameFields = [[t('person_show_only_name'), p.label]]
+
+  return []
+    .concat(nameFields)
+    .concat([
+      external_links.length === 0
+        ? null
+        : [t('person_show_external_uris'), decoExternalUris(external_links)],
+      autority_links.length === 0
+        ? null
+        : [t('person_show_external_uris_autority_control'), decoExternalUris(autority_links)],
+      [t('person_show_description'), p.description]
+    ])
+    .filter(Boolean)
+}
+
+const PersonShow = ({ get, for_url, authToken }) => {
+  const title = get.to_s
+  const { resources } = get
+  get.external_uris = get.external_uris.map(uri => decorateExternalURI(uri))
+
+  const actions = get.actions.edit.url ? (
+    <a href={get.actions.edit.url} className="primary-button">
+      {t('person_show_edit_btn')}
+    </a>
+  ) : undefined
+
+  return (
+    <PageContent>
+      <PageHeader title={title} icon="tag" actions={actions} />
+      <div className="ui-container tab-content bordered bright rounded-right rounded-bottom">
+        <div className="ui-container pal">
+          <table className="borderless">
+            <tbody>
+              {infotable(get).map(([label, value], i) => {
+                if (isEmpty(value)) {
+                  return null
+                }
+                return (
+                  <tr key={label + i}>
+                    <td className="ui-summary-label">{label}</td>
+                    <td className="ui-summary-content measure-double">{value}</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+        <MediaResourcesBox
+          for_url={formatUrl(for_url)}
+          get={resources}
+          authToken={authToken}
+          mods={[{ bordered: false }, 'rounded-bottom']}
+          resourceTypeSwitcherConfig={{ showAll: false }}
+          enableOrdering={true}
+          enableOrderByTitle={true}
+        />
+      </div>
+    </PageContent>
+  )
+}
+
+export default PersonShow
 module.exports = PersonShow
-module.exports.deco_external_uris = deco_external_uris
+module.exports.deco_external_uris = decoExternalUris

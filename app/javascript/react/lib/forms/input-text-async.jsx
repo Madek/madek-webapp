@@ -1,64 +1,41 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-import React from 'react'
-import createReactClass from 'create-react-class'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import InputFieldText from '../forms/input-field-text.jsx'
 
-module.exports = createReactClass({
-  displayName: 'InputTextAsync',
-  propTypes: {
-    name: PropTypes.string.isRequired,
-    values: PropTypes.array.isRequired
-  },
+const InputTextAsync = ({ name, values: initialValues, metaKey, onChange, subForms }) => {
+  const [values, setValues] = useState(initialValues)
 
-  getInitialState() {
-    return {
-      values: []
-    }
-  },
-
-  UNSAFE_componentWillMount() {
-    return this.setState({ values: this.props.values })
-  },
-
-  _onChange(event) {
+  const handleChange = event => {
     const newValues = [event.target.value]
-    this.setState({ values: newValues })
+    setValues(newValues)
 
-    if (this.props.onChange) {
-      return this.props.onChange(newValues)
+    if (onChange) {
+      onChange(newValues)
     }
-  },
-
-  render(param) {
-    let value
-    if (param == null) {
-      param = this.props
-    }
-    const { metaKey, name } = param
-    return (
-      <div className="form-item">
-        <div className="form-item-values">
-          {
-            (this.state.values.length === 0 ? (value = '') : (value = this.state.values[0]),
-            (
-              <InputFieldText
-                onChange={this._onChange}
-                name={name}
-                value={value}
-                key={metaKey.uuid}
-                metaKey={metaKey}
-              />
-            ))
-          }
-        </div>
-        {this.props.subForms}
-      </div>
-    )
   }
-})
+
+  const value = values.length === 0 ? '' : values[0]
+
+  return (
+    <div className="form-item">
+      <div className="form-item-values">
+        <InputFieldText
+          onChange={handleChange}
+          name={name}
+          value={value}
+          key={metaKey.uuid}
+          metaKey={metaKey}
+        />
+      </div>
+      {subForms}
+    </div>
+  )
+}
+
+InputTextAsync.propTypes = {
+  name: PropTypes.string.isRequired,
+  values: PropTypes.array.isRequired
+}
+
+export default InputTextAsync
+module.exports = InputTextAsync

@@ -1,67 +1,54 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import React from 'react'
-import createReactClass from 'create-react-class'
-import f from 'active-lodash'
 import cx from 'classnames'
 import libUrl from 'url'
 
-module.exports = createReactClass({
-  displayName: 'Sidebar',
+const Sidebar = ({ sections, for_url }) => {
+  const show_beta = false
 
-  _endsWith(string, suffix) {
+  const endsWith = (string, suffix) => {
     return string.indexOf(suffix, string.length - suffix.length) !== -1
-  },
-
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { sections, for_url } = param
-    const show_beta = false
-
-    return (
-      <ul className="ui-side-navigation">
-        {f.flatten(
-          f.map(f.keys(sections), section_id => {
-            const section = sections[section_id]
-            const link = section.href
-
-            if (!link) {
-              throw new Error(`Missing href attribute for '${section_id}' section!`)
-            }
-
-            const link_active = this._endsWith(libUrl.parse(for_url).pathname, section_id)
-
-            const classes = cx('ui-side-navigation-item', { active: link_active })
-
-            return f.compact([
-              <li className={classes} key={section_id}>
-                <a className="strong" href={link}>
-                  {section.is_beta && show_beta ? (
-                    <em style={{ fontStyle: 'italic', fontWeight: 'normal' }}>Beta: </em>
-                  ) : undefined}
-                  {section.title}
-                  {section.counter ? (
-                    <span
-                      style={{ marginLeft: '4px', color: 'grey', fontWeight: 'normal' }}
-                      id={`side-navigation-${section_id}-counter`}>
-                      ({section.counter})
-                    </span>
-                  ) : undefined}
-                </a>
-              </li>,
-              section_id !== f.last(f.keys(sections)) ? (
-                <li key={section_id + 'key2'} className="separator mini" />
-              ) : undefined
-            ])
-          })
-        )}
-      </ul>
-    )
   }
-})
+
+  const sectionKeys = Object.keys(sections)
+
+  return (
+    <ul className="ui-side-navigation">
+      {sectionKeys
+        .map((section_id, index) => {
+          const section = sections[section_id]
+          const link = section.href
+
+          if (!link) {
+            throw new Error(`Missing href attribute for '${section_id}' section!`)
+          }
+
+          const link_active = endsWith(libUrl.parse(for_url).pathname, section_id)
+          const classes = cx('ui-side-navigation-item', { active: link_active })
+          const isLast = index === sectionKeys.length - 1
+
+          return [
+            <li className={classes} key={section_id}>
+              <a className="strong" href={link}>
+                {section.is_beta && show_beta && (
+                  <em style={{ fontStyle: 'italic', fontWeight: 'normal' }}>Beta: </em>
+                )}
+                {section.title}
+                {!!section.counter && (
+                  <span
+                    style={{ marginLeft: '4px', color: 'grey', fontWeight: 'normal' }}
+                    id={`side-navigation-${section_id}-counter`}>
+                    ({section.counter})
+                  </span>
+                )}
+              </a>
+            </li>,
+            !isLast && <li key={section_id + 'key2'} className="separator mini" />
+          ].filter(Boolean)
+        })
+        .flat()}
+    </ul>
+  )
+}
+
+export default Sidebar
+module.exports = Sidebar

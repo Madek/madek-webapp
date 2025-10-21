@@ -1,23 +1,15 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 // The user menu, in app header on the right side
 
 import React from 'react'
-import createReactClass from 'create-react-class'
 import PropTypes from 'prop-types'
-import f from 'active-lodash'
 import { t } from '../../lib/ui.js'
 import Icon from '../../ui-components/Icon.jsx'
 import Dropdown, { MenuItem } from '../../ui-components/Dropdown.jsx'
 import RailsForm from '../../lib/forms/rails-form.jsx'
+import { present } from '../../../lib/utils.js'
 
-module.exports = createReactClass({
-  displayName: 'App.UserMenu',
-  propTypes: {
+class UserMenu extends React.Component {
+  static propTypes = {
     user_name: PropTypes.string.isRequired,
     my: PropTypes.shape({
       drafts_url: PropTypes.string.isRequired,
@@ -42,13 +34,10 @@ module.exports = createReactClass({
     }).isRequired,
 
     authToken: PropTypes.string.isRequired
-  },
+  }
 
-  render(param) {
-    if (param == null) {
-      param = this
-    }
-    const { props } = param
+  render() {
+    const { props } = this
     const myContentItems = [
       {
         title: t('sitemap_my_unpublished'),
@@ -107,13 +96,13 @@ module.exports = createReactClass({
             </MenuItem>
           ))}
           <MenuItem className="separator" />
-          {f.present(props.admin) && (
+          {present(props.admin) && (
             <MenuItem href={props.admin.url} className="ui-drop-item">
               <Icon i="cog ui-drop-icon mid" />
               {` ${t('user_menu_admin_ui')}`}
             </MenuItem>
           )}
-          {f.present(props.admin) && props.admin.admin_mode_toggle && (
+          {present(props.admin) && props.admin.admin_mode_toggle && (
             <MenuItemButton
               name="admin-mode-toggle"
               icon="admin"
@@ -123,23 +112,21 @@ module.exports = createReactClass({
               authToken={props.authToken}
             />
           )}
-          {f.present(props.admin) && <MenuItem className="separator" />}
+          {present(props.admin) && <MenuItem className="separator" />}
           {props.sign_out_action.mode === 'auth-app' && (
-            <AuthAppSignoutButton {...Object.assign({}, props.sign_out_action)} />
+            <AuthAppSignoutButton {...props.sign_out_action} />
           )}
           {props.sign_out_action.mode === 'webapp' && (
-            <WebappSignoutButton
-              {...Object.assign({}, props.sign_out_action, { authToken: props.authToken })}
-            />
+            <WebappSignoutButton {...props.sign_out_action} authToken={props.authToken} />
           )}
         </Dropdown.Menu>
       </Dropdown>
     )
   }
-})
+}
 
 // Sign out via auth
-var AuthAppSignoutButton = ({ url, method, auth_anti_csrf_param, auth_anti_csrf_token }) => (
+const AuthAppSignoutButton = ({ url, method, auth_anti_csrf_param, auth_anti_csrf_token }) => (
   <li className="ui-drop-item">
     <form name="sign-out" action={url} method={method}>
       <input type="hidden" name={auth_anti_csrf_param} defaultValue={auth_anti_csrf_token} />
@@ -152,7 +139,7 @@ var AuthAppSignoutButton = ({ url, method, auth_anti_csrf_param, auth_anti_csrf_
 )
 
 // Sign out via webapp
-var WebappSignoutButton = ({ url, method, authToken }) => (
+const WebappSignoutButton = ({ url, method, authToken }) => (
   <MenuItemButton
     name="sign-out"
     icon="power-off"
@@ -163,7 +150,7 @@ var WebappSignoutButton = ({ url, method, authToken }) => (
   />
 )
 
-var MenuItemButton = function ({ action, method, icon, title, authToken }) {
+const MenuItemButton = ({ action, method, icon, title, authToken }) => {
   // NOTE: needed style fixes for putting form in menu
   const styleFix = { width: '100%', textAlign: 'left', paddingLeft: '7px' }
 
@@ -178,3 +165,6 @@ var MenuItemButton = function ({ action, method, icon, title, authToken }) {
     </li>
   )
 }
+
+export default UserMenu
+module.exports = UserMenu

@@ -10,9 +10,8 @@
 import React from 'react'
 import createReactClass from 'create-react-class'
 import PropTypes from 'prop-types'
-import f from 'active-lodash'
 import t from '../../lib/i18n-translate.js'
-import ampersandReactMixin from 'ampersand-react-mixin'
+import { present, omit, isArray, isBoolean, curry } from '../../lib/utils.js'
 
 // NOTE: used for static (server-side) rendering (state.editing = false)
 let AutoComplete = null // only required client-side!
@@ -37,13 +36,12 @@ const defaultSubjectDecos = {
 }
 
 const doOptionalsInclude = function (optionals, type) {
-  const types = f.isArray(type) ? type : [type]
-  return f.some(types, t => f.contains(optionals, t))
+  const types = isArray(type) ? type : [type]
+  return types.some(t => optionals.includes(t))
 }
 
 module.exports = createReactClass({
   displayName: 'ResourcePermissionsForm',
-  mixins: [ampersandReactMixin],
 
   getDefaultProps() {
     return {
@@ -119,11 +117,10 @@ module.exports = createReactClass({
         permissionTypes: get.permission_types
       }
     ]
-    rows = f.reject(
-      rows,
+    rows = rows.filter(
       ({ type, permissionsList }) =>
         // optionals: hidden on show if empty; always visible on edit
-        !editing && type && doOptionalsInclude(optionals, type) && permissionsList.length < 1
+        !(!editing && type && doOptionalsInclude(optionals, type) && permissionsList.length < 1)
     )
 
     return (
@@ -185,11 +182,10 @@ module.exports = createReactClass({
 
 var PermissionsBySubjectType = createReactClass({
   displayName: 'PermissionsBySubjectType',
-  mixins: [ampersandReactMixin],
 
   onAddSubject(subject) {
     const list = this.props.permissionsList
-    if (f.includes(f.map(list.models, 'subject.uuid'), subject.uuid)) {
+    if (list.models.map(m => m.subject.uuid).includes(subject.uuid)) {
       return
     }
     return list.add({ subject })
@@ -250,7 +246,7 @@ var PermissionsBySubjectType = createReactClass({
                       name: `add_${type}`,
                       resourceType: type,
                       valueFilter({ uuid }) {
-                        return f.includes(f.map(permissionsList.models, 'subject.uuid'), uuid)
+                        return permissionsList.models.map(m => m.subject.uuid).includes(uuid)
                       },
                       onSelect: this.onAddSubject,
                       searchParams: searchParams
@@ -286,15 +282,13 @@ var PermissionsSubjectHeader = createReactClass({
 })
 
 var PermissionsSubject = createReactClass({
-  mixins: [ampersandReactMixin],
-
   adjustCheckboxesDependingOnStrength(name, stronger) {
     let beforeCurrent = true
     return (() => {
       const result = []
       for (var i in this.props.permissionTypes) {
         var permissionType = this.props.permissionTypes[i]
-        var isEnabled = f.present(this.props.permissions[permissionType])
+        var isEnabled = present(this.props.permissions[permissionType])
         var isCurrent = permissionType === name
         if (isCurrent) {
           beforeCurrent = false
@@ -351,7 +345,7 @@ var PermissionsSubject = createReactClass({
           <SubjectDeco subject={subject} />
         </td>
         {permissionTypes.map(function (name) {
-          const isEnabled = f.present(permissions[name])
+          const isEnabled = present(permissions[name])
           const curState = permissions[name] // true/false/mixed
           const isOverridden = overriddenBy ? overriddenBy[name] === true : false
           let title = t(`permission_name_${name}`)
@@ -370,7 +364,7 @@ var PermissionsSubject = createReactClass({
                     <label className="ui-rights-check-label">
                       <TristateCheckbox
                         checked={curState}
-                        onChange={f.curry(onPermissionChange)(name)}
+                        onChange={curry(onPermissionChange)(name)}
                         name={name}
                         title={title}
                       />
@@ -394,9 +388,10 @@ var PermissionsSubject = createReactClass({
 
 var RemoveButton = createReactClass({
   render() {
+    const onClick = this.props.onClick || null
     return (
       <a
-        onClick={f(this.props.onClick).presence()}
+        onClick={onClick}
         className="button small ui-rights-remove icon-close small"
         title={t('permissions_table_remove_subject_btn')}
       />
@@ -413,7 +408,7 @@ var TristateCheckbox = createReactClass({
   // NOTE: 'indeterminate' is a node attribute (not a prop!),
   // need to set on mount and every re-render!!
   _setIndeterminate() {
-    const isMixed = !f.isBoolean(this.props.checked)
+    const isMixed = !isBoolean(this.props.checked)
     if (this._inputNode) {
       // <- only if it's mounted…
       return (this._inputNode.indeterminate = isMixed)
@@ -428,8 +423,8 @@ var TristateCheckbox = createReactClass({
     if (props == null) {
       ;({ props } = this)
     }
-    const restProps = f.omit(props, ['checked'])
-    const isMixed = !f.isBoolean(props.checked)
+    const restProps = omit(props, ['checked'])
+    const isMixed = !isBoolean(props.checked)
     return (
       <input
         {...Object.assign({ type: 'checkbox' }, restProps, {

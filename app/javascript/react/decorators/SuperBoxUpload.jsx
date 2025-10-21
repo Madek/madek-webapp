@@ -27,13 +27,13 @@ class SuperBoxUpload extends React.Component {
   }
 
   renderResources(config) {
-    return config.ampersandCollection.map(r => {
+    return config.collection.map(r => {
       return this.renderResource({ resource: r, authToken: config.authToken })
     })
   }
 
   renderContent(config) {
-    if (config.ampersandCollection.length == 0) {
+    if (config.collection.length == 0) {
       return <div style={{ height: '250px' }} />
     }
 
@@ -47,9 +47,9 @@ class SuperBoxUpload extends React.Component {
   }
 
   render() {
-    var ampersandCollection = this.props.ampersandCollection
-    var authToken = this.props.authToken
-    var children = this.props.children
+    const collection = this.props.collection
+    const authToken = this.props.authToken
+    const children = this.props.children
 
     return (
       <div
@@ -58,7 +58,7 @@ class SuperBoxUpload extends React.Component {
         <div className="ui-container inverted ui-toolbar pvx rounded-top">
           <h2 className="ui-toolbar-header pls" style={{ minHeight: '1px' }}>
             {t('media_entry_media_import_box_header_a') +
-              ampersandCollection.length +
+              collection.length +
               t('media_entry_media_import_box_header_b')}
           </h2>
         </div>
@@ -69,7 +69,7 @@ class SuperBoxUpload extends React.Component {
               {children}
 
               {this.renderContent({
-                ampersandCollection: ampersandCollection,
+                collection: collection,
                 authToken: authToken
               })}
             </div>

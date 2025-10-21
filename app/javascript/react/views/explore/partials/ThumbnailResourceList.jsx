@@ -1,19 +1,15 @@
-import createReactClass from 'create-react-class'
 import React from 'react'
-import f from 'active-lodash'
 import ResourceThumbnail from '../../../decorators/ResourceThumbnail.jsx'
 
-module.exports = createReactClass({
-  displayName: 'ThumbnailResourceList',
-  render() {
-    const { resources, authToken } = this.props
+const ThumbnailResourceList = ({ resources, authToken }) => {
+  return (
+    <ul className="grid ui-resources">
+      {resources.map((resource, n) => (
+        <ResourceThumbnail key={`key_${n}`} elm="div" get={resource} authToken={authToken} />
+      ))}
+    </ul>
+  )
+}
 
-    return (
-      <ul className="grid ui-resources">
-        {f.map(resources, (resource, n) => (
-          <ResourceThumbnail key={`key_${n}`} elm="div" get={resource} authToken={authToken} />
-        ))}
-      </ul>
-    )
-  }
-})
+export default ThumbnailResourceList
+module.exports = ThumbnailResourceList

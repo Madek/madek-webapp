@@ -1,5 +1,4 @@
 import React from 'react'
-import createReactClass from 'create-react-class'
 import InputResources from './input-resources.jsx'
 import jQuery from 'jquery'
 
@@ -22,18 +21,18 @@ const autoCompleteSuggestionRenderer = person => {
     .append($infoDiv)
 }
 
-module.exports = createReactClass({
-  displayName: 'InputPeople',
-  render() {
-    const { metaKey } = this.props
-    return (
-      <InputResources
-        {...this.props}
-        resourceType="People"
-        searchParams={{ meta_key_id: metaKey.uuid }}
-        allowedTypes={metaKey.allowed_people_subtypes}
-        autoCompleteSuggestionRenderer={autoCompleteSuggestionRenderer}
-      />
-    )
-  }
-})
+const InputPeople = ({ metaKey, ...rest }) => {
+  return (
+    <InputResources
+      {...rest}
+      metaKey={metaKey}
+      resourceType="People"
+      searchParams={{ meta_key_id: metaKey.uuid }}
+      allowedTypes={metaKey.allowed_people_subtypes}
+      autoCompleteSuggestionRenderer={autoCompleteSuggestionRenderer}
+    />
+  )
+}
+
+export default InputPeople
+module.exports = InputPeople

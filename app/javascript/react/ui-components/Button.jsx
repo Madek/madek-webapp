@@ -1,54 +1,48 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import React from 'react'
-import createReactClass from 'create-react-class'
 import PropTypes from 'prop-types'
-import f from 'active-lodash'
 import ui from '../lib/ui.js'
+import { omit } from '../../lib/utils.js'
 
-module.exports = createReactClass({
-  displayName: 'Button',
-  propTypes: {
-    href: PropTypes.string,
-    type: PropTypes.string,
-    className: PropTypes.string,
-    style: PropTypes.object,
-    onClick: PropTypes.func,
-    mod: PropTypes.oneOf(['primary', 'tertiary']),
-    disabled: PropTypes.bool,
-    children: PropTypes.node.isRequired
-  },
+const Button = props => {
+  const { href, onClick, type, mod, disabled, children, className, ...restProps } = props
+  const cleanProps = omit(restProps, ['mod', 'mods'])
+  const baseClass = className ? className : mod ? `${mod}-button` : 'button'
+  const isDisabled = disabled || !(href || onClick || type)
 
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    let { href, onClick, type, mod, disabled, children, className } = param
-    const restProps = f.omit(this.props, ['mod', 'mods'])
-    const baseClass = className ? className : mod ? `${mod}-button` : 'button'
-    if (!(href || onClick || type)) {
-      disabled = true
-    } // force disabled if no target
+  const classes = ui.cx({ disabled: isDisabled }, ui.parseMods(props), baseClass)
 
-    const classes = ui.cx({ disabled }, ui.parseMods(this.props), baseClass)
-    const Elm = (() => {
-      switch (
-        false // NOTE: try avoiding 'button' because styling…
-      ) {
-        case !href && !onClick:
-          return 'a'
-        case !type:
-          return 'button'
-        default:
-          return 'span'
-      }
-    })()
-
-    return <Elm {...Object.assign({}, restProps, { className: classes })}>{children}</Elm>
+  // Determine element type and build appropriate props
+  if (href || onClick) {
+    return (
+      <a {...cleanProps} href={href} onClick={onClick} className={classes}>
+        {children}
+      </a>
+    )
+  } else if (type) {
+    return (
+      <button {...cleanProps} type={type} onClick={onClick} className={classes}>
+        {children}
+      </button>
+    )
+  } else {
+    return (
+      <span {...cleanProps} className={classes}>
+        {children}
+      </span>
+    )
   }
-})
+}
+
+Button.propTypes = {
+  href: PropTypes.string,
+  type: PropTypes.string,
+  className: PropTypes.string,
+  style: PropTypes.object,
+  onClick: PropTypes.func,
+  mod: PropTypes.oneOf(['primary', 'tertiary']),
+  disabled: PropTypes.bool,
+  children: PropTypes.node.isRequired
+}
+
+export default Button
+module.exports = Button
