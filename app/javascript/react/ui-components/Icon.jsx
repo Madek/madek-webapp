@@ -12,7 +12,7 @@ const ICON_NAME_ALIASES = {
   'madek-workflow': 'flask'
 }
 
-const Icon = (props) => {
+const Icon = props => {
   const { i, ...restProps } = omit(props, ['mods'])
   const iconName = ICON_NAME_ALIASES[i] || i
   const iconClass = FONT_AWESOME_ICONS.includes(iconName) ? `fa fa-${iconName}` : `icon-${iconName}`

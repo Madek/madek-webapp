@@ -6,7 +6,7 @@ const VocabTitleLink = ({ id, hi, text, href, separated, className }) => {
   const H = hi || 'h3'
   const defaultClasses = cx('title-l', { separated, mbm: separated })
   const classes = className || defaultClasses
-  
+
   return (
     <H className={classes} id={id}>
       {text}

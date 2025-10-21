@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import ui from '../lib/ui.js'
 import UiPropTypes from './propTypes.js'
 
-const ButtonGroup = (props) => {
+const ButtonGroup = props => {
   const { children } = props
   const classes = ui.cx(ui.parseMods(props), 'button-group')
 

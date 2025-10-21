@@ -6,11 +6,11 @@
  * Check if value is present (not null, undefined, or empty)
  * Replacement for active-lodash `present`
  */
-export const present = (val) => {
+export const present = val => {
   return (
     typeof val !== 'undefined' &&
     val !== null &&
-    (typeof val !== 'object' || 
+    (typeof val !== 'object' ||
       (Array.isArray(val) ? val.length > 0 : Object.keys(val).length > 0) ||
       typeof val === 'number' ||
       typeof val === 'boolean' ||
@@ -22,7 +22,7 @@ export const present = (val) => {
  * Return value if present, undefined otherwise
  * Replacement for active-lodash `presence`
  */
-export const presence = (val) => {
+export const presence = val => {
   return present(val) ? val : undefined
 }
 
@@ -30,7 +30,7 @@ export const presence = (val) => {
  * Convert string to kebab-case
  * Replacement for lodash `kebabCase`
  */
-export const kebabCase = (str) => {
+export const kebabCase = str => {
   return str
     .replace(/([a-z])([A-Z])/g, '$1-$2')
     .replace(/[\s_]+/g, '-')
@@ -41,7 +41,7 @@ export const kebabCase = (str) => {
  * Convert string to snake_case
  * Replacement for lodash `snakeCase`
  */
-export const snakeCase = (str) => {
+export const snakeCase = str => {
   return str
     .replace(/([a-z])([A-Z])/g, '$1_$2')
     .replace(/[\s-]+/g, '_')
@@ -54,16 +54,16 @@ export const snakeCase = (str) => {
  */
 export const get = (obj, path, defaultValue) => {
   if (!obj || typeof path !== 'string') return defaultValue
-  
+
   const keys = path.split('.')
   let result = obj
-  
+
   for (const key of keys) {
     if (result == null || result === undefined) return defaultValue
     result = result[key]
     if (result === undefined) return defaultValue
   }
-  
+
   return result !== undefined ? result : defaultValue
 }
 
@@ -85,7 +85,7 @@ export const omit = (obj, keys) => {
  * Check if value is empty
  * Replacement for lodash `isEmpty`
  */
-export const isEmpty = (value) => {
+export const isEmpty = value => {
   if (value == null) return true
   if (Array.isArray(value) || typeof value === 'string') return value.length === 0
   if (typeof value === 'object') return Object.keys(value).length === 0
@@ -96,7 +96,7 @@ export const isEmpty = (value) => {
  * Deep clone an object
  * Replacement for lodash `cloneDeep`
  */
-export const cloneDeep = (obj) => {
+export const cloneDeep = obj => {
   // For modern browsers, use structuredClone if available
   if (typeof structuredClone === 'function') {
     return structuredClone(obj)

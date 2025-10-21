@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ui from '../lib/ui.js'
 import { omit } from '../../lib/utils.js'
 
-const Link = (props) => {
+const Link = props => {
   const { href, onClick, children, disabled } = props
   const restProps = omit(props, ['mods'])
   const isLink = !!(href || onClick)

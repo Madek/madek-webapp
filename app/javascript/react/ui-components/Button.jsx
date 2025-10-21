@@ -9,7 +9,7 @@ const Button = ({ href, onClick, type, mod, disabled, children, className, ...re
   const isDisabled = disabled || !(href || onClick || type)
 
   const classes = ui.cx({ disabled: isDisabled }, ui.parseMods(restProps), baseClass)
-  
+
   // Determine element type
   let Elm = 'span'
   if (href || onClick) {
@@ -18,7 +18,11 @@ const Button = ({ href, onClick, type, mod, disabled, children, className, ...re
     Elm = 'button'
   }
 
-  return <Elm {...cleanProps} className={classes}>{children}</Elm>
+  return (
+    <Elm {...cleanProps} className={classes}>
+      {children}
+    </Elm>
+  )
 }
 
 Button.propTypes = {

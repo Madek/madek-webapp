@@ -11,7 +11,7 @@ const StatusIcon = ({ privacyStatus, iconClass }) => {
 
   const iconMapping = { public: 'open', private: 'private', shared: 'group' }
   const iconName = `privacy-${iconMapping[privacyStatus]}`
-  
+
   return <Icon i={iconName} title={privacyStatus} className={iconClass} />
 }
 

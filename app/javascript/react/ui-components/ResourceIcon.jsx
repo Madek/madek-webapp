@@ -5,8 +5,8 @@ import cx from 'classnames'
 
 const ResourceIcon = ({ type, mediaType, thumbnail, tiles, flyout, overrideClasses }) => {
   // media type icon, used instead of image preview if there isn't any
-  
-  const mediaTypeIconMapping = (mediaType) => {
+
+  const mediaTypeIconMapping = mediaType => {
     const map = {
       image: 'fa fa-file-image-o',
       audio: 'fa fa-file-audio-o',
@@ -37,9 +37,7 @@ const ResourceIcon = ({ type, mediaType, thumbnail, tiles, flyout, overrideClass
 
   if (type === 'MediaEntry') {
     const mediaTypeIcon = mediaTypeIconMapping(mediaType)
-    return (
-      <i className={cx('ui_media-type-icon', mediaTypeIcon, overrideClasses)} style={style} />
-    )
+    return <i className={cx('ui_media-type-icon', mediaTypeIcon, overrideClasses)} style={style} />
   } else if (type === 'Collection') {
     return <Icon i="set" mods={cx('ui_media-type-icon', overrideClasses)} style={style} />
   } else {
