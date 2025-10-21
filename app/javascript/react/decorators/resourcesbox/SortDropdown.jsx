@@ -1,49 +1,41 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import React from 'react'
-import createReactClass from 'create-react-class'
-import f from 'active-lodash'
 import Dropdown, { MenuItem } from '../../ui-components/Dropdown.jsx'
 
-module.exports = createReactClass({
-  displayName: 'SortDropdown',
+const SortDropdown = ({ items, selectedKey: initialKey, onItemClick }) => {
+  let selectedKey = initialKey
+  let selectedItem = items.find(item => item.key === selectedKey)
 
-  _onItemClick(event, itemKey) {
-    // event.preventDefault()
-    if (this.props.onItemClick) {
-      return this.props.onItemClick(event, itemKey)
-    }
-  },
-
-  render() {
-    let { selectedKey } = this.props
-    let selectedItem = f.find(this.props.items, { key: selectedKey })
-    if (!selectedItem) {
-      selectedKey = this.props.items[0].key
-      selectedItem = f.find(this.props.items, { key: selectedKey })
-    }
-
-    return (
-      <Dropdown mods="stick-right" toggle={selectedItem.label}>
-        <Dropdown.Menu className="ui-drop-menu">
-          {f.map(this.props.items, item => {
-            if (item.key === selectedKey) {
-              return
-            }
-            return (
-              <MenuItem
-                key={item.key}
-                onClick={event => this._onItemClick(event, item.key)}
-                href={item.href}>
-                {item.label}
-              </MenuItem>
-            )
-          })}
-        </Dropdown.Menu>
-      </Dropdown>
-    )
+  if (!selectedItem) {
+    selectedKey = items[0].key
+    selectedItem = items.find(item => item.key === selectedKey)
   }
-})
+
+  const handleItemClick = (event, itemKey) => {
+    if (onItemClick) {
+      onItemClick(event, itemKey)
+    }
+  }
+
+  return (
+    <Dropdown mods="stick-right" toggle={selectedItem.label}>
+      <Dropdown.Menu className="ui-drop-menu">
+        {items.map(item => {
+          if (item.key === selectedKey) {
+            return null
+          }
+          return (
+            <MenuItem
+              key={item.key}
+              onClick={event => handleItemClick(event, item.key)}
+              href={item.href}>
+              {item.label}
+            </MenuItem>
+          )
+        })}
+      </Dropdown.Menu>
+    </Dropdown>
+  )
+}
+
+export default SortDropdown
+module.exports = SortDropdown
