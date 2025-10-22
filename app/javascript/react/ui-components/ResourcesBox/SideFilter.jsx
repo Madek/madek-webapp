@@ -1,17 +1,8 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 // decorates: DynamicFilters
 // fallback: no # only used interactive (client-side)
 
-import React from 'react'
-import createReactClass from 'create-react-class'
+import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
-import f from 'active-lodash'
 import t from '../../../lib/i18n-translate.js'
 import cx from 'classnames'
 import ui from '../../lib/ui.js'
@@ -24,25 +15,37 @@ import Preloader from '../Preloader.jsx'
 import { parse as parseQuery } from 'qs'
 import setUrlParams from '../../../lib/set-params-for-url.js'
 import loadXhr from '../../../lib/load-xhr.js'
+import { isEmpty, get, cloneDeep, presence, present } from '../../../lib/utils.js'
 
-module.exports = createReactClass({
-  displayName: 'SideFilter',
-  propTypes: {
-    dynamic: PropTypes.array,
-    accordion: PropTypes.objectOf(PropTypes.object).isRequired,
-    current: MadekPropTypes.resourceFilter.isRequired,
-    onChange: PropTypes.func
-  },
+// Note: We list in the menu the sections based on the meta data contexts.
+// But furthermore, we also for example list the media types as a section
+// with an artifical uuid "file". We must make sure, that we have not clash
+// for example, when a context has the id "file". Thats why section uuids must
+// be concatenated with the filter_type.
+// E.g. meta_data:copyright or media_files:file
 
-  // Note: We list in the menu the sections based on the meta data contexts.
-  // But furthermore, we also for example list the media types as a section
-  // with an artifical uuid "file". We must make sure, that we have not clash
-  // for example, when a context has the id "file". Thats why section uuids must
-  // be concatenated with the filter_type.
-  // E.g. meta_data:copyright or media_files:file
+const SideFilter = ({ accordion: accordionProp, current, onChange, forUrl, jsonPath }) => {
+  const isMountedRef = useRef(true)
+  const [accordion, setAccordion] = useState(accordionProp || {})
+  const [sectionGroups, setSectionGroups] = useState([
+    {
+      key: 'section_group_media_files',
+      loaded: false,
+      dynamic: null
+    },
+    {
+      key: 'section_group_permissions',
+      loaded: false,
+      dynamic: null
+    },
+    {
+      key: 'section_group_meta_data',
+      loaded: false,
+      dynamic: null
+    }
+  ])
 
-  getAccordionSection(sectionUuid) {
-    const { accordion } = this.state
+  const getAccordionSection = sectionUuid => {
     if (!accordion.sections) {
       accordion.sections = {}
     }
@@ -56,10 +59,10 @@ module.exports = createReactClass({
       accordion.sections[sectionUuid] = section
     }
     return section
-  },
+  }
 
-  getAccordionSubSection(sectionUuid, subSectionUuid) {
-    const section = this.getAccordionSection(sectionUuid)
+  const getAccordionSubSection = (sectionUuid, subSectionUuid) => {
+    const section = getAccordionSection(sectionUuid)
     if (!section.subSections) {
       section.subSections = {}
     }
@@ -69,60 +72,46 @@ module.exports = createReactClass({
       section.subSections[subSectionUuid] = subSection
     }
     return subSection
-  },
+  }
 
-  toggleSection(sectionUuid) {
-    const section = this.getAccordionSection(sectionUuid)
+  const toggleSection = sectionUuid => {
+    const section = getAccordionSection(sectionUuid)
     section.isOpen = !section.isOpen
-    return this.setState({ accordion: this.state.accordion })
-  },
+    setAccordion({ ...accordion })
+  }
 
-  toggleSubSection(sectionUuid, subSectionUuid) {
-    const subSection = this.getAccordionSubSection(sectionUuid, subSectionUuid)
+  const toggleSubSection = (sectionUuid, subSectionUuid) => {
+    const subSection = getAccordionSubSection(sectionUuid, subSectionUuid)
     subSection.isOpen = !subSection.isOpen
-    return this.setState({ accordion: this.state.accordion })
-  },
+    setAccordion({ ...accordion })
+  }
 
-  getInitialState() {
-    return {
-      javascript: false,
-      accordion: this.props.accordion || {},
-      sectionGroups: [
-        {
-          key: 'section_group_media_files',
-          loaded: false,
-          dynamic: null
-        },
-        {
-          key: 'section_group_permissions',
-          loaded: false,
-          dynamic: null
-        },
-        {
-          key: 'section_group_meta_data',
-          loaded: false,
-          dynamic: null
-        }
-      ]
-    }
-  },
+  const updateAccordion = dynamic => {
+    ;[current.media_files, current.meta_data, current.permissions].forEach(array => {
+      if (!array) return
+      array.forEach(media_file_or_meta_datum_or_permission => {
+        dynamic.forEach(section => {
+          if (!section.children) return
+          section.children.forEach(subSection => {
+            if (!subSection.children) return
+            subSection.children.forEach(filter => {
+              if (filter.uuid === media_file_or_meta_datum_or_permission.value) {
+                const prefix = section.filter_type || filter.uuid
+                getAccordionSection(prefix + '-' + section.uuid).isOpen = true
+                getAccordionSubSection(prefix + '-' + section.uuid, subSection.uuid).isOpen = true
+              }
+            })
+          })
+        })
+      })
+    })
+    setAccordion({ ...accordion })
+  }
 
-  componentDidMount() {
-    this._isMounted = true
-    this.setState({ javascript: true })
-
-    return this._loadData()
-  },
-
-  componentWillUnmount() {
-    return (this._isMounted = false)
-  },
-
-  _loadData() {
-    const currentUrl = this.props.forUrl
-
+  const loadData = () => {
+    const currentUrl = forUrl
     const currentParams = parseQuery(currentUrl.query)
-    const newParams = f.cloneDeep(currentParams)
+    const newParams = cloneDeep(currentParams)
 
     if (!newParams.list) {
       newParams.list = {}
@@ -131,134 +120,134 @@ module.exports = createReactClass({
     newParams.list.sparse_filter = true
     newParams.list.show_filter = true
 
-    return f.each(this.state.sectionGroups, group => {
+    sectionGroups.forEach(group => {
       const { key } = group
+      const jsonPath = getJsonPath(jsonPath, key)
 
-      const jsonPath = getJsonPath(this.props.jsonPath, key)
-
-      return loadXhr(
+      loadXhr(
         {
           method: 'GET',
           url: setUrlParams(currentUrl, newParams, {
-            ___sparse: JSON.stringify(f.set({}, jsonPath, {}))
+            ___sparse: JSON.stringify(setNestedValue({}, jsonPath, {}))
           })
         },
         (result, json) => {
-          if (!this._isMounted) {
+          if (!isMountedRef.current) {
             return
           }
           if (result === 'success') {
-            const newSectionGroups = f.clone(this.state.sectionGroups)
-            const element = f.get(json, jsonPath)
+            const newSectionGroups = [...sectionGroups]
+            const element = get(json, jsonPath)
 
-            const sectionGroup = f.find(newSectionGroups, { key })
+            const sectionGroup = newSectionGroups.find(sg => sg.key === key)
             sectionGroup.dynamic = element
             sectionGroup.loaded = true
 
-            this.setState({ sectionGroups: newSectionGroups })
+            setSectionGroups(newSectionGroups)
 
-            return this._updateAccordion(
-              f.flatten(f.compact(f.map(newSectionGroups, sectionGroup => sectionGroup.dynamic)))
+            updateAccordion(
+              newSectionGroups
+                .map(sg => sg.dynamic)
+                .filter(Boolean)
+                .flat()
             )
           } else {
-            return console.error('Could not load side filter data.')
+            // eslint-disable-next-line no-console
+            console.error('Could not load side filter data.')
           }
         }
       )
     })
-  },
+  }
 
-  _updateAccordion(dynamic) {
-    f.each(
-      [
-        this.props.current.media_files,
-        this.props.current.meta_data,
-        this.props.current.permissions
-      ],
-      array => {
-        return f.each(array, media_file_or_meta_datum_or_permission => {
-          return f.each(dynamic, section => {
-            return f.each(section.children, subSection => {
-              return f.each(subSection.children, filter => {
-                if (filter.uuid === media_file_or_meta_datum_or_permission.value) {
-                  const prefix = section.filter_type || filter.uuid
-                  this.getAccordionSection(prefix + '-' + section.uuid).isOpen = true
-                  return (this.getAccordionSubSection(
-                    prefix + '-' + section.uuid,
-                    subSection.uuid
-                  ).isOpen = true)
-                }
-              })
-            })
-          })
-        })
-      }
-    )
-    return this.setState({ accordion: this.state.accordion })
-  },
+  useEffect(() => {
+    isMountedRef.current = true
+    loadData()
 
-  render(param) {
-    // # TMP: ignore invalid dynamicFilters
-    // if !(f.isArray(dynamic) and f.present(f.isArray(dynamic)))
-    //   return null
-
-    if (param == null) {
-      param = this.props
+    return () => {
+      isMountedRef.current = false
     }
-    let { current } = param
-    const dynamic = f.flatten(
-      f.compact(f.map(this.state.sectionGroups, sectionGroup => sectionGroup.dynamic))
-    )
+  }, [])
 
-    if (f.isEmpty(dynamic)) {
-      if (!f.isEmpty(f.filter(this.state.sectionGroups, { loaded: false }))) {
-        return (
-          <ul className={baseClass} data-test-id="side-filter">
-            <Preloader mods="small" />
-          </ul>
-        )
-      } else {
-        return null
-      }
+  const addItemFilter = (onChange, current, parent, item, filterType) => {
+    let currentPerType = current[filterType] || []
+    // When we add a child filter, the parent filter is no longer needed.
+    currentPerType = currentPerType
+      .filter(filter => {
+        const preventDuplicate = filter.key === parent.uuid && filter.value === item.uuid
+        const removeSectionFilter =
+          filter.key === parent.uuid &&
+          (!present(pick(filter, ['value', 'match'])) || !parent.multi)
+        return !(preventDuplicate || removeSectionFilter)
+      })
+      .concat({ key: parent.uuid, value: item.uuid })
+
+    current[filterType] = currentPerType
+    if (onChange) {
+      return onChange({
+        action: 'added item',
+        item,
+        current,
+        accordion
+      })
     }
+  }
 
-    // Clone the current filters, so as we can manipulate them
-    // to give the result back to the parent component.
-    current = f.clone(current)
+  const addSubSectionFilter = (onChange, current, parent, filterType) => {
+    let currentPerType = current[filterType] || []
+    // Remove all Item filters in this section.
+    currentPerType = currentPerType
+      .filter(filter => filter.key !== parent.uuid)
+      .concat({ key: parent.uuid })
 
-    var baseClass = ui.cx(ui.parseMods(this.props), 'ui-side-filter-list')
+    current[filterType] = currentPerType
+    if (onChange) {
+      return onChange({
+        action: 'added key',
+        current,
+        accordion
+      })
+    }
+  }
 
-    return (
-      <ul className={baseClass} data-test-id="side-filter">
-        {f.flatten(
-          f.compact(
-            f.map(this.state.sectionGroups, sectionGroup => {
-              if (!sectionGroup.loaded) {
-                return <Preloader key={`preloader_${sectionGroup.key}`} mods="small" />
-              } else if (!sectionGroup.dynamic) {
-                return null
-              } else {
-                const filters = initializeFilterTreeFromProps(sectionGroup.dynamic, current)
-                return f.map(filters, filter => {
-                  return this.renderSection(current, filter)
-                })
-              }
-            })
-          )
-        )}
-      </ul>
-    )
-  },
+  const removeItemFilter = (onChange, current, parent, item, filterType) => {
+    let currentPerType = current[filterType] || []
+    // Remove the item filter.
+    currentPerType = currentPerType.filter(filter => filter.value !== item.uuid)
+    current[filterType] = currentPerType
+    if (onChange) {
+      return onChange({
+        action: 'removed item',
+        item,
+        current,
+        accordion
+      })
+    }
+  }
 
-  renderSection(current, filter) {
+  const removeSubSectionFilter = (onChange, current, parent, filterType) => {
+    let currentPerType = current[filterType] || []
+    // Remove the section filter.
+    currentPerType = currentPerType.filter(filter => filter.key !== parent.uuid)
+    current[filterType] = currentPerType
+    if (onChange) {
+      return onChange({
+        action: 'removed key',
+        current,
+        accordion
+      })
+    }
+  }
+
+  const renderSection = (current, filter) => {
     const itemClass = 'ui-side-filter-lvl1-item ui-side-filter-item'
 
     const { filterType } = filter
     const { uuid } = filter
-    const { isOpen } = this.getAccordionSection(filterType + '-' + uuid)
+    const { isOpen } = getAccordionSection(filterType + '-' + uuid)
     const href = null
 
-    const toggleOnClick = () => this.toggleSection(filterType + '-' + filter.uuid)
+    const toggleOnClick = () => toggleSection(filterType + '-' + filter.uuid)
 
     return (
       <li className={itemClass} key={filterType + '-' + filter.uuid}>
@@ -270,112 +259,17 @@ module.exports = createReactClass({
         </a>
         <ul className={cx('ui-accordion-body', 'ui-side-filter-lvl2', { open: isOpen })}>
           {isOpen
-            ? f.map(filter.children, child => {
-                return this.renderSubSection(current, filterType, filter, child)
-              })
+            ? filter.children.map(child => renderSubSection(current, filterType, filter, child))
             : undefined}
         </ul>
       </li>
     )
-  },
+  }
 
-  renderSubSection(current, filterType, parent, child) {
-    const { isOpen } = this.getAccordionSubSection(filterType + '-' + parent.uuid, child.uuid)
-    const showSearchField = f.includes(
-      [
-        'responsible_user',
-        'responsible_delegation',
-        'entrusted_to_user',
-        'entrusted_to_group',
-        'entrusted_to_api_client'
-      ],
-      child.uuid
-    )
-
-    const keyClass = 'ui-side-filter-lvl2-item'
-    const togglebodyClass = cx('ui-accordion-body', 'ui-side-filter-lvl3', { open: isOpen })
-    return (
-      <li className={keyClass} key={child.uuid}>
-        {this.createToggleSubSection(filterType, parent, child, isOpen)}
-        {this.createMultiSelectBox(child, current, filterType, !(parent.uuid === 'permissions'))}
-        {(() => {
-          if (parent.uuid === 'permissions' && showSearchField) {
-            if (isOpen) {
-              return this.renderResponsibleUser(
-                child,
-                parent.uuid,
-                current,
-                child,
-                filterType,
-                togglebodyClass
-              )
-            } else {
-              return <ul className={togglebodyClass} />
-            }
-          } else {
-            if (isOpen) {
-              switch (child.metaDatumObjectType) {
-                case 'MetaDatum::People':
-                  return this.renderPersonSelect(
-                    current,
-                    child,
-                    child.children,
-                    filterType,
-                    togglebodyClass,
-                    false
-                  )
-                case 'MetaDatum::Roles':
-                  return f.map(['person', 'role'], type => {
-                    const items = child.children.filter(x => x.type === type)
-                    if (items.length === 0) {
-                      return false
-                    }
-                    if (type === 'person') {
-                      return this.renderPersonSelect(
-                        current,
-                        child,
-                        items,
-                        filterType,
-                        togglebodyClass,
-                        true
-                      )
-                    } else {
-                      return (
-                        <ul className={togglebodyClass} key="role">
-                          <li
-                            className="ui-side-filter-lvl3-item ptx plm"
-                            style={{ fontSize: '12px' }}>
-                            <strong>{t('dynamic_filters_role_header')}</strong>
-                          </li>
-                          {f.map(items, item => {
-                            return this.renderItem(parent.uuid, current, child, item, filterType)
-                          })}
-                        </ul>
-                      )
-                    }
-                  })
-                default:
-                  return (
-                    <ul className={togglebodyClass}>
-                      {f.map(child.children, item => {
-                        return this.renderItem(parent.uuid, current, child, item, filterType)
-                      })}
-                    </ul>
-                  )
-              }
-            }
-          }
-        })()}
-      </li>
-    )
-  },
-
-  renderPersonSelect(current, child, items, filterType, className, withTitle) {
-    const onSelect = person =>
-      this.addItemFilter(this.props.onChange, current, child, person, filterType)
-    const onClear = person =>
-      this.removeItemFilter(this.props.onChange, current, child, person, filterType)
-    const jsonPath = getJsonPath(this.props.jsonPath, 'section_group_meta_data')
+  const renderPersonSelect = (current, child, items, filterType, className, withTitle) => {
+    const onSelect = person => addItemFilter(onChange, current, child, person, filterType)
+    const onClear = person => removeItemFilter(onChange, current, child, person, filterType)
+    const jsonPathValue = getJsonPath(jsonPath, 'section_group_meta_data')
     return (
       <PersonFilter
         key="person"
@@ -387,18 +281,24 @@ module.exports = createReactClass({
         onClear={onClear}
         className={className}
         withTitle={withTitle}
-        jsonPath={jsonPath}
+        jsonPath={jsonPathValue}
       />
     )
-  },
+  }
 
-  renderResponsibleUser(node, parentUuid, current, parent, filterType, togglebodyClass) {
+  const renderResponsibleUser = (
+    node,
+    parentUuid,
+    current,
+    parent,
+    filterType,
+    togglebodyClass
+  ) => {
     const userChanged = user => {
-      const { onChange } = this.props
       if (user.selected) {
-        return this.removeItemFilter(onChange, current, parent, user, filterType)
+        return removeItemFilter(onChange, current, parent, user, filterType)
       } else {
-        return this.addItemFilter(onChange, current, parent, user, filterType)
+        return addItemFilter(onChange, current, parent, user, filterType)
       }
     }
 
@@ -420,33 +320,25 @@ module.exports = createReactClass({
         togglebodyClass={togglebodyClass}
       />
     )
-  },
+  }
 
-  renderItem(parentUuid, current, parent, item, filterType) {
-    const { onChange } = this.props
+  const renderItem = (parentUuid, current, parent, item, filterType) => {
     const addRemoveClick = () => {
       if (item.selected) {
-        return this.removeItemFilter(onChange, current, parent, item, filterType)
+        return removeItemFilter(onChange, current, parent, item, filterType)
       } else {
-        return this.addItemFilter(onChange, current, parent, item, filterType)
+        return addItemFilter(onChange, current, parent, item, filterType)
       }
     }
 
-    return (
-      <FilterItem
-        {...Object.assign({ parentUuid: parentUuid }, item, {
-          key: item.uuid,
-          onClick: addRemoveClick
-        })}
-      />
-    )
-  },
+    return <FilterItem {...{ ...item, parentUuid, key: item.uuid, onClick: addRemoveClick }} />
+  }
 
-  createToggleSubSection(filterType, parent, child, isOpen) {
+  const createToggleSubSection = (filterType, parent, child, isOpen) => {
     const href = null
 
     const toggleOnClick = () => {
-      return this.toggleSubSection(filterType + '-' + parent.uuid, child.uuid)
+      return toggleSubSection(filterType + '-' + parent.uuid, child.uuid)
     }
 
     const togglerClass = cx('ui-accordion-toggle', 'weak', { open: isOpen })
@@ -458,11 +350,11 @@ module.exports = createReactClass({
         {child.label}
       </a>
     )
-  },
+  }
 
-  createMultiSelectBox(child, current, filterType, allowSelectAll) {
-    let icon, onChange, title
-    const showRemoveAll = f.any(child.children, 'selected')
+  const createMultiSelectBox = (child, current, filterType, allowSelectAll) => {
+    let icon, title
+    const showRemoveAll = child.children && child.children.some(c => c.selected)
     const showSelectAll = child.multi && !showRemoveAll
     const style = { display: 'inline-block', position: 'absolute', padding: 0 }
     const keyBtnClass = 'ui-any-value'
@@ -470,9 +362,8 @@ module.exports = createReactClass({
     let multiSelectBox = undefined
     if (showRemoveAll) {
       title = t('dynamic_filters_remove_all_title')
-      ;({ onChange } = this.props)
       const removeClick = () => {
-        return this.removeSubSectionFilter(onChange, current, child, filterType)
+        return removeSubSectionFilter(onChange, current, child, filterType)
       }
       icon = 'close'
       multiSelectBox = (
@@ -489,12 +380,11 @@ module.exports = createReactClass({
       if (child.selected) {
         iclass = 'active'
       }
-      ;({ onChange } = this.props)
       const addClick = () => {
         if (child.selected) {
-          return this.removeSubSectionFilter(onChange, current, child, filterType)
+          return removeSubSectionFilter(onChange, current, child, filterType)
         } else {
-          return this.addSubSectionFilter(onChange, current, child, filterType)
+          return addSubSectionFilter(onChange, current, child, filterType)
         }
       }
       multiSelectBox = (
@@ -505,174 +395,222 @@ module.exports = createReactClass({
     }
 
     return multiSelectBox
-  },
+  }
 
-  addItemFilter(onChange, current, parent, item, filterType) {
-    let currentPerType = current[filterType] || []
-    // When we add a child filter, the parent filter is no longer needed.
-    currentPerType = f
-      .reject(
-        currentPerType,
+  const renderSubSection = (current, filterType, parent, child) => {
+    const { isOpen } = getAccordionSubSection(filterType + '-' + parent.uuid, child.uuid)
+    const showSearchField = [
+      'responsible_user',
+      'responsible_delegation',
+      'entrusted_to_user',
+      'entrusted_to_group',
+      'entrusted_to_api_client'
+    ].includes(child.uuid)
 
-        // Remove the filter, if it is in the section and consists only of
-        // key, but has no value or match.
-        // If multi is false, then we remove all from this section.
-        function (filter) {
-          const preventDuplicate = filter.key === parent.uuid && filter.value === item.uuid
-          const removeSectionFilter =
-            filter.key === parent.uuid &&
-            (!f.present(f.pick(filter, 'value', 'match')) || !parent.multi)
-          return preventDuplicate || removeSectionFilter
+    const keyClass = 'ui-side-filter-lvl2-item'
+    const togglebodyClass = cx('ui-accordion-body', 'ui-side-filter-lvl3', { open: isOpen })
 
-          // Add the Item filter.
-        }
+    return (
+      <li className={keyClass} key={child.uuid}>
+        {createToggleSubSection(filterType, parent, child, isOpen)}
+        {createMultiSelectBox(child, current, filterType, !(parent.uuid === 'permissions'))}
+        {(() => {
+          if (parent.uuid === 'permissions' && showSearchField) {
+            if (isOpen) {
+              return renderResponsibleUser(
+                child,
+                parent.uuid,
+                current,
+                child,
+                filterType,
+                togglebodyClass
+              )
+            } else {
+              return <ul className={togglebodyClass} />
+            }
+          } else {
+            if (isOpen) {
+              switch (child.metaDatumObjectType) {
+                case 'MetaDatum::People':
+                  return renderPersonSelect(
+                    current,
+                    child,
+                    child.children,
+                    filterType,
+                    togglebodyClass,
+                    false
+                  )
+                case 'MetaDatum::Roles':
+                  return ['person', 'role'].map(type => {
+                    const items = child.children.filter(x => x.type === type)
+                    if (items.length === 0) {
+                      return false
+                    }
+                    if (type === 'person') {
+                      return renderPersonSelect(
+                        current,
+                        child,
+                        items,
+                        filterType,
+                        togglebodyClass,
+                        true
+                      )
+                    } else {
+                      return (
+                        <ul className={togglebodyClass} key="role">
+                          <li
+                            className="ui-side-filter-lvl3-item ptx plm"
+                            style={{ fontSize: '12px' }}>
+                            <strong>{t('dynamic_filters_role_header')}</strong>
+                          </li>
+                          {items.map(item =>
+                            renderItem(parent.uuid, current, child, item, filterType)
+                          )}
+                        </ul>
+                      )
+                    }
+                  })
+                default:
+                  return (
+                    <ul className={togglebodyClass}>
+                      {child.children &&
+                        child.children.map(item =>
+                          renderItem(parent.uuid, current, child, item, filterType)
+                        )}
+                    </ul>
+                  )
+              }
+            }
+          }
+        })()}
+      </li>
+    )
+  }
+
+  const dynamic = sectionGroups
+    .map(sg => sg.dynamic)
+    .filter(Boolean)
+    .flat()
+
+  if (isEmpty(dynamic)) {
+    if (sectionGroups.some(sg => !sg.loaded)) {
+      const baseClass = ui.cx(
+        ui.parseMods({ accordion: accordionProp, current, onChange }),
+        'ui-side-filter-list'
       )
-      .concat({ key: parent.uuid, value: item.uuid })
-
-    current[filterType] = currentPerType
-    if (onChange) {
-      return onChange({
-        action: 'added item',
-        item,
-        current,
-        accordion: this.state.accordion
-      })
-    }
-  },
-
-  addSubSectionFilter(onChange, current, parent, filterType) {
-    let currentPerType = current[filterType] || []
-    // Remove all Item filters in this section.
-    currentPerType = f
-      .reject(
-        currentPerType,
-
-        // Note: We here also remove an existing section filter actually.
-        filter => filter.key === parent.uuid
+      return (
+        <ul className={baseClass} data-test-id="side-filter">
+          <Preloader mods="small" />
+        </ul>
       )
-      .concat({ key: parent.uuid })
-
-    current[filterType] = currentPerType
-    if (onChange) {
-      return onChange({
-        action: 'added key',
-        current,
-        accordion: this.state.accordion
-      })
-    }
-  },
-
-  removeItemFilter(onChange, current, parent, item, filterType) {
-    let currentPerType = current[filterType] || []
-    // Remove the item filter.
-    currentPerType = f.reject(currentPerType, filter => filter.value === item.uuid)
-    current[filterType] = currentPerType
-    if (onChange) {
-      return onChange({
-        action: 'removed item',
-        item,
-        current,
-        accordion: this.state.accordion
-      })
-    }
-  },
-
-  removeSubSectionFilter(onChange, current, parent, filterType) {
-    let currentPerType = current[filterType] || []
-    // Remove the section filter.
-    currentPerType = f.reject(currentPerType, filter => filter.key === parent.uuid)
-    current[filterType] = currentPerType
-    if (onChange) {
-      return onChange({
-        action: 'removed key',
-        current,
-        accordion: this.state.accordion
-      })
+    } else {
+      return null
     }
   }
-})
 
-var FilterItem = function (param) {
-  if (param == null) {
-    param = this.props
-  }
-  let { label, uuid, selected, count, onClick } = param
-  label = f.presence(label || uuid) || (console.error('empty FilterItem label!') && '(empty)')
+  // Clone the current filters, so as we can manipulate them
+  // to give the result back to the parent component.
+  const clonedCurrent = { ...current }
+
+  const baseClass = ui.cx(
+    ui.parseMods({ accordion: accordionProp, current, onChange }),
+    'ui-side-filter-list'
+  )
+
+  return (
+    <ul className={baseClass} data-test-id="side-filter">
+      {sectionGroups
+        .map(sectionGroup => {
+          if (!sectionGroup.loaded) {
+            return <Preloader key={`preloader_${sectionGroup.key}`} mods="small" />
+          } else if (!sectionGroup.dynamic) {
+            return null
+          } else {
+            const filters = initializeFilterTreeFromProps(sectionGroup.dynamic, clonedCurrent)
+            return filters.map(filter => renderSection(clonedCurrent, filter))
+          }
+        })
+        .flat()
+        .filter(Boolean)}
+    </ul>
+  )
+}
+
+SideFilter.propTypes = {
+  dynamic: PropTypes.array,
+  accordion: PropTypes.objectOf(PropTypes.object).isRequired,
+  current: MadekPropTypes.resourceFilter.isRequired,
+  onChange: PropTypes.func,
+  forUrl: PropTypes.object,
+  jsonPath: PropTypes.string
+}
+
+const FilterItem = ({ label, uuid, selected, count, onClick }) => {
+  const itemLabel =
+    // eslint-disable-next-line no-console
+    presence(label || uuid) || (console.error('empty FilterItem label!') && '(empty)')
   return (
     <li className={cx('ui-side-filter-lvl3-item', { active: selected })}>
       <Link mods="weak" onClick={onClick}>
-        {label} <span className="ui-lvl3-item-count">{count}</span>
+        {itemLabel} <span className="ui-lvl3-item-count">{count}</span>
       </Link>
     </li>
   )
 }
 
-var initializeFilterTreeFromProps = function (dynamicFilters, current) {
+const initializeFilterTreeFromProps = (dynamicFilters, current) => {
   let tree = initializeSections(dynamicFilters)
-  return (tree = forCurrentFiltersSelectItemsInTree(tree, current))
+  return forCurrentFiltersSelectItemsInTree(tree, current)
 }
 
-var forCurrentFiltersSelectItemsInTree = function (tree, current) {
-  const selectItemForFilter = function (item, filter) {
+const forCurrentFiltersSelectItemsInTree = (tree, current) => {
+  const selectItemForFilter = (item, filter) => {
     if (item.uuid === filter.value) {
-      return (item.selected = true)
+      item.selected = true
     }
   }
 
-  const selectInSubSection = (subSection, filter) =>
-    (() => {
-      const result = []
-      for (var i in subSection.children) {
-        var item = subSection.children[i]
-        if (subSection.uuid === filter.key) {
-          subSection.selected = true
-        }
-        result.push(selectItemForFilter(item, filter))
+  const selectInSubSection = (subSection, filter) => {
+    if (!subSection.children) return
+    subSection.children.forEach(item => {
+      if (subSection.uuid === filter.key) {
+        subSection.selected = true
       }
-      return result
-    })()
-
-  const selectInSection = (section, filter) =>
-    (() => {
-      const result = []
-      for (var i in section.children) {
-        var subSection = section.children[i]
-        if (subSection.uuid === filter.key) {
-          result.push(selectInSubSection(subSection, filter))
-        } else {
-          result.push(undefined)
-        }
-      }
-      return result
-    })()
-
-  const selectInTreePerFilter = (filterType, filter) =>
-    (() => {
-      const result = []
-      for (var i in tree) {
-        var section = tree[i]
-        if (section.filterType === filterType) {
-          result.push(selectInSection(section, filter))
-        } else {
-          result.push(undefined)
-        }
-      }
-      return result
-    })()
-
-  for (var filterType in current) {
-    var filtersPerType = current[filterType]
-    for (var i in filtersPerType) {
-      var filter = filtersPerType[i]
-      selectInTreePerFilter(filterType, filter)
-    }
+      selectItemForFilter(item, filter)
+    })
   }
+
+  const selectInSection = (section, filter) => {
+    if (!section.children) return
+    section.children.forEach(subSection => {
+      if (subSection.uuid === filter.key) {
+        selectInSubSection(subSection, filter)
+      }
+    })
+  }
+
+  const selectInTreePerFilter = (filterType, filter) => {
+    tree.forEach(section => {
+      if (section.filterType === filterType) {
+        selectInSection(section, filter)
+      }
+    })
+  }
+
+  Object.keys(current).forEach(filterType => {
+    const filtersPerType = current[filterType]
+    if (filtersPerType) {
+      filtersPerType.forEach(filter => {
+        selectInTreePerFilter(filterType, filter)
+      })
+    }
+  })
 
   return tree
 }
 
-var initializeSections = dynamicFilters =>
-  f.map(dynamicFilters, function (filter) {
+const initializeSections = dynamicFilters =>
+  dynamicFilters.map(filter => {
     const { filter_type, label, uuid, children } = filter
     return {
       filterType: filter_type || uuid,
@@ -682,8 +620,8 @@ var initializeSections = dynamicFilters =>
     }
   })
 
-var initializeSubSections = filters =>
-  f.map(filters, function (filter) {
+const initializeSubSections = filters =>
+  filters.map(filter => {
     const { children, label, uuid, multi, context_key_id, meta_datum_object_type, too_many_hits } =
       filter
     return {
@@ -701,8 +639,8 @@ var initializeSubSections = filters =>
     }
   })
 
-var initializeItems = filters =>
-  f.map(filters, function (filter) {
+const initializeItems = filters =>
+  filters.map(filter => {
     const { uuid, count, type, label, detailed_name } = filter
     return {
       label: detailed_name ? detailed_name : label,
@@ -713,9 +651,39 @@ var initializeItems = filters =>
     }
   })
 
-var getJsonPath = function (baseJsonPath, key) {
+const getJsonPath = (baseJsonPath, key) => {
   let jsonPath = baseJsonPath
   jsonPath = jsonPath.substring(0, jsonPath.length - 'resources'.length)
   jsonPath += `dynamic_filters.${key}`
   return jsonPath
 }
+
+// Helper function to pick specific keys from an object
+const pick = (obj, keys) => {
+  const picked = {}
+  keys.forEach(key => {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      picked[key] = obj[key]
+    }
+  })
+  return picked
+}
+
+// Helper function to set nested value (replacement for f.set)
+const setNestedValue = (obj, path, value) => {
+  const keys = path.split('.')
+  const result = { ...obj }
+  let current = result
+
+  for (let i = 0; i < keys.length - 1; i++) {
+    const key = keys[i]
+    current[key] = current[key] ? { ...current[key] } : {}
+    current = current[key]
+  }
+
+  current[keys[keys.length - 1]] = value
+  return result
+}
+
+export default SideFilter
+module.exports = SideFilter
