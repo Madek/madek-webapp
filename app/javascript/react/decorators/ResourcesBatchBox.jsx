@@ -5,9 +5,7 @@ import ResourceThumbnail from '../decorators/ResourceThumbnail.jsx'
 
 const ResourcesBatchBox = ({ resources, authToken, batchCount, counts }) => {
   const actualBatchCount =
-    typeof batchCount === 'string' || typeof batchCount === 'number'
-      ? batchCount
-      : resources.length
+    typeof batchCount === 'string' || typeof batchCount === 'number' ? batchCount : resources.length
 
   return (
     <div className="bordered ui-container midtone rounded-right rounded-bottom mbm">

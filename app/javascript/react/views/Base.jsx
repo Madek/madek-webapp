@@ -31,14 +31,12 @@ const Base = ({ get, action_name, for_url, authToken }) => {
         <div className="ui-alert">
           As this Media Entry is part of the workflow
           <a href={get.workflow.actions.edit.url}>&quot;{get.workflow.name}&quot;</a>, managing
-          permissions is available only by changing common settings on workflow edit page which
-          will be applied after finishing it.
+          permissions is available only by changing common settings on workflow edit page which will
+          be applied after finishing it.
         </div>
       )
     } else if (['permissions', 'permissions_edit'].includes(action_name)) {
-      return (
-        <MediaEntryPermissions get={get.permissions} for_url={for_url} authToken={authToken} />
-      )
+      return <MediaEntryPermissions get={get.permissions} for_url={for_url} authToken={authToken} />
     } else if (action_name === 'usage_data') {
       const list = get.more_data.file_information
 

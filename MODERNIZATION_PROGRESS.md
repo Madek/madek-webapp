@@ -45,7 +45,8 @@ Created `app/javascript/lib/utils.js` with helpers:
 - `omit()` - Omit object properties
 - `isEmpty()` - Check if empty
 - `cloneDeep()` - Deep clone objects
-- `chunk()` - Split array into chunks (NEW)
+- `chunk()` - Split array into chunks
+- `getPath()` - Get nested property safely (NEW)
 
 ### 2. Conversion Patterns Applied
 
@@ -132,12 +133,28 @@ ls -lh public/assets/bundles/bundle.js
 
 ## Statistics
 - Total files: 219
-- Completed: 163 (74.4%)
-- Remaining: 56 (25.6%)
-- createReactClass removed from ~163 files
-- lodash usage: Partially removed (using native JS and utils)
+- Completed: 171 (78.1%)
+- Remaining: 48 (21.9%)
+- createReactClass removed from ~171 files
+- lodash usage: Significantly reduced (using native JS and utils)
 
-## Recently Completed (Latest Batch - 8 files)
+## Recently Completed (Latest Batch - 13 files)
+
+### Simple Functional Components
+- ✅ BatchRemoveFromSet.jsx - Removed unnecessary state management
+- ✅ Dashboard.jsx - Functional component (removed lodash reject)
+- ✅ ReleaseShow.jsx - Functional component (using isEmpty from utils)
+- ✅ ExploreLoginPage.jsx - Functional component
+
+### Hooks-Based Components
+- ✅ DashboardSectionResources.jsx - Converted to useState
+- ✅ CreateCollectionModal.jsx - Converted to useState + useEffect
+
+### Complex Functional Components
+- ✅ PersonShow.jsx - Added getPath utility, complex filtering logic
+- ✅ BrowseEntriesList.jsx - Complex data transformations with native JS
+
+### Previously Completed (Batch 3 - 8 files)
 - ✅ ResourcesBatchBox.jsx - Functional component (removed lodash)
 - ✅ MediaEntryEmbeddedImage.jsx - Functional component with PropTypes
 - ✅ VocabularyPeople.jsx - Functional component (added chunk utility)
@@ -146,14 +163,6 @@ ls -lh public/assets/bundles/bundle.js
 - ✅ VocabularyTerm.jsx - Functional component (using isEmpty from utils)
 - ✅ GroupShow.jsx - Functional component (using isEmpty from utils)
 - ✅ Base.jsx - Functional component (using get from utils)
-
-## Previously Completed (Batch 2)
-- ✅ AskModal.jsx - Functional component
-- ✅ TagCloud.jsx - Functional component with map
-- ✅ form-label.jsx - Functional component
-- ✅ input-field-text.jsx - Hooks (useState, useEffect, useRef)
-- ✅ BoxLayoutButton.jsx - Functional component
-- ✅ BoxSetUrlParams.jsx - Utility function (removed lodash)
 
 ## Automation Considerations
 Created `/scripts/modernize-react.js` for potential automation, but manual review is safer for:

@@ -54,17 +54,19 @@ const GroupShow = ({ get, for_url, authToken }) => {
         <div className="ui-container pal">
           <table className="borderless">
             <tbody>
-              {infotable(group, get.members, get.vocabulary_permissions).map(([label, value], i) => {
-                if (isEmpty(value)) {
-                  return null
+              {infotable(group, get.members, get.vocabulary_permissions).map(
+                ([label, value], i) => {
+                  if (isEmpty(value)) {
+                    return null
+                  }
+                  return (
+                    <tr key={label + i}>
+                      <td className="ui-summary-label">{label}</td>
+                      <td className="ui-summary-content">{value}</td>
+                    </tr>
+                  )
                 }
-                return (
-                  <tr key={label + i}>
-                    <td className="ui-summary-label">{label}</td>
-                    <td className="ui-summary-content">{value}</td>
-                  </tr>
-                )
-              })}
+              )}
             </tbody>
           </table>
         </div>
