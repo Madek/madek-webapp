@@ -8,10 +8,7 @@ const AsyncModal = ({ get: initialGet, getUrl, contentForGet, extractGet, widthI
   const isMountedRef = useRef(true)
 
   useEffect(() => {
-    if (initialGet) {
-      return
-    }
-
+    // Always make the XHR request, even if initialGet was provided
     loadXhr(
       {
         method: 'GET',
@@ -34,7 +31,7 @@ const AsyncModal = ({ get: initialGet, getUrl, contentForGet, extractGet, widthI
     return () => {
       isMountedRef.current = false
     }
-  }, [getUrl, initialGet, extractGet, contentForGet])
+  }, [getUrl, extractGet, contentForGet])
 
   if (!get) {
     return <Modal loading={true} widthInPixel={widthInPixel} />
