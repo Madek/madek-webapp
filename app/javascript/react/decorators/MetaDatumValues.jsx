@@ -1,38 +1,31 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 // Takes a MetaDatum and displays the values according to the type.
 
 import React from 'react'
-import createReactClass from 'create-react-class'
 import PropTypes from 'prop-types'
-import f from 'active-lodash'
+import { present, getPath } from '../../lib/utils.js'
 import MadekPropTypes from '../lib/madek-prop-types.js'
 import t from '../../lib/i18n-translate.js'
 import UI, { labelize } from '../ui-components/index.js'
 import MetaDatumRolesCloud from './MetaDatumRolesCloud.js'
 import MetaDatumText from './MetaDatumText.js'
 
+const prettifyJson = obj => {
+  try {
+    return JSON.stringify(obj, 0, 2)
+  } catch (error) {
+    console.error(`MetaDatumJSON: ${error}`)
+    return String(obj)
+  }
+}
+
 // Decorator for each type is single stateless-function-component,
 // the main/exported component just selects the right one.
 const DecoratorsByType = {
-  Text(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { values, metaKeyId } = param
+  Text({ values, metaKeyId }) {
     return <MetaDatumText values={values} allowReadMore={metaKeyId === 'madek_core:description'} />
   },
 
-  TextDate(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { values } = param
+  TextDate({ values }) {
     return (
       <ul className="inline">
         {values.map(string => (
@@ -42,11 +35,7 @@ const DecoratorsByType = {
     )
   },
 
-  JSON(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { values, apiUrl } = param
+  JSON({ values, apiUrl }) {
     return (
       <ul className="inline ui-md-json">
         {values.map((obj, i) => (
@@ -83,11 +72,7 @@ const DecoratorsByType = {
     )
   },
 
-  People(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { values, metaKeyId, withRoles } = param
+  People({ values, metaKeyId, withRoles }) {
     return withRoles ? (
       <MetaDatumRolesCloud personRoleTuples={values} metaKeyId={metaKeyId} />
     ) : (
@@ -95,35 +80,23 @@ const DecoratorsByType = {
     )
   },
 
-  Groups(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { values } = param
+  Groups({ values }) {
     return <UI.TagCloud mod="group" mods="small" list={labelize(values)} />
   },
 
-  Keywords(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { values } = param
+  Keywords({ values }) {
     return <UI.TagCloud mod="label" mods="small" list={labelize(values)} />
   },
 
-  MediaEntry(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { values } = param
-    const [resource, description] = Array.from(f.get(values, '0'))
-    const { url, title, unAuthorized, notFound } = resource
+  MediaEntry({ values }) {
+    const [resource, description] = getPath(values, '0') || []
+    const { url, title, unAuthorized, notFound } = resource || {}
     return (
       <div>
         <UI.Link href={url} className="link">
           {title}
         </UI.Link>{' '}
-        {f.present(description) && <p>({description})</p>}
+        {present(description) && <p>({description})</p>}
         {!!unAuthorized && (
           <p style={{ fontStyle: 'italic' }}>{t('meta_datum_media_entry_value_unauthorized')}</p>
         )}
@@ -135,38 +108,24 @@ const DecoratorsByType = {
   }
 }
 
-module.exports = createReactClass({
-  displayName: 'Deco.MetaDatumValues',
-  propTypes: {
-    metaDatum: MadekPropTypes.metaDatum.isRequired,
-    tagMods: PropTypes.any
-  },
-
-  render(props) {
-    if (props == null) {
-      props = this.props
-    }
-    const { type, values, api_data_stream_url, tagMods, meta_key_id } = props.metaDatum
-    const DecoratorByType = DecoratorsByType[f.last(type.split('::'))]
-    return (
-      <DecoratorByType
-        values={values}
-        tagMods={tagMods}
-        apiUrl={api_data_stream_url}
-        metaKeyId={meta_key_id}
-        withRoles={props.metaDatum.meta_key.with_roles}
-      />
-    )
-  }
-})
-
-// helpers
-
-var prettifyJson = function (obj) {
-  try {
-    return JSON.stringify(obj, 0, 2)
-  } catch (error) {
-    console.error(`MetaDatumJSON: ${error}`)
-    return String(obj)
-  }
+const MetaDatumValues = ({ metaDatum, tagMods }) => {
+  const { type, values, api_data_stream_url, meta_key_id } = metaDatum
+  const DecoratorByType = DecoratorsByType[type.split('::').pop()]
+  return (
+    <DecoratorByType
+      values={values}
+      tagMods={tagMods}
+      apiUrl={api_data_stream_url}
+      metaKeyId={meta_key_id}
+      withRoles={metaDatum.meta_key.with_roles}
+    />
+  )
 }
+
+MetaDatumValues.propTypes = {
+  metaDatum: MadekPropTypes.metaDatum.isRequired,
+  tagMods: PropTypes.any
+}
+
+export default MetaDatumValues
+module.exports = MetaDatumValues

@@ -4,16 +4,7 @@ import RailsForm from '../lib/forms/rails-form.jsx'
 import setUrlParams from '../../lib/set-params-for-url.js'
 import FormButton from '../ui-components/FormButton.jsx'
 
-const BatchRemoveFromSet = ({ get, authToken, onCancel }) => {
-  const handleCancel = event => {
-    if (onCancel) {
-      event.preventDefault()
-      onCancel()
-      return false
-    }
-    return true
-  }
-
+const BatchRemoveFromSet = ({ get, authToken }) => {
   const requestUrl = setUrlParams(get.batch_remove_from_set_url, {
     resource_id: get.resource_ids,
     return_to: get.return_to,

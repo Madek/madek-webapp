@@ -48,9 +48,7 @@ const decoExternalUris = uris => {
 
 const infotable = p => {
   const autority_links = p.external_uris.filter(uri => getPath(uri, 'authority_control.kind'))
-  const external_links = p.external_uris.filter(
-    uri => !getPath(uri, 'authority_control.kind')
-  )
+  const external_links = p.external_uris.filter(uri => !getPath(uri, 'authority_control.kind'))
 
   const nameFields = [[t('person_show_only_name'), p.label]]
 

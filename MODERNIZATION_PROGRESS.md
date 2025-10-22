@@ -133,14 +133,24 @@ ls -lh public/assets/bundles/bundle.js
 
 ## Statistics
 - Total files: 219
-- Completed: 171 (78.1%)
-- Remaining: 48 (21.9%)
-- createReactClass removed from ~171 files
+- Completed: 176 (80.4%)
+- Remaining: 43 (19.6%)
+- createReactClass removed from ~176 files
 - lodash usage: Significantly reduced (using native JS and utils)
 
-## Recently Completed (Latest Batch - 13 files)
+## Recently Completed (Latest Session - 19 files total)
 
-### Simple Functional Components
+### Batch 6 - More UI Components & Decorators (2 files)
+- ✅ Thumbnail.jsx - Complex functional component with extensive rendering logic
+- ✅ MediaEntryPreview.jsx - Functional component with media type handling
+
+### Batch 5 - UI Components & Decorators (4 files)
+- ✅ MetaDataList.jsx - Functional component (removed lodash, used getPath/present utils)
+- ✅ MediaPlayer.jsx - Converted to useState + useEffect hooks
+- ✅ InputMetaDatum.jsx - Functional component with complex rendering logic
+- ✅ MetaDatumValues.jsx - Functional component with decorator pattern
+
+### Batch 4 - Simple Functional Components (13 files)
 - ✅ BatchRemoveFromSet.jsx - Removed unnecessary state management
 - ✅ Dashboard.jsx - Functional component (removed lodash reject)
 - ✅ ReleaseShow.jsx - Functional component (using isEmpty from utils)

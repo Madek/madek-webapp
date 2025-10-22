@@ -35,44 +35,42 @@ const BrowseEntriesList = ({ browse, isLoading, header, authToken }) => {
   }
 
   // main view
-  const keyword_clusters = browse.entry_ids_by_shared_keywords.map(
-    ({ keyword_ids, entry_ids }) => {
-      const keywords = keyword_ids.map(id => {
-        const kw = browse.keywords_by_id[id]
-        const mk = browse.meta_keys_by_id[kw.meta_key_id]
-        const voc = browse.vocabularies_by_id[mk.vocabulary_id]
-        return { ...kw, metaKey: { ...mk, vocabulary: voc } }
+  const keyword_clusters = browse.entry_ids_by_shared_keywords.map(({ keyword_ids, entry_ids }) => {
+    const keywords = keyword_ids.map(id => {
+      const kw = browse.keywords_by_id[id]
+      const mk = browse.meta_keys_by_id[kw.meta_key_id]
+      const voc = browse.vocabularies_by_id[mk.vocabulary_id]
+      return { ...kw, metaKey: { ...mk, vocabulary: voc } }
+    })
+
+    // Group by meta_key_id
+    const keywordsGrouped = Object.values(
+      keywords.reduce((acc, kw) => {
+        if (!acc[kw.meta_key_id]) acc[kw.meta_key_id] = []
+        acc[kw.meta_key_id].push(kw)
+        return acc
+      }, {})
+    )
+
+    // Sort by position
+    const keywordsSorted = keywordsGrouped
+      .slice()
+      .sort((a, b) => {
+        const posA = getPath(a, '0.metaKey.position') || 0
+        const posB = getPath(b, '0.metaKey.position') || 0
+        return posA - posB
+      })
+      .sort((a, b) => {
+        const vocPosA = getPath(a, '0.metaKey.vocabulary.position') || 0
+        const vocPosB = getPath(b, '0.metaKey.vocabulary.position') || 0
+        return vocPosA - vocPosB
       })
 
-      // Group by meta_key_id
-      const keywordsGrouped = Object.values(
-        keywords.reduce((acc, kw) => {
-          if (!acc[kw.meta_key_id]) acc[kw.meta_key_id] = []
-          acc[kw.meta_key_id].push(kw)
-          return acc
-        }, {})
-      )
-
-      // Sort by position
-      const keywordsSorted = keywordsGrouped
-        .slice()
-        .sort((a, b) => {
-          const posA = getPath(a, '0.metaKey.position') || 0
-          const posB = getPath(b, '0.metaKey.position') || 0
-          return posA - posB
-        })
-        .sort((a, b) => {
-          const vocPosA = getPath(a, '0.metaKey.vocabulary.position') || 0
-          const vocPosB = getPath(b, '0.metaKey.vocabulary.position') || 0
-          return vocPosA - vocPosB
-        })
-
-      return {
-        entries: entry_ids.map(id => browse.entries_by_id[id]),
-        keywordsByMetaKey: keywordsSorted
-      }
+    return {
+      entries: entry_ids.map(id => browse.entries_by_id[id]),
+      keywordsByMetaKey: keywordsSorted
     }
-  )
+  })
 
   return (
     <div data-ui-entry-browse-list={true}>
