@@ -104,3 +104,16 @@ export const cloneDeep = obj => {
   // Fallback to JSON method (has limitations with functions, dates, etc.)
   return JSON.parse(JSON.stringify(obj))
 }
+
+/**
+ * Split array into chunks of specified size
+ * Replacement for lodash `chunk`
+ */
+export const chunk = (array, size) => {
+  if (!Array.isArray(array) || size < 1) return []
+  const result = []
+  for (let i = 0; i < array.length; i += size) {
+    result.push(array.slice(i, i + size))
+  }
+  return result
+}

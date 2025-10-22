@@ -45,6 +45,7 @@ Created `app/javascript/lib/utils.js` with helpers:
 - `omit()` - Omit object properties
 - `isEmpty()` - Check if empty
 - `cloneDeep()` - Deep clone objects
+- `chunk()` - Split array into chunks (NEW)
 
 ### 2. Conversion Patterns Applied
 
@@ -131,12 +132,22 @@ ls -lh public/assets/bundles/bundle.js
 
 ## Statistics
 - Total files: 219
-- Completed: 97 (44.3%)
-- Remaining: 122 (55.7%)
-- createReactClass removed from ~97 files
+- Completed: 163 (74.4%)
+- Remaining: 56 (25.6%)
+- createReactClass removed from ~163 files
 - lodash usage: Partially removed (using native JS and utils)
 
-## Recently Completed (Batch 2)
+## Recently Completed (Latest Batch - 8 files)
+- ✅ ResourcesBatchBox.jsx - Functional component (removed lodash)
+- ✅ MediaEntryEmbeddedImage.jsx - Functional component with PropTypes
+- ✅ VocabularyPeople.jsx - Functional component (added chunk utility)
+- ✅ VocabularyKeywords.jsx - Functional component (added chunk utility)
+- ✅ VocabularyPage.jsx - Functional component
+- ✅ VocabularyTerm.jsx - Functional component (using isEmpty from utils)
+- ✅ GroupShow.jsx - Functional component (using isEmpty from utils)
+- ✅ Base.jsx - Functional component (using get from utils)
+
+## Previously Completed (Batch 2)
 - ✅ AskModal.jsx - Functional component
 - ✅ TagCloud.jsx - Functional component with map
 - ✅ form-label.jsx - Functional component
