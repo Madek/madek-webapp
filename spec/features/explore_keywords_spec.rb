@@ -15,7 +15,6 @@ feature 'Page: Explore Keywords' do
       @user = User.find_by(login: 'normin')
       sign_in_as @user.login
       visit explore_keywords_path
-      binding.pry
     end
 
   end
