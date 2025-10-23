@@ -39,12 +39,29 @@ const ResourceThumbnail = ({
 }) => {
   const [isClient, setIsClient] = useState(isClientProp || false)
   const [deleteModal, setDeleteModal] = useState(false)
-  const [relationsState, setRelationsState] = useState(null)
-  const [favoriteState, setFavoriteState] = useState(null)
 
   // Use refs for transition functions to avoid circular dependencies
   const relationsTransitionRef = useRef(null)
   const favoriteTransitionRef = useRef(null)
+
+  // Initialize states with lazy initialization
+  const [relationsState, setRelationsState] = useState(() => {
+    const initial = BoxFetchRelations(null, { type: get.type }, ps => {
+      if (relationsTransitionRef.current) {
+        relationsTransitionRef.current(ps)
+      }
+    })
+    return initial
+  })
+
+  const [favoriteState, setFavoriteState] = useState(() => {
+    const initial = BoxFavorite(null, { resource: get }, ps => {
+      if (favoriteTransitionRef.current) {
+        favoriteTransitionRef.current(ps)
+      }
+    })
+    return initial
+  })
 
   // Define transition functions
   relationsTransitionRef.current = props => {
@@ -61,21 +78,8 @@ const ResourceThumbnail = ({
     setFavoriteState(next)
   }
 
-  // Initialize states on mount
   useEffect(() => {
     setIsClient(true)
-
-    // Initialize relations state
-    const relationsInitial = BoxFetchRelations(null, { type: get.type }, ps =>
-      relationsTransitionRef.current(ps)
-    )
-    setRelationsState(relationsInitial)
-
-    // Initialize favorite state
-    const favoriteInitial = BoxFavorite(null, { resource: get }, ps =>
-      favoriteTransitionRef.current(ps)
-    )
-    setFavoriteState(favoriteInitial)
   }, [])
 
   const _fetchRelations = useCallback(() => {
@@ -114,11 +118,6 @@ const ResourceThumbnail = ({
   }, [])
 
   const renderContent = () => {
-    // Guard against null states during initialization
-    if (!relationsState || !favoriteState) {
-      return null
-    }
-
     let childRelations, childrenCount, childThumbs, parentRelations, parentsCount, parentThumbs
 
     if (fetchRelations) {
