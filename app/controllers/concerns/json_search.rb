@@ -12,6 +12,7 @@ module JSONSearch
       ar_collection = ar_collection.filter_by(*search_params)
     end
     ar_collection = skip_deactivated_records(ar_collection)
+    ar_collection = skip_unassignable_records(ar_collection)
     ar_collection = ar_collection.limit(params[:limit] || 100)
     ar_collection.map { |kt| presenter.new(kt).dump }
   end
@@ -37,6 +38,14 @@ module JSONSearch
   def skip_deactivated_records(collection)
     if model_klass.columns_hash.key?('active_until')
       collection.where('now() <= active_until')
+    else
+      collection
+    end
+  end
+
+  def skip_unassignable_records(collection)
+    if model_klass.columns_hash.key?('is_assignable')
+      collection.where(is_assignable: true)
     else
       collection
     end
