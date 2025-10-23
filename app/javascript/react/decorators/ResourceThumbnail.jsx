@@ -4,7 +4,7 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
-import React, { useState, useEffect, useCallback, memo } from 'react'
+import React, { useState, useEffect, useCallback, useRef, memo } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import ResourceThumbnailRenderer from './ResourceThumbnailRenderer.jsx'
@@ -39,49 +39,53 @@ const ResourceThumbnail = ({
 }) => {
   const [isClient, setIsClient] = useState(isClientProp || false)
   const [deleteModal, setDeleteModal] = useState(false)
+  const [relationsState, setRelationsState] = useState(null)
+  const [favoriteState, setFavoriteState] = useState(null)
 
-  // Initialize states with callbacks
-  const relationsInitial = useCallback(
-    props => BoxFetchRelations(null, props, ps => relationsTransition(ps)),
-    []
-  )
+  // Use refs for transition functions to avoid circular dependencies
+  const relationsTransitionRef = useRef(null)
+  const favoriteTransitionRef = useRef(null)
 
-  const favoriteInitial = useCallback(
-    props => BoxFavorite(null, props, ps => favoriteTransition(ps)),
-    []
-  )
+  // Define transition functions
+  relationsTransitionRef.current = props => {
+    const next = BoxFetchRelations(cloneDeep(relationsState), props, ps =>
+      relationsTransitionRef.current(ps)
+    )
+    setRelationsState(next)
+  }
 
-  const [relationsState, setRelationsState] = useState(() => relationsInitial({ type: get.type }))
-  const [favoriteState, setFavoriteState] = useState(() => favoriteInitial({ resource: get }))
+  favoriteTransitionRef.current = props => {
+    const next = BoxFavorite(cloneDeep(favoriteState), props, ps =>
+      favoriteTransitionRef.current(ps)
+    )
+    setFavoriteState(next)
+  }
 
+  // Initialize states on mount
   useEffect(() => {
     setIsClient(true)
+
+    // Initialize relations state
+    const relationsInitial = BoxFetchRelations(null, { type: get.type }, ps =>
+      relationsTransitionRef.current(ps)
+    )
+    setRelationsState(relationsInitial)
+
+    // Initialize favorite state
+    const favoriteInitial = BoxFavorite(null, { resource: get }, ps =>
+      favoriteTransitionRef.current(ps)
+    )
+    setFavoriteState(favoriteInitial)
   }, [])
 
-  const relationsTransition = useCallback(
-    props => {
-      const next = BoxFetchRelations(cloneDeep(relationsState), props, ps =>
-        relationsTransition(ps)
-      )
-      setRelationsState(next)
-    },
-    [relationsState]
-  )
-
-  const favoriteTransition = useCallback(
-    props => {
-      const next = BoxFavorite(cloneDeep(favoriteState), props, ps => favoriteTransition(ps))
-      setFavoriteState(next)
-    },
-    [favoriteState]
-  )
-
   const _fetchRelations = useCallback(() => {
-    relationsTransition({
-      event: 'try-fetch',
-      resource: get
-    })
-  }, [get, relationsTransition])
+    if (relationsTransitionRef.current) {
+      relationsTransitionRef.current({
+        event: 'try-fetch',
+        resource: get
+      })
+    }
+  }, [get])
 
   const _onHover = useCallback(() => {
     if (fetchRelations) {
@@ -90,8 +94,10 @@ const ResourceThumbnail = ({
   }, [fetchRelations, _fetchRelations])
 
   const _favorOnClick = useCallback(() => {
-    favoriteTransition({ event: 'toggle', resource: get })
-  }, [get, favoriteTransition])
+    if (favoriteTransitionRef.current) {
+      favoriteTransitionRef.current({ event: 'toggle', resource: get })
+    }
+  }, [get])
 
   const _showModal = useCallback(() => {
     setDeleteModal(true)
@@ -108,6 +114,11 @@ const ResourceThumbnail = ({
   }, [])
 
   const renderContent = () => {
+    // Guard against null states during initialization
+    if (!relationsState || !favoriteState) {
+      return null
+    }
+
     let childRelations, childrenCount, childThumbs, parentRelations, parentsCount, parentThumbs
 
     if (fetchRelations) {
