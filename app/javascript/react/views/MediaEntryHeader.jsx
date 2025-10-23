@@ -1,77 +1,64 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS104: Avoid inline assignments
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import React from 'react'
-import createReactClass from 'create-react-class'
 import HeaderButton from './HeaderButton.jsx'
 import PageContentHeader from './PageContentHeader.jsx'
-import f from 'active-lodash'
 import Dropdown, { Menu, MenuItem } from '../ui-components/Dropdown.jsx'
 import Icon from '../ui-components/Icon.jsx'
 import Link from '../ui-components/Link.jsx'
 import t from '../../lib/i18n-translate.js'
+import { present } from '../../lib/utils.js'
 
-module.exports = createReactClass({
-  displayName: 'MediaEntryHeader',
-
-  getInitialState() {
-    return {
+class MediaEntryHeader extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
       active: this.props.isClient
     }
-  },
+  }
 
-  _onClick(asyncAction) {
+  _onClick = asyncAction => {
     if (this.props.onClick) {
       return this.props.onClick(asyncAction)
     }
-  },
+  }
 
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { authToken, get } = param
+  render() {
+    const { authToken, get } = this.props
     const icon = get.type === 'Collection' ? 'set' : 'media-entry'
 
-    const buttons = f.compact(
-      f.map(get.button_actions, button_id => f.find(get.buttons, { id: button_id }))
-    )
+    const buttons = get.button_actions
+      .map(button_id => get.buttons.find(b => b.id === button_id))
+      .filter(Boolean)
 
-    const menuItems = f.compact(
-      f.map(get.dropdown_actions, button_id => f.find(get.buttons, { id: button_id }))
-    )
+    const menuItems = get.dropdown_actions
+      .map(button_id => get.buttons.find(b => b.id === button_id))
+      .filter(Boolean)
 
-    const banner = f.any(get.new_version_entries) ? (
-      <div className="ui-alert warning ui-container inverted paragraph-l mbm">
-        {t('media_entry_notice_new_versions')}
-        <ul>
-          {f.map(get.new_version_entries, i => {
-            let left
-            const me = i.entry
-            const desc =
-              (left = f.present(i.description)) != null ? left : i.description + { ', ': '' }
-            return (
-              <li>
-                <Link
-                  href={me.url}
-                  mods="strong"
-                  style={{ color: '#adc671', textDecoration: 'underline' }}>
-                  {me.title}
-                </Link>{' '}
-                <em style={{ fontStyle: 'italic' }}>
-                  ({desc}
-                  {me.date})
-                </em>
-              </li>
-            )
-          })}
-        </ul>
-      </div>
-    ) : undefined
+    const banner =
+      get.new_version_entries && get.new_version_entries.length > 0 ? (
+        <div className="ui-alert warning ui-container inverted paragraph-l mbm">
+          {t('media_entry_notice_new_versions')}
+          <ul>
+            {get.new_version_entries.map((i, idx) => {
+              const me = i.entry
+              const desc = present(i.description) ? i.description + ', ' : ''
+              return (
+                <li key={idx}>
+                  <Link
+                    href={me.url}
+                    mods="strong"
+                    style={{ color: '#adc671', textDecoration: 'underline' }}>
+                    {me.title}
+                  </Link>{' '}
+                  <em style={{ fontStyle: 'italic' }}>
+                    ({desc}
+                    {me.date})
+                  </em>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      ) : undefined
 
     return (
       <PageContentHeader
@@ -80,7 +67,7 @@ module.exports = createReactClass({
         workflow={get.workflow}
         banner={banner}
         sectionLabels={get.section_labels}>
-        {f.map(buttons, button => {
+        {buttons.map(button => {
           let onClick
           if (button.async_action) {
             onClick = () => this._onClick(button.async_action)
@@ -99,13 +86,13 @@ module.exports = createReactClass({
             />
           )
         })}
-        {!f.isEmpty(menuItems) ? (
+        {menuItems.length > 0 ? (
           <Dropdown
             mods="stick-right"
             toggle={t('resource_action_more_actions')}
             toggleProps={{ className: 'button' }}>
             <Menu className="ui-drop-menu">
-              {f.map(menuItems, button => {
+              {menuItems.map(button => {
                 let href, onClick
                 if (button.async_action) {
                   onClick = () => this._onClick(button.async_action)
@@ -113,8 +100,8 @@ module.exports = createReactClass({
                   href = button.action
                 } else {
                   throw new Error(
-                    'In dropdown, a button must be either async or method "get", ',
-                    +'but the dropdown does not support a form with "put/patch".'
+                    'In dropdown, a button must be either async or method "get", ' +
+                      'but the dropdown does not support a form with "put/patch".'
                   )
                 }
 
@@ -146,4 +133,7 @@ module.exports = createReactClass({
       </PageContentHeader>
     )
   }
-})
+}
+
+export default MediaEntryHeader
+module.exports = MediaEntryHeader

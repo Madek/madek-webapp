@@ -1,32 +1,22 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import React from 'react'
-import createReactClass from 'create-react-class'
-import f from 'active-lodash'
 import t from '../../../lib/i18n-translate.js'
-
 import cx from 'classnames'
+import { isEmpty, get as utilGet } from '../../../lib/utils.js'
 
-module.exports = createReactClass({
-  displayName: 'HighlightedContents',
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { get } = param
-    if (
-      f.isEmpty(
-        get.highlighted_media_resources != null
-          ? get.highlighted_media_resources.resources
-          : undefined
-      )
-    ) {
+class HighlightedContents extends React.Component {
+  render() {
+    const { get } = this.props
+    if (isEmpty(get.highlighted_media_resources && get.highlighted_media_resources.resources)) {
       return null
     }
+
+    const mediaEntries = get.highlighted_media_resources.resources.filter(
+      r => r.type === 'MediaEntry'
+    )
+    const collections = get.highlighted_media_resources.resources.filter(
+      r => r.type === 'Collection'
+    )
+    const combined = [...mediaEntries, ...collections]
 
     return (
       <div className="ui-container midtone-darker bordered">
@@ -35,67 +25,61 @@ module.exports = createReactClass({
         </div>
         <div className="ui-featured-entries ptl phm">
           <ul className="ui-featured-entries-list ui-resources tiles horizontal large">
-            {f.map(
-              f.union(
-                f.filter(get.highlighted_media_resources.resources, { type: 'MediaEntry' }),
-                f.filter(get.highlighted_media_resources.resources, { type: 'Collection' })
-              ),
-              (mediaResource, index) => (
-                <HighlightedContent key={`key_${index}`} mediaResource={mediaResource} />
-              )
-            )}
+            {combined.map((mediaResource, index) => (
+              <HighlightedContent key={`key_${index}`} mediaResource={mediaResource} />
+            ))}
           </ul>
         </div>
       </div>
     )
   }
-})
+}
 
-var HighlightedContent = createReactClass({
-  displayName: 'HighlightedContent',
-
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { mediaResource } = param
+class HighlightedContent extends React.Component {
+  render() {
+    const { mediaResource } = this.props
     const iconMapping = { public: 'open', private: 'private', shared: 'group' }
     const iconName = `privacy-${iconMapping[mediaResource.privacy_status]}`
 
     const aClass = cx('ui-tile', { 'ui-tile--set': mediaResource.type === 'Collection' })
 
     const images =
-      f.get(mediaResource, 'type') === 'Collection'
-        ? f.get(mediaResource, 'cover')
-        : f.get(mediaResource, 'media_file.previews.images')
+      utilGet(mediaResource, 'type') === 'Collection'
+        ? utilGet(mediaResource, 'cover', [])
+        : utilGet(mediaResource, 'media_file.previews.images', [])
+
     // smallest image that is smaller than wanted or the largest available:
-    let image = f.findLast(images, i => i.width >= 300)
+    let image = images.filter(i => i.width >= 300).slice(-1)[0]
     if (!image) {
-      image = f.first(f.where(images, i => i.width > 0))
+      image = images.filter(i => i.width > 0)[0]
     }
 
-    console.error('No image!', { props: this.props })
+    if (!image) {
+      // eslint-disable-next-line no-console
+      console.error('No image!', { props: this.props })
+    }
 
     let imgProps = {}
     if (image) {
+      const uniqueImages = images.filter(
+        (img, index, self) => index === self.findIndex(i => i.url === img.url)
+      )
+      const srcSetParts = uniqueImages
+        .map(({ url, width }) => {
+          if (url && width) {
+            return `${url} ${width}w`
+          }
+          return null
+        })
+        .filter(Boolean)
+
       imgProps = {
         src: image.url,
-        srcSet: f
-          .chain(images)
-          .values()
-          .uniq('url')
-          .map(function ({ url, width }) {
-            if (url && width) {
-              return `${url} ${width}w`
-            }
-          })
-          .compact()
-          .value()
-          .join(', ')
+        srcSet: srcSetParts.join(', ')
       }
     }
     imgProps.style = {
-      backgroundColor: 'rgba(1.0, 1.0, 1.0, 0.3)', //'rgba(0, 0, 0, 0.3)',
+      backgroundColor: 'rgba(1.0, 1.0, 1.0, 0.3)',
       boxShadow: '0 0 150px #575757 inset',
       width: !image ? '300px' : undefined
     }
@@ -104,7 +88,7 @@ var HighlightedContent = createReactClass({
       <a className={aClass} href={mediaResource.url} style={{ marginLeft: '5px' }}>
         <div className="ui-tile__body">
           <div className="ui-tile__thumbnail">
-            <img {...Object.assign({ className: 'ui-tile__image' }, imgProps)} />
+            <img {...{ className: 'ui-tile__image', ...imgProps }} />
           </div>
         </div>
         <div className="ui-tile__foot">
@@ -117,4 +101,7 @@ var HighlightedContent = createReactClass({
       </a>
     )
   }
-})
+}
+
+export default HighlightedContents
+module.exports = HighlightedContents

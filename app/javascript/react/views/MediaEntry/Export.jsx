@@ -1,30 +1,20 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import React from 'react'
-import createReactClass from 'create-react-class'
-import f from 'active-lodash'
 import t from '../../../lib/i18n-translate.js'
 import Modal from '../../ui-components/Modal.jsx'
 import setUrlParams from '../../../lib/set-params-for-url.js'
 
-module.exports = createReactClass({
-  displayName: 'MediaEntryExport',
+class MediaEntryExport extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { active: false }
+  }
 
-  getInitialState() {
-    return { active: false }
-  },
-
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { get } = param
+  render() {
+    const { get } = this.props
     let hasPreviews = false
-    f.each(get.media_file.previews, preview => f.each(preview, () => (hasPreviews = true)))
+    Object.values(get.media_file.previews).forEach(preview =>
+      Object.values(preview).forEach(() => (hasPreviews = true))
+    )
 
     const hasOriginal = get.media_file.original_file_url
     const hasNeither = !hasPreviews && !hasOriginal
@@ -61,7 +51,7 @@ module.exports = createReactClass({
             </tr>
           </thead>
           <tbody>
-            {f.map(get.rdf_export_urls, ({ key, label, url, plain_text_url }) => (
+            {get.rdf_export_urls.map(({ key, label, url, plain_text_url }) => (
               <tr key={key}>
                 <td>
                   <b>{label}</b>
@@ -119,7 +109,7 @@ module.exports = createReactClass({
             </div>
           ) : undefined}
           {hasPreviews
-            ? f.map(get.media_file.previews, (preview, type) => (
+            ? Object.entries(get.media_file.previews).map(([type, preview]) => (
                 <div key={type} className="align-left bg-light mbm pbs">
                   <h2 className="title-l ui-resource-title mbs">
                     {t(`media_entry_export_subtitle_${type}`)}
@@ -133,7 +123,7 @@ module.exports = createReactClass({
                       </tr>
                     </thead>
                     <tbody>
-                      {f.map(preview, (image, key) => (
+                      {Object.entries(preview).map(([key, image]) => (
                         <tr key={key}>
                           {image.width && image.height ? (
                             <td>{image.width + 'x' + image.height}</td>
@@ -170,6 +160,9 @@ module.exports = createReactClass({
       </Modal>
     )
   }
-})
+}
 
-var forceDownload = url => setUrlParams(url, { download: 'yes' })
+const forceDownload = url => setUrlParams(url, { download: 'yes' })
+
+export default MediaEntryExport
+module.exports = MediaEntryExport

@@ -1,22 +1,13 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import React from 'react'
-import createReactClass from 'create-react-class'
-import f from 'active-lodash'
 import t from '../../../lib/i18n-translate.js'
 import Moment from 'moment'
 import currentLocale from '../../../lib/current-locale.js'
 import PageHeader from '../../ui-components/PageHeader.js'
 import HeaderPrimaryButton from '../HeaderPrimaryButton.jsx'
 import RailsForm from '../../lib/forms/rails-form.jsx'
+import { kebabCase, isEmpty } from '../../../lib/utils.js'
 
-module.exports = createReactClass({
-  displayName: 'Shared.CustomUrls',
-
+class CustomUrls extends React.Component {
   _renderCustomUrlRow(
     uuid,
     created_at_timestamp,
@@ -24,7 +15,6 @@ module.exports = createReactClass({
     creator_login,
     is_primary,
     action_url,
-    resource_type,
     auth_token,
     url
   ) {
@@ -60,7 +50,7 @@ module.exports = createReactClass({
         <td style={{ textAlign: 'right' }}>{setPrimary}</td>
       </tr>
     )
-  },
+  }
 
   _renderCustomUrl(custom_url) {
     return this._renderCustomUrlRow(
@@ -74,7 +64,7 @@ module.exports = createReactClass({
       this.props.authToken,
       custom_url.url
     )
-  },
+  }
 
   _renderUuidRow(resource, creator, any_primary_address) {
     return this._renderCustomUrlRow(
@@ -88,22 +78,19 @@ module.exports = createReactClass({
       this.props.authToken,
       resource.url
     )
-  },
+  }
 
   _anyPrimaryAddress(custom_urls) {
-    return !f.isEmpty(f.filter(custom_urls, { 'primary?': true }))
-  },
+    return !isEmpty(custom_urls.filter(url => url['primary?']))
+  }
 
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    let { get, title } = param
+  render() {
+    const { get } = this.props
     Moment.locale(currentLocale())
 
     const { resource } = get
 
-    title = t('custom_urls_title') + '"' + resource.title + '"'
+    const title = t('custom_urls_title') + '"' + resource.title + '"'
 
     const headerButton = (
       <HeaderPrimaryButton
@@ -115,7 +102,7 @@ module.exports = createReactClass({
     )
 
     const backText = t(
-      `edit_custom_urls_back_to_${f.kebabCase(this.props.get.type).replace('-', '_')}`
+      `edit_custom_urls_back_to_${kebabCase(this.props.get.type).replace('-', '_')}`
     )
 
     return (
@@ -159,9 +146,10 @@ module.exports = createReactClass({
                   get.resource_creator,
                   this._anyPrimaryAddress(get.custom_urls)
                 )}
-                {f.map(f.sortBy(get.custom_urls, 'created_at').reverse(), custom_url => {
-                  return this._renderCustomUrl(custom_url)
-                })}
+                {get.custom_urls
+                  .slice()
+                  .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+                  .map(custom_url => this._renderCustomUrl(custom_url))}
               </tbody>
             </table>
             <div className="ui-actions phl pbl mtl">
@@ -175,4 +163,7 @@ module.exports = createReactClass({
       </div>
     )
   }
-})
+}
+
+export default CustomUrls
+module.exports = CustomUrls
