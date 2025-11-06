@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import t from '../../../lib/i18n-translate'
+import t from '../../../lib/i18n-translate.js'
 import { Link } from '../../ui-components/index.js'
 import appRequest from '../../../lib/app-request.js'
 import MediaResourcesLine from './MediaResourcesLine.jsx'

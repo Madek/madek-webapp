@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import cx from 'classnames'
 import omit from 'lodash/omit'
 import isFunction from 'lodash/isFunction'
-import titleBarPlugin from '../../lib/videojs-title-bar-plugin/videojs-title-bar-plugin'
+import titleBarPlugin from '../../lib/videojs-title-bar-plugin/videojs-title-bar-plugin.js'
 
 // NOTE: this apparently needs to be defined globally, otherwise server side rendering breaks (I guess).
 let videojs = null
@@ -99,7 +99,7 @@ class VideoJS extends Component {
     // make library available to our plugins and other extensions:
     window.videojs = videojs
     if (mode === 'video') {
-      require('../../lib/videojs-resolution-switcher')
+      require('../../lib/videojs-resolution-switcher/lib/videojs-resolution-switcher')
     }
 
     // init/start

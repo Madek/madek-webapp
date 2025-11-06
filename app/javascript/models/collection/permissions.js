@@ -1,8 +1,3 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
 import Collection from 'ampersand-rest-collection'
 import AppResource from '../shared/app-resource.js'
 import ResourcePermissions from '../shared/resource-permissions.js'
@@ -64,7 +59,7 @@ const CollectionApiClientPermissions = Collection.extend({
   })
 })
 
-module.exports = ResourcePermissions.extend({
+export default ResourcePermissions.extend({
   type: 'CollectionPermissions',
 
   children: {

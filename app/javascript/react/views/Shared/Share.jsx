@@ -1,7 +1,7 @@
 import React from 'react'
 import PageContent from '../PageContent.jsx'
 import TabContent from '../TabContent.jsx'
-import PageHeader from '../../ui-components/PageHeader.js'
+import PageHeader from '../../ui-components/PageHeader.jsx'
 import t from '../../../lib/i18n-translate.js'
 import SelectingTextarea from '../../lib/forms/SelectingTextarea.jsx'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { isEmpty } from '../../../lib/utils.js'
 import t from '../../../lib/i18n-translate.js'
-import PageHeader from '../../ui-components/PageHeader.js'
+import PageHeader from '../../ui-components/PageHeader.jsx'
 import PageContent from '../PageContent.jsx'
 import MediaResourcesBox from '../../decorators/MediaResourcesBox.jsx'
 

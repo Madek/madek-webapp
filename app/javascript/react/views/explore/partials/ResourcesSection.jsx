@@ -2,7 +2,7 @@ import React from 'react'
 import Keyword from '../../../ui-components/Keyword.jsx'
 import CatalogResourceList from './CatalogResourceList.jsx'
 import ThumbnailResourceList from './ThumbnailResourceList.jsx'
-import t from '../../../../lib/i18n-translate'
+import t from '../../../../lib/i18n-translate.js'
 
 const ResourcesSection = ({ section, authToken }) => {
   return (

@@ -1,5 +1,5 @@
 import React from 'react'
-import t from '../../../../lib/i18n-translate'
+import t from '../../../../lib/i18n-translate.js'
 
 const CatalogThumbnail = ({ imageUrl, hrefUrl, usageCount }) => {
   return (

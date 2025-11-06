@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { omit } from '../../lib/utils.js'
 import t from '../../lib/i18n-translate.js'
-import AudioPlayer from './AudioPlayer'
-import VideoPlayer from './VideoPlayer'
+import AudioPlayer from './AudioPlayer.jsx'
+import VideoPlayer from './VideoPlayer.jsx'
 
 const MediaPlayer = ({ type, poster, sources, getUrl, ...props }) => {
   const [active, setActive] = useState(false)

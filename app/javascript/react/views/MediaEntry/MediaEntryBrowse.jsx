@@ -1,6 +1,6 @@
 import React from 'react'
 import t from '../../../lib/i18n-translate.js'
-import PageHeader from '../../ui-components/PageHeader'
+import PageHeader from '../../ui-components/PageHeader.jsx'
 import MetaDataList from '../../decorators/MetaDataList.jsx'
 import ResourceThumbnail from '../../decorators//ResourceThumbnail.jsx'
 import BrowseEntriesList from './BrowseEntriesList.jsx'

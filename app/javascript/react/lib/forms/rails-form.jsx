@@ -7,7 +7,6 @@
 // Rails-style general-purpose form
 
 import React from 'react'
-import createReactClass from 'create-react-class'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import f from 'active-lodash'
@@ -27,9 +26,8 @@ const checkForAuthToken = function ({ method, authToken }) {
   return authToken
 }
 
-module.exports = createReactClass({
-  displayName: 'RestForm',
-  propTypes: {
+class RestForm extends React.Component {
+  static propTypes = {
     name: PropTypes.string.isRequired,
     action: PropTypes.string,
     method: PropTypes.oneOf([
@@ -46,19 +44,15 @@ module.exports = createReactClass({
     ]),
     onSubmit: PropTypes.func,
     authToken: PropTypes.string
-  },
+  }
 
-  // public component method
   serialize() {
     const form = ReactDOM.findDOMNode(this.refs.form)
     return $(form).serialize()
-  },
+  }
 
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { name, method, authToken, children } = param
+  render() {
+    const { name, method, authToken, children } = this.props
     const ownProps = ['name', 'method', 'authToken', 'children']
     const restProps = f.omit(this.props, ownProps, 'mod', 'mods', 'className')
     const queryParams = parseUrl(f.get(restProps, 'action', ''), true).query
@@ -95,4 +89,7 @@ module.exports = createReactClass({
       </form>
     )
   }
-})
+}
+
+export default RestForm
+module.exports = RestForm

@@ -2,7 +2,7 @@ import React from 'react'
 import t from '../../lib/i18n-translate.js'
 import { parse as parseUrl } from 'url'
 import PageContent from './PageContent.jsx'
-import PageHeader from '../ui-components/PageHeader.js'
+import PageHeader from '../ui-components/PageHeader.jsx'
 
 const Search = ({ submit_url }) => {
   const parsedQuery = parseUrl(submit_url, true).query

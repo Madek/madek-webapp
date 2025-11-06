@@ -15,7 +15,7 @@ import isEmpty from 'lodash/isEmpty'
 import ui from '../ui.js'
 const t = ui.t
 
-import DatePicker, { parseDate } from '../../ui-components/DatePicker'
+import DatePicker, { parseDate } from '../../ui-components/DatePicker.jsx'
 
 const SUBTYPES = ['text', 'timestamp', 'duration']
 const formatDuration = DateValues => compact(DateValues).join(' - ')

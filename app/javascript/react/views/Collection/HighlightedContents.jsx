@@ -1,23 +1,12 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import React from 'react'
-import createReactClass from 'create-react-class'
 import f from 'active-lodash'
 import t from '../../../lib/i18n-translate.js'
 
 import cx from 'classnames'
 
-module.exports = createReactClass({
-  displayName: 'HighlightedContents',
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { get } = param
+class HighlightedContents extends React.Component {
+  render() {
+    const { get } = this.props
     if (
       f.isEmpty(
         get.highlighted_media_resources != null
@@ -49,16 +38,11 @@ module.exports = createReactClass({
       </div>
     )
   }
-})
+}
 
-var HighlightedContent = createReactClass({
-  displayName: 'HighlightedContent',
-
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { mediaResource } = param
+class HighlightedContent extends React.Component {
+  render() {
+    const { mediaResource } = this.props
     const iconMapping = { public: 'open', private: 'private', shared: 'group' }
     const iconName = `privacy-${iconMapping[mediaResource.privacy_status]}`
 
@@ -117,4 +101,7 @@ var HighlightedContent = createReactClass({
       </a>
     )
   }
-})
+}
+
+export default HighlightedContents
+module.exports = HighlightedContents

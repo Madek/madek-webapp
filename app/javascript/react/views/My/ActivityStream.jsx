@@ -6,9 +6,9 @@ import asyncWhile from 'async/whilst'
 import { parse as parseUrl } from 'url'
 import { parse as parseQuery } from 'qs'
 import Moment from 'moment'
-import currentLocale from '../../../lib/current-locale'
+import currentLocale from '../../../lib/current-locale.js'
 
-import ActivityStream from '../../decorators/UserActivityStream'
+import ActivityStream from '../../decorators/UserActivityStream.jsx'
 
 // ui config
 const SECTIONS = ['created_contents', 'edited_contents', 'shared_contents']

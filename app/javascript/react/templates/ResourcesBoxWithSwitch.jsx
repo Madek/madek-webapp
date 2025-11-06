@@ -8,7 +8,6 @@
 // Box for search result pages, allows switching the *route*!
 
 import React from 'react'
-import createReactClass from 'create-react-class'
 import PropTypes from 'prop-types'
 import f from 'active-lodash'
 import { t } from '../lib/ui.js'
@@ -21,9 +20,47 @@ import boxSetUrlParams from '../decorators/BoxSetUrlParams.jsx'
 
 const TYPES = ['entries', 'sets'] // see `typeBbtns`, types are defined there
 
-module.exports = createReactClass({
-  displayName: 'ResourcesBoxWithSwitch',
-  propTypes: {
+const urlByType = function (url, currentType, newType) {
+  if (currentType === newType) {
+    return url
+  }
+
+  const currentUrl = parseUrl(url)
+  const currentParams = parseQuery(currentUrl.query)
+
+  const newParams = f.cloneDeep(currentParams)
+  if (newParams.list) {
+    if (newParams.list.accordion) {
+      newParams.list.accordion = {}
+    }
+
+    if (newParams.list.filter) {
+      const parsed = (() => {
+        try {
+          return JSON.parse(newParams.list.filter)
+          // eslint-disable-next-line no-unused-vars
+        } catch (e) {
+          // silently fall back
+        }
+      })()
+      if (parsed) {
+        newParams.list.filter = JSON.stringify({ search: parsed.search })
+      } else {
+        newParams.list.filter = JSON.stringify({})
+      }
+    }
+
+    newParams.list.page = 1
+  }
+
+  return boxSetUrlParams(
+    currentUrl.pathname.replace(RegExp(`/${currentType}$`), `/${newType}`),
+    newParams
+  )
+}
+
+class ResourcesBoxWithSwitch extends React.Component {
+  static propTypes = {
     switches: PropTypes.shape({
       currentType: PropTypes.oneOf(TYPES),
       otherTypes: PropTypes.arrayOf(PropTypes.oneOf(TYPES))
@@ -31,19 +68,14 @@ module.exports = createReactClass({
     for_url: PropTypes.string.isRequired,
     // all other props are just passed through to ResourcesBox:
     get: PropTypes.object.isRequired
-  },
+  }
 
   forUrl() {
     return this.props.for_url
-  },
+  }
 
-  render(props, state) {
-    if (props == null) {
-      ;({ props } = this)
-    }
-    if (state == null) {
-      ;({ state } = this)
-    }
+  render() {
+    const props = this.props
     const { currentType, otherTypes } = props.switches
     const types = f.flatten([currentType, otherTypes])
 
@@ -83,43 +115,6 @@ module.exports = createReactClass({
       />
     )
   }
-})
-
-var urlByType = function (url, currentType, newType) {
-  if (currentType === newType) {
-    return url
-  }
-
-  const currentUrl = parseUrl(url)
-  const currentParams = parseQuery(currentUrl.query)
-
-  const newParams = f.cloneDeep(currentParams)
-  if (newParams.list) {
-    if (newParams.list.accordion) {
-      newParams.list.accordion = {}
-    }
-
-    if (newParams.list.filter) {
-      const parsed = (() => {
-        try {
-          return JSON.parse(newParams.list.filter)
-          // eslint-disable-next-line no-unused-vars
-        } catch (e) {
-          // silently fall back
-        }
-      })()
-      if (parsed) {
-        newParams.list.filter = JSON.stringify({ search: parsed.search })
-      } else {
-        newParams.list.filter = JSON.stringify({})
-      }
-    }
-
-    newParams.list.page = 1
-  }
-
-  return boxSetUrlParams(
-    currentUrl.pathname.replace(RegExp(`/${currentType}$`), `/${newType}`),
-    newParams
-  )
 }
+
+export default ResourcesBoxWithSwitch

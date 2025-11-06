@@ -1,6 +1,6 @@
 import React from 'react'
 import f from 'lodash'
-import { TokenRow } from './Tokens'
+import { TokenRow } from './Tokens.jsx'
 import ui from '../../lib/ui.js'
 import UI from '../../ui-components/index.js'
 import setUrlParams from '../../../lib/set-params-for-url.js'

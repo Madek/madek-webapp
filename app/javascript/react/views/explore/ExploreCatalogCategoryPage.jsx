@@ -1,11 +1,4 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import React from 'react'
-import createReactClass from 'create-react-class'
 import t from '../../../lib/i18n-translate.js'
 import f from 'lodash'
 import cx from 'classnames'
@@ -15,25 +8,24 @@ import loadXhr from '../../../lib/load-xhr.js'
 import libUrl from 'url'
 import setUrlParams from '../../../lib/set-params-for-url.js'
 
-module.exports = createReactClass({
-  displayName: 'ExploreCatalogCategoryPage',
-
-  getInitialState() {
-    return {
+class ExploreCatalogCategoryPage extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
       metaKeyValuePages: [this._initialMetaKeyValuePage()],
       loading: false
     }
-  },
+  }
 
   _initialMetaKeyValuePage() {
     return f.cloneDeep(this.props.get.meta_key_values)
-  },
+  }
 
   _lastPage() {
     return f.last(this.state.metaKeyValuePages)
-  },
+  }
 
-  _tryLoadNext() {
+  _tryLoadNext = () => {
     if (this.state.loading) {
       return
     }
@@ -49,7 +41,7 @@ module.exports = createReactClass({
     return this.setState({ loading: true }, () => {
       return this._ajaxRequest()
     })
-  },
+  }
 
   _ajaxRequest() {
     const lastPage = this._lastPage()
@@ -76,7 +68,7 @@ module.exports = createReactClass({
         })
       }
     ))
-  },
+  }
 
   _getDocHeight() {
     const D = document
@@ -88,23 +80,23 @@ module.exports = createReactClass({
       D.body.clientHeight,
       D.documentElement.clientHeight
     )
-  },
+  }
 
   _scrollTop() {
     return Math.max(document.body.scrollTop, document.documentElement.scrollTop)
-  },
+  }
 
   _isBottom() {
     return (
       this._scrollTop() + window.innerHeight > this._getDocHeight() * 0.3 ||
       window.innerHeight > this._getDocHeight() * 0.3
     )
-  }, // || @_getDocHeight() < 3000
+  }
 
   componentDidMount() {
     this._tryLoadNext()
     return window.addEventListener('scroll', this._onScroll)
-  },
+  }
 
   componentWillUnmount() {
     // Assumption:
@@ -115,17 +107,14 @@ module.exports = createReactClass({
       this.xhrRef.cancel()
     }
     return window.removeEventListener('scroll', this._onScroll)
-  },
+  }
 
-  _onScroll() {
+  _onScroll = () => {
     return this._tryLoadNext()
-  },
+  }
 
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { get } = param
+  render() {
+    const { get } = this.props
     return (
       <div>
         <div className="app-body-ui-container pts context-home">
@@ -161,9 +150,9 @@ module.exports = createReactClass({
       </div>
     )
   }
-})
+}
 
-var MediaResourcesLine = function (param) {
+const MediaResourcesLine = function (param) {
   const { keyword } = param
   const resources = f.map(keyword.media_entries, 'sparse_props')
 
@@ -200,3 +189,5 @@ var MediaResourcesLine = function (param) {
     </div>
   )
 }
+
+export default ExploreCatalogCategoryPage

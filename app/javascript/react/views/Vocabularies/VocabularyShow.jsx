@@ -1,10 +1,9 @@
 import React from 'react'
-import createReactClass from 'create-react-class'
 import PropTypes from 'prop-types'
 import chunk from 'lodash/chunk'
 import sortBy from 'lodash/sortBy'
 import isEmpty from 'lodash/isEmpty'
-import t from '../../../lib/i18n-translate'
+import t from '../../../lib/i18n-translate.js'
 
 import MadekPropTypes from '../../lib/madek-prop-types.js'
 
@@ -40,10 +39,26 @@ const metaKeyInfo = mk => [
   ]
 ]
 
-const VocabulariesShow = createReactClass({
-  displayName: 'VocabularyShow',
+class VocabularyShow extends React.Component {
+  static propTypes = {
+    get: PropTypes.shape({
+      page: PropTypes.shape({
+        vocabulary: PropTypes.shape({
+          label: PropTypes.string.isRequired,
+          description: PropTypes.string,
+          enabled_for_public_view: PropTypes.bool.isRequired,
+          usable: PropTypes.bool.isRequired
+        }).isRequired,
+        actions: PropTypes.shape({
+          index: PropTypes.string.isRequired
+        }).isRequired
+      }),
+      meta_keys: PropTypes.arrayOf(MadekPropTypes.VocabularyMetaKey).isRequired
+    }).isRequired
+  }
 
-  render(get = this.props.get) {
+  render() {
+    const get = this.props.get
     const { meta_keys } = get
     const { label, url, description } = get.page.vocabulary
 
@@ -94,23 +109,7 @@ const VocabulariesShow = createReactClass({
       </VocabularyPage>
     )
   }
-})
-
-VocabulariesShow.propTypes = {
-  get: PropTypes.shape({
-    page: PropTypes.shape({
-      vocabulary: PropTypes.shape({
-        label: PropTypes.string.isRequired,
-        description: PropTypes.string,
-        enabled_for_public_view: PropTypes.bool.isRequired,
-        usable: PropTypes.bool.isRequired
-      }).isRequired,
-      actions: PropTypes.shape({
-        index: PropTypes.string.isRequired
-      }).isRequired
-    }),
-    meta_keys: PropTypes.arrayOf(MadekPropTypes.VocabularyMetaKey).isRequired
-  }).isRequired
 }
 
-module.exports = VocabulariesShow
+export default VocabularyShow
+module.exports = VocabularyShow

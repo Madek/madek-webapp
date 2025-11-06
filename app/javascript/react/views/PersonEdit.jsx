@@ -2,13 +2,13 @@ import React from 'react'
 import t from '../../lib/i18n-translate.js'
 import f from 'active-lodash'
 import cx from 'classnames'
-import PageHeader from '../ui-components/PageHeader'
+import PageHeader from '../ui-components/PageHeader.jsx'
 import PageContent from './PageContent.jsx'
 import RailsForm from '../lib/forms/rails-form.jsx'
 import Button from '../ui-components/Button.jsx'
 import Icon from '../ui-components/Icon.jsx'
 import { deco_external_uris } from './PersonShow.jsx'
-import { decorateExternalURI } from '../../lib/URIAuthorityControl'
+import { decorateExternalURI } from '../../lib/URIAuthorityControl.js'
 
 class PersonEdit extends React.Component {
   constructor(props) {

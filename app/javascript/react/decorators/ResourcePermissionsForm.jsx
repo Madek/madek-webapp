@@ -8,7 +8,6 @@
 // Permissions Form for single or batch resources
 
 import React from 'react'
-import createReactClass from 'create-react-class'
 import PropTypes from 'prop-types'
 import t from '../../lib/i18n-translate.js'
 import { present, omit, isArray, isBoolean, curry } from '../../lib/utils.js'
@@ -40,31 +39,32 @@ const doOptionalsInclude = function (optionals, type) {
   return types.some(t => optionals.includes(t))
 }
 
-module.exports = createReactClass({
-  displayName: 'ResourcePermissionsForm',
+class ResourcePermissionsForm extends React.Component {
+  static defaultProps = {
+    children: null,
+    onSubmit() {}, // noop
+    decos: defaultSubjectDecos,
+    optionals: ['ApiClients']
+  }
 
-  getDefaultProps() {
-    return {
-      children: null,
-      onSubmit() {}, // noop
-      decos: defaultSubjectDecos,
-      optionals: ['ApiClients']
-    }
-  },
+  constructor(props) {
+    super(props)
+    this._isMounted = false
+  }
 
   // this will only ever run on the client:
   componentDidMount() {
     this._isMounted = true
     // init autocompletes, then force re-render:
-    AutoComplete = require('../lib/autocomplete.js')
+    AutoComplete = require('../lib/autocomplete.jsx')
     if (this._isMounted) {
       return this.forceUpdate()
     }
-  },
+  }
 
   componentWillUnmount() {
     return (this._isMounted = false)
-  },
+  }
 
   render(param) {
     if (param == null) {
@@ -169,10 +169,13 @@ module.exports = createReactClass({
       </form>
     )
   }
-})
+}
 
-var PermissionsBySubjectType = createReactClass({
-  displayName: 'PermissionsBySubjectType',
+class PermissionsBySubjectType extends React.Component {
+  constructor(props) {
+    super(props)
+    this.onAddSubject = this.onAddSubject.bind(this)
+  }
 
   onAddSubject(subject) {
     const list = this.props.permissionsList
@@ -180,7 +183,7 @@ var PermissionsBySubjectType = createReactClass({
       return
     }
     return list.add({ subject })
-  },
+  }
 
   render() {
     let {
@@ -250,9 +253,9 @@ var PermissionsBySubjectType = createReactClass({
       </div>
     )
   }
-})
+}
 
-var PermissionsSubjectHeader = createReactClass({
+class PermissionsSubjectHeader extends React.Component {
   render() {
     const { name, icon, titles, showTitles } = this.props
     return (
@@ -270,9 +273,15 @@ var PermissionsSubjectHeader = createReactClass({
       </thead>
     )
   }
-})
+}
 
-var PermissionsSubject = createReactClass({
+class PermissionsSubject extends React.Component {
+  constructor(props) {
+    super(props)
+    this.onPermissionChange = this.onPermissionChange.bind(this)
+    this.onSubjectRemove = this.onSubjectRemove.bind(this)
+  }
+
   adjustCheckboxesDependingOnStrength(name, stronger) {
     let beforeCurrent = true
     return (() => {
@@ -299,15 +308,15 @@ var PermissionsSubject = createReactClass({
       }
       return result
     })()
-  },
+  }
 
   setWeakerUnchecked(name) {
     return this.adjustCheckboxesDependingOnStrength(name, true)
-  },
+  }
 
   setStrongerChecked(name) {
     return this.adjustCheckboxesDependingOnStrength(name, false)
-  },
+  }
 
   onPermissionChange(name, event) {
     const value = event.target.checked
@@ -317,11 +326,11 @@ var PermissionsSubject = createReactClass({
     } else {
       return this.setStrongerChecked(name)
     }
-  },
+  }
 
   onSubjectRemove() {
     return this.props.permissions.destroy()
-  },
+  }
 
   render() {
     const { permissions, overriddenBy, subject, permissionTypes, SubjectDeco, editing } = this.props
@@ -375,9 +384,9 @@ var PermissionsSubject = createReactClass({
       </tr>
     )
   }
-})
+}
 
-var RemoveButton = createReactClass({
+class RemoveButton extends React.Component {
   render() {
     const onClick = this.props.onClick || null
     return (
@@ -388,13 +397,19 @@ var RemoveButton = createReactClass({
       />
     )
   }
-})
+}
 
-var TristateCheckbox = createReactClass({
-  propTypes: { checked: PropTypes.oneOf([true, false, 'mixed']) },
-  getDefaultProps() {
-    return { onChange() {} }
-  }, // noop
+class TristateCheckbox extends React.Component {
+  static propTypes = { checked: PropTypes.oneOf([true, false, 'mixed']) }
+
+  static defaultProps = {
+    onChange() {} // noop
+  }
+
+  constructor(props) {
+    super(props)
+    this._inputNode = null
+  }
 
   // NOTE: 'indeterminate' is a node attribute (not a prop!),
   // need to set on mount and every re-render!!
@@ -404,11 +419,11 @@ var TristateCheckbox = createReactClass({
       // <- only if it's mounted…
       return (this._inputNode.indeterminate = isMixed)
     }
-  },
-  _inputNode: null,
+  }
+
   componentDidUpdate() {
     return this._setIndeterminate()
-  },
+  }
 
   render(props) {
     if (props == null) {
@@ -428,4 +443,6 @@ var TristateCheckbox = createReactClass({
       />
     )
   }
-})
+}
+
+export default ResourcePermissionsForm

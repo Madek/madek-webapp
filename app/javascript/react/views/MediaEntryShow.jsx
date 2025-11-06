@@ -1,12 +1,4 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import React from 'react'
-import createReactClass from 'create-react-class'
 import PropTypes from 'prop-types'
 import f from 'active-lodash'
 import t from '../../lib/i18n-translate.js'
@@ -20,9 +12,8 @@ import ResourceShowOverview from '../templates/ResourceShowOverview.jsx'
 import BrowseEntriesList from './MediaEntry/BrowseEntriesList.jsx'
 import MediaEntrySiblings from './MediaEntry/MediaEntrySiblings.jsx'
 
-module.exports = createReactClass({
-  displayName: 'Views.MediaEntryShow',
-  propTypes: {
+class MediaEntryShow extends React.Component {
+  static propTypes = {
     get: PropTypes.shape({
       title: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
@@ -34,14 +25,16 @@ module.exports = createReactClass({
       // relations: PropTypes.object.isRequired
       // permissions: PropTypes.object.isRequired
     }).isRequired
-  },
+  }
 
-  getInitialState() {
-    return {
+  constructor(props) {
+    super(props)
+    this.state = {
       isClient: false,
       fetchedBrowseEntries: null
     }
-  },
+    this._isMounted = false
+  }
 
   componentDidMount() {
     this._isMounted = true
@@ -63,23 +56,18 @@ module.exports = createReactClass({
         }
       }
     ))
-  },
+  }
 
   componentWillUnmount() {
     this._isMounted = false
     if (this._fetchingBrowseEntries) {
       return this._fetchingBrowseEntries.abort()
     }
-  },
+  }
 
-  render(param, state) {
-    if (param == null) {
-      param = this.props
-    }
-    const { get, authToken } = param
-    if (state == null) {
-      ;({ state } = this)
-    }
+  render() {
+    const { get, authToken } = this.props
+    const state = this.state
     const summaryContext = get.meta_data.entry_summary_context
     const listContexts = get.meta_data.contexts_for_entry_extra
 
@@ -162,4 +150,6 @@ module.exports = createReactClass({
       </div>
     )
   }
-})
+}
+
+export default MediaEntryShow

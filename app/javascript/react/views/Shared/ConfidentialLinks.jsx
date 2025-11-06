@@ -1,10 +1,10 @@
 import React from 'react'
 import RailsForm from '../../lib/forms/rails-form.jsx'
-import PageHeader from '../../ui-components/PageHeader'
+import PageHeader from '../../ui-components/PageHeader.jsx'
 import f from 'lodash'
 import Moment from 'moment'
 import { t } from '../../lib/ui.js'
-import currentLocale from '../../../lib/current-locale'
+import currentLocale from '../../../lib/current-locale.js'
 import Link from '../../ui-components/Link.jsx'
 import UI from '../../ui-components/index.js'
 

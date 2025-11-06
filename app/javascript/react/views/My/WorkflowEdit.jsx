@@ -1,17 +1,17 @@
 import React from 'react'
 import f from 'active-lodash'
 import cx from 'classnames'
-import currentLocale from '../../../lib/current-locale'
+import currentLocale from '../../../lib/current-locale.js'
 import UI from '../../ui-components/index.js'
-import SubSection from '../../ui-components/SubSection'
+import SubSection from '../../ui-components/SubSection.jsx'
 import ResourceThumbnail from '../../decorators/ResourceThumbnail.jsx'
 import InputMetaDatum from '../../decorators/InputMetaDatum.jsx'
-import WorkflowCommonPermissions from '../../decorators/WorkflowCommonPermissions'
+import WorkflowCommonPermissions from '../../decorators/WorkflowCommonPermissions.jsx'
 import RailsForm from '../../lib/forms/rails-form.jsx'
 import appRequest from '../../../lib/app-request.js'
-import { Let, IfLet } from '../../lib/lets'
-import I18nTranslate from '../../../lib/i18n-translate'
-import labelize from '../../../lib/labelize'
+import { Let, IfLet } from '../../lib/lets.jsx'
+import I18nTranslate from '../../../lib/i18n-translate.js'
+import labelize from '../../../lib/labelize.js'
 let AutoComplete = false // client-side only!
 const t = I18nTranslate
 
@@ -583,7 +583,7 @@ class MetadataEditor extends React.Component {
   constructor(props) {
     super(props)
     this.state = { md: this.props.commonMetadata }
-    AutoComplete = AutoComplete || require('../../lib/autocomplete.js')
+    AutoComplete = AutoComplete || require('../../lib/autocomplete.jsx')
     this.onChangeMdAttr = this.onChangeMdAttr.bind(this)
     this.onAddMdByMk = this.onAddMdByMk.bind(this)
     this.onRemoveMd = this.onRemoveMd.bind(this)
@@ -795,7 +795,7 @@ class PermissionsEditor extends React.Component {
   constructor(props) {
     super(props)
     this.state = { ...this.props.commonPermissions }
-    AutoComplete = AutoComplete || require('../../lib/autocomplete.js')
+    AutoComplete = AutoComplete || require('../../lib/autocomplete.jsx')
     this.onSetResponsible = this.onSetResponsible.bind(this)
     this.onRemoveResponsible = this.onRemoveResponsible.bind(this)
     this.onTogglePublicRead = this.onTogglePublicRead.bind(this)
@@ -972,7 +972,7 @@ class OwnersEditor extends React.Component {
   constructor(props) {
     super(props)
     this.state = { owners: this.props.workflowOwners }
-    AutoComplete = AutoComplete || require('../../lib/autocomplete.js')
+    AutoComplete = AutoComplete || require('../../lib/autocomplete.jsx')
     this.onAddOwner = this.onAddOwner.bind(this)
     this.onRemoveOwner = this.onRemoveOwner.bind(this)
   }

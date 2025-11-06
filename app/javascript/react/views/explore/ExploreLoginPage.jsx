@@ -1,5 +1,5 @@
 import React from 'react'
-import LoginMenu from '../_layouts/LoginMenu.js'
+import LoginMenu from '../_layouts/LoginMenu.jsx'
 import ResourcesSection from './partials/ResourcesSection.jsx'
 
 const ExploreLoginPage = ({ get, lang }) => {

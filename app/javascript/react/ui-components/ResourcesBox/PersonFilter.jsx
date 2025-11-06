@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import f from 'active-lodash'
 import cx from 'classnames'
 import jQuery from 'jquery'
-import t from '../../../lib/i18n-translate'
+import t from '../../../lib/i18n-translate.js'
 
 export default class PersonFilter extends Component {
   constructor(props) {

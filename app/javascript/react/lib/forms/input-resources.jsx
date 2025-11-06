@@ -7,7 +7,6 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 import React from 'react'
-import createReactClass from 'create-react-class'
 import PropTypes from 'prop-types'
 import f from 'active-lodash'
 import { t } from '../../lib/ui.js'
@@ -15,9 +14,8 @@ import decorateResource from '../decorate-resource-names.js'
 import NewPersonWidget from './new-person-widget.jsx'
 let AutoComplete = null // only required client-side!
 
-module.exports = createReactClass({
-  displayName: 'InputResources',
-  propTypes: {
+class InputResources extends React.Component {
+  static propTypes = {
     name: PropTypes.string.isRequired,
     resourceType: PropTypes.string.isRequired,
     values: PropTypes.array.isRequired,
@@ -28,35 +26,29 @@ module.exports = createReactClass({
       minLength: PropTypes.number
     }),
     autoCompleteSuggestionRenderer: PropTypes.func
-  },
+  }
 
-  getInitialState() {
-    return {}
-  },
+  constructor(props) {
+    super(props)
+    this.state = {}
+  }
 
-  componentDidMount(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { values, metaKey } = param
-    AutoComplete = require('../autocomplete.js')
-    return this.setState({
+  componentDidMount() {
+    const { values, metaKey } = this.props
+    AutoComplete = require('../autocomplete.jsx')
+    this.setState({
       values, // keep internal state of entered values
       roles: metaKey && metaKey.roles ? [...Array.from(metaKey.roles)] : []
     })
-  },
+  }
 
-  // NOTE: use a react legacy API to force updates to internal state when props changes.
-  // Using `UNSAFE_componentWillReceiveProps` is *generally* not recommended, but in this case this is the most safe workaround for the current setup:
-  // This component is effectivly a fully constrolled, the internal state is only used for "derived state" and logic,
-  // which means its ok to do the "Anti-pattern: Erasing state when props change" here… 🤞
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.values !== nextProps.values) {
-      return this.setState({ values: nextProps.values })
+      this.setState({ values: nextProps.values })
     }
-  },
+  }
 
-  _onItemAdd(item) {
+  _onItemAdd = item => {
     this._adding = true
     const is_duplicate = (() => {
       if (f.present(item.uuid)) {
@@ -80,9 +72,9 @@ module.exports = createReactClass({
         return this.props.onChange(newValues)
       }
     }
-  },
+  }
 
-  _onRoleSave() {
+  _onRoleSave = () => {
     let item, itemIndex
     if (!f.present(this.state.selectedRole)) {
       return
@@ -121,17 +113,17 @@ module.exports = createReactClass({
     if (this.props.onChange) {
       return this.props.onChange(newValues)
     }
-  },
+  }
 
-  _onNewKeyword(term) {
+  _onNewKeyword = term => {
     return this._onItemAdd({ type: 'Keyword', label: term, isNew: true, term })
-  },
+  }
 
-  _onNewPerson(obj) {
+  _onNewPerson = obj => {
     return this._onItemAdd(f.extend(obj, { type: 'Person', isNew: true }))
-  },
+  }
 
-  _onItemRemove(itemIndex, _event) {
+  _onItemRemove = (itemIndex, _event) => {
     _event.stopPropagation()
     const newValues = this.state.values.slice(0)
     newValues.splice(itemIndex, 1)
@@ -140,9 +132,9 @@ module.exports = createReactClass({
     if (this.props.onChange) {
       return this.props.onChange(newValues)
     }
-  },
+  }
 
-  _onRoleAdd(index, e) {
+  _onRoleAdd = (index, e) => {
     e.preventDefault()
 
     const editedItem = this.state.values[index]
@@ -150,9 +142,9 @@ module.exports = createReactClass({
 
     const { refs } = this
     return setTimeout(() => refs.roleSelect.focus(), 100)
-  },
+  }
 
-  _onRoleEdit(role, itemIndex, e) {
+  _onRoleEdit = (role, itemIndex, e) => {
     e.preventDefault()
 
     this.setState({
@@ -163,14 +155,14 @@ module.exports = createReactClass({
 
     const { refs } = this
     return setTimeout(() => refs.roleSelect.focus(), 100)
-  },
+  }
 
-  _onRoleSelect(role) {
+  _onRoleSelect = role => {
     this.setState({ selectedRole: role })
     return this.refs.saveRoleButton.focus()
-  },
+  }
 
-  _onNewRole(label) {
+  _onNewRole = label => {
     const { roles } = this.state
     // assign existing if one by the same name already exists
     let r = f.find(roles, x => x.label === label)
@@ -181,9 +173,9 @@ module.exports = createReactClass({
       this.setState({ selectedRole: r, roles: [r, ...Array.from(roles)] })
     }
     return this.refs.saveRoleButton.focus()
-  },
+  }
 
-  _onRoleRemove(itemIndex, e) {
+  _onRoleRemove = (itemIndex, e) => {
     e.preventDefault()
 
     const newValues = this.state.values.slice(0)
@@ -193,18 +185,18 @@ module.exports = createReactClass({
     if (this.props.onChange) {
       return this.props.onChange(newValues)
     }
-  },
+  }
 
-  _onRoleCancel() {
+  _onRoleCancel = () => {
     return this.setState({
       editedRole: null,
       editedItemIndex: null,
       editedItem: null,
       selectedRole: null
     })
-  },
+  }
 
-  _handleMoveUp(itemIndex, e) {
+  _handleMoveUp = (itemIndex, e) => {
     let previousItem
     e.preventDefault()
 
@@ -219,9 +211,9 @@ module.exports = createReactClass({
         return this.props.onChange(newValues)
       }
     }
-  },
+  }
 
-  _handleMoveDown(itemIndex, e) {
+  _handleMoveDown = (itemIndex, e) => {
     let nextItem
     e.preventDefault()
 
@@ -236,7 +228,7 @@ module.exports = createReactClass({
         return this.props.onChange(newValues)
       }
     }
-  },
+  }
 
   componentDidUpdate() {
     if (this._adding) {
@@ -245,7 +237,7 @@ module.exports = createReactClass({
         return setTimeout(this.refs.ListAdder.focus, 1)
       }
     }
-  }, // show the adder again
+  }
 
   render() {
     const { _onItemAdd, _onItemRemove, _onNewKeyword, _onNewPerson } = this
@@ -544,4 +536,6 @@ module.exports = createReactClass({
       </div>
     )
   }
-})
+}
+
+export default InputResources

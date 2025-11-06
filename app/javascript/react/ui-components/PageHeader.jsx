@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import cx from 'classnames'
 import Link from './Link.jsx'
 import Icon from './Icon.jsx'
-import SectionLabels from './SectionLabels.js'
+import SectionLabels from './SectionLabels.jsx'
 
 const WORKFLOW_STATES = { IN_PROGRESS: 'IN_PROGRESS', FINISHED: 'FINISHED' }
 

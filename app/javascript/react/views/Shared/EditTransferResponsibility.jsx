@@ -1,12 +1,4 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import React from 'react'
-import createReactClass from 'create-react-class'
 import f from 'active-lodash'
 import t from '../../../lib/i18n-translate.js'
 import RailsForm from '../../lib/forms/rails-form.jsx'
@@ -14,30 +6,27 @@ import railsFormPut from '../../../lib/form-put-with-errors.js'
 import AutoComplete from '../../lib/autocomplete-wrapper.jsx'
 import interpolateSplit from '../../../lib/interpolate-split.js'
 
-module.exports = createReactClass({
-  displayName: 'Shared.EditTransferResponsibility',
-
-  getInitialState() {
-    return {
+class EditTransferResponsibility extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
       saving: false,
       permissionLevel: 4,
       selectedEntity: null
     }
-  },
+  }
 
-  // NOTE: just to be save, block *implicit* form submits
-  // (should normally not be triggered when button[type=button] is used.)
-  _onImplicitSumbit(event) {
+  _onImplicitSumbit = event => {
     return event.preventDefault()
-  },
+  }
 
-  _onExplicitSubmit(event) {
+  _onExplicitSubmit = event => {
     event.preventDefault()
     this._submit(event)
     return false
-  },
+  }
 
-  _submit() {
+  _submit = () => {
     this.setState({ saving: true })
     return railsFormPut.byForm(this.refs.form, result => {
       if (result.result === 'error') {
@@ -55,23 +44,23 @@ module.exports = createReactClass({
         }
       }
     })
-  },
+  }
 
-  handleEntitySelect(entity) {
+  handleEntitySelect = entity => {
     return this.setState({ selectedEntity: entity })
-  },
+  }
 
-  handleEntityClear() {
+  handleEntityClear = () => {
     return this.setState({ selectedEntity: null })
-  },
+  }
 
-  _onToggleCheckbox(level) {
+  _onToggleCheckbox = level => {
     if (level > this.state.permissionLevel) {
       return this.setState({ permissionLevel: level })
     } else {
       return this.setState({ permissionLevel: level - 1 })
     }
-  },
+  }
 
   _displayBlockIf(bool) {
     if (bool) {
@@ -79,7 +68,7 @@ module.exports = createReactClass({
     } else {
       return { display: 'none' }
     }
-  },
+  }
 
   _translateForNResources(resourceType, n) {
     if (resourceType === 'Collection') {
@@ -99,12 +88,9 @@ module.exports = createReactClass({
         }).join('')
       }
     }
-  },
+  }
 
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
+  render() {
     const {
       authToken,
       currentUser,
@@ -116,7 +102,7 @@ module.exports = createReactClass({
       responsible,
       batchResponsibles,
       onClose
-    } = param
+    } = this.props
     const actionUrl = (() => {
       if (!batch) {
         return singleResourceActionUrl
@@ -300,4 +286,6 @@ module.exports = createReactClass({
       </div>
     )
   }
-})
+}
+
+export default EditTransferResponsibility

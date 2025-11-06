@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 'use strict'
 
-// NOTE: see also the opposite script, `./dev/utilities/locale-yamls-to-csv.js`
-
 const path = require('path')
 const fs = require('fs-extra')
 const f = require('active-lodash')
@@ -20,7 +18,7 @@ const CONFIG = {
 
 // merges translations with presets
 const mergeTranslationsWithPresets = (locales, presetsDir) => {
-  return f.map(locales, (item) => {
+  return f.map(locales, item => {
     let presetContent
     //try {
     const presetFile = path.join(presetsDir, `${item.lang}.yml`)
@@ -35,7 +33,7 @@ const mergeTranslationsWithPresets = (locales, presetsDir) => {
 
 // writes translations to Rails' locale files (YAML)
 const writeToLocaleFiles = (locales, outputDir) => {
-  f.each(locales, (item) => {
+  f.each(locales, item => {
     const outputFile = path.join(outputDir, `${item.lang}.yml`)
     const text = YAML.dump(item.mapping)
     try {

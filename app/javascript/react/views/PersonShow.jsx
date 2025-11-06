@@ -1,11 +1,11 @@
 import React from 'react'
 import { isEmpty, getPath } from '../../lib/utils.js'
 import t from '../../lib/i18n-translate.js'
-import PageHeader from '../ui-components/PageHeader.js'
+import PageHeader from '../ui-components/PageHeader.jsx'
 import PageContent from './PageContent.jsx'
 import MediaResourcesBox from '../decorators/MediaResourcesBox.jsx'
 import { format as formatUrl } from 'url'
-import { decorateExternalURI } from '../../lib/URIAuthorityControl'
+import { decorateExternalURI } from '../../lib/URIAuthorityControl.js'
 
 const decoExternalUris = uris => {
   const sortedUris = uris.slice().sort((a, b) => {

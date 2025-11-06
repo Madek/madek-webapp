@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Text from '../lib/forms/input-text-async.jsx'
-import InputTextDate from '../lib/forms/InputTextDate.js'
+import InputTextDate from '../lib/forms/InputTextDate.jsx'
 import InputKeywords from '../lib/forms/input-keywords.jsx'
 import InputPeople from '../lib/forms/input-people.jsx'
-import InputJsonText from '../lib/forms/InputJsonText.js'
-import InputMediaEntry from '../lib/forms/InputMediaEntry'
+import InputJsonText from '../lib/forms/InputJsonText.jsx'
+import InputMediaEntry from '../lib/forms/InputMediaEntry.jsx'
 
 const InputMetaDatum = ({ id, name, model, metaKey, onChange, subForms, contextKey }) => {
   const resourceType = metaKey.value_type.split('::').pop()

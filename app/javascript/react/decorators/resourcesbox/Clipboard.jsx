@@ -4,7 +4,6 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 import React from 'react'
-import createReactClass from 'create-react-class'
 import f from 'active-lodash'
 import { t } from '../../lib/ui.js'
 import Modal from '../../ui-components/Modal.jsx'
@@ -12,14 +11,18 @@ import setUrlParams from '../../../lib/set-params-for-url.js'
 import railsFormPut from '../../../lib/form-put-with-errors.js'
 import xhr from 'xhr'
 
-module.exports = createReactClass({
-  displayName: 'Clipboard',
+class Clipboard extends React.Component {
+  constructor(props) {
+    super(props)
 
-  getInitialState() {
-    return {
+    this.state = {
       step: 'initial'
     }
-  },
+
+    this._cancelBatchAddToClipboard = this._cancelBatchAddToClipboard.bind(this)
+    this._okBatchAddToClipboard = this._okBatchAddToClipboard.bind(this)
+    this._cancelAddingAll = this._cancelAddingAll.bind(this)
+  }
 
   componentDidMount() {
     switch (this.props.type) {
@@ -34,14 +37,14 @@ module.exports = createReactClass({
       default:
         throw `Unexpected type: ${this.props.type}`
     }
-  },
+  }
 
   _selectedResourceIdsWithTypes() {
     return this.props.selectedResources.map(model => ({
       uuid: model.uuid,
       type: model.type
     }))
-  },
+  }
 
   fetchAllResourceIds(resources, pagination, jsonPath, callback) {
     const nextUrl = setUrlParams(
@@ -60,7 +63,7 @@ module.exports = createReactClass({
         })
       }
     })
-  },
+  }
 
   _fetchForAddAll() {
     this.setState({ step: 'fetching' })
@@ -88,7 +91,7 @@ module.exports = createReactClass({
       }
     )
     return false
-  },
+  }
 
   _addSelected() {
     this.setState({ step: 'adding-selected' })
@@ -103,14 +106,14 @@ module.exports = createReactClass({
       }
     })
     return false
-  },
+  }
 
   _cancelBatchAddToClipboard(event) {
     event.preventDefault()
     if (this.props.onClose) {
       return this.props.onClose()
     }
-  },
+  }
 
   _processChunks() {
     if (this.state.step !== 'adding-all') {
@@ -140,7 +143,7 @@ module.exports = createReactClass({
         return setTimeout(() => location.reload(), 100)
       }
     }
-  },
+  }
 
   _okBatchAddToClipboard(event) {
     event.preventDefault()
@@ -155,12 +158,12 @@ module.exports = createReactClass({
     return this.setState({ chunks }, () => {
       return this._processChunks()
     })
-  },
+  }
 
   _cancelAddingAll() {
     window.scrollTo(0, 0)
     return this.setState({ step: 'adding-all-cancelled' })
-  },
+  }
 
   _removeAll() {
     this.setState({ step: 'removing' })
@@ -176,7 +179,7 @@ module.exports = createReactClass({
     })
 
     return false
-  },
+  }
 
   _removeSelected() {
     this.setState({ step: 'removing' })
@@ -194,11 +197,11 @@ module.exports = createReactClass({
       }
     })
     return false
-  },
+  }
 
   _infoText(text) {
     return <div style={{ margin: '20px', marginBottom: '20px', textAlign: 'center' }}>{text}</div>
-  },
+  }
 
   _errorBox(error) {
     return (
@@ -208,7 +211,7 @@ module.exports = createReactClass({
         </div>
       </div>
     )
-  },
+  }
 
   _okCloseAction() {
     return (
@@ -220,7 +223,7 @@ module.exports = createReactClass({
         </div>
       </div>
     )
-  },
+  }
 
   render() {
     switch (this.state.step) {
@@ -339,4 +342,6 @@ module.exports = createReactClass({
         throw `Unexpected step: ${this.state.step}`
     }
   }
-})
+}
+
+export default Clipboard

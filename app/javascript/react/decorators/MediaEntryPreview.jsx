@@ -1,5 +1,4 @@
 import React from 'react'
-import createReactClass from 'create-react-class'
 import PropTypes from 'prop-types'
 import f from 'active-lodash'
 import t from '../../lib/i18n-translate.js'
@@ -12,9 +11,8 @@ import Picture from '../ui-components/Picture.jsx'
 import ResourceIcon from '../ui-components/ResourceIcon.jsx'
 import MediaPlayer from '../ui-components/MediaPlayer.jsx'
 
-module.exports = createReactClass({
-  displayName: 'MediaEntryPreview',
-  propTypes: {
+export default class MediaEntryPreview extends React.Component {
+  static propTypes = {
     get: PropTypes.shape({
       title: PropTypes.string.isRequired,
       // image_url: PropTypes.string.isRequired,
@@ -24,7 +22,7 @@ module.exports = createReactClass({
       }).isRequired
     }).isRequired,
     mods: PropTypes.any
-  },
+  }
 
   render() {
     const { get, mediaProps, withLink, withZoomLink, isEmbedded } = this.props
@@ -151,7 +149,7 @@ module.exports = createReactClass({
 
     return <div className={classes}>{content}</div>
   }
-})
+}
 
 const IframeEmbed = ({ url, accessToken }) => {
   const parsedUrl = parseUrl(url)

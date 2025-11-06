@@ -9,24 +9,24 @@
 // - has internal router to switch between show/edit by URL
 
 import React from 'react'
-import createReactClass from 'create-react-class'
 import t from '../../lib/i18n-translate.js'
 import url from 'url'
 import ResourcePermissionsForm from '../decorators/ResourcePermissionsForm.jsx'
 import Modal from '../ui-components/Modal.jsx'
 import EditTransferResponsibility from '../views/Shared/EditTransferResponsibility.jsx'
+import CollectionPermissions from '../../models/collection/permissions.js'
+import MediaEntryPermissions from '../../models/media-entry/permissions.js'
 
-// NOTE: used for static (server-side) rendering (state.editing = false)
-module.exports = createReactClass({
-  displayName: 'ResourcePermissions',
+class ResourcePermissions extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { editing: false, saving: false, transferModal: false }
+    this._toBeCalledOnUnmount = []
+  }
 
-  getInitialState() {
-    return { editing: false, saving: false, transferModal: false }
-  },
-
-  _showTransferModal(show) {
+  _showTransferModal = show => {
     return this.setState({ transferModal: show })
-  },
+  }
 
   UNSAFE_componentWillMount() {
     const model = (() => {
@@ -34,9 +34,7 @@ module.exports = createReactClass({
         return this.props.get
       } else {
         const PermissionsModel =
-          this.props.get.type === 'Collection'
-            ? require('../../models/collection/permissions.js')
-            : require('../../models/media-entry/permissions.js')
+          this.props.get.type === 'Collection' ? CollectionPermissions : MediaEntryPermissions
         return new PermissionsModel(this.props.get)
       }
     })()
@@ -47,15 +45,12 @@ module.exports = createReactClass({
     })
 
     return this.setState({ model })
-  },
+  }
 
-  // functions to be called on unmount (cleanup):
-  _toBeCalledOnUnmount: [],
   componentWillUnmount() {
     return this._toBeCalledOnUnmount.forEach(fn => fn())
-  },
+  }
 
-  // this will only ever run on the client:
   componentDidMount() {
     const router = require('../../lib/router.js')
 
@@ -78,19 +73,18 @@ module.exports = createReactClass({
     // "attach" and start the router
     this._router = router // internal ref, NOT in state!
     return router.start()
-  },
+  }
 
-  _onStartEdit(event) {
+  _onStartEdit = event => {
     if (event != null) {
       event.preventDefault()
     }
     return this._router.goTo(event.target.href)
-  },
+  }
 
-  _onCancelEdit() {},
-  // No special handler, just top-level-load the view url.
+  _onCancelEdit = () => {}
 
-  _onSubmitForm(event) {
+  _onSubmitForm = event => {
     event.preventDefault()
     this.setState({ saving: true })
     return this.state.model.save({
@@ -115,7 +109,7 @@ module.exports = createReactClass({
         return console.error(err)
       }
     })
-  },
+  }
 
   render() {
     let transferClick
@@ -172,11 +166,9 @@ module.exports = createReactClass({
       </div>
     )
   }
-})
+}
 
-//
-
-var PermissionsOverview = createReactClass({
+class PermissionsOverview extends React.Component {
   render() {
     const { get } = this.props
 
@@ -223,4 +215,6 @@ var PermissionsOverview = createReactClass({
       </div>
     )
   }
-})
+}
+
+export default ResourcePermissions

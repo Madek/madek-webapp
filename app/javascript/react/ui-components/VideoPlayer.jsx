@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import endsWith from 'lodash/endsWith'
 
-import VideoJS from './VideoJs'
+import VideoJS from './VideoJs.jsx'
 
 const propTypes = {
   sources: PropTypes.arrayOf(

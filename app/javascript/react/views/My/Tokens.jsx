@@ -2,7 +2,7 @@ import React from 'react'
 import f from 'lodash'
 import { t } from '../../lib/ui.js'
 import Moment from 'moment'
-import currentLocale from '../../../lib/current-locale'
+import currentLocale from '../../../lib/current-locale.js'
 import UI from '../../ui-components/index.js'
 import RailsForm from '../../lib/forms/rails-form.jsx'
 

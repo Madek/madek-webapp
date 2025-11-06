@@ -4,7 +4,7 @@ const AutoCompleteWrapper = props => {
   const [AutoComplete, setAutoComplete] = useState(null)
 
   useEffect(() => {
-    const AC = require('./autocomplete.js')
+    const AC = require('./autocomplete.jsx')
     setAutoComplete(() => AC)
   }, [])
 

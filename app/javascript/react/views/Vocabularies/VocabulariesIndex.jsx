@@ -1,6 +1,6 @@
 import React from 'react'
 
-import PageHeader from '../../ui-components/PageHeader'
+import PageHeader from '../../ui-components/PageHeader.jsx'
 import PageContent from '../PageContent.jsx'
 import VocabTitleLink from '../../ui-components/VocabTitleLink.jsx'
 

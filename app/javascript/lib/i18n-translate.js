@@ -3,7 +3,7 @@
 // import/require as t; t('hello') // => 'Hallo'
 
 import f from 'active-lodash'
-import parseTranslationsFromCSV from './parse-translations-from-csv'
+import parseTranslationsFromCSV from './parse-translations-from-csv.js'
 
 // NOTE: this works with browserify and the 'brfs' transform (embeds as string)
 var path = require('path')

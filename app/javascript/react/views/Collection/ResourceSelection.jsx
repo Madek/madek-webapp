@@ -1,11 +1,4 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import React from 'react'
-import createReactClass from 'create-react-class'
 import PropTypes from 'prop-types'
 import f from 'active-lodash'
 import t from '../../../lib/i18n-translate.js'
@@ -13,21 +6,18 @@ import RailsForm from '../../lib/forms/rails-form.jsx'
 import FormButton from '../../ui-components/FormButton.jsx'
 import Modal from '../../ui-components/Modal.jsx'
 
-module.exports = createReactClass({
-  displayName: 'Collection.ResourceSelection',
-  propTypes: {
+class ResourceSelection extends React.Component {
+  static propTypes = {
     type: PropTypes.oneOf(['checkbox', 'radio'])
-  },
+  }
 
-  getInitialState() {
-    return { active: false }
-  },
+  constructor(props) {
+    super(props)
+    this.state = { active: false }
+  }
 
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { authToken, get, type } = param
+  render() {
+    const { authToken, get, type } = this.props
     return (
       <Modal widthInPixel="800">
         <RailsForm
@@ -183,4 +173,7 @@ module.exports = createReactClass({
       </Modal>
     )
   }
-})
+}
+
+export default ResourceSelection
+module.exports = ResourceSelection

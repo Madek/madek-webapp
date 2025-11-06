@@ -1,12 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import f from 'active-lodash'
-import t from '../../../lib/i18n-translate'
+import t from '../../../lib/i18n-translate.js'
 import cx from 'classnames'
 
 import Renderer from '../../decorators/metadataedit/MetadataEditRenderer.jsx'
-import WorkflowCommonPermissions from '../../decorators/WorkflowCommonPermissions'
-import SubSection from '../../ui-components/SubSection'
+import WorkflowCommonPermissions from '../../decorators/WorkflowCommonPermissions.jsx'
+import SubSection from '../../ui-components/SubSection.jsx'
 import RailsForm from '../../lib/forms/rails-form.jsx'
 import validation from '../../../lib/metadata-edit-validation.js'
 

@@ -16,7 +16,7 @@ import {
   activityGroup,
   activityItemByType,
   resourceInfo
-} from './UserActivityStreamDeco'
+} from './UserActivityStreamDeco.jsx'
 
 const t = ui.t
 

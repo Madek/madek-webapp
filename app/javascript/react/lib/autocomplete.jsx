@@ -12,13 +12,12 @@
  */
 
 import React from 'react'
-import createReactClass from 'create-react-class'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import f from 'active-lodash'
 import jQuery from 'jquery'
 require('@eins78/typeahead.js/dist/typeahead.jquery.js')
-import { cx, t } from '../lib/ui.js'
+import { cx, t } from './ui.js'
 import searchResources from '../../lib/search.js'
 
 const initTypeahead = (
@@ -147,9 +146,8 @@ const initTypeahead = (
   })
 }
 
-module.exports = createReactClass({
-  displayName: 'AutoComplete',
-  propTypes: {
+class AutoComplete extends React.Component {
+  static propTypes = {
     name: PropTypes.string.isRequired,
     resourceType: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
     onSelect: PropTypes.func.isRequired,
@@ -163,7 +161,7 @@ module.exports = createReactClass({
       minLength: PropTypes.number
     }),
     suggestionRenderer: PropTypes.func
-  },
+  }
 
   componentDidMount() {
     const {
@@ -197,11 +195,11 @@ module.exports = createReactClass({
       suggestionRenderer
     )
     if (autoFocus) this.focus()
-  },
+  }
 
   focus() {
     jQuery(ReactDOM.findDOMNode(this.refs.InputField)).focus()
-  },
+  }
 
   render() {
     const { name, value, placeholder, className } = this.props
@@ -217,4 +215,7 @@ module.exports = createReactClass({
       />
     )
   }
-})
+}
+
+export default AutoComplete
+module.exports = AutoComplete

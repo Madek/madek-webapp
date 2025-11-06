@@ -1,6 +1,6 @@
 import React from 'react'
 import t from '../../../lib/i18n-translate.js'
-import PageHeader from '../../ui-components/PageHeader.js'
+import PageHeader from '../../ui-components/PageHeader.jsx'
 import RailsForm from '../../lib/forms/rails-form.jsx'
 
 class EditCustomUrls extends React.Component {

@@ -5,7 +5,7 @@ import UI from '../../ui-components/index.js'
 import RailsForm from '../../lib/forms/rails-form.jsx'
 import DayPicker from 'react-day-picker'
 import MomentLocaleUtils from 'react-day-picker/moment'
-import currentLocale from '../../../lib/current-locale'
+import currentLocale from '../../../lib/current-locale.js'
 import Moment from 'moment'
 
 const locale = currentLocale()

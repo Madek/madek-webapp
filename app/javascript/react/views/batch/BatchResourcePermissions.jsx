@@ -1,16 +1,8 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 // View for Batch-Editing Resource Permissions
 // Differences between the supported classes (Entry, Collection)
 // are handled in the models, so there is only 1 view for all of them.
 
 import React from 'react'
-import createReactClass from 'create-react-class'
 import PropTypes from 'prop-types'
 import f from 'active-lodash'
 import { t } from '../../lib/ui.js'
@@ -25,9 +17,8 @@ import PageContentHeader from '../../views/PageContentHeader.jsx'
 
 import xhr from 'xhr'
 
-module.exports = createReactClass({
-  displayName: 'BatchResourcePermissions',
-  propTypes: {
+class BatchResourcePermissions extends React.Component {
+  static propTypes = {
     get: PropTypes.shape({
       batch_permissions: PropTypes.array.isRequired,
       batch_resources: PropTypes.shape({
@@ -43,9 +34,13 @@ module.exports = createReactClass({
       })
     }).isRequired,
     authToken: PropTypes.string.isRequired
-  },
+  }
 
-  // init state model in any case:
+  constructor(props) {
+    super(props)
+    this.state = { isClient: false }
+  }
+
   UNSAFE_componentWillMount() {
     // get type from first item in resource list
     const Model = (() => {
@@ -60,20 +55,16 @@ module.exports = createReactClass({
     })()
 
     return this.setState({ model: new Model(this.props.get) })
-  },
+  }
 
-  // NOTE: UI has no fallback, so even though this view only supports
-  // 'editing' state, we only activate it on mount to prevent accidental submit
-  getInitialState() {
-    return { isClient: false }
-  },
   componentDidMount() {
     this.state.model.on('change', () => this.forceUpdate())
     return this.setState({ isClient: true })
-  },
+  }
+
   componentWillUnmount() {
     return this.state.model.off()
-  },
+  }
 
   _loadingMessage() {
     return (
@@ -86,9 +77,9 @@ module.exports = createReactClass({
         </div>
       </div>
     )
-  },
+  }
 
-  _onSubmit(event) {
+  _onSubmit = event => {
     event.preventDefault()
     return xhr(
       {
@@ -108,17 +99,15 @@ module.exports = createReactClass({
         }
       }
     )
-  },
+  }
 
-  _onCancel(event) {
+  _onCancel = event => {
     event.preventDefault()
     return (window.location = this.props.get.actions.cancel.url)
-  }, // SYNC!
+  }
 
-  render(props) {
-    if (props == null) {
-      ;({ props } = this)
-    }
+  render() {
+    const props = this.props
     const batchResources = props.get.batch_resources.resources
     const pageTitle =
       t('permissions_batch_title_pre') + props.get.batch_length + t('permissions_batch_title_post')
@@ -148,4 +137,7 @@ module.exports = createReactClass({
       </PageContent>
     )
   }
-})
+}
+
+export default BatchResourcePermissions
+module.exports = BatchResourcePermissions

@@ -1,6 +1,6 @@
 import React from 'react'
 import f from 'lodash'
-import { ConfidentialLinkHead, ConfidentialLinkRow } from './ConfidentialLinks'
+import { ConfidentialLinkHead, ConfidentialLinkRow } from './ConfidentialLinks.jsx'
 import ui from '../../lib/ui.js'
 import UI from '../../ui-components/index.js'
 import SelectingTextarea from '../../lib/forms/SelectingTextarea.jsx'

@@ -1,7 +1,7 @@
 import React from 'react'
 import TagCloud from '../ui-components/TagCloud.jsx'
-import t from '../../lib/i18n-translate'
-import labelize from '../../lib/labelize'
+import t from '../../lib/i18n-translate.js'
+import labelize from '../../lib/labelize.js'
 
 export default class WorkflowCommonPermissions extends React.Component {
   render() {

@@ -6,8 +6,8 @@ import { present, getPath } from '../../lib/utils.js'
 import MadekPropTypes from '../lib/madek-prop-types.js'
 import t from '../../lib/i18n-translate.js'
 import UI, { labelize } from '../ui-components/index.js'
-import MetaDatumRolesCloud from './MetaDatumRolesCloud.js'
-import MetaDatumText from './MetaDatumText.js'
+import MetaDatumRolesCloud from './MetaDatumRolesCloud.jsx'
+import MetaDatumText from './MetaDatumText.jsx'
 
 const prettifyJson = obj => {
   try {

@@ -1,16 +1,9 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 // Proof of Concept: AsyncView - only works for my/dashboard!
 // Tries to fetch the props needed to display the component before rendering it.
 // If it fails, a retry icon is shown, with a fallback link
 // If fetching is retryed 5 times only use fallback link (sync, for browser error)
 
 import React from 'react'
-import createReactClass from 'create-react-class'
 import PropTypes from 'prop-types'
 import f from 'active-lodash'
 import appRequest from '../../lib/app-request.js'
@@ -19,27 +12,26 @@ import SuperBoxDashboard from '../decorators/SuperBoxDashboard.jsx'
 import Icon from '../ui-components/Icon.jsx'
 import Preloader from '../ui-components/Preloader.jsx'
 
-module.exports = createReactClass({
-  displayName: 'AsyncDashboardSection',
-  propTypes: {
+class AsyncDashboardSection extends React.Component {
+  static propTypes = {
     url: PropTypes.string.isRequired,
     json_path: PropTypes.string,
     initial_props: PropTypes.object
-  },
+  }
 
-  _isMounted: false,
-
-  getInitialState() {
-    return { isClient: false, fetchedProps: null }
-  },
+  constructor(props) {
+    super(props)
+    this.state = { isClient: false, fetchedProps: null }
+    this._isMounted = false
+  }
 
   componentDidMount() {
     this._isMounted = true
     this.setState({ isClient: true })
     return this._fetchProps()
-  },
+  }
 
-  _fetchProps() {
+  _fetchProps = () => {
     this.setState({ fetching: true })
     return this._getPropsAsync((err, props) => {
       if (!this._isMounted) {
@@ -62,17 +54,17 @@ module.exports = createReactClass({
         }
       }
     })
-  },
+  }
 
-  _retryFetchProps(event) {
+  _retryFetchProps = event => {
     this._retryCount = (this._retryCount || 0) + 1
     if (!(this._retryCount > 5)) {
       event.preventDefault()
       return this._fetchProps()
     }
-  },
+  }
 
-  _getPropsAsync(callback) {
+  _getPropsAsync = callback => {
     return (this._runningRequest = appRequest(
       { url: this.props.url, retries: 5 },
       (err, res, data) => {
@@ -86,23 +78,17 @@ module.exports = createReactClass({
         return callback(null, props)
       }
     ))
-  },
+  }
 
   componentWillUnmount() {
     if (this._runningRequest) {
       this._runningRequest.abort()
     }
     return (this._isMounted = false)
-  },
-  // NOTE: Self-implemented `isMounted` to suppress the React warning, but still an anti-pattern.
-  // The correct solution would be @_runningRequest.abort().
-  // However this does not work, because `appRequest()` returns undefined when retries are enabled.
+  }
 
-  render(param) {
-    if (param == null) {
-      param = this
-    }
-    const { props } = param
+  render() {
+    const props = this.props
     const { fallback_url } = props
 
     if (this.props.renderEmpty) {
@@ -134,4 +120,6 @@ module.exports = createReactClass({
       </div>
     )
   }
-})
+}
+
+export default AsyncDashboardSection

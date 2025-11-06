@@ -6,7 +6,6 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 import React from 'react'
-import createReactClass from 'create-react-class'
 import f from 'active-lodash'
 import t from '../../lib/i18n-translate.js'
 import setUrlParams from '../../lib/set-params-for-url.js'
@@ -26,32 +25,83 @@ import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 import validation from '../../lib/metadata-edit-validation.js'
 import Renderer from './metadataedit/MetadataEditRenderer.jsx'
 
-module.exports = createReactClass({
-  displayName: 'ResourceMetaDataPagePerContext',
+class ResourceMetaDataPagePerContext extends React.Component {
+  constructor(props) {
+    super(props)
 
-  _onTabClick(currentTab, event) {
-    event.preventDefault()
-    this.setState({ currentTab })
-    return false
-  },
+    this.formRef = React.createRef()
+    this._isMounted = false
 
-  getInitialState() {
+    const initialState = this._getInitialState(props)
+    this.state = initialState
+
+    this._onTabClick = this._onTabClick.bind(this)
+    this._onChangeForm = this._onChangeForm.bind(this)
+    this._onChangeBatchAction = this._onChangeBatchAction.bind(this)
+    this._onImplicitSumbit = this._onImplicitSumbit.bind(this)
+    this._onExplicitSubmit = this._onExplicitSubmit.bind(this)
+    this._toggleBundle = this._toggleBundle.bind(this)
+    this._batchConflictByContextKey = this._batchConflictByContextKey.bind(this)
+    this._batchConflictByMetaKey = this._batchConflictByMetaKey.bind(this)
+    this.submit = this.submit.bind(this)
+    this.contextDescription = this.contextDescription.bind(this)
+  }
+
+  _getInitialState(props) {
+    let diff
+    const currentTab = this._determineCurrentTab(
+      props.get.context_id,
+      props.get.by_vocabularies,
+      props.get.meta_meta_data
+    )
+
+    let batchDiff = {}
+    if (props.batch) {
+      if (props.get.batch_diff) {
+        diff = f.mapValues(props.get.meta_meta_data.meta_key_by_meta_key_id, meta_key => {
+          diff = f.find(props.get.batch_diff, { meta_key_id: meta_key.uuid })
+          if (!diff) {
+            return {
+              all_equal: true,
+              all_empty: true
+            }
+          } else {
+            return {
+              all_equal: diff.count === diff.max,
+              all_empty: false
+            }
+          }
+        })
+        batchDiff = diff
+      } else {
+        throw new Error('Not supported anymore.')
+      }
+    }
+
+    const models = this._createaModelsForMetaKeys(
+      props.get.meta_meta_data,
+      props.get.meta_data,
+      diff
+    )
+
     return {
       mounted: false,
-      currentTab: {
-        byContext: null,
-        byVocabularies: false
-      },
-      // currentContextId: null
-      models: {},
-      batchDiff: {},
+      currentTab,
+      models,
+      batchDiff,
       editing: false,
       errors: {},
       saving: false,
       systemError: false,
       bundleState: {}
     }
-  },
+  }
+
+  _onTabClick(currentTab, event) {
+    event.preventDefault()
+    this.setState({ currentTab })
+    return false
+  }
 
   _actionUrl() {
     let actionType, url
@@ -90,7 +140,7 @@ module.exports = createReactClass({
       // Url parameters are ignored in the <form action=... field.
       return (url = setUrlParams(url, { return_to: this.props.get.return_to }))
     }
-  },
+  }
 
   _createModelForMetaKey(meta_key) {
     return {
@@ -110,7 +160,7 @@ module.exports = createReactClass({
       originalValues: [],
       batchAction: 'none'
     }
-  },
+  }
 
   _createaModelsForMetaKeys(meta_meta_data, meta_data, diff) {
     const models = f.mapValues(meta_meta_data.meta_key_by_meta_key_id, meta_key => {
@@ -134,7 +184,7 @@ module.exports = createReactClass({
     }
 
     return models
-  },
+  }
 
   _determineCurrentTab(context_id, by_vocabularies, meta_meta_data) {
     if (by_vocabularies) {
@@ -155,67 +205,32 @@ module.exports = createReactClass({
         }
       }
     }
-  },
+  }
 
   componentDidMount() {
+    this._isMounted = true
     return this.setState({ mounted: true })
-  },
+  }
 
-  UNSAFE_componentWillMount() {
-    let diff
-    const currentTab = this._determineCurrentTab(
-      this.props.get.context_id,
-      this.props.get.by_vocabularies,
-      this.props.get.meta_meta_data
-    )
-    this.setState({ currentTab })
-
-    if (this.props.batch) {
-      if (this.props.get.batch_diff) {
-        diff = f.mapValues(this.props.get.meta_meta_data.meta_key_by_meta_key_id, meta_key => {
-          diff = f.find(this.props.get.batch_diff, { meta_key_id: meta_key.uuid })
-          if (!diff) {
-            return {
-              all_equal: true,
-              all_empty: true
-            }
-          } else {
-            return {
-              all_equal: diff.count === diff.max,
-              all_empty: false
-            }
-          }
-        })
-      } else {
-        throw new Error('Not supported anymore.')
-      }
-
-      this.setState({ batchDiff: diff })
-    }
-
-    const models = this._createaModelsForMetaKeys(
-      this.props.get.meta_meta_data,
-      this.props.get.meta_data,
-      diff
-    )
-    return this.setState({ models })
-  },
+  componentWillUnmount() {
+    this._isMounted = false
+  }
 
   _onChangeForm(meta_key_id, values) {
     const { models } = this.state
     models[meta_key_id].values = values
     return this.setState({ models })
-  },
+  }
 
   _onChangeBatchAction(meta_key_id, batchAction) {
     const { models } = this.state
     models[meta_key_id].batchAction = batchAction
     return this.setState({ models })
-  },
+  }
 
   submit() {
     this.setState({ saving: true, systemError: false })
-    const serialized = this.refs.form.serialize()
+    const serialized = this.formRef.current.serialize()
     return xhr(
       {
         method: 'PUT',
@@ -231,7 +246,7 @@ module.exports = createReactClass({
         let data
         if (err) {
           window.scrollTo(0, 0)
-          if (this.isMounted()) {
+          if (this._isMounted) {
             this.setState({ saving: false, systemError: 'Connection error. Please try again.' })
           }
           return
@@ -243,7 +258,7 @@ module.exports = createReactClass({
           // eslint-disable-next-line no-unused-vars
         } catch (e) {
           window.scrollTo(0, 0)
-          if (this.isMounted()) {
+          if (this._isMounted) {
             this.setState({
               saving: false,
               systemError: 'System error. Cannot parse server answer. Please try again.'
@@ -256,7 +271,7 @@ module.exports = createReactClass({
           const errors = f.presence(f.get(data, 'errors')) || {}
           if (!f.present(errors)) {
             window.scrollTo(0, 0)
-            if (this.isMounted()) {
+            if (this._isMounted) {
               return this.setState({
                 saving: false,
                 systemError: 'System error. Cannot read server errors. Please try again.'
@@ -264,7 +279,7 @@ module.exports = createReactClass({
             }
           } else {
             window.scrollTo(0, 0)
-            if (this.isMounted()) {
+            if (this._isMounted) {
               return this.setState({ saving: false })
             }
           }
@@ -272,7 +287,7 @@ module.exports = createReactClass({
           const forward_url = data['forward_url']
           if (!forward_url) {
             window.scrollTo(0, 0)
-            if (this.isMounted()) {
+            if (this._isMounted) {
               return this.setState({
                 saving: false,
                 systemError: 'Cannot read forward url. Please try again.'
@@ -284,32 +299,32 @@ module.exports = createReactClass({
         }
       }
     )
-  },
+  }
 
   // NOTE: just to be save, block *implicit* form submits
   // (should normally not be triggered when button[type=button] is used.)
   _onImplicitSumbit(event) {
     return event.preventDefault()
-  },
+  }
 
   _onExplicitSubmit(event) {
     event.preventDefault()
     this.submit(event.target.value)
     return false
-  },
+  }
 
   _toggleBundle(bundleId) {
     const current = this.state.bundleState[bundleId]
     const next = !current
     return this.setState({ bundleState: f.set(this.state.bundleState, bundleId, next) })
-  },
+  }
 
   _batchConflictByContextKey(context_key_id) {
     const { meta_meta_data } = this.props.get
     const contextKey = meta_meta_data.context_key_by_context_key_id[context_key_id]
     const { meta_key_id } = contextKey
     return this._batchConflictByMetaKey(meta_key_id)
-  },
+  }
 
   _batchConflictByMetaKey(meta_key_id) {
     const batchConflict = this.state.batchDiff[meta_key_id]
@@ -318,7 +333,7 @@ module.exports = createReactClass({
     } else {
       return false
     }
-  },
+  }
 
   _title(get) {
     let title = null
@@ -338,7 +353,7 @@ module.exports = createReactClass({
       }
     }
     return title
-  },
+  }
 
   _disableSave(atLeastOnePublished, batch) {
     if (this.state.saving) {
@@ -357,14 +372,14 @@ module.exports = createReactClass({
           'invalid' && atLeastOnePublished
       )
     }
-  },
+  }
 
   _disablePublish() {
     return (
       this.state.saving ||
       validation._validityForAll(this.props.get.meta_meta_data, this.state.models) !== 'valid'
     )
-  },
+  }
 
   _showNoContextDefinedIfNeeded() {
     return (
@@ -374,7 +389,7 @@ There are no contexts defined. Please configure them in the admin tool.\
 `}</div>
       </div>
     )
-  },
+  }
 
   _namePrefix(resource, batch, batch_resource_type) {
     if (batch) {
@@ -382,7 +397,7 @@ There are no contexts defined. Please configure them in the admin tool.\
     } else {
       return `${f.snakeCase(resource.type)}[meta_data]`
     }
-  },
+  }
 
   _atLeastOnePublished() {
     if (this.props.batch) {
@@ -390,7 +405,7 @@ There are no contexts defined. Please configure them in the admin tool.\
     } else {
       return this.props.get.published
     }
-  },
+  }
 
   contextDescription(param) {
     if (param == null) {
@@ -409,7 +424,7 @@ There are no contexts defined. Please configure them in the admin tool.\
     if (description) {
       return <div className="context-description mbm">{description}</div>
     }
-  },
+  }
 
   render(param) {
     // First make sure that you do not get a system error page when you have no context configured.
@@ -467,7 +482,7 @@ There are no contexts defined. Please configure them in the admin tool.\
         )}
         <TabContent>
           <RailsForm
-            ref="form"
+            ref={this.formRef}
             name="resource_meta_data"
             action={this._actionUrl()}
             onSubmit={this._onImplicitSumbit}
@@ -582,4 +597,7 @@ There are no contexts defined. Please configure them in the admin tool.\
       </PageContent>
     )
   }
-})
+}
+
+export default ResourceMetaDataPagePerContext
+module.exports = ResourceMetaDataPagePerContext

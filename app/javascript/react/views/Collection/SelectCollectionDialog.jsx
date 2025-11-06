@@ -1,19 +1,10 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import React from 'react'
-import createReactClass from 'create-react-class'
 import t from '../../../lib/i18n-translate.js'
 import RailsForm from '../../lib/forms/rails-form.jsx'
 import Button from '../../ui-components/Button.jsx'
 
-module.exports = createReactClass({
-  displayName: 'SelectCollectionDialog',
-
-  _onCancel(event) {
+class SelectCollectionDialog extends React.Component {
+  _onCancel = event => {
     if (this.props.onCancel) {
       event.preventDefault()
       this.props.onCancel()
@@ -21,13 +12,10 @@ module.exports = createReactClass({
     } else {
       return true
     }
-  },
+  }
 
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { cancelUrl, title, toolbar, action, authToken, content, method, showSave } = param
+  render() {
+    const { cancelUrl, title, toolbar, action, authToken, content, method, showSave } = this.props
     return (
       <div>
         <SelectCollectionHeader onCancel={this._onCancel} cancelUrl={cancelUrl} title={title} />
@@ -45,15 +33,11 @@ module.exports = createReactClass({
       </div>
     )
   }
-})
+}
 
-var SelectCollectionHeader = createReactClass({
-  displayName: 'SelectCollectionHeader',
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { cancelUrl, title, onCancel } = param
+class SelectCollectionHeader extends React.Component {
+  render() {
+    const { cancelUrl, title, onCancel } = this.props
     return (
       <div className="ui-modal-head">
         <a
@@ -71,15 +55,11 @@ var SelectCollectionHeader = createReactClass({
       </div>
     )
   }
-})
+}
 
-const SelectCollectionFooter = createReactClass({
-  displayName: 'SelectCollectionFooter',
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { cancelUrl, onCancel, showSave } = param
+class SelectCollectionFooter extends React.Component {
+  render() {
+    const { cancelUrl, onCancel, showSave } = this.props
     const className = showSave ? 'line weak' : 'primary-button'
     return (
       <div className="ui-modal-footer body-lower-limit">
@@ -105,30 +85,22 @@ const SelectCollectionFooter = createReactClass({
       </div>
     )
   }
-})
+}
 
-var SelectCollectionBody = createReactClass({
-  displayName: 'SelectCollectionBody',
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { children } = param
+class SelectCollectionBody extends React.Component {
+  render() {
+    const { children } = this.props
     return (
       <div className="ui-modal-body" style={{ maxHeight: 'none' }}>
         {children}
       </div>
     )
   }
-})
+}
 
-var SelectCollectionForm = createReactClass({
-  displayName: 'SelectCollectionForm',
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { children, action, authToken, cancelUrl, onCancel, method, showSave } = param
+class SelectCollectionForm extends React.Component {
+  render() {
+    const { children, action, authToken, cancelUrl, onCancel, method, showSave } = this.props
     return (
       <RailsForm
         name="select_collections"
@@ -146,15 +118,13 @@ var SelectCollectionForm = createReactClass({
       </RailsForm>
     )
   }
-})
+}
 
-var SelectCollectionToolbar = createReactClass({
-  displayName: 'SelectCollectionToolbar',
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { children } = param
+class SelectCollectionToolbar extends React.Component {
+  render() {
+    const { children } = this.props
     return <div className="ui-modal-toolbar top">{children}</div>
   }
-})
+}
+
+export default SelectCollectionDialog

@@ -1,27 +1,19 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import React from 'react'
-import createReactClass from 'create-react-class'
 import PropTypes from 'prop-types'
 import f from 'active-lodash'
 import MadekPropTypes from '../madek-prop-types.js'
 import InputResources from './input-resources.jsx'
 
-module.exports = createReactClass({
-  displayName: 'InputKeywords',
-  propTypes: {
+class InputKeywords extends React.Component {
+  static propTypes = {
     name: PropTypes.string.isRequired,
     values: PropTypes.array.isRequired,
     meta_key: MadekPropTypes.metaKey.isRequired,
     show_checkboxes: PropTypes.bool.isRequired,
     keywords: PropTypes.arrayOf(MadekPropTypes.keyword)
-  },
+  }
 
-  _onChange(event) {
+  _onChange = event => {
     if (this.props.onChange) {
       let values
       const uuid = event.target.value
@@ -44,18 +36,15 @@ module.exports = createReactClass({
 
       return this.props.onChange(values)
     }
-  },
+  }
 
-  render(param) {
+  render() {
     // - "keywords" might be given as possible values
     // - for fixed selections show checkboxes (with possible values)
     //   otherwise the show autocompleter (prefilled with pos. values if given)
 
     // show an autocomplete:
-    if (param == null) {
-      param = this.props
-    }
-    const { name, values, meta_key, keywords, show_checkboxes, multiple } = param
+    const { name, values, meta_key, keywords, show_checkboxes, multiple } = this.props
     if (!show_checkboxes) {
       let autocompleteConfig
       const params = { meta_key_id: meta_key.uuid }
@@ -102,4 +91,6 @@ module.exports = createReactClass({
       )
     }
   }
-})
+}
+
+export default InputKeywords

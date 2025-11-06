@@ -1,26 +1,13 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import React from 'react'
-import createReactClass from 'create-react-class'
 import f from 'active-lodash'
 import cx from 'classnames'
 import t from '../../../lib/i18n-translate.js'
 import ResourceThumbnail from '../../decorators/ResourceThumbnail.jsx'
 import { parse as parseUrl, format as buildUrl } from 'url'
 
-module.exports = createReactClass({
-  displayName: 'views/Collection/Relations',
-
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { authToken, get } = param
+class Relations extends React.Component {
+  render() {
+    const { authToken, get } = this.props
     const typeKebab = f.kebabCase(get.type).replace('-', '_')
 
     const parentCount = get.relations.parent_collections.pagination.total_count
@@ -177,4 +164,6 @@ module.exports = createReactClass({
       </div>
     )
   }
-})
+}
+
+export default Relations

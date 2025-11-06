@@ -1,11 +1,4 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import React from 'react'
-import createReactClass from 'create-react-class'
 import t from '../../../lib/i18n-translate.js'
 import RailsForm from '../../lib/forms/rails-form.jsx'
 import InputFieldText from '../../lib/forms/input-field-text.jsx'
@@ -14,26 +7,34 @@ import ToggableLink from '../../ui-components/ToggableLink.jsx'
 import formXhr from '../../../lib/form-xhr.js'
 import Preloader from '../../ui-components/Preloader.jsx'
 
-module.exports = createReactClass({
-  displayName: 'CreateCollection',
-
-  getInitialState() {
-    return {
+class CreateCollection extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
       mounted: false,
       saving: false,
       errors: null
     }
-  },
+    this._isMounted = false
+  }
 
-  _onCancel(event) {
+  componentDidMount() {
+    this._isMounted = true
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
+  }
+
+  _onCancel = event => {
     event.preventDefault()
     if (this.props.onClose) {
       this.props.onClose()
     }
     return false
-  },
+  }
 
-  _onOk(event) {
+  _onOk = event => {
     event.preventDefault()
     this.setState({ saving: true, error: null })
 
@@ -44,7 +45,7 @@ module.exports = createReactClass({
         form: this.refs.form
       },
       (result, json) => {
-        if (!this.isMounted()) {
+        if (!this._isMounted) {
           return
         }
         if (result === 'failure') {
@@ -67,13 +68,10 @@ module.exports = createReactClass({
     )
 
     return false
-  },
+  }
 
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { authToken, get } = param
+  render() {
+    const { authToken, get } = this.props
     const error = this.state.error || get.error
 
     const alerts = error ? (
@@ -153,4 +151,6 @@ module.exports = createReactClass({
       </RailsForm>
     )
   }
-})
+}
+
+export default CreateCollection

@@ -1,21 +1,11 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import React from 'react'
-import createReactClass from 'create-react-class'
 import ReactDOM from 'react-dom'
 import f from 'active-lodash'
 import cx from 'classnames'
 
 let jQuery = null
 
-module.exports = createReactClass({
-  displayName: 'UserFilter',
-
+class UserFilter extends React.Component {
   componentDidMount() {
     jQuery = require('jquery')
     require('@eins78/typeahead.js/dist/typeahead.jquery.js')
@@ -77,13 +67,10 @@ module.exports = createReactClass({
       jNode.typeahead('val', '')
       return onSelect(item)
     })
-  },
+  }
 
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { node, placeholder } = param
+  render() {
+    const { node, placeholder } = this.props
     const selection = f.filter(node.children, 'selected')
 
     const hasMore = f.size(selection) < f.size(node.children)
@@ -132,4 +119,7 @@ module.exports = createReactClass({
       </ul>
     )
   }
-})
+}
+
+export default UserFilter
+module.exports = UserFilter

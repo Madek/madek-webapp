@@ -22,7 +22,7 @@ import TagCloud from '../../ui-components/TagCloud.jsx'
 import setUrlParams from '../../../lib/set-params-for-url.js'
 import VocabTitleLink from '../../ui-components/VocabTitleLink.jsx'
 import grouping from '../../../lib/metadata-edit-grouping.js'
-import labelize from '../../../lib/labelize'
+import labelize from '../../../lib/labelize.js'
 
 module.exports = {
   _renderValueFromWorkflowCommonSettings(workflow, meta_key_id) {

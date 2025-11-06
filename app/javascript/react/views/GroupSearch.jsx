@@ -5,18 +5,16 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 import React from 'react'
-import createReactClass from 'create-react-class'
 import f from 'lodash'
 import t from '../../lib/i18n-translate.js'
 import RailsForm from '../lib/forms/rails-form.jsx'
 import cx from 'classnames'
 let AutoComplete = null
 
-module.exports = createReactClass({
-  displayName: 'GroupSearch',
-
-  getInitialState() {
-    return {
+class GroupSearch extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
       mounted: false,
       loading: false,
       data: {
@@ -38,14 +36,14 @@ module.exports = createReactClass({
         })()
       }
     }
-  },
+  }
 
   componentDidMount() {
-    AutoComplete = require('../lib/autocomplete.js')
+    AutoComplete = require('../lib/autocomplete.jsx')
     return this.setState({ mounted: true })
-  },
+  }
 
-  _onSelect(subject) {
+  _onSelect = subject => {
     const user = {
       id: subject.uuid,
       name: subject.name,
@@ -59,20 +57,17 @@ module.exports = createReactClass({
       data.users[user.id] = user
     }
     return this.setState({})
-  },
+  }
 
-  _onRemove(userId) {
+  _onRemove = userId => {
     const { data } = this.state
     data.users[userId].checked = false
     f.pull(data.userIdList, userId)
     return this.setState({})
-  },
+  }
 
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { authToken, get } = param
+  render() {
+    const { authToken, get } = this.props
     return (
       <div className="form-body bright">
         <RailsForm name="group" action={get.url} method="put" authToken={authToken}>
@@ -161,34 +156,28 @@ module.exports = createReactClass({
       </div>
     )
   }
-})
+}
 
-const Link = createReactClass({
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { onClick, disabled, enabledClasses } = param
+class Link extends React.Component {
+  render() {
+    const { onClick, disabled, enabledClasses } = this.props
     if (disabled === true) {
       return <span className={cx(enabledClasses, { disabled: true })} />
     } else {
       return <a onClick={onClick} className={enabledClasses} />
     }
   }
-})
+}
 
-var MemberRow = createReactClass({
-  _onRemove() {
+class MemberRow extends React.Component {
+  _onRemove = () => {
     if (!this.props.disabled) {
       return this.props.onRemove(this.props.user.id)
     }
-  },
+  }
 
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { user } = param
+  render() {
+    const { user } = this.props
 
     return (
       <tr>
@@ -203,4 +192,7 @@ var MemberRow = createReactClass({
       </tr>
     )
   }
-})
+}
+
+export default GroupSearch
+module.exports = GroupSearch

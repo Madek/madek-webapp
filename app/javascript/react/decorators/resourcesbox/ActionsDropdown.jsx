@@ -1,11 +1,4 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS205: Consider reworking code to avoid use of IIFEs
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import React from 'react'
-import createReactClass from 'create-react-class'
 import f from 'active-lodash'
 import l from 'lodash'
 import { t } from '../../lib/ui.js'
@@ -13,12 +6,10 @@ import SelectionScope from '../../../lib/selection-scope.js'
 import { Icon, Dropdown } from '../../ui-components/index.js'
 import ActionsDropdownHelper from './ActionsDropdownHelper.jsx'
 
-export default createReactClass({
-  displayName: 'ActionsDropdown',
-
+export default class ActionsDropdown extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
-  },
+  }
 
   render() {
     const { parameters, callbacks } = this.props
@@ -338,4 +329,4 @@ export default createReactClass({
       </Dropdown>
     )
   }
-})
+}

@@ -1,6 +1,6 @@
 import React from 'react'
 import ResourceThumbnail from './ResourceThumbnail.jsx'
-import t from '../../lib/i18n-translate'
+import t from '../../lib/i18n-translate.js'
 
 class SuperBoxUpload extends React.Component {
   constructor(props) {

@@ -1,12 +1,4 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import React from 'react'
-import createReactClass from 'create-react-class'
 import f from 'active-lodash'
 import PageContent from './PageContent.jsx'
 import DashboardHeader from './DashboardHeader.jsx'
@@ -15,14 +7,9 @@ import DashboardSectionKeywords from './DashboardSectionKeywords.jsx'
 import DashboardSectionGroups from './DashboardSectionGroups.jsx'
 import DashboardSectionResources from './DashboardSectionResources.jsx'
 
-module.exports = createReactClass({
-  displayName: 'Dashboard',
-
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { get, for_url } = param
+class Dashboard extends React.Component {
+  render() {
+    const { get, for_url } = this.props
     const { user_dashboard } = get
     const { sections } = get
 
@@ -81,4 +68,7 @@ module.exports = createReactClass({
       </PageContent>
     )
   }
-})
+}
+
+export default Dashboard
+module.exports = Dashboard

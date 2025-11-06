@@ -5,7 +5,6 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 import React from 'react'
-import createReactClass from 'create-react-class'
 import PropTypes from 'prop-types'
 import f from 'active-lodash'
 import { t } from '../../lib/ui.js'
@@ -20,47 +19,47 @@ import { Icon } from '../../ui-components/index.js'
 const { PEOPLE_SUBTYPES } = MadekPropTypes
 const SUPPORTED_PEOPLE_SUBTYPES = ['Person', 'PeopleGroup']
 
-module.exports = createReactClass({
-  displayName: 'NewPersonWidget',
-
-  propTypes: {
+class NewPersonWidget extends React.Component {
+  static propTypes = {
     id: PropTypes.string.isRequired,
     onAddValue: PropTypes.func.isRequired,
     allowedTypes: PropTypes.arrayOf(PropTypes.oneOf(PEOPLE_SUBTYPES).isRequired).isRequired
-  },
+  }
 
-  // NOTE: no models needed here yet:
-  _emptyPerson() {
-    return { type: 'Person', subtype: PEOPLE_SUBTYPES[0] }
-  },
-
-  getInitialState() {
-    return {
+  constructor(props) {
+    super(props)
+    this.state = {
       isOpen: false,
       newPerson: this._emptyPerson()
     }
-  },
-  _toggleOpen() {
+  }
+
+  _emptyPerson() {
+    return { type: 'Person', subtype: PEOPLE_SUBTYPES[0] }
+  }
+
+  _toggleOpen = () => {
     return this.setState({ isOpen: !this.state.isOpen })
-  },
-  _onKeyPress(event) {
+  }
+
+  _onKeyPress = event => {
     // NEVER trigger (parent form!) submit on ENTER
     if (event.key === 'Enter') {
       return event.preventDefault()
     }
-  },
+  }
 
-  _onTabChange(eventKey) {
+  _onTabChange = eventKey => {
     return this.setState({ newPerson: { subtype: eventKey } })
-  },
+  }
 
-  _onUpdateField(key, event) {
+  _onUpdateField = (key, event) => {
     return this.setState({
       newPerson: f.extend(this.state.newPerson, f.set({}, key, event.target.value))
     })
-  },
+  }
 
-  _inputField(key) {
+  _inputField = key => {
     return (
       <input
         type="text"
@@ -70,21 +69,18 @@ module.exports = createReactClass({
         onChange={f.curry(this._onUpdateField)(key)}
       />
     )
-  },
+  }
 
-  _onSubmit(event) {
+  _onSubmit = event => {
     // NEVER trigger (parent form!) submit on button click
     event.preventDefault()
     this.props.onAddValue(this.state.newPerson)
 
     return this.setState({ isOpen: false, newPerson: this._emptyPerson() })
-  },
+  }
 
-  render(param) {
-    if (param == null) {
-      param = this.props
-    }
-    const { id, allowedTypes } = param
+  render() {
+    const { id, allowedTypes } = this.props
     const supportsAnyAllowedType = f.any(allowedTypes, t =>
       f.includes(SUPPORTED_PEOPLE_SUBTYPES, t)
     )
@@ -169,4 +165,6 @@ Group\
       )
     }
   }
-})
+}
+
+export default NewPersonWidget

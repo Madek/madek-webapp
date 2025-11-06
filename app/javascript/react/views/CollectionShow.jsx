@@ -1,12 +1,4 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import React from 'react'
-import createReactClass from 'create-react-class'
 import f from 'lodash'
 import { parse as parseUrl, format as buildUrl } from 'url'
 import t from '../../lib/i18n-translate.js'
@@ -45,58 +37,48 @@ const contentTestId = id => `set_tab_content_${id}`
 
 const tabTestId = id => `set_tab_${id}`
 
-module.exports = createReactClass({
-  displayName: 'CollectionShow',
-
-  // NOTE: setting active by pathname because will work as is with a router
-  getInitialState() {
-    return {
+class CollectionShow extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
       isMounted: false,
       urlState: parseUrlState(this.props.for_url),
       selectCollectionModal: false,
       shareModal: false
     }
-  },
+  }
 
   componentDidMount() {
     return this.setState({ isMounted: true })
-  },
+  }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.for_url === this.props.for_url) {
       return
     }
     return this.setState({ urlState: parseUrlState(this.props.for_url) })
-  },
+  }
 
-  _onClick(asyncAction) {
+  _onClick = asyncAction => {
     if (asyncAction === 'select_collection') {
       return this.setState({ selectCollectionModal: true })
     } else if (asyncAction === 'share') {
       return this.setState({ shareModal: true })
     }
-  },
+  }
 
-  render(param, param1) {
-    let authToken
-    let onClose, contentForGet, get, extractGet, getUrl
-    if (param == null) {
-      param = this.props
-    }
-    ;({ authToken, get } = param)
-    if (param1 == null) {
-      param1 = this.state
-    }
-    const { isMounted, urlState } = param1
+  render() {
+    const { authToken, get } = this.props
+    const { isMounted, urlState } = this.state
     return (
       <PageContent>
         {(() => {
           if (this.state.selectCollectionModal) {
-            onClose = () => {
+            const onClose = () => {
               return this.setState({ selectCollectionModal: false })
             }
 
-            contentForGet = get => {
+            const contentForGet = get => {
               return (
                 <SelectCollection
                   get={get}
@@ -107,11 +89,11 @@ module.exports = createReactClass({
               )
             }
 
-            extractGet = json => {
+            const extractGet = json => {
               return json.collection_selection
             }
 
-            getUrl = () => {
+            const getUrl = () => {
               const parsedUrl = parseUrl(get.header.select_collection_url, true)
               delete parsedUrl.search
               parsedUrl.query['___sparse'] = '{collection_selection:{}}'
@@ -130,11 +112,11 @@ module.exports = createReactClass({
         })()}
         {(() => {
           if (this.state.shareModal) {
-            onClose = () => {
+            const onClose = () => {
               return this.setState({ shareModal: false })
             }
 
-            contentForGet = get => {
+            const contentForGet = get => {
               return (
                 <Share
                   fullPage={false}
@@ -146,11 +128,11 @@ module.exports = createReactClass({
               )
             }
 
-            extractGet = json => {
+            const extractGet = json => {
               return json
             }
 
-            getUrl = get.header.share_url
+            const getUrl = get.header.share_url
             return (
               <AsyncModal
                 widthInPixel={800}
@@ -290,4 +272,7 @@ module.exports = createReactClass({
       </PageContent>
     )
   }
-})
+}
+
+export default CollectionShow
+module.exports = CollectionShow

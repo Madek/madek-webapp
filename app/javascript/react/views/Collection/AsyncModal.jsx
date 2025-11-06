@@ -1,19 +1,11 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
 import React from 'react'
-import createReactClass from 'create-react-class'
 import Modal from '../../ui-components/Modal.jsx'
 import loadXhr from '../../../lib/load-xhr.js'
 
-module.exports = createReactClass({
-  displayName: 'AsyncModal',
-
-  getInitialState() {
-    return {
+class AsyncModal extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
       mounted: false,
       loading: false,
       errors: null,
@@ -23,9 +15,9 @@ module.exports = createReactClass({
       newSets: [],
       children: null
     }
-  },
-
-  lastRequest: null,
+    this.lastRequest = null
+    this._isMounted = false
+  }
 
   UNSAFE_componentWillMount() {
     if (this.props.get) {
@@ -34,9 +26,10 @@ module.exports = createReactClass({
         children: this.props.contentForGet(this.props.get)
       })
     }
-  },
+  }
 
   componentDidMount() {
+    this._isMounted = true
     this.setState({ ready: true, mounted: true, loading: true })
 
     return loadXhr(
@@ -45,7 +38,7 @@ module.exports = createReactClass({
         url: this.props.getUrl
       },
       (result, json) => {
-        if (!this.isMounted()) {
+        if (!this._isMounted) {
           return
         }
         if (result === 'success') {
@@ -57,7 +50,11 @@ module.exports = createReactClass({
         }
       }
     )
-  },
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
+  }
 
   render() {
     if (!this.state.get) {
@@ -70,4 +67,6 @@ module.exports = createReactClass({
       )
     }
   }
-})
+}
+
+export default AsyncModal

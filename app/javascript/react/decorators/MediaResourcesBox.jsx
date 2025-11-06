@@ -51,6 +51,7 @@ import BoxSelectionLimit from './BoxSelectionLimit.jsx'
 import BatchAddToSetModal from './BatchAddToSetModal.jsx'
 import BatchRemoveFromSetModal from './BatchRemoveFromSetModal.jsx'
 import BatchEditTitleModal from './BatchEditTitleModal.jsx'
+import BoxPropTypes from './BoxPropTypes.js'
 
 // Props/Config overview:
 // - props.get.has_user = should the UI offer any interaction
@@ -1076,5 +1077,5 @@ class MediaResourcesBox extends Component {
   }
 }
 
-MediaResourcesBox.propTypes = require('./BoxPropTypes.js').propTypes()
+MediaResourcesBox.propTypes = BoxPropTypes.propTypes()
 module.exports = MediaResourcesBox
