@@ -143,36 +143,27 @@ module.exports = createReactClass({
         </div>
         <div className="ptl">
           <div className="form-footer">
-            {(() => {
-              switch (false) {
-                case !editable || !!editing:
-                  return (
-                    <div className="ui-actions">
-                      <a
-                        href={this.props.editUrl}
-                        onClick={onEdit}
-                        className="primary-button large">
-                        {t('permissions_table_edit_btn')}
-                      </a>
-                    </div>
-                  )
-                case !editing || (!onCancel && !onSubmit):
-                  return (
-                    <div className="ui-actions">
-                      {onCancel ? (
-                        <a className="link weak" href={get.url} onClick={onCancel}>
-                          {t('permissions_table_cancel_btn')}
-                        </a>
-                      ) : undefined}
-                      {onSubmit ? (
-                        <button className="primary-button large" disabled={saving}>
-                          {t('permissions_table_save_btn')}
-                        </button>
-                      ) : undefined}
-                    </div>
-                  )
-              }
-            })()}
+            {editable && onEdit && !editing && (
+              <div className="ui-actions">
+                <a href={this.props.editUrl} onClick={onEdit} className="primary-button large">
+                  {t('permissions_table_edit_btn')}
+                </a>
+              </div>
+            )}
+            {editing && (onCancel || onSubmit) && (
+              <div className="ui-actions">
+                {onCancel ? (
+                  <a className="link weak" href={get.url} onClick={onCancel}>
+                    {t('permissions_table_cancel_btn')}
+                  </a>
+                ) : undefined}
+                {onSubmit ? (
+                  <button className="primary-button large" disabled={saving}>
+                    {t('permissions_table_save_btn')}
+                  </button>
+                ) : undefined}
+              </div>
+            )}
           </div>
         </div>
       </form>
