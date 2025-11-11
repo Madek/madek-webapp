@@ -67,19 +67,17 @@ class InputTextDate extends Component {
     }
   }
 
-  // NOTE: because value is kept in internal state (for perf and simplicity),
-  // and it is based on
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps, prevState) {
+    // NOTE: because value is kept in internal state (for perf and simplicity)
     const curVals = this.state.values
-    const newVals = parseDuration(nextProps.values)
-    // debugger
-    // DOM: when switching the input type, focus the input field right after
-    if (curVals[0] !== newVals[0] || curVals[1] !== newVals[1]) {
+    const newVals = parseDuration(this.props.values)
+    if (
+      prevProps.values !== this.props.values &&
+      (curVals[0] !== newVals[0] || curVals[1] !== newVals[1])
+    ) {
       this.setState({ values: newVals })
     }
-  }
 
-  componentDidUpdate(_prevProps, prevState) {
     // DOM: when switching the input type, focus the input field right after
     if (prevState.subType !== this.state.subType) {
       this.inputEl && this.inputEl.focus()

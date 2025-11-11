@@ -52,8 +52,8 @@ class CollectionShow extends React.Component {
     return this.setState({ isMounted: true })
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.for_url === this.props.for_url) {
+  componentDidUpdate(prevProps) {
+    if (prevProps.for_url === this.props.for_url) {
       return
     }
     return this.setState({ urlState: parseUrlState(this.props.for_url) })

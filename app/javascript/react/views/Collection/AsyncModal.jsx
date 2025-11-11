@@ -5,27 +5,19 @@ import loadXhr from '../../../lib/load-xhr.js'
 class AsyncModal extends React.Component {
   constructor(props) {
     super(props)
+    const initialGet = props.get
     this.state = {
       mounted: false,
       loading: false,
       errors: null,
-      get: null,
+      get: initialGet || null,
       searching: false,
       searchTerm: '',
       newSets: [],
-      children: null
+      children: initialGet ? props.contentForGet(initialGet) : null
     }
     this.lastRequest = null
     this._isMounted = false
-  }
-
-  UNSAFE_componentWillMount() {
-    if (this.props.get) {
-      return this.setState({
-        get: this.props.get,
-        children: this.props.contentForGet(this.props.get)
-      })
-    }
   }
 
   componentDidMount() {

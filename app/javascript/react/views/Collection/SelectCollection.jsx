@@ -12,19 +12,15 @@ class SelectCollection extends React.Component {
     super(props)
     this.state = {
       mounted: false,
-      searchTerm: '',
+      searchTerm: props.get.search_term,
       searching: false,
       newSets: [],
-      get: null,
+      get: props.get,
       errors: null
     }
     this.lastRequest = null
     this.sendTimeoutRef = null
     this._isMounted = false
-  }
-
-  UNSAFE_componentWillMount() {
-    return this.setState({ get: this.props.get, searchTerm: this.props.get.search_term })
   }
 
   componentDidMount() {
@@ -252,12 +248,8 @@ class ControlledCheckbox extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      checked: false
+      checked: props.checked
     }
-  }
-
-  UNSAFE_componentWillMount() {
-    return this.setState({ checked: this.props.checked })
   }
 
   _onChange = event => {

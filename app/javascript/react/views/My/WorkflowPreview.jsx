@@ -13,10 +13,17 @@ import validation from '../../../lib/metadata-edit-validation.js'
 class WorkflowPreview extends React.Component {
   constructor(props) {
     super(props)
+    const errors = {}
+    const models = {}
+    const initialErrors = {}
+    const { workflow } = props.get.master_collection
+
+    this.collectResourcesData(props.get, errors, models, initialErrors, workflow)
+
     this.state = {
-      models: {},
-      errors: {},
-      initialErrors: {},
+      models,
+      errors,
+      initialErrors,
       isFinishing: false,
       isSaving: false,
       formAction: props.get.actions.finish.url
@@ -26,38 +33,8 @@ class WorkflowPreview extends React.Component {
     this.handleSaveData = this.handleSaveData.bind(this)
   }
 
-  handleSubmit(e) {
-    if (
-      !confirm(
-        "You're about to finish the workflow. This action cannot be undone. Do you want to proceed?"
-      )
-    ) {
-      e.preventDefault()
-    } else {
-      this.setState({ isFinishing: true })
-    }
-  }
-
-  collectResources() {
-    const resources = [this.props.get.master_collection]
-
-    function getChildResources(r) {
-      f.each(r.child_resources, childResource => {
-        resources.push(childResource)
-        getChildResources(childResource)
-      })
-    }
-
-    getChildResources(resources[0])
-
-    return resources
-  }
-
-  UNSAFE_componentWillMount() {
-    const { errors, models, initialErrors } = this.state
-    const { workflow } = this.props.get.master_collection
-
-    f.each(this.collectResources(), childResource => {
+  collectResourcesData(get, errors, models, initialErrors, workflow) {
+    f.each(this.collectResourcesFromProps(get), childResource => {
       const {
         meta_data: { meta_datum_by_meta_key_id },
         uuid: resourceId,
@@ -117,9 +94,38 @@ class WorkflowPreview extends React.Component {
           initialErrors[resourceId].push(metaKeyId)
         }
       })
-
-      this.setState({ models, errors, initialErrors })
     })
+  }
+
+  collectResourcesFromProps(get) {
+    const resources = [get.master_collection]
+
+    function getChildResources(r) {
+      f.each(r.child_resources, childResource => {
+        resources.push(childResource)
+        getChildResources(childResource)
+      })
+    }
+
+    getChildResources(resources[0])
+
+    return resources
+  }
+
+  handleSubmit(e) {
+    if (
+      !confirm(
+        "You're about to finish the workflow. This action cannot be undone. Do you want to proceed?"
+      )
+    ) {
+      e.preventDefault()
+    } else {
+      this.setState({ isFinishing: true })
+    }
+  }
+
+  collectResources() {
+    return this.collectResourcesFromProps(this.props.get)
   }
 
   handleValueChange(values, metaKeyId, childResource) {

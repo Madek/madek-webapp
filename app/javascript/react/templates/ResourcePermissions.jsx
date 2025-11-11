@@ -22,13 +22,7 @@ class ResourcePermissions extends React.Component {
     super(props)
     this.state = { editing: false, saving: false, transferModal: false }
     this._toBeCalledOnUnmount = []
-  }
 
-  _showTransferModal = show => {
-    return this.setState({ transferModal: show })
-  }
-
-  UNSAFE_componentWillMount() {
     const model = (() => {
       if (this.props.get.isState) {
         return this.props.get
@@ -44,7 +38,11 @@ class ResourcePermissions extends React.Component {
       return model.on(eventName, () => this.forceUpdate())
     })
 
-    return this.setState({ model })
+    this.state.model = model
+  }
+
+  _showTransferModal = show => {
+    return this.setState({ transferModal: show })
   }
 
   componentWillUnmount() {

@@ -20,10 +20,12 @@ class InputJsonText extends Component {
     this.state = { isClient: true, jsonError, value }
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const value = ensureText(first(nextProps.values))
-    const jsonError = findJSONError(value)
-    this.setState({ value, jsonError })
+  componentDidUpdate(prevProps) {
+    if (prevProps.values !== this.props.values) {
+      const value = ensureText(first(this.props.values))
+      const jsonError = findJSONError(value)
+      this.setState({ value, jsonError })
+    }
   }
 
   _onInputChange(string) {

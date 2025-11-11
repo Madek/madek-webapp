@@ -38,13 +38,10 @@ class BatchResourcePermissions extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = { isClient: false }
-  }
 
-  UNSAFE_componentWillMount() {
     // get type from first item in resource list
     const Model = (() => {
-      switch (this.props.get.batch_permissions[0].type) {
+      switch (props.get.batch_permissions[0].type) {
         case 'MediaEntry':
           return BatchMediaEntryPermissions
         case 'Collection':
@@ -54,7 +51,7 @@ class BatchResourcePermissions extends React.Component {
       }
     })()
 
-    return this.setState({ model: new Model(this.props.get) })
+    this.state = { isClient: false, model: new Model(props.get) }
   }
 
   componentDidMount() {

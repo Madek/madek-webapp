@@ -42,9 +42,16 @@ class InputResources extends React.Component {
     })
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.values !== nextProps.values) {
-      this.setState({ values: nextProps.values })
+  componentDidUpdate(prevProps) {
+    if (prevProps.values !== this.props.values) {
+      this.setState({ values: this.props.values })
+    }
+
+    if (this._adding) {
+      this._adding = false
+      if (this.refs.ListAdder) {
+        setTimeout(this.refs.ListAdder.focus, 1)
+      }
     }
   }
 
@@ -226,15 +233,6 @@ class InputResources extends React.Component {
 
       if (this.props.onChange) {
         return this.props.onChange(newValues)
-      }
-    }
-  }
-
-  componentDidUpdate() {
-    if (this._adding) {
-      this._adding = false
-      if (this.refs.ListAdder) {
-        return setTimeout(this.refs.ListAdder.focus, 1)
       }
     }
   }
