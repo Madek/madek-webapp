@@ -2,21 +2,16 @@ require "fileutils"
 require "net/http"
 require "uri"
 
-EARLY_EXIT = true
+EARLY_EXIT = false
 
 base_url = Settings.madek_external_base_url.to_s.chomp("/")
 puts "Sitemap: deleting old sitemaps..."
 
 sitemap_path = ENV["madek_webapp_sitemap_target"] || "public/sitemaps"
-puts "madek_webapp_sitemap_target5 -> #{sitemap_path}"
-
-puts "\n=== Local variables (before work) ==="
-local_variables.each do |var|
-  puts "#{var} = #{binding.local_variable_get(var).inspect}"
-end
-puts "=====================================\n"
+puts "Sitemap: madek_webapp_sitemap_target=#{sitemap_path}"
 
 if Dir.exist?(sitemap_path)
+  puts "Sitemap: cleanup, deleting all files within sitemaps."
   FileUtils.rm_r(sitemap_path, secure: true)
 else
   puts "Sitemap: no existing sitemaps to delete."

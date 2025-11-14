@@ -1,6 +1,6 @@
-- name: Echo remote dest path
+- name: Echo sitemap-target
   debug:
-    msg: "copy dest = {{madek_webapp_sitemap_target}}"
+    msg: "madek_webapp_sitemap_target = {{ madek_webapp_sitemap_target }}"
 
 - name: Ensure sitemap directory is writable by madek_user
   file:
@@ -15,12 +15,3 @@
   systemd:
     name: madek-produce-daily-sitemap-cron.service
     state: started
-
-# --- DEBUG: Check Ansible paths before copying ---
-- name: Echo playbook_dir
-  debug:
-    msg: "playbook_dir = {{ playbook_dir }}"
-
-- name: Echo local sitemap src path
-  debug:
-    msg: "copy src = {{ playbook_dir }}/sitemaps/"
