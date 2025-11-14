@@ -1,9 +1,9 @@
-- name: create symlink for sitemaps
-  file:
-    state: link
-    src: /madek/server/webapp/public/sitemaps
-    dest: /var/www/madek/sitemaps
-    force: yes
+#- name: create symlink for sitemaps
+#  file:
+#    state: link
+#    src: /madek/server/webapp/public/sitemaps
+#    dest: /var/www/madek/sitemaps
+#    force: yes
 
 - name: Ensure sitemap directory is writable by madek_user
   file:
@@ -13,3 +13,34 @@
     group: "{{ madek_user }}"
     mode: '0755'
     recurse: yes
+
+- name: Trigger initial sitemap generation
+  systemd:
+    name: madek-produce-daily-sitemap-cron.service
+    state: started
+
+- name: Wait until sitemap service is dead
+  command: systemctl is-active madek-produce-daily-sitemap-cron.service
+  register: sitemap_status
+  retries: 60
+  delay: 2
+  until: sitemap_status.stdout == "inactive"
+
+# --- DEBUG: Check Ansible paths before copying ---
+- name: Echo playbook_dir
+  debug:
+    msg: "playbook_dir = {{ playbook_dir }}"
+
+- name: Echo local sitemap src path
+  debug:
+    msg: "copy src = {{ playbook_dir }}/sitemaps/"
+
+- name: Echo remote dest path
+  debug:
+    msg: "copy dest = {{madek_webapp_sitemap_target}}"
+
+## --- COPY ---
+#- name: Copy sitemap files
+#  copy:
+#    src: "{{ playbook_dir }}/sitemaps/"
+#    dest: "{{madek_webapp_sitemap_target}}"
