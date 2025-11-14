@@ -1,15 +1,18 @@
-- name: create symlink for sitemaps
-  file:
-    state: link
-    src: /madek/server/webapp/public/sitemaps
-    dest: /var/www/madek/sitemaps
-    force: yes
+- name: Echo sitemap-target
+  debug:
+    msg: "madek_webapp_sitemap_target = {{ madek_webapp_sitemap_target }}"
 
 - name: Ensure sitemap directory is writable by madek_user
   file:
-    path: /madek/server/webapp/public/sitemaps
+    path: "{{madek_webapp_sitemap_target}}"
     state: directory
     owner: "{{ madek_user }}"
     group: "{{ madek_user }}"
     mode: '0755'
     recurse: yes
+
+- name: Trigger initial sitemap generation
+  systemd:
+    name: madek-produce-daily-sitemap-cron.service
+    state: started
+    daemon_reload: yes
