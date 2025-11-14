@@ -19,12 +19,12 @@
     name: madek-produce-daily-sitemap-cron.service
     state: started
 
-- name: Wait until sitemap service is dead
-  command: systemctl is-active madek-produce-daily-sitemap-cron.service
-  register: sitemap_status
-  retries: 60
-  delay: 2
-  until: sitemap_status.stdout == "inactive"
+#- name: Wait until sitemap service is dead
+#  command: systemctl is-active madek-produce-daily-sitemap-cron.service
+#  register: sitemap_status
+#  retries: 60
+#  delay: 2
+#  until: sitemap_status.stdout == "inactive"
 
 # --- DEBUG: Check Ansible paths before copying ---
 - name: Echo playbook_dir
