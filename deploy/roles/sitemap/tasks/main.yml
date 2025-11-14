@@ -1,6 +1,10 @@
+- name: Echo remote dest path
+  debug:
+    msg: "copy dest = {{madek_webapp_sitemap_target}}"
+
 - name: Ensure sitemap directory is writable by madek_user
   file:
-    path: {{madek_webapp_sitemap_target}}
+    path: "{{madek_webapp_sitemap_target}}"
     state: directory
     owner: "{{ madek_user }}"
     group: "{{ madek_user }}"
@@ -20,7 +24,3 @@
 - name: Echo local sitemap src path
   debug:
     msg: "copy src = {{ playbook_dir }}/sitemaps/"
-
-- name: Echo remote dest path
-  debug:
-    msg: "copy dest = {{madek_webapp_sitemap_target}}"
