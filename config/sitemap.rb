@@ -8,11 +8,13 @@ base_url = Settings.madek_external_base_url.to_s.chomp("/")
 puts "Sitemap: deleting old sitemaps..."
 
 sitemap_path = ENV["madek_webapp_sitemap_target"] || "public/sitemaps"
-puts "Sitemap: madek_webapp_sitemap_target=#{sitemap_path}"
+puts "Sitemap:1 madek_webapp_sitemap_target=#{sitemap_path}"
+puts "Sitemap:2 madek_webapp_sitemap_target=#{ettings.madek_webapp_sitemap_target.to_s}"
 
 if Dir.exist?(sitemap_path)
   puts "Sitemap: cleanup, deleting all files within sitemaps."
   FileUtils.rm_r(sitemap_path, secure: true)
+  puts "Sitemap: cleanup, done."
 else
   puts "Sitemap: no existing sitemaps to delete."
 end
