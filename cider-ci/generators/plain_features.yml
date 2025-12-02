@@ -899,6 +899,18 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/embed_player/embed_error_ui_spec.rb:63"
     RSPEC_TEST: "./spec/features/embed_player/embed_error_ui_spec.rb[1:1:4]"
+"./spec/features/explore_catalog_spec.rb[1:1:1]":
+  name: "./spec/features/explore_catalog_spec.rb[1:1:1]"
+  description: 'Page: Explore Catalog Action: index is rendered for public'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/explore_catalog_spec.rb:9"
+    RSPEC_TEST: "./spec/features/explore_catalog_spec.rb[1:1:1]"
+"./spec/features/explore_catalog_spec.rb[1:1:2]":
+  name: "./spec/features/explore_catalog_spec.rb[1:1:2]"
+  description: 'Page: Explore Catalog Action: index is rendered for a logged in user'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/explore_catalog_spec.rb:22"
+    RSPEC_TEST: "./spec/features/explore_catalog_spec.rb[1:1:2]"
 "./spec/features/explore_keywords_spec.rb[1:1:1]":
   name: "./spec/features/explore_keywords_spec.rb[1:1:1]"
   description: 'Page: Explore Keywords Action: index is rendered for public'
