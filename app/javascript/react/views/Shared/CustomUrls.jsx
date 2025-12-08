@@ -60,7 +60,6 @@ class CustomUrls extends React.Component {
       custom_url.creator.login,
       custom_url['primary?'],
       custom_url.set_primary_custom_url,
-      this.props.get.resource.type,
       this.props.authToken,
       custom_url.url
     )
@@ -74,7 +73,6 @@ class CustomUrls extends React.Component {
       creator.login,
       !any_primary_address,
       resource.set_primary_custom_url,
-      resource.type,
       this.props.authToken,
       resource.url
     )
