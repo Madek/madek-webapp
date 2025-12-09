@@ -82,6 +82,15 @@ const ResourceThumbnail = ({
     setIsClient(true)
   }, [])
 
+  const [, forceUpdate] = useState({})
+  useEffect(() => {
+    const handleChange = () => forceUpdate({})
+    if (get && get.on) {
+      get.on('change', handleChange)
+      return () => get.off('change', handleChange)
+    }
+  }, [get])
+
   const _fetchRelations = useCallback(() => {
     if (relationsTransitionRef.current) {
       relationsTransitionRef.current({
