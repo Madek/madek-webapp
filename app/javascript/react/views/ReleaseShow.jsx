@@ -14,7 +14,7 @@ const DevelopmentInfo = ({ git_hash, git_url }) => {
   )
 }
 
-const DeploymentInfo = ({ tree_id, commit_id, build_time, deployed }) => {
+const DeploymentInfo = ({ tree_id, commit_id, deploy_time }) => {
   Moment.locale(currentLocale())
   const buildUrl = `https://ci.zhdk.ch/cider-ci/ui/workspace/trees/${tree_id}`
   const commitUrl = `https://github.com/Madek/Madek/commits/${commit_id}`
@@ -22,17 +22,16 @@ const DeploymentInfo = ({ tree_id, commit_id, build_time, deployed }) => {
   return (
     <div className="ui-container pbm">
       <h2 className="title-s">
-        {deployed && !!deployed.time && (
-          <span>Deployment: {Moment(deployed.time).format('LLLL')}, </span>
-        )}
-        <span>
-          <a href={buildUrl}>Build</a>:{' '}
-        </span>
-        {Moment(build_time).format('LLLL')}
+        {deploy_time && <span>Deployment: {Moment(deploy_time).format('LLLL')}</span>}
       </h2>
       <div className="mtm">
         <h2 className="title-s">
           <a href={commitUrl}>{t('release_source_history')}</a>
+        </h2>
+      </div>
+      <div className="mtm">
+        <h2 className="title-s">
+          <a href={buildUrl}>Build</a>
         </h2>
       </div>
     </div>
