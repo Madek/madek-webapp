@@ -2,10 +2,24 @@
 set -euo pipefail
 
 PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd ../.. > /dev/null 2>&1 && pwd -P)"
-ASDF_PLUGIN=nodejs
-ASDF_PLUGIN_URL=https://github.com/asdf-vm/asdf-nodejs.git
+source $PROJECT_DIR/bin/env/select-tool-versions-manager
 
-source $PROJECT_DIR/bin/env/asdf-helper.bash
-asdf-update-plugin
 
+case "$TOOL_VERSIONS_MANAGER" in
+  asdf|asdf-vm)
+    echo "Setting up nodejs via asdf"
+    ASDF_PLUGIN=nodejs
+    ASDF_PLUGIN_URL=https://github.com/asdf-vm/asdf-nodejs.git
+    source $PROJECT_DIR/bin/env/asdf-helper.bash
+    asdf-update-plugin
+    ;;
+  mise)
+    echo "Setting up nodejs via mise"
+    mise install nodejs
+    ;;
+  *)
+    echo "ERROR: Unsupported TOOL_VERSIONS_MANAGER: $TOOL_VERSIONS_MANAGER"
+    exit 1
+    ;;
+esac
 # vi: ft=sh

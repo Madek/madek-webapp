@@ -2,10 +2,27 @@
 set -euo pipefail
 
 PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd ../.. > /dev/null 2>&1 && pwd -P)"
+source $PROJECT_DIR/bin/env/select-tool-versions-manager
+
 ASDF_PLUGIN=geckodriver
 ASDF_PLUGIN_URL=https://github.com/DrTom/asdf-geckodriver.git
 
-source $PROJECT_DIR/bin/env/asdf-helper.bash
-asdf-update-plugin
+
+case "$TOOL_VERSIONS_MANAGER" in
+  asdf|asdf-vm)
+    echo "Setting up geckodriver via asdf"
+    source $PROJECT_DIR/bin/env/asdf-helper.bash
+    asdf-update-plugin
+    ;;
+  mise)
+    echo "Setting up geckodriver via mise"
+    mise plugin install $ASDF_PLUGIN $ASDF_PLUGIN_URL 
+    mise install geckodriver
+    ;;
+  *)
+    echo "ERROR: Unsupported TOOL_VERSIONS_MANAGER: $TOOL_VERSIONS_MANAGER"
+    exit 1
+    ;;
+esac
 
 # vi: ft=sh
