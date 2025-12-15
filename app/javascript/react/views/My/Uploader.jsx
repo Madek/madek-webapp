@@ -165,7 +165,7 @@ class Uploader extends React.Component {
   }
 
   isChecked(name) {
-    return get(this.state, ['duplicatorConfiguration', name], false)
+    return get(this.state, `duplicatorConfiguration.${name}`, false)
   }
 
   onCheckboxToggle(e) {
