@@ -11,6 +11,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import t from '../../lib/i18n-translate.js'
 import { present, omit, isArray, isBoolean, curry } from '../../lib/utils.js'
+import Icon from '../ui-components/Icon.jsx'
+import Tooltipped from '../ui-components/Tooltipped.jsx'
 
 // NOTE: used for static (server-side) rendering (state.editing = false)
 let AutoComplete = null // only required client-side!
@@ -186,7 +188,7 @@ class PermissionsBySubjectType extends React.Component {
   }
 
   render() {
-    let {
+    const {
       type,
       title,
       icon,
@@ -199,10 +201,6 @@ class PermissionsBySubjectType extends React.Component {
       showTitles,
       searchParams
     } = this.props
-    if (!showTitles) {
-      showTitles = false
-    }
-
     return (
       <div className="ui-rights-management-editing">
         <div className="ui-rights-body">
@@ -211,11 +209,12 @@ class PermissionsBySubjectType extends React.Component {
               name={title}
               icon={icon}
               titles={permissionTypes}
-              showTitles={showTitles}
+              showTitles={!!showTitles}
             />
             <tbody>
               {permissionsList.map(function (permissions) {
                 const subject = permissions.subject || subjectName
+                const tooltipText = permissions.tooltip_text || subject.tooltip_text
 
                 return (
                   <PermissionsSubject
@@ -226,6 +225,7 @@ class PermissionsBySubjectType extends React.Component {
                     overriddenBy={overriddenBy}
                     permissionTypes={permissionTypes}
                     editing={editing}
+                    tooltipText={tooltipText}
                   />
                 )
               })}
@@ -333,7 +333,15 @@ class PermissionsSubject extends React.Component {
   }
 
   render() {
-    const { permissions, overriddenBy, subject, permissionTypes, SubjectDeco, editing } = this.props
+    const {
+      permissions,
+      overriddenBy,
+      subject,
+      permissionTypes,
+      SubjectDeco,
+      editing,
+      tooltipText
+    } = this.props
     const { onPermissionChange, onSubjectRemove } = this
 
     return (
@@ -343,7 +351,15 @@ class PermissionsSubject extends React.Component {
             <RemoveButton onClick={onSubjectRemove} />
           ) : undefined}
           <SubjectDeco subject={subject} />
+          {tooltipText && (
+            <Tooltipped text={tooltipText} id={'tooltip' + Math.random()}>
+              <span className="ui-rights-management__ttip-toggle">
+                <Icon i="question" />
+              </span>
+            </Tooltipped>
+          )}
         </td>
+
         {permissionTypes.map(function (name) {
           const isEnabled = present(permissions[name])
           const curState = permissions[name] // true/false/mixed

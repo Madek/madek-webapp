@@ -3,6 +3,9 @@ require Rails.root.join 'spec', 'presenters', 'shared', 'dump'
 
 
 describe Presenters::Vocabularies::VocabularyPermissionsShow do
+  before :each do
+    AppSetting.find_or_create_by(id: 0)
+  end
 
   let :presenter do
     current_user = FactoryBot.create(:user)

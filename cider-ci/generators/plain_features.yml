@@ -2031,6 +2031,27 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/media_entry/permissions/show_users_as_deactivated_spec.rb:35"
     RSPEC_TEST: "./spec/features/media_entry/permissions/show_users_as_deactivated_spec.rb[1:2]"
+"./spec/features/media_entry/permissions/tooltip_spec.rb[1:1]":
+  name: "./spec/features/media_entry/permissions/tooltip_spec.rb[1:1]"
+  description: 'Resource: MediaEntry - Permissions Tooltips displays tooltip for API
+    client permissions'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/permissions/tooltip_spec.rb:15"
+    RSPEC_TEST: "./spec/features/media_entry/permissions/tooltip_spec.rb[1:1]"
+"./spec/features/media_entry/permissions/tooltip_spec.rb[1:2]":
+  name: "./spec/features/media_entry/permissions/tooltip_spec.rb[1:2]"
+  description: 'Resource: MediaEntry - Permissions Tooltips displays tooltip for public
+    permissions'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/permissions/tooltip_spec.rb:50"
+    RSPEC_TEST: "./spec/features/media_entry/permissions/tooltip_spec.rb[1:2]"
+"./spec/features/media_entry/permissions/tooltip_spec.rb[1:3]":
+  name: "./spec/features/media_entry/permissions/tooltip_spec.rb[1:3]"
+  description: 'Resource: MediaEntry - Permissions Tooltips tooltips persist in edit
+    mode'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/permissions/tooltip_spec.rb:81"
+    RSPEC_TEST: "./spec/features/media_entry/permissions/tooltip_spec.rb[1:3]"
 "./spec/features/meta_data/inputs/input_groups_people_spec.rb[1:1:1:1]":
   name: "./spec/features/meta_data/inputs/input_groups_people_spec.rb[1:1:1:1]"
   description: 'Resource: MetaDatum MetaDatumPeople With existing data add new Person'

@@ -17,7 +17,8 @@ const MediaEntryPublicPermission = AppResource.extend({
   type: 'MediaEntryPublicPermission',
   props: {
     get_metadata_and_previews: ['trilean'],
-    get_full_size: ['trilean']
+    get_full_size: ['trilean'],
+    tooltip_text: { type: 'string', default: '', allowNull: true }
   }
 })
 

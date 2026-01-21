@@ -115,7 +115,7 @@ class ResourcePermissions extends React.Component {
     const { model, editing, saving } = this.state
 
     const GroupIndex = ({ subject }) => (
-      <span className="text mrs" title={subject.detailed_name}>
+      <span className="text" title={subject.detailed_name}>
         {subject.can_show ? (
           <a href={subject.url}>{subject.detailed_name}</a>
         ) : (

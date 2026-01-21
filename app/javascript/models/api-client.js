@@ -4,6 +4,7 @@ module.exports = AppResource.extend({
   type: 'ApiClient',
   props: {
     login: ['string'],
-    description: ['string']
+    description: ['string'],
+    tooltip_text: { type: 'string', default: '', allowNull: true }
   }
 })

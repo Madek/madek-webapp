@@ -9,6 +9,7 @@ module Presenters
             uuid: a.id,
             login: a.login,
             description: a.description,
+            tooltip_text: localize(a.permission_descriptions),
             _type: 'ApiClientIndex'
           )
         end

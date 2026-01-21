@@ -49,8 +49,14 @@ module.exports = function (name, baseModel) {
               return [key, isMixed ? 'mixed' : f.first(perms)[key]]
             })
           )
-          return f.extend(combinedPerms, { subject: f.first(perms).subject })
+          return f.extend(combinedPerms, {
+            subject: f.first(perms).subject,
+            tooltip_text:
+              permissionName === 'public_permission' ? f.first(perms).tooltip_text : null
+          })
         })
+        // NOTE: tooltip for other permissions comes with the subject
+
         return this[permissionName].set(modelType === 'model' ? batchPerms[0] : batchPerms)
       })
       this.set('permission_types', permissionTypes)
