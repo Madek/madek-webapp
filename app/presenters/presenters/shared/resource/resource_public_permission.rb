@@ -3,7 +3,7 @@ module Presenters
     module Resource
       class ResourcePublicPermission < Presenters::Shared::AppResource
         def tooltip_text
-          AppSetting.first.permission_public_description
+          localize(AppSetting.first.permission_public_descriptions)
         end
       end
     end
