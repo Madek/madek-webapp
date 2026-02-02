@@ -6,6 +6,8 @@ examples:
     props:
       model:
         multiple: true
+        values: []
+        literal_values: []
       metaKey:
         is_extensible: true
         alphabetical_order: true

@@ -2,4 +2,4 @@
 
 %hr.separator.mts.mbm
 
-= render template: "styleguide/#{@section[:path]}/#{@element[:path]}"
+= render template: "styleguide/#{@section[:path]}/#{@element[:path].sub(/\.html\.haml$/, '')}"
