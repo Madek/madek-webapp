@@ -153,7 +153,7 @@ Prüfsumme
 
 ---
 
-## Step 6: Translations
+## Step 6: Translations ✅
 
 **File**: `config/locale/translations.csv`
 
