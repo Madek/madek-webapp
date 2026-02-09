@@ -2,15 +2,46 @@ import React from 'react'
 import t from '../../../lib/i18n-translate.js'
 import Modal from '../../ui-components/Modal.jsx'
 import setUrlParams from '../../../lib/set-params-for-url.js'
+import getRailsCSRFToken from '../../../lib/rails-csrf-token.js'
 
 class MediaEntryExport extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { active: false }
+    this.state = {
+      active: false,
+      checksum: props.get.media_file.checksum || null,
+      checksum_verified_at: props.get.media_file.checksum_verified_at || null,
+      checksumLoading: false,
+      checksumMatch: null
+    }
+  }
+
+  handleChecksumAction(url) {
+    this.setState({ checksumLoading: true, checksumMatch: null })
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'X-CSRF-Token': getRailsCSRFToken(),
+        'Accept': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          checksum: data.checksum,
+          checksum_verified_at: data.checksum_verified_at || null,
+          checksumLoading: false,
+          checksumMatch: data.match != null ? data.match : null
+        })
+      })
+      .catch(() => {
+        this.setState({ checksumLoading: false })
+      })
   }
 
   render() {
     const { get } = this.props
+    const { checksum, checksum_verified_at, checksumLoading, checksumMatch } = this.state
     let hasPreviews = false
     Object.values(get.media_file.previews).forEach(preview =>
       Object.values(preview).forEach(() => (hasPreviews = true))
@@ -36,6 +67,57 @@ class MediaEntryExport extends React.Component {
         </a>
       </div>
     ]
+
+    const sectionChecksum = get.checksum_urls && hasOriginal && (
+      <div className="ui-export-block">
+        <h2 className="title-l ui-resource-title mbs">{t('media_entry_export_checksum')}</h2>
+        {!checksum ? (
+          <div className="row">
+            <div className="col1of2">
+              <p>{t('media_entry_export_checksum_generate')}</p>
+            </div>
+            <div className="col1of2 by-right">
+              <button
+                className="primary-button"
+                disabled={checksumLoading}
+                onClick={() => this.handleChecksumAction(get.checksum_urls.generate)}>
+                {checksumLoading ? '...' : t('media_entry_export_checksum_generate_btn')}
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="row">
+            <div className="col1of3">
+              <p style={{ fontFamily: 'monospace', wordBreak: 'break-all' }}>{checksum}</p>
+            </div>
+            <div className="col1of3 by-center">
+              {checksum_verified_at && (
+                <p>{new Date(checksum_verified_at).toLocaleDateString()}</p>
+              )}
+              {checksumMatch != null && (
+                <p style={{ color: checksumMatch ? 'green' : 'red', fontWeight: 'bold' }}>
+                  {checksumMatch
+                    ? t('media_entry_export_checksum_match_ok')
+                    : t('media_entry_export_checksum_match_fail')}
+                </p>
+              )}
+            </div>
+            <div className="col1of3 by-right">
+              <button
+                className="primary-button"
+                disabled={checksumLoading}
+                onClick={() => this.handleChecksumAction(get.checksum_urls.verify)}>
+                {checksumLoading
+                  ? '...'
+                  : checksum_verified_at
+                    ? t('media_entry_export_checksum_reverify_btn')
+                    : t('media_entry_export_checksum_verify_btn')}
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    )
 
     const sectionRdfExport = (
       <div>
@@ -108,6 +190,7 @@ class MediaEntryExport extends React.Component {
               )}
             </div>
           ) : undefined}
+          {sectionChecksum}
           {hasPreviews
             ? Object.entries(get.media_file.previews).map(([type, preview]) => (
                 <div key={type} className="align-left bg-light mbm pbs">

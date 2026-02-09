@@ -118,7 +118,7 @@ end
 
 ---
 
-## Step 5: Frontend — Export Dialog
+## Step 5: Frontend — Export Dialog ✅
 
 **File**: `app/javascript/react/views/MediaEntry/Export.jsx`
 
