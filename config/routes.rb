@@ -66,6 +66,8 @@ Madek::Application.routes.draw do
       get 'browse'
       get 'siblings'
       get 'export'
+      post 'checksum/generate', action: :generate_checksum, as: 'generate_checksum'
+      post 'checksum/verify', action: :verify_checksum, as: 'verify_checksum'
 
       get 'embedded'
       get 'fullscreen'
