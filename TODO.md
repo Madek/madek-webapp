@@ -8,7 +8,7 @@ Add checksum generation and verification for original media files, displayed in 
 
 ---
 
-## Step 1: Database Migration
+## Step 1: Database Migration ✅
 
 **File**: `datalayer/db/migrate/074_add_checksum_to_media_files.rb`
 
@@ -28,7 +28,7 @@ After migration, regenerate `datalayer/db/structure.sql`.
 
 ---
 
-## Step 2: Model — `MediaFile`
+## Step 2: Model — `MediaFile` ✅
 
 **File**: `datalayer/app/models/media_file.rb`
 
@@ -51,7 +51,7 @@ Add two public methods:
 
 ---
 
-## Step 3: Routes + Controller
+## Step 3: Routes + Controller ✅
 
 ### Routes
 **File**: `config/routes.rb` — inside `media_entries` member block (near line 68):
