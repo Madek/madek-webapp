@@ -93,7 +93,7 @@ include Modules::MediaEntries::Checksum
 
 ---
 
-## Step 4: Presenter
+## Step 4: Presenter ✅
 
 ### MediaFile Presenter
 **File**: `app/presenters/presenters/media_files/media_file.rb`

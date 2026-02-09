@@ -150,6 +150,15 @@ module Presenters
         end
       end
 
+      def checksum_urls
+        if policy_for(@user).export?
+          {
+            generate: generate_checksum_media_entry_path(@app_resource, format: :json),
+            verify: verify_checksum_media_entry_path(@app_resource, format: :json)
+          }
+        end
+      end
+
       def rdf_export_urls
         [
           {
