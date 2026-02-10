@@ -92,13 +92,6 @@ module Presenters
         }
       end
 
-      def workflows
-        [{
-          name: 'My Event Pics',
-          is_active: true
-        }]
-      end
-
       def unpublished_entries
         return unless @is_async_attribute
         presenterify(

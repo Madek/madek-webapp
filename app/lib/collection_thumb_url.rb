@@ -68,7 +68,6 @@ class CollectionThumbUrl
 
     # otherwise return the first image-like entry
     scope = auth_policy_scope(@user, collection.media_entries)
-    scope = scope.with_unpublished if collection.part_of_workflow?
     scope
       .reorder(created_at: :desc)
       .each do |entry|

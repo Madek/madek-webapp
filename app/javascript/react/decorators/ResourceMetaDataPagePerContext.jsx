@@ -526,7 +526,6 @@ There are no contexts defined. Please configure them in the admin tool.\
                         return Renderer._renderByContext(
                           currentContextId,
                           get.meta_meta_data,
-                          get.workflow,
                           published,
                           name,
                           this.props.batch,
@@ -544,7 +543,6 @@ There are no contexts defined. Please configure them in the admin tool.\
                         return Renderer._renderByVocabularies(
                           get.meta_data,
                           get.meta_meta_data,
-                          get.workflow,
                           published,
                           name,
                           this.props.batch,

@@ -64,7 +64,6 @@ class MediaEntryHeader extends React.Component {
       <PageContentHeader
         icon={icon}
         title={get.title}
-        workflow={get.workflow}
         banner={banner}
         sectionLabels={get.section_labels}>
         {buttons.map(button => {

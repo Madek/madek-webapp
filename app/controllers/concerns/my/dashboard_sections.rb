@@ -30,15 +30,6 @@ module My
           is_accessible: current_user.try(:beta_tester_notifications?),
           counter: current_user.notifications.count { |n| !n.acknowledged? }
         },
-        workflows: {
-          title: 'Workflows',
-          fa: 'flask',
-          partial: :workflows,
-          is_beta: true,
-          hide_from_index: true,
-          href: my_dashboard_section_path(:workflows),
-          is_accessible: policy(:workflow).index?
-        },
         clipboard: {
           title: I18n.t(:sitemap_clipboard),
           icon: 'icon-clipboard',

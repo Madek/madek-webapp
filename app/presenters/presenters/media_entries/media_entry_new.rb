@@ -1,23 +1,16 @@
 module Presenters
   module MediaEntries
     class MediaEntryNew < Presenter
-      attr_reader :workflow
 
-      def initialize(user, workflow: nil, copy_md_from: nil)
+      def initialize(user, copy_md_from: nil)
         super()
         @user = user
-        @workflow = workflow
         @copy_md_from = copy_md_from
         raise TypeError if !@copy_md_from.nil? && !@copy_md_from.is_a?(MediaEntry)
       end
 
       def next_step
-        if workflow
-          {
-            label: I18n.t(:media_entry_media_import_gotoworkflow),
-            url: prepend_url_context(workflow.actions.dig(:edit, :url))
-          }
-        elsif copy_md_from&.published?
+        if copy_md_from&.published?
           {
             label: I18n.t(:media_entry_media_import_gotomediaentries),
             url: prepend_url_context(my_dashboard_section_path(:content_media_entries))

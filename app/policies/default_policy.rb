@@ -55,16 +55,4 @@ class DefaultPolicy
   def logged_in?
     not user.nil?
   end
-
-  private
-
-  def accessed_by_workflow_owner?(resource = record)
-    logged_in? && \
-      resource.respond_to?(:part_of_workflow?) && resource.part_of_workflow? && \
-      resource.workflow.is_active && \
-      (
-        resource.workflow.owners.exists?(id: user.id) || \
-        resource.workflow.delegation_with_user?(user)
-      )
-  end
 end

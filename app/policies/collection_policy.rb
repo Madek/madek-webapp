@@ -1,6 +1,6 @@
 class CollectionPolicy < Shared::MediaResources::MediaResourcePolicy
   def show?
-    super || accessed_by_workflow_owner?
+    super
   end
 
   def edit?
@@ -28,7 +28,7 @@ class CollectionPolicy < Shared::MediaResources::MediaResourcePolicy
   end
 
   def add_remove_collection?
-    update? or accessed_by_workflow_owner?
+    update?
   end
 
   def select_collection?

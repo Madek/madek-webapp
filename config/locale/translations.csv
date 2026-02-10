@@ -351,7 +351,6 @@ media_entry_file_format_not_supported_3,exportieren.,0,
 media_entry_file_information_title,Datei,File information,
 media_entry_media_import_gotodrafts,Medieneinträge vervollständigen,Complete media entries,
 media_entry_media_import_gotomediaentries,Weiter zu Meine Medieneinträge,Continue to My media entries,
-media_entry_media_import_gotoworkflow,Weiter zum Workflow,Continue to Workflow,
 media_entry_media_import_header,Medien importieren,Media upload,
 media_entry_media_import_box_header_a,,,
 media_entry_media_import_box_header_b, Upload(s), Upload(s),
@@ -835,91 +834,6 @@ workgroup_link_to_contents_title,Inhalte dieser Arbeitsgruppe anzeigen,Show item
 workgroup_members_table_is_member,Mitglied?,Member?,
 workgroup_members_table_login,Login,Login,
 workgroup_members_table_title,Mitglieder,Members,
-workflow_actions_back,"Zurück","Go back"
-workflow_actions_finish,"Abschliessen…","Finish…"
-workflow_actions_validate,"Prüfen","Check"
-workflow_actions_validating,"Prüfen…","Checking…"
-workflow_add_md_by_metakey,"Hinzufügen","Add"
-workflow_adder_meta_key_already_used,"Metakey ist schon verwendet","Metakey already used"
-workflow_associated_collections_explain,In diesem Workflow-Set enthaltene Medieneinträge und Sets können bis zum Abschluss nur als Teil dieses Workflows bearbeitet werden.,Content contained in this workflow-set may only be edited until this workflow will be finished.,
-workflow_associated_collections_title,"Set mit Inhalten","Set with content"
-workflow_associated_collections_upload,"Medien hinzufügen","Add media"
-workflow_common_settings_explain_metadata,"Die für diesen Workflow relevanten Metadaten-Felder und ihre Einstellungen und Werte. ","The metadata fields relevant to these workflows and their settings and values. "
-workflow_common_settings_explain_metadata2,"„Fixe Werte“ können nur an dieser Stelle vergeben werden und werden bei Abschluss des Workflows auf alle Inhalte angewendet. Felder mit „Individueller Vergabe“ stehen im Schritt „Daten eingeben“ zur massenweise Eingabe zur Verfügung.","“Fixed values” can only be assigned at this point and will be applied to all content when the process is being finished. Fields with “Individual assignment” are available in the “Enter data” step for mass input."
-workflow_common_settings_explain_permissions,"",""
-workflow_common_settings_explain,"Folgende Angaben und Einstellungen gelten für alle enthaltenen Medieneinträge und Sets und werden mit Abschluss des Workflows permanent angewendet.","These data and settings apply to all contents and are permanently applied at the end of the process.",
-workflow_common_settings_metadata_title,Meta-Daten,MetaData,
-workflow_common_settings_permissions_add_api_client,API-Client hinzufügen,Add API-Client,
-workflow_common_settings_permissions_add_group,Gruppe hinzufügen,Add group,
-workflow_common_settings_permissions_add_user,Nutzer/innen hinzufügen,Add user,
-workflow_common_settings_permissions_read_public,Öffentlicher Zugriff (Internet),Public access (Internet),
-workflow_common_settings_permissions_read,Nur Leserechte,Only reading permissions,
-workflow_common_settings_permissions_responsible,Verantwortliche/r Nutzer/in / Verantwortungs-Gruppe,Responsible user / responsibility group,
-workflow_common_settings_permissions_select_owner,Nutzer/innen oder Verantwortungs-Gruppen auswählen:,Select user or responsibility group,
-workflow_common_settings_permissions_select_user,Nutzer/innen auswählen,Select user,
-workflow_common_settings_permissions_title,Berechtigungen,Permissions,
-workflow_common_settings_permissions_write,Schreib- und Leserechte,Read and write permissions,
-workflow_common_settings_permissions_hint_after,"Leserechte und öffentlicher Zugriff umfassen „Betrachten“ der Metadaten und Vorschau, sowie „Original exportieren & in PDF blättern“.","Reading permissions and public access include “View” for metadata und previews, as well as “Download original & browse PDF”."
-workflow_common_settings_title,Gemeinsamer Datensatz,Common data,
-workflow_edit_actions_back,Zurück,Go back,
-workflow_edit_actions_cancel,Abbrechen,Cancel,
-workflow_edit_actions_delete,X,X,
-workflow_edit_actions_fill_data,Daten eingeben,Fill Data,
-workflow_edit_actions_finish,Abschliessen,Finish,
-workflow_edit_actions_finishing,Wird abgeschlossen…,Finish…,
-workflow_edit_actions_processing,Lädt…,Loading…,
-workflow_edit_actions_save_data,Speichern,Save,
-workflow_edit_add_md_by_metakey,Hinzufügen,Add,
-workflow_edit_adder_meta_key_already_used,Metadatum wird schon verwendet,Metakey already used,
-workflow_feature_title,Workflow,Workflow,
-workflow_md_edit_form_key_is_managed_a,"Dieser Wert wird im Workflow ","This value is managed by workflow ",
-workflow_md_edit_form_key_is_managed_b," verwaltet.",".",
-workflow_md_edit_is_common_empty," (leer)"," (empty)"
-workflow_md_edit_legend,Legende:,Legend:
-workflow_md_edit_is_common_explanation,"Gesetzter Wert soll auf alle enthaltenen Medieneinträge angewendet werden, oder (wenn deaktiviert) einzeln eingegeben werden können","The set value should be applied to all media entries contained, or (if deactivated) can be entered individually"
-workflow_md_edit_is_common_nonempty," (gesetzt)"," (set)"
-workflow_md_edit_is_common,"Fixer Wert","Fixed value"
-workflow_md_edit_is_mandatory_explanation,"Alle enthaltenen Medieneinträge müssen einen Wert gesetzt haben, damit der Workflow abgeschlossen werden kann","All media entries contained must have a value set so that the Workflow can be completed"
-workflow_md_edit_is_mandatory,"Pflichtfeld","Mandatory field"
-workflow_md_edit_is_not_common,"Individuelle Vergabe","Individual assignment"
-workflow_md_edit_is_overridable,"…und dabei vorhandene Werte überschreiben","…and overwrite existing values"
-workflow_md_edit_scope,"Geltungsbereich","Scope"
-workflow_md_edit_scope_entry,"Einträge","Entries"
-workflow_md_edit_scope_set,"Sets","Sets"
-workflow_md_edit_remove_btn,"Entfernen","Remove"
-workflow_md_edit_remove_explain,"Nach dem Entfernen wird dieses Metadaten-Feld nicht mehr innerhalb dieses Workflows genutzt. Es kann weiterhin bei den jeweiligen Medienenträgen ausgefüllt werden.","After removal, this metadata field is no longer used within this process. It can still be filled in at the respective media entries."
-workflow_md_edit_value,Wert,Value
-workflow_md_edit_value_error_notice,"Noch kein Fixer Wert vergeben für Pflichtfeld!","No fixed value yet assigned for mandatory field!"
-workflow_mk_error_unknown,Problem:,Problem:,
-workflow_mk_error_not_found,"Die folgenden MetaKeys sind konfiguriert, aber konnten nicht im System gefunden werden: ","The following MetaKeys are configured, but could not be found in the system: ",
-workflow_mk_error_not_authorized,"Die folgenden MetaKeys sind konfiguriert, aber es fehlen Ihnen die Berechtigungen sie zu nutzen: ","The following MetaKeys are configured, but you do not have the permissions to use them: "
-workflow_md_edit_mk_error_not_found,"Dieser MetaKey konnte nicht im System gefunden werden!","This MetaKey could not be found in the system!",
-workflow_md_edit_mk_error_not_authorized,"Für diesen MetaKey fehlen Ihnen die Berechtigungen zur Nutzung!","You do not have permission to use this MetaKey!"
-workflow_owners_title,Workflow-Besitzer,Workflow owners,
-workflow_preview_actions_back,Zurück,Go back,
-workflow_preview_actions_finish,Abschliessen,Finish,
-workflow_preview_actions_finishing,Abschliessen…,Finish…,
-workflow_preview_actions_save_data,Daten speichern,Save data,
-workflow_preview_actions_saving,Daten speichern…,Saving…,
-workflow_preview_consists_of_and,und,and,
-workflow_preview_consists_of_collections,Sets,Sets,
-workflow_preview_consists_of_media_entries,Medieneinträge,Media entries,
-workflow_preview_consists_of_prefix,enthält,consists of,
-workflow_preview_errors_found,Fehler gefunden,error(s) found,
-workflow_preview_finish_confirmation,Wollen Sie den Workflow abschliessen? Diese Aktion kann nicht rückgängig gemacht werden!,You're about to finish the workflow. This action cannot be undone. Do you want to proceed?,
-workflow_preview_header,Workflow-Vorschau,Preview of workflow ,
-workflow_preview_resources_header,Medienteinträge und Sets,Media entries and Sets,
-workflow_preview_summary_text_part_1,Folgende Angaben werden auf alle Medieneinträge und Sets angewendet enthalten im Workflow-Set,Following settings will apply to everything contained in the Set,
-workflow_preview_summary_text_part_2,Enthalten,Contained,
-workflow_preview_value_managed_by,Diese Angabe wird verwaltet vom Workflow,This value is managed by workflow,
-workflow_uploader_notice_post,"","",
-workflow_uploader_notice_pre,"Following Media Entries will be added to the main collection of workflow","Following Media Entries will be added to the main collection of workflow",
-workflow_workflow_owners_title,"Workflow-Besitzer","Workflow owners"
-workflows_index_actions_edit,Bearbeiten,Edit,
-workflows_index_actions_new,Neuer Workflow,New workflow,
-workflows_index_action_save,Speichern,Save,
-workflows_index_actions_show,Details anzeigen,Show details,
-workflows_index_header,Meine Workflows,My Workflows,
 media_entry_notice_new_versions,Für diesen Medieneintrag sind neuere Versionen vorhanden:,Newer versions are available for this media entry:,
 read_more_button,"Mehr anzeigen","Show more",
 read_less_button,"Weniger anzeigen","Show less",

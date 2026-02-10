@@ -31,7 +31,6 @@ describe MyController do
         :notifications,
         :settings,
         :tokens,
-        :workflows,
         :_presenter].sort
   end
 

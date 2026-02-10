@@ -196,7 +196,7 @@ module Presenters
           relation: lambda do
             <<~TEXT
               TODO: add relations
-              - parent set(s) or "top level set" from workflow
+              - parent set(s)
                 {relationType: 'IsPartOf', relatedIdentifierType: 'URL'}
               - new version:
                 {relationType: 'IsNewVersionOf', relatedIdentifierType: 'URL'}

@@ -1,14 +1,11 @@
 import React from 'react'
 import cx from 'classnames'
-import { get as getValue } from '../../lib/utils.js'
 import t from '../../lib/i18n-translate.js'
 import MediaEntryHeaderWithModal from './MediaEntryHeaderWithModal.jsx'
 import MediaEntryTabs from './MediaEntryTabs.jsx'
 import MetaDataByListing from '../decorators/MetaDataByListing.jsx'
 import MediaEntryPermissions from './MediaEntry/MediaEntryPermissions.jsx'
 import UsageData from '../decorators/UsageData.jsx'
-
-const WORKFLOW_STATES = { IN_PROGRESS: 'IN_PROGRESS', FINISHED: 'FINISHED' }
 
 const Base = ({ get, action_name, for_url, authToken }) => {
   const main = (() => {
@@ -21,18 +18,6 @@ const Base = ({ get, action_name, for_url, authToken }) => {
             hideSeparator={true}
             authToken={authToken}
           />
-        </div>
-      )
-    } else if (
-      action_name === 'permissions' &&
-      getValue(get, 'workflow.status') === WORKFLOW_STATES.IN_PROGRESS
-    ) {
-      return (
-        <div className="ui-alert">
-          As this Media Entry is part of the workflow
-          <a href={get.workflow.actions.edit.url}>&quot;{get.workflow.name}&quot;</a>, managing
-          permissions is available only by changing common settings on workflow edit page which will
-          be applied after finishing it.
         </div>
       )
     } else if (['permissions', 'permissions_edit'].includes(action_name)) {

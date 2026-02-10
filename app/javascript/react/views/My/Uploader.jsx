@@ -4,7 +4,6 @@ import async from 'async'
 import t from '../../../lib/i18n-translate.js'
 import { ActionsBar, Button, Link } from '../../ui-components/index.js'
 import SuperBoxUpload from '../../decorators/SuperBoxUpload.jsx'
-import { parse as parseUrl } from 'url'
 import { get } from '../../../lib/utils.js'
 
 let FileDrop = <div /> // client-side only
@@ -125,8 +124,6 @@ class Uploader extends React.Component {
       return
     }
 
-    const parsedUrl = parseUrl(window.location.href, true)
-    const workflowId = parsedUrl.query.workflow_id
     const copyMdFromId = this.props.get.copy_md_from ? this.props.get.copy_md_from.uuid : null
 
     const copyMdFrom = copyMdFromId
@@ -150,7 +147,7 @@ class Uploader extends React.Component {
     }
 
     const added = this.props.appCollection.add(
-      files.map(file => ({ uploading: { file, workflowId, copyMdFrom } }))
+      files.map(file => ({ uploading: { file, copyMdFrom } }))
     )
 
     this.setState({ uploading: true })

@@ -35,12 +35,6 @@ module Shared
         end
       end
 
-      class ActiveWorkflowScope < Scope
-        def resolve
-          scope.viewable_by_user_or_public(user, join_from_active_workflow: true)
-        end
-      end
-
       def new?
         logged_in?
       end
@@ -66,7 +60,7 @@ module Shared
       end
 
       def update?
-        logged_in? and record.editable_by_user?(user) || accessed_by_workflow_owner?
+        logged_in? and record.editable_by_user?(user)
       end
 
       def update_custom_urls?

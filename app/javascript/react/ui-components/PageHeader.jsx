@@ -1,50 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
-import Link from './Link.jsx'
-import Icon from './Icon.jsx'
 import SectionLabels from './SectionLabels.jsx'
 
-const WORKFLOW_STATES = { IN_PROGRESS: 'IN_PROGRESS', FINISHED: 'FINISHED' }
-
-const WorkflowBanner = ({ workflow, icon }) => {
-  if (workflow.status === WORKFLOW_STATES.FINISHED) {
-    return null
-  }
-
-  const linkStyle = {
-    color: '#adc671',
-    textDecoration: 'underline'
-  }
-  const bannerStyle = {
-    // backgroundColor: '#505050'
-    // color: '#fff',
-    // display: 'inline-block',
-    // borderRadius: '3px',
-    // position: 'relative',
-    // top: '-7px'
-  }
-
-  return (
-    <div style={bannerStyle} className="ui-alert XXXsuccess ui-container inverted paragraph-l mbm">
-      <Icon i="madek-workflow" /> This {icon === 'set' ? 'Set' : 'Media Entry'}
-      {' is part of the Workflow "'}
-      <Link href={workflow.actions.edit.url} mods="strong" style={linkStyle}>
-        {workflow.name}
-      </Link>
-      {'"'}
-    </div>
-  )
-}
-
-const PageHeader = ({ icon, fa, title, actions, workflow, banner, sectionLabels }) => {
+const PageHeader = ({ icon, fa, title, actions, banner, sectionLabels }) => {
   return (
     <div>
       {sectionLabels && <SectionLabels items={sectionLabels} />}
 
       {banner}
 
-      {!!workflow && <WorkflowBanner workflow={workflow} icon={icon} />}
       <div className="ui-body-title">
         <div className="ui-body-title-label">
           <h1 className="title-xl">

@@ -17,50 +17,12 @@ import ResourceIcon from '../../ui-components/ResourceIcon.jsx'
 import Tabs from '../../views/Tabs.jsx'
 import Tab from '../../views/Tab.jsx'
 import Icon from '../../ui-components/Icon.jsx'
-import Link from '../../ui-components/Link.jsx'
-import TagCloud from '../../ui-components/TagCloud.jsx'
 import setUrlParams from '../../../lib/set-params-for-url.js'
 import VocabTitleLink from '../../ui-components/VocabTitleLink.jsx'
 import grouping from '../../../lib/metadata-edit-grouping.js'
-import labelize from '../../../lib/labelize.js'
 
 module.exports = {
-  _renderValueFromWorkflowCommonSettings(workflow, meta_key_id) {
-    const md = f.find(workflow.common_settings.meta_data, md => md.meta_key.uuid === meta_key_id)
-
-    const value = f.has(md.value, '0.string') ? (
-      md.value[0].string
-    ) : (
-      <TagCloud mod="person" mods="small" list={labelize(md.value)} />
-    )
-
-    const workflowLink = (
-      <Link href={workflow.actions.edit.url} mods="strong">
-        {workflow.name}
-      </Link>
-    )
-    const info = (
-      <span style={{ fontStyle: 'italic' }}>
-        {t('workflow_md_edit_form_key_is_managed_a')}
-        &quot;{workflowLink}&quot;
-        {t('workflow_md_edit_form_key_is_managed_b')}
-      </span>
-    )
-    const arrowStyle = {
-      fontSize: '0.75em',
-      position: 'relative',
-      top: '-2px'
-    }
-
-    return (
-      <div className="form-item" style={{ paddingTop: '5px' }}>
-        <div>{value || 'not set'}</div>
-        <span style={arrowStyle}>⮑</span> {info}
-      </div>
-    )
-  },
-
-  _renderValueByContext(onChange, name, subForms, metaKey, batch, model, workflow) {
+  _renderValueByContext(onChange, name, subForms, metaKey, batch, model) {
     const meta_key_id = metaKey.uuid
 
     if (batch) {
@@ -80,15 +42,7 @@ module.exports = {
       />
     )
 
-    if (
-      workflow != null &&
-      !!f.find(workflow.common_settings.meta_data, {
-        is_common: true,
-        meta_key: { uuid: meta_key_id }
-      })
-    ) {
-      return this._renderValueFromWorkflowCommonSettings(workflow, meta_key_id)
-    } else if (batch) {
+    if (batch) {
       const style = { marginRight: '200px', marginLeft: '200px' }
       return <div style={style}>{input}</div>
     } else {
@@ -150,7 +104,6 @@ module.exports = {
 
   _renderItemByContext2(
     meta_meta_data,
-    workflow,
     published,
     name,
     context_key_id,
@@ -199,8 +152,7 @@ module.exports = {
           subForms,
           metaKey,
           batch,
-          model,
-          workflow
+          model
         )}
       </fieldset>
     )
@@ -208,7 +160,6 @@ module.exports = {
 
   _renderItemByVocabularies2(
     meta_meta_data,
-    workflow,
     published,
     name,
     meta_key_id,
@@ -255,8 +206,7 @@ module.exports = {
           subForms,
           metaKey,
           batch,
-          model,
-          workflow
+          model
         )}
       </fieldset>
     )
@@ -336,7 +286,6 @@ module.exports = {
   _renderByContext(
     context_id,
     meta_meta_data,
-    workflow,
     published,
     name,
     batch,
@@ -356,7 +305,6 @@ module.exports = {
 
       return this._renderItemByContext2(
         meta_meta_data,
-        workflow,
         published,
         name,
         context_key_id,
@@ -427,7 +375,6 @@ module.exports = {
   _renderByVocabularies(
     meta_data,
     meta_meta_data,
-    workflow,
     published,
     name,
     batch,
@@ -448,7 +395,6 @@ module.exports = {
       const _renderItemByMetaKeyId = (meta_key_id, subForms, rowed) => {
         return this._renderItemByVocabularies2(
           meta_meta_data,
-          workflow,
           published,
           name,
           meta_key_id,

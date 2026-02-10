@@ -124,9 +124,6 @@ module.exports = AppResource.extend(
 
       const formData = new FormData()
       formData.append('media_entry[media_file]', this.uploading.file)
-      if (this.uploading.workflowId) {
-        formData.append('media_entry[workflow_id]', this.uploading.workflowId)
-      }
       if (
         f.has(this.uploading, 'copyMdFrom.id') &&
         f.has(this.uploading, 'copyMdFrom.configuration')

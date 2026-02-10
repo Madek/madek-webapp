@@ -5,7 +5,6 @@ module Presenters
       include Presenters::Shared::Modules::Favoritable
       include Presenters::Shared::Modules::SharedHeader
       include Presenters::Shared::Modules::ShowableInAdmin
-      include Presenters::Shared::Modules::PartOfWorkflow
 
       def initialize(
         app_resource,

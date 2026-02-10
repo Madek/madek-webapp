@@ -9,7 +9,6 @@ module Presenters
       include Presenters::Shared::MediaResource::Modules::SectionLabels
       include Presenters::Shared::Modules::VocabularyConfig
       include Presenters::Shared::Modules::MetaDataPerContexts
-      include Presenters::Shared::Modules::PartOfWorkflow
 
       def initialize(app_resource,
                      user,
@@ -112,7 +111,6 @@ module Presenters
           disable_file_search: @type_filter != 'entries',
           only_filter_search: !['entries', 'collections'].include?(@type_filter),
           content_type: content_type,
-          part_of_workflow: part_of_workflow?,
           sub_filters: @sub_filters
         )
       end

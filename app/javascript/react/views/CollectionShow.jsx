@@ -19,8 +19,6 @@ import MetaDataByListing from '../decorators/MetaDataByListing.jsx'
 import UsageData from '../decorators/UsageData.jsx'
 import Share from './Shared/Share.jsx'
 
-const WORKFLOW_STATES = { IN_PROGRESS: 'IN_PROGRESS', FINISHED: 'FINISHED' }
-
 const parseUrlState = function (location) {
   const urlParts = f.slice(parseUrl(location).pathname.split('/'), 1)
   if (urlParts.length < 3) {
@@ -234,17 +232,7 @@ class CollectionShow extends React.Component {
               return (
                 <TabContent testId={contentTestId('permissions')}>
                   <div className="bright pal rounded-bottom rounded-top-right ui-container">
-                    {f.get(get, 'workflow.status') === WORKFLOW_STATES.IN_PROGRESS && (
-                      <div className="ui-alert">
-                        As this Set is part of the workflow
-                        <a href={get.workflow.actions.edit.url}>&quot;{get.workflow.name}&quot;</a>,
-                        managing permissions is available only by changing common settings on
-                        workflow edit page which will be applied after finishing it.
-                      </div>
-                    )}
-                    {f.get(get, 'workflow.status') !== WORKFLOW_STATES.IN_PROGRESS && (
-                      <RightsManagement authToken={this.props.authToken} get={get.permissions} />
-                    )}
+                    <RightsManagement authToken={this.props.authToken} get={get.permissions} />
                   </div>
                 </TabContent>
               )

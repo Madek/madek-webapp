@@ -51,9 +51,7 @@ class MediaEntryPolicy < Shared::MediaResources::MediaResourcePolicy
   end
 
   def permissions?
-    super || \
-      allow_for_creator_if_unpublished(record, user) && record.part_of_workflow? && \
-      record.workflow.is_active
+    super
   end
 
   def permissions_edit?

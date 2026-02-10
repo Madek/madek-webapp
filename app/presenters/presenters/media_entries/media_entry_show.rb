@@ -7,7 +7,6 @@ module Presenters
       include Presenters::Shared::MediaResource::Modules::PrivacyStatus
       include Presenters::Shared::MediaResource::Modules::EditSessions
       include Presenters::Shared::MediaResource::Modules::SectionLabels
-      include Presenters::Shared::Modules::PartOfWorkflow
 
       def initialize(
         app_resource,

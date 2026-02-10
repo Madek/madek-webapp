@@ -12,12 +12,6 @@
 
       %h3.title-l= t(:media_entry_media_import_title)
 
-      - if @get.workflow
-        .notice{style: 'padding: 20px; border: 1px solid #ffeeba; background-color: #fff3cd; color: #856404; border-radius: 3px; margin-top: 20px'}
-          = t(:workflow_uploader_notice_pre)
-          &rarr; #{link_to @get.workflow.name, @get.workflow.actions.dig(:edit, :url), class: 'strong'}
-          = t(:workflow_uploader_notice_post)
- 
       .js-only
         = react('Views.My.Uploader', get: @get)
 

@@ -7,27 +7,22 @@ module Presenters
       def initialize(user, resource_class, resource = nil)
         @user = user
         @resource_class = resource_class
-        @resource = resource # optional, used for Workflow settings
+        @resource = resource
       end
 
       def mandatory_by_meta_key_id
         if @resource_class == Collection
-          apply_mandatory_meta_keys_from_workflow_if_possible(
-            [['madek_core:title', { meta_key_id: 'madek_core:title', context_id: 'hardcoded' }]]
-          )
+          { 'madek_core:title' => { meta_key_id: 'madek_core:title', context_id: 'hardcoded' } }
         else
-          result =
-            ContextKey.where(
-              context: AppSetting.first.contexts_for_entry_validation, is_required: true
-            )
-              .map do |context_key|
-              [
-                context_key.meta_key_id,
-                { meta_key_id: context_key.meta_key_id, context_id: context_key.context_id }
-              ]
-            end
-
-          apply_mandatory_meta_keys_from_workflow_if_possible(result)
+          ContextKey.where(
+            context: AppSetting.first.contexts_for_entry_validation, is_required: true
+          )
+            .map do |context_key|
+            [
+              context_key.meta_key_id,
+              { meta_key_id: context_key.meta_key_id, context_id: context_key.context_id }
+            ]
+          end.to_h
         end
       end
 
@@ -128,18 +123,6 @@ module Presenters
         else
           fail 'Invalid resource_class!'
         end
-      end
-
-      def apply_mandatory_meta_keys_from_workflow_if_possible(arr)
-        if (workflow = @resource.try(:workflow))
-          arr.concat(
-            workflow.mandatory_meta_key_ids.map do |mk|
-              [mk, { meta_key_id: mk, context_id: 'madek_workflow' }]
-            end
-          )
-        end
-
-        arr.to_h
       end
     end
   end
