@@ -1,20 +1,20 @@
 module Madek
   module Constants
     module Webapp
-      SESSION_NAME = '_Madek_session'
+      SESSION_NAME = "_Madek_session"
 
-      FILE_UTIL_PATH = '/usr/bin/file -b --mime-type'
+      FILE_UTIL_PATH = "/usr/bin/file -b --mime-type"
 
       # UI constants
       UI_GENERIC_THUMBNAIL = {
         # relative to `app/assets/images`
-        collection: 'thumbnails/set.png',
-        incomplete: 'thumbnails/dev_todo.png',
-        unknown: 'thumbnails/document_unknown.png'
+        collection: "thumbnails/set.png",
+        incomplete: "thumbnails/dev_todo.png",
+        unknown: "thumbnails/document_unknown.png"
       }
 
       # embed
-      EMBED_SUPPORTED_RESOURCES = ['media_entries'].freeze
+      EMBED_SUPPORTED_RESOURCES = ["media_entries"].freeze
       EMBED_MEDIA_TYPES_MAP = {
         # madek_type : oembed_type
         video: :video,
@@ -22,7 +22,7 @@ module Madek
         image: :rich
       }.freeze
       EMBED_SUPPORTED_MEDIA = EMBED_MEDIA_TYPES_MAP.keys.map(&:to_s).freeze
-      FULLSCREEN_SUPPORTED_MEDIA = ['video', 'audio'].freeze
+      FULLSCREEN_SUPPORTED_MEDIA = ["video", "audio"].freeze
       # pixels:
       EMBED_UI_DEFAULT_WIDTH = 640
       EMBED_UI_DEFAULT_RATIO = (16 / 9.to_f) # # (only for non-images)
@@ -31,8 +31,8 @@ module Madek
       EMBED_UI_IMAGE_CAPTION_HEIGHT = 55
 
       # oEmbed
-      OEMBED_VERSION = '1.0'.freeze # should never change, spec is frozen
-      OEMBED_API_ENDPOINT = '/oembed'.freeze
+      OEMBED_VERSION = "1.0".freeze # should never change, spec is frozen
+      OEMBED_API_ENDPOINT = "/oembed".freeze
       # if a config (according to oEmbed spec) is needed, it would be like this:
       # OEMBED_CONFIG = [{ # pairs of supported URL schemes and their API endpoint
       #     url_scheme: 'https://madek.example.com/entries/*',
@@ -45,12 +45,11 @@ module Madek
 
       USER_LIST_CONFIG_KEYS = [:layout, :order, :show_filter]
 
-      VERIFY_AUTH_SKIP_CONTROLLERS = \
+      VERIFY_AUTH_SKIP_CONTROLLERS =
         [ConfigurationManagementBackdoorController,
-         ErrorsController,
-         MadekZhdkIntegration::AuthenticationController,
-         StyleguideController,
-         ZencoderJobsController]
+          ErrorsController,
+          StyleguideController,
+          ZencoderJobsController]
 
       # From v2, unused but kept here for reference:
       # # Config files here.

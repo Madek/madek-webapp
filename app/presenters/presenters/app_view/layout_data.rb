@@ -56,45 +56,6 @@ module Presenters
         }
       end
 
-      def system_login_provider
-        {
-          id: 'system',
-          title: I18n.t(:login_box_internal),
-          url: sign_in_path(return_to: return_to)
-        }
-      end
-
-      def login_providers
-        return @_login_providers if @_login_providers.is_a?(Array) # memo
-        logins = []
-
-        zhdk_agw = Settings.zhdk_integration && Settings.zhdk_agw_api_url.present?
-        switch_aai = Settings.shibboleth_sign_in_enabled == true \
-          && Settings.shibboleth_sign_in_url_base.present? \
-          && Settings.shibboleth_sign_in_url_target.present?
-        fail 'too many logins!' if zhdk_agw and switch_aai
-
-        if zhdk_agw then logins.push(
-          id: 'zhdk',
-          title: I18n.t(:login_provider_zhdk_title),
-          description: I18n.t(:login_provider_zhdk_hint),
-          href: with_extra_params('/login/zhdk', default_url_options.merge(return_to: return_to)))
-        end
-
-        if switch_aai then logins.push(
-          id: 'aai',
-          title: I18n.t(:login_provider_aai_title),
-          description: I18n.t(:login_provider_aai_hint),
-          href: shibboleth_sign_in_url)
-        end
-
-        # NOTE: DB login is always enabled,
-        #       can have a different title if its the only login method
-        logins.push system_login_provider
-
-        @_login_providers = logins
-      end
-
       private
 
       attr_reader :return_to

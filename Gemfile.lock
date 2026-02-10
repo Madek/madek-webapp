@@ -14,12 +14,6 @@ GIT
     pg_tasks (2.2.0.pre.0)
       rails (~> 7.0)
 
-PATH
-  remote: zhdk-integration
-  specs:
-    madek_zhdk_integration (2.0.0)
-      rails (~> 7.2.2.2)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -465,7 +459,6 @@ DEPENDENCIES
   kramdown
   liquid
   listen
-  madek_zhdk_integration!
   mimemagic
   nokogiri (>= 1.18.9)
   pg

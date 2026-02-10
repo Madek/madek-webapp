@@ -1,9 +1,5 @@
 # ZHdK dev settings
 
-zhdk_integration: True # turns on AGW support + custom ldap groups handling
-zhdk_agw_api_url: 'https://intern.zhdk.ch/?auth/madek'
-zhdk_agw_api_key: 'xxx'
-
 zhdk_zencoder_api_key: 'xxx'
 
 madek_master_secret: 'xxx'
