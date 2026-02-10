@@ -1275,6 +1275,40 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/media_entry/media_entry_browse_spec.rb:80"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_browse_spec.rb[1:1:6]"
+"./spec/features/media_entry/media_entry_checksum_spec.rb[1:1:1]":
+  name: "./spec/features/media_entry/media_entry_checksum_spec.rb[1:1:1]"
+  description: 'Resource: MediaEntry Action: checksum Generate checksum for media
+    file'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_checksum_spec.rb:20"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_checksum_spec.rb[1:1:1]"
+"./spec/features/media_entry/media_entry_checksum_spec.rb[1:1:2]":
+  name: "./spec/features/media_entry/media_entry_checksum_spec.rb[1:1:2]"
+  description: 'Resource: MediaEntry Action: checksum Verify checksum for media file'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_checksum_spec.rb:38"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_checksum_spec.rb[1:1:2]"
+"./spec/features/media_entry/media_entry_checksum_spec.rb[1:1:3]":
+  name: "./spec/features/media_entry/media_entry_checksum_spec.rb[1:1:3]"
+  description: 'Resource: MediaEntry Action: checksum Checksum section only visible
+    when original file accessible'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_checksum_spec.rb:58"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_checksum_spec.rb[1:1:3]"
+"./spec/features/media_entry/media_entry_checksum_spec.rb[1:1:4]":
+  name: "./spec/features/media_entry/media_entry_checksum_spec.rb[1:1:4]"
+  description: 'Resource: MediaEntry Action: checksum Display empty state when no
+    checksum exists'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_checksum_spec.rb:68"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_checksum_spec.rb[1:1:4]"
+"./spec/features/media_entry/media_entry_checksum_spec.rb[1:1:5]":
+  name: "./spec/features/media_entry/media_entry_checksum_spec.rb[1:1:5]"
+  description: 'Resource: MediaEntry Action: checksum Display existing checksum with
+    verified timestamp'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_checksum_spec.rb:77"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_checksum_spec.rb[1:1:5]"
 "./spec/features/media_entry/media_entry_confidential_links_spec.rb[1:1]":
   name: "./spec/features/media_entry/media_entry_confidential_links_spec.rb[1:1]"
   description: Media Entry - Managing Confidential Links Listing Confidential Links
