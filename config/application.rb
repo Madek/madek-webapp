@@ -103,6 +103,8 @@ module Madek
       files: [pre_render_js_env].flatten, # files to load for prerendering
       replay_console: false, # if true, console.* will be replayed client-side
     }
+    # auto-reload SSR renderer when dev bundle changes
+    config.watchable_files.concat([root.join('public/assets/bundles/dev-bundle-react-server-side.js').to_s])
     config.after_initialize do
       # inject (per-instance) app config into react renderer:
       class React::ServerRendering::SprocketsRenderer
