@@ -81,4 +81,13 @@ Rails.application.configure do
   # config.action_controller.raise_on_missing_callback_actions = true
 
   config.assets.debug = true
+
+  # use dev bundle for SSR
+  config.react.server_renderer_options = {
+    files: ['dev-bundle-react-server-side.js'].flatten,
+    replay_console: false
+  }
+
+  # auto-reload SSR renderer when dev bundle changes
+  config.watchable_files.concat([root.join('public/assets/bundles/dev-bundle-react-server-side.js').to_s])
 end
