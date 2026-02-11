@@ -98,7 +98,7 @@ module Madek
     # config.react.server_renderer_pool_size  ||= 1  # ExecJS doesn't allow more than one on MRI
     # config.react.server_renderer_timeout    ||= 20 # seconds
     # config.react.server_renderer = React::ServerRendering::SprocketsRenderer
-    pre_render_js_env = 'bundle-react-server-side.js' # no "dev" version because its never reloaded!
+    pre_render_js_env = 'dev-bundle-react-server-side.js' # no "dev" version because its never reloaded!
     config.react.server_renderer_options = {
       files: [pre_render_js_env].flatten, # files to load for prerendering
       replay_console: false, # if true, console.* will be replayed client-side
