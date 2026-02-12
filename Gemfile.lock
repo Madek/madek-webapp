@@ -1,12 +1,4 @@
 GIT
-  remote: https://github.com/Madek/rails_configuration-management-backdoor
-  revision: 9cd7f9b787963f5c61aa1ac00bff8d1e8743acc2
-  branch: rails7
-  specs:
-    configuration_management_backdoor (7.0.0)
-      rails (>= 7.0)
-
-GIT
   remote: https://github.com/leihs/rails_pg-tasks
   revision: ad5725cc25ae53daac9b245000479b1e61cb3414
   branch: rails7
@@ -445,7 +437,6 @@ DEPENDENCIES
   capybara (~> 3.8)
   chronic_duration
   cider_ci-open_session (>= 1.0.0, < 2.0.0)
-  configuration_management_backdoor!
   equivalent-xml
   execjs
   exiftool_vendored
