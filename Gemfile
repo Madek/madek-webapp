@@ -5,10 +5,6 @@ eval_gemfile(SHARED_GEMFILE) if File.exist?(SHARED_GEMFILE)
 # required in production PRODUCTION
 #####################################################################
 
-# Engines
-gem 'configuration_management_backdoor',
-    git: 'https://github.com/Madek/rails_configuration-management-backdoor', branch: 'rails7'
-
 # API
 gem 'responders'
 

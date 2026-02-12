@@ -46,8 +46,7 @@ module Madek
       USER_LIST_CONFIG_KEYS = [:layout, :order, :show_filter]
 
       VERIFY_AUTH_SKIP_CONTROLLERS =
-        [ConfigurationManagementBackdoorController,
-          ErrorsController,
+        [ErrorsController,
           StyleguideController,
           ZencoderJobsController]
 
