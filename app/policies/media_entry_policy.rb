@@ -84,6 +84,11 @@ class MediaEntryPolicy < Shared::MediaResources::MediaResourcePolicy
   alias_method :browse?, :_via_personal_access?
   alias_method :siblings?, :_via_personal_access?
   alias_method :export?, :_via_personal_access?
+  def generate_checksum?
+    _via_personal_access? and MediaFilePolicy.new(user, record.media_file).show?
+  end
+
+  alias_method :verify_checksum?, :generate_checksum?
 
   alias_method :edit?, :update?
   alias_method :update_file?, :update?
