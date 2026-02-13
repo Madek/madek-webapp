@@ -150,7 +150,7 @@ module Presenters
       end
 
       def checksum_urls
-        if policy_for(@user).export?
+        if policy_for(@user).generate_checksum?
           {
             generate: generate_checksum_media_entry_path(@app_resource, format: :json),
             verify: verify_checksum_media_entry_path(@app_resource, format: :json)

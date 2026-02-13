@@ -7,7 +7,8 @@ module Presenters
       THUMBNAIL_SIZES = Madek::Constants::THUMBNAILS
 
       delegate_to_app_resource :content_type, :extension,
-                              :checksum, :checksum_verified_at
+                              :checksum, :checksum_generated_at,
+                              :checksum_verified_at
 
       # NOTE: initialized with Entry! otherwise we would have to query the DB!
       def initialize(media_entry_with_media_file, user)

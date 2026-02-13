@@ -12,7 +12,8 @@ module Modules
         respond_to do |format|
           format.json do
             render json: {
-              checksum: media_file.checksum
+              checksum: media_file.checksum,
+              checksum_generated_at: media_file.checksum_generated_at
             }
           end
         end
