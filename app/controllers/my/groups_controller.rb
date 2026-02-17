@@ -6,9 +6,11 @@ class My::GroupsController < ApplicationController
   def index
     auth_authorize :dashboard, :logged_in?
 
-    sections = sections_definition.map do |id, s|
-      [id, s.merge(id: id)]
-    end.to_h
+    sections = sections_definition
+      .reject { |_, attrs| attrs.fetch(:is_accessible, true) == false }
+      .map do |id, s|
+        [id, s.merge(id: id)]
+      end.to_h
 
     get = Presenters::Users::UserDashboard.new(
       current_user,
