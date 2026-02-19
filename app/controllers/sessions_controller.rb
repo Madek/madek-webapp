@@ -4,11 +4,12 @@ class SessionsController < ActionController::Base
   include LangParams
 
   def sign_in
-    @user = User.find_by(login: params[:login].try(&:downcase))
+    login_or_email = params[:login].try(&:downcase)
+    @user = User.find_by(login: login_or_email) || User.where("LOWER(email) = ?", login_or_email).first
 
     if @user and @user.authenticate params[:password]
-      set_madek_session @user, 
-        AuthSystem.find_by!(id: 'password'), 
+      set_madek_session @user,
+        AuthSystem.find_by!(id: "password"),
         params[:remember_me].present?
       redirect_back_or my_dashboard_path, success: I18n.t(:app_notice_logged_in)
     else
@@ -18,17 +19,17 @@ class SessionsController < ActionController::Base
   end
 
   def shib_sign_in
-    unless Settings.shibboleth_sign_in_enabled == true
-      render status: :forbidden, text: I18n.t(:app_notice_shibboleth_not_enabled)
-    else
-      @last_name = request.env['HTTP_SURNAME'].presence
-      @first_name = request.env['HTTP_GIVENNAME'].presence
-      @email = request.env['HTTP_MAIL'].try(&:downcase).presence
-      unless @last_name && @first_name && @email
-        deny_shibboleth_sign_in
-      else
+    if Settings.shibboleth_sign_in_enabled == true
+      @last_name = request.env["HTTP_SURNAME"].presence
+      @first_name = request.env["HTTP_GIVENNAME"].presence
+      @email = request.env["HTTP_MAIL"].try(&:downcase).presence
+      if @last_name && @first_name && @email
         perform_shibboleth_sign_in
+      else
+        deny_shibboleth_sign_in
       end
+    else
+      render status: :forbidden, text: I18n.t(:app_notice_shibboleth_not_enabled)
     end
   end
 
@@ -50,7 +51,8 @@ class SessionsController < ActionController::Base
     destroy_madek_session
     redirect_back_or(
       root_path(shib_extra_params),
-      error: I18n.t(:app_notice_shibboleth_missing_fields))
+      error: I18n.t(:app_notice_shibboleth_missing_fields)
+    )
   end
 
   def perform_shibboleth_sign_in
@@ -64,7 +66,8 @@ class SessionsController < ActionController::Base
     end
     set_madek_session @user, auth_system
     redirect_to(
-      my_dashboard_path(shib_extra_params), success: I18n.t(:app_notice_logged_in))
+      my_dashboard_path(shib_extra_params), success: I18n.t(:app_notice_logged_in)
+    )
   end
 
   def shib_sign_in_person
@@ -73,12 +76,11 @@ class SessionsController < ActionController::Base
     else
       Person.find_or_initialize_by \
         last_name: @last_name,
-        first_name: @first_name, subtype: 'Person'
+        first_name: @first_name, subtype: "Person"
     end
   end
 
   def shib_extra_params
-    { lang: params['lang'] }
+    {lang: params["lang"]}
   end
-
 end

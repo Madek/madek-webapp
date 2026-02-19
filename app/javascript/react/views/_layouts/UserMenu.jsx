@@ -143,7 +143,7 @@ const WebappSignoutButton = ({ url, method, authToken }) => (
   <MenuItemButton
     name="sign-out"
     icon="power-off"
-    title={t('user_menu_logout_btn') + ' (via Webapp!)'}
+    title={t('user_menu_logout_btn') + ' (via Webapp)'}
     action={url}
     method={method}
     authToken={authToken}

@@ -22,7 +22,7 @@ class TestLoginForm extends React.Component {
                     autoFocus="false"
                     className="block large"
                     name="login"
-                    placeholder="Benutzername"
+                    placeholder="Benutzername oder E-Mail"
                     type="text"
                     defaultValue={emailOrLogin}
                   />
