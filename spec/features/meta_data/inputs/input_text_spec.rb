@@ -42,7 +42,7 @@ feature 'Resource: MetaDatum' do
       TEST_STRING_BLOCK_SAVED =
         "  Hello World\r\nWelcome to the World of tomorrow! \r\n ".freeze
       TEST_STRING_BLOCK_OUT =
-        "  Hello World\n<br>\nWelcome to the World of tomorrow! \n<br>\n ".freeze
+        "  Hello World<br>\nWelcome to the World of tomorrow! <br>\n ".freeze
 
       @context_key.meta_key.update!(text_type: :block)
       @context_key.reload

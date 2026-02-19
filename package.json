@@ -27,6 +27,7 @@
     "browserify": "browserify"
   },
   "dependencies": {
+    "@babel/runtime": "^7.28.6",
     "@eins78/typeahead.js": "0.11.2-pre.1",
     "@eins78/typopro-open-sans": "0.0.0",
     "active-lodash": "1.2.2",
@@ -35,8 +36,6 @@
     "ampersand-rest-collection": "^6.0.0",
     "any_sha1": "0.1.1",
     "async": "^2.6.4",
-    "babel-preset-react": "6.24.1",
-    "babel-runtime": "6.23.0",
     "babyparse": "0.4.6",
     "bulk-require": "^1.0.1",
     "check-dependencies": "^2.0.0",
@@ -48,12 +47,12 @@
     "hashblot": "0.4.5",
     "history": "2.1.2",
     "jquery": "^3.7.1",
-    "linkifyjs": "2.1.4",
+    "linkify-string": "^4.3.2",
+    "linkifyjs": "^4.3.2",
     "local-links": "1.4.1",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
     "prop-types": "^15.6.1",
-    "qs": "6.4.0",
     "react": "^16.14.0",
     "react-bootstrap": "0.31.0",
     "react-day-picker": "^6.2.1",
@@ -66,24 +65,34 @@
     "xhr": "2.4.0"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.29.0",
+    "@babel/preset-env": "^7.29.0",
+    "@babel/preset-react": "^7.28.5",
     "@eins78/rspec-render-docs": "^1.0.0-alpha.4",
-    "@eslint/js": "^9.23.0",
-    "babel-plugin-transform-runtime": "^6.15.0",
+    "@eslint/js": "^9.39.2",
     "babel-polyfill": "^6.22.0",
-    "babel-preset-react-app": "^2.0.1",
-    "babelify": "^7.3.0",
+    "babelify": "^9.0.0",
     "brfs": "^1.4.3",
     "browserify": "^14.0.0",
     "browserify-incremental": "^3.1.1",
     "bulkify": "^1.4.2",
-    "eslint": "^9.23.0",
-    "eslint-config-prettier": "^10.1.1",
-    "eslint-plugin-prettier": "^5.2.3",
-    "eslint-plugin-react": "^7.37.4",
-    "globals": "^16.0.0",
-    "prettier": "^3.5.3",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^16.5.0",
+    "prettier": "^3.8.1",
     "prettier-eslint": "^16.3.0",
     "watchify": "^4.0.0"
+  },
+  "overrides": {
+    "form-data": "^2.5.4",
+    "minimist": "^1.2.6",
+    "qs": "^6.14.1",
+    "uglify-js": "^2.8.29",
+    "semver": "^5.7.2",
+    "minimatch": "^3.1.3",
+    "static-eval": "^2.0.2"
   },
   "browserify": {
     "transform": [
@@ -97,10 +106,11 @@
   },
   "babel": {
     "plugins": [
-      "transform-runtime"
+      "@babel/plugin-transform-runtime"
     ],
     "presets": [
-      "react-app"
+      "@babel/preset-env",
+      "@babel/preset-react"
     ]
   },
   "author": "Max Albrecht <max.albrecht@zhdk.ch>",

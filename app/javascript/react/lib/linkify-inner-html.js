@@ -3,13 +3,13 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-import linkifyStr from 'linkifyjs/string'
+import linkifyStr from 'linkify-string'
 
 //# build html string with auto-generated links
 module.exports = string => ({
   __html: linkifyStr(string, {
-    linkClass: 'link ui-link-autolinked',
-    linkAttributes: {
+    className: 'link ui-link-autolinked',
+    attributes: {
       rel: 'nofollow'
     },
     target: '_self',
