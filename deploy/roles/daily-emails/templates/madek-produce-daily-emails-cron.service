@@ -1,0 +1,16 @@
+[Unit]
+Description=Madek Produce Daily Emails Cron Service
+After=syslog.target
+
+[Service]
+SyslogIdentifier=madek-produce-daily-emails-cron
+Type=oneshot
+WorkingDirectory={{madek_webapp_dir}}
+User={{madek_user}}
+Group={{madek_user}}
+Environment=PATH={{madek_webapp_ruby_dir}}/bin:/usr/local/bin:/usr/bin:/bin
+Environment=RAILS_LOG_LEVEL=WARN
+Environment=RAILS_ENV=production
+Environment=RAILS_SERVE_STATIC_FILES=Yes
+Environment=SECRET_KEY_BASE={{secret_key_base}}
+ExecStart={{madek_webapp_ruby_dir}}/bin/ruby -S bundle exec rake madek:produce_daily_emails

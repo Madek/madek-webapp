@@ -1,0 +1,27 @@
+- name: Install delete-soft-deleted-resources cron service
+  template:
+    src: madek-delete-soft-deleted-resources-cron.service
+    dest: /etc/systemd/system/madek-delete-soft-deleted-resources-cron.service
+    mode: 0644
+
+- name: Install delete-soft-deleted-resources cron timer
+  template:
+    src: madek-delete-soft-deleted-resources-cron.timer
+    dest: /etc/systemd/system/madek-delete-soft-deleted-resources-cron.timer
+    mode: 0644
+
+- name: Reload systemctl
+  command: systemctl daemon-reload
+  changed_when: false
+
+- name: Ensure delete-soft-deleted-resources cron service is stopped and disabled
+  service:
+    name: madek-delete-soft-deleted-resources-cron.service
+    state: stopped
+    enabled: false
+
+- name: Enable and start delete-soft-deleted-resources cron timer
+  service:
+    name: madek-delete-soft-deleted-resources-cron.timer
+    state: started
+    enabled: true

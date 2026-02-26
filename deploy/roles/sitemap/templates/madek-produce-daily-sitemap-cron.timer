@@ -1,0 +1,10 @@
+[Unit]
+Description=Madek Produce Daily Sitemap Cron Service Timer
+
+[Timer]
+OnCalendar={{madek_run_produce_daily_sitemap_on}}
+RandomizedDelaySec={{madek_run_tasks_randomized_delay_max_seconds}}
+Persistent=true
+
+[Install]
+WantedBy=timers.target

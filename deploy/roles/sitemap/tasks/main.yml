@@ -11,8 +11,37 @@
     mode: '0755'
     recurse: yes
 
+- name: Install sitemap cron service
+  template:
+    src: madek-produce-daily-sitemap-cron.service
+    dest: /etc/systemd/system/madek-produce-daily-sitemap-cron.service
+    mode: 0644
+
+- name: Install sitemap cron timer
+  template:
+    src: madek-produce-daily-sitemap-cron.timer
+    dest: /etc/systemd/system/madek-produce-daily-sitemap-cron.timer
+    mode: 0644
+
+- name: Reload systemctl
+  command: systemctl daemon-reload
+  changed_when: false
+
+- name: Ensure sitemap cron service is stopped and disabled
+  service:
+    name: madek-produce-daily-sitemap-cron.service
+    state: stopped
+    enabled: false
+
+- name: Enable and start sitemap cron timer
+  service:
+    name: madek-produce-daily-sitemap-cron.timer
+    state: started
+    enabled: true
+
 - name: Trigger initial sitemap generation
   systemd:
     name: madek-produce-daily-sitemap-cron.service
     state: started
     daemon_reload: yes
+  when: madek_trigger_initial_sitemap | default(false) | bool

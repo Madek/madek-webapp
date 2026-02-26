@@ -1,0 +1,27 @@
+- name: Install weekly-emails cron service
+  template:
+    src: madek-produce-weekly-emails-cron.service
+    dest: /etc/systemd/system/madek-produce-weekly-emails-cron.service
+    mode: 0644
+
+- name: Install weekly-emails cron timer
+  template:
+    src: madek-produce-weekly-emails-cron.timer
+    dest: /etc/systemd/system/madek-produce-weekly-emails-cron.timer
+    mode: 0644
+
+- name: Reload systemctl
+  command: systemctl daemon-reload
+  changed_when: false
+
+- name: Ensure weekly-emails cron service is stopped and disabled
+  service:
+    name: madek-produce-weekly-emails-cron.service
+    state: stopped
+    enabled: false
+
+- name: Enable and start weekly-emails cron timer
+  service:
+    name: madek-produce-weekly-emails-cron.timer
+    state: started
+    enabled: true
