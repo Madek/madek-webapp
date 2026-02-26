@@ -14,3 +14,7 @@ Environment=RAILS_ENV=production
 Environment=RAILS_SERVE_STATIC_FILES=Yes
 Environment=SECRET_KEY_BASE={{secret_key_base}}
 ExecStart={{madek_webapp_ruby_dir}}/bin/ruby -S bundle exec rake madek:delete_soft_deleted_resources
+
+{% if delete_soft_deleted_resources_custom_extend is defined and delete_soft_deleted_resources_custom_extend %}
+{{ delete_soft_deleted_resources_custom_extend }}
+{% endif %}

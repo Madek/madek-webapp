@@ -1,1 +1,2 @@
 # defaults are defined in deploy/roles/defaults/defaults/main.yml
+produce_daily_emails_custom_extend: False

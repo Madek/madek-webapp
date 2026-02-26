@@ -1,1 +1,2 @@
 # defaults are defined in deploy/roles/defaults/defaults/main.yml
+delete_soft_deleted_resources_custom_extend: False

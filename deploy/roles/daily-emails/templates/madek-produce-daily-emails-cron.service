@@ -14,3 +14,7 @@ Environment=RAILS_ENV=production
 Environment=RAILS_SERVE_STATIC_FILES=Yes
 Environment=SECRET_KEY_BASE={{secret_key_base}}
 ExecStart={{madek_webapp_ruby_dir}}/bin/ruby -S bundle exec rake madek:produce_daily_emails
+
+{% if produce_daily_emails_custom_extend is defined and produce_daily_emails_custom_extend %}
+{{ produce_daily_emails_custom_extend }}
+{% endif %}
