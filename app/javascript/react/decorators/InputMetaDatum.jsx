@@ -7,7 +7,7 @@ import InputPeople from '../lib/forms/input-people.jsx'
 import InputJsonText from '../lib/forms/InputJsonText.jsx'
 import InputMediaEntry from '../lib/forms/InputMediaEntry.jsx'
 
-const InputMetaDatum = ({ id, name, model, metaKey, onChange, subForms, contextKey }) => {
+const InputMetaDatum = ({ id, name, model, metaKey, onChange, subForms, contextKey, batch }) => {
   const resourceType = metaKey.value_type.split('::').pop()
   const multiple = (() => {
     switch (resourceType) {
@@ -27,7 +27,14 @@ const InputMetaDatum = ({ id, name, model, metaKey, onChange, subForms, contextK
 
   if (resourceType === 'Text') {
     return (
-      <Text metaKey={metaKey} name={name} values={values} onChange={onChange} subForms={subForms} />
+      <Text
+        metaKey={metaKey}
+        name={name}
+        values={values}
+        onChange={onChange}
+        subForms={subForms}
+        batch={batch}
+      />
     )
   } else if (resourceType === 'TextDate') {
     return (

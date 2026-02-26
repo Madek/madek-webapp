@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import InputFieldText from '../forms/input-field-text.jsx'
 
-const InputTextAsync = ({ name, values: initialValues, metaKey, onChange, subForms }) => {
+const InputTextAsync = ({ name, values: initialValues, metaKey, onChange, subForms, batch }) => {
   const [values, setValues] = useState(initialValues)
 
   const handleChange = event => {
@@ -25,6 +25,7 @@ const InputTextAsync = ({ name, values: initialValues, metaKey, onChange, subFor
           value={value}
           key={metaKey.uuid}
           metaKey={metaKey}
+          batch={batch}
         />
       </div>
       {subForms}

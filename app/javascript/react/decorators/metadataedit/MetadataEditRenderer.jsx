@@ -39,6 +39,7 @@ module.exports = {
         onChange={onChange}
         subForms={subForms}
         metaKey={metaKey}
+        batch={batch}
       />
     )
 

@@ -5,7 +5,7 @@ import jQuery from 'jquery'
 import { get } from '../../../lib/utils.js'
 
 const InputFieldText = props => {
-  const { name, type, value, placeholder, className, metaKey, onChange } = props
+  const { name, type, value, placeholder, className, metaKey, onChange, batch } = props
   const inputRef = useRef(null)
 
   useEffect(() => {
@@ -69,7 +69,7 @@ const InputFieldText = props => {
   }
 
   if (get(metaKey, 'uuid', null) === 'madek_core:copyright_notice') {
-    const defaultValue = get(metaKey, 'copyright_notice_default_text', '')
+    const defaultValue = batch ? '' : get(metaKey, 'copyright_notice_default_text', '')
 
     return (
       <input

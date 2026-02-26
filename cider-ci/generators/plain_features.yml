@@ -451,6 +451,13 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/batch_edit/form_values_and_appearance_spec.rb:29"
     RSPEC_TEST: "./spec/features/batch_edit/form_values_and_appearance_spec.rb[1:1:2]"
+"./spec/features/batch_edit/form_values_and_appearance_spec.rb[1:1:3]":
+  name: "./spec/features/batch_edit/form_values_and_appearance_spec.rb[1:1:3]"
+  description: 'Resource: MediaEntries Batch Meta Data Edit Copyright notice default
+    text should not be pre-filled in batch mode'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/batch_edit/form_values_and_appearance_spec.rb:44"
+    RSPEC_TEST: "./spec/features/batch_edit/form_values_and_appearance_spec.rb[1:1:3]"
 "./spec/features/clipboard_spec.rb[1:1]":
   name: "./spec/features/clipboard_spec.rb[1:1]"
   description: clipboard show "empty message" on clipboard if it does not exist

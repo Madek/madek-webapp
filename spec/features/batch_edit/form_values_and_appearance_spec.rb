@@ -41,6 +41,33 @@ feature 'Resource: MediaEntries' do
       check_section('Madek Core', 'Schlagworte', false, 'Keyword1', 'Keyword2')
     end
 
+    it 'Copyright notice default text should not be pre-filled in batch mode' do
+
+      prepare_data
+
+      # Set a default copyright notice text
+      AppSetting.first.update!(copyright_notice_default_text: 'Default Copyright Text')
+
+      login
+
+      # Open batch editor
+      visit batch_edit_meta_data_by_context_media_entries_path(
+        id: [@media_entry_1.id, @media_entry_2.id],
+        return_to: '/my'
+      )
+
+      # Wait for the page to load
+      expect(page).to have_css('.ui-tabs-item')
+
+      # Verify that no input field contains the default text
+      # The copyright notice field should be empty, not pre-filled
+      inputs = all('input[type="text"]')
+      inputs_with_default = inputs.select { |input| input.value == 'Default Copyright Text' }
+      
+      expect(inputs_with_default).to be_empty,
+        "Expected no input fields to contain default copyright text, but found #{inputs_with_default.size}"
+    end
+
   end
 
   def check_section(vocabulary, datum, expected_highlight, *expected_values)
