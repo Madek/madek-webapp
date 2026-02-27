@@ -1,5 +1,5 @@
 :ruby
-  cache_key = @app_layout_data.user_menu.hash
+  cache_key = [@app_layout_data.user_menu.hash, @session&.id].join('/')
 
 -# `capture` together with low-level caching is needed to avoid template render error.
 = capture do 
