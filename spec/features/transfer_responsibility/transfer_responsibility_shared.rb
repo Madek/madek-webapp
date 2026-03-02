@@ -69,15 +69,20 @@ module TransferResponsibilityShared
     end
   end
 
-  def check_notifications(user1, user2, resource)
-    notif = Notification.find_by(
+  def check_notifications(user1, user2, resource, acting_user: user1)
+    notif = Notification.where(
       user: user2,
       notification_case_label: 'transfer_responsibility',
       acknowledged: false
-    )
+    ).find do |notification|
+      payload = notification.data.deep_symbolize_keys
+      label = payload.dig(:resource, :link_def, :label)
+      label == resource.title
+    end
 
     expect(notif).to be
-    expect(notif.data).to match({
+    data = notif.data.deep_symbolize_keys
+    expect(data).to match({
       resource: {
         link_def: { label: resource.title,
                     href: if resource.is_a?(MediaEntry)
@@ -86,7 +91,37 @@ module TransferResponsibilityShared
                             collection_path(resource)
                           end }
       },
-      user: { fullname: user1.to_s }
+      user: { fullname: user1.to_s },
+      source_user: { fullname: user1.to_s },
+      acting_user: { fullname: acting_user.to_s }
+    })
+  end
+
+  def check_notifications_from_delegation(source_delegation, recipient, resource, acting_user:)
+    notif = Notification.where(
+      user: recipient,
+      notification_case_label: 'transfer_responsibility',
+      acknowledged: false
+    ).find do |notification|
+      payload = notification.data.deep_symbolize_keys
+      label = payload.dig(:resource, :link_def, :label)
+      label == resource.title
+    end
+
+    expect(notif).to be
+    data = notif.data.deep_symbolize_keys
+    expect(data).to match({
+      resource: {
+        link_def: { label: resource.title,
+                    href: if resource.is_a?(MediaEntry)
+                            media_entry_path(resource)
+                          elsif resource.is_a?(Collection)
+                            collection_path(resource)
+                          end }
+      },
+      user: { fullname: source_delegation.to_s },
+      source_delegation: { name: source_delegation.name },
+      acting_user: { fullname: acting_user.to_s }
     })
   end
 

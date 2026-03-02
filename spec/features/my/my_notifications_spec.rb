@@ -32,6 +32,49 @@ feature 'My: Notifications' do
   context 'when user is a member of the beta-tester group' do
     background { beta_tester_group.users << user }
 
+    it 'shows delegation source together with the acting user' do
+      user.notifications.create(
+        notification_case_label: :transfer_responsibility,
+        data: {
+          resource: { link_def: { label: 'KOKO', href: '/entries/8' } },
+          user: { fullname: 'mr-delegation' },
+          source_delegation: { name: 'mr-delegation' },
+          acting_user: { fullname: 'Eva Mackensen' }
+        },
+        created_at: 2.days.ago
+      )
+
+      visit my_dashboard_section_path(:notifications)
+      sign_in_as user
+
+      expect(page).to have_text(
+        'Verantwortlichkeit für Medieneintrag KOKO wurde von mr-delegation durch Eva Mackensen an Sie übertragen.'
+      )
+    end
+
+    it 'shows delegation source together with acting user for delegation section' do
+      target_delegation = create(:delegation, name: 'mr-del2')
+      target_delegation.users << user
+      user.notifications.create(
+        notification_case_label: :transfer_responsibility,
+        via_delegation: target_delegation,
+        data: {
+          resource: { link_def: { label: 'BAMBOO', href: '/entries/9' } },
+          user: { fullname: 'mr-del1' },
+          source_delegation: { name: 'mr-del1' },
+          acting_user: { fullname: 'Julia Flieg' }
+        },
+        created_at: 4.days.ago
+      )
+
+      visit my_dashboard_section_path(:notifications)
+      sign_in_as user
+
+      expect(page).to have_text(
+        'Verantwortlichkeit für Medieneintrag BAMBOO wurde von mr-del1 durch Julia Flieg an mr-del2 übertragen.'
+      )
+    end
+
     it 'shows the notifications (expanded/collapsed)' do
       visit my_dashboard_section_path(:notifications)
 

@@ -189,12 +189,19 @@ class MyNotifications extends React.Component {
   }
 
   _renderTransferResponsibilityContent(data, viaDelegation) {
-    const { user, resource } = data
-    const text = viaDelegation
-      ? t('notifications_message_transfer_responsibility_via_delegation')
-      : t('notifications_message_transfer_responsibility')
+    const { user, resource, source_delegation: sourceDelegation, acting_user: actingUser } = data
+    const hasDelegationActorDetails = sourceDelegation && actingUser
+    const text = hasDelegationActorDetails
+      ? viaDelegation
+        ? t('notifications_message_transfer_responsibility_via_delegation_by_user')
+        : t('notifications_message_transfer_responsibility_by_user')
+      : viaDelegation
+        ? t('notifications_message_transfer_responsibility_via_delegation')
+        : t('notifications_message_transfer_responsibility')
     return interpolateSplit(text, {
       user: user.fullname,
+      sourceDelegation: sourceDelegation ? sourceDelegation.name : undefined,
+      actingUser: actingUser ? actingUser.fullname : undefined,
       resourceType: resource.link_def.href.startsWith('/sets/')
         ? t('notifications_collection')
         : t('notifications_media_entry'),

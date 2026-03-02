@@ -22,6 +22,7 @@ feature 'transfer responsibility from delegation' do
     @delegation2.groups << @group1
 
     @user2 = create(:user)
+    @user2.groups << Group.find(Madek::Constants::BETA_TESTERS_NOTIFICATIONS_GROUP_ID)
   end
 
   scenario 'batch process for media entries with mixed responsibility' do
@@ -89,6 +90,10 @@ feature 'transfer responsibility from delegation' do
     
     choose_user(@user2)
     click_submit_button
+
+    check_notifications(@user1, @user2, media_entry1, acting_user: @user1)
+    check_notifications_from_delegation(@delegation1, @user2, media_entry2, acting_user: @user1)
+    check_notifications_from_delegation(@delegation2, @user2, media_entry3, acting_user: @user1)
 
     click_select_all_on_first_page
     click_dropdown
@@ -160,6 +165,10 @@ feature 'transfer responsibility from delegation' do
     
     choose_user(@user2)
     click_submit_button
+
+    check_notifications(@user1, @user2, collection1, acting_user: @user1)
+    check_notifications_from_delegation(@delegation1, @user2, collection2, acting_user: @user1)
+    check_notifications_from_delegation(@delegation2, @user2, collection3, acting_user: @user1)
 
     click_select_all_on_first_page
     click_dropdown

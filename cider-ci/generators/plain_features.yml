@@ -3111,23 +3111,37 @@
 "./spec/features/my/my_notifications_spec.rb[1:1:1]":
   name: "./spec/features/my/my_notifications_spec.rb[1:1:1]"
   description: 'My: Notifications when user is a member of the beta-tester group shows
-    the notifications (expanded/collapsed)'
+    delegation source together with the acting user'
   environment_variables:
     RSPEC_NAME: "./spec/features/my/my_notifications_spec.rb:35"
     RSPEC_TEST: "./spec/features/my/my_notifications_spec.rb[1:1:1]"
-"./spec/features/my/my_notifications_spec.rb[1:1:2:1]":
-  name: "./spec/features/my/my_notifications_spec.rb[1:1:2:1]"
+"./spec/features/my/my_notifications_spec.rb[1:1:2]":
+  name: "./spec/features/my/my_notifications_spec.rb[1:1:2]"
+  description: 'My: Notifications when user is a member of the beta-tester group shows
+    delegation source together with acting user for delegation section'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/my/my_notifications_spec.rb:55"
+    RSPEC_TEST: "./spec/features/my/my_notifications_spec.rb[1:1:2]"
+"./spec/features/my/my_notifications_spec.rb[1:1:3]":
+  name: "./spec/features/my/my_notifications_spec.rb[1:1:3]"
+  description: 'My: Notifications when user is a member of the beta-tester group shows
+    the notifications (expanded/collapsed)'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/my/my_notifications_spec.rb:78"
+    RSPEC_TEST: "./spec/features/my/my_notifications_spec.rb[1:1:3]"
+"./spec/features/my/my_notifications_spec.rb[1:1:4:1]":
+  name: "./spec/features/my/my_notifications_spec.rb[1:1:4:1]"
   description: 'My: Notifications when user is a member of the beta-tester group Acknowledge
     notifications acknowledges'
   environment_variables:
-    RSPEC_NAME: "./spec/features/my/my_notifications_spec.rb:70"
-    RSPEC_TEST: "./spec/features/my/my_notifications_spec.rb[1:1:2:1]"
+    RSPEC_NAME: "./spec/features/my/my_notifications_spec.rb:113"
+    RSPEC_TEST: "./spec/features/my/my_notifications_spec.rb[1:1:4:1]"
 "./spec/features/my/my_notifications_spec.rb[1:2:1]":
   name: "./spec/features/my/my_notifications_spec.rb[1:2:1]"
   description: 'My: Notifications when user is not a member of the beta-tester group
     does not show the notifications, an error instead'
   environment_variables:
-    RSPEC_NAME: "./spec/features/my/my_notifications_spec.rb:98"
+    RSPEC_NAME: "./spec/features/my/my_notifications_spec.rb:141"
     RSPEC_TEST: "./spec/features/my/my_notifications_spec.rb[1:2:1]"
 "./spec/features/my/my_settings_spec.rb[1:1:1:1]":
   name: "./spec/features/my/my_settings_spec.rb[1:1:1:1]"
@@ -3928,14 +3942,14 @@
   description: transfer responsibility from delegation batch process for media entries
     with mixed responsibility
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_from_delegation_spec.rb:27"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_from_delegation_spec.rb:28"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_from_delegation_spec.rb[1:1]"
 "./spec/features/transfer_responsibility/transfer_responsibility_from_delegation_spec.rb[1:2]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_from_delegation_spec.rb[1:2]"
   description: transfer responsibility from delegation batch process for collections
     with mixed responsibility
   environment_variables:
-    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_from_delegation_spec.rb:99"
+    RSPEC_NAME: "./spec/features/transfer_responsibility/transfer_responsibility_from_delegation_spec.rb:104"
     RSPEC_TEST: "./spec/features/transfer_responsibility/transfer_responsibility_from_delegation_spec.rb[1:2]"
 "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:1]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_media_entry_spec.rb[1:1]"

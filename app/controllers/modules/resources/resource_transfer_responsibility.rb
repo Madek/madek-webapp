@@ -31,7 +31,13 @@ module Modules
                 }
               }
             }
-            Notification.transfer_responsibility(resource, old_entity, new_entity, extra_data)
+            Notification.transfer_responsibility(
+              resource,
+              old_entity,
+              new_entity,
+              extra_data,
+              acting_user: current_user
+            )
           end
 
           transfer_responsibility_respond(resource.class)
