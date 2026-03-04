@@ -1,20 +1,31 @@
 #!/usr/bin/env node
-'use strict'
 
-const path = require('path')
-const fs = require('fs-extra')
-const f = require('active-lodash')
-const YAML = require('js-yaml')
-const parseTranslationsFromCSV = require('../app/javascript/lib/parse-translations-from-csv')
+import path from 'path'
+import fs from 'fs'
+import { fileURLToPath } from 'url'
+import f from 'active-lodash'
+import YAML from 'js-yaml'
+import parseTranslationsFromCSV from '../app/javascript/lib/parse-translations-from-csv.js'
+
+// ESM equivalent of __dirname
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const CONFIG = {
-  translationFile: './config/locale/translations.csv',
-  outputDir: './public/assets/_rails_locales',
+  translationFile: path.join(__dirname, '../config/locale/translations.csv'),
+  outputDir: path.join(__dirname, '../public/assets/_rails_locales'),
   // NOTE: we still keep some rails stuff around, to be removed.
-  localePresetsDir: './config/locale'
+  localePresetsDir: path.join(__dirname, '../config/locale')
 }
 
 // helpers
+
+// ensures directory exists (replacement for fs-extra's outputFileSync)
+const ensureDirSync = dirPath => {
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath, { recursive: true })
+  }
+}
 
 // merges translations with presets
 const mergeTranslationsWithPresets = (locales, presetsDir) => {
@@ -33,11 +44,14 @@ const mergeTranslationsWithPresets = (locales, presetsDir) => {
 
 // writes translations to Rails' locale files (YAML)
 const writeToLocaleFiles = (locales, outputDir) => {
+  // Ensure output directory exists
+  ensureDirSync(outputDir)
+
   f.each(locales, item => {
     const outputFile = path.join(outputDir, `${item.lang}.yml`)
     const text = YAML.dump(item.mapping)
     try {
-      fs.outputFileSync(outputFile, text, 'utf8')
+      fs.writeFileSync(outputFile, text, 'utf8')
     } catch (err) {
       throw new Error(`Can't write file '${outputFile}'!`, err)
     }

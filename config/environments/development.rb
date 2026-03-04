@@ -80,5 +80,9 @@ Rails.application.configure do
   # Raise error when a before_action's only/except options reference missing actions.
   # config.action_controller.raise_on_missing_callback_actions = true
 
+  # SSR renderer pool configuration
+  config.x.ssr_pool_size = 1  # Single pool in dev is fine
+  config.x.ssr_timeout = 10   # seconds
+
   config.assets.debug = true
 end

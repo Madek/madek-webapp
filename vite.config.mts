@@ -54,7 +54,12 @@ export default defineConfig({
       'uuid-validate',
       'any_sha1',
       'local-links'
-    ]
+    ],
+    esbuildOptions: {
+      loader: {
+        '.csv': 'text' // Handle CSV imports with ?raw suffix
+      }
+    }
   },
   css: {
     preprocessorOptions: {
