@@ -21,7 +21,8 @@
   padding: $space-x 0
 
 .ui-side-navigation-item.active > a
-  @extend a.strong
+  @extend a
+  @extend .strong
   color: $mono-dark
   cursor: default
 
@@ -30,7 +31,8 @@
 // .ui-side-navigation-lvl2
 
 .ui-side-navigation-lvl2-item > a
-  @extend a.weak
+  @extend a
+  @extend .weak
   line-height: $line-height-xs
 
 .ui-side-navigation-lvl2-item.active > a
@@ -45,7 +47,8 @@
   content: "- "
 
 .ui-side-navigation-lvl3-item > a
-  @extend a.weak
+  @extend a
+  @extend .weak
 
 .ui-side-navigation-lvl3-item.active > a
   font-weight: 700

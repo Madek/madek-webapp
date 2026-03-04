@@ -11,20 +11,32 @@
 // Support for size variations with just a modifier class
 
 .button-group.large .button
-  @extend .button
-  @extend .large
+  font-size: $font-xl
+  line-height: $line-height-xl
+  min-height: 37px
 
 .button-group.small .button
-  @extend .button
-  @extend .small
+  font-size: $font-xs
+  line-height: $line-height-s
+  min-height: 18px
+  padding-left: $space-x
+  padding-right: $space-x
 
 // Support for colour variations with just a modifier class
 
 .button-group.primary .button
-  @extend .primary-button
+  +background-image(linear-gradient($main-color-light, $main-color))
+  text-shadow: 0px 1px 0 $darken
+  background-color: $main-color
+  border: 1px solid $main-color-dark
+  color: darken($white, 5%)
 
 .button-group.tertiary .button
-  @extend .tertiary-button
+  +background-image(linear-gradient($mono-mid, $mono-strong))
+  text-shadow: 0px 1px 0 $darken
+  background-color: $mono-strong
+  border: 1px solid $mono-dark
+  color: $mono-bright
 
 // Button group styling and box model
 

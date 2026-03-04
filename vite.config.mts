@@ -64,27 +64,23 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       sass: {
+        // Use legacy API which is more forgiving with deprecations
+        api: 'legacy',
         // Inject image-url() function replacement for Sprockets compatibility
         additionalData: `
 @function image-url($path)
   @return url("../images/" + $path)
-`,
-        loadPaths: [
-          path.resolve(__dirname, 'app/assets/stylesheets'),
-          path.resolve(__dirname, 'node_modules')
-        ]
+`
       },
       scss: {
+        // Use legacy API which is more forgiving with deprecations
+        api: 'legacy',
         // Same for SCSS syntax files
         additionalData: `
 @function image-url($path) {
   @return url("../images/" + $path);
 }
-`,
-        loadPaths: [
-          path.resolve(__dirname, 'app/assets/stylesheets'),
-          path.resolve(__dirname, 'node_modules')
-        ]
+`
       }
     }
   },

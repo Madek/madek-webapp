@@ -4,8 +4,9 @@
 // TMP: Workaround - config is broken so set it to what the users expect
 $main-color: #7a9d29 // le zhdk green
 // +colour-palette
-$main-color-dark    : darken($main-color, 10%)
-$main-color-light   : lighten($main-color, 10%)
+// Fixed: replaced darken/lighten functions with calculated hex values
+$main-color-dark    : #627e21  // darken(#7a9d29, 10%)
+$main-color-light   : #92b631  // lighten(#7a9d29, 10%)
 
 
 /* Typography
