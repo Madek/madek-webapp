@@ -1,14 +1,29 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    nodePolyfills({
+      // Polyfill all Node.js built-ins (Option B - comprehensive approach)
+      // This prevents issues with any dependency that might use Node.js APIs
+      globals: {
+        Buffer: true,
+        global: true,
+        process: true
+      }
+    })
+  ],
   publicDir: false, // Disable public folder copying for SSR bundle
   resolve: {
     alias: {
       '~': path.resolve(__dirname, 'app/javascript')
-    }
+    },
+    // Prefer browser builds over Node.js builds for SSR in ExecJS
+    // ExecJS doesn't have Node.js built-ins, so we need browser-compatible code
+    conditions: ['browser', 'module', 'import', 'default']
   },
   build: {
     ssr: true,
@@ -25,46 +40,10 @@ export default defineConfig({
             ? 'bundle-react-server-side.js'
             : 'dev-bundle-react-server-side.js',
         // Inline everything (ExecJS can't import/require external modules)
-        inlineDynamicImports: true,
-        // Provide empty objects for Node.js built-in modules
-        // These will be passed as IIFE parameters to satisfy the function signature
-        globals: {
-          stream: '{}',
-          url: '{}',
-          util: '{}',
-          net: '{}',
-          crypto: '{}',
-          buffer: '{}',
-          http: '{}',
-          https: '{}',
-          zlib: '{}',
-          querystring: '{}',
-          assert: '{}',
-          path: '{}',
-          tls: '{}',
-          fs: '{}',
-          events: '{}'
-        }
+        inlineDynamicImports: true
       },
-      // CRITICAL: Node.js built-in modules must be external (can't bundle for browser)
-      // They will be provided as empty objects via globals in IIFE invocation
-      external: [
-        'stream',
-        'url',
-        'util',
-        'net',
-        'crypto',
-        'buffer',
-        'http',
-        'https',
-        'zlib',
-        'querystring',
-        'assert',
-        'path',
-        'tls',
-        'fs',
-        'events'
-      ]
+      // No external modules - all Node.js built-ins are polyfilled by vite-plugin-node-polyfills
+      external: []
     },
     // Don't externalize anything - ExecJS needs everything bundled
     commonjsOptions: {
