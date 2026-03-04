@@ -49,4 +49,8 @@ function fetchListMetadata({ resourceUrl, onFetched }) {
   )
 }
 
-module.exports = { fetchPage, fetchListMetadata }
+// Named exports
+export { fetchPage, fetchListMetadata }
+
+// Default export for backwards compatibility
+export default { fetchPage, fetchListMetadata }

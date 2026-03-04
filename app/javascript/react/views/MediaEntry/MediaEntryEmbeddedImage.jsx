@@ -68,4 +68,3 @@ MediaEntryEmbeddedImage.propTypes = {
 }
 
 export default MediaEntryEmbeddedImage
-module.exports = MediaEntryEmbeddedImage

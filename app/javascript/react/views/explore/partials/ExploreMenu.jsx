@@ -21,4 +21,3 @@ const ExploreMenu = ({ children }) => {
 }
 
 export default ExploreMenu
-module.exports = ExploreMenu

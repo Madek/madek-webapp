@@ -1,15 +1,17 @@
-const global = require('global')
+// Developer tools - exposes key modules on window for REPL debugging
 
-global.$ = require('jquery')
-global.f = require('active-lodash')
-global.React = require('react')
-global.ReactDOM = require('react-dom')
+import $ from 'jquery'
+import f from 'active-lodash'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import UI from './react/index.js'
+import Models from './models/index.js'
+import t from './lib/i18n-translate.js'
 
-global.App = {
-  UI: require('./react/index.js'),
-  Models: require('./models/index.js'),
-  t: require('./lib/i18n-translate.js')
-}
-
-global.UI = global.App.UI
-global.Models = global.App.Models
+window.$ = $
+window.f = f
+window.React = React
+window.ReactDOM = ReactDOM
+window.App = { UI, Models, t }
+window.UI = UI
+window.Models = Models

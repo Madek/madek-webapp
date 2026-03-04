@@ -63,4 +63,3 @@ MetaKeyFormLabel.propTypes = {
 }
 
 export default MetaKeyFormLabel
-module.exports = MetaKeyFormLabel

@@ -50,4 +50,3 @@ const BatchRemoveFromSet = ({ get, authToken }) => {
 }
 
 export default BatchRemoveFromSet
-module.exports = BatchRemoveFromSet

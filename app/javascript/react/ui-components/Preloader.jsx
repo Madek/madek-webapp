@@ -8,4 +8,3 @@ const Preloader = props => {
 }
 
 export default Preloader
-module.exports = Preloader

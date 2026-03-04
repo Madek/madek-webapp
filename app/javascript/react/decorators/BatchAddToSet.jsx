@@ -296,5 +296,3 @@ Zu diesem hinzufügen\
     )
   }
 }
-
-module.exports = BatchAddToSet

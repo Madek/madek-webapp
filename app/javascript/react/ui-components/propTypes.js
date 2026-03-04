@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-module.exports = {
+export default {
   Clickable: PropTypes.shape({
     name: PropTypes.node.isRequired,
     isActive: PropTypes.bool,

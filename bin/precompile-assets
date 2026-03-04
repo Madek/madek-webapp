@@ -22,8 +22,9 @@ npm ci --ignore-scripts --no-audit
 # build locale files
 bin/translation-csv-to-locale-yamls
 
-# bundle js
-npm run -s build
+# bundle js with Vite and SSR bundle
+bin/vite build --clear
+npm run -s build:ssr
 
 # precompilation: js, css, fonts, images
 bundle exec rake assets:precompile

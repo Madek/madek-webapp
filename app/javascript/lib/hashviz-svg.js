@@ -27,7 +27,7 @@ const hashBlotPath = function (str) {
   }
 }
 
-module.exports = function (text) {
+export default function (text) {
   const svg = $(EMPTY_SVG)
   const path = svg.find('path')[0]
   const cleaned_text = typeof text.replace === 'function' ? text.replace(/\s\s/g, ' ') : undefined

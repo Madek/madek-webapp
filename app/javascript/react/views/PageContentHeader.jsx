@@ -16,4 +16,3 @@ const PageContentHeader = ({ icon, title, children, banner, sectionLabels }) => 
 }
 
 export default PageContentHeader
-module.exports = PageContentHeader

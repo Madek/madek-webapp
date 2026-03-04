@@ -57,4 +57,3 @@ const VocabulariesIndex = ({ get }) => {
 }
 
 export default VocabulariesIndex
-module.exports = VocabulariesIndex

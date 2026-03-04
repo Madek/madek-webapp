@@ -104,4 +104,3 @@ class HighlightedContent extends React.Component {
 }
 
 export default HighlightedContents
-module.exports = HighlightedContents

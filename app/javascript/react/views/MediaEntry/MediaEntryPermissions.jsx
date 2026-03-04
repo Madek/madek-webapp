@@ -11,4 +11,3 @@ MediaEntryPermissions.propTypes = {
 }
 
 export default MediaEntryPermissions
-module.exports = MediaEntryPermissions

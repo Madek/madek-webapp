@@ -370,4 +370,3 @@ const FlyoutImage = ({ imageUrl, title, mediaType, resourceType }) => {
 }
 
 export default memo(ResourceThumbnail)
-module.exports = memo(ResourceThumbnail)

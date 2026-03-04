@@ -78,4 +78,4 @@ class ConfidentialLinkCreated extends React.Component {
   }
 }
 
-module.exports = ConfidentialLinkCreated
+export default ConfidentialLinkCreated

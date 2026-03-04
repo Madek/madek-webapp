@@ -55,10 +55,11 @@ class ResourcePermissionsForm extends React.Component {
   }
 
   // this will only ever run on the client:
-  componentDidMount() {
+  async componentDidMount() {
     this._isMounted = true
     // init autocompletes, then force re-render:
-    AutoComplete = require('../lib/autocomplete.jsx')
+    const { default: AutoCompleteModule } = await import('../lib/autocomplete.jsx')
+    AutoComplete = AutoCompleteModule
     if (this._isMounted) {
       return this.forceUpdate()
     }

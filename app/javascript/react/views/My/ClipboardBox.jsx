@@ -26,4 +26,3 @@ const ClipboardBox = props => {
 }
 
 export default ClipboardBox
-module.exports = ClipboardBox

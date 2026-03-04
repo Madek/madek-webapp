@@ -15,5 +15,4 @@ IfLet.propTypes = {
   children: PropTypes.func.isRequired
 }
 
-module.exports.Let = Let
-module.exports.IfLet = IfLet
+export { Let, IfLet }

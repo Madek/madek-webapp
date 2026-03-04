@@ -13,7 +13,7 @@ import useBeforeUnload from 'history/lib/useBeforeUnload'
 
 const history = useBeforeUnload(History)()
 
-module.exports = {
+export default {
   listen: history.listen,
   start() {
     return history.replace(window.location)

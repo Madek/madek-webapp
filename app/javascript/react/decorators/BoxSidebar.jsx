@@ -259,4 +259,4 @@ class BoxSidebar extends React.Component {
   }
 }
 
-module.exports = BoxSidebar
+export default BoxSidebar

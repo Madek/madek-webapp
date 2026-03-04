@@ -167,4 +167,3 @@ const MenuItemButton = ({ action, method, icon, title, authToken }) => {
 }
 
 export default UserMenu
-module.exports = UserMenu

@@ -36,4 +36,3 @@ ButtonGroup.proptypes = {
 }
 
 export default ButtonGroup
-module.exports = ButtonGroup

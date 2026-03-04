@@ -106,4 +106,3 @@ class EditCustomUrls extends React.Component {
 }
 
 export default EditCustomUrls
-module.exports = EditCustomUrls

@@ -37,4 +37,3 @@ const VocabularyPermissions = ({ get, for_url }) => {
 }
 
 export default VocabularyPermissions
-module.exports = VocabularyPermissions

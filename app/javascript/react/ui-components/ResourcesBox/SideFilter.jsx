@@ -626,7 +626,7 @@ class SideFilter extends React.Component {
   }
 }
 
-module.exports = SideFilter
+export default SideFilter
 
 // Tree structure in `data`: sections -> filters -> filter items
 // E.g. "File information" -> "Media type" -> "video"

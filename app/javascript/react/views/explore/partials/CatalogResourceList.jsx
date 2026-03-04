@@ -12,4 +12,3 @@ const CatalogResourceList = ({ resources, authToken }) => {
 }
 
 export default CatalogResourceList
-module.exports = CatalogResourceList

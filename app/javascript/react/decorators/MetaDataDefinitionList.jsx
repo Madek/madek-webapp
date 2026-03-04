@@ -32,4 +32,3 @@ const MetaDataDefinitionList = ({ labelValuePairs, fallbackMsg, tagMods }) => {
 }
 
 export default MetaDataDefinitionList
-module.exports = MetaDataDefinitionList

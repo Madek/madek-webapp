@@ -1,0 +1,1 @@
+import '../integration-testbed.js'

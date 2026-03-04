@@ -66,7 +66,7 @@ const MediaEntryApiClientPermissions = Collection.extend({
   })
 })
 
-module.exports = ResourcePermissions.extend({
+export default ResourcePermissions.extend({
   type: 'MediaEntryPermissions',
 
   children: {

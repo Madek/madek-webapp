@@ -1,7 +1,7 @@
 import xhr from 'xhr'
 import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 
-module.exports = (last, props, trigger) => {
+export default (last, props, trigger) => {
   var nextPendingFavorite = () => {
     if (props.event == 'toggle') {
       return true

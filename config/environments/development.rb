@@ -24,7 +24,7 @@ Rails.application.configure do
     config.action_controller.enable_fragment_cache_logging = true
 
     config.cache_store = :memory_store
-    config.public_file_server.headers = { "Cache-Control" => "public, max-age=#{2.days.to_i}" }
+    config.public_file_server.headers = {"Cache-Control" => "public, max-age=#{2.days.to_i}"}
   else
     config.action_controller.perform_caching = false
 
@@ -41,7 +41,7 @@ Rails.application.configure do
   # caching is enabled.
   config.action_mailer.perform_caching = false
 
- # config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
+  #  config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -81,13 +81,4 @@ Rails.application.configure do
   # config.action_controller.raise_on_missing_callback_actions = true
 
   config.assets.debug = true
-
-  # use dev bundle for SSR
-  config.react.server_renderer_options = {
-    files: ['dev-bundle-react-server-side.js'].flatten,
-    replay_console: false
-  }
-
-  # auto-reload SSR renderer when dev bundle changes
-  config.watchable_files.concat([root.join('public/assets/bundles/dev-bundle-react-server-side.js').to_s])
 end

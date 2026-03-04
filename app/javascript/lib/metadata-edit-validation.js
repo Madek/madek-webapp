@@ -5,7 +5,7 @@
  */
 import f from 'active-lodash'
 
-module.exports = {
+export default {
   _validityForAll(meta_meta_data, models) {
     const mandatory_meta_key_ids = f.keys(meta_meta_data.mandatory_by_meta_key_id)
     return this._validityForMandatoryMetaKeyIds(mandatory_meta_key_ids, models)

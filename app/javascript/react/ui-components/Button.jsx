@@ -45,4 +45,3 @@ Button.propTypes = {
 }
 
 export default Button
-module.exports = Button

@@ -382,4 +382,3 @@ const Titles = () => {
 }
 
 export default memo(ListThumbnail)
-module.exports = memo(ListThumbnail)

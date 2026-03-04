@@ -15,10 +15,10 @@ gem 'puma_worker_killer'
 # FRONTEND
 gem 'haml-rails'
 gem 'kramdown'
-gem 'react-rails', '= 1.10.0'
-gem 'sass'
-gem 'sass-rails'
+gem 'vite_rails'
+gem 'connection_pool'
 gem 'sprockets-rails', '>= 3.5'
+gem 'execjs'
 
 # LINKED DATA
 gem 'json-ld'
@@ -29,7 +29,6 @@ gem 'equivalent-xml'
 
 # The rest
 gem 'cider_ci-open_session', '>= 1.0.0', '< 2.0.0'
-gem 'execjs'
 gem 'exiftool_vendored'
 gem 'git', '~> 1.13'
 gem 'json'
@@ -38,7 +37,6 @@ gem 'pundit'
 gem 'rubyzip', '~> 1.0'
 gem 'sitemap_generator'
 gem 'sorted_set'
-gem 'uglifier'
 
 
 ####################################################################

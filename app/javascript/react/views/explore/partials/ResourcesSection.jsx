@@ -58,4 +58,3 @@ const ResourcesSection = ({ section, authToken }) => {
 }
 
 export default ResourcesSection
-module.exports = ResourcesSection

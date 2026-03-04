@@ -29,4 +29,4 @@ class DatePickerPopup extends React.Component {
   }
 }
 
-module.exports = DatePickerPopup
+export default DatePickerPopup

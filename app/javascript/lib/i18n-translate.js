@@ -1,16 +1,11 @@
 // provides string translation function.
-// usage
-// import/require as t; t('hello') // => 'Hallo'
+// usage: import t from './i18n-translate'; t('hello') // => 'Hallo'
 
 import f from 'active-lodash'
 import parseTranslationsFromCSV from './parse-translations-from-csv.js'
 
-// NOTE: this works with browserify and the 'brfs' transform (embeds as string)
-var path = require('path')
-var translationsCSVText = require('fs').readFileSync(
-  path.join(__dirname, '../../../config/locale/translations.csv'),
-  'utf8'
-)
+// Vite's ?raw suffix imports file content as a string (replaces brfs transform)
+import translationsCSVText from '../../../config/locale/translations.csv?raw'
 
 // parses CSV and returns list like: [{lang: 'en', mapping: {key: 'value'}}, …]
 var translationsList = parseTranslationsFromCSV(translationsCSVText)
@@ -20,7 +15,7 @@ var translations = f.zipObject(
   })
 )
 
-module.exports = function I18nTranslate(marker) {
+export default function I18nTranslate(marker) {
   // get language from (global) app config
   var LANG = APP_CONFIG.userLanguage
 

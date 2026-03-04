@@ -1,10 +1,7 @@
 // reads CSV and returns list like: [{lang: 'en', mapping: {key: 'value'}}, …]
 
-// NOTE: this works with browserify and the 'brfs' transform
-//       - the CSV(!) will be inlined as a simple string.
-
-const f = require('active-lodash')
-const CSV = require('babyparse')
+import f from 'active-lodash'
+import CSV from 'babyparse'
 
 var ignoreColumnsDefault = ['comment']
 
@@ -38,4 +35,4 @@ function readTranslationsFromCSV(rawCsvText, ignoreColumns) {
     .value()
 }
 
-module.exports = readTranslationsFromCSV
+export default readTranslationsFromCSV

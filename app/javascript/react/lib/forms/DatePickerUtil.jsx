@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   createUtil(propsYear, propsMonth) {
     return {
       _interval(n) {

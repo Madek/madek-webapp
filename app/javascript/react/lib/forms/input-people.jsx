@@ -35,4 +35,3 @@ const InputPeople = ({ metaKey, ...rest }) => {
 }
 
 export default InputPeople
-module.exports = InputPeople

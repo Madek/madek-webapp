@@ -51,4 +51,3 @@ const Sidebar = ({ sections, for_url }) => {
 }
 
 export default Sidebar
-module.exports = Sidebar

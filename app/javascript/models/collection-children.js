@@ -44,4 +44,4 @@ CollectionChildren.PaginatedClipboard = PaginatedCollection(CollectionChildren, 
   jsonPath: 'resources'
 })
 
-module.exports = CollectionChildren
+export default CollectionChildren

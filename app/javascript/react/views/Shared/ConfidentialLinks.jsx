@@ -193,6 +193,10 @@ const ConfidentialLinkRow = ({ authToken, ...confidentialLink }) => {
   )
 }
 
-module.exports = ConfidentialLinks
+// Named exports
+export { ConfidentialLinkHead, ConfidentialLinkRow }
+
+// Default export with attached properties for backwards compatibility
+export default ConfidentialLinks
 ConfidentialLinks.ConfidentialLinkHead = ConfidentialLinkHead
 ConfidentialLinks.ConfidentialLinkRow = ConfidentialLinkRow

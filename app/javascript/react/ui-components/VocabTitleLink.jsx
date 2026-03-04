@@ -21,4 +21,3 @@ const VocabTitleLink = ({ id, hi, text, href, separated, className }) => {
 }
 
 export default VocabTitleLink
-module.exports = VocabTitleLink

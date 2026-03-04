@@ -7,7 +7,7 @@
 import url from 'url'
 import f from 'active-lodash'
 import { t } from '../react/lib/ui.js'
-const Bloodhound = require('@eins78/typeahead.js/dist/bloodhound.js').noConflict()
+import Bloodhound from '@eins78/typeahead.js/dist/bloodhound.js'
 
 // NOTE: ignores RAILS_RELATIVE_URL_ROOT (this is OK given it runs on domain root)
 const resourcesConfig = {
@@ -30,7 +30,7 @@ const resourcesConfig = {
   Roles: { url: '/roles', key: 'label', params: ['meta_key_id'] }
 }
 
-module.exports = function (resourceType, parameters = null, localData) {
+export default function (resourceType, parameters = null, localData) {
   let baseConfig
   if ((baseConfig = resourcesConfig[resourceType]) == null) {
     throw new Error(`Search: Unknown resourceType: ${resourceType}!`)

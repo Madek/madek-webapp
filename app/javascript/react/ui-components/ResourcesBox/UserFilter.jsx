@@ -6,9 +6,10 @@ import cx from 'classnames'
 let jQuery = null
 
 class UserFilter extends React.Component {
-  componentDidMount() {
-    jQuery = require('jquery')
-    require('@eins78/typeahead.js/dist/typeahead.jquery.js')
+  async componentDidMount() {
+    const { default: jQueryModule } = await import('jquery')
+    jQuery = jQueryModule
+    await import('@eins78/typeahead.js/dist/typeahead.jquery.js')
 
     const domNode = ReactDOM.findDOMNode(this.refs.testInput)
     const jNode = jQuery(domNode)
@@ -122,4 +123,3 @@ class UserFilter extends React.Component {
 }
 
 export default UserFilter
-module.exports = UserFilter

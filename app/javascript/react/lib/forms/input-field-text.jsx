@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
 import jQuery from 'jquery'
+import '@eins78/typeahead.js/dist/typeahead.jquery.js'
 import { get } from '../../../lib/utils.js'
 
 const InputFieldText = props => {
@@ -15,8 +16,6 @@ const InputFieldText = props => {
   }, [])
 
   const initSuggestions = () => {
-    require('@eins78/typeahead.js/dist/typeahead.jquery.js')
-
     const $input = jQuery(inputRef.current)
     $input.typeahead(
       {
@@ -97,4 +96,3 @@ InputFieldText.propTypes = {
 }
 
 export default InputFieldText
-module.exports = InputFieldText

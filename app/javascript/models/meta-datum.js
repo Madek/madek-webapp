@@ -24,7 +24,7 @@ const MetaDatum = AppResource.extend({
   }
 })
 
-module.exports = {
+export default {
   // only subtypes are exported
 
   Text: MetaDatum.extend({

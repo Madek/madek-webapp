@@ -20,12 +20,12 @@ module UiHelper
 
   # 2. Components:
   def component(name, config = {}, &block)
-    render_element('component', name, config, &block)
+    render_element("component", name, config, &block)
   end
 
   # 3. Combos:
   def combo(name, config = {}, &block)
-    render_element('combo', name, config, &block)
+    render_element("combo", name, config, &block)
   end
 
   # 4. Decorators:
@@ -42,17 +42,32 @@ module UiHelper
 
   # React Components (proxy to view helper from `react_rails` gem w/ config)
   def react(name, props = {}, opts = {})
-    defaults = { prerender: !params.permit(:___norender).present? }
-    opts = defaults.merge(opts)
+    prerender = opts.fetch(:prerender, !params.permit(:___norender).present?)
+
     maybe_presenter = props[:get]
-    if maybe_presenter.is_a?(Presenter)
+    if prerender && maybe_presenter.is_a?(Presenter)
       # NOTE: all of the queries happen here:
       props = props.merge(get: maybe_presenter.dump)
     end
+
     # inject route + auth token for all "top-level" components (aka Views)
     props = props.merge(
-      authToken: form_authenticity_token, for_url: request.original_fullpath)
-    react_component("UI.#{name}", props, opts)
+      authToken: form_authenticity_token, for_url: request.original_fullpath
+    )
+
+    json_props = props.as_json
+
+    html = if prerender
+      SsrRenderer.render(name, json_props)
+    else
+      ""
+    end
+
+    content_tag(:div, html.html_safe,
+      data: {
+        react_class: "UI.#{name}",
+        react_props: json_props.to_json
+      })
   end
 
   # generic partial-with-block helper
@@ -63,13 +78,12 @@ module UiHelper
   def link_from_item(config) # normalize `link` option
     return unless config.is_a?(Hash)
     link = config[:link]
-    case
-    when link.is_a?(String) # support string shortcut
-      { href: link }
-    when link.is_a?(Hash) && link[:href].is_a?(String) # full form, just validate
+    if link.is_a?(String) # support string shortcut
+      {href: link}
+    elsif link.is_a?(Hash) && link[:href].is_a?(String) # full form, just validate
       link
-    when config[:href] # also support normal (haml) usage
-      { href: config[:href], target: config[:href_target] }
+    elsif config[:href] # also support normal (haml) usage
+      {href: config[:href], target: config[:href_target]}
     else
       false
     end
@@ -90,7 +104,7 @@ module UiHelper
   def build_locals_from_element(name, config)
     locals = {
       classes: classes_from_element(config).push(mods_from_name(name))
-                .flatten.compact,
+        .flatten.compact,
       link: link_from_item(config),
       props: props_from_element(config),
       block_content: nil
@@ -103,16 +117,18 @@ module UiHelper
     return classes_from_string(config) if config.is_a?(String)
     # or Hash[:mods] (String or Array)
     return [] unless config.is_a?(Hash) && config[:mods].present?
-    case
-    when config[:mods].is_a?(String) then classes_from_string(config[:mods])
-    when config[:mods].is_a?(Array) then config[:mods]
-    else []
+    if config[:mods].is_a?(String)
+      classes_from_string(config[:mods])
+    elsif config[:mods].is_a?(Array)
+      config[:mods]
+    else
+      []
     end
   end
 
   def mods_from_name(name)
-    supported_elements = ['icon', 'button', 'tag-cloud', 'tag-button']
-    mods = name.split('.')
+    supported_elements = ["icon", "button", "tag-cloud", "tag-button"]
+    mods = name.split(".")
     element = mods.shift(1).first
     return unless mods
     supported_elements.map do |supported|
@@ -121,10 +137,9 @@ module UiHelper
   end
 
   def build_list(list = nil)
-    case
-    when list.is_a?(Array)
+    if list.is_a?(Array)
       list.compact
-    when list.is_a?(Hash) # only transform Hashes
+    elsif list.is_a?(Hash) # only transform Hashes
       list = list.compact
       Hash[list.map { |id, itm| [id, build_locals_from_element(id.to_s, itm)] }]
     else
@@ -138,11 +153,10 @@ module UiHelper
   end
 
   def name_without_mods(name)
-    classes_from_string(name || '').first
+    classes_from_string(name || "").first
   end
 
   def classes_from_string(string) # split by dot and spaces, always returns Array
     [string.split(/\.|\s/)].flatten.compact
   end
-
 end

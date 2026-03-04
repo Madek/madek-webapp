@@ -79,4 +79,4 @@ class TokenNewPage extends React.Component {
   }
 }
 
-module.exports = TokenNewPage
+export default TokenNewPage

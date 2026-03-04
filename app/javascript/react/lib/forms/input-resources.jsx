@@ -33,9 +33,10 @@ class InputResources extends React.Component {
     this.state = {}
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { values, metaKey } = this.props
-    AutoComplete = require('../autocomplete.jsx')
+    const { default: AutoCompleteModule } = await import('../autocomplete.jsx')
+    AutoComplete = AutoCompleteModule
     this.setState({
       values, // keep internal state of entered values
       roles: metaKey && metaKey.roles ? [...Array.from(metaKey.roles)] : []

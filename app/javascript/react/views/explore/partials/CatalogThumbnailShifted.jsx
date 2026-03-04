@@ -21,4 +21,3 @@ const CatalogThumbnailShifted = ({ imageUrl, count }) => {
 }
 
 export default CatalogThumbnailShifted
-module.exports = CatalogThumbnailShifted

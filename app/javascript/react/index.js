@@ -1,27 +1,28 @@
 // collect top-level components needed for ujs and/or server-side render:
 
-// Does not work with ESM
-const requireBulk = require('bulk-require') // require file/directory trees
+import { globToNested } from '../lib/glob-to-nested.js'
+import UI from './ui-components/index.js'
+import Views from './views/index.js'
+import UserMenu from './views/_layouts/UserMenu.jsx'
+import { default as LoginMenu } from './views/_layouts/LoginMenu.jsx'
+import { default as TestLoginForm } from './views/_layouts/TestLoginForm.jsx'
 
-module.exports = {
-  // "UI library" (aka styleguide)
-  // NOTE: 'requireBulk' is in the index file so that other components can use it
-  UI: require('./ui-components/index.js'),
+// Decorators: auto-discover all files in decorators/ tree
+// Strip './decorators/' prefix so result is: { BatchAddToSet: ..., resourcesbox: { ... } }
+const decoratorModules = import.meta.glob(
+  ['./decorators/*.{js,jsx}', './decorators/**/*.{js,jsx}'],
+  { eager: true }
+)
+const Deco = globToNested(decoratorModules, './decorators/')
 
-  // Decorators: components that directly receive (sub-)presenters
-  // NOTE: only needed for remaining HAML views…
-  Deco: requireBulk(__dirname, ['./decorators/*.{c,}js{x,}', './decorators/**/*.{c,}js{x,}'])
-    .decorators,
-
-  // Views: Everything else that is rendered top-level (`react` helper)
-  // NOTE: also because of HAML views there are sub-folders for "partials and actions".
-  //       Will be structured more closely to the actual routes where they are used.
-  Views: requireBulk(__dirname, ['./views/*.{c,}js{x,}', './views/**/*.{c,}js{x,}']).views,
-
-  // App/Layout things that are only temporarly used from HAML:
+export default {
+  UI,
+  Deco,
+  Views,
+  // App/Layout things that are only temporarily used from HAML:
   App: {
-    UserMenu: require('../react/views/_layouts/UserMenu.jsx'),
-    LoginMenu: require('../react/views/_layouts/LoginMenu.jsx').default,
-    TestLoginForm: require('../react/views/_layouts/TestLoginForm.jsx').default
+    UserMenu,
+    LoginMenu,
+    TestLoginForm
   }
 }

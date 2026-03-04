@@ -7,7 +7,7 @@
 import AppResource from './app-resource.js'
 
 // Base ResourcePermissions Model:
-module.exports = AppResource.extend({
+export default AppResource.extend({
   type: 'ResourcePermissions',
   props: {
     permission_types: ['array'],

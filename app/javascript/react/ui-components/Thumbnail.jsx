@@ -180,4 +180,3 @@ Thumbnail.propTypes = {
 }
 
 export default Thumbnail
-module.exports = Thumbnail

@@ -193,4 +193,4 @@ const ExternalUrisForm = props => {
   )
 }
 
-module.exports = PersonEdit
+export default PersonEdit

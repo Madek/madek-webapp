@@ -5,7 +5,7 @@
 // - for client-side, logic is copied to here
 // - therefore, keep in sync with `datalayer/app/models/concerns/media_type.rb`
 
-module.exports = function mediaTypeFromContentType(contentType) {
+export default function mediaTypeFromContentType(contentType) {
   if (/^image/.test(contentType)) {
     return 'image'
   }

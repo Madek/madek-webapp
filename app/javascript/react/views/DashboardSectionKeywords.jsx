@@ -34,4 +34,3 @@ const DashboardSectionKeywords = ({ section, sectionResources }) => {
 }
 
 export default DashboardSectionKeywords
-module.exports = DashboardSectionKeywords

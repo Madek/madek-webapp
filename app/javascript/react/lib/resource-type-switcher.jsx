@@ -88,7 +88,11 @@ var urlByType = function (url, currentType, newType) {
   return setUrlParams(currentUrl, { list: newParams.list }, { type: newType })
 }
 
-module.exports = {
+// Named exports
+export { resourceTypeSwitcher, urlByType }
+
+// Default export for backwards compatibility
+export default {
   resourceTypeSwitcher,
   urlByType
 }

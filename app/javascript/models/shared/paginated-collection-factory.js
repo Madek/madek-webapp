@@ -19,7 +19,7 @@ const getOrThrow = function (obj, key) {
   return val
 }
 
-module.exports = function (collectionClass, { jsonPath }) {
+export default function (collectionClass, { jsonPath }) {
   return State.extend({
     collections: {
       resources: collectionClass

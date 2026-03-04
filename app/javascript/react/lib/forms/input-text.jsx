@@ -31,4 +31,3 @@ InputText.propTypes = {
 }
 
 export default InputText
-module.exports = InputText

@@ -27,4 +27,3 @@ Link.propTypes = {
 }
 
 export default Link
-module.exports = Link

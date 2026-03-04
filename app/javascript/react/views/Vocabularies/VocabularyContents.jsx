@@ -27,4 +27,3 @@ const VocabularyContents = ({ get, authToken, for_url }) => {
 }
 
 export default VocabularyContents
-module.exports = VocabularyContents

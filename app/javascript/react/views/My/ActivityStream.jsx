@@ -115,7 +115,7 @@ class MyTimeline extends React.Component {
   }
 }
 
-module.exports = MyTimeline
+export default MyTimeline
 
 // cjs export for compatibility with coffeescript
 // how the server data is parsed initially and on updates

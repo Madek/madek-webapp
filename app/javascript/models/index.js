@@ -4,18 +4,16 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 import f from 'active-lodash'
-import requireBulk from 'bulk-require'
 
-const index = requireBulk(__dirname, ['*.js'])
+const modules = import.meta.glob('./*.js', { eager: true })
 
-const Models = f.object(
-  f.filter(
-    f.map(index, function (val, key) {
-      if (!(key === 'index')) {
-        return [f.capitalize(f.camelCase(key)), val]
-      }
-    })
-  )
-)
+const Models = {}
+for (const [path, mod] of Object.entries(modules)) {
+  const filename = path.replace('./', '').replace(/\.js$/, '')
+  if (filename === 'index') continue
+  // Convert kebab-case filename to PascalCase key (matching original behavior)
+  const key = f.capitalize(f.camelCase(filename))
+  Models[key] = mod.default !== undefined ? mod.default : mod
+}
 
-module.exports = Models
+export default Models

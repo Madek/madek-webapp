@@ -85,4 +85,3 @@ const GroupShow = ({ get, for_url, authToken }) => {
 }
 
 export default GroupShow
-module.exports = GroupShow

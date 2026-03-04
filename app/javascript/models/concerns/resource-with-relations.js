@@ -9,7 +9,7 @@
 import f from 'active-lodash'
 import { parse as parseUrl, format as buildUrl } from 'url'
 
-module.exports = {
+export default {
   props: {
     parent_collections: ['object'],
     sibling_collections: ['object']

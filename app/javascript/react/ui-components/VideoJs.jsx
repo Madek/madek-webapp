@@ -61,7 +61,7 @@ class VideoJS extends Component {
     this.toCallOnUnmount = []
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { options, captionConf, isInternal, mode, onReady } = this.props
     const { fluid = true, ratio: aspectRatio = '16:9', width, height, controlBar } = options
     const { title, logoTitle, subtitle, link } = captionConf
@@ -94,12 +94,12 @@ class VideoJS extends Component {
     const videoTag = this.refs.videojs
     if (!videoTag) throw new Error('no videojs tag!')
 
-    videojs = require('video.js')
+    const videojs = (await import('video.js')).default
 
     // make library available to our plugins and other extensions:
     window.videojs = videojs
     if (mode === 'video') {
-      require('../../lib/videojs-resolution-switcher/lib/videojs-resolution-switcher')
+      await import('../../lib/videojs-resolution-switcher/lib/videojs-resolution-switcher')
     }
 
     // init/start

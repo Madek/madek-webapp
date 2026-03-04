@@ -5,7 +5,7 @@
  */
 import f from 'active-lodash'
 
-module.exports = {
+export default {
   _listingFromContextOrVocab(contextOrVocab) {
     const listing = f.get(contextOrVocab, 'context') || f.get(contextOrVocab, 'vocabulary')
     const listingType = f.get(listing, 'type')

@@ -13,7 +13,7 @@ import ui from '../lib/ui.js'
 import Icon from './Icon.jsx'
 import Link from './Link.jsx'
 import Dropdown from 'react-bootstrap/lib/Dropdown'
-import MenuItem from 'react-bootstrap/lib/MenuItem'
+import RBMenuItem from 'react-bootstrap/lib/MenuItem'
 
 const UIDropdown = ({ toggle, toggleProps, children, id, mods, testId }) => {
   const [isClient, setIsClient] = useState(false)
@@ -65,14 +65,12 @@ UIDropdown.propTypes = {
 UIDropdown.Menu = Dropdown.Menu
 
 UIDropdown.MenuItem = props => {
-  const hasLink = props.href || props.onClick
-  const isDisabled = props.disabled !== undefined ? props.disabled : !hasLink
+  // replace onClick with onSelect for bootstrap
+  const { onClick, ...rest } = props
   return (
-    <MenuItem
+    <RBMenuItem
       {...{
-        componentClass: Link,
-        className: 'ui-drop-item',
-        disabled: isDisabled,
+        onSelect: onClick,
         ...props
       }}
     />
@@ -80,5 +78,8 @@ UIDropdown.MenuItem = props => {
 }
 UIDropdown.MenuItem.displayName = 'UIDropdown.MenuItem'
 
+// Named exports for MenuItem and Menu
+export const MenuItem = UIDropdown.MenuItem
+export const Menu = UIDropdown.Menu
+
 export default UIDropdown
-module.exports = UIDropdown

@@ -2,7 +2,7 @@
 
 if Rails.env.development?
   puts "run `npm ci` to make sure `node_modules` are up to date..."
-  system('npm ci')
+  system("npm ci")
 end
 
 # Version of your assets, change this if you want to expire all your assets.
@@ -10,31 +10,25 @@ Rails.application.config.assets.version = "1.0"
 
 Rails.application.config.assets.gzip = false
 
-# NOTE: sprockets is not used for bundling JS, hand it the prebundled files:
+# Vite handles all JS and CSS bundling, Sprockets only needs to handle:
+# - SSR bundle (still built separately and placed in public/assets/bundles)
+# - Fonts from node_modules
+
+# NOTE: sprockets is not used for bundling JS, hand it the SSR bundle:
 Rails.application.config.assets.paths.concat(
-  Dir["#{Rails.root}/public/assets/bundles"])
-
-  # the JS bundles are different for dev/prod:
-Rails.application.config.assets.precompile << %w(
-  bundle.js
-  bundle-embedded-view.js
-).map { |name| "#{Rails.env.development? ? 'dev-' : ''}#{name}" }
-.concat(%w( bundle-react-server-side.js bundle-integration-testbed.js ))
-
-# CSS
-Rails.application.config.assets.precompile << %w(
-  application.css
-  application-contrasted.css
-  embedded-view.css
-  styleguide.css
+  Dir["#{Rails.root}/public/assets/bundles"]
 )
+
+Rails.application.config.assets.precompile << %w[
+  bundle-react-server-side.js
+]
 
 # NOTE: Rails does not support *matchers* anymore, do it manually
-precompile_assets_dirs = %w(
+precompile_assets_dirs = %w[
   fonts/
-)
-Rails.application.config.assets.precompile << Proc.new do |filename, path|
-  precompile_assets_dirs.any? {|dir| path =~ Regexp.new("app/assets/#{dir}") }
+]
+Rails.application.config.assets.precompile << proc do |filename, path|
+  precompile_assets_dirs.any? { |dir| path =~ Regexp.new("app/assets/#{dir}") }
 end
 
 # handle & precompile asset imports from npm

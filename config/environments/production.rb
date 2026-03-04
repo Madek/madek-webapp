@@ -21,7 +21,7 @@ Rails.application.configure do
   # config.require_master_key = true
 
   # Disable serving static files from `public/`, relying on NGINX/Apache to do so instead.
-  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
 
   # Compress CSS using a preprocessor.
   # config.assets.css_compressor = :sass
@@ -33,7 +33,7 @@ Rails.application.configure do
   # config.asset_host = "http://assets.example.com"
 
   # Use a different cache store in production.
-  config.cache_store = :memory_store, {size: (ENV['WEBAPP_CACHE_SIZE_MB'].presence || 64).megabytes}
+  config.cache_store = :memory_store, {size: (ENV["WEBAPP_CACHE_SIZE_MB"].presence || 64).megabytes}
 
   # Specifies the header that your server uses for sending files.
   config.action_dispatch.x_sendfile_header = "X-Sendfile" # for Apache
@@ -57,17 +57,17 @@ Rails.application.configure do
   # Skip http-to-https redirect for the default health check endpoint.
   # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
 
-  # Use multi-threaded React renderer in production (jruby!)
-  config.react.server_renderer_pool_size = 12
-  config.react.server_renderer_timeout   = 10 # seconds
+  # SSR renderer pool configuration
+  config.x.ssr_pool_size = 12
+  config.x.ssr_timeout = 10 # seconds
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
-    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
-    config.logger    = ActiveSupport::TaggedLogging.new(logger)
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
   end
 
   # "info" includes generic and useful information about system operation, but avoids logging too much

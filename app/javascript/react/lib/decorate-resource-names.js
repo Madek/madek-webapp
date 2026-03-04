@@ -35,7 +35,7 @@ const decorators = {
   }
 }
 
-module.exports = function (o) {
+export default function (o) {
   let decorate
   if (!f.isObject(o) || !f.isFunction((decorate = decorators[o.type]))) {
     throw new Error(

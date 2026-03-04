@@ -53,4 +53,4 @@ class SuperBoxDashboard extends React.Component {
   }
 }
 
-module.exports = SuperBoxDashboard
+export default SuperBoxDashboard

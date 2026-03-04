@@ -38,8 +38,9 @@ class GroupSearch extends React.Component {
     }
   }
 
-  componentDidMount() {
-    AutoComplete = require('../lib/autocomplete.jsx')
+  async componentDidMount() {
+    const { default: AutoCompleteModule } = await import('../lib/autocomplete.jsx')
+    AutoComplete = AutoCompleteModule
     return this.setState({ mounted: true })
   }
 
@@ -195,4 +196,3 @@ class MemberRow extends React.Component {
 }
 
 export default GroupSearch
-module.exports = GroupSearch

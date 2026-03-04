@@ -61,4 +61,3 @@ MediaPlayer.propTypes = {
 }
 
 export default MediaPlayer
-module.exports = MediaPlayer

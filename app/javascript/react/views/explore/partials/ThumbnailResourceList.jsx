@@ -12,4 +12,3 @@ const ThumbnailResourceList = ({ resources, authToken }) => {
 }
 
 export default ThumbnailResourceList
-module.exports = ThumbnailResourceList

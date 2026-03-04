@@ -4,12 +4,6 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 
-//= depend_on 'translations.csv'
-//= depend_on_asset 'translations.csv'
-// NOTE: ↑ needed so that sprocket knows to recompile js if translations changed,
-//         and to make the csv part of the asset manifest.
-// # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
 // global jquery. needed for jquery plugins.
 window.jQuery = window.$ = require('jquery')
 
@@ -27,7 +21,7 @@ if (!present(APP_CONFIG)) {
   throw new Error('No `APP_CONFIG`!')
 }
 app.extend({
-  config: require('global').APP_CONFIG
+  config: window.APP_CONFIG
 })
 
 // init UJS #############################################################

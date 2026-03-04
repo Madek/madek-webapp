@@ -106,4 +106,4 @@ class BoxPageCounter extends React.Component {
   }
 }
 
-module.exports = BoxPageCounter
+export default BoxPageCounter

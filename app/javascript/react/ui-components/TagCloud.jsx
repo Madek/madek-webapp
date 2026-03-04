@@ -81,4 +81,3 @@ TagCloud.propTypes = {
 }
 
 export default TagCloud
-module.exports = TagCloud

@@ -26,7 +26,14 @@
         document.getElementsByTagName('html')[0].classList.add('has-js')
         #{FrontendAppConfig.to_js}
 
-    = stylesheet_link_tag 'application', media: 'all'
+      -# Vite client (enables HMR in development, no-op in production)
+      = vite_client_tag
+      -# Main app JS + CSS (Vite automatically includes extracted CSS)
+      = vite_javascript_tag 'application'
+    - else
+      -# CSS-only fallback when JS is disabled
+      = vite_stylesheet_tag 'application', media: 'all'
+
     = content_for(:style_head)
 
     = csrf_meta_tag
@@ -50,13 +57,7 @@
       = yield
 
     - if use_js
-      -# js: app lib/dependencies. can't use async/defer (would require sep. DOM ops)
-      - if Rails.env == 'development'
-        = javascript_include_tag 'dev-bundle'
-      - else
-        = javascript_include_tag 'bundle'
-      -# - now all the per-template scripts, which
-          MUST be self-contained and not depending on load order:
+      -# per-template scripts (must be self-contained):
       = content_for(:scripts) if content_for?(:scripts)
 
     -# configured extra content for body end:

@@ -5,7 +5,7 @@
  */
 // Concern: ResourceDeletable
 
-module.exports = {
+export default {
   props: {
     deleted: {
       type: 'boolean',

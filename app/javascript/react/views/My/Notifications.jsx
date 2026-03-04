@@ -2,7 +2,7 @@ import xhr from 'xhr'
 import React from 'react'
 import Moment from 'moment'
 import currentLocale from '../../../lib/current-locale.js'
-import t from '.../../../lib/i18n-translate.js'
+import t from '../../../lib/i18n-translate.js'
 import getRailsCSRFToken from '../../../lib/rails-csrf-token.js'
 import interpolateSplit from '../../../lib/interpolate-split.js'
 import cx from 'classnames'
@@ -270,7 +270,7 @@ class MyNotifications extends React.Component {
   }
 }
 
-module.exports = MyNotifications
+export default MyNotifications
 
 function sendAcknowledge(id, acknowledged, onSuccess) {
   xhr(

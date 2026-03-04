@@ -18,7 +18,7 @@ const formatQuery = obj =>
 // setUrlParams('/foo?foo=1&bar[baz]=2', {bar: {baz: 3}}, …)
 // setUrlParams({path: '/foo', query: {foo: 1, bar: {baz: 2}}, {bar: {baz: 3}}, …)
 // >>> '/foo?foo=1&bar[baz]=3'
-module.exports = function (currentUrl, ...params) {
+export default function (currentUrl, ...params) {
   if (currentUrl == null) {
     currentUrl = ''
   }

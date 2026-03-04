@@ -7,7 +7,7 @@
 
 import f from 'active-lodash'
 
-module.exports = {
+export default {
   props: {
     favored: {
       type: 'boolean',

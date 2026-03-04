@@ -22,4 +22,3 @@ const ExploreLayout = ({ sections }) => {
 }
 
 export default ExploreLayout
-module.exports = ExploreLayout

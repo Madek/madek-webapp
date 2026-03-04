@@ -16,7 +16,7 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import f from 'active-lodash'
 import jQuery from 'jquery'
-require('@eins78/typeahead.js/dist/typeahead.jquery.js')
+import '@eins78/typeahead.js/dist/typeahead.jquery.js'
 import { cx, t } from './ui.js'
 import searchResources from '../../lib/search.js'
 
@@ -218,4 +218,3 @@ class AutoComplete extends React.Component {
 }
 
 export default AutoComplete
-module.exports = AutoComplete

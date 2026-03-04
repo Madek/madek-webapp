@@ -49,8 +49,8 @@ class ResourcePermissions extends React.Component {
     return this._toBeCalledOnUnmount.forEach(fn => fn())
   }
 
-  componentDidMount() {
-    const router = require('../../lib/router.js')
+  async componentDidMount() {
+    const { default: router } = await import('../../lib/router.js')
 
     const editUrl = url.parse(this.props.get.edit_permissions_url).pathname
 

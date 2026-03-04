@@ -18,7 +18,7 @@ import ResourceWithRelations from './concerns/resource-with-relations.js'
 import Favoritable from './concerns/resource-favoritable.js'
 import Deletable from './concerns/resource-deletable.js'
 
-module.exports = AppResource.extend(
+export default AppResource.extend(
   ResourceWithRelations,
   Favoritable,
   Deletable,

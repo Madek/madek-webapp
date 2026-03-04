@@ -47,4 +47,3 @@ const CollectionDetailAdditional = ({ get, authToken }) => {
 }
 
 export default CollectionDetailAdditional
-module.exports = CollectionDetailAdditional

@@ -11,4 +11,3 @@ const TabContent = ({ testId, children }) => {
 }
 
 export default TabContent
-module.exports = TabContent

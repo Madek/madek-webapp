@@ -3,7 +3,7 @@ import Collection from 'ampersand-rest-collection'
 import RailsResource from './rails-resource-mixin.js'
 
 // Base class for Restful Application Resource Collection
-module.exports = Collection.extend(RailsResource, {
+export default Collection.extend(RailsResource, {
   type: 'AppCollection',
   mainIndex: ['url'],
   indexes: ['uuid'],

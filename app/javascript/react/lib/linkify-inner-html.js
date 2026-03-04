@@ -6,7 +6,7 @@
 import linkifyStr from 'linkify-string'
 
 //# build html string with auto-generated links
-module.exports = string => ({
+export default string => ({
   __html: linkifyStr(string, {
     className: 'link ui-link-autolinked',
     attributes: {

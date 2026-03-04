@@ -73,4 +73,3 @@ const VocabularyKeywords = ({ get, for_url }) => {
 }
 
 export default VocabularyKeywords
-module.exports = VocabularyKeywords

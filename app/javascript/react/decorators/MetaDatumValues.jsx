@@ -128,4 +128,3 @@ MetaDatumValues.propTypes = {
 }
 
 export default MetaDatumValues
-module.exports = MetaDatumValues

@@ -42,8 +42,9 @@ class Uploader extends React.Component {
     this.onCheckboxToggle = this.onCheckboxToggle.bind(this)
   }
 
-  componentDidMount() {
-    FileDrop = require('react-file-drop').FileDrop
+  async componentDidMount() {
+    const { FileDrop: FileDropComponent } = await import('react-file-drop')
+    FileDrop = FileDropComponent
     if (!get(this.props, 'appCollection.isCollection')) {
       throw new Error('No AppCollection given!')
     }
@@ -297,4 +298,4 @@ class Uploader extends React.Component {
   }
 }
 
-module.exports = Uploader
+export default Uploader

@@ -73,4 +73,3 @@ const VocabularyPage = ({ page, for_url, children }) => {
 }
 
 export default VocabularyPage
-module.exports = VocabularyPage

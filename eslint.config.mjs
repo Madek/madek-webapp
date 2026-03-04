@@ -16,10 +16,8 @@ export default defineConfig([
       },
       globals: {
         ...globals.browser,
-        ...globals.commonjs,
         $: 'readonly',
-        APP_CONFIG: 'readonly',
-        __dirname: 'readonly'
+        APP_CONFIG: 'readonly'
       }
     },
     rules: {

@@ -99,4 +99,4 @@ class BoxPaginationNav extends React.Component {
   }
 }
 
-module.exports = BoxPaginationNav
+export default BoxPaginationNav

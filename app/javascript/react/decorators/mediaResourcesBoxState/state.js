@@ -159,4 +159,8 @@ function nextState({ state = {}, context = {}, event, triggerEvent }) {
   return reduce()
 }
 
-module.exports = { nextState }
+// Named export
+export { nextState }
+
+// Default export for backwards compatibility
+export default { nextState }

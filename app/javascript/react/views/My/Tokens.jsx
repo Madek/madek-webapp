@@ -165,5 +165,5 @@ export const TokenRow = ({ authToken, ...token }) => {
   )
 }
 
-module.exports = TokensPage
+export default TokensPage
 TokensPage.TokenRow = TokenRow

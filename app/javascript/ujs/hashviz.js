@@ -11,7 +11,7 @@
 import $ from 'jquery'
 import hashVizSVG from '../lib/hashviz-svg.js'
 
-module.exports = () =>
+export default () =>
   // for all enabled containers:
   $('[data-hashviz-container]').each(function () {
     const $container = $(this)

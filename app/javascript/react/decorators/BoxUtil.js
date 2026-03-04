@@ -1,7 +1,7 @@
 import t from '../../lib/i18n-translate.js'
 import cx from 'classnames/dedupe'
 
-module.exports = {
+export default {
   allowedLayoutModes(disableListMode) {
     return [
       { mode: 'tiles', title: t('layout_mode_tiles'), icon: 'vis-pins' },

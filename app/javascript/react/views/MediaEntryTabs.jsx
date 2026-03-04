@@ -57,4 +57,3 @@ const MediaEntryTabs = ({ get, for_url }) => {
 }
 
 export default MediaEntryTabs
-module.exports = MediaEntryTabs

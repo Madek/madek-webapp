@@ -61,4 +61,4 @@ class BoxSetFallback extends React.Component {
   }
 }
 
-module.exports = BoxSetFallback
+export default BoxSetFallback
