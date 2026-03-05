@@ -9,6 +9,10 @@ import ReactDOM from 'react-dom'
 import f from 'active-lodash'
 import UI from '../react/index.js'
 
+// Import modules for custom initializers
+import MediaEntries from '../models/media-entries.js'
+import Uploader from '../react/views/My/Uploader.jsx'
+
 // UJS for React Views (and Decorators)
 //
 // Each Key in Map below defines a (self-contained) init function for a Component.
@@ -18,15 +22,12 @@ import UI from '../react/index.js'
 
 const initByClass = {
   'Views.My.Uploader'(data, callback) {
-    const MediaEntries = require('../models/media-entries.js')
-    const Uploader = require('../react/views/My/Uploader.jsx')
-
     const props = f.set(data.reactProps, 'appCollection', new MediaEntries())
     return callback(React.createElement(Uploader, props))
   }
 }
 
-module.exports = () =>
+export default () =>
   $('[data-react-class]').each(function () {
     const element = this
     const data = $(element).data()

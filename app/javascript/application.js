@@ -4,18 +4,20 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 
+// ES6 imports for Vite
+import jQuery from 'jquery'
+import { each, present } from 'active-lodash'
+import { parse as parseUrl, format as buildUrl } from 'url'
+import app from 'ampersand-app'
+
+// Import UJS modules
+import hashvizUjs from './ujs/hashviz.js'
+import reactUjs from './ujs/react.js'
+
 // global jquery. needed for jquery plugins.
-window.jQuery = window.$ = require('jquery')
-
-// local requires
-const { each } = require('active-lodash')
-const { present } = require('active-lodash')
-const parseUrl = require('url').parse
-const buildUrl = require('url').format
-
+window.jQuery = window.$ = jQuery
 // setup APP ############################################################
 // "global" singleton (returns same object no matter where it's required)
-const app = require('ampersand-app')
 // validate and set the "global" config - see frontend_app_config.rb
 if (!present(APP_CONFIG)) {
   throw new Error('No `APP_CONFIG`!')
@@ -31,8 +33,8 @@ app.extend({
 
 // our library:
 const ujs = [
-  require('./ujs/hashviz.js'),
-  require('./ujs/react.js'),
+  hashvizUjs,
+  reactUjs,
   () =>
     // TMP: support data-confirm attributes (legacy)
     Array.prototype.slice

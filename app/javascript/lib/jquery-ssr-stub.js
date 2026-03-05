@@ -406,7 +406,7 @@ export default jQueryStub
 // Without these, typeahead.jquery won't have access to $2.extend, $2.isArray, etc.
 export { jQueryStub as jQuery }
 
-// Also export static methods directly so they're available on the module object
+// Also export static methods and properties directly so they're available on the module object
 // This ensures getAugmentedNamespace copies them to the augmented wrapper
 export const extend = jQueryStub.extend
 export const isArray = jQueryStub.isArray
@@ -417,3 +417,7 @@ export const each = jQueryStub.each
 export const map = jQueryStub.map
 export const grep = jQueryStub.grep
 export const Event = jQueryStub.Event
+
+// CRITICAL: Export .fn so typeahead.jquery can access $.fn.typeahead
+// typeahead tries to save the old $.fn.typeahead before installing itself
+export const fn = jQueryStub.fn
