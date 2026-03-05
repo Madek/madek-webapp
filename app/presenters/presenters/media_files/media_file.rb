@@ -81,13 +81,6 @@ module Presenters
           # find by size class
           images = previews.select { |p| p.thumbnail == size.to_s }
             .sort_by { |p| -p.created_at.to_i }.presence
-          # OR newest, smallest previews that are AT LEAST the wanted size
-          images ||= previews
-            .select { |p| wanted_height && p.height && p.height >= wanted_height }
-            .sort_by { |p| [p.height, -p.created_at.to_i] }.presence
-          # OR if that doesnt exist, get the LARGEST there are
-          images ||= previews
-            .sort_by { |p| [-p.height.to_i, -p.created_at.to_i] }.presence
           # select first or apply 30% rule for videos
           image = get_first_or_30_percent(images) if images
         end

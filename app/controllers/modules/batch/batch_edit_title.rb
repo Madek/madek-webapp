@@ -65,7 +65,7 @@ module Modules
       private
 
       def get_image_url(media_entry)
-        size = :small
+        size = :medium
         imgs = Presenters::MediaFiles::MediaFile.new(media_entry, current_user)
           .try(:previews).try(:[], :images)
         img = imgs.try(:fetch, size, nil) || imgs.try(:values).try(:first)
