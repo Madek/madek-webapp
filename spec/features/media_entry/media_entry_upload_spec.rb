@@ -138,6 +138,79 @@ feature 'Resource: MediaEntry' do
         .to eq settings.media_entry_default_license_id
     end
 
+    scenario 'All preview sizes are generated for a 1600x1200 image',
+             browser: false do
+      visit new_media_entry_path
+      select_file_and_submit('images', 'sleepy_cat_1600.jpg')
+      media_entry = user.unpublished_media_entries.first
+      media_file = media_entry.media_file
+
+      expect(media_file.width).to be == 1600
+      expect(media_file.height).to be == 1200
+
+      thumbnails_dir = Madek::Constants::THUMBNAIL_STORAGE_DIR
+                       .join(media_file.guid.first)
+
+      Madek::Constants::THUMBNAILS.keys.each do |thumb_size|
+        expect(File.exist?(thumbnails_dir.join("#{media_file.guid}_#{thumb_size}.jpg")))
+          .to be(true), "expected preview size #{thumb_size} to exist"
+      end
+
+      expect(media_file.previews.size).to be == Madek::Constants::THUMBNAILS.size
+    end
+
+    scenario 'Only preview sizes below `grand` are generated for a 1280x960 image',
+             browser: false do
+      visit new_media_entry_path
+      select_file_and_submit('images', 'sleepy_cat_1280.jpg')
+      media_entry = user.unpublished_media_entries.first
+      media_file = media_entry.media_file
+
+      expect(media_file.width).to be == 1280
+      expect(media_file.height).to be == 960
+
+      thumbnails_dir = Madek::Constants::THUMBNAIL_STORAGE_DIR
+                       .join(media_file.guid.first)
+
+      Madek::Constants::THUMBNAILS.keys.each do |thumb_size|
+        if thumb_size == :grand
+          expect(File.exist?(thumbnails_dir.join("#{media_file.guid}_#{thumb_size}.jpg")))
+            .to be(false), "expected preview size #{thumb_size} not to exist"
+        else
+          expect(File.exist?(thumbnails_dir.join("#{media_file.guid}_#{thumb_size}.jpg")))
+            .to be(true), "expected preview size #{thumb_size} to exist"
+        end
+      end
+
+      expect(media_file.previews.size).to be == Madek::Constants::THUMBNAILS.size - 1
+    end
+
+    scenario 'Only `medium` and `maximum` are generated for a 620x464 image',
+             browser: false do
+      visit new_media_entry_path
+      select_file_and_submit('images', 'grumpy_cat_620.jpg')
+      media_entry = user.unpublished_media_entries.first
+      media_file = media_entry.media_file
+
+      expect(media_file.width).to be == 620
+      expect(media_file.height).to be == 464
+
+      thumbnails_dir = Madek::Constants::THUMBNAIL_STORAGE_DIR
+                       .join(media_file.guid.first)
+
+      Madek::Constants::THUMBNAILS.keys.each do |thumb_size|
+        if thumb_size != :maximum && thumb_size != :medium
+          expect(File.exist?(thumbnails_dir.join("#{media_file.guid}_#{thumb_size}.jpg")))
+            .to be(false), "expected preview size #{thumb_size} not to exist"
+        else
+          expect(File.exist?(thumbnails_dir.join("#{media_file.guid}_#{thumb_size}.jpg")))
+            .to be(true), "expected preview size #{thumb_size} to exist"
+        end
+      end
+
+      expect(media_file.previews.size).to be == 2
+    end
+
     scenario 'File metadata is extracted and mapped via IoMappings to MetaData',
              browser: false do
 
@@ -177,13 +250,15 @@ feature 'Resource: MediaEntry' do
 
       thumbnails_dir = Madek::Constants::THUMBNAIL_STORAGE_DIR \
         .join(media_file.guid.first)
+      expected_presence_map = { maximum: true, grand: false, x_large: false, large: false, medium: true }
       Madek::Constants::THUMBNAILS.keys.each do |thumb_size|
-        next if thumb_size == :maximum
+        expected_presence = expected_presence_map.fetch(thumb_size)
+        puts "#{thumb_size} #{expected_presence}"
         expect(File.exist? \
                  thumbnails_dir.join("#{media_file.guid}_#{thumb_size}.jpg")) \
-        .to be true
+        .to be expected_presence
       end
-      expect(media_file.previews.size).to be == Madek::Constants::THUMBNAILS.size
+      expect(media_file.previews.size).to be == 2
 
       # meta data for media entry ##############################################
 
@@ -191,7 +266,6 @@ feature 'Resource: MediaEntry' do
       expect(media_entry.meta_data.find_by_meta_key_id('madek_core:title').string).to eq('grumpy_cat_new.jpg')
       expect(media_entry.meta_data.find_by_meta_key_id('media_object:creator')).to be
     end
-
   end
 
   describe 'Copying meta datum from another media entry' do

@@ -1914,6 +1914,27 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/media_entry/media_entry_siblings_spec.rb:121"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_siblings_spec.rb[1:2:1]"
+"./spec/features/media_entry/media_entry_upload_spec.rb[1:1:10]":
+  name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:10]"
+  description: 'Resource: MediaEntry Action: create (upload/import) Only preview sizes
+    below `grand` are generated for a 1280x960 image'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:162"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:10]"
+"./spec/features/media_entry/media_entry_upload_spec.rb[1:1:11]":
+  name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:11]"
+  description: 'Resource: MediaEntry Action: create (upload/import) Only `medium`
+    and `maximum` are generated for a 620x464 image'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:188"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:11]"
+"./spec/features/media_entry/media_entry_upload_spec.rb[1:1:12]":
+  name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:12]"
+  description: 'Resource: MediaEntry Action: create (upload/import) File metadata
+    is extracted and mapped via IoMappings to MetaData'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:214"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:12]"
 "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:1]":
   name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:1]"
   description: 'Resource: MediaEntry Action: create (upload/import) upload and publish
@@ -1972,8 +1993,8 @@
     RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:8]"
 "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:9]":
   name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:9]"
-  description: 'Resource: MediaEntry Action: create (upload/import) File metadata
-    is extracted and mapped via IoMappings to MetaData'
+  description: 'Resource: MediaEntry Action: create (upload/import) All preview sizes
+    are generated for a 1600x1200 image'
   environment_variables:
     RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:141"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:9]"
@@ -1982,14 +2003,14 @@
   description: 'Resource: MediaEntry Copying meta datum from another media entry when
     user has no relation with media entry the user is not allowed to make a copy'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:201"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:275"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:2:1:1]"
 "./spec/features/media_entry/media_entry_upload_spec.rb[1:2:2:1]":
   name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:2:2:1]"
   description: 'Resource: MediaEntry Copying meta datum from another media entry when
     user is a responsible for media entry Display header with configuration options'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:211"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:285"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:2:2:1]"
 "./spec/features/media_entry/permissions/close_and_cancel_spec.rb[1:1]":
   name: "./spec/features/media_entry/permissions/close_and_cancel_spec.rb[1:1]"

@@ -24,8 +24,9 @@ module EmbedHelper
   end
 
   def get_iframe_size_for_image(maxwidth: nil, maxheight: nil, media_size: nil)
-    # Assume a media size when the actual size is unknown (images uploaded with Madek v3 before 3.35.0) 
-    media_size = media_size || Madek::Constants::THUMBNAILS[:x_large]
+    # Assume `x_large` with landscape ratio when the actual size is unknown
+    # (This affects images uploaded with Madek v3 before 3.35.0, about mid 2016 to early 2023)
+    media_size = media_size || { width: 1024, height: 768 }
     ratio = media_size[:width].to_f / media_size[:height].to_f
     
     # Width according to consumer-defined maxsize parameter, or default
