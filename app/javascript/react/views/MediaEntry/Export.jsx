@@ -86,6 +86,7 @@ class MediaEntryExport extends React.Component {
     Object.values(get.media_file.previews).forEach(preview =>
       Object.values(preview).forEach(() => (hasPreviews = true))
     )
+    console.log(get.media_file)
 
     const hasOriginal = get.media_file.original_file_url
     const hasNeither = !hasPreviews && !hasOriginal

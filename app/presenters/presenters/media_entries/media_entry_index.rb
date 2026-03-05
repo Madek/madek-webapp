@@ -3,15 +3,12 @@ module Presenters
     class MediaEntryIndex < Presenters::Shared::MediaResource::MediaResourceIndex
 
       include Presenters::MediaEntries::Modules::MediaEntryCommon
+      include Presenters::MediaEntries::Modules::ImageUrlHelper
 
       delegate_to_app_resource :subtitle
 
       def image_url
-        size = :medium
-        imgs = self.media_file.try(:previews)
-          .try(:fetch, :images, nil)
-        img = imgs.try(:fetch, size, nil) || imgs.try(:values).try(:first)
-        img.url if img.present?
+        image_url_for_size(:medium)
       end
 
       def keywords_pretty

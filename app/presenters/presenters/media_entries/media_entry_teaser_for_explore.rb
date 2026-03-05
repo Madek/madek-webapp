@@ -1,8 +1,11 @@
 module Presenters
   module MediaEntries
     class MediaEntryTeaserForExplore < Presenters::Shared::AppResource
+      include Presenters::MediaEntries::Modules::ImageUrlHelper
+
       def initialize(media_entry)
         super(media_entry)
+        @user = nil
       end
 
       delegate_to_app_resource :title
@@ -12,14 +15,7 @@ module Presenters
       end
 
       def image_url
-        size = :large
-        imgs = \
-          if @app_resource.try(:media_file).present?
-            Presenters::MediaFiles::MediaFile.new(@app_resource, @user)
-              .try(:previews).try(:fetch, :images, nil)
-          end
-        img = imgs.try(:fetch, size, nil) || imgs.try(:values).try(:first)
-        img.url if img.present?
+        image_url_for_size(:large)
       end
 
       def url
