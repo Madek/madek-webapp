@@ -4,6 +4,7 @@ module Presenters
     class MediaEntryShow < Presenters::Shared::AppResource
 
       include Presenters::MediaEntries::Modules::MediaEntryCommon
+      include Presenters::MediaEntries::Modules::ImageUrlHelper
       include Presenters::Shared::MediaResource::Modules::PrivacyStatus
       include Presenters::Shared::MediaResource::Modules::EditSessions
       include Presenters::Shared::MediaResource::Modules::SectionLabels
@@ -125,10 +126,7 @@ module Presenters
       end
 
       def image_url
-        size = :large
-        imgs = self.media_file.try(:previews).try(:fetch, :images, nil)
-        img = imgs.try(:fetch, size, nil) || imgs.try(:values).try(:first)
-        img.url if img.present?
+        image_url_for_size(:large)
       end
 
       def relations_url

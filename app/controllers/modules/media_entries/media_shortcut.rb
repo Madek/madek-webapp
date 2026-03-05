@@ -17,7 +17,7 @@ module Modules
 
         # Allowed resolutions
         thumbnail = (resolution_param || 'large')
-        raise_404 unless ['maximum', 'x_large', 'large', 'medium'].include? thumbnail
+        raise_404 unless ['maximum', 'grand', 'x_large', 'large', 'medium'].include? thumbnail
 
         # Find all preview images for resolution (videos have one for each minute, but there are also duplicates due to some issue)
         previews = entry.media_file.previews.to_a
