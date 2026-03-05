@@ -19,7 +19,10 @@ export default defineConfig({
   publicDir: false, // Disable public folder copying for SSR bundle
   resolve: {
     alias: {
-      '~': path.resolve(__dirname, 'app/javascript')
+      '~': path.resolve(__dirname, 'app/javascript'),
+      // Use jQuery stub for SSR to avoid "jQuery requires a window with a document" error
+      // Real jQuery will be used in client-side builds (vite.config.mts)
+      jquery: path.resolve(__dirname, 'app/javascript/lib/jquery-ssr-stub.js')
     },
     // Prefer browser builds over Node.js builds for SSR in ExecJS
     // ExecJS doesn't have Node.js built-ins, so we need browser-compatible code
