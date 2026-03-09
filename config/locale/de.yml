@@ -9,6 +9,8 @@ de:
         record_invalid: 'Überprüfung fehlgeschlagen: %{errors}'
         taken: "ist bereits vergeben"
         blank: "ist leer"
+  error_410_title: "Entfernt"
+  error_410_message: "Inhalt wurde entfernt und ist nicht mehr verfügbar."
   flash:
     actions:
       create:

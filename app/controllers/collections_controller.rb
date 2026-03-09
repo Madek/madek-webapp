@@ -314,7 +314,15 @@ class CollectionsController < ApplicationController
     unless uberadmin_mode
       init_scope = init_scope.not_deleted
     end
-    resource = init_scope.find(id_param)
+    begin
+      resource = init_scope.find(id_param)
+    rescue ActiveRecord::RecordNotFound
+      if !uberadmin_mode && Collection.unscoped.deleted.where(id: id_param).exists?
+        raise Errors::GoneError
+      else
+        raise
+      end
+    end
     super(resource)
   end
 
