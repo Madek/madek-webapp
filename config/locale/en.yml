@@ -16,6 +16,8 @@ en:
       destroy:
         success: '%{resource_name} was successfully destroyed.'
         error: '%{resource_name} could not be destroyed.'
+  error_410_title: "Gone"
+  error_410_message: "Content has been removed and is no longer available."
   helpers:
     submit:
       group:

@@ -12,6 +12,10 @@ module Errors
     # If a value for a request parameter has is invalid
   end
 
+  class GoneError < StandardError
+    # If content existed but has been deleted.
+  end
+
   class UsageTermsNotAcceptedError < StandardError
     # If a user is logged in, but has not accepted latest usage terms.
     # NOTE: This Error needs to show more data, define it here since it's static
@@ -34,6 +38,7 @@ module Errors
       'Errors::InvalidParameterValue' => :bad_request, # 400
       'Errors::UnauthorizedError' => :unauthorized, # 401
       'Errors::ForbiddenError' => :forbidden, # 403
+      'Errors::GoneError' => :gone, # 410
       'Errors::UsageTermsNotAcceptedError' => :usage_terms_not_accepted # 499
     }
   end
