@@ -4,7 +4,10 @@ import ResourceShowOverview from '../../templates/ResourceShowOverview.jsx'
 import SimpleResourceThumbnail from '../../decorators/SimpleResourceThumbnail.jsx'
 
 const CollectionDetailOverview = ({ get }) => {
-  const summary_context = get.action === 'show' ? get.summary_meta_data : get.context_meta_data
+  const summary_context =
+    get.active_tab && get.active_tab.startsWith('context_')
+      ? get.context_meta_data
+      : get.summary_meta_data
 
   const overview = {
     content: (

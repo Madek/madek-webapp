@@ -13,6 +13,8 @@ feature 'Collection default Context' do
     visit_collection
   end
 
+  # This test verifies that when a default context is set for a collection,
+  # the correct metadata content is displayed (matching the active tab).
   scenario 'Choosing default Context to Credits and then back to the main one' do
     expect_active_tab(I18n.t(:collection_tab_main))
     expect_tab_with_href(I18n.t(:collection_tab_main), collection_path(collection))
@@ -21,15 +23,18 @@ feature 'Collection default Context' do
     expect_tab_with_href('Credits', context_collection_path(collection, 'copyright'))
     click_tab('Credits')
     expect_active_tab('Credits')
+    expect_content_for_copyright_context
     expect_enabled_save_button
     save_layout
     expect_disabled_save_button
 
+    # Key test: After saving copyright as default, visiting the simple URL should show copyright content
     visit_collection
     expect_tab_with_href(I18n.t(:collection_tab_main),
                          context_collection_path(collection, main_context_id))
     expect_tab_with_href('Credits', collection_path(collection))
     expect_active_tab('Credits')
+    expect_content_for_copyright_context
     expect_disabled_save_button
 
     visit_context('copyright')
@@ -37,10 +42,12 @@ feature 'Collection default Context' do
                          context_collection_path(collection, main_context_id))
     expect_tab_with_href('Credits', collection_path(collection))
     expect_active_tab('Credits')
+    expect_content_for_copyright_context
     expect_disabled_save_button
 
     click_tab(I18n.t(:collection_tab_main))
     expect_active_tab(I18n.t(:collection_tab_main))
+    expect_content_for_main_context
     expect_enabled_save_button
     save_layout
     expect_disabled_save_button
@@ -48,12 +55,14 @@ feature 'Collection default Context' do
     visit_collection
     expect_active_tab(I18n.t(:collection_tab_main))
     expect_tab_with_href(I18n.t(:collection_tab_main), collection_path(collection))
+    expect_content_for_main_context
     expect_disabled_save_button
 
     visit_context(main_context_id)
     expect_active_tab(I18n.t(:collection_tab_main))
     expect_tab_with_href(I18n.t(:collection_tab_main), collection_path(collection))
     expect_tab_with_href('Credits', context_collection_path(collection, 'copyright'))
+    expect_content_for_main_context
     expect_disabled_save_button
   end
 
@@ -70,8 +79,10 @@ feature 'Collection default Context' do
     settings.update_attribute(:contexts_for_collection_extra,
                               ['media_content', 'copyright'])
 
+    # Create metadata specific to the copyright vocabulary
     create(:meta_datum_text,
-           meta_key: MetaKey.find('madek_core:copyright_notice'),
+           meta_key: MetaKey.find('copyright:source'),
+           string: 'Test Copyright Source',
            collection: collection)
   end
 end
@@ -110,4 +121,12 @@ def expect_disabled_save_button
   within('.ui-polybox') do
     expect(page).to have_css('a[disabled]', text: I18n.t(:collection_layout_saved))
   end
+end
+
+def expect_content_for_copyright_context
+  expect(page).to have_content('Test Copyright Source')
+end
+
+def expect_content_for_main_context
+  expect(page).not_to have_content('Test Copyright Source')
 end
