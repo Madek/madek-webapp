@@ -4,5 +4,6 @@
     set -euo pipefail
     {{role_path}}/../../../bin/build
   delegate_to: localhost
+  run_once: true
   args:
     executable: /bin/bash

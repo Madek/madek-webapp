@@ -8,10 +8,7 @@
 - include_tasks: build.yml
 - include_tasks: setup-user.yml
 - include_tasks: install-project.yml
-- import_tasks: shared/install-and-bundle-ruby.yml
-  vars:
-    user: "{{madek_webapp_user}}"
-    working_dir: "{{madek_webapp_dir}}"
+- include_tasks: install-ruby.yml
 - include_tasks: config.yml
 - include_tasks: service.yml
 - include_tasks: reverse-proxy.yml

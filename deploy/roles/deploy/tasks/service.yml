@@ -1,17 +1,3 @@
-- name: register ruby version
-  shell: |
-    set -euo pipefail
-    source ~/.asdf/asdf.sh
-    cd {{madek_webapp_dir}}
-    asdf current ruby | awk '{print $2}'
-  args:
-    chdir: "{{madek_webapp_dir}}"
-    executable: /bin/bash
-  become: yes
-  become_user: "{{madek_webapp_user}}"
-  become_method: sudo
-  register: madek_webapp_ruby_version
-
 - name: template puma config
   template:
     owner: "{{madek_webapp_user}}"

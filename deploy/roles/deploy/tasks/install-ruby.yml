@@ -1,0 +1,163 @@
+###############################################################################
+# Determine if system ruby matches the required major.minor version
+###############################################################################
+
+- name: read required ruby version from .tool-versions
+  shell: grep '^ruby ' {{madek_webapp_dir}}/.tool-versions | awk '{print $2}'
+  changed_when: false
+  register: required_ruby_full_version
+
+- name: get system ruby version
+  shell: ruby -e 'puts RUBY_VERSION'
+  changed_when: false
+  failed_when: false
+  register: system_ruby_version
+
+- name: determine if system ruby matches required major.minor
+  set_fact:
+    use_system_ruby: >-
+      {{ system_ruby_version.rc == 0
+         and (system_ruby_version.stdout.split('.')[:2] | join('.'))
+             == (required_ruby_full_version.stdout.split('.')[:2] | join('.')) }}
+
+###############################################################################
+# System Ruby
+###############################################################################
+
+- name: install system ruby and dependencies
+  apt:
+    name:
+      - ruby
+      - ruby-dev
+      - ruby-bundler
+      - build-essential
+      - libssl-dev
+      - zlib1g-dev
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  when: use_system_ruby
+
+- name: configure bundler for local gem installation
+  shell: |
+    cd {{madek_webapp_dir}}
+    bundle config set --local path 'vendor/bundle'
+  become: yes
+  become_user: "{{madek_webapp_user}}"
+  when: use_system_ruby
+
+- name: bundle install (system ruby)
+  shell: |
+    cd {{madek_webapp_dir}}
+    bundle install
+  become: yes
+  become_user: "{{madek_webapp_user}}"
+  when: use_system_ruby
+
+- name: set ruby dir for system ruby
+  set_fact:
+    madek_webapp_ruby_dir: "/usr"
+  when: use_system_ruby
+
+###############################################################################
+# Mise Ruby (fallback when system ruby does not match)
+###############################################################################
+
+- name: ensure gnupg and curl are installed
+  apt:
+    name:
+      - gnupg
+      - curl
+    state: present
+  when: not use_system_ruby
+
+- name: install mise apt signing key
+  shell: |
+    install -dm 755 /etc/apt/keyrings
+    curl -fsSL https://mise.jdx.dev/gpg-key.pub \
+      | gpg --dearmor -o /etc/apt/keyrings/mise-archive-keyring.gpg
+  args:
+    executable: /bin/bash
+    creates: /etc/apt/keyrings/mise-archive-keyring.gpg
+  when: not use_system_ruby
+
+- name: add mise apt repository
+  copy:
+    content: |
+      deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64,arm64] https://mise.jdx.dev/deb stable main
+    dest: /etc/apt/sources.list.d/mise.list
+    mode: 0644
+  register: mise_repo
+  when: not use_system_ruby
+
+- name: update apt cache for mise
+  apt:
+    update_cache: yes
+  when: not use_system_ruby and mise_repo.changed
+
+- name: install mise and ruby build dependencies
+  apt:
+    pkg:
+      - mise
+      - autoconf
+      - bison
+      - build-essential
+      - libdb-dev
+      - libffi-dev
+      - libgdbm-dev
+      - libgmp-dev
+      - libncurses5-dev
+      - libreadline-dev
+      - libssl-dev
+      - libyaml-dev
+      - patch
+      - rustc
+      - uuid-dev
+      - zlib1g-dev
+    update_cache: yes
+    cache_valid_time: 3600
+  when: not use_system_ruby
+
+- name: install ruby via mise
+  shell: |
+    #!/bin/bash
+    set -euo pipefail
+    cd {{madek_webapp_dir}}
+    mise install ruby
+  args:
+    executable: /bin/bash
+  become: yes
+  become_user: "{{madek_webapp_user}}"
+  async: 3600
+  poll: 10
+  when: not use_system_ruby
+
+- name: set ruby dir for mise ruby
+  shell: |
+    set -euo pipefail
+    cd {{madek_webapp_dir}}
+    mise where ruby
+  args:
+    executable: /bin/bash
+  become: yes
+  become_user: "{{madek_webapp_user}}"
+  register: mise_ruby_dir_result
+  when: not use_system_ruby
+
+- name: set ruby dir fact for mise
+  set_fact:
+    madek_webapp_ruby_dir: "{{ mise_ruby_dir_result.stdout }}"
+  when: not use_system_ruby
+
+- name: bundle install (mise ruby)
+  shell: |
+    #!/bin/bash
+    set -euo pipefail
+    cd {{madek_webapp_dir}}
+    eval "$(mise activate bash)"
+    bundle install
+  args:
+    executable: /bin/bash
+  become: yes
+  become_user: "{{madek_webapp_user}}"
+  when: not use_system_ruby
