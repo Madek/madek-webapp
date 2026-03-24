@@ -14,21 +14,6 @@ def restore_seeds
   PgTasks.data_restore Rails.root.join('datalayer', 'db', 'seeds.pgbin')
 end
 
-def ensure_notification_cases
-  NotificationCase::EMAIL_TEMPLATES.each_key do |label|
-    NotificationCase.find_or_create_by!(label: label) do |notification_case|
-      # Match migration defaults used by summary email features.
-      if notification_case.respond_to?(:allowed_email_frequencies=)
-        notification_case.allowed_email_frequencies = %w(never daily weekly)
-      end
-    end
-  end
-end
-
-def ensure_smtp_setting
-  SmtpSetting.find_or_create_by!(id: 0)
-end
-
 def with_disabled_triggers
   ActiveRecord::Base.connection.execute  \
     'SET session_replication_role = REPLICA;'
@@ -46,8 +31,6 @@ RSpec.configure do |config|
   config.before :each do
     truncate_tables
     restore_seeds
-    ensure_notification_cases
-    ensure_smtp_setting
   end
 
   # If true, the base class of anonymous controllers will be inferred
