@@ -51,3 +51,11 @@ Result: **4 examples, 0 failures**
 
 - CI now fails for actual seed integrity problems instead of hiding them through global test mutations.
 - Summary email specs depend on real restored seed state.
+
+## Datalayer release checklist
+
+When `datalayer/db/seeds.pgbin` is regenerated or a new `@datalayer` version is prepared:
+
+1. Run `datalayer/bin/rerun_seeds_migrations` (this now runs `datalayer/bin/check_seed_baseline` automatically).
+2. Optionally run `datalayer/bin/check_seed_baseline datalayer/db/seeds.pgbin` directly in CI/pre-release checks.
+3. Verify webapp guard still passes: `bundle exec rspec spec/seeds_integrity_spec.rb`.
