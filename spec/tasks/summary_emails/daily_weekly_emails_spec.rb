@@ -20,7 +20,7 @@ describe 'produce summary emails tasks' do
     @d3 = FactoryBot.create(:delegation, notifications_email: @notif_email)
     @d3.supervisors << @u1
 
-    @c1 = NotificationCase.find("transfer_responsibility")
+    @c1 = NotificationCase.find_by!(label: "transfer_responsibility")
 
     FactoryBot.create(:notification_case_user_setting,
                       user: @u3,
@@ -67,7 +67,8 @@ describe 'produce summary emails tasks' do
                         notification_case: @c1,
                         email_frequency: 'weekly')
 
-      Rake::Task["madek:produce_daily_emails"].invoke
+      Rake::Task['madek:produce_daily_emails'].reenable
+      Rake::Task['madek:produce_daily_emails'].invoke
 
       expect(Email.count).to eq 5 # includes 1 already existing email for @n1
       @e0 = @n1.email
@@ -121,7 +122,8 @@ describe 'produce summary emails tasks' do
                         notification_case: @c1,
                         email_frequency: 'daily')
 
-      Rake::Task["madek:produce_weekly_emails"].invoke
+      Rake::Task['madek:produce_weekly_emails'].reenable
+      Rake::Task['madek:produce_weekly_emails'].invoke
 
       expect(Email.count).to eq 3 # includes 1 already existing email for @n1
       @e0 = @n1.email

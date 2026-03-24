@@ -8,10 +8,12 @@ describe 'produce summary emails tasks' do
 
   context 'batching' do
     it 'works' do
+      Madek::Constants::DEFAULT_NOTIFICATION_EMAILS_FREQUENCY = :daily
+
       u1 = FactoryBot.create(:user)
       u2 = FactoryBot.create(:user)
       u3 = FactoryBot.create(:user)
-      c1 = NotificationCase.find("transfer_responsibility")
+      c1 = NotificationCase.find_by!(label: "transfer_responsibility")
 
       (Notification::PERIODIC_EMAILS_BATCH_SIZE * 2 + 1).times do
         FactoryBot.create(:notification, notification_case: c1, user: u1)
@@ -25,7 +27,8 @@ describe 'produce summary emails tasks' do
         FactoryBot.create(:notification, notification_case: c1, user: u3)
       end
 
-      Rake::Task["madek:produce_daily_emails"].invoke
+      Rake::Task['madek:produce_daily_emails'].reenable
+      Rake::Task['madek:produce_daily_emails'].invoke
 
       subject_title = "Medienarchiv: tägliche Zusammenfassung der Verantwortlichkeits-Übertragungen"
 
