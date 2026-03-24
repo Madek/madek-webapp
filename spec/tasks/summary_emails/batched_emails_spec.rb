@@ -13,7 +13,7 @@ describe 'produce summary emails tasks' do
       u1 = FactoryBot.create(:user)
       u2 = FactoryBot.create(:user)
       u3 = FactoryBot.create(:user)
-      c1 = NotificationCase.find("transfer_responsibility")
+      c1 = NotificationCase.find_by!(label: "transfer_responsibility")
 
       (Notification::PERIODIC_EMAILS_BATCH_SIZE * 2 + 1).times do
         FactoryBot.create(:notification, notification_case: c1, user: u1)

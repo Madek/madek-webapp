@@ -20,7 +20,7 @@ describe 'produce summary emails tasks' do
     @d3 = FactoryBot.create(:delegation, notifications_email: @notif_email)
     @d3.supervisors << @u1
 
-    @c1 = NotificationCase.find("transfer_responsibility")
+    @c1 = NotificationCase.find_by!(label: "transfer_responsibility")
 
     FactoryBot.create(:notification_case_user_setting,
                       user: @u3,
