@@ -37,6 +37,25 @@ Checks:
 - `allowed_email_frequencies` includes `never`, `daily`, `weekly`
 - `SmtpSetting` exists with `id = 0`
 
+### 4) Added datalayer seed baseline verification tooling
+
+Added `datalayer/bin/check_seed_baseline` to validate a seed dump file contains:
+
+- `notification_cases.transfer_responsibility`
+- `notification_cases.allowed_email_frequencies = {never,daily,weekly}`
+- `smtp_settings.id = 0`
+
+Added `datalayer/bin/rerun_seeds_migrations` as the regeneration script for seed artifacts.
+
+### 5) Regenerated datalayer seed artifacts
+
+Current datalayer baseline artifacts present in the repository:
+
+- `datalayer/db/seeds.pgbin`
+- `datalayer/db/seeds.rb`
+- `datalayer/db/structure.sql`
+- `datalayer/db/personas.pgbin`
+
 ## Validation performed
 
 Ran targeted specs:
@@ -56,6 +75,6 @@ Result: **4 examples, 0 failures**
 
 When `datalayer/db/seeds.pgbin` is regenerated or a new `@datalayer` version is prepared:
 
-1. Run `datalayer/bin/rerun_seeds_migrations` (this now runs `datalayer/bin/check_seed_baseline` automatically).
-2. Optionally run `datalayer/bin/check_seed_baseline datalayer/db/seeds.pgbin` directly in CI/pre-release checks.
+1. Run `datalayer/bin/rerun_seeds_migrations`.
+2. Run `datalayer/bin/check_seed_baseline datalayer/db/seeds.pgbin`.
 3. Verify webapp guard still passes: `bundle exec rspec spec/seeds_integrity_spec.rb`.
