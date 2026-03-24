@@ -42,6 +42,7 @@ class ErrorsController < ApplicationController
     # because when something is broken we don't want to hit the db, etc.
     layout = (type == 'server_error') ? '_base' : 'application'
     template = get_template(type, err.status_code)
+    response.headers['Cache-Control'] = 'no-store'
 
     respond_to do |f|
       f.any do # html (for any requested format, prevents 500 UnknownFormat error for formats other than html, json, yaml)
