@@ -7,6 +7,13 @@
   changed_when: false
   register: required_ruby_full_version
 
+- name: install system ruby package for version check
+  apt:
+    name: ruby
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+
 - name: get system ruby version
   shell: ruby -e 'puts RUBY_VERSION'
   changed_when: false
