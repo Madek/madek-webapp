@@ -16,6 +16,8 @@ gem 'puma_worker_killer'
 gem 'haml-rails'
 gem 'kramdown'
 gem 'react-rails', '= 1.10.0'
+# react-rails 1.10 uses ConnectionPool.new(hash); connection_pool 3.x requires keyword args only.
+gem 'connection_pool', '~> 2.4', '< 3'
 gem 'sass'
 gem 'sass-rails'
 gem 'sprockets-rails', '>= 3.5'
