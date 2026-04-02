@@ -41,9 +41,9 @@ contexts:
               #!/usr/bin/env bash
               set -euo pipefail
               npm ci --ignore-scripts --no-audit
-              # NOTE: quickfix for a problem only in the CI: in the JSON output, there is a line prepended with just the string "true"
-              # this is strange but no really worth investigation, just remove the string with `sed`.
-              # (This started when upgrading from ruby 2.6 to ruby 2.7 which seems nosensical).
+              # RAILS_LOG_LEVEL=error: Rails logs to STDOUT (see config/application.rb); rspec-to-json must emit only JSON to the pipe.
+              # sed: older CI quirk where a line could start with the string "true" (Ruby 2.7); harmless to keep.
+              export RAILS_LOG_LEVEL=error
               node_modules/.bin/rspec-to-json spec/features \
                 | sed -e 's/^true//' \
                 | node_modules/.bin/rspec-render-docs > ./tmp/features.html
