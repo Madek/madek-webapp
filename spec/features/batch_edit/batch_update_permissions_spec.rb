@@ -213,7 +213,7 @@ def subject_name(subject)
 end
 
 def subject_search_name(subject)
-  subject.class == User ? subject.login : subject_name(subject)
+  subject.class == User ? subject.email : subject_name(subject)
 end
 
 def cancel_and_check_return_to(expected)

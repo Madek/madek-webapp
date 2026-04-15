@@ -69,8 +69,8 @@ def autocomplete_and_choose_first(node, text, press_escape: false)
   input.click
   puts 'send_keys'
   input.native.send_keys(text)
-  # wait until menu is open and at least 1 result has loaded:
-  wait_until { ac.all('.ui-autocomplete.ui-menu.tt-open .tt-selectable').any? }
+  # wait until the first result in the dropdown contains the typed text:
+  ac.find('.ui-autocomplete.ui-menu.tt-open .tt-selectable:first-child', text: text)
   # select first entry with keyboard navigation
   input.native.send_keys(:arrow_down)
   input.native.send_keys(:enter)

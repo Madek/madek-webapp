@@ -1,20 +1,16 @@
 /*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ * ujs/react.js
+ * UJS for React Views (and Decorators)
+ *
+ * Each Key in Map below defines a (self-contained) init function for a Component.
+ * Targets are DOM nodes with <data-react-class='ExampleComponent'>.
+ * Function receives node data as first argument, second argument is a
+ * callback which can be called with a React Element replacing the targeted node.
  */
-import $ from 'jquery'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import f from 'active-lodash'
 import UI from '../react/index.js'
-
-// UJS for React Views (and Decorators)
-//
-// Each Key in Map below defines a (self-contained) init function for a Component.
-// Targets are DOM nodes with <data-react-class='ExampleComponent'>.
-// Function recieves node data as first argument, second argument is a
-// callback which can be called with a React Element replacing the targeted node.
 
 const initByClass = {
   'Views.My.Uploader'(data, callback) {
@@ -26,10 +22,18 @@ const initByClass = {
   }
 }
 
-module.exports = () =>
-  $('[data-react-class]').each(function () {
-    const element = this
-    const data = $(element).data()
+module.exports = () => {
+  document.querySelectorAll('[data-react-class]').forEach(element => {
+    // Read data-* attributes. Values are JSON-encoded by Rails.
+    const data = {}
+    for (const key of Object.keys(element.dataset)) {
+      try {
+        data[key] = JSON.parse(element.dataset[key])
+      } catch (_) {
+        data[key] = element.dataset[key]
+      }
+    }
+
     const componentClass = (data.reactClass || '').replace(/^UI./, '')
     // use custom initializer, or…
     let init = initByClass[componentClass]
@@ -49,3 +53,4 @@ module.exports = () =>
       return init(data, enhanced => ReactDOM.render(enhanced, element))
     }
   })
+}

@@ -1,90 +1,117 @@
-import React, { useRef, useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
-import jQuery from 'jquery'
-import { get } from '../../../lib/utils.js'
+import { useCombobox } from 'downshift'
+import { markMatchingFragment } from '../typeahead-utils'
 
 const InputFieldText = props => {
   const { name, type, value, placeholder, className, metaKey, onChange, batch } = props
-  const inputRef = useRef(null)
 
-  useEffect(() => {
-    if (inputRef.current) {
-      initSuggestions()
-    }
-  }, [])
+  const { defaultText, suggestions } = getDefaultTextAndSuggestionsFor(metaKey)
+  const defaultValue = batch ? '' : defaultText
 
-  const initSuggestions = () => {
-    require('@eins78/typeahead.js/dist/typeahead.jquery.js')
-
-    const $input = jQuery(inputRef.current)
-    $input.typeahead(
-      {
-        minLength: 0,
-        highlight: true,
-        classNames: {
-          // madek style:
-          wrapper: 'ui-autocomplete-holder ui-autocomplete-position-relative',
-          input: 'ui-typeahead-input',
-          hint: 'ui-autocomplete-hint',
-          menu: 'ui-autocomplete ui-menu ui-autocomplete-open-width',
-          cursor: 'ui-autocomplete-cursor',
-          suggestion: 'ui-menu-item'
-        }
-      },
-      {
-        name: 'templates',
-        source: (query, syncResults) => {
-          return syncResults(suggestions())
-        }
-      }
-    )
-    if (onChange) {
-      $input.on('typeahead:select', event => onChange(event))
-    }
-  }
-
-  const suggestions = () => {
-    const defaultText = get(metaKey, 'copyright_notice_default_text', '')
-    const templates = get(metaKey, 'copyright_notice_templates', [])
-    return [defaultText, ...templates].filter(Boolean)
-  }
-
-  const Element =
-    metaKey && metaKey.text_type && metaKey.text_type === 'block' ? 'textarea' : 'input'
-
-  const style = {
-    textIndent: '0em',
-    paddingLeft: '8px'
-  }
-
-  const commonProps = {
-    name,
-    placeholder,
-    className: cx(className, 'block')
-  }
-
-  if (onChange) {
-    commonProps.onChange = onChange
-  }
-
-  if (get(metaKey, 'uuid', null) === 'madek_core:copyright_notice') {
-    const defaultValue = batch ? '' : get(metaKey, 'copyright_notice_default_text', '')
-
+  if (suggestions.length > 0) {
     return (
-      <input
-        ref={inputRef}
-        type="text"
-        defaultValue={value || defaultValue}
-        data-autocomplete-for={name}
-        {...commonProps}
+      <InputWithSuggestions
+        name={name}
+        value={value}
+        defaultValue={defaultValue}
+        placeholder={placeholder}
+        className={className}
+        onChange={onChange}
+        suggestions={suggestions}
       />
     )
   } else {
+    const Element = metaKey && metaKey.text_type === 'block' ? 'textarea' : 'input'
+    const commonProps = {
+      name,
+      onChange,
+      placeholder,
+      className: cx(className, 'block')
+    }
     return (
-      <Element type={type || 'text'} defaultValue={value || ''} style={style} {...commonProps} />
+      <Element
+        type={type || 'text'}
+        defaultValue={value || defaultValue}
+        style={{
+          textIndent: '0em',
+          paddingLeft: '8px'
+        }}
+        {...commonProps}
+      />
     )
   }
+}
+
+function getDefaultTextAndSuggestionsFor(metaKey) {
+  if (!metaKey || metaKey.uuid !== 'madek_core:copyright_notice') {
+    return { defaultText: undefined, suggestions: [] }
+  }
+  const defaultText = metaKey.copyright_notice_default_text
+  const suggestions = [defaultText, ...(metaKey.copyright_notice_templates || [])].filter(Boolean)
+  return { defaultText, suggestions }
+}
+
+const InputWithSuggestions = ({
+  name,
+  value,
+  defaultValue,
+  placeholder,
+  className,
+  onChange,
+  suggestions
+}) => {
+  const { isOpen, highlightedIndex, getMenuProps, getInputProps, getItemProps, inputValue } =
+    useCombobox({
+      items: suggestions,
+      itemToString: item => item || '',
+      defaultInputValue: value || defaultValue || '',
+      onSelectedItemChange({ selectedItem }) {
+        if (selectedItem == null) return
+        if (onChange) onChange({ target: { value: selectedItem } })
+      }
+    })
+
+  return (
+    <div
+      className="ui-autocomplete-holder ui-autocomplete-position-relative"
+      style={{ position: 'relative' }}>
+      <input
+        {...getInputProps({
+          type: 'text',
+          name,
+          placeholder,
+          className: cx(className, 'block', 'ui-typeahead-input'),
+          'aria-label': placeholder || name || 'search',
+          'data-autocomplete-for': name
+        })}
+      />
+      <ul
+        {...getMenuProps()}
+        className={cx('ui-autocomplete', 'ui-menu', 'ui-autocomplete-open-width', {
+          hidden: !isOpen || suggestions.length === 0,
+          'tt-open': isOpen
+        })}
+        style={{ display: isOpen && suggestions.length > 0 ? undefined : 'none' }}>
+        {isOpen &&
+          suggestions.map((item, index) => (
+            <li
+              key={index}
+              {...getItemProps({ item, index })}
+              className={cx(
+                'ui-menu-item',
+                {
+                  'ui-autocomplete-cursor': highlightedIndex === index
+                },
+                'tt-selectable'
+              )}>
+              {markMatchingFragment(item, inputValue)}
+            </li>
+          ))}
+      </ul>
+    </div>
+  )
 }
 
 InputFieldText.propTypes = {

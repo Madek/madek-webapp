@@ -11,7 +11,6 @@ import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import f from 'active-lodash'
 import ui from '../../lib/ui.js'
-import $ from 'jquery'
 import { parse as parseUrl } from 'url'
 
 const checkForAuthToken = function ({ method, authToken }) {
@@ -48,7 +47,7 @@ class RestForm extends React.Component {
 
   serialize() {
     const form = ReactDOM.findDOMNode(this.refs.form)
-    return $(form).serialize()
+    return new URLSearchParams(new FormData(form)).toString()
   }
 
   render() {

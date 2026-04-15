@@ -1,13 +1,6 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
-import url from 'url'
 import f from 'active-lodash'
 import { t } from '../react/lib/ui.js'
-const Bloodhound = require('@eins78/typeahead.js/dist/bloodhound.js').noConflict()
+import { createRemoteSource } from './remote-search.js'
 
 // NOTE: ignores RAILS_RELATIVE_URL_ROOT (this is OK given it runs on domain root)
 const resourcesConfig = {
@@ -30,6 +23,16 @@ const resourcesConfig = {
   Roles: { url: '/roles', key: 'label', params: ['meta_key_id'] }
 }
 
+const langQueryParam = () => {
+  const lang = new URL(location.href).searchParams.get('lang')
+  return lang ? { lang } : {}
+}
+
+const buildSearchUrl = (pathname, query) => {
+  const params = new URLSearchParams(query)
+  return `${pathname}?${params.toString()}`
+}
+
 module.exports = function (resourceType, parameters = null, localData) {
   let baseConfig
   if ((baseConfig = resourcesConfig[resourceType]) == null) {
@@ -42,48 +45,22 @@ module.exports = function (resourceType, parameters = null, localData) {
     throw new Error(`Search: ${resourceType}: missing parameters: ${missing}!`)
   }
 
+  const searchUrl = buildSearchUrl(
+    baseConfig.url,
+    f.assign({ search_term: '__QUERY__' }, parameters, langQueryParam())
+  )
+
+  const source = createRemoteSource(searchUrl, {
+    local: localData || null,
+    wildcard: '__QUERY__'
+  })
+
   return {
     name: `${resourceType}Search`,
     key: baseConfig.key || 'name',
     displayKey: baseConfig.displayKey || baseConfig.key || 'name',
     displayName: baseConfig.displayName,
-    source: BloodhoundFactory(baseConfig, parameters, localData),
+    source,
     limit: 100
-  }
-}
-
-// helpers
-
-const tokenizer = (
-  string // trims leading and trailing whitespace
-) => Bloodhound.tokenizers.whitespace(f.trim(string))
-
-const langQueryParam = () => f.pick(url.parse(location.href, true).query, 'lang')
-
-var BloodhoundFactory = function (config, parameters, localData) {
-  const engine = new Bloodhound({
-    datumTokenizer: tokenizer,
-    queryTokenizer: tokenizer,
-    local: localData,
-    remote: {
-      wildcard: '__QUERY__',
-      url: url.format({
-        pathname: config.url,
-        query: f.assign({ search_term: '__QUERY__' }, parameters, langQueryParam())
-      })
-    }
-  })
-
-  // return *all* (possibly local) suggestions on empty query:
-  if (!localData) {
-    return engine
-  } else {
-    return function (query, syncCallback, asyncCallback) {
-      if (query === '') {
-        return syncCallback(engine.all())
-      } else {
-        return engine.search(query, syncCallback, asyncCallback)
-      }
-    }
   }
 }

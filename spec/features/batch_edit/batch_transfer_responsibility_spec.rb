@@ -101,5 +101,5 @@ def select_all_in_box_and_choose_from_menu(text)
 end
 
 def subject_search_name(subject)
-  subject.class == User ? subject.login : subject_name(subject)
+  subject.class == User ? subject.email : subject_name(subject)
 end

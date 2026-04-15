@@ -9,7 +9,7 @@ feature 'Resource: MetaDatum' do
   background do
     @user = User.find_by(login: 'normin')
     @media_entry = FactoryBot.create :media_entry_with_image_media_file,
-                                      creator: @user, responsible_user: @user
+                                     creator: @user, responsible_user: @user
   end
 
   context 'MetaDatum::Text' do
@@ -35,12 +35,11 @@ feature 'Resource: MetaDatum' do
     end
 
     example 'add new text (block/textarea)' do
-
       # NOTE: this also tests the whitespace trimming:
       TEST_STRING_BLOCK_IN =
         "  Hello World\nWelcome to the World of tomorrow! \n ".freeze
       TEST_STRING_BLOCK_SAVED =
-        "  Hello World\r\nWelcome to the World of tomorrow! \r\n ".freeze
+        "  Hello World\nWelcome to the World of tomorrow! \n ".freeze
       TEST_STRING_BLOCK_OUT =
         "  Hello World<br>\nWelcome to the World of tomorrow! <br>\n ".freeze
 
@@ -56,19 +55,18 @@ feature 'Resource: MetaDatum' do
       expect(
         find('.ui-media-overview-metadata').find('.media-data-content')
           .find('li')[:innerHTML]
-      ). to eq(
+      ).to eq(
         TEST_STRING_BLOCK_OUT
       )
 
       # Check that the saved value has the right format.
       expect(
         @media_entry.meta_data.find_by(
-          meta_key_id: @context_key.meta_key_id).string
+          meta_key_id: @context_key.meta_key_id
+        ).string
       ).to eq(
         TEST_STRING_BLOCK_SAVED
       )
-
     end
-
   end
 end

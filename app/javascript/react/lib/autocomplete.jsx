@@ -1,150 +1,21 @@
 /**
  * AutoComplete
  *
- * Component that wraps the jQuery.typeahead and provides search functionality
- * for Resources that we have a search backend for.
+ * Component that provides search functionality for Resources via the search backend.
+ * Wraps TypeaheadInput (downshift-based, no jQuery dependency).
  *
  * Example:
- * callback = (data) => alert(data.uuid)
- * <AutoComplete name='foo[person]' resourceType='People' onSelect={callback}/>
- *
- * NOTE: fails if even required on server (jQuery)!
+ *   callback = (data) => alert(data.uuid)
+ *   <AutoComplete name='foo[person]' resourceType='People' onSelect={callback}/>
  */
 
 import React from 'react'
-import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import f from 'active-lodash'
-import jQuery from 'jquery'
-require('@eins78/typeahead.js/dist/typeahead.jquery.js')
+import TypeaheadInput from './typeahead-input.jsx'
 import { cx, t } from './ui.js'
 import searchResources from '../../lib/search.js'
-
-const initTypeahead = (
-  domNode,
-  resourceType,
-  params,
-  conf,
-  existingValues,
-  valueGetter,
-  valueFilter,
-  onSelect,
-  onAdd,
-  positionRelative,
-  existingValueHint,
-  suggestionRenderer
-) => {
-  const { minLength, localData } = conf
-
-  const resourceTypes = Array.isArray(resourceType) ? resourceType : [resourceType]
-  const searchBackends = resourceTypes.map(resourceType => {
-    const searchBackend = searchResources(resourceType, params, localData)
-    if (!searchBackend) {
-      throw new Error(`No search backend for '${resourceType}'!`)
-    }
-    return searchBackend
-  })
-
-  const typeaheadConfig = {
-    hint: false,
-    highlight: true,
-    minLength: minLength,
-    classNames: {
-      wrapper: 'ui-autocomplete-holder',
-      input: 'ui-typeahead-input',
-      hint: 'ui-autocomplete-hint',
-      menu: cx('ui-autocomplete ui-menu ui-autocomplete-open-width', {
-        'ui-autocomplete-position-relative': positionRelative
-      }),
-      cursor: 'ui-autocomplete-cursor',
-      suggestion: 'ui-menu-item'
-    }
-  }
-
-  const notFoundPrefix = searchBackend => {
-    if (searchBackends.length > 1) {
-      return (searchBackend.displayName || searchBackend.name.split('Search')[0]) + ' - '
-    } else {
-      return ''
-    }
-  }
-
-  const dataSets = searchBackends.map(searchBackend => {
-    return Object.assign({}, searchBackend, {
-      templates: {
-        pending: '<div class="ui-preloader small" style="height: 1.5em"></div>',
-        notFound: `<div class="ui-autocomplete-empty">${notFoundPrefix(searchBackend)}${t(
-          'app_autocomplete_no_results'
-        )}</div>`,
-        suggestion: record => {
-          const content = f.get(record, searchBackend.displayKey)
-          const value = valueGetter ? valueGetter(record) : content
-          const isDisabled =
-            (existingValues && f.includes(existingValues(), value)) ||
-            (valueFilter && valueFilter(record))
-
-          const renderLine =
-            suggestionRenderer ||
-            (() => {
-              return jQuery('<span>').text(content)
-            })
-          const line = renderLine(record)
-
-          const node = jQuery('<div>').append(line)
-          if (isDisabled) {
-            node.attr({
-              class: 'ui-autocomplete-disabled',
-              title: f.presence(existingValueHint) || t('meta_data_input_keywords_existing')
-            })
-          }
-          return node
-        }
-      }
-    })
-  })
-
-  const $input = jQuery(domNode)
-  const typeahead = $input.typeahead(typeaheadConfig, ...dataSets)
-  typeahead.on('typeahead:render', function () {
-    const container = jQuery(this).closest('.ui-autocomplete-holder')
-    container.find('.tt-dataset-CompoundSearch').remove()
-
-    if (
-      dataSets.length > 1 &&
-      container.find('.ui-autocomplete-empty').length === dataSets.length
-    ) {
-      container.find('.tt-dataset').empty()
-      const dataSetEl = jQuery('<div>').addClass('tt-dataset tt-dataset-CompoundSearch')
-      const emptyEl = jQuery('<div>').addClass('ui-autocomplete-empty')
-      emptyEl.text(t('app_autocomplete_no_results'))
-      container.find('.ui-autocomplete').append(dataSetEl.append(emptyEl))
-    }
-  })
-
-  typeahead.on('keypress', event => {
-    if (event.keyCode === 13) {
-      event.preventDefault()
-      const value = f.presence($input.typeahead('val'))
-      if (value && f.isFunction(onAdd)) {
-        onAdd(value)
-        $input.typeahead('val', '')
-      }
-    }
-
-    if (event.keyCode === 27) {
-      $input.blur()
-    }
-
-    return null
-  })
-
-  typeahead.on('typeahead:select typeahead:autocomplete', (event, item) => {
-    event.preventDefault()
-    $input.typeahead('val', ' ')
-    $input.typeahead('val', '')
-    onSelect(item)
-  })
-}
+import { markMatchingFragment } from './typeahead-utils.js'
 
 class AutoComplete extends React.Component {
   static propTypes = {
@@ -158,60 +29,122 @@ class AutoComplete extends React.Component {
     autoFocus: PropTypes.bool,
     searchParams: PropTypes.object,
     config: PropTypes.shape({
-      minLength: PropTypes.number
+      minLength: PropTypes.number, // remote search only triggered when search query has at least this many chars (default 1)
+      localData: PropTypes.array // data which is shown when search query is blank
     }),
+    existingValues: PropTypes.func,
+    valueGetter: PropTypes.func,
+    valueFilter: PropTypes.func,
+    positionRelative: PropTypes.bool,
+    existingValueHint: PropTypes.string,
     suggestionRenderer: PropTypes.func
   }
 
-  componentDidMount() {
-    const {
-      resourceType,
-      searchParams,
-      autoFocus,
-      config,
-      existingValues,
-      valueGetter,
-      valueFilter,
-      onSelect,
-      onAddValue,
-      positionRelative,
-      existingValueHint,
-      suggestionRenderer
-    } = this.props
+  constructor(props) {
+    super(props)
+    this._inputRef = React.createRef()
+
+    const { resourceType, searchParams, config } = props
     const conf = Object.assign({ minLength: 1 }, config)
-    const inputDOM = ReactDOM.findDOMNode(this.refs.InputField)
-    initTypeahead(
-      inputDOM,
-      resourceType,
-      searchParams,
-      conf,
-      existingValues,
-      valueGetter,
-      valueFilter,
-      onSelect,
-      onAddValue,
-      positionRelative,
-      existingValueHint,
-      suggestionRenderer
-    )
-    if (autoFocus) this.focus()
+
+    const resourceTypes = Array.isArray(resourceType) ? resourceType : [resourceType]
+    this._searchBackends = resourceTypes.map(rt => {
+      const backend = searchResources(rt, searchParams)
+      if (!backend) throw new Error(`No search backend for '${rt}'!`)
+      return backend
+    })
+    this._source = this._buildSource()
+
+    this._minLength = conf.minLength
+    this._localData = conf.localData
+  }
+
+  componentDidMount() {
+    if (this.props.autoFocus && this._inputRef.current) {
+      this._inputRef.current.focus()
+    }
   }
 
   focus() {
-    jQuery(ReactDOM.findDOMNode(this.refs.InputField)).focus()
+    if (this._inputRef.current) this._inputRef.current.focus()
+  }
+
+  _buildSource() {
+    // const { existingValues, valueGetter, valueFilter } = this.props
+    const backends = this._searchBackends
+
+    return (query, callback) => {
+      // apply local static data when no search query is present
+      if (this._localData && !query) {
+        callback(this._localData)
+        return
+      }
+
+      // skip backend search when query is too short
+      if ((query || '').length < this._minLength) {
+        callback([])
+        return
+      }
+
+      // Compound: fan out to all backends and merge results
+      let pending = backends.length
+      const all = []
+      const done = () => {
+        pending--
+        if (pending === 0) callback(all)
+      }
+      backends.forEach(backend => {
+        backend.source(query, results => {
+          all.push(...(results || []))
+          done()
+        })
+      })
+    }
+  }
+
+  _renderSuggestion = (item, { isHighlighted, inputValue }) => {
+    const { existingValues, valueGetter, valueFilter, existingValueHint, suggestionRenderer } =
+      this.props
+    const backend = this._searchBackends[0]
+    const content = f.get(item, backend.displayKey)
+    const value = valueGetter ? valueGetter(item) : content
+    const isDisabled =
+      (existingValues && f.includes(existingValues(), value)) || (valueFilter && valueFilter(item))
+
+    const line = suggestionRenderer ? (
+      suggestionRenderer(item, { isHighlighted, inputValue })
+    ) : (
+      <span>{markMatchingFragment(content, inputValue)}</span>
+    )
+
+    if (isDisabled) {
+      return (
+        <div
+          className="ui-autocomplete-disabled"
+          title={f.presence(existingValueHint) || t('meta_data_input_keywords_existing')}>
+          {line}
+        </div>
+      )
+    }
+    return <div>{line}</div>
   }
 
   render() {
-    const { name, value, placeholder, className } = this.props
+    const { name, value, placeholder, className, positionRelative, onAddValue } = this.props
 
     return (
-      <input
-        ref="InputField"
-        type="text"
-        className={cx('typeahead', className)}
+      <TypeaheadInput
+        inputRef={this._inputRef}
+        name={name}
         defaultValue={value || ''}
         placeholder={placeholder || 'search…'}
-        data-autocomplete-for={name}
+        className={cx(className)}
+        source={this._source}
+        onSelect={this.props.onSelect}
+        onAdd={onAddValue}
+        positionRelative={positionRelative}
+        renderSuggestion={this._renderSuggestion}
+        dataAttributes={{ 'data-autocomplete-for': name }}
       />
     )
   }

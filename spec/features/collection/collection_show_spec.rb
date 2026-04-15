@@ -73,7 +73,7 @@ feature 'Resource: Collections' do
         find('.primary-button', text: 'Bearbeiten').click
 
         user_row = subject_row find_form, I18n.t(:permission_subject_title_users_or_delegations)
-        autocomplete_and_choose_first(user_row, @user.login)
+        autocomplete_and_choose_first(user_row, @user.email)
         find('.primary-button', text: 'Speichern').click
 
         user_row = subject_row find_form, I18n.t(:permission_subject_title_users_or_delegations)

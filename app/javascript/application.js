@@ -10,9 +10,6 @@
 //         and to make the csv part of the asset manifest.
 // # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-// global jquery. needed for jquery plugins.
-window.jQuery = window.$ = require('jquery')
-
 // local requires
 const { each } = require('active-lodash')
 const { present } = require('active-lodash')
@@ -47,17 +44,19 @@ const ujs = [
 ]
 
 // initialize them all when DOM is ready:
-$(document).ready(() => each(ujs, init => init()))
+document.addEventListener('DOMContentLoaded', () => each(ujs, init => init()))
 
 // language switcher
-$(() =>
-  $('#lang_switcher').on('change', function (e) {
+document.addEventListener('DOMContentLoaded', () => {
+  const langSwitcher = document.getElementById('lang_switcher')
+  if (!langSwitcher) return
+  langSwitcher.addEventListener('change', function (e) {
     const parsedUrl = parseUrl(location.href, true)
-    parsedUrl.query['lang'] = $(e.currentTarget).val()
+    parsedUrl.query['lang'] = e.currentTarget.value
     delete parsedUrl.search
-    return (window.location.href = buildUrl(parsedUrl))
+    window.location.href = buildUrl(parsedUrl)
   })
-)
+})
 
 // DEV:
 // require('./developer-tools.js')

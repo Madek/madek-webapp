@@ -146,7 +146,7 @@ module TransferResponsibilityShared
 
   def choose_user(user)
     form = find('form[name="transfer_responsibility"]')
-    autocomplete_and_choose_first(form, user.login)
+    autocomplete_and_choose_first(form, user.email)
   end
 
   def check_checkbox(type, id, active)

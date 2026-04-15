@@ -23,7 +23,8 @@ class InputResources extends React.Component {
     extensible: PropTypes.bool, // only for Keywords
     allowedTypes: PropTypes.array, // only for People
     autocompleteConfig: PropTypes.shape({
-      minLength: PropTypes.number
+      minLength: PropTypes.number,
+      localData: PropTypes.array
     }),
     autoCompleteSuggestionRenderer: PropTypes.func
   }
@@ -50,7 +51,7 @@ class InputResources extends React.Component {
     if (this._adding) {
       this._adding = false
       if (this.refs.ListAdder) {
-        setTimeout(this.refs.ListAdder.focus, 1)
+        setTimeout(() => this.refs.ListAdder.focus(), 1)
       }
     }
   }
@@ -252,6 +253,7 @@ class InputResources extends React.Component {
       metaKey,
       autoCompleteSuggestionRenderer
     } = this.props
+
     values = f.compact(this.state.values || values)
     const { selectedRole, roles } = this.state
 

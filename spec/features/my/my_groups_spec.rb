@@ -218,7 +218,7 @@ def set_name_in_form(name)
 end
 
 def add_user_in_form(user)
-  autocomplete_and_choose_first(find('.ui-add-subject'), user.login)
+  autocomplete_and_choose_first(find('.ui-add-subject'), user.email)
 end
 
 def remove_user_in_form(user)

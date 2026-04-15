@@ -21,7 +21,7 @@ feature 'Resource: MetaDatum' do
         fill_autocomplete('xxxxxxxxxxxxxxxxxxx')
         expect(
           find(
-            '.tt-dataset-KeywordsSearch div',
+            '.ui-autocomplete-empty',
             text: I18n.t('app_autocomplete_no_results'))
         ).to be
       end
@@ -329,7 +329,6 @@ feature 'Resource: MetaDatum' do
     input = find('input')
     input.click
     input.set(text)
-    input.click
   end
 
 end
