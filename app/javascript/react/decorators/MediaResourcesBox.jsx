@@ -436,9 +436,11 @@ class MediaResourcesBox extends Component {
       ) +
       '</form>'
 
-    const form = $(html)
-    document.body.appendChild(form[0])
-    return form.submit()
+    const form = document.createElement('div')
+    form.innerHTML = html
+    const formEl = form.firstChild
+    document.body.appendChild(formEl)
+    return formEl.submit()
   }
 
   _sharedOnBatchAll = (event, type) => {

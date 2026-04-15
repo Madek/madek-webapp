@@ -1,54 +1,19 @@
 import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
-import jQuery from 'jquery'
 import { get } from '../../../lib/utils.js'
+import TypeaheadInput from '../typeahead-input.jsx'
 
 const InputFieldText = props => {
   const { name, type, value, placeholder, className, metaKey, onChange, batch } = props
-  const inputRef = useRef(null)
-
-  useEffect(() => {
-    if (inputRef.current) {
-      initSuggestions()
-    }
-  }, [])
-
-  const initSuggestions = () => {
-    require('@eins78/typeahead.js/dist/typeahead.jquery.js')
-
-    const $input = jQuery(inputRef.current)
-    $input.typeahead(
-      {
-        minLength: 0,
-        highlight: true,
-        classNames: {
-          // madek style:
-          wrapper: 'ui-autocomplete-holder ui-autocomplete-position-relative',
-          input: 'ui-typeahead-input',
-          hint: 'ui-autocomplete-hint',
-          menu: 'ui-autocomplete ui-menu ui-autocomplete-open-width',
-          cursor: 'ui-autocomplete-cursor',
-          suggestion: 'ui-menu-item'
-        }
-      },
-      {
-        name: 'templates',
-        source: (query, syncResults) => {
-          return syncResults(suggestions())
-        }
-      }
-    )
-    if (onChange) {
-      $input.on('typeahead:select', event => onChange(event))
-    }
-  }
 
   const suggestions = () => {
     const defaultText = get(metaKey, 'copyright_notice_default_text', '')
     const templates = get(metaKey, 'copyright_notice_templates', [])
     return [defaultText, ...templates].filter(Boolean)
   }
+
+  const isCopyrightField = get(metaKey, 'uuid', null) === 'madek_core:copyright_notice'
 
   const Element =
     metaKey && metaKey.text_type && metaKey.text_type === 'block' ? 'textarea' : 'input'
@@ -68,23 +33,48 @@ const InputFieldText = props => {
     commonProps.onChange = onChange
   }
 
-  if (get(metaKey, 'uuid', null) === 'madek_core:copyright_notice') {
+  if (isCopyrightField) {
     const defaultValue = batch ? '' : get(metaKey, 'copyright_notice_default_text', '')
 
+    // Sync-only source: returns suggestion strings from metaKey templates
+    const source = (query, syncCallback) => {
+      const all = suggestions()
+      if (!query) {
+        syncCallback(all)
+      } else {
+        syncCallback(all.filter(s => s.toLowerCase().includes(query.toLowerCase())))
+      }
+    }
+
+    const handleSelect = item => {
+      if (onChange) onChange({ target: { value: item } })
+    }
+
     return (
-      <input
-        ref={inputRef}
-        type="text"
+      <TypeaheadInput
+        name={name}
         defaultValue={value || defaultValue}
-        data-autocomplete-for={name}
-        {...commonProps}
+        placeholder={placeholder}
+        className={cx(className, 'block')}
+        source={source}
+        onSelect={handleSelect}
+        minLength={0}
+        highlight={true}
+        itemToString={item => item || ''}
+        classNames={{
+          wrapper: 'ui-autocomplete-holder ui-autocomplete-position-relative',
+          input: 'ui-typeahead-input',
+          hint: 'ui-autocomplete-hint',
+          menu: 'ui-autocomplete ui-menu ui-autocomplete-open-width',
+          cursor: 'ui-autocomplete-cursor',
+          suggestion: 'ui-menu-item'
+        }}
+        dataAttributes={{ 'data-autocomplete-for': name }}
       />
     )
-  } else {
-    return (
-      <Element type={type || 'text'} defaultValue={value || ''} style={style} {...commonProps} />
-    )
   }
+
+  return <Element type={type || 'text'} defaultValue={value || ''} style={style} {...commonProps} />
 }
 
 InputFieldText.propTypes = {

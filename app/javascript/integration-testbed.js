@@ -9,8 +9,6 @@
 //         and to make the csv part of the asset manifest.
 // # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-window.$ = require('jquery')
-
 // map of tests by name here
 // a test is an async function to be called with {data} and callback(err, res)
 window.tests = { MediaEntryMetaData: require('./spec/media-entry-meta-data-update_spec.js') }
@@ -40,9 +38,10 @@ var handleResult = function (err, res) {
     errorMessage = { error: err.toString() }
   }
 
-  $('<div id="TestBedResult">')
-    .text(JSON.stringify(errorMessage != null ? errorMessage : res || {}))
-    .appendTo('body')
+  const div = document.createElement('div')
+  div.id = 'TestBedResult'
+  div.textContent = JSON.stringify(errorMessage != null ? errorMessage : res || {})
+  document.body.appendChild(div)
 
   // re-throw any error (for dev console/stacktrace):
   if (err != null) {

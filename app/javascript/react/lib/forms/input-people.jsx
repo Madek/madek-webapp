@@ -1,24 +1,21 @@
 import React from 'react'
 import InputResources from './input-resources.jsx'
-import jQuery from 'jquery'
 
 const autoCompleteSuggestionRenderer = person => {
-  const $nameDiv = jQuery('<div>')
-    .addClass('ui-autocomplete__person-suggestion__col1')
-    .text(person.name)
-
-  const $infoDiv = jQuery('<div>').addClass('ui-autocomplete__person-suggestion__col2')
   const infos = person.info || []
-  $.each(infos, function (index, value) {
-    $infoDiv.append($('<span></span>').text(value))
-    if (index < infos.length - 1) {
-      $infoDiv.append(', ')
-    }
-  })
-  return jQuery('<div>')
-    .addClass('ui-autocomplete__person-suggestion')
-    .append($nameDiv)
-    .append($infoDiv)
+  return (
+    <div className="ui-autocomplete__person-suggestion">
+      <div className="ui-autocomplete__person-suggestion__col1">{person.name}</div>
+      <div className="ui-autocomplete__person-suggestion__col2">
+        {infos.map((value, index) => (
+          <React.Fragment key={index}>
+            <span>{value}</span>
+            {index < infos.length - 1 && ', '}
+          </React.Fragment>
+        ))}
+      </div>
+    </div>
+  )
 }
 
 const InputPeople = ({ metaKey, ...rest }) => {

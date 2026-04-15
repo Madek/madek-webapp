@@ -1,14 +1,11 @@
 /*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ * hashviz-svg.js
+ * hashviz: build visual hash from input texts, in svg format
  */
-// hashviz: build visual hash from input texts, in svg format
-import $ from 'jquery'
 import any_sha1 from 'any_sha1' // pick the right sha1 function in browsers/server
 import hashblot from 'hashblot'
 
-// give hashblot acces to the sha1 function:
+// give hashblot access to the sha1 function:
 hashblot.bindSha1(any_sha1.from(any_sha1.utf8.bytes))
 
 // svg (valid html5 node) with empty path, viewbox fits hashblot path size
@@ -27,9 +24,12 @@ const hashBlotPath = function (str) {
   }
 }
 
+// Returns a native SVGElement (was previously a jQuery object)
 module.exports = function (text) {
-  const svg = $(EMPTY_SVG)
-  const path = svg.find('path')[0]
+  const parser = new DOMParser()
+  const doc = parser.parseFromString(EMPTY_SVG, 'image/svg+xml')
+  const svg = doc.documentElement
+  const path = svg.querySelector('path')
   const cleaned_text = typeof text.replace === 'function' ? text.replace(/\s\s/g, ' ') : undefined
   path.setAttribute('d', hashBlotPath(cleaned_text))
   return svg
