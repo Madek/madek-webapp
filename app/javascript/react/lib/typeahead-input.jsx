@@ -171,6 +171,7 @@ function TypeaheadInput({
       <input
         {...getInputProps({
           ref: inputElement,
+          type: 'text',
           name,
           placeholder,
           className: cx(classes.input, className),

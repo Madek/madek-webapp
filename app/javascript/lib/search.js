@@ -1,4 +1,3 @@
-import url from 'url'
 import f from 'active-lodash'
 import { t } from '../react/lib/ui.js'
 import { createRemoteSource } from './remote-search.js'
@@ -24,7 +23,15 @@ const resourcesConfig = {
   Roles: { url: '/roles', key: 'label', params: ['meta_key_id'] }
 }
 
-const langQueryParam = () => f.pick(url.parse(location.href, true).query, 'lang')
+const langQueryParam = () => {
+  const lang = new URL(location.href).searchParams.get('lang')
+  return lang ? { lang } : {}
+}
+
+const buildSearchUrl = (pathname, query) => {
+  const params = new URLSearchParams(query)
+  return `${pathname}?${params.toString()}`
+}
 
 module.exports = function (resourceType, parameters = null, localData) {
   let baseConfig
@@ -38,10 +45,10 @@ module.exports = function (resourceType, parameters = null, localData) {
     throw new Error(`Search: ${resourceType}: missing parameters: ${missing}!`)
   }
 
-  const searchUrl = url.format({
-    pathname: baseConfig.url,
-    query: f.assign({ search_term: '__QUERY__' }, parameters, langQueryParam())
-  })
+  const searchUrl = buildSearchUrl(
+    baseConfig.url,
+    f.assign({ search_term: '__QUERY__' }, parameters, langQueryParam())
+  )
 
   const source = createRemoteSource(searchUrl, {
     local: localData || null,

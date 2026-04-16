@@ -50,7 +50,7 @@ class InputResources extends React.Component {
     if (this._adding) {
       this._adding = false
       if (this.refs.ListAdder) {
-        setTimeout(this.refs.ListAdder.focus, 1)
+        setTimeout(() => this.refs.ListAdder.focus(), 1)
       }
     }
   }
