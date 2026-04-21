@@ -35,7 +35,7 @@ const DecoratorsByType = {
     )
   },
 
-  JSON({ values, apiUrl }) {
+  JSON({ values }) {
     return (
       <ul className="inline ui-md-json">
         {values.map((obj, i) => (
@@ -61,11 +61,6 @@ const DecoratorsByType = {
               }}
               defaultValue={prettifyJson(obj)}
             />
-            <small style={{ fontSize: '85%', display: 'block', padding: '0.5rem' }}>
-              <a href={apiUrl}>
-                <UI.Icon i="dload" /> {t('meta_datum_json_download_value')}
-              </a>
-            </small>
           </li>
         ))}
       </ul>
@@ -109,13 +104,12 @@ const DecoratorsByType = {
 }
 
 const MetaDatumValues = ({ metaDatum, tagMods }) => {
-  const { type, values, api_data_stream_url, meta_key_id } = metaDatum
+  const { type, values, meta_key_id } = metaDatum
   const DecoratorByType = DecoratorsByType[type.split('::').pop()]
   return (
     <DecoratorByType
       values={values}
       tagMods={tagMods}
-      apiUrl={api_data_stream_url}
       metaKeyId={meta_key_id}
       withRoles={metaDatum.meta_key.with_roles}
     />
