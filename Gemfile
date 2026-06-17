@@ -9,7 +9,7 @@ eval_gemfile(SHARED_GEMFILE) if File.exist?(SHARED_GEMFILE)
 gem 'responders'
 
 # Webserver
-gem 'puma', '~> 6.4'
+gem 'puma', '~> 7.2.1'
 gem 'puma_worker_killer'
 
 # FRONTEND
@@ -35,7 +35,7 @@ gem 'execjs'
 gem 'exiftool_vendored'
 gem 'git', '~> 1.13'
 gem 'json', '>= 2.15.2.1'
-gem 'kaminari'
+gem 'kaminari', '~> 1.2.1'
 gem 'pundit'
 gem 'rubyzip', '~> 1.0'
 gem 'sitemap_generator'
