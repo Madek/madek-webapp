@@ -496,7 +496,6 @@ DEPENDENCIES
   selenium-webdriver
   sitemap_generator
   sorted_set
-  sprockets (< 4)
   sprockets-rails (>= 3.5)
   strong_password
   textacular (~> 5.0)
