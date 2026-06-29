@@ -14,6 +14,7 @@
     "build:app-embedded-view": "NODE_ENV=production browserify app/javascript/embedded-view.js -o public/assets/bundles/bundle-embedded-view.js",
     "build:app-embedded-view:dev": "NODE_ENV=development browserify app/javascript/embedded-view.js -o public/assets/bundles/dev-bundle-embedded-view.js",
     "build:server": "NODE_ENV=production browserify app/javascript/react-server-side.js -o public/assets/bundles/bundle-react-server-side.js",
+    "build:server-vite": "mkdir -p public/assets/bundles && vite build --config vite.config.server.mjs",
     "build:server:dev": "NODE_ENV=development browserify app/javascript/react-server-side.js -o public/assets/bundles/bundle-react-server-side.js",
     "build:integration": "NODE_ENV=production browserify app/javascript/integration-testbed.js -o public/assets/bundles/bundle-integration-testbed.js",
     "format": "prettier 'app/javascript/**/*.{js,jsx}' --write",
