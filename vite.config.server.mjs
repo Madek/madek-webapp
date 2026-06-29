@@ -13,7 +13,11 @@
  */
 
 import { defineConfig } from 'vite'
-import { build as esbuildBuild, context as esbuildContext, transform as esbuildTransform } from 'esbuild'
+import {
+  build as esbuildBuild,
+  context as esbuildContext,
+  transform as esbuildTransform
+} from 'esbuild'
 import { resolve, dirname, basename, extname, join } from 'path'
 import { readFileSync, promises as fsp } from 'fs'
 import { fileURLToPath } from 'url'
@@ -22,7 +26,9 @@ import resolveModule from 'resolve'
 import { createRequire } from 'module'
 
 const _require = createRequire(import.meta.url)
-function getBabel() { return _require('@babel/core') }
+function getBabel() {
+  return _require('@babel/core')
+}
 
 const { sync: globSync } = fg
 
@@ -37,8 +43,8 @@ const tripleDotsResolvePlugin = {
   name: 'triple-dots-resolve',
   setup(build) {
     // Intercept any import path that contains '...' (triple dot)
-    build.onResolve({ filter: /\.\.\./ }, (args) => {
-      return new Promise((resolvePromise) => {
+    build.onResolve({ filter: /\.\.\./ }, args => {
+      return new Promise(resolvePromise => {
         resolveModule(
           args.path,
           { basedir: args.resolveDir || dirname(args.importer) },
@@ -52,7 +58,7 @@ const tripleDotsResolvePlugin = {
         )
       })
     })
-  },
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -102,7 +108,7 @@ function expandBulkRequire(dir, patterns) {
 const sourceTransformPlugin = {
   name: 'source-transform',
   setup(build) {
-    build.onLoad({ filter: /\.(jsx?)$/ }, async (args) => {
+    build.onLoad({ filter: /\.(jsx?)$/ }, async args => {
       let code = await fsp.readFile(args.path, 'utf8')
       const fileDir = dirname(args.path)
       let changed = false
@@ -144,7 +150,10 @@ const sourceTransformPlugin = {
           /import\s+requireBulk\s+from\s+['"]bulk-require['"]\s*\n?/g,
           '// (bulk-require removed)\n'
         )
-        if (bulked !== code) { code = bulked; changed = true }
+        if (bulked !== code) {
+          code = bulked
+          changed = true
+        }
       }
 
       // ── 3. mixedEsmCjs: convert mixed ESM+CJS to pure CJS ────────────────
@@ -162,7 +171,7 @@ const sourceTransformPlugin = {
           jsx: 'transform',
           jsxFactory: 'React.createElement',
           jsxFragment: 'React.Fragment',
-          target: 'es2015',
+          target: 'es2015'
         })
         code = result.code
         changed = true
@@ -180,9 +189,14 @@ const sourceTransformPlugin = {
           plugins: ['@babel/plugin-transform-shorthand-properties'],
           // Include @babel/preset-react if JSX has NOT been compiled yet
           // (i.e., step 3 did not run). This covers .js files that contain JSX.
-          presets: !changed ? [
-            ['@babel/preset-react', { pragma: 'React.createElement', pragmaFrag: 'React.Fragment' }],
-          ] : [],
+          presets: !changed
+            ? [
+                [
+                  '@babel/preset-react',
+                  { pragma: 'React.createElement', pragmaFrag: 'React.Fragment' }
+                ]
+              ]
+            : []
         })
         if (babelResult && babelResult.code !== code) {
           code = babelResult.code
@@ -195,15 +209,15 @@ const sourceTransformPlugin = {
       // Return as plain JS — JSX has been compiled away
       return { contents: code, loader: 'js' }
     })
-  },
+  }
 }
 
 // ---------------------------------------------------------------------------
 // Vite plugin: runs the esbuild bundle as part of `vite build`
 // Supports:
-//   - production build  → bundle-react-server-side-vite.js
-//   - dev one-shot build (NODE_ENV=development) → dev-bundle-react-server-side-vite.js
-//   - watch mode (--watch)  → dev-bundle-react-server-side-vite.js + source maps
+//   - production build  → bundle-react-server-side.js
+//   - dev one-shot build (NODE_ENV=development) → dev-bundle-react-server-side.js
+//   - watch mode (--watch)  → dev-bundle-react-server-side.js + source maps
 // ---------------------------------------------------------------------------
 function serverBundlePlugin() {
   let isWatch = false
@@ -223,8 +237,8 @@ function serverBundlePlugin() {
       const outfile = resolve(
         __dirname,
         isDev
-          ? 'public/assets/bundles/dev-bundle-react-server-side-vite.js'
-          : 'public/assets/bundles/bundle-react-server-side-vite.js'
+          ? 'public/assets/bundles/dev-bundle-react-server-side.js'
+          : 'public/assets/bundles/bundle-react-server-side.js'
       )
 
       const esbuildOptions = {
@@ -259,8 +273,8 @@ function serverBundlePlugin() {
             '    if (typeof origRequire === "function") return origRequire(id);',
             '    throw new Error("require not available: " + id);',
             '  };',
-            '})(typeof require !== "undefined" ? require : undefined);',
-          ].join('\n'),
+            '})(typeof require !== "undefined" ? require : undefined);'
+          ].join('\n')
         },
         // crypto is explicitly ignored by the existing browserify build.
         // fs and net have no browser shim in esbuild; they are handled by the
@@ -268,11 +282,11 @@ function serverBundlePlugin() {
         external: ['crypto', 'fs', 'net'],
         plugins: [tripleDotsResolvePlugin, sourceTransformPlugin],
         sourcemap: isDev,
-        minify: false,
+        minify: false
       }
 
       if (isWatch) {
-        if (esbuildCtx) return  // already watching
+        if (esbuildCtx) return // already watching
         console.log('\nWatching server-side bundle with esbuild…')
         esbuildCtx = await esbuildContext(esbuildOptions)
         await esbuildCtx.watch()
@@ -282,7 +296,7 @@ function serverBundlePlugin() {
         await esbuildBuild(esbuildOptions)
         console.log('  →', outfile.replace(__dirname + '/', ''))
       }
-    },
+    }
   }
 }
 
@@ -296,9 +310,13 @@ export default defineConfig({
     // Virtual module so Rollup has a valid (empty) entry to process
     {
       name: 'virtual-noop',
-      resolveId(id) { if (id === 'virtual:noop') return id },
-      load(id) { if (id === 'virtual:noop') return 'export default {}' },
-    },
+      resolveId(id) {
+        if (id === 'virtual:noop') return id
+      },
+      load(id) {
+        if (id === 'virtual:noop') return 'export default {}'
+      }
+    }
   ],
   build: {
     // Rollup processes a no-op virtual module — all real work is in serverBundlePlugin
@@ -309,11 +327,11 @@ export default defineConfig({
         // Suppress the expected "empty chunk" warning for the virtual no-op entry
         if (warning.code === 'EMPTY_BUNDLE') return
         warn(warning)
-      },
+      }
     },
     outDir: '/tmp/vite-server-noop',
     emptyOutDir: true,
     minify: false,
-    write: false,
-  },
+    write: false
+  }
 })

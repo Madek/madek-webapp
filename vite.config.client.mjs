@@ -2,8 +2,8 @@
  * vite.config.client.mjs
  *
  * Vite-based build + watch for both client-side bundles:
- *   application.js      → bundle-vite.js        (prod) / dev-bundle-vite.js        (watch)
- *   embedded-view.js    → bundle-embedded-view-vite.js (prod) / dev-bundle-embedded-view-vite.js (watch)
+ *   application.js      → bundle.js        (prod) / dev-bundle.js        (watch)
+ *   embedded-view.js    → bundle-embedded-view.js (prod) / dev-bundle-embedded-view.js (watch)
  *
  * Run modes:
  *   vite build          --config vite.config.client.mjs          (production build)
@@ -14,7 +14,11 @@
  */
 
 import { defineConfig } from 'vite'
-import { build as esbuildBuild, context as esbuildContext, transform as esbuildTransform } from 'esbuild'
+import {
+  build as esbuildBuild,
+  context as esbuildContext,
+  transform as esbuildTransform
+} from 'esbuild'
 import { resolve, dirname, basename, extname, join } from 'path'
 import { readFileSync, promises as fsp } from 'fs'
 import { fileURLToPath } from 'url'
@@ -24,7 +28,9 @@ import { createRequire } from 'module'
 
 const _require = createRequire(import.meta.url)
 // Lazily resolve Babel so it is only loaded when needed
-function getBabel() { return _require('@babel/core') }
+function getBabel() {
+  return _require('@babel/core')
+}
 
 const { sync: globSync } = fg
 
@@ -37,8 +43,8 @@ const __dirname = dirname(__filename)
 const tripleDotsResolvePlugin = {
   name: 'triple-dots-resolve',
   setup(build) {
-    build.onResolve({ filter: /\.\.\./ }, (args) => {
-      return new Promise((resolvePromise) => {
+    build.onResolve({ filter: /\.\.\./ }, args => {
+      return new Promise(resolvePromise => {
         resolveModule(
           args.path,
           { basedir: args.resolveDir || dirname(args.importer) },
@@ -49,7 +55,7 @@ const tripleDotsResolvePlugin = {
         )
       })
     })
-  },
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -96,7 +102,7 @@ function expandBulkRequire(dir, patterns) {
 const sourceTransformPlugin = {
   name: 'source-transform',
   setup(build) {
-    build.onLoad({ filter: /\.(jsx?)$/ }, async (args) => {
+    build.onLoad({ filter: /\.(jsx?)$/ }, async args => {
       let code = await fsp.readFile(args.path, 'utf8')
       const fileDir = dirname(args.path)
       let changed = false
@@ -135,7 +141,10 @@ const sourceTransformPlugin = {
           /import\s+requireBulk\s+from\s+['"]bulk-require['"]\s*\n?/g,
           '// (bulk-require removed)\n'
         )
-        if (bulked !== code) { code = bulked; changed = true }
+        if (bulked !== code) {
+          code = bulked
+          changed = true
+        }
       }
 
       // ── 3. mixedEsmCjs ───────────────────────────────────────────────────
@@ -150,7 +159,7 @@ const sourceTransformPlugin = {
           jsx: 'transform',
           jsxFactory: 'React.createElement',
           jsxFragment: 'React.Fragment',
-          target: 'es2015',
+          target: 'es2015'
         })
         code = result.code
         changed = true
@@ -174,9 +183,14 @@ const sourceTransformPlugin = {
           plugins: ['@babel/plugin-transform-shorthand-properties'],
           // Include @babel/preset-react if JSX has NOT been compiled yet
           // (i.e., step 3 did not run). This covers .js files that contain JSX.
-          presets: !changed ? [
-            ['@babel/preset-react', { pragma: 'React.createElement', pragmaFrag: 'React.Fragment' }],
-          ] : [],
+          presets: !changed
+            ? [
+                [
+                  '@babel/preset-react',
+                  { pragma: 'React.createElement', pragmaFrag: 'React.Fragment' }
+                ]
+              ]
+            : []
         })
         if (babelResult && babelResult.code !== code) {
           code = babelResult.code
@@ -187,7 +201,7 @@ const sourceTransformPlugin = {
       if (!changed) return undefined
       return { contents: code, loader: 'js' }
     })
-  },
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -215,12 +229,12 @@ function commonEsbuildOptions(isDev) {
         '    if (typeof origRequire === "function") return origRequire(id);',
         '    throw new Error("require not available: " + id);',
         '  };',
-        '})(typeof require !== "undefined" ? require : undefined);',
-      ].join('\n'),
+        '})(typeof require !== "undefined" ? require : undefined);'
+      ].join('\n')
     },
     plugins: [tripleDotsResolvePlugin, sourceTransformPlugin],
     sourcemap: isDev,
-    minify: false,
+    minify: false
   }
 }
 
@@ -230,19 +244,19 @@ function commonEsbuildOptions(isDev) {
 const ENTRIES = [
   {
     input: resolve(__dirname, 'app/javascript/application.js'),
-    prodOut: resolve(__dirname, 'public/assets/bundles/bundle-vite.js'),
-    devOut:  resolve(__dirname, 'public/assets/bundles/dev-bundle-vite.js'),
+    prodOut: resolve(__dirname, 'public/assets/bundles/bundle.js'),
+    devOut: resolve(__dirname, 'public/assets/bundles/dev-bundle.js')
   },
   {
     input: resolve(__dirname, 'app/javascript/embedded-view.js'),
-    prodOut: resolve(__dirname, 'public/assets/bundles/bundle-embedded-view-vite.js'),
-    devOut:  resolve(__dirname, 'public/assets/bundles/dev-bundle-embedded-view-vite.js'),
+    prodOut: resolve(__dirname, 'public/assets/bundles/bundle-embedded-view.js'),
+    devOut: resolve(__dirname, 'public/assets/bundles/dev-bundle-embedded-view.js')
   },
   {
     input: resolve(__dirname, 'app/javascript/integration-testbed.js'),
-    prodOut: resolve(__dirname, 'public/assets/bundles/bundle-integration-testbed-vite.js'),
-    devOut:  resolve(__dirname, 'public/assets/bundles/dev-bundle-integration-testbed-vite.js'),
-  },
+    prodOut: resolve(__dirname, 'public/assets/bundles/bundle-integration-testbed.js'),
+    devOut: resolve(__dirname, 'public/assets/bundles/dev-bundle-integration-testbed.js')
+  }
 ]
 
 // ---------------------------------------------------------------------------
@@ -265,7 +279,7 @@ function clientBundlesPlugin() {
 
       // In watch mode, start the esbuild watchers once and let them run.
       if (isWatch) {
-        if (esbuildCtxs.length > 0) return  // already watching
+        if (esbuildCtxs.length > 0) return // already watching
         const opts = commonEsbuildOptions(true)
         esbuildCtxs = await Promise.all(
           ENTRIES.map(e => esbuildContext({ ...opts, entryPoints: [e.input], outfile: e.devOut }))
@@ -278,13 +292,17 @@ function clientBundlesPlugin() {
         const opts = commonEsbuildOptions(isDev)
         console.log('\nBuilding client bundles with esbuild…')
         await Promise.all(
-          ENTRIES.map(e => esbuildBuild({
-            ...opts,
-            entryPoints: [e.input],
-            outfile: isDev ? e.devOut : e.prodOut,
-          }))
+          ENTRIES.map(e =>
+            esbuildBuild({
+              ...opts,
+              entryPoints: [e.input],
+              outfile: isDev ? e.devOut : e.prodOut
+            })
+          )
         )
-        ENTRIES.forEach(e => console.log('  →', (isDev ? e.devOut : e.prodOut).replace(__dirname + '/', '')))
+        ENTRIES.forEach(e =>
+          console.log('  →', (isDev ? e.devOut : e.prodOut).replace(__dirname + '/', ''))
+        )
       }
     },
 
@@ -292,7 +310,7 @@ function clientBundlesPlugin() {
       // On normal (non-watch) Rollup build end: nothing to clean up.
       // On watch mode shutdown (Vite process exit), dispose esbuild contexts.
       if (!isWatch) return
-    },
+    }
   }
 }
 
@@ -305,9 +323,13 @@ export default defineConfig({
     clientBundlesPlugin(),
     {
       name: 'virtual-noop',
-      resolveId(id) { if (id === 'virtual:noop') return id },
-      load(id) { if (id === 'virtual:noop') return 'export default {}' },
-    },
+      resolveId(id) {
+        if (id === 'virtual:noop') return id
+      },
+      load(id) {
+        if (id === 'virtual:noop') return 'export default {}'
+      }
+    }
   ],
   build: {
     rollupOptions: {
@@ -317,7 +339,7 @@ export default defineConfig({
         // Suppress the expected "empty chunk" warning for the virtual no-op entry
         if (warning.code === 'EMPTY_BUNDLE') return
         warn(warning)
-      },
+      }
     },
     // Redirect Rollup's (empty) output to a throwaway temp dir so it never
     // pollutes public/assets/bundles/ (important in --watch mode where
@@ -325,6 +347,6 @@ export default defineConfig({
     outDir: '/tmp/vite-client-noop',
     emptyOutDir: true,
     minify: false,
-    write: false,
-  },
+    write: false
+  }
 })

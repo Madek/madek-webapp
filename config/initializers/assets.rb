@@ -18,10 +18,10 @@ Rails.application.config.assets.paths.concat(
 Rails.application.config.assets.precompile << %w(
   bundle.js
   bundle-embedded-view.js
-  bundle-vite.js
-  bundle-embedded-view-vite.js
+  bundle.js
+  bundle-embedded-view.js
 ).map { |name| "#{Rails.env.development? ? 'dev-' : ''}#{name}" }
-.concat(%w( bundle-react-server-side.js bundle-react-server-side-vite.js bundle-integration-testbed.js bundle-integration-testbed-vite.js ))
+.concat(%w( bundle-react-server-side.js bundle-react-server-side.js bundle-integration-testbed.js bundle-integration-testbed.js ))
 
 # CSS
 Rails.application.config.assets.precompile << %w(

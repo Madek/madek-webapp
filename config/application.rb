@@ -101,7 +101,7 @@ module Madek
     # config.react.server_renderer = React::ServerRendering::SprocketsRenderer
 
     config.react.server_renderer_options = {
-      files: ['bundle-react-server-side-vite.js'].flatten,
+      files: ['bundle-react-server-side.js'].flatten,
       replay_console: false
     }
 
