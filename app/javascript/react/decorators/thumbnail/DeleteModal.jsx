@@ -23,4 +23,3 @@ const DeleteModal = ({ resourceType, onModalOk, onModalCancel, modalTitle }) => 
 }
 
 export default DeleteModal
-module.exports = DeleteModal

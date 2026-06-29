@@ -84,4 +84,3 @@ const VocabularyTerm = ({ get, for_url, authToken }) => {
 }
 
 export default VocabularyTerm
-module.exports = VocabularyTerm

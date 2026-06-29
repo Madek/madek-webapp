@@ -31,4 +31,3 @@ const BoxFilterButton = ({ get, config, filterToggleLink, resetFilterLink, _onFi
 
 // Memoize to prevent unnecessary re-renders (replaces shouldComponentUpdate)
 export default memo(BoxFilterButton)
-module.exports = memo(BoxFilterButton)

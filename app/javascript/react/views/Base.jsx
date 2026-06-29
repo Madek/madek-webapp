@@ -72,4 +72,3 @@ const Base = ({ get, action_name, for_url, authToken }) => {
 }
 
 export default Base
-module.exports = Base

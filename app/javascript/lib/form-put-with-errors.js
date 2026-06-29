@@ -8,7 +8,7 @@ import getRailsCSRFToken from './rails-csrf-token.js'
 import t from './i18n-translate.js'
 import f from 'lodash'
 
-module.exports = {
+export default {
   shared(data, actionUrl, contentType, callback) {
     return xhr(
       {

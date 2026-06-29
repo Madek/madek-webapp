@@ -112,4 +112,3 @@ const BrowseEntriesList = ({ browse, isLoading, header, authToken }) => {
 }
 
 export default BrowseEntriesList
-module.exports = BrowseEntriesList

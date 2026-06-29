@@ -21,4 +21,3 @@ const PrettyThumbs = ({ imageUrl, hrefUrl, label, author }) => {
 }
 
 export default PrettyThumbs
-module.exports = PrettyThumbs

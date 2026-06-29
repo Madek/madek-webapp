@@ -33,4 +33,3 @@ const CollectionDetailOverview = ({ get }) => {
 }
 
 export default CollectionDetailOverview
-module.exports = CollectionDetailOverview

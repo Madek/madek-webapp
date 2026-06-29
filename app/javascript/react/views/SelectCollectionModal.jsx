@@ -13,4 +13,3 @@ const SelectCollectionModal = ({ authToken, get }) => {
 }
 
 export default SelectCollectionModal
-module.exports = SelectCollectionModal

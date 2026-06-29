@@ -21,4 +21,3 @@ Picture.propTypes = {
 }
 
 export default Picture
-module.exports = Picture

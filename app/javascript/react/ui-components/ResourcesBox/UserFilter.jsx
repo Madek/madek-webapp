@@ -68,4 +68,3 @@ class UserFilter extends React.Component {
 }
 
 export default UserFilter
-module.exports = UserFilter

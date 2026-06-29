@@ -4,7 +4,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 const requireBulk = require('bulk-require')
-const resourceName = require('../lib/decorate-resource-names.js')
+const resourceName = require('../lib/decorate-resource-names.js').default
 
 const UILibrary = requireBulk(__dirname, ['*.jsx'])
 UILibrary.propTypes = require('./propTypes.js')

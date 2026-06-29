@@ -36,4 +36,3 @@ const MetaDataTable = ({
 }
 
 export default MetaDataTable
-module.exports = MetaDataTable

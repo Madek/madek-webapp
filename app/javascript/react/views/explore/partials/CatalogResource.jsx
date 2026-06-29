@@ -47,4 +47,3 @@ const CatalogResource = ({ resource }) => {
 }
 
 export default CatalogResource
-module.exports = CatalogResource

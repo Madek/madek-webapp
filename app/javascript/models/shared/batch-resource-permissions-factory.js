@@ -15,7 +15,7 @@ const PERMISSIONS = [
   ['api_client_permissions', 'collection']
 ]
 
-module.exports = function (name, baseModel) {
+export default function (name, baseModel) {
   return baseModel.extend({
     type: name,
 

@@ -1,6 +1,6 @@
 import AppResource from './shared/app-resource.js'
 
-module.exports = AppResource.extend({
+export default AppResource.extend({
   type: 'Group',
   extraProperties: 'allow',
   props: {

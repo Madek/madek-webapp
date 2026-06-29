@@ -5,7 +5,7 @@
  */
 import f from 'active-lodash'
 
-module.exports = {
+export default {
   // NOTE: Temporary solution for "bundling" of keys. comes from instance config.
   _prefixesForBundle() {
     return APP_CONFIG.bundle_context_keys || []

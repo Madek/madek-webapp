@@ -18,4 +18,4 @@ const Models = f.object(
   )
 )
 
-module.exports = Models
+export default Models

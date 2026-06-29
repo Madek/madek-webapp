@@ -14,4 +14,3 @@ const ExploreMenuEntry = ({ label, hrefUrl, active }) => {
 }
 
 export default ExploreMenuEntry
-module.exports = ExploreMenuEntry

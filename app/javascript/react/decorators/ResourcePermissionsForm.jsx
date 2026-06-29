@@ -58,7 +58,7 @@ class ResourcePermissionsForm extends React.Component {
   componentDidMount() {
     this._isMounted = true
     // init autocompletes, then force re-render:
-    AutoComplete = require('../lib/autocomplete.jsx')
+    AutoComplete = require('../lib/autocomplete.jsx').default
     if (this._isMounted) {
       return this.forceUpdate()
     }

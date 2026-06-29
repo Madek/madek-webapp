@@ -71,4 +71,4 @@ class TokenCreatedPage extends React.Component {
   }
 }
 
-module.exports = TokenCreatedPage
+export default TokenCreatedPage

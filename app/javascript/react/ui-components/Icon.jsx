@@ -21,4 +21,3 @@ Icon.propTypes = {
 }
 
 export default Icon
-module.exports = Icon

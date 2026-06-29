@@ -5,4 +5,4 @@ function currentLocale() {
   return get(ampersandApp, 'config.userLanguage')
 }
 
-module.exports = currentLocale
+export default currentLocale

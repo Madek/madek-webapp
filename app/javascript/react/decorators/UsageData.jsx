@@ -94,4 +94,3 @@ const UsageData = ({ get }) => {
 }
 
 export default UsageData
-module.exports = UsageData

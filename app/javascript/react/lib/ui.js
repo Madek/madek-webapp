@@ -12,7 +12,13 @@ const parseModsfromProps = function (param) {
   return [mods, className]
 }
 
-module.exports = {
+// Named exports for destructuring imports
+export const parseMods = parseModsfromProps
+export const cx = classnames
+export const t = i18nTranslate
+
+// Default export for backward compatibility
+export default {
   parseMods: parseModsfromProps,
   classnames,
   cx: classnames,

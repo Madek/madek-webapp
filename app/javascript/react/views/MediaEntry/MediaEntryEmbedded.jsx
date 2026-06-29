@@ -46,4 +46,3 @@ MediaEntryEmbedded.propTypes = {
 }
 
 export default MediaEntryEmbedded
-module.exports = MediaEntryEmbedded

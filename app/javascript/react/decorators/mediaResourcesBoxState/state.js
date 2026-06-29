@@ -159,4 +159,5 @@ function nextState({ state = {}, context = {}, event, triggerEvent }) {
   return reduce()
 }
 
-module.exports = { nextState }
+export { nextState }
+export default { nextState }

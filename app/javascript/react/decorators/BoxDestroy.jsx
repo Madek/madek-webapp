@@ -70,4 +70,4 @@ class BoxDestroy extends React.Component {
   }
 }
 
-module.exports = BoxDestroy
+export default BoxDestroy

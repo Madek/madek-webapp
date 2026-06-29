@@ -58,4 +58,4 @@ class CustomDatePicker extends React.Component {
   }
 }
 
-module.exports = CustomDatePicker
+export default CustomDatePicker

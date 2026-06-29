@@ -20,7 +20,7 @@ var translations = f.zipObject(
   })
 )
 
-module.exports = function I18nTranslate(marker) {
+export default function I18nTranslate(marker) {
   // get language from (global) app config
   var LANG = APP_CONFIG.userLanguage
 

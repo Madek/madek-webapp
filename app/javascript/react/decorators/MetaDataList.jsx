@@ -115,4 +115,3 @@ MetaDataList.propTypes = {
 }
 
 export default MetaDataList
-module.exports = MetaDataList

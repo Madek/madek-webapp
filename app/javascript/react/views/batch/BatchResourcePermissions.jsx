@@ -137,4 +137,3 @@ class BatchResourcePermissions extends React.Component {
 }
 
 export default BatchResourcePermissions
-module.exports = BatchResourcePermissions

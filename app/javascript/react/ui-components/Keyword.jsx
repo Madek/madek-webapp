@@ -13,4 +13,3 @@ const Keyword = ({ label, count, hrefUrl }) => {
 }
 
 export default Keyword
-module.exports = Keyword

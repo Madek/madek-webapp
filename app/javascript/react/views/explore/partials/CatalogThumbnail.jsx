@@ -26,4 +26,3 @@ const CatalogThumbnail = ({ imageUrl, hrefUrl, usageCount }) => {
 }
 
 export default CatalogThumbnail
-module.exports = CatalogThumbnail

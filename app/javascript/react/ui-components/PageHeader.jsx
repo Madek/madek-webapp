@@ -44,4 +44,4 @@ PageHeader.propTypes = {
   icon: PropTypes.string
 }
 
-module.exports = PageHeader
+export default PageHeader

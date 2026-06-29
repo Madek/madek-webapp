@@ -27,7 +27,7 @@ const customDataTypes = {
 }
 
 // Base class for Restful Application Resources
-module.exports = Model.extend(RailsResource, {
+export default Model.extend(RailsResource, {
   type: 'AppResource',
   idAttribute: 'url',
   typeAttribute: 'type', // see presenter{.rb,s/shared/app_resource.rb}

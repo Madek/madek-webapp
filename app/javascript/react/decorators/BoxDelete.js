@@ -1,7 +1,7 @@
 import xhr from 'xhr'
 import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 
-module.exports = (resource, callback) => {
+export default (resource, callback) => {
   xhr(
     {
       url: resource.url,

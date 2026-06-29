@@ -6,7 +6,8 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 import f from 'active-lodash'
-import { File as BrowserFile } from 'global/window'
+import globalWindow from 'global/window'
+const BrowserFile = globalWindow.File
 import app from 'ampersand-app'
 import AppResource from './shared/app-resource.js'
 import Permissions from './media-entry/permissions.js'
@@ -18,7 +19,7 @@ import ResourceWithRelations from './concerns/resource-with-relations.js'
 import Favoritable from './concerns/resource-favoritable.js'
 import Deletable from './concerns/resource-deletable.js'
 
-module.exports = AppResource.extend(
+export default AppResource.extend(
   ResourceWithRelations,
   Favoritable,
   Deletable,

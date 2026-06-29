@@ -3,6 +3,9 @@
 // Does not work with ESM
 const requireBulk = require('bulk-require') // require file/directory trees
 
+// ESM interop helper: extracts .default from ESM modules compiled to CJS
+const interop = m => (m && m.__esModule ? m.default : m)
+
 module.exports = {
   // "UI library" (aka styleguide)
   // NOTE: 'requireBulk' is in the index file so that other components can use it
@@ -20,8 +23,8 @@ module.exports = {
 
   // App/Layout things that are only temporarly used from HAML:
   App: {
-    UserMenu: require('../react/views/_layouts/UserMenu.jsx'),
-    LoginMenu: require('../react/views/_layouts/LoginMenu.jsx').default,
-    TestLoginForm: require('../react/views/_layouts/TestLoginForm.jsx').default
+    UserMenu: interop(require('../react/views/_layouts/UserMenu.jsx')),
+    LoginMenu: interop(require('../react/views/_layouts/LoginMenu.jsx')),
+    TestLoginForm: interop(require('../react/views/_layouts/TestLoginForm.jsx'))
   }
 }

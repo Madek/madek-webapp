@@ -13,4 +13,3 @@ const ExploreMenuSection = ({ label, hrefUrl, active, children }) => {
 }
 
 export default ExploreMenuSection
-module.exports = ExploreMenuSection

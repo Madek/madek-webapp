@@ -46,4 +46,3 @@ const MediaEntryBrowse = ({ get, authToken }) => {
 }
 
 export default MediaEntryBrowse
-module.exports = MediaEntryBrowse

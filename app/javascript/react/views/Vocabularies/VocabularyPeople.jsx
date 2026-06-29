@@ -69,4 +69,3 @@ const VocabularyPeople = ({ get, for_url }) => {
 }
 
 export default VocabularyPeople
-module.exports = VocabularyPeople

@@ -14,4 +14,3 @@ const SimpleResourceThumbnail = ({ type, title, authors_pretty, image_url }) => 
 }
 
 export default SimpleResourceThumbnail
-module.exports = SimpleResourceThumbnail

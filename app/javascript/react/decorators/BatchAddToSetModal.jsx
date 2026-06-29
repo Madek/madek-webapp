@@ -60,4 +60,3 @@ const BatchAddToSetModal = ({ resourceIds, returnTo, authToken, onClose }) => {
 }
 
 export default BatchAddToSetModal
-module.exports = BatchAddToSetModal

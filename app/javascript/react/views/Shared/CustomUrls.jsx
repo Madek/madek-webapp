@@ -164,4 +164,3 @@ class CustomUrls extends React.Component {
 }
 
 export default CustomUrls
-module.exports = CustomUrls

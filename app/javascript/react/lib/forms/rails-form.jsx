@@ -91,4 +91,3 @@ class RestForm extends React.Component {
 }
 
 export default RestForm
-module.exports = RestForm

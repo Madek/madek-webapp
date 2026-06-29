@@ -26,4 +26,3 @@ const HeaderButton = ({ authToken, href, method = 'post', icon, fa, title, onCli
 }
 
 export default HeaderButton
-module.exports = HeaderButton

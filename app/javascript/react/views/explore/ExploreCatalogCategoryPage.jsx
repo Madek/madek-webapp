@@ -191,4 +191,3 @@ const MediaResourcesLine = function (param) {
 }
 
 export default ExploreCatalogCategoryPage
-module.exports = ExploreCatalogCategoryPage

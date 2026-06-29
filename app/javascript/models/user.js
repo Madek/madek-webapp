@@ -1,7 +1,7 @@
 import AppResource from './shared/app-resource.js'
 import Person from './person.js'
 
-module.exports = AppResource.extend({
+export default AppResource.extend({
   type: 'User',
   props: {
     name: 'string',

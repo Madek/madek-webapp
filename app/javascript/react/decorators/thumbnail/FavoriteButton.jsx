@@ -31,4 +31,3 @@ const FavoriteButton = ({
 }
 
 export default FavoriteButton
-module.exports = FavoriteButton

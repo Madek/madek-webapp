@@ -112,6 +112,5 @@ const PersonShow = ({ get, for_url, authToken }) => {
   )
 }
 
+export { decoExternalUris as deco_external_uris }
 export default PersonShow
-module.exports = PersonShow
-module.exports.deco_external_uris = decoExternalUris

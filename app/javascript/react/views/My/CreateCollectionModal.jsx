@@ -48,4 +48,3 @@ const CreateCollectionModal = ({ get, newCollectionUrl, authToken, onClose, asyn
 }
 
 export default CreateCollectionModal
-module.exports = CreateCollectionModal

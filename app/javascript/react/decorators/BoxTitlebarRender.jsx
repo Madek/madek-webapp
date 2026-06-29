@@ -79,4 +79,4 @@ class BoxTitlebarRender extends React.Component {
   }
 }
 
-module.exports = BoxTitlebarRender
+export default BoxTitlebarRender

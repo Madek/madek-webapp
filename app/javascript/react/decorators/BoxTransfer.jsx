@@ -52,4 +52,4 @@ function extractResponsibles(resources) {
   return Object.values(map).sort(r => r.name)
 }
 
-module.exports = BoxTransfer
+export default BoxTransfer

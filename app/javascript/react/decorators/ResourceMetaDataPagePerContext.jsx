@@ -598,4 +598,3 @@ There are no contexts defined. Please configure them in the admin tool.\
 }
 
 export default ResourceMetaDataPagePerContext
-module.exports = ResourceMetaDataPagePerContext

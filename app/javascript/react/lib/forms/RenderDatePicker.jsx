@@ -309,4 +309,4 @@ class RenderDatePicker extends React.Component {
   }
 }
 
-module.exports = RenderDatePicker
+export default RenderDatePicker

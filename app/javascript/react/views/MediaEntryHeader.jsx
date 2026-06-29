@@ -135,4 +135,3 @@ class MediaEntryHeader extends React.Component {
 }
 
 export default MediaEntryHeader
-module.exports = MediaEntryHeader

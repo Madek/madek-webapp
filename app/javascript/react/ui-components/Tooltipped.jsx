@@ -62,4 +62,3 @@ Tooltipped.propTypes = {
 }
 
 export default Tooltipped
-module.exports = Tooltipped

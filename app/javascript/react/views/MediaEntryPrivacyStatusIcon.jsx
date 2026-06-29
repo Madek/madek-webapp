@@ -11,4 +11,3 @@ const MediaEntryPrivacyStatusIcon = ({ get }) => {
 }
 
 export default MediaEntryPrivacyStatusIcon
-module.exports = MediaEntryPrivacyStatusIcon

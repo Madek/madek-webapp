@@ -50,7 +50,7 @@ class ResourcePermissions extends React.Component {
   }
 
   componentDidMount() {
-    const router = require('../../lib/router.js')
+    const router = require('../../lib/router.js').default
 
     const editUrl = url.parse(this.props.get.edit_permissions_url).pathname
 

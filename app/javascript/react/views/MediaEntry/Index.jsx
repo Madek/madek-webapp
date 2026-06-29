@@ -21,4 +21,3 @@ MediaEntryIndex.propTypes = {
 }
 
 export default MediaEntryIndex
-module.exports = MediaEntryIndex

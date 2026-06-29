@@ -80,4 +80,4 @@ class BoxRenderResource extends React.Component {
   }
 }
 
-module.exports = BoxRenderResource
+export default BoxRenderResource

@@ -31,4 +31,3 @@ const BoxSetUrlParams = (url, ...params) => {
 }
 
 export default BoxSetUrlParams
-module.exports = BoxSetUrlParams

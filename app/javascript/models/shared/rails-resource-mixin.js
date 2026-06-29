@@ -1,6 +1,6 @@
 import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 
-module.exports = {
+export default {
   ajaxConfig: {
     headers: {
       Accept: 'application/json',

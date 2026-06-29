@@ -115,4 +115,4 @@ const compare_all = function (all_meta_keys, all_entries) {
   return f.zipObject(keys, values)
 }
 
-module.exports = (all_meta_keys, all_entries) => compare_all(all_meta_keys, all_entries)
+export default (all_meta_keys, all_entries) => compare_all(all_meta_keys, all_entries)

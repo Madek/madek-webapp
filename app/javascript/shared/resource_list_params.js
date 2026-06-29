@@ -8,7 +8,7 @@
 import f from 'active-lodash'
 import qs from 'qs'
 
-module.exports = function (location) {
+export default function (location) {
   const query = qs.parse(location.search.slice(1))
   const base = 'list'
   const allowed = ['layout', 'filter', 'show_filter', 'accordion', 'page', 'per_page', 'order']

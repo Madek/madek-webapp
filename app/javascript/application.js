@@ -10,6 +10,9 @@
 //         and to make the csv part of the asset manifest.
 // # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
+// ESM interop helper: extracts .default from ESM modules compiled to CJS
+const interop = m => (m && m.__esModule ? m.default : m)
+
 // local requires
 const { each } = require('active-lodash')
 const { present } = require('active-lodash')
@@ -34,8 +37,8 @@ app.extend({
 
 // our library:
 const ujs = [
-  require('./ujs/hashviz.js'),
-  require('./ujs/react.js'),
+  interop(require('./ujs/hashviz.js')),
+  interop(require('./ujs/react.js')),
   () =>
     // TMP: support data-confirm attributes (legacy)
     Array.prototype.slice

@@ -51,4 +51,3 @@ ResourceIcon.propTypes = {
 }
 
 export default ResourceIcon
-module.exports = ResourceIcon

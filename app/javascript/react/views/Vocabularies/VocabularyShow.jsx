@@ -112,4 +112,3 @@ class VocabularyShow extends React.Component {
 }
 
 export default VocabularyShow
-module.exports = VocabularyShow

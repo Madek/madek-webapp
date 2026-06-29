@@ -41,4 +41,3 @@ BoxToolBar.propTypes = {
 }
 
 export default BoxToolBar
-module.exports = BoxToolBar

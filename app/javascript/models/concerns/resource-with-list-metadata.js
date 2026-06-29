@@ -7,7 +7,7 @@ import setUrlParams from '../../lib/set-params-for-url.js'
 import { parse as parseUrl, format as buildUrl } from 'url'
 import { parse as parseQuery } from 'qs'
 
-module.exports = {
+export default {
   props: {
     list_meta_data: 'object'
   },

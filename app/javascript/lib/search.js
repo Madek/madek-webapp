@@ -33,7 +33,7 @@ const buildSearchUrl = (pathname, query) => {
   return `${pathname}?${params.toString()}`
 }
 
-module.exports = function (resourceType, parameters = null, localData) {
+export default function (resourceType, parameters = null, localData) {
   let baseConfig
   if ((baseConfig = resourcesConfig[resourceType]) == null) {
     throw new Error(`Search: Unknown resourceType: ${resourceType}!`)

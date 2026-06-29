@@ -53,4 +53,3 @@ MetaDataByListing.propTypes = {
 }
 
 export default MetaDataByListing
-module.exports = MetaDataByListing

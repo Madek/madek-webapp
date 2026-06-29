@@ -38,4 +38,3 @@ const BoxSelectionLimit = ({ showSelectionLimit, selectionLimit, onClose }) => {
 }
 
 export default BoxSelectionLimit
-module.exports = BoxSelectionLimit

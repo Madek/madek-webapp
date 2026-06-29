@@ -80,5 +80,9 @@ UIDropdown.MenuItem = props => {
 }
 UIDropdown.MenuItem.displayName = 'UIDropdown.MenuItem'
 
+// Named exports for ESM compatibility
+export const Menu = UIDropdown.Menu
+const UIMenuItem = UIDropdown.MenuItem
+export { UIMenuItem as MenuItem }
+
 export default UIDropdown
-module.exports = UIDropdown

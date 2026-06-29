@@ -25,4 +25,3 @@ const BoxLayoutButton = ({ layout, onLayoutClick }) => {
 }
 
 export default BoxLayoutButton
-module.exports = BoxLayoutButton

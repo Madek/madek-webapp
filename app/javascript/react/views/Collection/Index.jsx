@@ -21,4 +21,3 @@ CollectionIndex.propTypes = {
 }
 
 export default CollectionIndex
-module.exports = CollectionIndex

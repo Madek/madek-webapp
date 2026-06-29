@@ -39,4 +39,3 @@ InputTextAsync.propTypes = {
 }
 
 export default InputTextAsync
-module.exports = InputTextAsync

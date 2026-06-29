@@ -20,4 +20,3 @@ ResourceShowOverview.propTypes = {
 }
 
 export default ResourceShowOverview
-module.exports = ResourceShowOverview

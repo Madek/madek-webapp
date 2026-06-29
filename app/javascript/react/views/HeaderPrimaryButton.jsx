@@ -14,4 +14,3 @@ const HeaderPrimaryButton = ({ href, text, icon, onClick }) => {
 }
 
 export default HeaderPrimaryButton
-module.exports = HeaderPrimaryButton

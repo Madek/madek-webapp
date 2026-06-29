@@ -5,7 +5,7 @@
  */
 import hashVizSVG from '../lib/hashviz-svg.js'
 
-module.exports = () => {
+export default () => {
   document.querySelectorAll('[data-hashviz-container]').forEach(container => {
     const name = container.dataset.hashvizContainer
     const target = document.querySelector(`[data-hashviz-target="${name}"]`)

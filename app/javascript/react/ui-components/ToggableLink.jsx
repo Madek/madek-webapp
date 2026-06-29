@@ -17,4 +17,3 @@ const ToggableLink = props => {
 }
 
 export default ToggableLink
-module.exports = ToggableLink

@@ -23,7 +23,7 @@ const mergeHeaders = arrayOfHeaders =>
     .map(headers => f.object(f.map(headers, (v, k) => [k.toLowerCase(), v])))
     .reduce((headers, res) => f.merge(res, headers), {})
 
-module.exports = function (config, callback) {
+export default function (config, callback) {
   let csrfHeader, sparsedUrl
   if (!f.isObject(config)) {
     throw new TypeError('No config!')

@@ -49,4 +49,5 @@ function fetchListMetadata({ resourceUrl, onFetched }) {
   )
 }
 
-module.exports = { fetchPage, fetchListMetadata }
+export { fetchPage, fetchListMetadata }
+export default { fetchPage, fetchListMetadata }

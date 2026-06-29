@@ -39,4 +39,3 @@ const BatchRemoveFromSetModal = ({
 }
 
 export default BatchRemoveFromSetModal
-module.exports = BatchRemoveFromSetModal

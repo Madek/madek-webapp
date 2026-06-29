@@ -16,4 +16,3 @@ const StatusIcon = ({ privacyStatus, iconClass }) => {
 }
 
 export default StatusIcon
-module.exports = StatusIcon

@@ -38,4 +38,3 @@ const BaseTmpReact = ({ get, action_name, for_url, authToken }) => {
 }
 
 export default BaseTmpReact
-module.exports = BaseTmpReact

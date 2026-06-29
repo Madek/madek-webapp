@@ -63,4 +63,3 @@ ResourcesBatchBox.propTypes = {
 }
 
 export default ResourcesBatchBox
-module.exports = ResourcesBatchBox

@@ -4,7 +4,7 @@ const AutoCompleteWrapper = props => {
   const [AutoComplete, setAutoComplete] = useState(null)
 
   useEffect(() => {
-    const AC = require('./autocomplete.jsx')
+    const AC = require('./autocomplete.jsx').default
     setAutoComplete(() => AC)
   }, [])
 
@@ -12,4 +12,3 @@ const AutoCompleteWrapper = props => {
 }
 
 export default AutoCompleteWrapper
-module.exports = AutoCompleteWrapper

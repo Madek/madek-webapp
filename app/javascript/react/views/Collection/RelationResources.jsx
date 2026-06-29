@@ -46,4 +46,3 @@ const RelationResources = ({ authToken, get, scope, testId }) => {
 }
 
 export default RelationResources
-module.exports = RelationResources

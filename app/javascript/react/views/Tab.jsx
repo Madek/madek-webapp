@@ -30,4 +30,3 @@ const Tab = ({ privacyStatus, label, href, iconType, active, testId, onClick }) 
 }
 
 export default Tab
-module.exports = Tab

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { pick } from 'active-lodash'
 
-module.exports = {
+export default {
   filterConfigProps() {
     return PropTypes.shape({
       search: PropTypes.string,

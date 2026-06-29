@@ -1080,4 +1080,4 @@ class MediaResourcesBox extends Component {
 }
 
 MediaResourcesBox.propTypes = BoxPropTypes.propTypes()
-module.exports = MediaResourcesBox
+export default MediaResourcesBox

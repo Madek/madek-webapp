@@ -25,7 +25,7 @@ const hashBlotPath = function (str) {
 }
 
 // Returns a native SVGElement (was previously a jQuery object)
-module.exports = function (text) {
+const hashvizSvg = function (text) {
   const parser = new DOMParser()
   const doc = parser.parseFromString(EMPTY_SVG, 'image/svg+xml')
   const svg = doc.documentElement
@@ -34,3 +34,5 @@ module.exports = function (text) {
   path.setAttribute('d', hashBlotPath(cleaned_text))
   return svg
 }
+
+export default hashvizSvg

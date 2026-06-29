@@ -36,4 +36,3 @@ const WorthThumbnail = ({ imageUrl, hrefUrl, label, author }) => {
 }
 
 export default WorthThumbnail
-module.exports = WorthThumbnail

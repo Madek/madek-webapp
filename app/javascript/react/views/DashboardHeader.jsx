@@ -51,4 +51,3 @@ const DashboardHeader = ({ get, authToken }) => {
 }
 
 export default DashboardHeader
-module.exports = DashboardHeader

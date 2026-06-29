@@ -55,4 +55,3 @@ const DashboardSectionGroups = ({ section, sectionResources }) => {
 }
 
 export default DashboardSectionGroups
-module.exports = DashboardSectionGroups

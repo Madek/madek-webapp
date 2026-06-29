@@ -297,4 +297,4 @@ class Uploader extends React.Component {
   }
 }
 
-module.exports = Uploader
+export default Uploader

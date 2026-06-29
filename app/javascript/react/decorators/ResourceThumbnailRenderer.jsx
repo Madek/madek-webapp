@@ -232,4 +232,3 @@ const ResourceThumbnailRenderer = ({
 }
 
 export default memo(ResourceThumbnailRenderer)
-module.exports = memo(ResourceThumbnailRenderer)

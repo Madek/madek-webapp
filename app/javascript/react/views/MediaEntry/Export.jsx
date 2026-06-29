@@ -311,4 +311,3 @@ class MediaEntryExport extends React.Component {
 const forceDownload = url => setUrlParams(url, { download: 'yes' })
 
 export default MediaEntryExport
-module.exports = MediaEntryExport

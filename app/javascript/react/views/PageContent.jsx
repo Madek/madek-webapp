@@ -5,4 +5,3 @@ const PageContent = ({ children }) => {
 }
 
 export default PageContent
-module.exports = PageContent

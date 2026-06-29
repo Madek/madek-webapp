@@ -124,4 +124,3 @@ InputFieldText.propTypes = {
 }
 
 export default InputFieldText
-module.exports = InputFieldText

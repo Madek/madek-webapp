@@ -24,4 +24,3 @@ const ExploreKeywordsPage = ({ get }) => {
 }
 
 export default ExploreKeywordsPage
-module.exports = ExploreKeywordsPage

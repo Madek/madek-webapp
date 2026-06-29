@@ -21,7 +21,7 @@ import setUrlParams from '../../../lib/set-params-for-url.js'
 import VocabTitleLink from '../../ui-components/VocabTitleLink.jsx'
 import grouping from '../../../lib/metadata-edit-grouping.js'
 
-module.exports = {
+export default {
   _renderValueByContext(onChange, name, subForms, metaKey, batch, model) {
     const meta_key_id = metaKey.uuid
 

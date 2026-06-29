@@ -11,7 +11,7 @@ import MetaDatum from './meta-datum.js'
 // this (polymorph) collection to contain any of them.
 // If it has a parent resource, it can be saved back to the server.
 // Because of polymorphism, we need to override `#model` and `#isModel`
-module.exports = AppCollection.extend({
+export default AppCollection.extend({
   type: 'MetaData',
 
   // Create a new instance from object (e.g. `{type: 'MetaDatum::Text'}`):

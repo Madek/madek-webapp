@@ -80,4 +80,4 @@ class SuperBoxUpload extends React.Component {
   }
 }
 
-module.exports = SuperBoxUpload
+export default SuperBoxUpload

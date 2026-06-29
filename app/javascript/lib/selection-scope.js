@@ -42,4 +42,4 @@ const toExport = {
   }
 }
 
-module.exports = toExport
+export default toExport

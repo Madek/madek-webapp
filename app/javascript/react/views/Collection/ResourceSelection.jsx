@@ -176,4 +176,3 @@ class ResourceSelection extends React.Component {
 }
 
 export default ResourceSelection
-module.exports = ResourceSelection

@@ -37,4 +37,3 @@ const BatchHintBox = () => {
 }
 
 export default BatchHintBox
-module.exports = BatchHintBox

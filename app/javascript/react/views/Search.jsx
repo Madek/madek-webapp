@@ -42,4 +42,3 @@ const Search = ({ submit_url }) => {
 }
 
 export default Search
-module.exports = Search

@@ -14,15 +14,15 @@ import UI from '../react/index.js'
 
 const initByClass = {
   'Views.My.Uploader'(data, callback) {
-    const MediaEntries = require('../models/media-entries.js')
-    const Uploader = require('../react/views/My/Uploader.jsx')
+    const MediaEntries = require('../models/media-entries.js').default
+    const Uploader = require('../react/views/My/Uploader.jsx').default
 
     const props = f.set(data.reactProps, 'appCollection', new MediaEntries())
     return callback(React.createElement(Uploader, props))
   }
 }
 
-module.exports = () => {
+export default () => {
   document.querySelectorAll('[data-react-class]').forEach(element => {
     // Read data-* attributes. Values are JSON-encoded by Rails.
     const data = {}

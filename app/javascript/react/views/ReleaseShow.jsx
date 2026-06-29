@@ -119,4 +119,3 @@ const ReleaseShow = ({ get }) => {
 }
 
 export default ReleaseShow
-module.exports = ReleaseShow

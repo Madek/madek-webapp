@@ -66,4 +66,3 @@ const DashboardSectionResources = ({ section, url }) => {
 }
 
 export default DashboardSectionResources
-module.exports = DashboardSectionResources

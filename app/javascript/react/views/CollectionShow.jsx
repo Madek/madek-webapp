@@ -263,4 +263,3 @@ class CollectionShow extends React.Component {
 }
 
 export default CollectionShow
-module.exports = CollectionShow

@@ -172,4 +172,4 @@ const ActionsDropdownHelper = {
   showActionsConfig
 }
 
-module.exports = ActionsDropdownHelper
+export default ActionsDropdownHelper

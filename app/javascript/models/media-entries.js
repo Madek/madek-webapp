@@ -23,4 +23,4 @@ const MediaEntries = AppCollection.extend({
 
 MediaEntries.Paginated = PaginatedCollection(MediaEntries, { jsonPath: 'resources' })
 
-module.exports = MediaEntries
+export default MediaEntries

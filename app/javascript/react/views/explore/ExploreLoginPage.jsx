@@ -92,4 +92,3 @@ const ExploreLoginPage = ({ get, lang }) => {
 }
 
 export default ExploreLoginPage
-module.exports = ExploreLoginPage

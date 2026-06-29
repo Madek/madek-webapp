@@ -49,4 +49,3 @@ const AskDelete = ({ authToken, get }) => {
 }
 
 export default AskDelete
-module.exports = AskDelete

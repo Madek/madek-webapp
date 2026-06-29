@@ -38,4 +38,3 @@ const SortDropdown = ({ items, selectedKey: initialKey, onItemClick }) => {
 }
 
 export default SortDropdown
-module.exports = SortDropdown

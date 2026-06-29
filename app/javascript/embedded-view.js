@@ -8,7 +8,7 @@
 const present = require('active-lodash').present
 const React = require('react')
 const ReactDOM = require('react-dom')
-const MediaEntryEmbedded = require('./react/views/MediaEntry/MediaEntryEmbedded.jsx')
+const MediaEntryEmbedded = require('./react/views/MediaEntry/MediaEntryEmbedded.jsx').default
 
 // see: `frontend_app_config.rb`
 if (!present(APP_CONFIG)) throw new Error('No `APP_CONFIG`!')

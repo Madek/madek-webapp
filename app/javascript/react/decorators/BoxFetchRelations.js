@@ -3,7 +3,7 @@ import url from 'url'
 import xhr from 'xhr'
 import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 
-module.exports = (last, props, trigger) => {
+export default (last, props, trigger) => {
   var next = () => {
     if (props.event == 'try-fetch') {
       if (last.status == 'initial') {

@@ -41,4 +41,3 @@ const AskModal = ({ title, error, onOk, onCancel, okText, cancelText, loading, c
 }
 
 export default AskModal
-module.exports = AskModal

@@ -198,4 +198,4 @@ M.resourceFilter = PropTypes.shape({
 M.META_DATUM_TYPES = META_DATUM_TYPES
 M.PEOPLE_SUBTYPES = PEOPLE_SUBTYPES
 
-module.exports = MadekPropTypes
+export default MadekPropTypes

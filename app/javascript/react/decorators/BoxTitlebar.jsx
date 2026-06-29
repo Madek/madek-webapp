@@ -171,4 +171,4 @@ class BoxTitlebar extends React.Component {
   }
 }
 
-module.exports = BoxTitlebar
+export default BoxTitlebar

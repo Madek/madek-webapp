@@ -174,4 +174,3 @@ const PinThumbnail = memo(props => {
 PinThumbnail.displayName = 'PinThumbnail'
 
 export default PinThumbnail
-module.exports = PinThumbnail

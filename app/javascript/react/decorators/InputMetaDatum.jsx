@@ -102,4 +102,3 @@ InputMetaDatum.propTypes = {
 }
 
 export default InputMetaDatum
-module.exports = InputMetaDatum

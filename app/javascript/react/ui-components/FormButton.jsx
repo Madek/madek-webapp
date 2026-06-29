@@ -9,4 +9,3 @@ const FormButton = ({ text, onClick, disabled }) => {
 }
 
 export default FormButton
-module.exports = FormButton

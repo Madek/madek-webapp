@@ -150,4 +150,3 @@ class Share extends React.Component {
 }
 
 export default Share
-module.exports = Share

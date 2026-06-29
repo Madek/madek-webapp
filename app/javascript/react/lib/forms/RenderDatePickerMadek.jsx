@@ -129,4 +129,4 @@ class RenderDatePickerMadek extends React.Component {
   }
 }
 
-module.exports = RenderDatePickerMadek
+export default RenderDatePickerMadek

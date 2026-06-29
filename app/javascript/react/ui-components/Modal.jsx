@@ -82,4 +82,3 @@ const Modal = ({ widthInPixel, loading, children }) => {
 }
 
 export default Modal
-module.exports = Modal

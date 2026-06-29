@@ -5,4 +5,3 @@ const ActionsBar = ({ children }) => {
 }
 
 export default ActionsBar
-module.exports = ActionsBar

@@ -206,4 +206,3 @@ TypeaheadInput.propTypes = {
 }
 
 export default TypeaheadInput
-module.exports = TypeaheadInput

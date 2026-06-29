@@ -9,4 +9,4 @@ const Collections = AppCollection.extend({
 
 Collections.Paginated = PaginatedCollection(Collections, { jsonPath: 'resources' })
 
-module.exports = Collections
+export default Collections
