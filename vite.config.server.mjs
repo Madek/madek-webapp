@@ -19,6 +19,10 @@ import { readFileSync, promises as fsp } from 'fs'
 import { fileURLToPath } from 'url'
 import fg from 'fast-glob'
 import resolveModule from 'resolve'
+import { createRequire } from 'module'
+
+const _require = createRequire(import.meta.url)
+function getBabel() { return _require('@babel/core') }
 
 const { sync: globSync } = fg
 
@@ -162,6 +166,28 @@ const sourceTransformPlugin = {
         })
         code = result.code
         changed = true
+      }
+
+      // ── 4. shorthand-properties ──────────────────────────────────────────
+      // Convert object literal method shorthands to regular function expressions
+      // so they are constructable with `new`. See vite.config.client.mjs for details.
+      if (!args.path.includes('/node_modules/')) {
+        const babel = getBabel()
+        const babelResult = babel.transformSync(code, {
+          filename: args.path,
+          configFile: false,
+          babelrc: false,
+          plugins: ['@babel/plugin-transform-shorthand-properties'],
+          // Include @babel/preset-react if JSX has NOT been compiled yet
+          // (i.e., step 3 did not run). This covers .js files that contain JSX.
+          presets: !changed ? [
+            ['@babel/preset-react', { pragma: 'React.createElement', pragmaFrag: 'React.Fragment' }],
+          ] : [],
+        })
+        if (babelResult && babelResult.code !== code) {
+          code = babelResult.code
+          changed = true
+        }
       }
 
       if (!changed) return undefined
