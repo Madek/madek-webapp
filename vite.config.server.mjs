@@ -13,7 +13,7 @@
  */
 
 import { defineConfig } from 'vite'
-import { build as esbuildBuild, transform as esbuildTransform } from 'esbuild'
+import { build as esbuildBuild, context as esbuildContext, transform as esbuildTransform } from 'esbuild'
 import { resolve, dirname, basename, extname, join } from 'path'
 import { readFileSync, promises as fsp } from 'fs'
 import { fileURLToPath } from 'url'
@@ -174,17 +174,34 @@ const sourceTransformPlugin = {
 
 // ---------------------------------------------------------------------------
 // Vite plugin: runs the esbuild bundle as part of `vite build`
+// Supports:
+//   - production build  → bundle-react-server-side-vite.js
+//   - dev one-shot build (NODE_ENV=development) → dev-bundle-react-server-side-vite.js
+//   - watch mode (--watch)  → dev-bundle-react-server-side-vite.js + source maps
 // ---------------------------------------------------------------------------
 function serverBundlePlugin() {
+  let isWatch = false
+  let esbuildCtx = null
+
   return {
     name: 'server-bundle',
     apply: 'build',
 
+    configResolved(config) {
+      isWatch = !!config.build.watch
+    },
+
     // Run AFTER Vite has finished its own (no-op) build
     async closeBundle() {
-      console.log('\nBuilding server-side bundle with esbuild…')
+      const isDev = isWatch || process.env.NODE_ENV === 'development'
+      const outfile = resolve(
+        __dirname,
+        isDev
+          ? 'public/assets/bundles/dev-bundle-react-server-side-vite.js'
+          : 'public/assets/bundles/bundle-react-server-side-vite.js'
+      )
 
-      await esbuildBuild({
+      const esbuildOptions = {
         entryPoints: [resolve(__dirname, 'app/javascript/react-server-side.js')],
         bundle: true,
         // 'browser' platform: esbuild bundles/shims all Node.js built-ins (path, url,
@@ -195,13 +212,13 @@ function serverBundlePlugin() {
         // IIFE: self-contained, auto-executing wrapper — exactly like the
         // browserify output. No exports, no require(), nothing leaks out.
         format: 'iife',
-        outfile: resolve(__dirname, 'public/assets/bundles/bundle-react-server-side-vite.js'),
+        outfile,
         // Treat .js files as JSX (some source files use JSX with a .js extension)
         loader: { '.js': 'jsx', '.jsx': 'jsx' },
         // Use the classic React.createElement pragma (React 16, matches browserify build)
         jsxFactory: 'React.createElement',
         jsxFragment: 'React.Fragment',
-        define: { 'process.env.NODE_ENV': '"production"' },
+        define: { 'process.env.NODE_ENV': isDev ? '"development"' : '"production"' },
         // Define `global` for ExecJS (no window/global in V8 runtimes like mini_racer).
         // Provide a minimal `require` stub for Node.js built-ins that have no browser
         // shim in esbuild (`fs`, `net`) so `require()` calls in npm dependencies
@@ -224,11 +241,21 @@ function serverBundlePlugin() {
         // require stub in the banner above.
         external: ['crypto', 'fs', 'net'],
         plugins: [tripleDotsResolvePlugin, sourceTransformPlugin],
-        sourcemap: false,
+        sourcemap: isDev,
         minify: false,
-      })
+      }
 
-      console.log('  → public/assets/bundles/bundle-react-server-side-vite.js')
+      if (isWatch) {
+        if (esbuildCtx) return  // already watching
+        console.log('\nWatching server-side bundle with esbuild…')
+        esbuildCtx = await esbuildContext(esbuildOptions)
+        await esbuildCtx.watch()
+        console.log('  →', outfile.replace(__dirname + '/', ''))
+      } else {
+        console.log('\nBuilding server-side bundle with esbuild…')
+        await esbuildBuild(esbuildOptions)
+        console.log('  →', outfile.replace(__dirname + '/', ''))
+      }
     },
   }
 }
@@ -252,10 +279,15 @@ export default defineConfig({
     rollupOptions: {
       input: 'virtual:noop',
       output: { format: 'cjs', inlineDynamicImports: true },
+      onwarn(warning, warn) {
+        // Suppress the expected "empty chunk" warning for the virtual no-op entry
+        if (warning.code === 'EMPTY_BUNDLE') return
+        warn(warning)
+      },
     },
-    outDir: 'public/assets/bundles',
-    emptyOutDir: false,
+    outDir: '/tmp/vite-server-noop',
+    emptyOutDir: true,
     minify: false,
-    write: false, // don't write Rollup's (empty) output — esbuild writes the real file
+    write: false,
   },
 })

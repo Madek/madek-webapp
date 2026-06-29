@@ -26,7 +26,6 @@ const PageHeader = ({ icon, fa, title, actions, banner, sectionLabels }) => {
             {title}
           </h1>
         </div>
-
         {!!actions && (
           <div className="ui-body-title-actions">
             <span data="spacer-gif">{'\u00a0'}</span>

@@ -205,6 +205,11 @@ const ENTRIES = [
     prodOut: resolve(__dirname, 'public/assets/bundles/bundle-embedded-view-vite.js'),
     devOut:  resolve(__dirname, 'public/assets/bundles/dev-bundle-embedded-view-vite.js'),
   },
+  {
+    input: resolve(__dirname, 'app/javascript/integration-testbed.js'),
+    prodOut: resolve(__dirname, 'public/assets/bundles/bundle-integration-testbed-vite.js'),
+    devOut:  resolve(__dirname, 'public/assets/bundles/dev-bundle-integration-testbed-vite.js'),
+  },
 ]
 
 // ---------------------------------------------------------------------------
@@ -223,6 +228,8 @@ function clientBundlesPlugin() {
     },
 
     async closeBundle() {
+      const isDev = isWatch || process.env.NODE_ENV === 'development'
+
       // In watch mode, start the esbuild watchers once and let them run.
       if (isWatch) {
         if (esbuildCtxs.length > 0) return  // already watching
@@ -234,13 +241,17 @@ function clientBundlesPlugin() {
         console.log('\nWatching client bundles with esbuild…')
         ENTRIES.forEach(e => console.log('  →', e.devOut.replace(__dirname + '/', '')))
       } else {
-        // One-shot production build of all bundles in parallel
+        // One-shot build (production or dev) of all bundles in parallel
+        const opts = commonEsbuildOptions(isDev)
         console.log('\nBuilding client bundles with esbuild…')
-        const opts = commonEsbuildOptions(false)
         await Promise.all(
-          ENTRIES.map(e => esbuildBuild({ ...opts, entryPoints: [e.input], outfile: e.prodOut }))
+          ENTRIES.map(e => esbuildBuild({
+            ...opts,
+            entryPoints: [e.input],
+            outfile: isDev ? e.devOut : e.prodOut,
+          }))
         )
-        ENTRIES.forEach(e => console.log('  →', e.prodOut.replace(__dirname + '/', '')))
+        ENTRIES.forEach(e => console.log('  →', (isDev ? e.devOut : e.prodOut).replace(__dirname + '/', '')))
       }
     },
 
@@ -269,6 +280,11 @@ export default defineConfig({
     rollupOptions: {
       input: 'virtual:noop',
       output: { format: 'esm' },
+      onwarn(warning, warn) {
+        // Suppress the expected "empty chunk" warning for the virtual no-op entry
+        if (warning.code === 'EMPTY_BUNDLE') return
+        warn(warning)
+      },
     },
     // Redirect Rollup's (empty) output to a throwaway temp dir so it never
     // pollutes public/assets/bundles/ (important in --watch mode where
