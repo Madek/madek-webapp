@@ -84,10 +84,10 @@ Rails.application.configure do
 
   # use dev bundle for SSR
   config.react.server_renderer_options = {
-    files: ['dev-bundle-react-server-side.js'].flatten,
+    files: ['bundle-react-server-side-vite.js'].flatten,
     replay_console: false
   }
 
   # auto-reload SSR renderer when dev bundle changes
-  config.watchable_files.concat([root.join('public/assets/bundles/dev-bundle-react-server-side.js').to_s])
+  config.watchable_files.concat([root.join('public/assets/bundles/dev-bundle-react-server-side-vite.js').to_s])
 end

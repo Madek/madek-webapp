@@ -26,43 +26,6 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 // ---------------------------------------------------------------------------
-// esbuild plugin: convert mixed ESM+CJS files to pure CJS.
-//
-// Some source files use both ESM exports (`export default X`) and CJS exports
-// (`module.exports = X`) — a pattern left by decaffeinate migrations.  In
-// browserify+babelify these work because babelify converts ESM→CJS first, then
-// `module.exports = X` wins.  esbuild (strict ESM mode) ignores module.exports
-// for files with ESM syntax.  This plugin pre-converts such files to CJS so
-// that the CJS semantics are preserved.
-// ---------------------------------------------------------------------------
-const mixedEsmCjsPlugin = {
-  name: 'mixed-esm-cjs',
-  setup(build) {
-    build.onLoad({ filter: /\.(jsx?)$/ }, async (args) => {
-      const code = await fsp.readFile(args.path, 'utf8')
-
-      // Only act on files that mix CJS (module.exports) with ESM (import/export)
-      const hasCjsExports = /\bmodule\.exports\b/.test(code)
-      const hasEsmSyntax = /(?:^|\n)\s*(?:import\s|export\s)/.test(code)
-      if (!hasCjsExports || !hasEsmSyntax) return undefined
-
-      // Use esbuild's transform to convert ESM→CJS (no bundling, just syntax)
-      const ext = args.path.endsWith('.jsx') ? 'jsx' : 'js'
-      const result = await esbuildTransform(code, {
-        loader: ext,
-        format: 'cjs',
-        jsx: 'transform',
-        jsxFactory: 'React.createElement',
-        jsxFragment: 'React.Fragment',
-        target: 'es2015',
-      })
-
-      return { contents: result.code, loader: 'js' }
-    })
-  },
-}
-
-// ---------------------------------------------------------------------------
 // esbuild plugin: fix non-standard '...' paths that browserify's 'resolve'
 // module handles but esbuild's standard path resolution rejects.
 // ---------------------------------------------------------------------------
@@ -89,34 +52,8 @@ const tripleDotsResolvePlugin = {
 }
 
 // ---------------------------------------------------------------------------
-const brfsEsbuildPlugin = {
-  name: 'brfs',
-  setup(build) {
-    build.onLoad({ filter: /\.js$/ }, async (args) => {
-      const code = await fsp.readFile(args.path, 'utf8')
-      if (!code.includes('readFileSync')) return undefined
-
-      const fileDir = dirname(args.path)
-
-      const regex =
-        /require\(['"]fs['"]\)\.readFileSync\(\s*(?:require\(['"]path['"]\)\.join|path\.join)\s*\(\s*__dirname\s*,\s*(['"][^'"]+['"])\s*\)\s*,\s*['"]utf8['"]\s*\)/gs
-
-      const newCode = code.replace(regex, (_match, relPathStr) => {
-        const relPath = relPathStr.replace(/^['"]|['"]$/g, '')
-        const absolutePath = join(fileDir, relPath)
-        return JSON.stringify(readFileSync(absolutePath, 'utf8'))
-      })
-
-      if (newCode === code) return undefined
-      return { contents: newCode, loader: 'js' }
-    })
-  },
-}
-
+// Helper: expand a bulk-require call into a nested object of require() calls
 // ---------------------------------------------------------------------------
-// esbuild plugin: bulkify — expand requireBulk(__dirname, [...]) calls
-// ---------------------------------------------------------------------------
-
 function expandBulkRequire(dir, patterns) {
   const seen = new Set()
   const root = {}
@@ -149,39 +86,88 @@ function expandBulkRequire(dir, patterns) {
   return serialize(root)
 }
 
-const bulkifyEsbuildPlugin = {
-  name: 'bulkify',
+// ---------------------------------------------------------------------------
+// esbuild plugin: combined source transform for .js/.jsx files.
+//
+// Applies transforms in order within one onLoad handler so they can chain:
+//   1. brfs:         inline require('fs').readFileSync(...) calls at build time
+//   2. bulkify:      expand requireBulk(__dirname, [...]) calls
+//   3. mixedEsmCjs:  convert mixed ESM+CJS files to pure CJS so that
+//                    module.exports semantics are preserved (decaffeinate pattern)
+// ---------------------------------------------------------------------------
+const sourceTransformPlugin = {
+  name: 'source-transform',
   setup(build) {
-    // Match any .js or .jsx file that imports bulk-require
     build.onLoad({ filter: /\.(jsx?)$/ }, async (args) => {
-      const code = await fsp.readFile(args.path, 'utf8')
-      if (!code.includes('bulk-require')) return undefined
-
+      let code = await fsp.readFile(args.path, 'utf8')
       const fileDir = dirname(args.path)
-      let newCode = code
+      let changed = false
 
-      // 1. Expand requireBulk(__dirname, [...]) call sites
-      const callRegex = /requireBulk\s*\(\s*__dirname\s*,\s*(\[[\s\S]*?\])\s*\)/g
-      newCode = newCode.replace(callRegex, (_match, patternsStr) => {
-        const patterns = Array.from(patternsStr.matchAll(/['"]([^'"]+)['"]/g), m => m[1])
-        return expandBulkRequire(fileDir, patterns)
-      })
+      // ── 1. brfs: inline fs.readFileSync(..., 'utf8') ─────────────────────
+      if (code.includes('readFileSync')) {
+        const brfsRegex =
+          /require\(['"]fs['"]\)\.readFileSync\(\s*(?:require\(['"]path['"]\)\.join|path\.join)\s*\(\s*__dirname\s*,\s*(['"][^'"]+['"])\s*\)\s*,\s*['"]utf8['"]\s*\)/gs
 
-      // 2. Remove the now-unused import/require declaration
-      newCode = newCode.replace(
-        /(?:const|var|let)\s+requireBulk\s*=\s*require\(['"]bulk-require['"]\)\s*\n?/g,
-        '// (bulk-require import removed by bulkify esbuild plugin)\n'
-      )
-      newCode = newCode.replace(
-        /import\s+requireBulk\s+from\s+['"]bulk-require['"]\s*\n?/g,
-        '// (bulk-require import removed by bulkify esbuild plugin)\n'
-      )
+        const inlined = code.replace(brfsRegex, (_match, relPathStr) => {
+          const relPath = relPathStr.replace(/^['"]|['"]$/g, '')
+          return JSON.stringify(readFileSync(join(fileDir, relPath), 'utf8'))
+        })
+        if (inlined !== code) {
+          code = inlined
+          changed = true
+          // Remove the now-unused `var path = require('path')` declaration that
+          // was only needed as an argument to the inlined readFileSync call.
+          code = code.replace(/\bvar\s+path\s*=\s*require\(['"]path['"]\);?\s*\n?/g, '')
+        }
+      }
 
-      if (newCode === code) return undefined
+      // ── 2. bulkify: expand requireBulk(__dirname, [...]) ─────────────────
+      if (code.includes('bulk-require')) {
+        let bulked = code
 
-      // Determine the loader from the file extension
-      const loader = args.path.endsWith('.jsx') ? 'jsx' : 'js'
-      return { contents: newCode, loader }
+        // Expand call sites
+        const callRegex = /requireBulk\s*\(\s*__dirname\s*,\s*(\[[\s\S]*?\])\s*\)/g
+        bulked = bulked.replace(callRegex, (_match, patternsStr) => {
+          const patterns = Array.from(patternsStr.matchAll(/['"]([^'"]+)['"]/g), m => m[1])
+          return expandBulkRequire(fileDir, patterns)
+        })
+        // Remove the now-unused import/require declaration
+        bulked = bulked.replace(
+          /(?:const|var|let)\s+requireBulk\s*=\s*require\(['"]bulk-require['"]\)\s*\n?/g,
+          '// (bulk-require removed)\n'
+        )
+        bulked = bulked.replace(
+          /import\s+requireBulk\s+from\s+['"]bulk-require['"]\s*\n?/g,
+          '// (bulk-require removed)\n'
+        )
+        if (bulked !== code) { code = bulked; changed = true }
+      }
+
+      // ── 3. mixedEsmCjs: convert mixed ESM+CJS to pure CJS ────────────────
+      // Some files use both `export default X` and `module.exports = X`
+      // (a pattern left by decaffeinate). esbuild in ESM mode ignores
+      // module.exports; we must convert to CJS first so module.exports wins.
+      const hasCjsExports = /\bmodule\.exports\b/.test(code)
+      const hasEsmSyntax = /(?:^|\n)\s*(?:import\s|export\s)/.test(code)
+
+      if (hasCjsExports && hasEsmSyntax) {
+        const ext = args.path.endsWith('.jsx') ? 'jsx' : 'js'
+        const result = await esbuildTransform(code, {
+          loader: ext,
+          format: 'cjs',
+          jsx: 'transform',
+          jsxFactory: 'React.createElement',
+          jsxFragment: 'React.Fragment',
+          target: 'es2015',
+        })
+        code = result.code
+        changed = true
+      }
+
+      if (!changed) return undefined
+
+      // Return as plain JS — JSX has been compiled away
+      return { contents: code, loader: 'js' }
     })
   },
 }
@@ -201,8 +187,14 @@ function serverBundlePlugin() {
       await esbuildBuild({
         entryPoints: [resolve(__dirname, 'app/javascript/react-server-side.js')],
         bundle: true,
-        platform: 'node',
-        format: 'cjs',
+        // 'browser' platform: esbuild bundles/shims all Node.js built-ins (path, url,
+        // util, stream, buffer …) so that no `require()` calls remain in the output.
+        // This is required because ExecJS runs the bundle in an isolated context
+        // without a global `require`.
+        platform: 'browser',
+        // IIFE: self-contained, auto-executing wrapper — exactly like the
+        // browserify output. No exports, no require(), nothing leaks out.
+        format: 'iife',
         outfile: resolve(__dirname, 'public/assets/bundles/bundle-react-server-side-vite.js'),
         // Treat .js files as JSX (some source files use JSX with a .js extension)
         loader: { '.js': 'jsx', '.jsx': 'jsx' },
@@ -210,11 +202,28 @@ function serverBundlePlugin() {
         jsxFactory: 'React.createElement',
         jsxFragment: 'React.Fragment',
         define: { 'process.env.NODE_ENV': '"production"' },
-        // Ignore the `crypto` module (not used, browserify also ignores it)
-        external: ['crypto'],
-        // Custom transforms: brfs (inline readFileSync) and bulkify (expand requireBulk)
-        plugins: [tripleDotsResolvePlugin, mixedEsmCjsPlugin, brfsEsbuildPlugin, bulkifyEsbuildPlugin],
-        // Single-file output, no source maps needed for the server bundle
+        // Define `global` for ExecJS (no window/global in V8 runtimes like mini_racer).
+        // Provide a minimal `require` stub for Node.js built-ins that have no browser
+        // shim in esbuild (`fs`, `net`) so `require()` calls in npm dependencies
+        // like babyparse don't crash at parse time.
+        banner: {
+          js: [
+            'var global = typeof globalThis !== "undefined" ? globalThis : (typeof window !== "undefined" ? window : this);',
+            'var require = (function(origRequire) {',
+            '  var stubs = { fs: {}, net: {}, crypto: {} };',
+            '  return function require(id) {',
+            '    if (id in stubs) return stubs[id];',
+            '    if (typeof origRequire === "function") return origRequire(id);',
+            '    throw new Error("require not available: " + id);',
+            '  };',
+            '})(typeof require !== "undefined" ? require : undefined);',
+          ].join('\n'),
+        },
+        // crypto is explicitly ignored by the existing browserify build.
+        // fs and net have no browser shim in esbuild; they are handled by the
+        // require stub in the banner above.
+        external: ['crypto', 'fs', 'net'],
+        plugins: [tripleDotsResolvePlugin, sourceTransformPlugin],
         sourcemap: false,
         minify: false,
       })
