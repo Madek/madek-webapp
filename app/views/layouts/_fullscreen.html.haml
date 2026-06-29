@@ -38,9 +38,9 @@
     = content_for(:body)
 
     - if Rails.env == 'development'
-      = javascript_include_tag 'dev-bundle-embedded-view'
+      = javascript_include_tag 'dev-bundle-embedded-view-vite'
     - else
-      = javascript_include_tag 'bundle-embedded-view'
+      = javascript_include_tag 'bundle-embedded-view-vite'
 
     -# configured extra content for body end:
     = find_and_preserve(extra_content[:body_end].html_safe) if extra_content[:body_end].present?

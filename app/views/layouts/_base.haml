@@ -52,9 +52,9 @@
     - if use_js
       -# js: app lib/dependencies. can't use async/defer (would require sep. DOM ops)
       - if Rails.env == 'development'
-        = javascript_include_tag 'dev-bundle'
+        = javascript_include_tag 'dev-bundle-vite'
       - else
-        = javascript_include_tag 'bundle'
+        = javascript_include_tag 'bundle-vite'
       -# - now all the per-template scripts, which
           MUST be self-contained and not depending on load order:
       = content_for(:scripts) if content_for?(:scripts)
