@@ -27,6 +27,9 @@ Environment=RAILS_SERVE_STATIC_FILES=Yes
 Environment=RAILS_TIME_ZONE={{rails_timezone}}
 Environment=TMPDIR={{madek_tmp_dir}}
 Environment=SECRET_KEY_BASE={{secret_key_base}}
+{% if webapp_rack_multipart_parser_bytesize_limit is defined and webapp_rack_multipart_parser_bytesize_limit %}
+Environment=RACK_MULTIPART_PARSER_BYTESIZE_LIMIT={{ webapp_rack_multipart_parser_bytesize_limit }}
+{% endif %}
 
 ExecStart={{madek_webapp_ruby_dir}}/bin/ruby -S \
     bundle exec puma -C config/puma.rb config.ru
