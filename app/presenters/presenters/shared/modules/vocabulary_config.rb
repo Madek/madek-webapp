@@ -26,7 +26,7 @@ module Presenters
 
           def _contexts_for_entry_edit
             @_contexts_for_entry_edit ||=
-              _get_app_settings_contexts([:contexts_for_entry_edit])
+              _get_app_settings_contexts([:contexts_for_entry_edit], perm_type: :use)
           end
 
           def _contexts_for_collection_extra
@@ -36,7 +36,7 @@ module Presenters
 
           def _contexts_for_collection_edit
             @_contexts_for_collection_edit ||=
-              _get_app_settings_contexts([:contexts_for_collection_edit])
+              _get_app_settings_contexts([:contexts_for_collection_edit], perm_type: :use)
           end
 
           def _contexts_for_dynamic_filters
@@ -58,10 +58,13 @@ module Presenters
 
           # helper:
 
-          def _get_app_settings_contexts(keys)
-            keys.map do |key|
+          def _get_app_settings_contexts(keys, perm_type: :view)
+            contexts = keys.map do |key|
               app_settings.try(key)
             end.flatten.compact
+            contexts.select do |context|
+              perm_type == :use ? context.usable_by_user?(@user) : context.viewable_by_user?(@user)
+            end
           end
 
         end

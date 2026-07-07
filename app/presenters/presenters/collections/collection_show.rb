@@ -185,7 +185,9 @@ module Presenters
       def context_meta_data
         return unless %w(show context).include?(action)
         return unless context_id
-        build_meta_data_context(@app_resource, @user, Context.find(context_id))
+        context = Context.find(context_id)
+        return unless context.viewable_by_user?(@user)
+        build_meta_data_context(@app_resource, @user, context)
       end
 
       def batch_edit_url
