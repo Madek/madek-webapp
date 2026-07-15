@@ -478,7 +478,7 @@ There are no contexts defined. Please configure them in the admin tool.\
           get.edit_by_vocabularies_url,
           get.batch_edit_by_vocabularies_url,
           get.batch_edit_all_collection_url,
-          this.props.get.show_all_meta_data_tab
+          this.props.get.show_all_data_tab_in_edit_mode
         )}
         <TabContent>
           <RailsForm

@@ -98,7 +98,7 @@ module Presenters
         }
       end
 
-      def show_all_meta_data_tab
+      def show_all_data_tab_in_edit_mode
         auth_policy(@user, @resource_type).edit_all_meta_data_enabled?
       end
     end

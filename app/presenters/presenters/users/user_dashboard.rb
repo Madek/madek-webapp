@@ -88,6 +88,8 @@ module Presenters
           email: @user.email,
           emails_locale: @user.emails_locale_with_default_fallback,
           available_locales: AppSetting.available_locales,
+          notifications_enabled: @user.beta_tester_notifications?,
+          show_all_data_tab_in_edit_mode: @user.show_all_data_tab_in_edit_mode?,
           notification_case_user_settings: notification_case_user_settings
         }
       end

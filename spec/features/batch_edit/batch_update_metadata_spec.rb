@@ -40,7 +40,9 @@ feature 'Batch update media entries' do
     # NOTE: create more than 16 Keywords total to trigger the autocomplete!
     20.times { FactoryBot.create(:keyword, meta_key: meta_key_keywords) }
 
-    user = FactoryBot.create :user
+    user = FactoryBot.create(
+      :user,
+      settings: { show_all_data_tab_in_edit_mode: true })
 
     me1 = FactoryBot.create :media_entry_with_image_media_file, :fat
     me2 = FactoryBot.create :media_entry_with_image_media_file, :fat

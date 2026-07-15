@@ -9,6 +9,8 @@ class MySettings extends React.Component {
     super(props)
     this.state = {
       emailsLocale: props.get.emails_locale,
+      showAllDataTabInEditMode: props.get.show_all_data_tab_in_edit_mode,
+      notificationsEnabled: props.get.notifications_enabled,
       notificationCaseUserSettings: props.get.notification_case_user_settings.map(
         ({ label, email_frequency, allowed_email_frequencies }) => ({
           label,
@@ -22,72 +24,97 @@ class MySettings extends React.Component {
 
   render() {
     const { get } = this.props
-    const { notifications_url: notificationsUrl, email, available_locales: availableLocales } = get
+    const {
+      notifications_url: notificationsUrl,
+      email,
+      available_locales: availableLocales,
+      notifications_enabled: notificationsEnabled
+    } = get
     return (
       <div className="ui-resources-holder pal">
-        <h2 className="title-l">{t('settings_notifications_title')}</h2>
+        {notificationsEnabled && (
+          <div>
+            <h2 className="title-l">{t('settings_notifications_title')}</h2>
 
-        <p className="mbx">
-          {interpolateSplit(t('settings_notifications_info1'), {
-            notifications: (
-              <a href={notificationsUrl} key="t1">
-                {t('sitemap_notifications')}
-              </a>
-            )
-          })}
-        </p>
+            <p className="mbx">
+              {interpolateSplit(t('settings_notifications_info1'), {
+                notifications: (
+                  <a href={notificationsUrl} key="t1">
+                    {t('sitemap_notifications')}
+                  </a>
+                )
+              })}
+            </p>
 
-        <p className="mbx">{t('settings_notifications_info2')}</p>
+            <p className="mbx">{t('settings_notifications_info2')}</p>
 
-        <p className="mbx">{t('settings_notifications_info3')}</p>
+            <p className="mbx">{t('settings_notifications_info3')}</p>
 
-        <ul>
-          <li className="mbx">
-            {t('settings_notifications_email_label')} <b style={{ fontWeight: 'bold' }}>{email}</b>
-          </li>
-          <li className="mbx">
-            {t('settings_notifications_locale_label')}{' '}
-            <select
-              name="emailsLocale"
-              value={this.state.emailsLocale}
-              onChange={e => this._handleEmailsLocaleChange(e.target.value)}>
-              {' '}
-              {availableLocales.map(l => (
-                <option key={l} value={l}>
-                  {t(`settings_notifications_locale_${l}`)}
-                </option>
-              ))}
-            </select>
-          </li>
-        </ul>
+            <ul>
+              <li className="mbx">
+                {t('settings_notifications_email_label')}{' '}
+                <b style={{ fontWeight: 'bold' }}>{email}</b>
+              </li>
+              <li className="mbx">
+                {t('settings_notifications_locale_label')}{' '}
+                <select
+                  name="emailsLocale"
+                  value={this.state.emailsLocale}
+                  onChange={e => this._handleEmailsLocaleChange(e.target.value)}>
+                  {' '}
+                  {availableLocales.map(l => (
+                    <option key={l} value={l}>
+                      {t(`settings_notifications_locale_${l}`)}
+                    </option>
+                  ))}
+                </select>
+              </li>
+            </ul>
 
-        {this.state.notificationCaseUserSettings.map(caseSettings => {
-          const { label, emailFrequency, allowedEmailFrequencies } = caseSettings
-          return (
-            <div key={label} className="mvs">
-              <h3 className="title-m">{t(`settings_notifications_title_${label}`)}</h3>
-              <p className="mbx">{t('settings_notifications_email_frequency_label')}</p>
-              <div>
-                {allowedEmailFrequencies.map(freq => (
-                  <div key={freq}>
-                    <label>
-                      <input
-                        type="radio"
-                        name={label}
-                        value={freq}
-                        checked={freq === emailFrequency}
-                        onChange={e => this._handleEmailFrequencyChange(label, e.target.value)}
-                      />{' '}
-                      {t(`settings_notifications_email_frequency_${freq}`)}
-                    </label>
+            {this.state.notificationCaseUserSettings.map(caseSettings => {
+              const { label, emailFrequency, allowedEmailFrequencies } = caseSettings
+              return (
+                <div key={label} className="mtx">
+                  <h3 className="title-m">{t(`settings_notifications_title_${label}`)}</h3>
+                  <p className="mbx">{t('settings_notifications_email_frequency_label')}</p>
+                  <div>
+                    {allowedEmailFrequencies.map(freq => (
+                      <div key={freq}>
+                        <label>
+                          <input
+                            type="radio"
+                            name={label}
+                            value={freq}
+                            checked={freq === emailFrequency}
+                            onChange={e => this._handleEmailFrequencyChange(label, e.target.value)}
+                          />{' '}
+                          {t(`settings_notifications_email_frequency_${freq}`)}
+                        </label>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
-          )
-        })}
+                </div>
+              )
+            })}
+          </div>
+        )}
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <div className={notificationsEnabled ? 'mtl' : undefined}>
+          <h2 className="title-l mbs">{t('settings_advanced_functions_title')}</h2>
+          <div className="mbx">
+            <label>
+              <input
+                type="checkbox"
+                name="showAllDataTabInEditMode"
+                checked={this.state.showAllDataTabInEditMode}
+                onChange={e => this._handleShowAllDataTabInEditModeChange(e.target.checked)}
+              />{' '}
+              {t('settings_show_all_data_tab_in_edit_mode_label')}
+            </label>
+          </div>
+        </div>
+
+        <div className="mtl" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
           <button type="button" className="button" onClick={e => this._handleSaveClick(e)}>
             {t('settings_save_changes')}
           </button>
@@ -106,6 +133,12 @@ class MySettings extends React.Component {
 
   _handleEmailsLocaleChange(emailsLocale) {
     this.setState({ ...this.state, emailsLocale, dirty: true })
+    window.addEventListener('beforeunload', handleBeforeUnload)
+  }
+
+  _handleShowAllDataTabInEditModeChange(showAllDataTabInEditMode) {
+    this.setState({ ...this.state, showAllDataTabInEditMode, dirty: true })
+    window.addEventListener('beforeunload', handleBeforeUnload)
   }
 
   _handleEmailFrequencyChange(label, freq) {
@@ -135,8 +168,12 @@ export default MySettings
 
 function sendUpdate(url, settings, onSuccess) {
   const data = {
-    emails_locale: settings.emailsLocale,
-    notification_case_user_settings: settings.notificationCaseUserSettings.map(
+    show_all_data_tab_in_edit_mode: settings.showAllDataTabInEditMode
+  }
+
+  if (settings.notificationsEnabled) {
+    data.emails_locale = settings.emailsLocale
+    data.notification_case_user_settings = settings.notificationCaseUserSettings.map(
       ({ label, emailFrequency }) => ({ label, email_frequency: emailFrequency })
     )
   }

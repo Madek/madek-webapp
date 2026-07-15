@@ -12,7 +12,8 @@ module BasicDataHelper
       :user,
       person: person,
       login: @login,
-      password: @password)
+      password: @password,
+      settings: { show_all_data_tab_in_edit_mode: true })
     Admin.create(user: @user) if admin
   end
 

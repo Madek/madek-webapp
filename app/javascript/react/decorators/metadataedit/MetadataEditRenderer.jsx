@@ -577,7 +577,7 @@ export default {
     edit_by_vocabularies_url,
     batch_edit_by_vocabularies_url,
     batch_edit_all_collection_url,
-    show_all_meta_data_tab
+    show_all_data_tab_in_edit_mode
   ) {
     let tabUrl, nextCurrentTab, active
     return (
@@ -632,7 +632,7 @@ export default {
           }
         })}
         {(() => {
-          if (show_all_meta_data_tab) {
+          if (show_all_data_tab_in_edit_mode) {
             tabUrl = batch
               ? collection_id
                 ? setUrlParams(batch_edit_all_collection_url, {

@@ -39,13 +39,14 @@ module Presenters
       def edit_by_context_urls
         {}.tap do |urls|
           meta_meta_data.meta_data_edit_context_ids.map do |context_id|
-            urls[context_id] = edit_meta_data_by_context_media_entry_path(@app_resource, context_id)
+            urls[context_id] =
+              send(edit_by_context_path_helper, @app_resource, context_id)
           end
         end
       end
 
       def edit_by_context_fallback_url
-        edit_meta_data_by_context_media_entry_path(@app_resource)
+        send(edit_by_context_path_helper, @app_resource)
       end
 
       def batch_edit_by_context_urls
@@ -61,7 +62,7 @@ module Presenters
       end
 
       def edit_by_vocabularies_url
-        edit_meta_data_by_vocabularies_media_entry_path(@app_resource)
+        send(edit_by_vocabularies_path_helper, @app_resource)
       end
 
       def batch_edit_by_vocabularies_url
@@ -72,8 +73,22 @@ module Presenters
         @app_resource.class == MediaEntry ? @app_resource.is_published : true
       end
 
-      def show_all_meta_data_tab
+      def show_all_data_tab_in_edit_mode
         auth_policy(@user, @app_resource).edit_all_meta_data_enabled?
+      end
+
+      private
+
+      def edit_by_context_path_helper
+        "edit_meta_data_by_context_#{resource_route_name}_path"
+      end
+
+      def edit_by_vocabularies_path_helper
+        "edit_meta_data_by_vocabularies_#{resource_route_name}_path"
+      end
+
+      def resource_route_name
+        @app_resource.class.name.underscore
       end
     end
   end

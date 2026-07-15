@@ -2977,6 +2977,12 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/shared/naughty_strings.rb:29"
     RSPEC_TEST: "./spec/features/meta_data/naughty_strings/naughty_strings_9_spec.rb[1:1:1:1]"
+"./spec/features/my/all_data_tab_user_setting_spec.rb[1:1]":
+  name: "./spec/features/my/all_data_tab_user_setting_spec.rb[1:1]"
+  description: User setting for the all metadata edit tab controls the tab visibility
+  environment_variables:
+    RSPEC_NAME: "./spec/features/my/all_data_tab_user_setting_spec.rb:9"
+    RSPEC_TEST: "./spec/features/my/all_data_tab_user_setting_spec.rb[1:1]"
 "./spec/features/my/dashboard_new_collection/create_ok_spec.rb[1:1:1]":
   name: "./spec/features/my/dashboard_new_collection/create_ok_spec.rb[1:1:1]"
   description: 'Dashboard: New Collection Action: create Modal dialog ok'
@@ -3197,15 +3203,22 @@
   description: 'My: Settings when user is a member of the beta-tester group Action:
     update updates the settings'
   environment_variables:
-    RSPEC_NAME: "./spec/features/my/my_settings_spec.rb:25"
+    RSPEC_NAME: "./spec/features/my/my_settings_spec.rb:32"
     RSPEC_TEST: "./spec/features/my/my_settings_spec.rb[1:1:2:1]"
 "./spec/features/my/my_settings_spec.rb[1:2:1:1]":
   name: "./spec/features/my/my_settings_spec.rb[1:2:1:1]"
   description: 'My: Settings when user is not a member of the beta-tester group Action:
-    index returns an error'
+    index shows the archive settings'
   environment_variables:
-    RSPEC_NAME: "./spec/features/my/my_settings_spec.rb:50"
+    RSPEC_NAME: "./spec/features/my/my_settings_spec.rb:63"
     RSPEC_TEST: "./spec/features/my/my_settings_spec.rb[1:2:1:1]"
+"./spec/features/my/my_settings_spec.rb[1:2:2:1]":
+  name: "./spec/features/my/my_settings_spec.rb[1:2:2:1]"
+  description: 'My: Settings when user is not a member of the beta-tester group Action:
+    update updates the archive settings'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/my/my_settings_spec.rb:77"
+    RSPEC_TEST: "./spec/features/my/my_settings_spec.rb[1:2:2:1]"
 "./spec/features/people/people_edit_spec.rb[1:1:1]":
   name: "./spec/features/people/people_edit_spec.rb[1:1:1]"
   description: People when user is a person owner Showing edit button

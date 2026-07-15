@@ -24,7 +24,11 @@ module FactoryHelper
   def prepare_user
     @login = 'user'
     @password = '1234'
-    @user = FactoryBot.create(:user, login: @login, password: @password)
+    @user = FactoryBot.create(
+      :user,
+      login: @login,
+      password: @password,
+      settings: { show_all_data_tab_in_edit_mode: true })
   end
 
   def prepare_media_entry(title)

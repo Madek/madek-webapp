@@ -152,10 +152,8 @@ module My
           title: I18n.t(:sitemap_settings),
           icon: 'icon-cog',
           partial: :settings,
-          is_beta: true,
           hide_from_index: true,
-          href: my_dashboard_section_path(:settings),
-          is_accessible: current_user.try(:beta_tester_notifications?)
+          href: my_dashboard_section_path(:settings)
         }
       }.compact
     end

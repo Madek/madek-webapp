@@ -113,11 +113,7 @@ module Shared
       end
 
       def edit_all_meta_data_enabled?
-        if gid = AppSetting.first.edit_meta_data_power_users_group_id
-          user.groups.exists?(gid)
-        else
-          true
-        end
+        logged_in? and user.show_all_data_tab_in_edit_mode?
       end
 
       private
