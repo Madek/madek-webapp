@@ -162,6 +162,27 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/app/redirect_legacy_routes_spec.rb:13"
     RSPEC_TEST: "./spec/features/app/redirect_legacy_routes_spec.rb[1:2]"
+"./spec/features/app/uberadmin_csrf_after_login_redirect_spec.rb[1:1]":
+  name: "./spec/features/app/uberadmin_csrf_after_login_redirect_spec.rb[1:1]"
+  description: 'App: Uberadmin toggle CSRF (#870) toggling uberadmin right after login-redirect
+    from a forbidden page does not 422'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/app/uberadmin_csrf_after_login_redirect_spec.rb:22"
+    RSPEC_TEST: "./spec/features/app/uberadmin_csrf_after_login_redirect_spec.rb[1:1]"
+"./spec/features/app/uberadmin_csrf_after_login_redirect_spec.rb[1:2]":
+  name: "./spec/features/app/uberadmin_csrf_after_login_redirect_spec.rb[1:2]"
+  description: 'App: Uberadmin toggle CSRF (#870) a blank session whose first render
+    is an error page still persists a session cookie'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/app/uberadmin_csrf_after_login_redirect_spec.rb:47"
+    RSPEC_TEST: "./spec/features/app/uberadmin_csrf_after_login_redirect_spec.rb[1:2]"
+"./spec/features/app/uberadmin_csrf_after_login_redirect_spec.rb[1:3]":
+  name: "./spec/features/app/uberadmin_csrf_after_login_redirect_spec.rb[1:3]"
+  description: 'App: Uberadmin toggle CSRF (#870) toggling uberadmin after login ->
+    logout -> login does not 422'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/app/uberadmin_csrf_after_login_redirect_spec.rb:72"
+    RSPEC_TEST: "./spec/features/app/uberadmin_csrf_after_login_redirect_spec.rb[1:3]"
 "./spec/features/app/usage_terms_enforcement_spec.rb[1:1:1]":
   name: "./spec/features/app/usage_terms_enforcement_spec.rb[1:1:1]"
   description: 'App: UsageTerms App: enforcing acceptance of latest usage terms for

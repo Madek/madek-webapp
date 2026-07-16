@@ -58,7 +58,19 @@ module Madek
 
     # handle all error pages inside the app:
     config.action_dispatch.show_exceptions = true
-    config.exceptions_app = ->(env) { ErrorsController.action(:show).call(env) }
+    # NOTE: exceptions_app is invoked directly by ActionDispatch::ShowExceptions
+    # from its rescue block, bypassing Cookies/Session::CookieStore middleware
+    # entirely (they sit inner/deeper in the stack). Without wrapping it here,
+    # error pages (401/403) can never persist a fresh CSRF secret via Set-Cookie
+    # (see #870).
+    config.exceptions_app = lambda do |env|
+      @exceptions_app_stack ||= ActionDispatch::Cookies.new(
+        Rails.application.config.session_store.new(
+          ->(inner_env) { ErrorsController.action(:show).call(inner_env) },
+          Rails.application.config.session_options))
+      @exceptions_app_stack.call(env)
+    end
+
     # to develop/debug error pages, set this to false in dev env as well:
     config.consider_all_requests_local = false
 
