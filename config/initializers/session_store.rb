@@ -5,9 +5,11 @@
 # in boot; the middleware stack can be built (and memoized) before a
 # to_prepare/after_initialize block referencing it would run, silently
 # leaving the app on Rails' auto-derived default cookie name instead (#870).
-# Keep in sync with Madek::Constants::Webapp::SESSION_NAME.
+# Keep in sync with Madek::Constants::Webapp::SESSION_NAME (this IS that
+# default name - kept explicit rather than implicit, and matches what the
+# separate auth app already expects when clearing this cookie on login).
 Madek::Application.config.session_store :cookie_store,
-  key: '_Madek_session',
+  key: '_madek_session',
   httponly: true,
   secure: (Rails.env == 'production' && !Madek::Constants::MADEK_DISABLE_HTTPS)
 
