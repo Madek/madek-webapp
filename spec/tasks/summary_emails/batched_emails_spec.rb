@@ -25,6 +25,7 @@ describe 'produce summary emails tasks' do
         FactoryBot.create(:notification, notification_case: c1, user: u3)
       end
 
+      Rake::Task["madek:produce_daily_emails"].reenable
       Rake::Task["madek:produce_daily_emails"].invoke
 
       subject_title = "Medienarchiv: tägliche Zusammenfassung der Verantwortlichkeits-Übertragungen"

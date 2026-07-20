@@ -60,13 +60,14 @@ describe 'produce summary emails tasks' do
     # +-----+----+----+--------------------+------------------+
 
     it 'works' do
-      Madek::Constants::DEFAULT_NOTIFICATION_EMAILS_FREQUENCY = :daily
-       
+      stub_const('Madek::Constants::DEFAULT_NOTIFICATION_EMAILS_FREQUENCY', :daily)
+
       FactoryBot.create(:notification_case_user_setting,
                         user: @u4,
                         notification_case: @c1,
                         email_frequency: 'weekly')
 
+      Rake::Task["madek:produce_daily_emails"].reenable
       Rake::Task["madek:produce_daily_emails"].invoke
 
       expect(Email.count).to eq 5 # includes 1 already existing email for @n1
@@ -114,13 +115,14 @@ describe 'produce summary emails tasks' do
     # +-----+----+----+--------------------+------------------+
 
     it 'works' do
-      Madek::Constants::DEFAULT_NOTIFICATION_EMAILS_FREQUENCY = :weekly
+      stub_const('Madek::Constants::DEFAULT_NOTIFICATION_EMAILS_FREQUENCY', :weekly)
 
       FactoryBot.create(:notification_case_user_setting,
                         user: @u4,
                         notification_case: @c1,
                         email_frequency: 'daily')
 
+      Rake::Task["madek:produce_weekly_emails"].reenable
       Rake::Task["madek:produce_weekly_emails"].invoke
 
       expect(Email.count).to eq 3 # includes 1 already existing email for @n1
