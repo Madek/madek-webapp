@@ -20,7 +20,7 @@ fi
 npm ci --ignore-scripts --no-audit
 
 # build locale files
-bin/translation-csv-to-locale-yamls
+bin/translation-csv-to-locale-yamls.mjs
 
 # bundle js
 npm run -s build
