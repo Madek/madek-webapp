@@ -1,5 +1,5 @@
+import { chain, filter, findLast, first, get, isEmpty, map, union } from 'lodash-es';
 import React from 'react'
-import f from 'active-lodash'
 import t from '../../../lib/i18n-translate.js'
 
 import cx from 'classnames'
@@ -8,7 +8,7 @@ class HighlightedContents extends React.Component {
   render() {
     const { get } = this.props
     if (
-      f.isEmpty(
+      isEmpty(
         get.highlighted_media_resources != null
           ? get.highlighted_media_resources.resources
           : undefined
@@ -24,10 +24,10 @@ class HighlightedContents extends React.Component {
         </div>
         <div className="ui-featured-entries ptl phm">
           <ul className="ui-featured-entries-list ui-resources tiles horizontal large">
-            {f.map(
-              f.union(
-                f.filter(get.highlighted_media_resources.resources, { type: 'MediaEntry' }),
-                f.filter(get.highlighted_media_resources.resources, { type: 'Collection' })
+            {map(
+              union(
+                filter(get.highlighted_media_resources.resources, { type: 'MediaEntry' }),
+                filter(get.highlighted_media_resources.resources, { type: 'Collection' })
               ),
               (mediaResource, index) => (
                 <HighlightedContent key={`key_${index}`} mediaResource={mediaResource} />
@@ -36,7 +36,7 @@ class HighlightedContents extends React.Component {
           </ul>
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -49,13 +49,13 @@ class HighlightedContent extends React.Component {
     const aClass = cx('ui-tile', { 'ui-tile--set': mediaResource.type === 'Collection' })
 
     const images =
-      f.get(mediaResource, 'type') === 'Collection'
-        ? f.get(mediaResource, 'cover')
-        : f.get(mediaResource, 'media_file.previews.images')
+      get(mediaResource, 'type') === 'Collection'
+        ? get(mediaResource, 'cover')
+        : get(mediaResource, 'media_file.previews.images')
     // smallest image that is smaller than wanted or the largest available:
-    let image = f.findLast(images, i => i.width >= 300)
+    let image = findLast(images, i => i.width >= 300)
     if (!image) {
-      image = f.first(f.where(images, i => i.width > 0))
+      image = first(filter(images, i => i.width > 0))
     }
 
     console.error('No image!', { props: this.props })
@@ -64,8 +64,7 @@ class HighlightedContent extends React.Component {
     if (image) {
       imgProps = {
         src: image.url,
-        srcSet: f
-          .chain(images)
+        srcSet: chain(images)
           .values()
           .uniq('url')
           .map(function ({ url, width }) {

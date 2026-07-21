@@ -1,6 +1,6 @@
+import { chain, get, includes, merge } from 'lodash-es';
 import React from 'react'
 import PropTypes from 'prop-types'
-import f from 'active-lodash'
 import t from '../../lib/i18n-translate.js'
 import cx from 'classnames'
 import qs from 'qs'
@@ -31,12 +31,12 @@ export default class MediaEntryPreview extends React.Component {
 
     const classes = cx(this.props.mods)
 
-    const usesIframeEmbed = !isEmbedded && f.includes(['audio', 'video'], media_type)
+    const usesIframeEmbed = !isEmbedded && includes(['audio', 'video'], media_type)
 
     // get the largest image and use it as 'full size link'
     // NOTE: we want this link even if the file is the same,
     // for consistency and bc it's easier for users…
-    const imageHref = f.chain(previews.images).sortBy('width').last().get('url').run()
+    const imageHref = chain(previews.images).sortBy('width').last().get('url').run()
 
     // just the picure element (might be wrapped)
     // prefer the given image_url, but fallback to largest
@@ -47,7 +47,7 @@ export default class MediaEntryPreview extends React.Component {
         <ResourceIcon mediaType={media_type} thumbnail={false} type={type} />
       )
 
-    const mediaPlayerConfig = f.merge(
+    const mediaPlayerConfig = merge(
       {
         poster: imageHref || image_url,
         originalUrl: original_file_url
@@ -57,7 +57,7 @@ export default class MediaEntryPreview extends React.Component {
 
     const not_ready =
       (get.media_type == 'video' || get.media_type == 'audio') &&
-      f.get(get, 'media_file.conversion_status') != 'finished'
+      get(get, 'media_file.conversion_status') != 'finished'
 
     const missingAvPreviews =
       (get.media_type == 'video' && (previews.videos || []).length == 0) ||
@@ -113,7 +113,7 @@ export default class MediaEntryPreview extends React.Component {
           type="video"
           {...mediaPlayerConfig}
           sources={previews.videos}
-          options={f.merge({ fluid: true }, f.get(mediaPlayerConfig, 'options'))}
+          options={merge({ fluid: true }, get(mediaPlayerConfig, 'options'))}
           captionConf={this.props.captionConf}
           isInternal={this.props.isInternal}
         />
@@ -124,7 +124,7 @@ export default class MediaEntryPreview extends React.Component {
           {...mediaPlayerConfig}
           getUrl={get.url}
           sources={previews.audios}
-          options={f.merge({ fluid: true }, f.get(mediaPlayerConfig, 'options'))}
+          options={merge({ fluid: true }, get(mediaPlayerConfig, 'options'))}
           captionConf={this.props.captionConf}
           isInternal={this.props.isInternal}
         />

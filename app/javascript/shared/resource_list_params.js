@@ -1,11 +1,4 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
-// NOTE: keep in sync with `app/controllers/concerns/resource_list_params.rb`!
-
-import f from 'active-lodash'
+import { chain, curry, includes } from 'lodash-es';
 import qs from 'qs'
 
 export default function (location) {
@@ -13,11 +6,10 @@ export default function (location) {
   const base = 'list'
   const allowed = ['layout', 'filter', 'show_filter', 'accordion', 'page', 'per_page', 'order']
   const coerced_types = { bools: ['show_filter'], jsons: ['filter', 'accordion'] }
-  return f
-    .chain(query)
+  return chain(query)
     .get(base)
     .pick(allowed)
-    .map(f.curry(coerceTypes)(coerced_types))
+    .map(curry(coerceTypes)(coerced_types))
     .object()
     .merge({
       for_url: {
@@ -25,16 +17,16 @@ export default function (location) {
         query
       }
     })
-    .value()
+    .value();
 }
 
 // private
 
 var coerceTypes = function (types, val, key) {
   switch (true) {
-    case f.include(types.bools, key):
+    case includes(types.bools, key):
       return [key, val === 'true']
-    case f.include(types.jsons, key):
+    case includes(types.jsons, key):
       return [key, parseJsonParam(key, val)]
     case key === 'order':
       return [key, val === 'last_change' ? 'last_change DESC' : val]

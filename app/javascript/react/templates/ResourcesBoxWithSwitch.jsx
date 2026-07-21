@@ -1,3 +1,4 @@
+import { cloneDeep, compact, flatten, includes } from 'lodash-es';
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -9,7 +10,6 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import f from 'active-lodash'
 import { t } from '../lib/ui.js'
 import { parse as parseUrl } from 'url'
 import { parse as parseQuery } from 'qs'
@@ -28,7 +28,7 @@ const urlByType = function (url, currentType, newType) {
   const currentUrl = parseUrl(url)
   const currentParams = parseQuery(currentUrl.query)
 
-  const newParams = f.cloneDeep(currentParams)
+  const newParams = cloneDeep(currentParams)
   if (newParams.list) {
     if (newParams.list.accordion) {
       newParams.list.accordion = {}
@@ -77,11 +77,11 @@ class ResourcesBoxWithSwitch extends React.Component {
   render() {
     const props = this.props
     const { currentType, otherTypes } = props.switches
-    const types = f.flatten([currentType, otherTypes])
+    const types = flatten([currentType, otherTypes])
 
     const renderSwitcher = boxUrl => {
       // NOTE: order of switches is defined here – should be consistent between views!
-      const typeBbtns = f.compact([
+      const typeBbtns = compact([
         { key: 'entries', name: t('sitemap_entries') },
         { key: 'sets', name: t('sitemap_collections') }
       ])
@@ -89,7 +89,7 @@ class ResourcesBoxWithSwitch extends React.Component {
       return (
         <ButtonGroup data-test-id="resource-type-switcher">
           {typeBbtns.map(btn => {
-            if (!f.include(types, btn.key)) {
+            if (!includes(types, btn.key)) {
               return null
             } // only show mentioned types
             const isActive = btn.key === currentType // set active is current type
@@ -104,7 +104,7 @@ class ResourcesBoxWithSwitch extends React.Component {
             )
           })}
         </ButtonGroup>
-      )
+      );
     }
 
     return (

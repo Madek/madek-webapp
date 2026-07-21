@@ -1,10 +1,10 @@
+import { chunk, filter, first, get, map, reduce, set, size } from 'lodash-es';
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 import React from 'react'
-import f from 'active-lodash'
 import { t } from '../../lib/ui.js'
 import Modal from '../../ui-components/Modal.jsx'
 import setUrlParams from '../../../lib/set-params-for-url.js'
@@ -50,7 +50,7 @@ class Clipboard extends React.Component {
     const nextUrl = setUrlParams(
       this.props.forUrl,
       { list: { page: 1, per_page: pagination.total_count } },
-      { ___sparse: JSON.stringify(f.set({}, jsonPath, [{ uuid: {}, type: {} }])) }
+      { ___sparse: JSON.stringify(set({}, jsonPath, [{ uuid: {}, type: {} }])) }
     )
 
     return xhr.get({ url: nextUrl, json: true }, (err, res, body) => {
@@ -59,10 +59,10 @@ class Clipboard extends React.Component {
       } else {
         return callback({
           result: 'success',
-          data: f.get(body, jsonPath)
-        })
+          data: get(body, jsonPath)
+        });
       }
-    })
+    });
   }
 
   _fetchForAddAll() {
@@ -82,11 +82,11 @@ class Clipboard extends React.Component {
         } else {
           return this.setState({
             step: 'dialog',
-            fetchedResources: f.map(result.data, entry => ({
+            fetchedResources: map(result.data, entry => ({
               uuid: entry.uuid,
               type: entry.type
             }))
-          })
+          });
         }
       }
     )
@@ -121,7 +121,7 @@ class Clipboard extends React.Component {
     } else {
       const { chunks } = this.state
 
-      const chunk = f.first(f.filter(chunks, { state: 'pending' }))
+      const chunk = first(filter(chunks, { state: 'pending' }))
 
       if (chunk) {
         chunk.state = 'loading'
@@ -150,7 +150,7 @@ class Clipboard extends React.Component {
     const resourceIds = this.state.fetchedResources
     this.setState({ step: 'adding-all' })
 
-    const chunks = f.map(f.chunk(resourceIds, 1000), ids => ({
+    const chunks = map(chunk(resourceIds, 1000), ids => ({
       state: 'pending',
       ids
     }))
@@ -247,13 +247,13 @@ class Clipboard extends React.Component {
 
       case 'adding-all':
         var { chunks } = this.state
-        var pending = f.filter(chunks, chunk => chunk.state !== 'loaded')
-        var done = f.filter(chunks, { state: 'loaded' })
+        var pending = filter(chunks, chunk => chunk.state !== 'loaded')
+        var done = filter(chunks, { state: 'loaded' })
 
-        var pendingCount = f.reduce(pending, (sum, chunk) => sum + f.size(chunk.ids), 0)
-        var doneCount = f.reduce(done, (sum, chunk) => sum + f.size(chunk.ids), 0)
+        var pendingCount = reduce(pending, (sum, chunk) => sum + size(chunk.ids), 0)
+        var doneCount = reduce(done, (sum, chunk) => sum + size(chunk.ids), 0)
 
-        var counter = f.size(chunks) > 1 ? doneCount + ' / ' + (pendingCount + doneCount) : ''
+        var counter = size(chunks) > 1 ? doneCount + ' / ' + (pendingCount + doneCount) : ''
 
         return (
           <Modal widthInPixel={400}>

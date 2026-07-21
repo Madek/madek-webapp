@@ -1,10 +1,4 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS205: Consider reworking code to avoid use of IIFEs
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
-import f from 'active-lodash'
+import { cloneDeep } from 'lodash-es';
 import { parse as parseUrl } from 'url'
 import { parse as parseQuery } from 'qs'
 import setUrlParams from './set-params-for-url.js'
@@ -22,7 +16,7 @@ export default function (url, usePathUrlReplacement) {
   const currentUrl = parseUrl(url)
   const currentParams = parseQuery(currentUrl.query)
 
-  const newParams = f.cloneDeep(currentParams)
+  const newParams = cloneDeep(currentParams)
   if (newParams.list) {
     if (newParams.list.accordion) {
       newParams.list.accordion = {}

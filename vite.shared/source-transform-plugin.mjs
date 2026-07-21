@@ -78,7 +78,12 @@ export const sourceTransformPlugin = {
       // Some files use both `export default X` and `module.exports = X`
       // (a pattern left by decaffeinate). esbuild in ESM mode ignores
       // module.exports; we must convert to CJS first so module.exports wins.
-      const hasCjsExports = /\bmodule\.exports\b/.test(code)
+      //
+      // Skip node_modules: third-party ESM packages (e.g. lodash-es) reference
+      // `module.exports` inside CJS feature-detection blocks — never as an
+      // actual export — but a naive string match would corrupt them.
+      const isNodeModule = args.path.includes('/node_modules/')
+      const hasCjsExports = !isNodeModule && /\bmodule\.exports\b/.test(code)
       const hasEsmSyntax = /(?:^|\n)\s*(?:import\s|export\s)/.test(code)
 
       if (hasCjsExports && hasEsmSyntax) {

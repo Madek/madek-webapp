@@ -1,6 +1,6 @@
+import { filter, some } from 'lodash-es';
 import React from 'react'
 import PropTypes from 'prop-types'
-import f from 'active-lodash'
 import MadekPropTypes from '../madek-prop-types.js'
 import InputResources from './input-resources.jsx'
 
@@ -21,7 +21,7 @@ class InputKeywords extends React.Component {
 
       if (this.props.multiple) {
         // In any case remove the element first.
-        values = f.filter(this.props.values, value => value.uuid !== uuid)
+        values = filter(this.props.values, value => value.uuid !== uuid)
         // Then add it again if needed.
         if (checked) {
           values.push({ uuid })
@@ -70,7 +70,7 @@ class InputKeywords extends React.Component {
           <input type="hidden" name={name} value="" />
           {keywords.map(kw => {
             // determine initial checked status according to current values:
-            const isInitiallySelected = f.any(values, { uuid: kw.uuid })
+            const isInitiallySelected = some(values, { uuid: kw.uuid })
 
             return (
               <label className="col2of6" key={kw.uuid}>
@@ -88,7 +88,7 @@ class InputKeywords extends React.Component {
           })}
           {this.props.subForms}
         </div>
-      )
+      );
     }
   }
 }

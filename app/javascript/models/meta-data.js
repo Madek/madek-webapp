@@ -1,9 +1,4 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
-import f from 'active-lodash'
+import { filter, flatten, keys, map, merge, set, snakeCase, some } from 'lodash-es';
 import AppCollection from './shared/app-collection.js'
 import MetaDatum from './meta-datum.js'
 
@@ -16,7 +11,7 @@ export default AppCollection.extend({
 
   // Create a new instance from object (e.g. `{type: 'MetaDatum::Text'}`):
   model(attrs, options) {
-    const MetaDatumClass = MetaDatum[f.trimLeft(attrs.type, 'MetaDatum::')]
+    const MetaDatumClass = MetaDatum[attrs.type.trimStart()]
     if (!MetaDatumClass) {
       throw new Error(`No such type: ${attrs.type}!`)
     }
@@ -25,12 +20,12 @@ export default AppCollection.extend({
 
   // Check if an instance is one the valid models:
   isModel(model) {
-    return f.any(f.map(f.keys(MetaDatum), subType => model instanceof MetaDatum[subType]))
+    return some(map(keys(MetaDatum), subType => model instanceof MetaDatum[subType]));
   },
 
   // Parse `Presenters::MetaData` into array of model objects:
   parse(meta_data) {
-    return f.filter(f.flatten(f.map(meta_data.by_vocabulary, 'meta_data')))
+    return filter(flatten(map(meta_data.by_vocabulary, 'meta_data')));
   },
 
   // Save the collection to the parent resource (Concern `MetaDataUpdate`):
@@ -39,15 +34,15 @@ export default AppCollection.extend({
       this,
       'update',
       this,
-      f.merge(opts, {
+      merge(opts, {
         url: this.parent.url + '/meta_data',
-        json: f.set({}, f.snakeCase(this.parent.type), serializeForSave(this))
+        json: set({}, snakeCase(this.parent.type), serializeForSave(this))
       })
-    )
+    );
   }
 })
 
 // helper:
 var serializeForSave = list => ({
-  meta_data: f.object(list.map(md => [md.meta_key.uuid, md.literal_values]))
+  meta_data: Object.fromEntries(list.map(md => [md.meta_key.uuid, md.literal_values]))
 })

@@ -1,12 +1,5 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
-// Concern: ResourceWithRelations
-
-import f from 'active-lodash'
+import { present } from '../../lib/present';
+import { get, includes, isFunction, last, set } from 'lodash-es';
 import { parse as parseUrl, format as buildUrl } from 'url'
 
 export default {
@@ -20,7 +13,7 @@ export default {
   // instance methods:
   fetchRelations(type, callback) {
     const validTypes = ['parent', 'sibling', 'child']
-    if (!f.include(validTypes, type)) {
+    if (!includes(validTypes, type)) {
       throw new Error('Invalid Relations type!')
     }
     // NOTE: format: ['subpath_of_action', 'jsonPath.inside.presenter']
@@ -31,13 +24,13 @@ export default {
       child: ['', 'child_media_resources']
     }
     const [subPath, jsonPath] = Array.from(supportedRelations[type])
-    const modelAttr = f.last(jsonPath.split('.'))
+    const modelAttr = last(jsonPath.split('.'))
 
-    if (f.present(this.get(jsonPath))) {
+    if (present(this.get(jsonPath))) {
       return
     } // only fetch if missing
 
-    const sparseSpec = JSON.stringify(f.set({}, jsonPath, {}))
+    const sparseSpec = JSON.stringify(set({}, jsonPath, {}))
 
     const parsedUrl = parseUrl(this.url, true)
     delete parsedUrl.search
@@ -56,20 +49,20 @@ export default {
       (err, res, json) => {
         if (err || res.statusCode >= 400) {
           console.error('Error fetching relations!', err || json)
-          if (f.isFunction(callback)) {
+          if (isFunction(callback)) {
             return callback(err || json)
           }
         }
 
         // update self with server response:
-        const data = f.get(json, jsonPath)
-        if (f.present(data)) {
+        const data = get(json, jsonPath)
+        if (present(data)) {
           this.set(modelAttr, data)
         }
-        if (f.isFunction(callback)) {
+        if (isFunction(callback)) {
           return callback(err, data)
         }
       }
-    )
+    );
   }
 }

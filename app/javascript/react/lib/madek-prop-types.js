@@ -1,4 +1,4 @@
-import f from 'active-lodash'
+import { merge, values } from 'lodash-es';
 import PropTypes from 'prop-types'
 import validateUUID from 'uuid-validate'
 
@@ -79,7 +79,7 @@ const metaKey = {
 M.metaKey = PropTypes.shape(metaKey)
 
 M.VocabularyMetaKey = PropTypes.shape(
-  f.merge(metaKey, {
+  merge(metaKey, {
     scope: PropTypes.arrayOf(PropTypes.oneOf(['Entries', 'Sets'])).isRequired
   })
 )
@@ -138,7 +138,7 @@ M.resourceMetaData = PropTypes.shape({
 // Concern: ResourceFilters
 // NOTE: extracted only for readabilty
 // comments refer to <http://madek.readthedocs.org/en/latest/filters/>
-const ResourceFiltersMetaData = f.values({
+const ResourceFiltersMetaData = values({
   // 1
   keyUuid: PropTypes.shape({
     key: PropTypes.string.isRequired,

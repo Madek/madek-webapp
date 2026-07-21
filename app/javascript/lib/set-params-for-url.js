@@ -1,3 +1,4 @@
+import { isObject, isString, merge, reduce, set } from 'lodash-es';
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -6,7 +7,6 @@
  */
 import { parse as parseUrl, format as formatUrl } from 'url'
 import qs from 'qs'
-import { isString, isObject, merge, reduce, set } from 'active-lodash'
 
 const parseQuery = qs.parse
 const formatQuery = obj =>

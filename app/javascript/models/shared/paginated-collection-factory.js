@@ -1,19 +1,12 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
-// This is a (simple) factory, used by ModelCollections that can paginate.
-
-import f from 'active-lodash'
+import { present } from '../../lib/present';
+import { compact, each, extend, filter, find, get, isFunction, remove, set, size } from 'lodash-es';
 import State from 'ampersand-state'
 import xhr from 'xhr'
 import setUrlParams from '../../lib/set-params-for-url.js'
 
 const getOrThrow = function (obj, key) {
-  const val = f.get(obj, key)
-  if (!f.present(val)) {
+  const val = get(obj, key)
+  if (!present(val)) {
     throw new Error('Missing config! ' + key)
   }
   return val
@@ -77,9 +70,9 @@ export default function (collectionClass, { jsonPath }) {
             .map((resources, n) => ({
               url: setUrlParams(this.url, { list: { page: this.firstPage + n } }),
               resources,
-              pagination: f.extend(paginationBase, { page: this.firstPage + n })
+              pagination: extend(paginationBase, { page: this.firstPage + n })
             }))
-            .value()
+            .value();
         }
       }
     },
@@ -92,12 +85,12 @@ export default function (collectionClass, { jsonPath }) {
         currentPage: getOrThrow(data, 'config.page'),
         totalCount: getOrThrow(data, 'pagination.total_count'),
         totalPages: getOrThrow(data, 'pagination.total_pages'),
-        jsonPath: f.get(data, 'json_path'),
+        jsonPath: get(data, 'json_path'),
         requestId: Math.random(),
         jobQueue: []
       })
       // listen to child collections
-      if (this.resources && f.isFunction(this.resources.on)) {
+      if (this.resources && isFunction(this.resources.on)) {
         return this.resources != null
           ? this.resources.on('change add remove reset', () => this.trigger('change'))
           : undefined
@@ -117,7 +110,7 @@ export default function (collectionClass, { jsonPath }) {
 
     // fetches the next page of `resources`
     fetchNext(fetchListData, callback) {
-      if (!f.isFunction(callback)) {
+      if (!isFunction(callback)) {
         throw new Error('Callback missing!')
       }
       if (!this.currentPage && this.currentPage !== 0) {
@@ -128,7 +121,7 @@ export default function (collectionClass, { jsonPath }) {
       const nextUrl = setUrlParams(
         this.url,
         { list: { page: nextPage } },
-        { ___sparse: JSON.stringify(f.set({}, this.getJsonPath(), {})) }
+        { ___sparse: JSON.stringify(set({}, this.getJsonPath(), {})) }
       )
 
       // We compare the request id when sending started
@@ -142,14 +135,14 @@ export default function (collectionClass, { jsonPath }) {
         } else if (err || res.statusCode > 400) {
           return callback(err || body)
         } else {
-          this.resources.add(f.get(body, this.getJsonPath()))
+          this.resources.add(get(body, this.getJsonPath()))
           this.set({ currentPage: nextPage })
           if (fetchListData) {
             this.fetchListData()
           }
           return callback(null)
         }
-      })
+      });
     },
 
     getJsonPath() {
@@ -186,14 +179,14 @@ export default function (collectionClass, { jsonPath }) {
     },
 
     fetchAllResourceIds(callback) {
-      if (!f.isFunction(callback)) {
+      if (!isFunction(callback)) {
         throw new Error('Callback missing!')
       }
 
       const nextUrl = setUrlParams(
         this.url,
         { list: { page: 1, per_page: this.totalCount } },
-        { ___sparse: JSON.stringify(f.set({}, this.getJsonPath(), [{ uuid: {}, type: {} }])) }
+        { ___sparse: JSON.stringify(set({}, this.getJsonPath(), [{ uuid: {}, type: {} }])) }
       )
 
       return xhr.get({ url: nextUrl, json: true }, (err, res, body) => {
@@ -202,10 +195,10 @@ export default function (collectionClass, { jsonPath }) {
         } else {
           return callback({
             result: 'success',
-            data: f.get(body, this.getJsonPath())
-          })
+            data: get(body, this.getJsonPath())
+          });
         }
-      })
+      });
     },
 
     listMetadataJob(resource) {
@@ -221,34 +214,34 @@ export default function (collectionClass, { jsonPath }) {
     },
 
     createPendingJobs(resource) {
-      return f.compact([!resource.list_meta_data ? this.listMetadataJob(resource) : undefined])
+      return compact([!resource.list_meta_data ? this.listMetadataJob(resource) : undefined]);
     },
 
     tryAddPendingJobs(resource) {
       const jobs = this.createPendingJobs(resource)
-      return f.each(jobs, job => {
-        const existing = f.find(this.jobQueue, { groupId: job.groupId, id: job.id })
-        if (!existing && f.size(this.jobQueue) < 10) {
+      return each(jobs, job => {
+        const existing = find(this.jobQueue, { groupId: job.groupId, id: job.id })
+        if (!existing && size(this.jobQueue) < 10) {
           return this.jobQueue.push(job)
         }
-      })
+      });
     },
 
     checkJobs(callback) {
-      f.remove(this.jobQueue, { state: 'done' })
+      remove(this.jobQueue, { state: 'done' })
 
-      f.each(this.pages, page => {
-        return f.each(page.resources, resource => {
+      each(this.pages, page => {
+        return each(page.resources, resource => {
           return this.tryAddPendingJobs(resource)
-        })
+        });
       })
 
-      const waitingJobs = f.filter(
+      const waitingJobs = filter(
         this.jobQueue,
         job => job.state === 'waiting' || job.state === 'failure'
       )
 
-      f.each(waitingJobs, job => {
+      each(waitingJobs, job => {
         job.state = 'loading'
         return job.load(result => {
           if (result === 'success') {
@@ -269,5 +262,5 @@ export default function (collectionClass, { jsonPath }) {
     fetchListData() {
       return this.checkJobs()
     }
-  })
+  });
 }

@@ -1,5 +1,5 @@
+import { filter, map, size, sortBy } from 'lodash-es';
 import React from 'react'
-import f from 'active-lodash'
 import cx from 'classnames'
 import TypeaheadInput from '../../lib/typeahead-input.jsx'
 
@@ -9,14 +9,14 @@ class UserFilter extends React.Component {
     if (term.length > 0) {
       const termLower = term.toLowerCase()
       callback(
-        f.sortBy(
-          f.filter(children, user => !user.selected && user.label.toLowerCase().includes(termLower))
+        sortBy(
+          filter(children, user => !user.selected && user.label.toLowerCase().includes(termLower))
         )
       )
     } else {
       callback(
-        f.sortBy(
-          f.filter(children, user => !user.selected),
+        sortBy(
+          filter(children, user => !user.selected),
           'label'
         )
       )
@@ -25,8 +25,8 @@ class UserFilter extends React.Component {
 
   render() {
     const { node, placeholder } = this.props
-    const selection = f.filter(node.children, 'selected')
-    const hasMore = f.size(selection) < f.size(node.children)
+    const selection = filter(node.children, 'selected')
+    const hasMore = size(selection) < size(node.children)
 
     const clear = (selected, event) => {
       event.preventDefault()
@@ -35,7 +35,7 @@ class UserFilter extends React.Component {
 
     return (
       <ul className={this.props.togglebodyClass}>
-        {f.map(selection, selected => (
+        {map(selection, selected => (
           <li
             key={`uuid_${selected.uuid}`}
             className={cx('ui-side-filter-lvl3-item', { active: true })}>
@@ -63,7 +63,7 @@ class UserFilter extends React.Component {
           </li>
         )}
       </ul>
-    )
+    );
   }
 }
 

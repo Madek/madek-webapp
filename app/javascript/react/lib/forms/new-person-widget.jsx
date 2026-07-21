@@ -1,3 +1,4 @@
+import { curry, extend, includes, set, some } from 'lodash-es';
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -6,7 +7,6 @@
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import f from 'active-lodash'
 import { t } from '../../lib/ui.js'
 import Tab from 'react-bootstrap/lib/Tab'
 import Nav from 'react-bootstrap/lib/Nav'
@@ -55,8 +55,8 @@ class NewPersonWidget extends React.Component {
 
   _onUpdateField = (key, event) => {
     return this.setState({
-      newPerson: f.extend(this.state.newPerson, f.set({}, key, event.target.value))
-    })
+      newPerson: extend(this.state.newPerson, set({}, key, event.target.value))
+    });
   }
 
   _inputField = key => {
@@ -66,9 +66,9 @@ class NewPersonWidget extends React.Component {
         className="block"
         name={key}
         value={this.state.newPerson[key] || ''}
-        onChange={f.curry(this._onUpdateField)(key)}
+        onChange={curry(this._onUpdateField)(key)}
       />
-    )
+    );
   }
 
   _onSubmit = event => {
@@ -81,8 +81,8 @@ class NewPersonWidget extends React.Component {
 
   render() {
     const { id, allowedTypes } = this.props
-    const supportsAnyAllowedType = f.any(allowedTypes, t =>
-      f.includes(SUPPORTED_PEOPLE_SUBTYPES, t)
+    const supportsAnyAllowedType = some(allowedTypes, t =>
+      includes(SUPPORTED_PEOPLE_SUBTYPES, t)
     )
     if (!supportsAnyAllowedType) {
       return false

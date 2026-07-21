@@ -14,8 +14,8 @@
 const interop = m => (m && m.__esModule ? m.default : m)
 
 // local requires
-const { each } = require('active-lodash')
-const { present } = require('active-lodash')
+const { each } = require('lodash-es')
+const { present } = require('./lib/present.js')
 const parseUrl = require('url').parse
 const buildUrl = require('url').format
 

@@ -1,5 +1,6 @@
+import { presence } from '../../../lib/present';
+import { map } from 'lodash-es';
 import React from 'react'
-import f from 'active-lodash'
 import t from '../../../lib/i18n-translate.js'
 import RailsForm from '../../lib/forms/rails-form.jsx'
 import formXhr from '../../../lib/form-xhr.js'
@@ -155,7 +156,7 @@ class SelectCollection extends React.Component {
       _content.push(
         <ol key="content2" className="ui-set-list pbs">
           {hasNew
-            ? f.map(this.state.newSets, (row, index) => (
+            ? map(this.state.newSets, (row, index) => (
                 <li key={`new_${index}`} className="ui-set-list-item">
                   <label>
                     <input
@@ -181,7 +182,7 @@ class SelectCollection extends React.Component {
             if (this.state.searching) {
               return <Preloader style={{ marginTop: '20px' }} />
             } else if (hasResultEntries) {
-              return f.map(get.collection_rows, function (row) {
+              return map(get.collection_rows, function (row) {
                 const { collection } = row
                 const checked = row.contains_media_entry
                 return (
@@ -204,14 +205,14 @@ class SelectCollection extends React.Component {
                     </label>
                   </li>
                 )
-              })
+              });
             }
           })()}
         </ol>
       )
     }
 
-    if (!hasResultEntries && f.presence(get.search_term) && !this.state.searching) {
+    if (!hasResultEntries && presence(get.search_term) && !this.state.searching) {
       _content.push(
         <h3 key="content3" className="by-center title-m">
           {t('resource_select_collection_non_found')}
@@ -219,7 +220,7 @@ class SelectCollection extends React.Component {
       )
     }
 
-    if (!hasResultEntries && !f.presence(get.search_term) && !this.state.searching) {
+    if (!hasResultEntries && !presence(get.search_term) && !this.state.searching) {
       _content.push(
         <h3 key="content4" className="by-center title-m">
           {t('resource_select_collection_non_assigned')}

@@ -1,6 +1,7 @@
+import { present } from '../../../lib/present';
+import { compact, each, flatten, get, includes, map, pick, reject, set, some } from 'lodash-es';
 import React from 'react'
 import PropTypes from 'prop-types'
-import f from 'active-lodash'
 import t from '../../../lib/i18n-translate.js'
 import cx from 'classnames'
 import ui from '../../lib/ui.js'
@@ -138,7 +139,7 @@ class SideFilter extends React.Component {
       {
         method: 'GET',
         url: setUrlParams(url, query, {
-          ___sparse: JSON.stringify(f.set({}, jsonPath, {}))
+          ___sparse: JSON.stringify(set({}, jsonPath, {}))
         })
       },
       (result, json) => {
@@ -146,7 +147,7 @@ class SideFilter extends React.Component {
           return
         }
         if (result === 'success') {
-          const data = f.get(json, jsonPath)
+          const data = get(json, jsonPath)
 
           const newSectionGroups = this.state.sectionGroups.map(sectionGroup => {
             if (sectionGroup.key === key) {
@@ -159,13 +160,13 @@ class SideFilter extends React.Component {
           this.setState({ sectionGroups: newSectionGroups })
 
           this._updateAccordion(
-            f.flatten(f.compact(f.map(newSectionGroups, sectionGroup => sectionGroup.data)))
+            flatten(compact(map(newSectionGroups, sectionGroup => sectionGroup.data)))
           )
         } else {
           return console.error('Could not load side filter data.')
         }
       }
-    )
+    );
   }
 
   _stubPermissionGroup() {
@@ -208,17 +209,17 @@ class SideFilter extends React.Component {
   }
 
   _updateAccordion(data) {
-    f.each(
+    each(
       [
         this.props.current.media_files,
         this.props.current.meta_data,
         this.props.current.permissions
       ],
       array => {
-        return f.each(array, media_file_or_meta_datum_or_permission => {
-          return f.each(data, section => {
-            return f.each(section.children, subSection => {
-              return f.each(subSection.children, filter => {
+        return each(array, media_file_or_meta_datum_or_permission => {
+          return each(data, section => {
+            return each(section.children, subSection => {
+              return each(subSection.children, filter => {
                 if (filter.uuid === media_file_or_meta_datum_or_permission.value) {
                   const prefix = section.filter_type || filter.uuid
                   this.getAccordionSection(prefix + '-' + section.uuid).isOpen = true
@@ -227,10 +228,10 @@ class SideFilter extends React.Component {
                     subSection.uuid
                   ).isOpen = true)
                 }
-              })
-            })
-          })
-        })
+              });
+            });
+          });
+        });
       }
     )
     return this.setState({ accordion: this.state.accordion })
@@ -238,8 +239,8 @@ class SideFilter extends React.Component {
 
   render() {
     let { current } = this.props
-    const sectionsData = f.flatten(
-      f.compact(f.map(this.state.sectionGroups, sectionGroup => sectionGroup.data))
+    const sectionsData = flatten(
+      compact(map(this.state.sectionGroups, sectionGroup => sectionGroup.data))
     )
 
     if (sectionsData.length === 0) {
@@ -260,9 +261,9 @@ class SideFilter extends React.Component {
       <ul
         className={ui.cx(ui.parseMods(this.props), 'ui-side-filter-list')}
         data-test-id="side-filter">
-        {f.flatten(
-          f.compact(
-            f.map(this.state.sectionGroups, sectionGroup => {
+        {flatten(
+          compact(
+            map(this.state.sectionGroups, sectionGroup => {
               if (sectionGroup.status == 'initial') {
                 return <Preloader key={`preloader_${sectionGroup.key}`} mods="small" />
               } else if (!sectionGroup.data) {
@@ -270,15 +271,15 @@ class SideFilter extends React.Component {
               } else {
                 const sections = getSections(sectionGroup.data)
                 applyCurrentSelectionToFilterTree(sections, current)
-                return f.map(sections, section => {
+                return map(sections, section => {
                   return this.renderSection(current, section)
-                })
+                });
               }
             })
           )
         )}
       </ul>
-    )
+    );
   }
 
   renderSection(current, section) {
@@ -305,18 +306,18 @@ class SideFilter extends React.Component {
                 <Preloader mods="small" />
               </li>
             ) : (
-              f.map(children, child => {
+              map(children, child => {
                 return this.renderSubSection(current, filterType, section, child)
               })
             ))}
         </ul>
       </li>
-    )
+    );
   }
 
   renderSubSection(current, filterType, parent, child) {
     const { isOpen } = this.getAccordionSubSection(filterType + '-' + parent.uuid, child.uuid)
-    const showSearchField = f.includes(
+    const showSearchField = includes(
       [
         'responsible_user',
         'responsible_delegation',
@@ -360,7 +361,7 @@ class SideFilter extends React.Component {
                     false
                   )
                 case 'MetaDatum::Roles':
-                  return f.map(['person', 'role'], type => {
+                  return map(['person', 'role'], type => {
                     const items = child.children.filter(x => x.type === type)
                     if (items.length === 0) {
                       return false
@@ -382,27 +383,27 @@ class SideFilter extends React.Component {
                             style={{ fontSize: '12px' }}>
                             <strong>{t('dynamic_filters_role_header')}</strong>
                           </li>
-                          {f.map(items, item => {
+                          {map(items, item => {
                             return this.renderItem(current, child, item, filterType)
                           })}
                         </ul>
-                      )
+                      );
                     }
-                  })
+                  });
                 default:
                   return (
                     <ul className={togglebodyClass}>
-                      {f.map(child.children, item => {
+                      {map(child.children, item => {
                         return this.renderItem(current, child, item, filterType)
                       })}
                     </ul>
-                  )
+                  );
               }
             }
           }
         })()}
       </li>
-    )
+    );
   }
 
   renderPersonSelect(current, child, items, filterType, className, withTitle) {
@@ -497,7 +498,7 @@ class SideFilter extends React.Component {
 
   createMultiSelectBox(child, current, filterType, allowSelectAll) {
     let icon, onChange, title
-    const showRemoveAll = f.any(child.children, 'selected')
+    const showRemoveAll = some(child.children, 'selected')
     const showSelectAll = child.multi && !showRemoveAll
     const style = { display: 'inline-block', position: 'absolute', padding: 0 }
     const keyBtnClass = 'ui-any-value'
@@ -545,8 +546,7 @@ class SideFilter extends React.Component {
   addItemFilter(onChange, current, parent, item, filterType) {
     let currentPerType = current[filterType] || []
     // When we add a child filter, the parent filter is no longer needed.
-    currentPerType = f
-      .reject(
+    currentPerType = reject(
         currentPerType,
 
         // Remove the filter, if it is in the section and consists only of
@@ -556,7 +556,7 @@ class SideFilter extends React.Component {
           const preventDuplicate = filter.key === parent.uuid && filter.value === item.uuid
           const removeSectionFilter =
             filter.key === parent.uuid &&
-            (!f.present(f.pick(filter, 'value', 'match')) || !parent.multi)
+            (!present(pick(filter, 'value', 'match')) || !parent.multi)
           return preventDuplicate || removeSectionFilter
 
           // Add the Item filter.
@@ -578,8 +578,7 @@ class SideFilter extends React.Component {
   addSubSectionFilter(onChange, current, parent, filterType) {
     let currentPerType = current[filterType] || []
     // Remove all Item filters in this section.
-    currentPerType = f
-      .reject(
+    currentPerType = reject(
         currentPerType,
 
         // Note: We here also remove an existing section filter actually.
@@ -599,7 +598,7 @@ class SideFilter extends React.Component {
 
   removeItemFilter(onChange, current, item, filterType) {
     let currentPerType = current[filterType] || []
-    currentPerType = f.reject(currentPerType, filter => filter.value === item.uuid)
+    currentPerType = reject(currentPerType, filter => filter.value === item.uuid)
     current[filterType] = currentPerType
     if (onChange) {
       return onChange({
@@ -614,7 +613,7 @@ class SideFilter extends React.Component {
   removeSubSectionFilter(onChange, current, parent, filterType) {
     let currentPerType = current[filterType] || []
     // Remove the section filter.
-    currentPerType = f.reject(currentPerType, filter => filter.key === parent.uuid)
+    currentPerType = reject(currentPerType, filter => filter.key === parent.uuid)
     current[filterType] = currentPerType
     if (onChange) {
       return onChange({

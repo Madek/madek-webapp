@@ -1,5 +1,5 @@
+import { map } from 'lodash-es';
 import React from 'react'
-import f from 'active-lodash'
 import t from '../../../lib/i18n-translate.js'
 import RailsForm from '../../lib/forms/rails-form.jsx'
 import railsFormPut from '../../../lib/form-put-with-errors.js'
@@ -127,7 +127,7 @@ class EditTransferResponsibility extends React.Component {
           method="put"
           authToken={authToken}>
           {batch
-            ? f.map(batchResourceIds, resource_id => (
+            ? map(batchResourceIds, resource_id => (
                 <input key={resource_id} type="hidden" name="id[]" value={resource_id} />
               ))
             : undefined}
@@ -284,7 +284,7 @@ class EditTransferResponsibility extends React.Component {
           </div>
         </RailsForm>
       </div>
-    )
+    );
   }
 }
 

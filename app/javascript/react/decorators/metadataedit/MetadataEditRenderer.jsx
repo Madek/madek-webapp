@@ -1,3 +1,17 @@
+import {
+  chain,
+  curry,
+  filter,
+  flatten,
+  get,
+  includes,
+  isEmpty,
+  keys,
+  map,
+  size,
+  sortBy,
+  values,
+} from 'lodash-es';
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -6,7 +20,6 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 import React from 'react'
-import f from 'active-lodash'
 import t from '../../../lib/i18n-translate.js'
 import cx from 'classnames'
 import InputMetaDatum from '../InputMetaDatum.jsx'
@@ -214,21 +227,21 @@ export default {
   },
 
   _renderHiddenKeysByContext(meta_meta_data, currentContextId, batch, models, name) {
-    const meta_key_ids_in_current_context = f.map(
+    const meta_key_ids_in_current_context = map(
       meta_meta_data.context_key_ids_by_context_id[currentContextId],
       function (context_key_id) {
         return meta_meta_data.meta_key_id_by_context_key_id[context_key_id]
       }
     )
 
-    const all_meta_key_ids = f.keys(meta_meta_data.meta_key_by_meta_key_id)
+    const all_meta_key_ids = keys(meta_meta_data.meta_key_by_meta_key_id)
 
-    const hidden_meta_key_ids = f.select(
+    const hidden_meta_key_ids = filter(
       all_meta_key_ids,
-      meta_key_id => !f.includes(meta_key_ids_in_current_context, meta_key_id)
+      meta_key_id => !includes(meta_key_ids_in_current_context, meta_key_id)
     )
 
-    return f.map(hidden_meta_key_ids, meta_key_id => {
+    return map(hidden_meta_key_ids, meta_key_id => {
       const model = models[meta_key_id]
       const metaKey = meta_meta_data.meta_key_by_meta_key_id[meta_key_id]
       return (
@@ -239,11 +252,11 @@ export default {
           {this._renderValueByContext(function () {}, name, null, metaKey, batch, model)}
         </div>
       )
-    })
+    });
   },
 
   _bundleHasOnlyOneKey(bundle) {
-    return bundle.type === 'single' || (bundle.type === 'block' && f.size(bundle.content) === 0)
+    return bundle.type === 'single' || (bundle.type === 'block' && size(bundle.content) === 0);
   },
 
   _bundleGetTheOnlyContent(bundle) {
@@ -278,10 +291,10 @@ export default {
   },
 
   _context_keys(meta_meta_data, context_id) {
-    return f.map(
+    return map(
       meta_meta_data.context_key_ids_by_context_id[context_id],
       context_key_id => meta_meta_data.context_key_by_context_key_id[context_key_id]
-    )
+    );
   },
 
   _renderByContext(
@@ -319,7 +332,7 @@ export default {
       )
     }
 
-    return f.map(bundled_context_keys, bundle => {
+    return map(bundled_context_keys, bundle => {
       let context_key_id
       if (this._bundleHasOnlyOneKey(bundle)) {
         context_key_id = this._bundleGetTheOnlyContent(bundle).uuid
@@ -329,10 +342,10 @@ export default {
           metadataEditValidation._validityForMetaKeyIds(
             meta_meta_data,
             models,
-            f.map(bundle.content, 'meta_key_id')
+            map(bundle.content, 'meta_key_id')
           ) === 'invalid'
 
-        const children = f.map(bundle.content, entry =>
+        const children = map(bundle.content, entry =>
           _renderItemByContextKeyId(entry.uuid, null, true)
         )
 
@@ -347,30 +360,30 @@ export default {
         context_key_id = bundle.mainKey.uuid
         return _renderItemByContextKeyId(context_key_id, subForms, false)
       }
-    })
+    });
   },
 
   _sortedVocabularies(meta_meta_data) {
-    return f.sortBy(f.values(meta_meta_data.vocabularies_by_vocabulary_id), function (vocabulary) {
+    return sortBy(values(meta_meta_data.vocabularies_by_vocabulary_id), function (vocabulary) {
       if (vocabulary.uuid === 'madek_core') {
         return -1
       } else {
         return vocabulary.position
       }
-    })
+    });
   },
 
   _sortedMetadata(meta_meta_data, meta_data, vocabulary) {
     const meta_key_ids = meta_meta_data.meta_key_ids_by_vocabulary_id[vocabulary.uuid]
 
-    const meta_keys = f.map(
+    const meta_keys = map(
       meta_key_ids,
       meta_key_id => meta_meta_data.meta_key_by_meta_key_id[meta_key_id]
     )
 
-    const sorted = f.sortBy(meta_keys, 'position')
+    const sorted = sortBy(meta_keys, 'position')
 
-    return f.map(sorted, meta_key => meta_data.meta_datum_by_meta_key_id[meta_key.uuid])
+    return map(sorted, meta_key => meta_data.meta_datum_by_meta_key_id[meta_key.uuid]);
   },
 
   _renderByVocabularies(
@@ -388,7 +401,7 @@ export default {
   ) {
     const sorted_vocabs = this._sortedVocabularies(meta_meta_data)
 
-    return f.map(sorted_vocabs, vocabulary => {
+    return map(sorted_vocabs, vocabulary => {
       const vocabMetaData = this._sortedMetadata(meta_meta_data, meta_data, vocabulary)
 
       const bundled_meta_data = grouping._group_meta_data(vocabMetaData)
@@ -419,7 +432,7 @@ export default {
               href={vocabulary.url}
             />
           </div>
-          {f.map(bundled_meta_data, bundle => {
+          {map(bundled_meta_data, bundle => {
             let meta_key_id
             if (this._bundleHasOnlyOneKey(bundle)) {
               ;({ meta_key_id } = this._bundleGetTheOnlyContent(bundle))
@@ -429,10 +442,10 @@ export default {
                 metadataEditValidation._validityForMetaKeyIds(
                   meta_meta_data,
                   models,
-                  f.map(bundle.content, 'meta_key_id')
+                  map(bundle.content, 'meta_key_id')
                 ) === 'invalid'
 
-              const children = f.map(bundle.content, entry =>
+              const children = map(bundle.content, entry =>
                 _renderItemByMetaKeyId(entry.meta_key_id, null, true)
               )
 
@@ -449,8 +462,8 @@ export default {
             }
           })}
         </div>
-      )
-    })
+      );
+    });
   },
 
   _renderVocabQuickLinks(meta_data, meta_meta_data) {
@@ -460,8 +473,8 @@ export default {
         <div style={{ paddingBottom: '30px' }}>
           {
             ((vocabularies = this._sortedVocabularies(meta_meta_data)),
-            f.flatten(
-              f.map(vocabularies, (vocabulary, index) => {
+            flatten(
+              map(vocabularies, (vocabulary, index) => {
                 return [
                   <span
                     className="title-l"
@@ -484,7 +497,7 @@ export default {
         </div>
         <div style={{ clear: 'both' }} />
       </div>
-    )
+    );
   },
 
   _renderThumbnail(resource, displayMetaData, href = null) {
@@ -495,7 +508,7 @@ export default {
 
     if (resource.media_file && resource.media_file.previews) {
       const { previews } = resource.media_file
-      href = href || f.chain(previews.images).sortBy('width').last().get('url').run()
+      href = href || chain(previews.images).sortBy('width').last().get('url').run()
     }
 
     const alt = ''
@@ -582,7 +595,7 @@ export default {
     let tabUrl, nextCurrentTab, active
     return (
       <Tabs>
-        {f.map(meta_meta_data.meta_data_edit_context_ids, function (context_id) {
+        {map(meta_meta_data.meta_data_edit_context_ids, function (context_id) {
           const context = meta_meta_data.contexts_by_context_id[context_id]
           tabUrl = (() => {
             if (batch) {
@@ -594,7 +607,7 @@ export default {
                   return_to
                 })
               } else {
-                url = f.get(
+                url = get(
                   batch_edit_by_context_urls,
                   context.uuid,
                   batch_edit_by_context_fallback_url
@@ -605,12 +618,12 @@ export default {
                 })
               }
             } else {
-              url = f.get(edit_by_context_urls, context.uuid, edit_by_context_fallback_url)
+              url = get(edit_by_context_urls, context.uuid, edit_by_context_fallback_url)
               return setUrlParams(url, { return_to })
             }
           })()
 
-          if (!f.isEmpty(meta_meta_data.context_key_ids_by_context_id[context_id])) {
+          if (!isEmpty(meta_meta_data.context_key_ids_by_context_id[context_id])) {
             nextCurrentTab = {
               byContext: context_id,
               byVocabularies: false
@@ -623,12 +636,12 @@ export default {
                 privacyStatus="public"
                 key={context.uuid}
                 iconType={null}
-                onClick={f.curry(onTabClick)(nextCurrentTab)}
+                onClick={curry(onTabClick)(nextCurrentTab)}
                 href={tabUrl}
                 label={context.label}
                 active={active}
               />
-            )
+            );
           }
         })}
         {(() => {
@@ -659,15 +672,15 @@ export default {
                 privacyStatus="public"
                 key="byVocabularies"
                 iconType={null}
-                onClick={f.curry(onTabClick)(nextCurrentTab)}
+                onClick={curry(onTabClick)(nextCurrentTab)}
                 href={tabUrl}
                 label={t('meta_data_form_all_data')}
                 active={active}
               />
-            )
+            );
           }
         })()}
       </Tabs>
-    )
+    );
   }
 }

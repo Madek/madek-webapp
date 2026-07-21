@@ -1,3 +1,5 @@
+import { present } from '../../../lib/present';
+import { get, has, includes, omit } from 'lodash-es';
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -9,7 +11,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
-import f from 'active-lodash'
 import ui from '../../lib/ui.js'
 import { parse as parseUrl } from 'url'
 
@@ -19,7 +20,7 @@ const checkForAuthToken = function ({ method, authToken }) {
   if (!needsAuthToken) {
     return false
   }
-  if (!f.present(authToken)) {
+  if (!present(authToken)) {
     return new Error('No `authToken` given!')
   }
   return authToken
@@ -53,14 +54,14 @@ class RestForm extends React.Component {
   render() {
     const { name, method, authToken, children } = this.props
     const ownProps = ['name', 'method', 'authToken', 'children']
-    const restProps = f.omit(this.props, ownProps, 'mod', 'mods', 'className')
-    const queryParams = parseUrl(f.get(restProps, 'action', ''), true).query
+    const restProps = omit(this.props, ownProps, 'mod', 'mods', 'className')
+    const queryParams = parseUrl(get(restProps, 'action', ''), true).query
 
     // Rails conventions:
     // - default method='post'
     const restMethod = (method || 'post').toLowerCase()
     // - emulate the method if browsers don't support it:
-    const emulateHTTP = !f.includes(['get', 'post'], restMethod)
+    const emulateHTTP = !includes(['get', 'post'], restMethod)
     const formMethod = restMethod === 'get' ? 'get' : 'post'
     // - add CRSF token for non-GET methods
     const authTokenParam = 'authenticity_token'
@@ -77,7 +78,7 @@ class RestForm extends React.Component {
           acceptCharset: 'UTF-8'
         })}>
         <input name="utf8" type="hidden" value="✓" />
-        {f.has(queryParams, 'lang') ? (
+        {has(queryParams, 'lang') ? (
           <input name="lang" type="hidden" value={queryParams['lang']} />
         ) : undefined}
         {emulateHTTP ? <input name="_method" type="hidden" value={restMethod} /> : undefined}
@@ -86,7 +87,7 @@ class RestForm extends React.Component {
         ) : undefined}
         {children}
       </form>
-    )
+    );
   }
 }
 

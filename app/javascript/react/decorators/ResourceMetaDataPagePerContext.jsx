@@ -1,3 +1,5 @@
+import { presence, present } from '../../lib/present';
+import { each, find, get, keys, map, mapValues, set, snakeCase } from 'lodash-es';
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -6,7 +8,6 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 import React from 'react'
-import f from 'active-lodash'
 import t from '../../lib/i18n-translate.js'
 import setUrlParams from '../../lib/set-params-for-url.js'
 import { parse as parseUrl, format as formatUrl } from 'url'
@@ -58,8 +59,8 @@ class ResourceMetaDataPagePerContext extends React.Component {
     let batchDiff = {}
     if (props.batch) {
       if (props.get.batch_diff) {
-        diff = f.mapValues(props.get.meta_meta_data.meta_key_by_meta_key_id, meta_key => {
-          diff = f.find(props.get.batch_diff, { meta_key_id: meta_key.uuid })
+        diff = mapValues(props.get.meta_meta_data.meta_key_by_meta_key_id, meta_key => {
+          diff = find(props.get.batch_diff, { meta_key_id: meta_key.uuid })
           if (!diff) {
             return {
               all_equal: true,
@@ -163,19 +164,19 @@ class ResourceMetaDataPagePerContext extends React.Component {
   }
 
   _createaModelsForMetaKeys(meta_meta_data, meta_data, diff) {
-    const models = f.mapValues(meta_meta_data.meta_key_by_meta_key_id, meta_key => {
+    const models = mapValues(meta_meta_data.meta_key_by_meta_key_id, meta_key => {
       return this._createModelForMetaKey(meta_key)
     })
 
-    f.each(
+    each(
       meta_data.meta_datum_by_meta_key_id,
       (data, meta_key_id) => (models[meta_key_id].values = data.values)
     )
 
-    f.each(models, model => (model.originalValues = f.map(model.values, value => value)))
+    each(models, model => (model.originalValues = map(model.values, value => value)))
 
     if (diff) {
-      f.each(models, function (model, meta_key_id) {
+      each(models, function (model, meta_key_id) {
         if (!diff[meta_key_id].all_equal) {
           model.originalValues = []
           return (model.values = [])
@@ -268,8 +269,8 @@ class ResourceMetaDataPagePerContext extends React.Component {
         }
 
         if (res.statusCode === 400) {
-          const errors = f.presence(f.get(data, 'errors')) || {}
-          if (!f.present(errors)) {
+          const errors = presence(get(data, 'errors')) || {}
+          if (!present(errors)) {
             window.scrollTo(0, 0)
             if (this._isMounted) {
               return this.setState({
@@ -298,7 +299,7 @@ class ResourceMetaDataPagePerContext extends React.Component {
           }
         }
       }
-    )
+    );
   }
 
   // NOTE: just to be save, block *implicit* form submits
@@ -316,7 +317,7 @@ class ResourceMetaDataPagePerContext extends React.Component {
   _toggleBundle(bundleId) {
     const current = this.state.bundleState[bundleId]
     const next = !current
-    return this.setState({ bundleState: f.set(this.state.bundleState, bundleId, next) })
+    return this.setState({ bundleState: set(this.state.bundleState, bundleId, next) });
   }
 
   _batchConflictByContextKey(context_key_id) {
@@ -395,7 +396,7 @@ There are no contexts defined. Please configure them in the admin tool.\
     if (batch) {
       return batch_resource_type + '[meta_data]'
     } else {
-      return `${f.snakeCase(resource.type)}[meta_data]`
+      return `${snakeCase(resource.type)}[meta_data]`;
     }
   }
 
@@ -414,7 +415,7 @@ There are no contexts defined. Please configure them in the admin tool.\
     const { get } = param
     const { currentTab } = this.state
     const currentContext = currentTab != null ? currentTab.byContext : undefined
-    const description = f.get(get, [
+    const description = get(get, [
       'meta_meta_data',
       'contexts_by_context_id',
       currentContext,
@@ -499,7 +500,7 @@ There are no contexts defined. Please configure them in the admin tool.\
                       <div className="error ui-alert">{this.state.systemError}</div>
                     </div>
                   ) : undefined}
-                  {this.state.errors && f.keys(this.state.errors).length > 0 ? (
+                  {this.state.errors && keys(this.state.errors).length > 0 ? (
                     <div className="ui-alerts" style={{ marginBottom: '10px' }}>
                       <div className="error ui-alert">
                         {t('resource_meta_data_has_validation_errors')}
@@ -508,7 +509,7 @@ There are no contexts defined. Please configure them in the admin tool.\
                   ) : undefined}
                   <div className="form-body">
                     {this.props.batch && !get.collection_id
-                      ? f.map(get.batch_ids, id => (
+                      ? map(get.batch_ids, id => (
                           <input
                             key={id}
                             type="hidden"
@@ -593,7 +594,7 @@ There are no contexts defined. Please configure them in the admin tool.\
           </RailsForm>
         </TabContent>
       </PageContent>
-    )
+    );
   }
 }
 

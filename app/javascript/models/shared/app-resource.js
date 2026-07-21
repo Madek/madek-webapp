@@ -1,3 +1,4 @@
+import { defaults, includes, merge } from 'lodash-es';
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -6,7 +7,6 @@
  */
 import Model from 'ampersand-model'
 import xhr from 'xhr'
-import f from 'active-lodash'
 import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 import RailsResource from './rails-resource-mixin.js'
 
@@ -17,7 +17,7 @@ const customDataTypes = {
       return a === b
     },
     set(newVal) {
-      if (f.includes([true, false, 'mixed'], newVal)) {
+      if (includes([true, false, 'mixed'], newVal)) {
         return { val: newVal, type: 'trilean' }
       } else {
         return { val: newVal, type: `'${newVal}' (${typeof newVal})` }
@@ -38,12 +38,12 @@ export default Model.extend(RailsResource, {
   },
 
   save(config) {
-    return Model.prototype.save.call(this, {}, f.defaults({}, config, { wait: true }))
+    return Model.prototype.save.call(this, {}, defaults({}, config, { wait: true }));
   },
 
   // update props of type object, triggers 'change'
   merge(prop, data) {
-    return this.set(prop, f.merge(this.get(prop), data))
+    return this.set(prop, merge(this.get(prop), data));
   },
 
   // shortcut, like presenter:

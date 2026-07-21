@@ -1,5 +1,5 @@
+import { compact, flatten, includes } from 'lodash-es';
 import React from 'react'
-import f from 'active-lodash'
 import l from 'lodash'
 import BoxTitlebarRender from './BoxTitlebarRender.jsx'
 import t from '../../lib/i18n-translate.js'
@@ -32,7 +32,7 @@ class BoxTitlebar extends React.Component {
 
   getDropdownItems() {
     var currentUrl = this.props.currentUrl
-    var items = f.compact([
+    var items = compact([
       {
         label: t('collection_sorting_created_at_asc'),
         key: 'created_at ASC',
@@ -83,7 +83,7 @@ class BoxTitlebar extends React.Component {
         : null
     ])
 
-    return f.flatten(items)
+    return flatten(items);
   }
 
   getCenterDisabled() {
@@ -140,13 +140,13 @@ class BoxTitlebar extends React.Component {
   toolbarClasses() {
     var boxClasses = BoxUtil.boxClasses(this.props.mods)
 
-    if (f.includes(boxClasses, 'rounded-right')) {
+    if (includes(boxClasses, 'rounded-right')) {
       return 'rounded-top-right'
-    } else if (f.includes(boxClasses, 'rounded-left')) {
+    } else if (includes(boxClasses, 'rounded-left')) {
       return 'rounded-top-left'
-    } else if (f.includes(boxClasses, 'rounded-bottom')) {
+    } else if (includes(boxClasses, 'rounded-bottom')) {
       return null
-    } else if (f.includes(boxClasses, 'rounded')) {
+    } else if (includes(boxClasses, 'rounded')) {
       // also for 'rounded-top'…
       return 'rounded-top'
     } else {

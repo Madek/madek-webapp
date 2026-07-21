@@ -1,3 +1,4 @@
+import { cloneDeep, compact } from 'lodash-es';
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -5,7 +6,6 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 import React from 'react'
-import f from 'active-lodash'
 import libUrl from 'url'
 import { parse as parseUrl } from 'url'
 import { parse as parseQuery } from 'qs'
@@ -17,7 +17,7 @@ import ButtonGroup from '../ui-components/ButtonGroup.jsx'
 
 const resourceTypeSwitcher = function (forUrl, defaultType, showAll, onClick) {
   const currentType = qs.parse(libUrl.parse(forUrl).query).type || defaultType
-  const typeBbtns = f.compact([
+  const typeBbtns = compact([
     showAll ? { key: 'all', name: t('resources_type_all') } : undefined,
     { key: 'entries', name: t('sitemap_entries') },
     { key: 'collections', name: t('sitemap_collections') }
@@ -59,7 +59,7 @@ var urlByType = function (url, currentType, newType) {
   const currentUrl = parseUrl(url)
   const currentParams = parseQuery(currentUrl.query)
 
-  const newParams = f.cloneDeep(currentParams)
+  const newParams = cloneDeep(currentParams)
   if (newParams.list) {
     if (newParams.list.accordion) {
       newParams.list.accordion = {}

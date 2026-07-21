@@ -1,6 +1,6 @@
+import { map } from 'lodash-es';
 import React from 'react'
 import t from '../../lib/i18n-translate.js'
-import f from 'active-lodash'
 import cx from 'classnames'
 import PageHeader from '../ui-components/PageHeader.jsx'
 import PageContent from './PageContent.jsx'
@@ -18,7 +18,7 @@ class PersonEdit extends React.Component {
 
     this.state = {
       isSaving: false,
-      external_uris: f.map(external_uris, uri => decorateExternalURI(uri))
+      external_uris: map(external_uris, uri => decorateExternalURI(uri))
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -162,7 +162,7 @@ const ExternalUrisForm = props => {
           </div>
         </div>
       </div>
-      {f.map(externalUris, (uri, index) => (
+      {map(externalUris, (uri, index) => (
         <div className="row" key={index}>
           <div className="col1of2">
             <div className="ui-form-group rowed pan" style={divStyle}>
@@ -190,7 +190,7 @@ const ExternalUrisForm = props => {
         {t('person_edit_add_uri_btn')}
       </button>
     </div>
-  )
+  );
 }
 
 export default PersonEdit

@@ -1,5 +1,5 @@
+import { compact, flatten, map, reject } from 'lodash-es';
 import React from 'react'
-import f from 'active-lodash'
 import PageContent from './PageContent.jsx'
 import DashboardHeader from './DashboardHeader.jsx'
 import Sidebar from './Sidebar.jsx'
@@ -13,7 +13,7 @@ class Dashboard extends React.Component {
     const { user_dashboard } = get
     const { sections } = get
 
-    const visible_sections = f.reject(sections, { hide_from_index: true })
+    const visible_sections = reject(sections, { hide_from_index: true })
 
     return (
       <PageContent>
@@ -26,9 +26,9 @@ class Dashboard extends React.Component {
           </div>
           <div className="ui-container app-body-content table-cell table-substance">
             <div className="ui-container pal">
-              {f.flatten(
-                f.map(visible_sections, (section, index) => {
-                  return f.compact([
+              {flatten(
+                map(visible_sections, (section, index) => {
+                  return compact([
                     (() => {
                       if (section.partial === 'media_resources') {
                         return (
@@ -59,14 +59,14 @@ class Dashboard extends React.Component {
                     index < visible_sections.length - 1 ? (
                       <hr className="separator mbm" key={`separator${index}`} />
                     ) : undefined
-                  ])
+                  ]);
                 })
               )}
             </div>
           </div>
         </div>
       </PageContent>
-    )
+    );
   }
 }
 

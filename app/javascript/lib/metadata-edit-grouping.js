@@ -1,9 +1,4 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
-import f from 'active-lodash'
+import { find, findIndex, first, isEmpty, map, reject, slice, startsWith } from 'lodash-es';
 
 export default {
   // NOTE: Temporary solution for "bundling" of keys. comes from instance config.
@@ -12,30 +7,30 @@ export default {
   },
 
   _find_exact_in_bundle(meta_key_id) {
-    return f.find(this._prefixesForBundle(), prefix => meta_key_id === prefix.group)
+    return find(this._prefixesForBundle(), prefix => meta_key_id === prefix.group);
   },
 
   _diff_keys(a, b) {
-    const contains_key = (arr, key_id) => f.find(arr, ai => ai.data_id === key_id)
+    const contains_key = (arr, key_id) => find(arr, ai => ai.data_id === key_id)
 
-    return f.reject(a, ai => contains_key(b, ai.data_id))
+    return reject(a, ai => contains_key(b, ai.data_id));
   },
 
   _reject_followups(keys_to_check, bundle_key) {
-    const first_not_matching = f.findIndex(
+    const first_not_matching = findIndex(
       keys_to_check,
-      key => !f.startsWith(key.meta_key_id, bundle_key.prefix)
+      key => !startsWith(key.meta_key_id, bundle_key.prefix)
     )
 
     if (first_not_matching < 0) {
       return []
     }
 
-    return f.slice(keys_to_check, first_not_matching)
+    return slice(keys_to_check, first_not_matching);
   },
 
   _group_context_keys(context_keys) {
-    const keys = f.map(context_keys, context_key => ({
+    const keys = map(context_keys, context_key => ({
       meta_key_id: context_key.meta_key_id,
       data_id: context_key.uuid,
       data: context_key
@@ -44,7 +39,7 @@ export default {
   },
 
   _group_meta_data(meta_data) {
-    const keys = f.map(meta_data, meta_datum => ({
+    const keys = map(meta_data, meta_datum => ({
       meta_key_id: meta_datum.meta_key_id,
       data_id: meta_datum.meta_key_id,
       data: meta_datum
@@ -57,28 +52,28 @@ export default {
   },
 
   _group_keys_rec({ keys_to_check, inter_result }) {
-    if (f.isEmpty(keys_to_check)) {
+    if (isEmpty(keys_to_check)) {
       return inter_result
     } else {
-      const bundle_key = this._find_exact_in_bundle(f.first(keys_to_check).meta_key_id)
+      const bundle_key = this._find_exact_in_bundle(first(keys_to_check).meta_key_id)
 
       const rec_keys_to_check = bundle_key
-        ? this._reject_followups(f.slice(keys_to_check, 1), bundle_key)
-        : f.slice(keys_to_check, 1)
+        ? this._reject_followups(slice(keys_to_check, 1), bundle_key)
+        : slice(keys_to_check, 1)
 
       const rec_inter_result = bundle_key
         ? {
             type: 'block',
             bundle: bundle_key.group,
-            mainKey: f.first(this._diff_keys(keys_to_check, rec_keys_to_check)).data,
-            content: f.map(
-              f.slice(this._diff_keys(keys_to_check, rec_keys_to_check), 1),
+            mainKey: first(this._diff_keys(keys_to_check, rec_keys_to_check)).data,
+            content: map(
+              slice(this._diff_keys(keys_to_check, rec_keys_to_check), 1),
               entry => entry.data
             )
           }
         : {
             type: 'single',
-            content: f.first(keys_to_check).data
+            content: first(keys_to_check).data
           }
 
       return this._group_keys_rec({

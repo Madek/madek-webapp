@@ -1,5 +1,5 @@
+import { chunk, find, includes, map } from 'lodash-es';
 import React from 'react'
-import f from 'active-lodash'
 import cx from 'classnames/dedupe'
 import ActionsDropdownHelper from './resourcesbox/ActionsDropdownHelper.jsx'
 import BoxRenderResource from './BoxRenderResource.jsx'
@@ -30,7 +30,7 @@ class BoxRenderResources extends React.Component {
     const { positionProps } = this.props
 
     // fetching relations enabled by default if layout is grid + withActions + isClient
-    var fetchRelations = isClient && withActions && f.includes(['grid', 'list'], config.layout)
+    var fetchRelations = isClient && withActions && includes(['grid', 'list'], config.layout)
 
     var renderPage = (page, i) => {
       var renderItem = itemState => {
@@ -44,10 +44,10 @@ class BoxRenderResources extends React.Component {
             hoverMenuId={hoverMenuId}
             fetchRelations={fetchRelations}
             key={itemState.resource.uuid}
-            isSelected={f.find(selectedResources, sr => sr.uuid == itemState.resource.uuid)}
+            isSelected={find(selectedResources, sr => sr.uuid == itemState.resource.uuid)}
             showActions={ActionsDropdownHelper.showActionsConfig(actionsDropdownParameters)}
           />
-        )
+        );
       }
 
       var renderItems = page => {
@@ -65,7 +65,7 @@ class BoxRenderResources extends React.Component {
             isClient={isClient}
             showSelectionLimit={showSelectionLimit}
             resources={resources}
-            pageResources={f.map(page, i => i.resource)}
+            pageResources={map(page, i => i.resource)}
             selectionLimit={selectionLimit}
             pagination={pagination}
             perPage={this.props.perPage}
@@ -73,7 +73,7 @@ class BoxRenderResources extends React.Component {
             unselectResources={this.props.unselectResources}
             selectResources={this.props.selectResources}
           />
-        )
+        );
       }
 
       return (
@@ -87,9 +87,9 @@ class BoxRenderResources extends React.Component {
     var renderPages = () => {
       var pageSize = this.props.perPage
 
-      return f.chunk(resources, pageSize).map((page, i) => {
+      return chunk(resources, pageSize).map((page, i) => {
         return renderPage(page, i)
-      })
+      });
     }
 
     var getListClasses = () => {

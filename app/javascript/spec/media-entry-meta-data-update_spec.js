@@ -1,9 +1,4 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
-import f from 'active-lodash'
+import { find } from 'lodash-es';
 import MediaEntry from '../models/media-entry.js'
 
 export default function (data, callback) {
@@ -12,7 +7,7 @@ export default function (data, callback) {
   return entry.fetch({
     parse: true,
     success() {
-      const datum = f.find(entry.meta_data.models, { meta_key: { uuid: data.meta_key_id } })
+      const datum = find(entry.meta_data.models, { meta_key: { uuid: data.meta_key_id } })
 
       datum.set('literal_values', data.values)
 
@@ -26,5 +21,5 @@ export default function (data, callback) {
         }
       })
     }
-  })
+  });
 }

@@ -1,4 +1,4 @@
-import f from 'active-lodash'
+import { present } from '../../lib/present';
 import Collection from 'ampersand-rest-collection'
 import RailsResource from './rails-resource-mixin.js'
 
@@ -10,6 +10,6 @@ export default Collection.extend(RailsResource, {
 
   // instance methods:
   has(index) {
-    return f.present(this.get(index))
+    return present(this.get(index));
   }
 })

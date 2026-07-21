@@ -1,3 +1,5 @@
+import { present } from '../../lib/present';
+import { compact, each, extend, find, get, includes, isFunction, map, merge, omit } from 'lodash-es';
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -10,7 +12,6 @@ import React, { Component } from 'react'
 
 import urlModule from 'url'
 import localLinks from 'local-links'
-import f from 'active-lodash'
 import _ from 'lodash'
 import defaultsDeep from 'lodash/defaultsDeep'
 import History from 'history/lib/createBrowserHistory'
@@ -91,7 +92,7 @@ class MediaResourcesBox extends Component {
       batchEditTitleResourceIds: undefined,
       savedLayout: props.collectionData ? props.collectionData.layout : undefined,
       savedOrder: props.collectionData ? props.collectionData.order : undefined,
-      savedContextId: f.get(props, 'collectionData.defaultContextId'),
+      savedContextId: get(props, 'collectionData.defaultContextId'),
       savedResourceType:
         props.collectionData != null ? props.collectionData.defaultResourceType : undefined,
       showBatchTransferResponsibility: false,
@@ -110,13 +111,13 @@ class MediaResourcesBox extends Component {
   doOnUnmount = []
 
   componentWillUnmount() {
-    return f.each(f.compact(this.doOnUnmount), function (fn) {
-      if (f.isFunction(fn)) {
+    return each(compact(this.doOnUnmount), function (fn) {
+      if (isFunction(fn)) {
         return fn()
       } else {
         return console.error('Not a Function!', fn)
       }
-    })
+    });
   }
 
   initialBoxState = props => {
@@ -150,7 +151,7 @@ class MediaResourcesBox extends Component {
   }
 
   getResources = () => {
-    return f.map(this.state.boxState.resourceStates, r => r.resource)
+    return map(this.state.boxState.resourceStates, r => r.resource);
   }
 
   getJsonPath = () => {
@@ -226,7 +227,7 @@ class MediaResourcesBox extends Component {
   }
 
   _onFilterChange = (event, newParams) => {
-    if (event && f.isFunction(event.preventDefault)) {
+    if (event && isFunction(event.preventDefault)) {
       event.preventDefault()
     }
 
@@ -246,7 +247,7 @@ class MediaResourcesBox extends Component {
     routerGoto(href)
     this.setState(
       {
-        config: f.merge(this.state.config, { show_filter: showFilter }),
+        config: merge(this.state.config, { show_filter: showFilter }),
         windowHref: href
       },
       () => {
@@ -283,7 +284,7 @@ class MediaResourcesBox extends Component {
       }
     }
 
-    const buildFilter = () => f.merge(searchFilter(), filenameFilter())
+    const buildFilter = () => merge(searchFilter(), filenameFilter())
 
     this._onFilterChange(event, {
       list: {
@@ -311,7 +312,7 @@ class MediaResourcesBox extends Component {
     event.preventDefault()
     const selection = this.state.boxState.selectedResources
     if (
-      !f.find(selection, s => s.uuid === resource.uuid) &&
+      !find(selection, s => s.uuid === resource.uuid) &&
       selection.length > this._selectionLimit() - 1
     ) {
       this._showSelectionLimit('single-selection')
@@ -330,13 +331,13 @@ class MediaResourcesBox extends Component {
       return
     }
 
-    const currentOrder = f.get(this.state.config, 'order', this.props.collectionData.order)
+    const currentOrder = get(this.state.config, 'order', this.props.collectionData.order)
 
-    const targetOrder = f.includes(['manual ASC', 'manual DESC'], currentOrder)
+    const targetOrder = includes(['manual ASC', 'manual DESC'], currentOrder)
       ? currentOrder
       : 'manual ASC'
 
-    const newConfig = f.extend({}, this.state.config)
+    const newConfig = extend({}, this.state.config)
     const prevOrder = newConfig.order
 
     newConfig.positionChange = {
@@ -370,11 +371,11 @@ class MediaResourcesBox extends Component {
 
     return this.setState(
       {
-        config: f.merge(newConfig, { order: targetOrder }), //,
+        config: merge(newConfig, { order: targetOrder }), //,
         windowHref: href
       },
       persistPosition
-    )
+    );
   }
 
   _showSelectionLimit = version => {
@@ -417,7 +418,7 @@ class MediaResourcesBox extends Component {
 
   _sharedOnBatch = (resources, event, path) => {
     event.preventDefault()
-    const selected = f.map(resources, 'uuid')
+    const selected = map(resources, 'uuid')
 
     const html =
       `<form method="post" acceptCharset="UTF-8" action="${path}">` +
@@ -429,7 +430,7 @@ class MediaResourcesBox extends Component {
       '"></input>' +
       '<button type="button"></button>' +
       _.join(
-        f.map(selected, s => {
+        map(selected, s => {
           return `<input type="hidden" name="id[]" value="${s}"></input>`
         }),
         ''
@@ -600,7 +601,7 @@ class MediaResourcesBox extends Component {
    * Returns `props.get`, adding default data from various sources to `props.get.config`
    */
   _mergeGet = (props, state) => {
-    return f.extend(props.get, {
+    return extend(props.get, {
       config: defaultsDeep(
         // first wins!
         {},
@@ -618,7 +619,7 @@ class MediaResourcesBox extends Component {
           show_filter: false
         }
       )
-    })
+    });
   }
 
   _supportsFilesearch = () => {
@@ -639,7 +640,7 @@ class MediaResourcesBox extends Component {
     })
 
     if (resetFilterHref) {
-      if (f.present(config.filter) || f.present(config.accordion)) {
+      if (present(config.filter) || present(config.accordion)) {
         return (
           <Link mods="mlx weak" href={resetFilterHref}>
             <Icon i="undo" /> {t('resources_box_reset_filter')}
@@ -652,15 +653,15 @@ class MediaResourcesBox extends Component {
   unselectResources = resources => {
     return this.triggerRootEvent({
       action: 'unselect-resources',
-      resourceUuids: f.map(resources, r => r.uuid)
-    })
+      resourceUuids: map(resources, r => r.uuid)
+    });
   }
 
   selectResources = resources => {
     return this.triggerRootEvent({
       action: 'select-resources',
-      resourceUuids: f.map(resources, r => r.uuid)
-    })
+      resourceUuids: map(resources, r => r.uuid)
+    });
   }
 
   onSortItemClick = (event, itemKey) => {
@@ -675,7 +676,7 @@ class MediaResourcesBox extends Component {
 
     return this.setState(
       {
-        config: f.merge(this.state.config, { order: itemKey }),
+        config: merge(this.state.config, { order: itemKey }),
         windowHref: href
       },
       () => {
@@ -687,7 +688,7 @@ class MediaResourcesBox extends Component {
         this.clearAndLoadNextPage()
         return this._persistListConfig({ list_config: { order: itemKey } })
       }
-    )
+    );
   }
 
   onLayoutClick = (event, layoutMode) => {
@@ -699,7 +700,7 @@ class MediaResourcesBox extends Component {
     routerGoto(href)
     return this.setState(
       {
-        config: f.merge(this.state.config, { layout: layoutMode.mode }),
+        config: merge(this.state.config, { layout: layoutMode.mode }),
         windowHref: href
       },
       () => {
@@ -708,7 +709,7 @@ class MediaResourcesBox extends Component {
         }
         return this._persistListConfig({ list_config: { layout: layoutMode.mode } })
       }
-    )
+    );
   }
 
   layoutSave = event => {
@@ -716,8 +717,8 @@ class MediaResourcesBox extends Component {
     const { config } = this._mergeGet(this.props, this.state)
     const { layout } = config
     const { order } = config
-    const contextId = f.get(this.props, 'collectionData.contextId')
-    const typeFilter = f.get(this.props, 'collectionData.typeFilter')
+    const contextId = get(this.props, 'collectionData.contextId')
+    const typeFilter = get(this.props, 'collectionData.typeFilter')
 
     const requestBody = []
     requestBody.push(`collection[layout]=${layout}`)
@@ -758,8 +759,8 @@ class MediaResourcesBox extends Component {
 
     const { config } = get
 
-    const currentQuery = f.merge(
-      { list: f.merge(f.omit(config, 'for_url', 'user')) },
+    const currentQuery = merge(
+      { list: merge(omit(config, 'for_url', 'user')) },
       {
         list: { filter: config.filter, accordion: config.accordion }
       }
@@ -768,14 +769,14 @@ class MediaResourcesBox extends Component {
 
     const boxTitleBar = () => {
       const { layout, order } = config
-      const totalCount = f.get(get, 'pagination.total_count')
+      const totalCount = get(get, 'pagination.total_count')
 
       const layouts = BoxUtil.allowedLayoutModes(this.props.disableListMode).map(layoutMode => {
         const href = BoxSetUrlParams(currentUrl, { list: { layout: layoutMode.mode } })
-        return f.merge(layoutMode, {
+        return merge(layoutMode, {
           mods: { active: layoutMode.mode === layout },
           href
-        })
+        });
       })
 
       return (
@@ -820,7 +821,7 @@ class MediaResourcesBox extends Component {
       config,
       isClipboard: this.props.initial ? this.props.initial.is_clipboard : false,
       content_type: this.props.get.content_type,
-      showAddSetButton: f.get(this.props, 'showAddSetButton', false)
+      showAddSetButton: get(this.props, 'showAddSetButton', false)
     }
 
     const boxToolBar = () => {
@@ -861,7 +862,7 @@ class MediaResourcesBox extends Component {
             config={config}
             _onFilterToggle={this._onFilterToggle}
             filterToggleLink={filterToggleLink}
-            resetFilterLink={f.present(config.filter) ? this._resetFilterLink(config) : undefined}
+            resetFilterLink={present(config.filter) ? this._resetFilterLink(config) : undefined}
           />
         ),
 
@@ -966,7 +967,7 @@ class MediaResourcesBox extends Component {
             async={false}
             authToken={authToken}
             onClose={() => this.setState({ showCreateCollectionModal: false })}
-            newCollectionUrl={f.get(this.props, 'collectionData.newCollectionUrl')}
+            newCollectionUrl={get(this.props, 'collectionData.newCollectionUrl')}
           />
         ) : undefined}
         <div className="ui-resources-holder pam">
@@ -977,7 +978,7 @@ class MediaResourcesBox extends Component {
               {(() => {
                 if (resources.length === 0 && this.state.boxState.loadingNextPage) {
                   return <Preloader />
-                } else if (!f.present(resources) || resources.length === 0) {
+                } else if (!present(resources) || resources.length === 0) {
                   return (() => {
                     return (
                       <BoxSetFallback
@@ -992,13 +993,13 @@ class MediaResourcesBox extends Component {
                 } else {
                   const positionProps = {
                     handlePositionChange: this.handlePositionChange,
-                    changeable: f.get(this.props, 'collectionData.position_changeable', false),
+                    changeable: get(this.props, 'collectionData.position_changeable', false),
                     disabled: this.state.boxState.loadingNextPage
                   }
 
                   return (
                     <BoxRenderResources
-                      resources={f.map(this.state.boxState.resourceStates, r => r)}
+                      resources={map(this.state.boxState.resourceStates, r => r)}
                       actionsDropdownParameters={actionsDropdownParameters}
                       selectedResources={this.state.boxState.selectedResources}
                       isClient={this.state.isClient}
@@ -1016,7 +1017,7 @@ class MediaResourcesBox extends Component {
                       unselectResources={this.unselectResources}
                       selectResources={resources => this.selectResources(resources)}
                     />
-                  )
+                  );
                 }
               })()}
               {paginationNav(resources, get.pagination)}
@@ -1075,7 +1076,7 @@ class MediaResourcesBox extends Component {
           }
         })()}
       </div>
-    )
+    );
   }
 }
 

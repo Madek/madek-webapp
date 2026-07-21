@@ -1,3 +1,23 @@
+import { present } from '../../../lib/present';
+
+import {
+  clone,
+  cloneDeep,
+  compact,
+  curry,
+  extend,
+  find,
+  has,
+  isArray,
+  isEmpty,
+  isEqual,
+  isPlainObject,
+  map,
+  pick,
+  snakeCase,
+  some,
+} from 'lodash-es';
+
 /*
  * decaffeinate suggestions:
  * DS101: Remove unnecessary use of Array.from
@@ -8,7 +28,6 @@
  */
 import React from 'react'
 import PropTypes from 'prop-types'
-import f from 'active-lodash'
 import { t } from '../../lib/ui.js'
 import decorateResource from '../decorate-resource-names.js'
 import NewPersonWidget from './new-person-widget.jsx'
@@ -59,14 +78,14 @@ class InputResources extends React.Component {
   _onItemAdd = item => {
     this._adding = true
     const is_duplicate = (() => {
-      if (f.present(item.uuid)) {
+      if (present(item.uuid)) {
         return f(this.state.values).map('uuid').includes(item.uuid)
       } else {
         // check for NEW values…
         if (item.type === 'Keyword') {
           return f(this.state.values).map('term').includes(item.term)
         } else if (item.type === 'Person') {
-          return f.any(this.state.values, o => f.isEqual(o, item))
+          return some(this.state.values, o => isEqual(o, item));
         } else {
           throw new Error('Unknown Resource type!')
         }
@@ -84,27 +103,27 @@ class InputResources extends React.Component {
 
   _onRoleSave = () => {
     let item, itemIndex
-    if (!f.present(this.state.selectedRole)) {
+    if (!present(this.state.selectedRole)) {
       return
     }
 
     const newValues = this.state.values.slice(0)
-    const selectedRole = f.clone(this.state.selectedRole)
+    const selectedRole = clone(this.state.selectedRole)
 
     if (this.state.addingRole === true) {
-      if (f.has(this.state.editedItem, 'role') && !f.isEmpty(this.state.editedItem.role)) {
-        item = f.cloneDeep(this.state.editedItem)
+      if (has(this.state.editedItem, 'role') && !isEmpty(this.state.editedItem.role)) {
+        item = cloneDeep(this.state.editedItem)
         item.role = selectedRole
         newValues.push(item)
       } else {
         itemIndex = this.state.editedItemIndex
-        item = f.cloneDeep(this.state.values[itemIndex])
+        item = cloneDeep(this.state.values[itemIndex])
         item.role = selectedRole
         newValues[itemIndex] = item
       }
     } else if (this.state.editedRole) {
       ;({ itemIndex } = this.state.editedRole)
-      item = f.cloneDeep(this.state.values[itemIndex])
+      item = cloneDeep(this.state.values[itemIndex])
       item.role = selectedRole
       newValues[itemIndex] = item
     }
@@ -128,7 +147,7 @@ class InputResources extends React.Component {
   }
 
   _onNewPerson = obj => {
-    return this._onItemAdd(f.extend(obj, { type: 'Person', isNew: true }))
+    return this._onItemAdd(extend(obj, { type: 'Person', isNew: true }));
   }
 
   _onItemRemove = (itemIndex, _event) => {
@@ -173,7 +192,7 @@ class InputResources extends React.Component {
   _onNewRole = label => {
     const { roles } = this.state
     // assign existing if one by the same name already exists
-    let r = f.find(roles, x => x.label === label)
+    let r = find(roles, x => x.label === label)
     if (r) {
       this.setState({ selectedRole: r })
     } else {
@@ -211,8 +230,8 @@ class InputResources extends React.Component {
     if ((previousItem = this.state.values[itemIndex - 1])) {
       const editedItem = this.state.values[itemIndex]
       const newValues = this.state.values.slice(0)
-      newValues[itemIndex - 1] = f.cloneDeep(editedItem)
-      newValues[itemIndex] = f.cloneDeep(previousItem)
+      newValues[itemIndex - 1] = cloneDeep(editedItem)
+      newValues[itemIndex] = cloneDeep(previousItem)
       this.setState({ values: newValues })
 
       if (this.props.onChange) {
@@ -228,8 +247,8 @@ class InputResources extends React.Component {
     if ((nextItem = this.state.values[itemIndex + 1])) {
       const editedItem = this.state.values[itemIndex]
       const newValues = this.state.values.slice(0)
-      newValues[itemIndex + 1] = f.cloneDeep(editedItem)
-      newValues[itemIndex] = f.cloneDeep(nextItem)
+      newValues[itemIndex + 1] = cloneDeep(editedItem)
+      newValues[itemIndex] = cloneDeep(nextItem)
       this.setState({ values: newValues })
 
       if (this.props.onChange) {
@@ -254,7 +273,7 @@ class InputResources extends React.Component {
       autoCompleteSuggestionRenderer
     } = this.props
 
-    values = f.compact(this.state.values || values)
+    values = compact(this.state.values || values)
     const { selectedRole, roles } = this.state
 
     // NOTE: this is only supposed to be used client side,
@@ -268,8 +287,8 @@ class InputResources extends React.Component {
         <div className="multi-select">
           <ul className="multi-select-holder">
             {!withRoles &&
-              f.map(values, (item, i) => {
-                const remover = f.curry(_onItemRemove)(i)
+              map(values, (item, i) => {
+                const remover = curry(_onItemRemove)(i)
                 const style = item.isNew ? { fontStyle: 'italic' } : {}
                 return (
                   <li
@@ -288,7 +307,7 @@ class InputResources extends React.Component {
                 )
               })}
             {(() => {
-              if (multiple || f.isEmpty(values)) {
+              if (multiple || isEmpty(values)) {
                 // allow adding *new* keywords:
                 let addNewValue
                 if (extensible && resourceType === 'Keywords') {
@@ -306,7 +325,7 @@ class InputResources extends React.Component {
                         onSelect={_onItemAdd}
                         config={autocompleteConfig}
                         existingValues={() =>
-                          f.map(this.state.values, resourceType === 'People' ? 'uuid' : 'label')
+                          map(this.state.values, resourceType === 'People' ? 'uuid' : 'label')
                         }
                         valueGetter={resourceType === 'People' ? x => x.uuid : undefined}
                         onAddValue={addNewValue}
@@ -317,18 +336,18 @@ class InputResources extends React.Component {
                     </li>
                     {resourceType === 'People' ? (
                       <NewPersonWidget
-                        id={`${f.snakeCase(name)}_new_person`}
+                        id={`${snakeCase(name)}_new_person`}
                         allowedTypes={allowedTypes}
                         onAddValue={_onNewPerson}
                       />
                     ) : undefined}
                     {(() => {
-                      if (withRoles && f.present(this.state.editedItem)) {
+                      if (withRoles && present(this.state.editedItem)) {
                         const { _onRoleSelect, _onNewRole } = this
                         return (
                           <div className="multi-select mts">
                             <label className="form-label pvs phn">
-                              {f.present(this.state.editedRole)
+                              {present(this.state.editedRole)
                                 ? t('meta_data_role_edit_heading')
                                 : t('meta_data_role_add_heading')}
                               <strong> {decorateResource(this.state.editedItem, false)}</strong>
@@ -380,7 +399,7 @@ class InputResources extends React.Component {
                               </button>
                             </div>
                           </div>
-                        )
+                        );
                       }
                     })()}
                     {withRoles ? (
@@ -394,7 +413,7 @@ class InputResources extends React.Component {
                                   <strong className="mrs">{i + 1}.</strong>
                                   {decorateResource(item)}
                                   {(() => {
-                                    if (f.present(item.role)) {
+                                    if (present(item.role)) {
                                       ;({ role } = item)
                                       return (
                                         <span
@@ -419,7 +438,7 @@ class InputResources extends React.Component {
                                   })()}
                                 </td>
                                 <td style={{ width: '160px' }} className="pvs by-center">
-                                  {f.present(item.role) ? (
+                                  {present(item.role) ? (
                                     <a
                                       href="#"
                                       onClick={e => this._onRoleAdd(i, e)}
@@ -427,7 +446,7 @@ class InputResources extends React.Component {
                                       + {t('meta_data_role_add_another_btn')}
                                     </a>
                                   ) : undefined}
-                                  {!f.present(item.role) ? (
+                                  {!present(item.role) ? (
                                     <a
                                       href="#"
                                       onClick={e => this._onRoleAdd(i, e)}
@@ -460,48 +479,48 @@ class InputResources extends React.Component {
                                   </a>
                                 </td>
                               </tr>
-                            )
+                            );
                           })}
                         </tbody>
                       </table>
                     ) : undefined}
                   </div>
-                )
+                );
               }
             })()}
           </ul>
         </div>
-        {f.map(f(values).presence() || [''], function (item) {
+        {map(f(values).presence() || [''], function (item) {
           // persisted resources have and only need a uuid (as string)
           const keyValuePairs = (() => {
-            if (item.uuid && !f.has(item, 'role')) {
+            if (item.uuid && !has(item, 'role')) {
               return [[name, item.uuid]]
 
               // new resources are sent as on object (with all the attributes)
             } else if (item.type === 'Keyword') {
               return [[name + '[term]', item.term]]
             } else if (item.type === 'Person') {
-              const newItem = item.isNew ? item : f.pick(item, ['uuid', 'role'])
+              const newItem = item.isNew ? item : pick(item, ['uuid', 'role'])
               return f(newItem)
                 .omit(['type', 'isNew'])
                 .map(function (val, key) {
                   // pairs; build keys; clean & stringify values:
-                  if (f.isArray(val)) {
+                  if (isArray(val)) {
                     val = val.map(v => v.id).join(',')
                   }
                   if (key === 'role' && !val.id && val.label) {
                     return [`${name}[${key}][term]`, val.label]
                   } else {
-                    if (f.isPlainObject(val) && f.has(val, 'id')) {
+                    if (isPlainObject(val) && has(val, 'id')) {
                       val = val.id
                     }
-                    if (f.present(val)) {
+                    if (present(val)) {
                       return [`${name}[${key}]`, val + '']
                     }
                   }
                 })
                 .compact()
-                .value()
+                .value();
 
               // normal text fields are always just values:
             } else {
@@ -519,7 +538,7 @@ class InputResources extends React.Component {
                 defaultValue="_start"
               />
             ) : undefined,
-            f.map(keyValuePairs, function (item) {
+            map(keyValuePairs, function (item) {
               const [fieldName, value] = Array.from(item)
               return (
                 <input
@@ -530,11 +549,11 @@ class InputResources extends React.Component {
                 />
               )
             })
-          ]
+          ];
         })}
         {this.props.subForms}
       </div>
-    )
+    );
   }
 }
 

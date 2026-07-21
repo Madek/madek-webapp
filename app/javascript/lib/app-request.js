@@ -1,3 +1,14 @@
+import {
+  includes,
+  isEmpty,
+  isFunction,
+  isNumber,
+  isObject,
+  isString,
+  map,
+  merge,
+  omit,
+} from 'lodash-es';
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -13,31 +24,30 @@
 
 import xhr from 'xhr'
 import asyncRetry from 'async/retry'
-import f from 'active-lodash'
 import setParamsForUrl from './set-params-for-url.js'
 import getRailsCSRFToken from './rails-csrf-token.js'
 
 // merge headers regardless of casing ('Content-Type' vs. 'content-type')
 const mergeHeaders = arrayOfHeaders =>
   arrayOfHeaders
-    .map(headers => f.object(f.map(headers, (v, k) => [k.toLowerCase(), v])))
-    .reduce((headers, res) => f.merge(res, headers), {})
+    .map(headers => Object.fromEntries(map(headers, (v, k) => [k.toLowerCase(), v])))
+    .reduce((headers, res) => merge(res, headers), {})
 
 export default function (config, callback) {
   let csrfHeader, sparsedUrl
-  if (!f.isObject(config)) {
+  if (!isObject(config)) {
     throw new TypeError('No config!')
   }
-  if (!f.isString(config.url) || f.isEmpty(config.url)) {
+  if (!isString(config.url) || isEmpty(config.url)) {
     throw new TypeError('No URL!')
   }
-  if (!f.isFunction(callback)) {
+  if (!isFunction(callback)) {
     throw new TypeError('No callback!')
   }
-  if (config.retries && !f.isNumber(config.retries)) {
+  if (config.retries && !isNumber(config.retries)) {
     throw new TypeError('Not a number!')
   }
-  if (config.delay && !f.isNumber(config.delay)) {
+  if (config.delay && !isNumber(config.delay)) {
     throw new TypeError('Not a number!')
   }
 
@@ -45,12 +55,12 @@ export default function (config, callback) {
   const jsonDefaultHeader = { Accept: 'application/json' }
 
   // CSRF
-  if (config.method && !f.includes(['GET', 'HEAD'], config.method)) {
+  if (config.method && !includes(['GET', 'HEAD'], config.method)) {
     csrfHeader = { 'X-CSRF-Token': getRailsCSRFToken() }
   }
 
   // sparse
-  if (!f.isEmpty(config.sparse)) {
+  if (!isEmpty(config.sparse)) {
     sparsedUrl = {
       url: setParamsForUrl(config.url, { ___sparse: config.sparse }),
       sparse: null
@@ -58,8 +68,8 @@ export default function (config, callback) {
   }
 
   // build config & run
-  const requestConfig = f.merge(
-    f.omit(config, ['headers', 'sparse', 'retries']),
+  const requestConfig = merge(
+    omit(config, ['headers', 'sparse', 'retries']),
     { headers: mergeHeaders([config.headers, jsonDefaultHeader, csrfHeader]) },
     sparsedUrl
   )
@@ -69,7 +79,7 @@ export default function (config, callback) {
       // handle HTTP errors
       if (!err && res.statusCode >= 400) {
         let msg = `Error ${res.statusCode}!`
-        if (!f.isEmpty(res.body)) {
+        if (!isEmpty(res.body)) {
           msg = `${err}\n\n${res.body}`
         }
         err = new Error(msg)
@@ -77,7 +87,7 @@ export default function (config, callback) {
 
       // handle JSON from response
       const bodyIsStringAndShouldBeJSON =
-        f.isString(body) && f.includes(res.headers['content-type'], 'application/json')
+        isString(body) && includes(res.headers['content-type'], 'application/json')
       if (!err && bodyIsStringAndShouldBeJSON) {
         try {
           body = JSON.parse(body)
