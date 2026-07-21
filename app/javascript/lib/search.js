@@ -1,4 +1,4 @@
-import f from 'active-lodash'
+import { assign, filter, isEmpty } from 'lodash-es';
 import { t } from '../react/lib/ui.js'
 import { createRemoteSource } from './remote-search.js'
 
@@ -38,16 +38,16 @@ export default function (resourceType, parameters = null, localData) {
   if ((baseConfig = resourcesConfig[resourceType]) == null) {
     throw new Error(`Search: Unknown resourceType: ${resourceType}!`)
   }
-  const missing = f.select(baseConfig.params, key =>
-    f.isEmpty(parameters != null ? parameters[key] : undefined)
+  const missing = filter(baseConfig.params, key =>
+    isEmpty(parameters != null ? parameters[key] : undefined)
   )
-  if (!f.isEmpty(missing)) {
+  if (!isEmpty(missing)) {
     throw new Error(`Search: ${resourceType}: missing parameters: ${missing}!`)
   }
 
   const searchUrl = buildSearchUrl(
     baseConfig.url,
-    f.assign({ search_term: '__QUERY__' }, parameters, langQueryParam())
+    assign({ search_term: '__QUERY__' }, parameters, langQueryParam())
   )
 
   const source = createRemoteSource(searchUrl, {

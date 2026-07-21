@@ -1,5 +1,5 @@
 import React from 'react'
-import f from 'lodash'
+import { get as _get } from 'lodash-es'
 import { ConfidentialLinkHead, ConfidentialLinkRow } from './ConfidentialLinks.jsx'
 import ui from '../../lib/ui.js'
 import UI from '../../ui-components/index.js'
@@ -9,8 +9,8 @@ const t = ui.t
 class ConfidentialLinkCreated extends React.Component {
   render(props = this.props) {
     const { get } = props
-    const justCreated = f.get(get, 'just_created', false)
-    const indexAction = f.get(get, 'actions.index.url')
+    const justCreated = _get(get, 'just_created', false)
+    const indexAction = _get(get, 'actions.index.url')
     const title = justCreated
       ? t('confidential_links_created_title')
       : t('confidential_links_show_title')

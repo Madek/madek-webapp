@@ -1,5 +1,5 @@
+import { filter, get, map, set } from 'lodash-es';
 import React, { Component } from 'react'
-import f from 'active-lodash'
 import cx from 'classnames'
 import t from '../../../lib/i18n-translate.js'
 import TypeaheadInput from '../../lib/typeahead-input.jsx'
@@ -27,7 +27,7 @@ export default class PersonFilter extends Component {
       }
     } = this
 
-    const selection = f.filter(staticItems, 'selected')
+    const selection = filter(staticItems, 'selected')
     const clear = (selected, event) => {
       event.preventDefault()
       onClear(selected)
@@ -44,8 +44,7 @@ export default class PersonFilter extends Component {
             <strong>{t('dynamic_filters_person_header')}</strong>
           </li>
         )}
-
-        {f.map(selection, selected => (
+        {map(selection, selected => (
           <li
             key={'uuid_' + selected.uuid}
             className={cx('ui-side-filter-lvl3-item', { active: true })}>
@@ -55,7 +54,6 @@ export default class PersonFilter extends Component {
             </a>
           </li>
         ))}
-
         <li key="input" className={cx('ui-side-filter-lvl3-item', { mtx: selection.length > 0 })}>
           <TypeaheadInput
             source={source}
@@ -93,7 +91,7 @@ export default class PersonFilter extends Component {
           />
         </li>
       </ul>
-    )
+    );
   }
 }
 
@@ -105,15 +103,15 @@ function getStaticSource(staticItems) {
   return (term, callback) => {
     const isMatch =
       term.length === 0 ? () => true : u => u.label.toLowerCase().includes(term.toLowerCase())
-    callback(f.filter(staticItems, user => !user.selected && isMatch(user)))
-  }
+    callback(filter(staticItems, user => !user.selected && isMatch(user)))
+  };
 }
 
 function getRemoteSource(staticItems, contextKeyId, jsonPath) {
   const getUrl = () => {
     const url = new URL(location.href)
     url.searchParams.set('list[sparse_filter]', 'true')
-    url.searchParams.set('___sparse', JSON.stringify(f.set({}, jsonPath, {})))
+    url.searchParams.set('___sparse', JSON.stringify(set({}, jsonPath, {})))
     url.searchParams.set('context_key_id', contextKeyId)
     url.searchParams.set('search_term', '__SEARCH_TERM__')
     return url.href
@@ -128,7 +126,7 @@ function getRemoteSource(staticItems, contextKeyId, jsonPath) {
         wildcard: '__SEARCH_TERM__',
         local: staticItems.map(x => ({ ...x, tooManyHits: true, local: true })),
         transform: data => {
-          const contextKeys = f.get(data, jsonPath)
+          const contextKeys = get(data, jsonPath)
           if (!contextKeys) return []
           const flat = contextKeys.flatMap(x => x.children)
           if (flat.length === 0) return []
@@ -155,5 +153,5 @@ function getRemoteSource(staticItems, contextKeyId, jsonPath) {
     } else {
       _remoteSource(query, callback)
     }
-  }
+  };
 }

@@ -5,7 +5,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
  */
 import React from 'react'
-import f from 'lodash'
+import { each, includes, map, pull } from 'lodash-es'
 import t from '../../lib/i18n-translate.js'
 import RailsForm from '../lib/forms/rails-form.jsx'
 import cx from 'classnames'
@@ -18,11 +18,11 @@ class GroupSearch extends React.Component {
       mounted: false,
       loading: false,
       data: {
-        initialUserIdList: f.map(this.props.get.members, 'uuid'),
-        userIdList: f.map(this.props.get.members, 'uuid'),
+        initialUserIdList: map(this.props.get.members, 'uuid'),
+        userIdList: map(this.props.get.members, 'uuid'),
         users: (() => {
           const result = {}
-          f.each(
+          each(
             this.props.get.members,
             member =>
               (result[member.uuid] = {
@@ -52,7 +52,7 @@ class GroupSearch extends React.Component {
     }
 
     const { data } = this.state
-    if (!f.includes(data.userIdList, user.id)) {
+    if (!includes(data.userIdList, user.id)) {
       data.userIdList.push(user.id)
       data.users[user.id] = user
     }
@@ -62,7 +62,7 @@ class GroupSearch extends React.Component {
   _onRemove = userId => {
     const { data } = this.state
     data.users[userId].checked = false
-    f.pull(data.userIdList, userId)
+    pull(data.userIdList, userId)
     return this.setState({})
   }
 
@@ -85,7 +85,7 @@ class GroupSearch extends React.Component {
             />
           </div>
           <div className="ui-form-group rowed">
-            {f.map(this.state.data.initialUserIdList, userId => (
+            {map(this.state.data.initialUserIdList, userId => (
               <input
                 key={`hidden_false_${userId}`}
                 type="hidden"
@@ -93,7 +93,7 @@ class GroupSearch extends React.Component {
                 value={false}
               />
             ))}
-            {f.map(this.state.data.userIdList, userId => (
+            {map(this.state.data.userIdList, userId => (
               <input
                 key={`hidden_true_${userId}`}
                 type="hidden"
@@ -111,7 +111,7 @@ class GroupSearch extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                {f.map(this.state.data.userIdList, userId => {
+                {map(this.state.data.userIdList, userId => {
                   const user = this.state.data.users[userId]
                   return (
                     <MemberRow
@@ -137,7 +137,7 @@ class GroupSearch extends React.Component {
               </div>
             ) : undefined}
           </div>
-          {!f.includes(this.state.data.userIdList, get.current_user_id) ? (
+          {!includes(this.state.data.userIdList, get.current_user_id) ? (
             <div className="form-head">
               <div className="ui-alerts">
                 <div className="ui-alert warning">{t('group_edit_hint_remove_yourself')}</div>

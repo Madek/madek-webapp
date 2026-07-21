@@ -1,9 +1,5 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/master/docs/suggestions.md
- */
-import f from 'active-lodash'
+import { present } from '../../../lib/present';
+import { filter, first, isEmpty } from 'lodash-es';
 import SelectionScope from '../../../lib/selection-scope.js'
 
 const showActionsConfig = function (parameters) {
@@ -22,7 +18,7 @@ const showActionsConfig = function (parameters) {
         managePermissionsSets: !draftsView && selection ? true : undefined,
         save: isClient && saveable ? true : undefined,
         removeFromSet:
-          !isClipboard && selection && f.present(collectionData) && !draftsView ? true : undefined,
+          !isClipboard && selection && present(collectionData) && !draftsView ? true : undefined,
         transferResponsibility: !draftsView && selection ? true : undefined,
         transferResponsibilitySets: !draftsView && selection ? true : undefined
       }
@@ -163,8 +159,8 @@ const highlightingRules = function (item, isSelected) {
 }
 
 const isResourceNotInScope = function (item, isSelected, hoverMenuId) {
-  const found_rules = f.filter(highlightingRules(item, isSelected), { hoverMenuId })
-  return !f.isEmpty(found_rules) && f.first(found_rules).rule() === true
+  const found_rules = filter(highlightingRules(item, isSelected), { hoverMenuId })
+  return !isEmpty(found_rules) && first(found_rules).rule() === true;
 }
 
 const ActionsDropdownHelper = {

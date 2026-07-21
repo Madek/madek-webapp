@@ -1,3 +1,5 @@
+import { present } from '../../lib/present';
+import { get } from 'lodash-es';
 // Proof of Concept: AsyncView - only works for my/dashboard!
 // Tries to fetch the props needed to display the component before rendering it.
 // If it fails, a retry icon is shown, with a fallback link
@@ -5,7 +7,6 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import f from 'active-lodash'
 import appRequest from '../../lib/app-request.js'
 import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 import SuperBoxDashboard from '../decorators/SuperBoxDashboard.jsx'
@@ -73,11 +74,11 @@ class AsyncDashboardSection extends React.Component {
         }
         // this mirros what the react ui_helper does in Rails:
         const props = this.props.initial_props
-        props.get = this.props.json_path ? f.get(data, this.props.json_path) : data
+        props.get = this.props.json_path ? get(data, this.props.json_path) : data
         props.authToken = getRailsCSRFToken()
         return callback(null, props)
       }
-    ))
+    ));
   }
 
   componentWillUnmount() {
@@ -103,7 +104,7 @@ class AsyncDashboardSection extends React.Component {
               <Preloader />
             </div>
           </div>
-        ) : f.present(this.state.fetchedProps) ? (
+        ) : present(this.state.fetchedProps) ? (
           <SuperBoxDashboard
             authToken={this.state.fetchedProps.authToken}
             resources={this.state.fetchedProps.get.resources}
@@ -118,7 +119,7 @@ class AsyncDashboardSection extends React.Component {
           </div>
         )}
       </div>
-    )
+    );
   }
 }
 

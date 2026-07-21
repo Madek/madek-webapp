@@ -1,10 +1,10 @@
+import { merge } from 'lodash-es';
 // View for Batch-Editing Resource Permissions
 // Differences between the supported classes (Entry, Collection)
 // are handled in the models, so there is only 1 view for all of them.
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import f from 'active-lodash'
 import { t } from '../../lib/ui.js'
 import BatchMediaEntryPermissions from '../../../models/batch/batch-media-entry-permissions.js'
 import BatchCollectionPermissions from '../../../models/batch/batch-collection-permissions.js'
@@ -82,7 +82,7 @@ class BatchResourcePermissions extends React.Component {
       {
         url: this.props.get.actions.save.url,
         method: this.props.get.actions.save.method,
-        json: f.merge(this.state.model.serialize(), {
+        json: merge(this.state.model.serialize(), {
           return_to: this.props.get.actions.cancel.url
         }),
         headers: { 'X-CSRF-Token': this.props.authToken }
@@ -95,7 +95,7 @@ class BatchResourcePermissions extends React.Component {
           return (window.location = body.forward_url)
         }
       }
-    )
+    );
   }
 
   _onCancel = event => {

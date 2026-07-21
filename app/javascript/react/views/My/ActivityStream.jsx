@@ -1,5 +1,5 @@
 import React from 'react'
-import f from 'lodash'
+import { compact, concat, flattenDeep, get, isEmpty, last, reduce, sortBy } from 'lodash-es'
 import setUrlParams from '../../../lib/set-params-for-url.js'
 import AppRequest from '../../../lib/app-request.js'
 import asyncWhile from 'async/whilst'
@@ -37,7 +37,7 @@ class MyTimeline extends React.Component {
     this.setState({ isClient: true })
 
     // if the stream is already empty, otherwise set signal to start fetching
-    if (f.isEmpty(this.state.stream)) {
+    if (isEmpty(this.state.stream)) {
       return
     } else {
       this.setState({ shouldFetchPast: true })
@@ -130,34 +130,32 @@ const parseStreamInfo = get => {
 
 // extract items from sections and sort by moment
 const combineActivityLists = obj =>
-  f
-    .chain(SECTIONS)
-    .map(s => obj[s])
-    .flattenDeep()
-    .compact()
-    .map(i => ({ ...i, date: Moment(new Date(i.date)) }))
-    .sortBy('date')
-    .reverse()
-    .value()
+  sortBy(
+    compact(flattenDeep(SECTIONS.map(s => obj[s]))).map(i => ({
+      ...i,
+      date: Moment(new Date(i.date))
+    })),
+    'date'
+  ).reverse()
 
 // group several items if the "belong together"
 const combineActivityItems = list => {
-  return f.reduce(
+  return reduce(
     list,
     (result, item) => {
       const prevGroup = result.slice(-1)[0]
       const prevResults = result.slice(0, -1)
 
-      const prevType = f.get(prevGroup, [0, 'type'])
-      const isSameType = !!prevType && prevType === f.get(item, 'type')
+      const prevType = get(prevGroup, [0, 'type'])
+      const isSameType = !!prevType && prevType === get(item, 'type')
 
       // NOTE: for object two empties are not considered equal, but are for subject
-      const prevObject = f.get(prevGroup, [0, 'object'])
-      const isSameObject = !!prevObject && prevObject.url === f.get(item, ['object', 'url'])
-      const isSameObjectType = !!prevObject && prevObject.type === f.get(item, ['object', 'type'])
+      const prevObject = get(prevGroup, [0, 'object'])
+      const isSameObject = !!prevObject && prevObject.url === get(item, ['object', 'url'])
+      const isSameObjectType = !!prevObject && prevObject.type === get(item, ['object', 'type'])
 
-      const prevSubjectUrl = f.get(prevGroup, [0, 'subject', 'url'])
-      const isSameSubject = prevSubjectUrl === f.get(item, ['subject', 'url'])
+      const prevSubjectUrl = get(prevGroup, [0, 'subject', 'url'])
+      const isSameSubject = prevSubjectUrl === get(item, ['subject', 'url'])
 
       // same type and object: only add moreDates to existing item
       if (isSameType && isSameObject) {
@@ -167,14 +165,14 @@ const combineActivityItems = list => {
 
       // same type: group IF close in times, AND same subject, AND same object type
       if (isSameType && isSameSubject && isSameObjectType) {
-        const earliestDate = f.last(prevGroup[0].moreDates) || prevGroup[0].date
+        const earliestDate = last(prevGroup[0].moreDates) || prevGroup[0].date
         if (isCloseInterval({ from: item.date, to: earliestDate })) {
           return prevResults.concat([prevGroup.concat(item)])
         }
       }
 
       // default: new group with item
-      return f.concat(result, [[item]])
+      return concat(result, [[item]])
     },
     []
   )

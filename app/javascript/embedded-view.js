@@ -5,7 +5,7 @@
 // # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 // local requires
-const present = require('active-lodash').present
+const { present } = require('./lib/present.js')
 const React = require('react')
 const ReactDOM = require('react-dom')
 const MediaEntryEmbedded = require('./react/views/MediaEntry/MediaEntryEmbedded.jsx').default

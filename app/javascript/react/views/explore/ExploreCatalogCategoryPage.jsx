@@ -1,6 +1,6 @@
 import React from 'react'
 import t from '../../../lib/i18n-translate.js'
-import f from 'lodash'
+import { cloneDeep, compact, concat, flatten, isEmpty, last, map } from 'lodash-es'
 import cx from 'classnames'
 import UI from '../../ui-components/index.js'
 import Preloader from '../../ui-components/Preloader.jsx'
@@ -18,11 +18,11 @@ class ExploreCatalogCategoryPage extends React.Component {
   }
 
   _initialMetaKeyValuePage() {
-    return f.cloneDeep(this.props.get.meta_key_values)
+    return cloneDeep(this.props.get.meta_key_values)
   }
 
   _lastPage() {
-    return f.last(this.state.metaKeyValuePages)
+    return last(this.state.metaKeyValuePages)
   }
 
   _tryLoadNext = () => {
@@ -59,7 +59,7 @@ class ExploreCatalogCategoryPage extends React.Component {
       (result, data) => {
         if (result === 'success') {
           this.setState({
-            metaKeyValuePages: f.concat(this.state.metaKeyValuePages, data.meta_key_values)
+            metaKeyValuePages: concat(this.state.metaKeyValuePages, data.meta_key_values)
           })
         }
 
@@ -120,11 +120,11 @@ class ExploreCatalogCategoryPage extends React.Component {
         <div className="app-body-ui-container pts context-home">
           <h1 className="title-xl mtl mbm">{get.catalog_title + ' / ' + get.title}</h1>
           <div className="ui-resources-holder pal">
-            {f.compact(
-              f.map(
-                f.flatten(f.map(this.state.metaKeyValuePages, page => page.values)),
+            {compact(
+              map(
+                flatten(map(this.state.metaKeyValuePages, page => page.values)),
                 keyword => {
-                  if (f.isEmpty(keyword.media_entries)) {
+                  if (isEmpty(keyword.media_entries)) {
                     return null
                   }
 
@@ -154,14 +154,14 @@ class ExploreCatalogCategoryPage extends React.Component {
 
 const MediaResourcesLine = function (param) {
   const { keyword } = param
-  const resources = f.map(keyword.media_entries, 'sparse_props')
+  const resources = map(keyword.media_entries, 'sparse_props')
 
   return (
     <div className="ui-container rounded-right pbm" key={keyword.uuid}>
       <div className="ui-container rounded-right">
         <div className="ui-featured-entries small active">
           <ul className="ui-featured-entries-list">
-            {f.map(resources, ({ uuid, url, browse_url, image_url, media_type }) => (
+            {map(resources, ({ uuid, url, browse_url, image_url, media_type }) => (
               <li key={keyword.uuid + '_' + uuid} className="ui-featured-entries-item">
                 <a
                   className={cx('ui-featured-entry', {

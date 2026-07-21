@@ -1,5 +1,5 @@
+import { kebabCase, map } from 'lodash-es';
 import React from 'react'
-import f from 'active-lodash'
 import cx from 'classnames'
 import t from '../../../lib/i18n-translate.js'
 import ResourceThumbnail from '../../decorators/ResourceThumbnail.jsx'
@@ -8,7 +8,7 @@ import { parse as parseUrl, format as buildUrl } from 'url'
 class Relations extends React.Component {
   render() {
     const { authToken, get } = this.props
-    const typeKebab = f.kebabCase(get.type).replace('-', '_')
+    const typeKebab = kebabCase(get.type).replace('-', '_')
 
     const parentCount = get.relations.parent_collections.pagination.total_count
     const siblingCount = get.relations.sibling_collections.pagination.total_count
@@ -41,7 +41,7 @@ class Relations extends React.Component {
                   </div>
                 </div>
               ) : undefined}
-              {f.map(get.relations.parent_collections.resources, resource => (
+              {map(get.relations.parent_collections.resources, resource => (
                 <ResourceThumbnail
                   key={resource.uuid}
                   authToken={authToken}
@@ -102,7 +102,7 @@ class Relations extends React.Component {
                     </div>
                   </div>
                 ) : undefined}
-                {f.map(get.relations.sibling_collections.resources, resource => (
+                {map(get.relations.sibling_collections.resources, resource => (
                   <ResourceThumbnail
                     key={resource.uuid}
                     authToken={authToken}
@@ -146,7 +146,7 @@ class Relations extends React.Component {
                         </div>
                       </div>
                     ) : undefined}
-                    {f.map(get.relations.child_collections.resources, resource => (
+                    {map(get.relations.child_collections.resources, resource => (
                       <ResourceThumbnail
                         key={resource.uuid}
                         authToken={authToken}
@@ -158,11 +158,11 @@ class Relations extends React.Component {
                   </ul>
                 </div>
               </div>
-            )
+            );
           }
         })()}
       </div>
-    )
+    );
   }
 }
 

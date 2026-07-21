@@ -1,5 +1,6 @@
+import { presence } from '../../lib/present';
+import { map } from 'lodash-es';
 import React from 'react'
-import f from 'active-lodash'
 import t from '../../lib/i18n-translate.js'
 import SelectCollectionDialog from '../views/Collection/SelectCollectionDialog.jsx'
 import Button from '../ui-components/Button.jsx'
@@ -129,7 +130,7 @@ export default class BatchAddToSet extends React.Component {
             value={this.state.searchTerm}
             onChange={this._onChange}
           />
-          {f.map(this.props.get.resource_ids, resource_id => [
+          {map(this.props.get.resource_ids, resource_id => [
             <input
               key={`resource_id_${resource_id.uuid}`}
               type="hidden"
@@ -181,7 +182,7 @@ export default class BatchAddToSet extends React.Component {
       _content.push(
         <ol key="content2" className="ui-set-list pbs">
           <input type="hidden" name="return_to" value={this.state.get.return_to} />
-          {f.map(this.props.get.resource_ids, resource_id => [
+          {map(this.props.get.resource_ids, resource_id => [
             <input
               key={`resource_id_${resource_id.uuid}`}
               type="hidden"
@@ -196,7 +197,7 @@ export default class BatchAddToSet extends React.Component {
             />
           ])}
           {hasNew
-            ? f.map(this.state.newSets, (row, index) => (
+            ? map(this.state.newSets, (row, index) => (
                 <li
                   style={{ paddingLeft: '60px', paddingRight: '200px' }}
                   key={`new_${index}`}
@@ -223,7 +224,7 @@ Neues Set erstellen und Einträge hinzufügen\
             if (this.state.searching) {
               return <Preloader style={{ marginTop: '20px' }} />
             } else if (hasResultEntries) {
-              return f.map(get.search_results.collections, collection => (
+              return map(get.search_results.collections, collection => (
                 <li
                   style={{ paddingLeft: '60px', paddingRight: '200px' }}
                   key={collection.uuid}
@@ -245,7 +246,7 @@ Neues Set erstellen und Einträge hinzufügen\
 Zu diesem hinzufügen\
 `}</Button>
                 </li>
-              ))
+              ));
             }
           })()}
         </ol>
@@ -260,7 +261,7 @@ Zu diesem hinzufügen\
       )
     }
 
-    if (!hasResultEntries && f.presence(get.search_term) && !this.state.searching) {
+    if (!hasResultEntries && presence(get.search_term) && !this.state.searching) {
       _content.push(
         <h3 key="content3" className="by-center title-m">
           {t('resource_select_collection_non_found')}
@@ -268,7 +269,7 @@ Zu diesem hinzufügen\
       )
     }
 
-    if (!hasResultEntries && !f.presence(get.search_term) && !this.state.searching) {
+    if (!hasResultEntries && !presence(get.search_term) && !this.state.searching) {
       _content.push(
         <h3 key="content4" className="by-center title-m">
           {t('batch_add_to_collection_hint')}

@@ -1,10 +1,7 @@
 import React from 'react'
 import ui from '../lib/ui.js'
 import Moment from 'moment'
-import first from 'lodash/first'
-import get from 'lodash/get'
-import last from 'lodash/last'
-import isEmpty from 'lodash/isEmpty'
+import { first, get, last, isEmpty } from 'lodash-es'
 // import app from 'ampersand-app'
 import currentLocale from '../../lib/current-locale.js'
 

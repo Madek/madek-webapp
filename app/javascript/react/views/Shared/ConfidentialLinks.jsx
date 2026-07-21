@@ -1,7 +1,7 @@
 import React from 'react'
 import RailsForm from '../../lib/forms/rails-form.jsx'
 import PageHeader from '../../ui-components/PageHeader.jsx'
-import f from 'lodash'
+import { compact, difference, filter, get as _get, isEmpty, isString, map } from 'lodash-es'
 import Moment from 'moment'
 import { t } from '../../lib/ui.js'
 import currentLocale from '../../../lib/current-locale.js'
@@ -12,7 +12,7 @@ class ConfidentialLinks extends React.Component {
   render() {
     const { get, authToken } = this.props
     const confidentialLinksList = get.list
-    const newAction = f.get(get, 'actions.new')
+    const newAction = _get(get, 'actions.new')
     const title = t('confidential_links_title_pre') + '"' + get.resource.title + '"'
 
     const actions = !!newAction && (
@@ -68,11 +68,11 @@ class ConfidentialLinks extends React.Component {
 }
 
 const ConfidentialLinksList = ({ list, actions, authToken }) => {
-  const expiredUrls = f.filter(list, 'is_expired')
-  const activeUrls = f.difference(list, expiredUrls)
-  const allUrls = f.compact([
+  const expiredUrls = filter(list, 'is_expired')
+  const activeUrls = difference(list, expiredUrls)
+  const allUrls = compact([
     [activeUrls],
-    !f.isEmpty(expiredUrls) && [expiredUrls, t('confidential_links_list_revoked_title')]
+    !isEmpty(expiredUrls) && [expiredUrls, t('confidential_links_list_revoked_title')]
   ])
 
   return (
@@ -83,7 +83,7 @@ const ConfidentialLinksList = ({ list, actions, authToken }) => {
           <table className="ui-workgroups bordered block aligned">
             <ConfidentialLinkHead />
             <tbody>
-              {f.map(urls, url => (
+              {map(urls, url => (
                 <ConfidentialLinkRow key={url.uuid} {...url} authToken={authToken} />
               ))}
             </tbody>
@@ -138,19 +138,19 @@ const ConfidentialLinkRow = ({ authToken, ...confidentialLink }) => {
     expirationDate = t('confidential_links_list_no_expiry')
     expirationDateTitle = `${t('confidential_links_list_expires_hint_pre')}${expirationDate}`
   }
-  const showAction = f.get(confidentialLink, 'actions.show')
-  const revokeAction = f.get(confidentialLink, 'actions.revoke')
+  const showAction = _get(confidentialLink, 'actions.show')
+  const revokeAction = _get(confidentialLink, 'actions.revoke')
   const trStyle = !is_expired ? {} : { opacity: 0.67 }
 
   return (
     <tr key={uuid} style={trStyle}>
       <td>
-        {f.isString(label) && label.slice(0, 6)}
+        {isString(label) && label.slice(0, 6)}
         {'…'}
       </td>
       <td>
         <div className="measure-narrow">
-          {!f.isEmpty(description) ? description : t('confidential_links_list_no_description')}
+          {!isEmpty(description) ? description : t('confidential_links_list_no_description')}
         </div>
       </td>
       <td>

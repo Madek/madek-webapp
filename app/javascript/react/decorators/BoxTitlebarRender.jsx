@@ -1,5 +1,5 @@
 import React from 'react'
-import f from 'lodash'
+import { isEmpty } from 'lodash-es'
 import cx from 'classnames/dedupe'
 import ButtonGroup from '../ui-components/ButtonGroup.jsx'
 import SortDropdown from './resourcesbox/SortDropdown.jsx'
@@ -37,7 +37,7 @@ class BoxTitlebarRender extends React.Component {
     style = { minHeight: '1px' } // Make sure col2of6 fills its space (min height ensures that following float left are blocked)
 
     var renderCenterActions = () => {
-      if (f.isEmpty(centerActions)) {
+      if (isEmpty(centerActions)) {
         return null
       }
 

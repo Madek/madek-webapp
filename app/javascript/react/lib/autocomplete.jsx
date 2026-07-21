@@ -1,3 +1,5 @@
+import { presence } from '../../lib/present';
+import { get, includes } from 'lodash-es';
 /**
  * AutoComplete
  *
@@ -11,7 +13,6 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import f from 'active-lodash'
 import TypeaheadInput from './typeahead-input.jsx'
 import { cx, t } from './ui.js'
 import searchResources from '../../lib/search.js'
@@ -106,10 +107,10 @@ class AutoComplete extends React.Component {
     const { existingValues, valueGetter, valueFilter, existingValueHint, suggestionRenderer } =
       this.props
     const backend = this._searchBackends[0]
-    const content = f.get(item, backend.displayKey)
+    const content = get(item, backend.displayKey)
     const value = valueGetter ? valueGetter(item) : content
     const isDisabled =
-      (existingValues && f.includes(existingValues(), value)) || (valueFilter && valueFilter(item))
+      (existingValues && includes(existingValues(), value)) || (valueFilter && valueFilter(item))
 
     const line = suggestionRenderer ? (
       suggestionRenderer(item, { isHighlighted, inputValue })
@@ -121,10 +122,10 @@ class AutoComplete extends React.Component {
       return (
         <div
           className="ui-autocomplete-disabled"
-          title={f.presence(existingValueHint) || t('meta_data_input_keywords_existing')}>
+          title={presence(existingValueHint) || t('meta_data_input_keywords_existing')}>
           {line}
         </div>
-      )
+      );
     }
     return <div>{line}</div>
   }

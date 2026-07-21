@@ -6,7 +6,7 @@
 import xhr from 'xhr'
 import getRailsCSRFToken from './rails-csrf-token.js'
 import t from './i18n-translate.js'
-import f from 'lodash'
+import { get } from 'lodash-es'
 
 export default {
   shared(data, actionUrl, contentType, callback) {
@@ -79,7 +79,7 @@ export default {
             return
           }
 
-          const errors = f.get(data, 'errors')
+          const errors = get(data, 'errors')
           if (!errors) {
             callback({
               result: 'error',

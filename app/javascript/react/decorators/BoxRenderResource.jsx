@@ -1,6 +1,5 @@
+import { isEqual, some, values } from 'lodash-es';
 import React from 'react'
-import f from 'active-lodash'
-import l from 'lodash'
 import ActionsDropdownHelper from './resourcesbox/ActionsDropdownHelper.jsx'
 import ResourceThumbnail from './ResourceThumbnail.jsx'
 
@@ -11,7 +10,7 @@ class BoxRenderResource extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
+    return !isEqual(this.state, nextState) || !isEqual(this.props, nextProps)
   }
 
   onSelect(event) {
@@ -41,7 +40,7 @@ class BoxRenderResource extends React.Component {
     var style = null
     // selection defined means selection is enabled
     var showActions = this.props.showActions
-    if (isClient && f.any(f.values(showActions))) {
+    if (isClient && some(values(showActions))) {
       var isSelected = this.props.isSelected
       var onSelect = this.boundOnSelect
       // if in selection mode, intercept clicks as 'select toggle'

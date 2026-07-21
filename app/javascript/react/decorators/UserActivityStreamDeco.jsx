@@ -1,8 +1,6 @@
 import React from 'react'
 import Moment from 'moment'
-import isEmpty from 'lodash/isEmpty'
-import isString from 'lodash/isString'
-import trimString from 'lodash/trim'
+import { isEmpty, isString, trim as trimString } from 'lodash-es'
 
 export const UserCreatedItem = ({ user }) =>
   user &&

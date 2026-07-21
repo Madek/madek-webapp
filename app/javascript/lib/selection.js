@@ -3,7 +3,7 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-import f from 'lodash'
+import { filter, find, isEmpty, map, size } from 'lodash-es'
 
 const toExport = {
   createEmpty(callback) {
@@ -11,7 +11,7 @@ const toExport = {
       selection: [],
 
       contains(resource) {
-        return !!f.find(this.selection, { uuid: resource.uuid })
+        return !!find(this.selection, { uuid: resource.uuid })
       },
 
       toggle(resource) {
@@ -30,17 +30,17 @@ const toExport = {
       },
 
       empty() {
-        return f.isEmpty(this.selection)
+        return isEmpty(this.selection)
       },
 
       remove(resource) {
-        this.selection = f.filter(this.selection, r => r.uuid !== resource.uuid)
+        this.selection = filter(this.selection, r => r.uuid !== resource.uuid)
         return callback()
       },
 
       toggleAll(all) {
         if (this.empty()) {
-          this.selection = f.map(all, r => r)
+          this.selection = map(all, r => r)
         } else {
           this.selection = []
         }
@@ -61,7 +61,7 @@ const toExport = {
       },
 
       length() {
-        return f.size(this.selection)
+        return size(this.selection)
       }
     }
   }

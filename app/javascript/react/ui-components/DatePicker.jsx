@@ -8,9 +8,7 @@ import moment from 'moment'
 import 'moment/locale/de'
 import DayPicker, { DateUtils } from 'react-day-picker'
 import MomentLocaleUtils from 'react-day-picker/moment'
-import isDate from 'lodash/isDate'
-import isEmpty from 'lodash/isEmpty'
-import memoize from 'lodash/memoize'
+import { isDate, isEmpty, memoize } from 'lodash-es'
 
 const lazyDate = memoize(strOrDate => {
   if (isEmpty(strOrDate)) return

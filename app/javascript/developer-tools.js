@@ -1,6 +1,6 @@
 const global = require('global')
 
-global.f = require('active-lodash')
+global.f = require('lodash-es')
 global.React = require('react')
 global.ReactDOM = require('react-dom')
 

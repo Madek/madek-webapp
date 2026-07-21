@@ -1,6 +1,6 @@
+import { isEmpty, map } from 'lodash-es';
 import React from 'react'
 import PropTypes from 'prop-types'
-import f from 'active-lodash'
 import t from '../../../lib/i18n-translate.js'
 import RailsForm from '../../lib/forms/rails-form.jsx'
 import FormButton from '../../ui-components/FormButton.jsx'
@@ -41,7 +41,7 @@ class ResourceSelection extends React.Component {
           <div className="ui-modal-body" style={{ maxHeight: 'none' }}>
             <div className="ui-resources-table">
               <div className="ui-resources-table">
-                {f.isEmpty(get.child_presenters.resources) ? (
+                {isEmpty(get.child_presenters.resources) ? (
                   <h3 className="by-center title-m">{t('collection_edit_highlights_empty')}</h3>
                 ) : (
                   <table className="block">
@@ -79,7 +79,7 @@ class ResourceSelection extends React.Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {f.map(get.child_presenters.resources, function (resource) {
+                      {map(get.child_presenters.resources, function (resource) {
                         const checked = get.uuid_to_checked_hash[resource.uuid]
 
                         return (
@@ -164,14 +164,14 @@ class ResourceSelection extends React.Component {
                 data-dismiss="modal">
                 {get.i18n.cancel}
               </a>
-              {!f.isEmpty(get.child_presenters.resources) ? (
+              {!isEmpty(get.child_presenters.resources) ? (
                 <FormButton text={get.i18n.save} />
               ) : undefined}
             </div>
           </div>
         </RailsForm>
       </Modal>
-    )
+    );
   }
 }
 

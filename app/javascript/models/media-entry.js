@@ -1,13 +1,6 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
-import f from 'active-lodash'
-import globalWindow from 'global/window'
-const BrowserFile = globalWindow.File
+import { presence } from '../lib/present';
+import { get, has, isFunction, merge } from 'lodash-es';
+const BrowserFile = globalThis.File
 import app from 'ampersand-app'
 import AppResource from './shared/app-resource.js'
 import Permissions from './media-entry/permissions.js'
@@ -76,8 +69,8 @@ export default AppResource.extend(
         deps: ['media_file', 'uploading'],
         fn() {
           const contentType =
-            f.presence(f.get(this.media_file, 'content_type')) ||
-            f.presence(f.get(this.uploading, 'file.type'))
+            presence(get(this.media_file, 'content_type')) ||
+            presence(get(this.uploading, 'file.type'))
           return getMediaType(contentType)
         }
       },
@@ -96,7 +89,7 @@ export default AppResource.extend(
           if (!this.uploading) {
             return
           }
-          const filename = f.get(this, 'uploading.file.name')
+          const filename = get(this, 'uploading.file.name')
           const state = (() => {
             switch (false) {
               case !this.uploading.error:
@@ -126,8 +119,8 @@ export default AppResource.extend(
       const formData = new FormData()
       formData.append('media_entry[media_file]', this.uploading.file)
       if (
-        f.has(this.uploading, 'copyMdFrom.id') &&
-        f.has(this.uploading, 'copyMdFrom.configuration')
+        has(this.uploading, 'copyMdFrom.id') &&
+        has(this.uploading, 'copyMdFrom.configuration')
       ) {
         formData.append('media_entry[copy_md_from][id]', this.uploading.copyMdFrom.id)
         formData.append(
@@ -182,7 +175,7 @@ export default AppResource.extend(
             // Why the log? see above
             // eslint-disable-next-line no-console
             console.log('Date', Date())
-            this.set('uploading', f.merge(this.uploading, { error }))
+            this.set('uploading', merge(this.uploading, { error }))
           } else {
             // or update self with server response:
             const attrs = (() => {
@@ -200,11 +193,11 @@ export default AppResource.extend(
           }
 
           // pass through to callback if given:
-          if (f.isFunction(callback)) {
+          if (isFunction(callback)) {
             return callback(error || null, res)
           }
         }
-      )
+      );
     }
   }
 )

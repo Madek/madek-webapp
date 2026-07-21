@@ -1,5 +1,5 @@
+import { pick } from 'lodash-es';
 import PropTypes from 'prop-types'
-import { pick } from 'active-lodash'
 
 export default {
   filterConfigProps() {

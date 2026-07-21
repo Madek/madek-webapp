@@ -5,7 +5,7 @@
 // also the early version: https://www.wikidata.org/w/index.php?title=MediaWiki:Gadget-AuthorityControl.js&oldid=179329592
 
 import url from 'url'
-import f from 'lodash'
+import { assign, find, includes, isEmpty, isNil, map } from 'lodash-es'
 
 const AUTHORITY_CONTROL_PROVIDERS = {
   GND: {
@@ -103,20 +103,20 @@ const AUTHORITY_CONTROL_PROVIDERS = {
 }
 
 function detect(parsedUrl) {
-  let res = f.map(AUTHORITY_CONTROL_PROVIDERS, (provider, kind) => {
-    const matches = f.map(provider.patterns, pattern => {
+  let res = map(AUTHORITY_CONTROL_PROVIDERS, (provider, kind) => {
+    const matches = map(provider.patterns, pattern => {
       return pattern(parsedUrl)
     })
-    const match = f.find(matches, m => m !== false)
+    const match = find(matches, m => m !== false)
     if (match) {
       return { kind: kind, label: match[1] }
     }
   })
 
-  res = f.find(res, el => !f.isEmpty(el))
+  res = find(res, el => !isEmpty(el))
 
   if (res) {
-    const provider = f.assign({}, AUTHORITY_CONTROL_PROVIDERS[res.kind])
+    const provider = assign({}, AUTHORITY_CONTROL_PROVIDERS[res.kind])
     delete provider.patterns
     res.provider = provider
     return res
@@ -125,11 +125,11 @@ function detect(parsedUrl) {
 
 export function decorateExternalURI(rawURI) {
   const parsedUrl = url.parse(rawURI)
-  const isValid = !f.isNil(parsedUrl.hostname)
+  const isValid = !isNil(parsedUrl.hostname)
 
   return {
     uri: rawURI,
-    is_web: f.includes(['http:', 'https:'], parsedUrl.protocol),
+    is_web: includes(['http:', 'https:'], parsedUrl.protocol),
     authority_control: isValid ? detect(parsedUrl) : null
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import f from 'lodash'
+import { compact, map } from 'lodash-es'
 import resourceName from '../react/lib/decorate-resource-names.js'
 
 const labelize = (resourceList, { withLink = false, onDelete, creatorId = null } = {}) => {
@@ -19,7 +19,7 @@ const labelize = (resourceList, { withLink = false, onDelete, creatorId = null }
     return resource
   }
 
-  return f.map(f.compact(resourceList), (resource, i) => ({
+  return map(compact(resourceList), (resource, i) => ({
     key: `${resource.uuid}-${i}`,
     href: withLink ? resource.url : undefined,
     mod: mod(resource),

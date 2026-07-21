@@ -1,5 +1,5 @@
 import React from 'react'
-import f from 'lodash'
+import { get as _get } from 'lodash-es'
 import { TokenRow } from './Tokens.jsx'
 import ui from '../../lib/ui.js'
 import UI from '../../ui-components/index.js'
@@ -9,8 +9,8 @@ const t = ui.t
 class TokenCreatedPage extends React.Component {
   render(props = this.props) {
     const { get } = props
-    const indexAction = f.get(get, 'actions.index.url')
-    const callbackAction = f.get(get, 'actions.callback.url')
+    const indexAction = _get(get, 'actions.index.url')
+    const callbackAction = _get(get, 'actions.callback.url')
     const callbackLink = setUrlParams(callbackAction, {
       madek_api_token: get.secret
     })

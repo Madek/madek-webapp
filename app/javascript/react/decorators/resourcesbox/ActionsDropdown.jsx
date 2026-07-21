@@ -1,6 +1,6 @@
+import { present } from '../../../lib/present';
+import { curry, isEqual, some, values } from 'lodash-es';
 import React from 'react'
-import f from 'active-lodash'
-import l from 'lodash'
 import { t } from '../../lib/ui.js'
 import SelectionScope from '../../../lib/selection-scope.js'
 import { Icon, Dropdown } from '../../ui-components/index.js'
@@ -8,7 +8,7 @@ import ActionsDropdownHelper from './ActionsDropdownHelper.jsx'
 
 export default class ActionsDropdown extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
-    return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
+    return !isEqual(this.state, nextState) || !isEqual(this.props, nextProps)
   }
 
   render() {
@@ -16,7 +16,7 @@ export default class ActionsDropdown extends React.Component {
 
     const showActions = ActionsDropdownHelper.showActionsConfig(parameters)
 
-    if (!f.any(f.values(showActions))) {
+    if (!some(values(showActions))) {
       return null
     }
 
@@ -28,8 +28,8 @@ export default class ActionsDropdown extends React.Component {
     const createHoverActionItem = (enableEntryByOnClick, hoverId, count, icon, text) => (
       <Dropdown.MenuItem
         onClick={enableEntryByOnClick}
-        onMouseEnter={f.curry(callbacks.onHoverMenu)(hoverId)}
-        onMouseLeave={f.curry(callbacks.onHoverMenu)(null)}>
+        onMouseEnter={curry(callbacks.onHoverMenu)(hoverId)}
+        onMouseLeave={curry(callbacks.onHoverMenu)(null)}>
         <Icon
           i={icon}
           mods="ui-drop-icon"
@@ -81,7 +81,7 @@ export default class ActionsDropdown extends React.Component {
 
           {showActions.addToSet &&
             createHoverActionItem(
-              nofSelected > 0 ? f.curry(callbacks.onBatchAddToSet)(selection) : undefined,
+              nofSelected > 0 ? curry(callbacks.onBatchAddToSet)(selection) : undefined,
               'add_to_set',
               nofSelected,
               'move',
@@ -90,7 +90,7 @@ export default class ActionsDropdown extends React.Component {
 
           {showActions.removeFromSet &&
             createHoverActionItem(
-              nofSelected > 0 ? f.curry(callbacks.onBatchRemoveFromSet)(selection) : undefined,
+              nofSelected > 0 ? curry(callbacks.onBatchRemoveFromSet)(selection) : undefined,
               'remove_from_set',
               nofSelected,
               'close',
@@ -117,14 +117,14 @@ export default class ActionsDropdown extends React.Component {
                   batchEditables = SelectionScope.batchMetaDataResources(selection, ['MediaEntry'])
                 }
                 return createHoverActionItem(
-                  f.present(batchEditables)
-                    ? f.curry(callbacks.onBatchEdit)(batchEditables)
+                  present(batchEditables)
+                    ? curry(callbacks.onBatchEdit)(batchEditables)
                     : undefined,
                   'media_entries_edit',
                   batchEditables.length,
                   'pen',
                   t('resources_box_batch_actions_edit')
-                )
+                );
               }
             }
           })()}
@@ -137,13 +137,13 @@ export default class ActionsDropdown extends React.Component {
                 : undefined
               return createHoverActionItem(
                 batchEditables && batchEditables.length > 0 && batchEditables.length <= 12
-                  ? f.curry(callbacks.onBatchEditTitle)(batchEditables.map(entry => entry.uuid))
+                  ? curry(callbacks.onBatchEditTitle)(batchEditables.map(entry => entry.uuid))
                   : undefined,
                 'media_entries_edit_title',
                 batchEditables.length,
                 'pen',
                 t('resources_box_batch_actions_edit_title') + ' (max. 12)'
-              )
+              );
             }
           })()}
 
@@ -169,14 +169,14 @@ export default class ActionsDropdown extends React.Component {
                   ])
                 }
                 return createHoverActionItem(
-                  f.present(batchSetEditables)
-                    ? f.curry(callbacks.onBatchEditSets)(batchSetEditables)
+                  present(batchSetEditables)
+                    ? curry(callbacks.onBatchEditSets)(batchSetEditables)
                     : undefined,
                   'collections_edit',
                   batchSetEditables.length,
                   'pen',
                   t('resources_box_batch_actions_edit_sets')
-                )
+                );
               }
             }
           })()}
@@ -191,14 +191,14 @@ export default class ActionsDropdown extends React.Component {
                 ])
               }
               return createHoverActionItem(
-                f.present(batchDestroyables)
-                  ? f.curry(callbacks.onBatchDeleteResources)(batchDestroyables)
+                present(batchDestroyables)
+                  ? curry(callbacks.onBatchDeleteResources)(batchDestroyables)
                   : undefined,
                 'resources_destroy',
                 batchDestroyables.length,
                 'trash',
                 t('resources_box_batch_actions_delete')
-              )
+              );
             }
           })()}
 
@@ -211,14 +211,14 @@ export default class ActionsDropdown extends React.Component {
                 ])
               }
               return createHoverActionItem(
-                f.present(batchPermissionEditables)
-                  ? f.curry(callbacks.onBatchPermissionsEdit)(batchPermissionEditables)
+                present(batchPermissionEditables)
+                  ? curry(callbacks.onBatchPermissionsEdit)(batchPermissionEditables)
                   : undefined,
                 'media_entries_permissions',
                 batchPermissionEditables.length,
                 'lock',
                 t('resources_box_batch_actions_managepermissions')
-              )
+              );
             }
           })()}
 
@@ -231,14 +231,14 @@ export default class ActionsDropdown extends React.Component {
                 ])
               }
               return createHoverActionItem(
-                f.present(batchPermissionSetsEditables)
-                  ? f.curry(callbacks.onBatchPermissionsSetsEdit)(batchPermissionSetsEditables)
+                present(batchPermissionSetsEditables)
+                  ? curry(callbacks.onBatchPermissionsSetsEdit)(batchPermissionSetsEditables)
                   : undefined,
                 'collections_permissions',
                 batchPermissionSetsEditables.length,
                 'lock',
                 t('resources_box_batch_actions_sets_managepermissions')
-              )
+              );
             }
           })()}
 
@@ -250,8 +250,8 @@ export default class ActionsDropdown extends React.Component {
                   SelectionScope.batchTransferResponsibilityResources(selection, ['MediaEntry'])
               }
               return createHoverActionItem(
-                f.present(batchTransferResponsibilityEditables)
-                  ? f.curry(callbacks.onBatchTransferResponsibilityEdit)(
+                present(batchTransferResponsibilityEditables)
+                  ? curry(callbacks.onBatchTransferResponsibilityEdit)(
                       batchTransferResponsibilityEditables
                     )
                   : undefined,
@@ -259,7 +259,7 @@ export default class ActionsDropdown extends React.Component {
                 batchTransferResponsibilityEditables.length,
                 'user',
                 t('resources_box_batch_actions_transfer_responsibility_entries')
-              )
+              );
             }
           })()}
 
@@ -271,8 +271,8 @@ export default class ActionsDropdown extends React.Component {
                   SelectionScope.batchTransferResponsibilityResources(selection, ['Collection'])
               }
               return createHoverActionItem(
-                f.present(batchTransferResponsibilitySetsEditables)
-                  ? f.curry(callbacks.onBatchTransferResponsibilitySetsEdit)(
+                present(batchTransferResponsibilitySetsEditables)
+                  ? curry(callbacks.onBatchTransferResponsibilitySetsEdit)(
                       batchTransferResponsibilitySetsEditables
                     )
                   : undefined,
@@ -280,7 +280,7 @@ export default class ActionsDropdown extends React.Component {
                 batchTransferResponsibilitySetsEditables.length,
                 'user',
                 t('resources_box_batch_actions_transfer_responsibility_sets')
-              )
+              );
             }
           })()}
 
@@ -297,7 +297,7 @@ export default class ActionsDropdown extends React.Component {
                 )
               : createHoverActionItem(
                   nofSelected > 0
-                    ? f.curry(callbacks.onBatchAddSelectedToClipboard)(selection)
+                    ? curry(callbacks.onBatchAddSelectedToClipboard)(selection)
                     : undefined,
                   'add_selected_to_clipboard',
                   nofSelected,
@@ -317,7 +317,7 @@ export default class ActionsDropdown extends React.Component {
                 )
               : createHoverActionItem(
                   nofSelected > 0
-                    ? f.curry(callbacks.onBatchRemoveFromClipboard)(selection)
+                    ? curry(callbacks.onBatchRemoveFromClipboard)(selection)
                     : undefined,
                   'remove_from_clipboard',
                   nofSelected,
@@ -327,6 +327,6 @@ export default class ActionsDropdown extends React.Component {
             : undefined}
         </Dropdown.Menu>
       </Dropdown>
-    )
+    );
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import f from 'lodash'
+import { isBoolean } from 'lodash-es'
 import t from '../../lib/i18n-translate.js'
 import setsFallbackUrl from '../../lib/sets-fallback-url.js'
 
@@ -19,7 +19,7 @@ class BoxSetFallback extends React.Component {
       return null
     }
 
-    if (!f.isBoolean(fallback)) {
+    if (!isBoolean(fallback)) {
       // we are given a fallback message, use it
       return fallback
     } else {

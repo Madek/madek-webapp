@@ -1,11 +1,4 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
-// Concern: FavoritableResource
-
-import f from 'active-lodash'
+import { includes } from 'lodash-es';
 
 export default {
   props: {
@@ -17,7 +10,7 @@ export default {
 
   // instance methods:
   setFavoredStatus(action, callback) {
-    if (!f.include(['favor', 'disfavor'], action.name) || !action.url) {
+    if (!includes(['favor', 'disfavor'], action.name) || !action.url) {
       throw new Error('ArgumentError!')
     }
     this.set('favored', action === 'favor' ? true : false)

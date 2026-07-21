@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
-import omit from 'lodash/omit'
-import isFunction from 'lodash/isFunction'
+import { omit, isFunction } from 'lodash-es'
 import titleBarPlugin from '../../lib/videojs-title-bar-plugin/videojs-title-bar-plugin.js'
 
 // NOTE: this apparently needs to be defined globally, otherwise server side rendering breaks (I guess).

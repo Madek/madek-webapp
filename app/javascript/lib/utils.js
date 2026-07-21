@@ -1,30 +1,8 @@
-/**
- * Utility helpers to replace lodash/active-lodash functionality with native JavaScript
- */
+// Utility helpers to replace lodash/active-lodash functionality with native JavaScript.
+// `present` / `presence` are re-exported from ./present.js — single source of truth for
+// active-lodash-compatible semantics.
 
-/**
- * Check if value is present (not null, undefined, or empty)
- * Replacement for active-lodash `present`
- */
-export const present = val => {
-  return (
-    typeof val !== 'undefined' &&
-    val !== null &&
-    (typeof val !== 'object' ||
-      (Array.isArray(val) ? val.length > 0 : Object.keys(val).length > 0) ||
-      typeof val === 'number' ||
-      typeof val === 'boolean' ||
-      typeof val === 'function')
-  )
-}
-
-/**
- * Return value if present, undefined otherwise
- * Replacement for active-lodash `presence`
- */
-export const presence = val => {
-  return present(val) ? val : undefined
-}
+export { present, presence } from './present.js'
 
 /**
  * Convert string to kebab-case

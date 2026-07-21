@@ -1,5 +1,5 @@
 import React from 'react'
-import l from 'lodash'
+import { map } from 'lodash-es'
 import ResourceThumbnail from './ResourceThumbnail.jsx'
 
 class SuperBoxDashboard extends React.Component {
@@ -26,7 +26,7 @@ class SuperBoxDashboard extends React.Component {
   }
 
   renderResources(config) {
-    return l.map(config.resources, r => {
+    return map(config.resources, r => {
       return this.renderResource({ resource: r, authToken: config.authToken })
     })
   }

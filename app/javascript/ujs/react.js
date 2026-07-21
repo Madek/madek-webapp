@@ -1,3 +1,4 @@
+import { get, isFunction, set } from 'lodash-es';
 /*
  * ujs/react.js
  * UJS for React Views (and Decorators)
@@ -9,7 +10,6 @@
  */
 import React from 'react'
 import ReactDOM from 'react-dom'
-import f from 'active-lodash'
 import UI from '../react/index.js'
 
 const initByClass = {
@@ -17,7 +17,7 @@ const initByClass = {
     const MediaEntries = require('../models/media-entries.js').default
     const Uploader = require('../react/views/My/Uploader.jsx').default
 
-    const props = f.set(data.reactProps, 'appCollection', new MediaEntries())
+    const props = set(data.reactProps, 'appCollection', new MediaEntries())
     return callback(React.createElement(Uploader, props))
   }
 }
@@ -40,7 +40,7 @@ export default () => {
     // auto-init (for any components that simply render from props):
     if (!init) {
       init = function (data, callback) {
-        const component = f.get(UI, componentClass)
+        const component = get(UI, componentClass)
         if (!component) {
           throw new Error(`No such component: \`${componentClass}\`!`)
         }
@@ -48,7 +48,7 @@ export default () => {
       }
     }
 
-    if (f.isFunction(init)) {
+    if (isFunction(init)) {
       // eslint-disable-next-line react/no-render-return-value
       return init(data, enhanced => ReactDOM.render(enhanced, element))
     }

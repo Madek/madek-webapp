@@ -1,6 +1,6 @@
+import { present } from '../../lib/present';
 import React from 'react'
 import PropTypes from 'prop-types'
-import f from 'active-lodash'
 import t from '../../lib/i18n-translate.js'
 import appRequest from '../../lib/app-request.js'
 import UI from '../ui-components/index.js'
@@ -101,7 +101,7 @@ class MediaEntryShow extends React.Component {
       overview: (
         <ResourceShowOverview {...Object.assign({ mods: 'ui-media-overview' }, overview)} />
       ),
-      moreInfo: f.present(listContexts) ? (
+      moreInfo: present(listContexts) ? (
         <div className="ui-container midtone rounded-bottom pal well">
           <MetaDataByListing list={listContexts} />
         </div>

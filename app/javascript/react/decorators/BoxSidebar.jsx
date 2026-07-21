@@ -1,5 +1,5 @@
 import React from 'react'
-import l from 'lodash'
+import { filter, first, get, isEmpty } from 'lodash-es'
 import Preloader from '../ui-components/Preloader.jsx'
 import Button from '../ui-components/Button.jsx'
 import Link from '../ui-components/Link.jsx'
@@ -19,8 +19,8 @@ class BoxSidebar extends React.Component {
     return (
       config.filter &&
       config.filter.media_files &&
-      !l.isEmpty(
-        l.filter(config.filter.media_files, entry => {
+      !isEmpty(
+        filter(config.filter.media_files, entry => {
           entry.key == 'filename'
         })
       )
@@ -29,8 +29,8 @@ class BoxSidebar extends React.Component {
 
   filename_filter_string() {
     var config = this.props.config
-    return l.first(
-      l.filter(config.filter.media_files, entry => {
+    return first(
+      filter(config.filter.media_files, entry => {
         entry.key == 'filename'
       })
     ).value
@@ -234,7 +234,7 @@ class BoxSidebar extends React.Component {
   renderFiltersNote() {
     const { currentUrl, parentState } = this.props
 
-    if (l.get(parentState, 'boxState.props.get.content_type') !== 'MediaResource') {
+    if (get(parentState, 'boxState.props.get.content_type') !== 'MediaResource') {
       return null
     }
 

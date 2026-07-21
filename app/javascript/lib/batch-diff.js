@@ -3,7 +3,7 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-import f from 'lodash'
+import { each, map, zipObject } from 'lodash-es'
 
 const equal_meta_data_values = function (set_a, set_b, attribute) {
   // Compare the two arrays. First copy both, then remove iteratively an
@@ -16,8 +16,8 @@ const equal_meta_data_values = function (set_a, set_b, attribute) {
   }
 
   // Copy both arrays.
-  const rest_a = f.map(set_a, el_a => el_a)
-  const rest_b = f.map(set_b, el_b => el_b)
+  const rest_a = map(set_a, el_a => el_a)
+  const rest_b = map(set_b, el_b => el_b)
 
   // Remove element from array A...
   while (rest_a.length > 0) {
@@ -26,7 +26,7 @@ const equal_meta_data_values = function (set_a, set_b, attribute) {
     // ... and search same element in array B and remove it if it is found.
     var found_b = false
     var to_remove_b = null
-    f.each(rest_b, function (el_b, index_b) {
+    each(rest_b, function (el_b, index_b) {
       if (!found_b) {
         if (attribute === null) {
           if (el_a === el_b) {
@@ -84,7 +84,7 @@ const compare_datum_between_entries = function (meta_key_id, reference_datum, al
   // We do not explicitly check if we compare the entry against itself,
   // since this does not change the result.
 
-  f.each(all_entries, function (entry) {
+  each(all_entries, function (entry) {
     const other = entry.meta_data.meta_datum_by_meta_key_id[meta_key_id]
 
     // "other" may never be null.
@@ -105,14 +105,14 @@ const compare_datum_between_entries = function (meta_key_id, reference_datum, al
 }
 
 const compare_all = function (all_meta_keys, all_entries) {
-  const keys = f.map(all_meta_keys, (meta_key, meta_key_id) => meta_key_id)
+  const keys = map(all_meta_keys, (meta_key, meta_key_id) => meta_key_id)
 
-  const values = f.map(keys, function (meta_key_id) {
+  const values = map(keys, function (meta_key_id) {
     const first_datum = all_entries[0].meta_data.meta_datum_by_meta_key_id[meta_key_id]
     return compare_datum_between_entries(meta_key_id, first_datum, all_entries)
   })
 
-  return f.zipObject(keys, values)
+  return zipObject(keys, values)
 }
 
 export default (all_meta_keys, all_entries) => compare_all(all_meta_keys, all_entries)

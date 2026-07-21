@@ -1,15 +1,11 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
-import f from 'active-lodash'
+import { present } from './present';
+import { get, includes, some } from 'lodash-es';
 
 export default {
   _listingFromContextOrVocab(contextOrVocab) {
-    const listing = f.get(contextOrVocab, 'context') || f.get(contextOrVocab, 'vocabulary')
-    const listingType = f.get(listing, 'type')
-    if (listingType && !f.include(['Context', 'Vocabulary'], listingType)) {
+    const listing = get(contextOrVocab, 'context') || get(contextOrVocab, 'vocabulary')
+    const listingType = get(listing, 'type')
+    if (listingType && !includes(['Context', 'Vocabulary'], listingType)) {
       throw new Error('Invalid Data!')
     }
     return {
@@ -20,12 +16,12 @@ export default {
 
   _isEmptyMetadataList(metaData, listing, listingType) {
     switch (false) {
-      case !!f.present(listing):
+      case !!present(listing):
         return true
       case listingType !== 'Vocabulary':
-        return !f.some(metaData, f.present)
+        return !some(metaData, present);
       default:
-        return !f.some(metaData, i => f.present(i.meta_datum))
+        return !some(metaData, i => present(i.meta_datum));
     }
   },
 

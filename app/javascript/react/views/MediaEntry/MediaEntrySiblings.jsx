@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import _ from 'lodash'
+import { filter, isEmpty, map } from 'lodash-es'
 import t from '../../../lib/i18n-translate.js'
 import { Link } from '../../ui-components/index.js'
 import appRequest from '../../../lib/app-request.js'
@@ -27,7 +27,7 @@ class MediaEntrySiblings extends Component {
   }
 
   prepareResources(data) {
-    return _.filter(data, ({ media_entries }) => !_.isEmpty(media_entries))
+    return filter(data, ({ media_entries }) => !isEmpty(media_entries))
   }
 
   fetchSiblings() {
@@ -57,10 +57,10 @@ class MediaEntrySiblings extends Component {
         <h3 className="title-l mbm">{t('media_entry_siblings_section_title')}</h3>
 
         {isFetching && <Preloader />}
-        {fetched && _.isEmpty(resourcesByCollection) ? (
+        {fetched && isEmpty(resourcesByCollection) ? (
           <div className="by-center">{t('no_content_fallback')}</div>
         ) : (
-          _.map(resourcesByCollection, ({ collection, media_entries }) => {
+          map(resourcesByCollection, ({ collection, media_entries }) => {
             const { uuid, title, url } = collection
 
             return (

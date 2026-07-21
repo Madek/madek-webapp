@@ -1,3 +1,4 @@
+import { defaults } from 'lodash-es';
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -6,7 +7,6 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 import url from 'url'
-import f from 'active-lodash'
 import t from './i18n-translate.js'
 import History from 'history/lib/createBrowserHistory'
 import useBeforeUnload from 'history/lib/useBeforeUnload'
@@ -33,7 +33,7 @@ export default {
     if (config == null) {
       config = {}
     }
-    const { msg, check } = f.defaults(config, {
+    const { msg, check } = defaults(config, {
       msg: t('app_confirm_form_leave_msg'),
       check() {
         return true

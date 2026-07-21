@@ -29,9 +29,7 @@ DOC
 
 feature 'Resource: MediaEntry' do
   describe 'Concern: MetaData' do
-
     describe doc do
-
       scenario 'update via Javascript Models (unit test)' do
 
         prepare_data
