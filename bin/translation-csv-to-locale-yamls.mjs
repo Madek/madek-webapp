@@ -1,11 +1,9 @@
 #!/usr/bin/env node
-'use strict'
-
-const path = require('path')
-const fs = require('fs-extra')
-const f = require('active-lodash')
-const YAML = require('js-yaml')
-const parseTranslationsFromCSV = require('../app/javascript/lib/parse-translations-from-csv')
+import path from 'node:path'
+import fs from 'fs-extra'
+import { map, extend, merge, set, each } from 'lodash-es'
+import YAML from 'js-yaml'
+import parseTranslationsFromCSV from '../app/javascript/lib/parse-translations-from-csv.js'
 
 const CONFIG = {
   translationFile: './config/locale/translations.csv',
@@ -14,26 +12,20 @@ const CONFIG = {
   localePresetsDir: './config/locale'
 }
 
-// helpers
-
 // merges translations with presets
 const mergeTranslationsWithPresets = (locales, presetsDir) => {
-  return f.map(locales, item => {
-    let presetContent
-    //try {
+  return map(locales, item => {
     const presetFile = path.join(presetsDir, `${item.lang}.yml`)
-    presetContent = YAML.load(fs.readFileSync(presetFile).toString())
-    //} catch (err) { throw new Error('Can not read locale YAML preset!', err) }
-
-    return f.extend(item, {
-      mapping: f.merge(presetContent, f.set({}, item.lang, item.mapping))
+    const presetContent = YAML.load(fs.readFileSync(presetFile).toString())
+    return extend(item, {
+      mapping: merge(presetContent, set({}, item.lang, item.mapping))
     })
   })
 }
 
 // writes translations to Rails' locale files (YAML)
 const writeToLocaleFiles = (locales, outputDir) => {
-  f.each(locales, item => {
+  each(locales, item => {
     const outputFile = path.join(outputDir, `${item.lang}.yml`)
     const text = YAML.dump(item.mapping)
     try {
@@ -55,6 +47,6 @@ const locales = mergeTranslationsWithPresets(translations, CONFIG.localePresetsD
 writeToLocaleFiles(locales, CONFIG.outputDir)
 
 console.error('=> Building translations… OK!', {
-  languages: f.map(locales, 'lang'),
+  languages: map(locales, 'lang'),
   translationsCount: Object.keys(translations[0].mapping).length
 })

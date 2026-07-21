@@ -1,4 +1,4 @@
-import { map, zipObject, zip } from 'lodash-es'
+import { map, zipObject } from 'lodash-es'
 import { present, presence } from './present.js'
 import CSV from 'babyparse'
 
@@ -29,7 +29,7 @@ function readTranslationsFromCSV(rawCsvText, ignoreColumns) {
     .map(function (lang, index) {
       if (ignoreColumns.includes(lang)) return null
       var langRows = map(rows, index + 1)
-      return { lang: lang, mapping: zipObject(zip(keys, langRows)) }
+      return { lang: lang, mapping: zipObject(keys, langRows) }
     })
     .filter(Boolean)
 }
