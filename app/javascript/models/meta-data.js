@@ -11,7 +11,7 @@ export default AppCollection.extend({
 
   // Create a new instance from object (e.g. `{type: 'MetaDatum::Text'}`):
   model(attrs, options) {
-    const MetaDatumClass = MetaDatum[attrs.type.trimStart()]
+    const MetaDatumClass = MetaDatum[attrs.type.replace(/^MetaDatum::/, '')]
     if (!MetaDatumClass) {
       throw new Error(`No such type: ${attrs.type}!`)
     }

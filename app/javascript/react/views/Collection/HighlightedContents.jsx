@@ -58,8 +58,6 @@ class HighlightedContent extends React.Component {
       image = first(filter(images, i => i.width > 0))
     }
 
-    console.error('No image!', { props: this.props })
-
     let imgProps = {}
     if (image) {
       imgProps = {

@@ -29,6 +29,7 @@ export default function (currentUrl, ...params) {
       pathname: url.pathname || url.path,
       search: formatQuery(
         merge(
+          {},
           parseQuery(url.query),
           reduce(params, (a, b) => merge(a, b))
         )

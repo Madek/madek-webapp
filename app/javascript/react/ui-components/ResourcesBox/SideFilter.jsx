@@ -1,5 +1,5 @@
 import { present } from '../../../lib/present';
-import { compact, each, flatten, get, includes, map, pick, reject, set, some } from 'lodash-es';
+import { compact, each, flatten, get, includes, map, merge, pick, reject, set, some } from 'lodash-es';
 import React from 'react'
 import PropTypes from 'prop-types'
 import t from '../../../lib/i18n-translate.js'
@@ -121,7 +121,7 @@ class SideFilter extends React.Component {
 
   _getUrlAndQuery() {
     const url = this.props.forUrl
-    const query = parseQuery(url.query)
+    const query = merge({}, parseQuery(url.query))
     if (!query.list) {
       query.list = {}
     }
