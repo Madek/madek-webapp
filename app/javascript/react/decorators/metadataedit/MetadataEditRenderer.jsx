@@ -1,5 +1,4 @@
 import {
-  chain,
   curry,
   filter,
   flatten,
@@ -7,6 +6,7 @@ import {
   includes,
   isEmpty,
   keys,
+  last,
   map,
   size,
   sortBy,
@@ -508,7 +508,7 @@ export default {
 
     if (resource.media_file && resource.media_file.previews) {
       const { previews } = resource.media_file
-      href = href || chain(previews.images).sortBy('width').last().get('url').run()
+      href = href || get(last(sortBy(previews.images, 'width')), 'url')
     }
 
     const alt = ''

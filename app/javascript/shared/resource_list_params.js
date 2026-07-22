@@ -1,4 +1,4 @@
-import { chain, curry, includes } from 'lodash-es';
+import { curry, get, includes, map, merge, pick } from 'lodash-es'
 import qs from 'qs'
 
 export default function (location) {
@@ -6,18 +6,15 @@ export default function (location) {
   const base = 'list'
   const allowed = ['layout', 'filter', 'show_filter', 'accordion', 'page', 'per_page', 'order']
   const coerced_types = { bools: ['show_filter'], jsons: ['filter', 'accordion'] }
-  return chain(query)
-    .get(base)
-    .pick(allowed)
-    .map(curry(coerceTypes)(coerced_types))
-    .object()
-    .merge({
-      for_url: {
-        pathname: location.pathname,
-        query
-      }
-    })
-    .value();
+  const coerced = Object.fromEntries(
+    map(pick(get(query, base), allowed), curry(coerceTypes)(coerced_types))
+  )
+  return merge(coerced, {
+    for_url: {
+      pathname: location.pathname,
+      query
+    }
+  })
 }
 
 // private

@@ -1,4 +1,4 @@
-import { chain, get as _get, includes, merge } from 'lodash-es';
+import { get as _get, includes, last, merge, sortBy } from 'lodash-es';
 import React from 'react'
 import PropTypes from 'prop-types'
 import t from '../../lib/i18n-translate.js'
@@ -36,7 +36,7 @@ export default class MediaEntryPreview extends React.Component {
     // get the largest image and use it as 'full size link'
     // NOTE: we want this link even if the file is the same,
     // for consistency and bc it's easier for users…
-    const imageHref = chain(previews.images).sortBy('width').last().get('url').run()
+    const imageHref = _get(last(sortBy(previews.images, 'width')), 'url')
 
     // just the picure element (might be wrapped)
     // prefer the given image_url, but fallback to largest

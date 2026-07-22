@@ -1,4 +1,4 @@
-import { chain, filter, findLast, first, get as _get, isEmpty, map, union } from 'lodash-es';
+import { filter, findLast, first, get as _get, isEmpty, map, union, uniqBy, values } from 'lodash-es';
 import React from 'react'
 import t from '../../../lib/i18n-translate.js'
 
@@ -64,16 +64,9 @@ class HighlightedContent extends React.Component {
     if (image) {
       imgProps = {
         src: image.url,
-        srcSet: chain(images)
-          .values()
-          .uniq('url')
-          .map(function ({ url, width }) {
-            if (url && width) {
-              return `${url} ${width}w`
-            }
-          })
-          .compact()
-          .value()
+        srcSet: uniqBy(values(images), 'url')
+          .map(({ url, width }) => (url && width ? `${url} ${width}w` : undefined))
+          .filter(Boolean)
           .join(', ')
       }
     }
