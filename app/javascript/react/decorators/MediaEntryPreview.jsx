@@ -1,4 +1,4 @@
-import { chain, get, includes, merge } from 'lodash-es';
+import { chain, get as _get, includes, merge } from 'lodash-es';
 import React from 'react'
 import PropTypes from 'prop-types'
 import t from '../../lib/i18n-translate.js'
@@ -57,7 +57,7 @@ export default class MediaEntryPreview extends React.Component {
 
     const not_ready =
       (get.media_type == 'video' || get.media_type == 'audio') &&
-      get(get, 'media_file.conversion_status') != 'finished'
+      _get(get, 'media_file.conversion_status') != 'finished'
 
     const missingAvPreviews =
       (get.media_type == 'video' && (previews.videos || []).length == 0) ||
@@ -113,7 +113,7 @@ export default class MediaEntryPreview extends React.Component {
           type="video"
           {...mediaPlayerConfig}
           sources={previews.videos}
-          options={merge({ fluid: true }, get(mediaPlayerConfig, 'options'))}
+          options={merge({ fluid: true }, _get(mediaPlayerConfig, 'options'))}
           captionConf={this.props.captionConf}
           isInternal={this.props.isInternal}
         />
@@ -124,7 +124,7 @@ export default class MediaEntryPreview extends React.Component {
           {...mediaPlayerConfig}
           getUrl={get.url}
           sources={previews.audios}
-          options={merge({ fluid: true }, get(mediaPlayerConfig, 'options'))}
+          options={merge({ fluid: true }, _get(mediaPlayerConfig, 'options'))}
           captionConf={this.props.captionConf}
           isInternal={this.props.isInternal}
         />

@@ -1,5 +1,5 @@
 import { presence, present } from '../../lib/present';
-import { each, find, get, keys, map, mapValues, set, snakeCase } from 'lodash-es';
+import { each, find, get as _get, keys, map, mapValues, set, snakeCase } from 'lodash-es';
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -269,7 +269,7 @@ class ResourceMetaDataPagePerContext extends React.Component {
         }
 
         if (res.statusCode === 400) {
-          const errors = presence(get(data, 'errors')) || {}
+          const errors = presence(_get(data, 'errors')) || {}
           if (!present(errors)) {
             window.scrollTo(0, 0)
             if (this._isMounted) {
@@ -415,7 +415,7 @@ There are no contexts defined. Please configure them in the admin tool.\
     const { get } = param
     const { currentTab } = this.state
     const currentContext = currentTab != null ? currentTab.byContext : undefined
-    const description = get(get, [
+    const description = _get(get, [
       'meta_meta_data',
       'contexts_by_context_id',
       currentContext,

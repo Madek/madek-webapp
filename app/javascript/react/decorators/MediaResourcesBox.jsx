@@ -1,5 +1,5 @@
 import { present } from '../../lib/present';
-import { compact, each, extend, find, get, includes, isFunction, map, merge, omit } from 'lodash-es';
+import { compact, each, extend, find, get as _get, includes, isFunction, map, merge, omit } from 'lodash-es';
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -92,7 +92,7 @@ class MediaResourcesBox extends Component {
       batchEditTitleResourceIds: undefined,
       savedLayout: props.collectionData ? props.collectionData.layout : undefined,
       savedOrder: props.collectionData ? props.collectionData.order : undefined,
-      savedContextId: get(props, 'collectionData.defaultContextId'),
+      savedContextId: _get(props, 'collectionData.defaultContextId'),
       savedResourceType:
         props.collectionData != null ? props.collectionData.defaultResourceType : undefined,
       showBatchTransferResponsibility: false,
@@ -331,7 +331,7 @@ class MediaResourcesBox extends Component {
       return
     }
 
-    const currentOrder = get(this.state.config, 'order', this.props.collectionData.order)
+    const currentOrder = _get(this.state.config, 'order', this.props.collectionData.order)
 
     const targetOrder = includes(['manual ASC', 'manual DESC'], currentOrder)
       ? currentOrder
@@ -717,8 +717,8 @@ class MediaResourcesBox extends Component {
     const { config } = this._mergeGet(this.props, this.state)
     const { layout } = config
     const { order } = config
-    const contextId = get(this.props, 'collectionData.contextId')
-    const typeFilter = get(this.props, 'collectionData.typeFilter')
+    const contextId = _get(this.props, 'collectionData.contextId')
+    const typeFilter = _get(this.props, 'collectionData.typeFilter')
 
     const requestBody = []
     requestBody.push(`collection[layout]=${layout}`)
@@ -769,7 +769,7 @@ class MediaResourcesBox extends Component {
 
     const boxTitleBar = () => {
       const { layout, order } = config
-      const totalCount = get(get, 'pagination.total_count')
+      const totalCount = _get(get, 'pagination.total_count')
 
       const layouts = BoxUtil.allowedLayoutModes(this.props.disableListMode).map(layoutMode => {
         const href = BoxSetUrlParams(currentUrl, { list: { layout: layoutMode.mode } })
@@ -821,7 +821,7 @@ class MediaResourcesBox extends Component {
       config,
       isClipboard: this.props.initial ? this.props.initial.is_clipboard : false,
       content_type: this.props.get.content_type,
-      showAddSetButton: get(this.props, 'showAddSetButton', false)
+      showAddSetButton: _get(this.props, 'showAddSetButton', false)
     }
 
     const boxToolBar = () => {
@@ -967,7 +967,7 @@ class MediaResourcesBox extends Component {
             async={false}
             authToken={authToken}
             onClose={() => this.setState({ showCreateCollectionModal: false })}
-            newCollectionUrl={get(this.props, 'collectionData.newCollectionUrl')}
+            newCollectionUrl={_get(this.props, 'collectionData.newCollectionUrl')}
           />
         ) : undefined}
         <div className="ui-resources-holder pam">
@@ -993,7 +993,7 @@ class MediaResourcesBox extends Component {
                 } else {
                   const positionProps = {
                     handlePositionChange: this.handlePositionChange,
-                    changeable: get(this.props, 'collectionData.position_changeable', false),
+                    changeable: _get(this.props, 'collectionData.position_changeable', false),
                     disabled: this.state.boxState.loadingNextPage
                   }
 

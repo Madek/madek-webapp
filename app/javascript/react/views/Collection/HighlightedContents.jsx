@@ -1,4 +1,4 @@
-import { chain, filter, findLast, first, get, isEmpty, map, union } from 'lodash-es';
+import { chain, filter, findLast, first, get as _get, isEmpty, map, union } from 'lodash-es';
 import React from 'react'
 import t from '../../../lib/i18n-translate.js'
 
@@ -49,9 +49,9 @@ class HighlightedContent extends React.Component {
     const aClass = cx('ui-tile', { 'ui-tile--set': mediaResource.type === 'Collection' })
 
     const images =
-      get(mediaResource, 'type') === 'Collection'
-        ? get(mediaResource, 'cover')
-        : get(mediaResource, 'media_file.previews.images')
+      _get(mediaResource, 'type') === 'Collection'
+        ? _get(mediaResource, 'cover')
+        : _get(mediaResource, 'media_file.previews.images')
     // smallest image that is smaller than wanted or the largest available:
     let image = findLast(images, i => i.width >= 300)
     if (!image) {
