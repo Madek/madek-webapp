@@ -1,5 +1,5 @@
 import { present } from '../../lib/present';
-import { compact, each, extend, filter, find, get, isFunction, remove, set, size } from 'lodash-es';
+import { chunk, compact, each, extend, filter, find, get, isFunction, remove, set, size } from 'lodash-es';
 import State from 'ampersand-state'
 import xhr from 'xhr'
 import setUrlParams from '../../lib/set-params-for-url.js'
@@ -65,14 +65,11 @@ export default function (collectionClass, { jsonPath }) {
         fn() {
           const paginationBase = { totalPages: this.totalPages, totalCount: this.totalCount }
 
-          return f(this.resources.models)
-            .chunk(this.perPage)
-            .map((resources, n) => ({
-              url: setUrlParams(this.url, { list: { page: this.firstPage + n } }),
-              resources,
-              pagination: extend(paginationBase, { page: this.firstPage + n })
-            }))
-            .value();
+          return chunk(this.resources.models, this.perPage).map((resources, n) => ({
+            url: setUrlParams(this.url, { list: { page: this.firstPage + n } }),
+            resources,
+            pagination: extend(paginationBase, { page: this.firstPage + n })
+          }));
         }
       }
     },

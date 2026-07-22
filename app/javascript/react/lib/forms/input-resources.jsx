@@ -1,4 +1,4 @@
-import { present } from '../../../lib/present';
+import { present, presence } from '../../../lib/present';
 
 import {
   clone,
@@ -13,6 +13,7 @@ import {
   isEqual,
   isPlainObject,
   map,
+  omit,
   pick,
   snakeCase,
   some,
@@ -79,11 +80,11 @@ class InputResources extends React.Component {
     this._adding = true
     const is_duplicate = (() => {
       if (present(item.uuid)) {
-        return f(this.state.values).map('uuid').includes(item.uuid)
+        return map(this.state.values, 'uuid').includes(item.uuid)
       } else {
         // check for NEW values…
         if (item.type === 'Keyword') {
-          return f(this.state.values).map('term').includes(item.term)
+          return map(this.state.values, 'term').includes(item.term)
         } else if (item.type === 'Person') {
           return some(this.state.values, o => isEqual(o, item));
         } else {
@@ -490,7 +491,7 @@ class InputResources extends React.Component {
             })()}
           </ul>
         </div>
-        {map(f(values).presence() || [''], function (item) {
+        {map(presence(values) || [''], function (item) {
           // persisted resources have and only need a uuid (as string)
           const keyValuePairs = (() => {
             if (item.uuid && !has(item, 'role')) {
@@ -501,9 +502,8 @@ class InputResources extends React.Component {
               return [[name + '[term]', item.term]]
             } else if (item.type === 'Person') {
               const newItem = item.isNew ? item : pick(item, ['uuid', 'role'])
-              return f(newItem)
-                .omit(['type', 'isNew'])
-                .map(function (val, key) {
+              return compact(
+                map(omit(newItem, ['type', 'isNew']), function (val, key) {
                   // pairs; build keys; clean & stringify values:
                   if (isArray(val)) {
                     val = val.map(v => v.id).join(',')
@@ -519,8 +519,7 @@ class InputResources extends React.Component {
                     }
                   }
                 })
-                .compact()
-                .value();
+              );
 
               // normal text fields are always just values:
             } else {

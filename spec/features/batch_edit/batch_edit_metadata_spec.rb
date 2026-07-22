@@ -19,6 +19,7 @@ feature 'Batch edit metadata' do
   scenario 'Ignore resources of wrong type' do
     prepare_and_login
 
+    binding.pry
     visit_batch(MediaEntry, mixed_1_3_1_3)
     check_thumbnail_count(media_entries_1_3)
     check_thumbnail_count_by_type(MediaEntry, media_entries_1_3)
