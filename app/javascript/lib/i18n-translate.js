@@ -1,4 +1,4 @@
-import { get, includes, isString, keys, map, zipObject } from 'lodash-es';
+import { get, isString } from 'lodash-es';
 import parseTranslationsFromCSV from './parse-translations-from-csv.js'
 
 // NOTE: this works with browserify and the 'brfs' transform (embeds as string)
@@ -10,8 +10,8 @@ var translationsCSVText = require('fs').readFileSync(
 
 // parses CSV and returns list like: [{lang: 'en', mapping: {key: 'value'}}, …]
 var translationsList = parseTranslationsFromCSV(translationsCSVText)
-var translations = zipObject(
-  map(translationsList, function (item) {
+var translations = Object.fromEntries(
+  translationsList.map(function (item) {
     return [item.lang, item.mapping]
   })
 )
@@ -20,7 +20,7 @@ export default function I18nTranslate(marker) {
   // get language from (global) app config
   var LANG = APP_CONFIG.userLanguage
 
-  if (!includes(keys(translations), LANG)) {
+  if (!Object.hasOwn(translations, LANG)) {
     throw new Error(`Unknown language '${LANG}'!`)
   }
 
