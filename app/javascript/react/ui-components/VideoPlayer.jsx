@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import endsWith from 'lodash/endsWith'
+import { endsWith } from 'lodash-es'
 
 import VideoJS from './VideoJs.jsx'
 

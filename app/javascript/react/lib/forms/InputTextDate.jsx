@@ -9,9 +9,7 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import compact from 'lodash/compact'
-import isString from 'lodash/isString'
-import isEmpty from 'lodash/isEmpty'
+import { compact, isString, isEmpty } from 'lodash-es'
 import ui from '../ui.js'
 const t = ui.t
 

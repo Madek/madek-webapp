@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import chunk from 'lodash/chunk'
-import sortBy from 'lodash/sortBy'
-import isEmpty from 'lodash/isEmpty'
+import { chunk, sortBy, isEmpty } from 'lodash-es'
 import t from '../../../lib/i18n-translate.js'
 
 import MadekPropTypes from '../../lib/madek-prop-types.js'

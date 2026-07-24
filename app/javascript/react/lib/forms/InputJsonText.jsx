@@ -7,9 +7,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
-import first from 'lodash/first'
-import isString from 'lodash/isString'
-import isPlainObject from 'lodash/isPlainObject'
+import { first, isString, isPlainObject } from 'lodash-es'
 import t from '../../../lib/i18n-translate.js'
 
 class InputJsonText extends Component {
