@@ -1,5 +1,5 @@
 import React from 'react'
-import { chain, concat, get, isEmpty, last, reduce } from 'lodash-es'
+import { compact, concat, flattenDeep, get, isEmpty, last, reduce, sortBy } from 'lodash-es'
 import setUrlParams from '../../../lib/set-params-for-url.js'
 import AppRequest from '../../../lib/app-request.js'
 import asyncWhile from 'async/whilst'
@@ -130,14 +130,13 @@ const parseStreamInfo = get => {
 
 // extract items from sections and sort by moment
 const combineActivityLists = obj =>
-  chain(SECTIONS)
-    .map(s => obj[s])
-    .flattenDeep()
-    .compact()
-    .map(i => ({ ...i, date: Moment(new Date(i.date)) }))
-    .sortBy('date')
-    .reverse()
-    .value()
+  sortBy(
+    compact(flattenDeep(SECTIONS.map(s => obj[s]))).map(i => ({
+      ...i,
+      date: Moment(new Date(i.date))
+    })),
+    'date'
+  ).reverse()
 
 // group several items if the "belong together"
 const combineActivityItems = list => {

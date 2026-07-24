@@ -13,7 +13,7 @@ class TokensPage extends React.Component {
   render(props = this.props) {
     const { get, authToken } = props
 
-    const newAction = f.get(get, 'actions.new')
+    const newAction = _get(get, 'actions.new')
 
     return (
       <div className="ui-resources-holder pal">
@@ -38,11 +38,11 @@ class TokensPage extends React.Component {
 }
 
 const TokensList = ({ tokens, authToken }) => {
-  const expiredTokens = f.filter(tokens, 'is_expired')
-  const activeTokens = f.difference(tokens, expiredTokens)
-  const allTokes = f.compact([
+  const expiredTokens = filter(tokens, 'is_expired')
+  const activeTokens = difference(tokens, expiredTokens)
+  const allTokes = compact([
     [activeTokens],
-    !f.isEmpty(expiredTokens) && [expiredTokens, t('api_tokens_list_revoked_title')]
+    !isEmpty(expiredTokens) && [expiredTokens, t('api_tokens_list_revoked_title')]
   ])
 
   return (
@@ -80,7 +80,7 @@ const TokensList = ({ tokens, authToken }) => {
               </tr>
             </thead>
             <tbody>
-              {f.map(tokens, token => (
+              {map(tokens, token => (
                 <TokenRow key={token.uuid} {...token} authToken={authToken} />
               ))}
             </tbody>
@@ -103,14 +103,14 @@ export const TokenRow = ({ authToken, ...token }) => {
     expirationDate = Moment(new Date(token.expires_at)).fromNow()
     expirationDateTitle = t('api_tokens_list_expires_hint_pre') + token.expires_at
   }
-  const revokeAction = f.get(token, 'actions.update')
+  const revokeAction = _get(token, 'actions.update')
   const perms = [
     ['read', t('api_tokens_list_scope_read')],
     ['write', t('api_tokens_list_scope_write')]
   ]
-  const permissionsList = f.compact(
+  const permissionsList = compact(
     perms.map(([key, label]) => {
-      const stateLabel = f.includes(scopes, key)
+      const stateLabel = includes(scopes, key)
         ? t('api_tokens_list_scope_on')
         : t('api_tokens_list_scope_off')
       return `${label}: ${stateLabel}`
@@ -124,7 +124,7 @@ export const TokenRow = ({ authToken, ...token }) => {
       <td>{label}</td>
       <td>
         <div className="measure-narrow">
-          {!f.isEmpty(description) ? description : t('api_tokens_list_no_description')}
+          {!isEmpty(description) ? description : t('api_tokens_list_no_description')}
         </div>
       </td>
       <td>
