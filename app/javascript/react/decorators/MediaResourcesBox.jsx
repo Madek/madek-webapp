@@ -1,5 +1,5 @@
 import { present } from '../../lib/present';
-import { compact, each, extend, find, get as _get, includes, isFunction, map, merge, omit } from 'lodash-es';
+import { compact, defaultsDeep, each, extend, find, get as _get, includes, isFunction, join, map, merge, omit } from 'lodash-es';
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -12,8 +12,6 @@ import React, { Component } from 'react'
 
 import urlModule from 'url'
 import localLinks from 'local-links'
-import _ from 'lodash'
-import defaultsDeep from 'lodash/defaultsDeep'
 import History from 'history/lib/createBrowserHistory'
 import useBeforeUnload from 'history/lib/useBeforeUnload'
 
@@ -429,7 +427,7 @@ class MediaResourcesBox extends Component {
       this._currentUrl() +
       '"></input>' +
       '<button type="button"></button>' +
-      _.join(
+      join(
         map(selected, s => {
           return `<input type="hidden" name="id[]" value="${s}"></input>`
         }),

@@ -1,5 +1,5 @@
 import React from 'react'
-import f from 'lodash'
+import { map } from 'lodash-es'
 import Modal from '../ui-components/Modal.jsx'
 import EditTransferResponsibility from '../views/Shared/EditTransferResponsibility.jsx'
 
@@ -11,7 +11,7 @@ class BoxTransfer extends React.Component {
   render() {
     const transferResources = this.props.transferResources
 
-    const resource_ids = f.map(transferResources, 'uuid')
+    const resource_ids = map(transferResources, 'uuid')
 
     // current responsibles occuring in the list, grouped
     const responsibles = extractResponsibles(transferResources)

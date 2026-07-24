@@ -1,6 +1,5 @@
-import { some, values } from 'lodash-es';
+import { isEqual, some, values } from 'lodash-es';
 import React from 'react'
-import l from 'lodash'
 import ActionsDropdownHelper from './resourcesbox/ActionsDropdownHelper.jsx'
 import ResourceThumbnail from './ResourceThumbnail.jsx'
 
@@ -11,7 +10,7 @@ class BoxRenderResource extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
+    return !isEqual(this.state, nextState) || !isEqual(this.props, nextProps)
   }
 
   onSelect(event) {

@@ -1,5 +1,5 @@
 import React from 'react'
-import f from 'lodash'
+import { find, isEmpty, size, values } from 'lodash-es'
 import t from '../../lib/i18n-translate.js'
 import Icon from '../ui-components/Icon.jsx'
 
@@ -24,11 +24,11 @@ class BoxPageCounter extends React.Component {
     var showActions = this.props.showActions
     var selection = this.props.selectedResources
 
-    if (this.props.isClient && selection && !f.isEmpty(f.values(showActions))) {
+    if (this.props.isClient && selection && !isEmpty(values(showActions))) {
       var selectionCountOnPage = selection
-        ? f.size(
+        ? size(
             pageResources.filter(item => {
-              return f.find(selection, sr => sr.uuid == item.uuid)
+              return find(selection, sr => sr.uuid == item.uuid)
             })
           )
         : 0

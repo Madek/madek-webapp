@@ -1,4 +1,4 @@
-import get from 'lodash/get'
+import { get } from 'lodash-es'
 import ampersandApp from 'ampersand-app'
 
 function currentLocale() {

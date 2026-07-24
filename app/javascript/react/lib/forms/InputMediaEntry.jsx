@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import f from 'lodash'
+import { extend, get, isString } from 'lodash-es'
 import t from '../../../lib/i18n-translate.js'
 
 class InputMediaEntry extends React.Component {
   constructor(props) {
     super(props)
 
-    const uuid = f.get(props.values, '0.0.uuid', '')
-    const description = f.get(props.values, '0.1')
+    const uuid = get(props.values, '0.0.uuid', '')
+    const description = get(props.values, '0.1')
     const uuidError = !this.isValidUuid(uuid)
 
     this.state = {
@@ -27,7 +27,7 @@ class InputMediaEntry extends React.Component {
 
   isValidUuid(uuid) {
     return (
-      (f.isString(uuid) && uuid.length === 0) ||
+      (isString(uuid) && uuid.length === 0) ||
       /^([0-9a-f]{8})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{2})([0-9a-f]{2})-([0-9a-f]{12})$/.test(
         uuid
       )
@@ -35,7 +35,7 @@ class InputMediaEntry extends React.Component {
   }
 
   handleResourceIdChange(e) {
-    const values = f.extend({}, this.state.values, { uuid: e.target.value })
+    const values = extend({}, this.state.values, { uuid: e.target.value })
     const uuidError = !this.isValidUuid(values.uuid)
 
     this.setState({ values, uuidError })
@@ -43,7 +43,7 @@ class InputMediaEntry extends React.Component {
   }
 
   handleDescriptionChange(e) {
-    const values = f.extend({}, this.state.values, { description: e.target.value })
+    const values = extend({}, this.state.values, { description: e.target.value })
 
     this.setState({ values })
     this.props.onChange([[{ uuid: values.uuid }, values.description]])

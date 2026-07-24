@@ -1,9 +1,8 @@
-import { chunk, find, includes, map } from 'lodash-es';
+import { chunk, find, includes, isEqual, map } from 'lodash-es';
 import React from 'react'
 import cx from 'classnames/dedupe'
 import ActionsDropdownHelper from './resourcesbox/ActionsDropdownHelper.jsx'
 import BoxRenderResource from './BoxRenderResource.jsx'
-import l from 'lodash'
 import BoxPageCounter from './BoxPageCounter.jsx'
 
 class BoxRenderResources extends React.Component {
@@ -12,7 +11,7 @@ class BoxRenderResources extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
+    return !isEqual(this.state, nextState) || !isEqual(this.props, nextProps)
   }
 
   render() {

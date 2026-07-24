@@ -1,6 +1,5 @@
-import { compact, flatten, includes } from 'lodash-es';
+import { compact, flatten, includes, isEqual } from 'lodash-es';
 import React from 'react'
-import l from 'lodash'
 import BoxTitlebarRender from './BoxTitlebarRender.jsx'
 import t from '../../lib/i18n-translate.js'
 import cx from 'classnames/dedupe'
@@ -13,7 +12,7 @@ class BoxTitlebar extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
+    return !isEqual(this.state, nextState) || !isEqual(this.props, nextProps)
   }
 
   getHeading() {

@@ -1,5 +1,5 @@
 import React from 'react'
-import f from 'lodash'
+import { get as _get } from 'lodash-es'
 import ui from '../../lib/ui.js'
 import UI from '../../ui-components/index.js'
 import RailsForm from '../../lib/forms/rails-form.jsx'
@@ -7,11 +7,11 @@ const t = ui.t
 
 class TokenNewPage extends React.Component {
   render(props = this.props) {
-    const action = f.get(props, 'get.actions.create')
+    const action = _get(props, 'get.actions.create')
     if (!action) return false
 
-    const descriptionTxt = f.get(props, 'get.given_props.description') || ''
-    const callbackUrl = f.get(props, 'get.given_props.callback_url')
+    const descriptionTxt = _get(props, 'get.given_props.description') || ''
+    const callbackUrl = _get(props, 'get.given_props.callback_url')
 
     const textAreaStyle = {
       minHeight: 'initial',

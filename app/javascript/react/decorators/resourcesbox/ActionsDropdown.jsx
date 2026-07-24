@@ -1,7 +1,6 @@
 import { present } from '../../../lib/present';
-import { curry, some, values } from 'lodash-es';
+import { curry, isEqual, some, values } from 'lodash-es';
 import React from 'react'
-import l from 'lodash'
 import { t } from '../../lib/ui.js'
 import SelectionScope from '../../../lib/selection-scope.js'
 import { Icon, Dropdown } from '../../ui-components/index.js'
@@ -9,7 +8,7 @@ import ActionsDropdownHelper from './ActionsDropdownHelper.jsx'
 
 export default class ActionsDropdown extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
-    return !l.isEqual(this.state, nextState) || !l.isEqual(this.props, nextProps)
+    return !isEqual(this.state, nextState) || !isEqual(this.props, nextProps)
   }
 
   render() {

@@ -1,4 +1,4 @@
-import l from 'lodash'
+import { each, filter, get, isEmpty, set } from 'lodash-es'
 import url from 'url'
 import xhr from 'xhr'
 import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
@@ -41,7 +41,7 @@ export default (last, props, trigger) => {
         return last.queue
       }
     } else if (props.event == 'relations-loaded') {
-      return l.filter(last.queue, q => q != props.property)
+      return filter(last.queue, q => q != props.property)
     } else {
       return last.queue
     }
@@ -50,7 +50,7 @@ export default (last, props, trigger) => {
   var nextStatus = () => {
     if (props.event == 'try-fetch' && last.status == 'initial') {
       return 'fetching'
-    } else if (props.event == 'relations-loaded' && l.isEmpty(nextQueue())) {
+    } else if (props.event == 'relations-loaded' && isEmpty(nextQueue())) {
       return 'done'
     } else {
       return last.status
@@ -69,7 +69,7 @@ export default (last, props, trigger) => {
   }
 
   var asyncLoadAll = () => {
-    l.each(nextQueue(), q => load(q, props.resource))
+    each(nextQueue(), q => load(q, props.resource))
   }
 
   var load = (property, resource) => {
@@ -85,7 +85,7 @@ export default (last, props, trigger) => {
 
     var jsonPath = jsonPaths[property]
 
-    var sparseSpec = JSON.stringify(l.set({}, jsonPath, {}))
+    var sparseSpec = JSON.stringify(set({}, jsonPath, {}))
 
     var parsedUrl = url.parse(resource.url, true)
     delete parsedUrl.search
@@ -106,7 +106,7 @@ export default (last, props, trigger) => {
         }
       },
       (err, res, json) => {
-        var relations = l.get(json, jsonPath)
+        var relations = get(json, jsonPath)
         trigger({
           event: 'relations-loaded',
           property: property,

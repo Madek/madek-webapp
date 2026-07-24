@@ -1,5 +1,5 @@
 import React from 'react'
-import f from 'lodash'
+import { map } from 'lodash-es'
 import classList from 'classnames'
 import { parse as parseUrl } from 'url'
 import qs from 'qs'
@@ -12,7 +12,7 @@ const MediaResourcesLine = ({ children, resources }) => (
       {children && <div className="mbm">{children}</div>}
       <div className="ui-featured-entries small active">
         <ul className="ui-featured-entries-list">
-          {f.map(resources, ({ uuid, url, title, image_url, media_type }) => (
+          {map(resources, ({ uuid, url, title, image_url, media_type }) => (
             <li key={uuid} className="ui-featured-entries-item">
               <a
                 className={classList('ui-featured-entry', { [`is-${media_type}`]: !!media_type })}

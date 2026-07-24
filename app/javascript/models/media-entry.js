@@ -1,7 +1,6 @@
 import { presence } from '../lib/present';
 import { get, has, isFunction, merge } from 'lodash-es';
-import globalWindow from 'global/window'
-const BrowserFile = globalWindow.File
+const BrowserFile = globalThis.File
 import app from 'ampersand-app'
 import AppResource from './shared/app-resource.js'
 import Permissions from './media-entry/permissions.js'

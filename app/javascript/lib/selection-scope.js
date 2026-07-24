@@ -1,4 +1,4 @@
-import f from 'lodash'
+import { filter, includes } from 'lodash-es'
 
 const toExport = {
   batchMetaDataResource(resource) {
@@ -18,26 +18,26 @@ const toExport = {
   },
 
   batchMetaDataResources(selection, types) {
-    return f.filter(selection, r => {
-      return this.batchMetaDataResource(r) && f.includes(types, r.type)
+    return filter(selection, r => {
+      return this.batchMetaDataResource(r) && includes(types, r.type)
     })
   },
 
   batchPermissionResources(selection, types) {
-    return f.filter(selection, r => {
-      return this.batchPermissionResource(r) && f.includes(types, r.type)
+    return filter(selection, r => {
+      return this.batchPermissionResource(r) && includes(types, r.type)
     })
   },
 
   batchTransferResponsibilityResources(selection, types) {
-    return f.filter(selection, r => {
-      return this.batchTransferResponsibilityResource(r) && f.includes(types, r.type)
+    return filter(selection, r => {
+      return this.batchTransferResponsibilityResource(r) && includes(types, r.type)
     })
   },
 
   batchDestroyResources(selection, types) {
-    return f.filter(selection, r => {
-      return this.batchDestroyResource(r) && f.includes(types, r.type)
+    return filter(selection, r => {
+      return this.batchDestroyResource(r) && includes(types, r.type)
     })
   }
 }

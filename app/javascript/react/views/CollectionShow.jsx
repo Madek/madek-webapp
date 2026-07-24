@@ -1,5 +1,5 @@
 import React from 'react'
-import f from 'lodash'
+import { map, slice } from 'lodash-es'
 import { parse as parseUrl, format as buildUrl } from 'url'
 import t from '../../lib/i18n-translate.js'
 import RightsManagement from '../templates/ResourcePermissions.jsx'
@@ -20,7 +20,7 @@ import UsageData from '../decorators/UsageData.jsx'
 import Share from './Shared/Share.jsx'
 
 const parseUrlState = function (location) {
-  const urlParts = f.slice(parseUrl(location).pathname.split('/'), 1)
+  const urlParts = slice(parseUrl(location).pathname.split('/'), 1)
   if (urlParts.length < 3) {
     return { action: 'show', argument: null }
   } else {
@@ -149,7 +149,7 @@ class CollectionShow extends React.Component {
           onClick={this._onClick}
         />
         <Tabs>
-          {f.map(get.tabs, tab => (
+          {map(get.tabs, tab => (
             <Tab
               key={tab.id}
               href={tab.href}

@@ -1,5 +1,5 @@
 import React from 'react'
-import f from 'lodash'
+import { get } from 'lodash-es'
 import { t } from '../../lib/ui.js'
 import UI from '../../ui-components/index.js'
 import RailsForm from '../../lib/forms/rails-form.jsx'
@@ -25,11 +25,11 @@ class ConfidentialLinkNew extends React.Component {
   }
 
   _handleDayClick(day, modifiers) {
-    if (f.get(modifiers, 'disabled', false) === false) this.setState({ expiresAtDate: Moment(day) })
+    if (get(modifiers, 'disabled', false) === false) this.setState({ expiresAtDate: Moment(day) })
   }
 
   render(props = this.props) {
-    const action = f.get(props, 'get.actions.create')
+    const action = get(props, 'get.actions.create')
     if (!action) return false
 
     const textAreaStyle = {

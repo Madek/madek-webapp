@@ -1,5 +1,5 @@
 import React from 'react'
-import f from 'lodash'
+import { filter, size } from 'lodash-es'
 import t from '../../lib/i18n-translate.js'
 import Modal from '../ui-components/Modal.jsx'
 import Preloader from '../ui-components/Preloader.jsx'
@@ -33,11 +33,11 @@ class BoxDestroy extends React.Component {
           <div>{t('batch_destroy_resources_ask_1')}</div>
 
           <div style={{ fontWeight: 'bold' }}>
-            {f.size(f.filter(this.props.idsWithTypes, { type: 'MediaEntry' }))}
+            {size(filter(this.props.idsWithTypes, { type: 'MediaEntry' }))}
             {t('batch_destroy_resources_ask_2')}
           </div>
           <div style={{ fontWeight: 'bold' }}>
-            {f.size(f.filter(this.props.idsWithTypes, { type: 'Collection' }))}
+            {size(filter(this.props.idsWithTypes, { type: 'Collection' }))}
             {t('batch_destroy_resources_ask_3')}
           </div>
           <div>{t('batch_destroy_resources_ask_4')}</div>
