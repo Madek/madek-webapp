@@ -169,14 +169,19 @@ module Presenters
         end
 
         def presenterify(resources, determined_presenter = nil)
-          resources.map do |resource|
+          # Cast first (MediaResource view → MediaEntry/Collection), then preload
+          # so authors_pretty does not N+1 Person loads (Madek#914).
+          casted = Array(resources).map { |r| r.try(:cast_to_type) || r }
+          ::MediaResources::MetaData.preload_for_list!(casted)
+
+          casted.map do |resource|
             # if no presenter given, need to check class of every member!
             presenter = \
               determined_presenter \
               || presenter_by_resource_type(resource) \
               || presenter_by_class(resource.class)
             presenter.new(
-              resource.try(:cast_to_type) || resource,
+              resource,
               @user,
               load_meta_data: @load_meta_data,
               list_conf: @conf)
