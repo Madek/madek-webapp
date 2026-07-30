@@ -19,16 +19,10 @@ const { present } = require('./lib/present.js')
 const parseUrl = require('url').parse
 const buildUrl = require('url').format
 
-// setup APP ############################################################
-// "global" singleton (returns same object no matter where it's required)
-const app = require('ampersand-app')
-// validate and set the "global" config - see frontend_app_config.rb
+// validate the "global" config - see frontend_app_config.rb
 if (!present(APP_CONFIG)) {
   throw new Error('No `APP_CONFIG`!')
 }
-app.extend({
-  config: require('global').APP_CONFIG
-})
 
 // init UJS #############################################################
 

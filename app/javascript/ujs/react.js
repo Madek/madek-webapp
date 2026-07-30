@@ -10,6 +10,8 @@ import { get, isFunction, set } from 'lodash-es';
  */
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { QueryClientProvider } from '@tanstack/react-query'
+import queryClient from '../lib/query-client.js'
 import UI from '../react/index.js'
 
 const initByClass = {
@@ -18,7 +20,13 @@ const initByClass = {
     const Uploader = require('../react/views/My/Uploader.jsx').default
 
     const props = set(data.reactProps, 'appCollection', new MediaEntries())
-    return callback(React.createElement(Uploader, props))
+    return callback(
+      React.createElement(
+        QueryClientProvider,
+        { client: queryClient },
+        React.createElement(Uploader, props)
+      )
+    )
   }
 }
 
@@ -44,7 +52,13 @@ export default () => {
         if (!component) {
           throw new Error(`No such component: \`${componentClass}\`!`)
         }
-        return callback(React.createElement(component, data.reactProps))
+          return callback(
+          React.createElement(
+            QueryClientProvider,
+            { client: queryClient },
+            React.createElement(component, data.reactProps)
+          )
+        )
       }
     }
 

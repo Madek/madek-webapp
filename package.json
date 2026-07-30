@@ -23,9 +23,7 @@
   },
   "dependencies": {
     "@eins78/typopro-open-sans": "0.0.0",
-    "ampersand-app": "2.0.0",
-    "ampersand-model": "^8.0.1",
-    "ampersand-rest-collection": "^6.0.0",
+    "@tanstack/react-query": "^4.44.0",
     "any_sha1": "0.1.1",
     "async": "^2.6.4",
     "babyparse": "0.4.6",

@@ -1,8 +1,7 @@
-import { get } from 'lodash-es'
-import ampersandApp from 'ampersand-app'
+import { config } from './app-config.js'
 
 function currentLocale() {
-  return get(ampersandApp, 'config.userLanguage')
+  return config?.userLanguage
 }
 
 export default currentLocale

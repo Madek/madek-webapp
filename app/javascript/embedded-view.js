@@ -8,12 +8,12 @@
 const { present } = require('./lib/present.js')
 const React = require('react')
 const ReactDOM = require('react-dom')
+const { QueryClientProvider } = require('@tanstack/react-query')
+const queryClient = require('./lib/query-client.js').default
 const MediaEntryEmbedded = require('./react/views/MediaEntry/MediaEntryEmbedded.jsx').default
 
 // see: `frontend_app_config.rb`
 if (!present(APP_CONFIG)) throw new Error('No `APP_CONFIG`!')
-const app = require('ampersand-app')
-app.extend({ config: require('global').APP_CONFIG })
 
 function main() {
   const rootEl = document.querySelector(
@@ -21,7 +21,11 @@ function main() {
   )
   if (!rootEl || !rootEl.dataset || !rootEl.dataset.reactProps) return false
   const props = JSON.parse(rootEl.dataset.reactProps)
-  const view = React.createElement(MediaEntryEmbedded, props)
+  const view = React.createElement(
+    QueryClientProvider,
+    { client: queryClient },
+    React.createElement(MediaEntryEmbedded, props)
+  )
   ReactDOM.render(view, rootEl)
 }
 

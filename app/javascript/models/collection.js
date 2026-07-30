@@ -1,5 +1,4 @@
 import AppResource from './shared/app-resource.js'
-import Permissions from './media-entry/permissions.js'
 import Person from './person.js'
 import MetaData from './meta-data.js'
 import ResourceWithRelations from './concerns/resource-with-relations.js'
@@ -34,7 +33,6 @@ export default AppResource.extend(ResourceWithRelations, Favoritable, Deletable,
   }, // NOTE: see ResourceWithRelations
 
   children: {
-    permissions: Permissions,
     responsible: Person
   },
 

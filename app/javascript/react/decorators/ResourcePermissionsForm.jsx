@@ -79,9 +79,13 @@ class ResourcePermissionsForm extends React.Component {
         ? t('permission_subject_title_users')
         : t('permission_subject_title_users_or_delegations')
 
+    const { onPermissionChange, onPublicPermissionChange, onAddSubject, onRemoveSubject } = param
+
     let rows = [
       {
         // User permissions
+        collectionKey: 'user_permissions',
+        isSubjectList: true,
         type: ['Users', 'Delegations'],
         title: user_permissions_title,
         icon: 'privacy-private-alt',
@@ -91,6 +95,8 @@ class ResourcePermissionsForm extends React.Component {
       },
       {
         // Groups permissions
+        collectionKey: 'group_permissions',
+        isSubjectList: true,
         type: 'Groups',
         title: t('permission_subject_title_groups'),
         icon: 'privacy-group-alt',
@@ -101,6 +107,8 @@ class ResourcePermissionsForm extends React.Component {
       },
       {
         // ApiApp permissions
+        collectionKey: 'api_client_permissions',
+        isSubjectList: true,
         type: 'ApiClients',
         title: t('permission_subject_title_apiapps'),
         icon: 'api',
@@ -111,6 +119,8 @@ class ResourcePermissionsForm extends React.Component {
 
       // Public permissions
       {
+        collectionKey: null,
+        isSubjectList: false,
         title: t('permission_subject_title_public'),
         subjectName: t('permission_subject_name_public'),
         icon: 'privacy-open',
@@ -137,7 +147,10 @@ class ResourcePermissionsForm extends React.Component {
                 {...Object.assign({}, row, {
                   showTitles: showTitles,
                   editing: editing,
-                  permissionTypes: get.permission_types
+                  permissionTypes: get.permission_types,
+                  onPermissionChange: row.collectionKey ? onPermissionChange : onPublicPermissionChange,
+                  onAddSubject: onAddSubject,
+                  onRemoveSubject: onRemoveSubject
                 })}
               />
             )
@@ -180,11 +193,15 @@ class PermissionsBySubjectType extends React.Component {
   }
 
   onAddSubject(subject) {
-    const list = this.props.permissionsList
-    if (list.models.map(m => m.subject.uuid).includes(subject.uuid)) {
-      return
+    const { permissionsList, collectionKey, onAddSubject } = this.props
+    if (onAddSubject) {
+      onAddSubject(collectionKey, subject)
+    } else {
+      // legacy: ampersand collection (BatchResourcePermissions)
+      const models = permissionsList.models || permissionsList
+      if (models.map(m => m.subject.uuid).includes(subject.uuid)) return
+      permissionsList.add({ subject })
     }
-    return list.add({ subject })
   }
 
   render() {
@@ -193,14 +210,26 @@ class PermissionsBySubjectType extends React.Component {
       title,
       icon,
       permissionsList,
+      isSubjectList,
+      collectionKey,
       SubjectDeco,
       subjectName,
       permissionTypes,
       overriddenBy,
       editing,
       showTitles,
-      searchParams
+      searchParams,
+      onPermissionChange,
+      onRemoveSubject
     } = this.props
+
+    // Support both plain arrays (new) and ampersand collections (legacy batch)
+    const items = permissionsList
+    const existingUuids = () =>
+      (permissionsList.models || permissionsList).map(m => m.subject && m.subject.uuid)
+    // Show "add subject" row when editing a subject list
+    const showAddSubject = editing && (isSubjectList != null ? isSubjectList : permissionsList.isCollection)
+
     return (
       <div className="ui-rights-management-editing">
         <div className="ui-rights-body">
@@ -212,13 +241,29 @@ class PermissionsBySubjectType extends React.Component {
               showTitles={!!showTitles}
             />
             <tbody>
-              {permissionsList.map(function (permissions) {
+              {items.map(function (permissions) {
                 const subject = permissions.subject || subjectName
-                const tooltipText = permissions.tooltip_text || subject.tooltip_text
+                const tooltipText = permissions.tooltip_text || (subject && subject.tooltip_text)
+
+                const handlePermissionChange = onPermissionChange
+                  ? (name, value) => {
+                      if (collectionKey) {
+                        // subject collection: pass collectionKey + subjectUuid
+                        onPermissionChange(collectionKey, subject.uuid, permissionTypes, name, value)
+                      } else {
+                        // public permission
+                        onPermissionChange(permissionTypes, name, value)
+                      }
+                    }
+                  : undefined
+
+                const handleRemove = onRemoveSubject && permissions.subject
+                  ? () => onRemoveSubject(collectionKey, permissions.subject.uuid)
+                  : undefined
 
                 return (
                   <PermissionsSubject
-                    key={subject.uuid || 'pub'}
+                    key={(subject && subject.uuid) || 'pub'}
                     permissions={permissions}
                     subject={subject}
                     SubjectDeco={SubjectDeco}
@@ -226,12 +271,14 @@ class PermissionsBySubjectType extends React.Component {
                     permissionTypes={permissionTypes}
                     editing={editing}
                     tooltipText={tooltipText}
+                    onPermissionChange={handlePermissionChange}
+                    onRemoveSubject={handleRemove}
                   />
                 )
               })}
             </tbody>
           </table>
-          {editing && permissionsList.isCollection ? (
+          {showAddSubject ? (
             <div className="ui-add-subject ptx">
               <div className="col1of3" style={{ position: 'relative', maxWidth: '300px' }}>
                 {type != null && AutoComplete
@@ -240,7 +287,7 @@ class PermissionsBySubjectType extends React.Component {
                       name: `add_${type}`,
                       resourceType: type,
                       valueFilter({ uuid }) {
-                        return permissionsList.models.map(m => m.subject.uuid).includes(uuid)
+                        return existingUuids().includes(uuid)
                       },
                       onSelect: this.onAddSubject,
                       searchParams: searchParams
@@ -320,16 +367,27 @@ class PermissionsSubject extends React.Component {
 
   onPermissionChange(name, event) {
     const value = event.target.checked
-    this.props.permissions[name] = value
-    if (value === true) {
-      return this.setWeakerUnchecked(name)
+    if (this.props.onPermissionChange) {
+      // new pattern: parent holds state, cascade computed there
+      this.props.onPermissionChange(name, value)
     } else {
-      return this.setStrongerChecked(name)
+      // legacy: direct mutation for BatchResourcePermissions
+      this.props.permissions[name] = value
+      if (value === true) {
+        this.setWeakerUnchecked(name)
+      } else {
+        this.setStrongerChecked(name)
+      }
     }
   }
 
   onSubjectRemove() {
-    return this.props.permissions.destroy()
+    if (this.props.onRemoveSubject) {
+      this.props.onRemoveSubject()
+    } else {
+      // legacy: ampersand destroy for BatchResourcePermissions
+      this.props.permissions.destroy()
+    }
   }
 
   render() {

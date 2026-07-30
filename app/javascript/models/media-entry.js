@@ -1,9 +1,8 @@
 import { presence } from '../lib/present';
 import { get, has, isFunction, merge } from 'lodash-es';
 const BrowserFile = globalThis.File
-import app from 'ampersand-app'
+import { config } from '../lib/app-config.js'
 import AppResource from './shared/app-resource.js'
-import Permissions from './media-entry/permissions.js'
 import Person from './person.js'
 import t from '../lib/i18n-translate.js'
 import getMediaType from './shared/get-media-type.js'
@@ -51,7 +50,6 @@ export default AppResource.extend(
     },
 
     children: {
-      permissions: Permissions,
       responsible: Person
     },
 
@@ -152,13 +150,13 @@ export default AppResource.extend(
       return this._runRequest(
         {
           method: 'POST',
-          url: app.config.relativeUrlRoot + '/entries/',
+          url: config.relativeUrlRoot + '/entries/',
           body: formData,
           beforeSend(xhrObject) {
             return (xhrObject.upload.onprogress = handleOnProgress)
           }
         },
-        (err, res) => {
+        (err, res, data) => {
           // handle error
           let error
           if (err || !res || res.statusCode >= 400) {
@@ -168,7 +166,7 @@ export default AppResource.extend(
               // Why the log? see above
               // eslint-disable-next-line no-console
               console.error(`Response status code = ${res.statusCode}`)
-              error = res.body
+              error = data || res.statusCode
             } else {
               error = 'Error: no response data'
             }
@@ -177,17 +175,9 @@ export default AppResource.extend(
             console.log('Date', Date())
             this.set('uploading', merge(this.uploading, { error }))
           } else {
-            // or update self with server response:
-            const attrs = (() => {
-              try {
-                return JSON.parse(res.body)
-                // eslint-disable-next-line no-unused-vars
-              } catch (e) {
-                // silently ignore
-              }
-            })()
-            if (attrs) {
-              this.set(attrs)
+            // update self with server response:
+            if (data && typeof data === 'object') {
+              this.set(data)
             }
             this.unset('uploading')
           }

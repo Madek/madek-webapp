@@ -1,15 +1,16 @@
-import { present } from '../../lib/present';
-import Collection from 'ampersand-rest-collection'
+import { present } from '../../lib/present'
+import BaseCollection from './base-collection.js'
 import RailsResource from './rails-resource-mixin.js'
 
-// Base class for Restful Application Resource Collection
-export default Collection.extend(RailsResource, {
+// Base class for RESTful application resource collections
+const AppCollection = BaseCollection.extend(RailsResource, {
   type: 'AppCollection',
   mainIndex: ['url'],
   indexes: ['uuid'],
 
-  // instance methods:
   has(index) {
-    return present(this.get(index));
+    return present(this.get(index))
   }
 })
+
+export default AppCollection

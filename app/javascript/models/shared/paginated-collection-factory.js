@@ -1,7 +1,7 @@
 import { present } from '../../lib/present';
 import { chunk, compact, each, extend, filter, find, get, isFunction, remove, set, size } from 'lodash-es';
-import State from 'ampersand-state'
-import xhr from 'xhr'
+import BaseModel from './base-model.js'
+const State = BaseModel
 import setUrlParams from '../../lib/set-params-for-url.js'
 
 const getOrThrow = function (obj, key) {
@@ -126,7 +126,7 @@ export default function (collectionClass, { jsonPath }) {
       // only process the answer when its still the same id.
       const localRequestId = this.requestId
 
-      return xhr.get({ url: nextUrl, json: true }, (err, res, body) => {
+      return this._runRequest({ method: 'GET', url: nextUrl }, (err, res, body) => {
         if (this.requestId !== localRequestId) {
           return
         } else if (err || res.statusCode > 400) {
@@ -186,7 +186,7 @@ export default function (collectionClass, { jsonPath }) {
         { ___sparse: JSON.stringify(set({}, this.getJsonPath(), [{ uuid: {}, type: {} }])) }
       )
 
-      return xhr.get({ url: nextUrl, json: true }, (err, res, body) => {
+      return this._runRequest({ method: 'GET', url: nextUrl }, (err, res, body) => {
         if (err || res.statusCode > 400) {
           return callback({ result: 'error' })
         } else {
