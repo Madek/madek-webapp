@@ -1,4 +1,4 @@
-import { map } from 'lodash-es';
+import { map } from 'lodash-es'
 import React from 'react'
 import t from '../../lib/i18n-translate.js'
 import cx from 'classnames'
@@ -190,7 +190,7 @@ const ExternalUrisForm = props => {
         {t('person_edit_add_uri_btn')}
       </button>
     </div>
-  );
+  )
 }
 
 export default PersonEdit

@@ -1,5 +1,5 @@
-import { present } from '../../../lib/present';
-import { filter, first, isEmpty } from 'lodash-es';
+import { present } from '../../../lib/present'
+import { filter, first, isEmpty } from 'lodash-es'
 import SelectionScope from '../../../lib/selection-scope.js'
 
 const showActionsConfig = function (parameters) {
@@ -160,7 +160,7 @@ const highlightingRules = function (item, isSelected) {
 
 const isResourceNotInScope = function (item, isSelected, hoverMenuId) {
   const found_rules = filter(highlightingRules(item, isSelected), { hoverMenuId })
-  return !isEmpty(found_rules) && first(found_rules).rule() === true;
+  return !isEmpty(found_rules) && first(found_rules).rule() === true
 }
 
 const ActionsDropdownHelper = {

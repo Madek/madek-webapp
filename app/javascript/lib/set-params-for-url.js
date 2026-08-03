@@ -1,4 +1,4 @@
-import { isObject, isString, merge, reduce, set } from 'lodash-es';
+import { isObject, isString, merge, reduce, set } from 'lodash-es'
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns

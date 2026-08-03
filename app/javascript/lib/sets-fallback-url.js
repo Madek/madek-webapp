@@ -1,4 +1,4 @@
-import { cloneDeep } from 'lodash-es';
+import { cloneDeep } from 'lodash-es'
 import { parse as parseUrl } from 'url'
 import { parse as parseQuery } from 'qs'
 import setUrlParams from './set-params-for-url.js'

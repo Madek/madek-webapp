@@ -1,4 +1,4 @@
-import { find } from 'lodash-es';
+import { find } from 'lodash-es'
 import MediaEntry from '../models/media-entry.js'
 
 export default function (data, callback) {
@@ -21,5 +21,5 @@ export default function (data, callback) {
         }
       })
     }
-  });
+  })
 }

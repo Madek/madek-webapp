@@ -1,4 +1,4 @@
-import { each, filter, includes, keys, map } from 'lodash-es';
+import { each, filter, includes, keys, map } from 'lodash-es'
 
 export default {
   _validityForAll(meta_meta_data, models) {

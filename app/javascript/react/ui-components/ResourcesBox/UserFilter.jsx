@@ -1,4 +1,4 @@
-import { filter, map, size, sortBy } from 'lodash-es';
+import { filter, map, size, sortBy } from 'lodash-es'
 import React from 'react'
 import cx from 'classnames'
 import TypeaheadInput from '../../lib/typeahead-input.jsx'
@@ -63,7 +63,7 @@ class UserFilter extends React.Component {
           </li>
         )}
       </ul>
-    );
+    )
   }
 }
 

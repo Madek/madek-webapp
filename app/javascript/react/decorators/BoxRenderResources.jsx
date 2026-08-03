@@ -1,4 +1,4 @@
-import { chunk, find, includes, isEqual, map } from 'lodash-es';
+import { chunk, find, includes, isEqual, map } from 'lodash-es'
 import React from 'react'
 import cx from 'classnames/dedupe'
 import ActionsDropdownHelper from './resourcesbox/ActionsDropdownHelper.jsx'
@@ -46,7 +46,7 @@ class BoxRenderResources extends React.Component {
             isSelected={find(selectedResources, sr => sr.uuid == itemState.resource.uuid)}
             showActions={ActionsDropdownHelper.showActionsConfig(actionsDropdownParameters)}
           />
-        );
+        )
       }
 
       var renderItems = page => {
@@ -72,7 +72,7 @@ class BoxRenderResources extends React.Component {
             unselectResources={this.props.unselectResources}
             selectResources={this.props.selectResources}
           />
-        );
+        )
       }
 
       return (
@@ -88,7 +88,7 @@ class BoxRenderResources extends React.Component {
 
       return chunk(resources, pageSize).map((page, i) => {
         return renderPage(page, i)
-      });
+      })
     }
 
     var getListClasses = () => {

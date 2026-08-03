@@ -7,8 +7,8 @@ import {
   isString,
   map,
   merge,
-  omit,
-} from 'lodash-es';
+  omit
+} from 'lodash-es'
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns

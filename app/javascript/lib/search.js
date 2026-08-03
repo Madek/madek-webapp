@@ -1,4 +1,4 @@
-import { assign, filter, isEmpty } from 'lodash-es';
+import { assign, filter, isEmpty } from 'lodash-es'
 import { t } from '../react/lib/ui.js'
 import { createRemoteSource } from './remote-search.js'
 

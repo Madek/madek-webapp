@@ -121,28 +121,25 @@ class ExploreCatalogCategoryPage extends React.Component {
           <h1 className="title-xl mtl mbm">{get.catalog_title + ' / ' + get.title}</h1>
           <div className="ui-resources-holder pal">
             {compact(
-              map(
-                flatten(map(this.state.metaKeyValuePages, page => page.values)),
-                keyword => {
-                  if (isEmpty(keyword.media_entries)) {
-                    return null
-                  }
-
-                  return (
-                    <div key={keyword.uuid}>
-                      <div className="ui-resources-header">
-                        <h2 className="title-l ui-resource-title" style={{ marginBottom: '15px' }}>
-                          {keyword.label}
-                          <a className="strong" href={keyword.url}>
-                            {t('explore_show_more')}
-                          </a>
-                        </h2>
-                      </div>
-                      <MediaResourcesLine keyword={keyword} />
-                    </div>
-                  )
+              map(flatten(map(this.state.metaKeyValuePages, page => page.values)), keyword => {
+                if (isEmpty(keyword.media_entries)) {
+                  return null
                 }
-              )
+
+                return (
+                  <div key={keyword.uuid}>
+                    <div className="ui-resources-header">
+                      <h2 className="title-l ui-resource-title" style={{ marginBottom: '15px' }}>
+                        {keyword.label}
+                        <a className="strong" href={keyword.url}>
+                          {t('explore_show_more')}
+                        </a>
+                      </h2>
+                    </div>
+                    <MediaResourcesLine keyword={keyword} />
+                  </div>
+                )
+              })
             )}
             {this._lastPage().has_more ? <Preloader /> : undefined}
           </div>

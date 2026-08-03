@@ -1,5 +1,5 @@
-import { presence } from '../../../lib/present';
-import { map } from 'lodash-es';
+import { presence } from '../../../lib/present'
+import { map } from 'lodash-es'
 import React from 'react'
 import t from '../../../lib/i18n-translate.js'
 import RailsForm from '../../lib/forms/rails-form.jsx'
@@ -205,7 +205,7 @@ class SelectCollection extends React.Component {
                     </label>
                   </li>
                 )
-              });
+              })
             }
           })()}
         </ol>

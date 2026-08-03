@@ -82,7 +82,7 @@ export async function saveBatchPermissions(state, saveAction, returnTo) {
     let err
     try {
       err = await res.json()
-    } catch (_) {
+    } catch {
       err = res.statusText
     }
     throw err
@@ -123,7 +123,7 @@ export async function savePermissions(data) {
     let err
     try {
       err = await res.json()
-    } catch (_) {
+    } catch {
       err = res.statusText
     }
     throw err

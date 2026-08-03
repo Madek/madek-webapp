@@ -1,5 +1,5 @@
-import { present } from '../../lib/present';
-import { isFunction, isObject, some, trim } from 'lodash-es';
+import { present } from '../../lib/present'
+import { isFunction, isObject, some, trim } from 'lodash-es'
 
 const decorators = {
   User: o => o.label,

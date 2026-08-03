@@ -1,4 +1,4 @@
-import { isEmpty, map } from 'lodash-es';
+import { isEmpty, map } from 'lodash-es'
 import React from 'react'
 import PropTypes from 'prop-types'
 import t from '../../../lib/i18n-translate.js'
@@ -171,7 +171,7 @@ class ResourceSelection extends React.Component {
           </div>
         </RailsForm>
       </Modal>
-    );
+    )
   }
 }
 

@@ -1,4 +1,4 @@
-import { compact, flatten, map, reject } from 'lodash-es';
+import { compact, flatten, map, reject } from 'lodash-es'
 import React from 'react'
 import PageContent from './PageContent.jsx'
 import DashboardHeader from './DashboardHeader.jsx'
@@ -59,14 +59,14 @@ class Dashboard extends React.Component {
                     index < visible_sections.length - 1 ? (
                       <hr className="separator mbm" key={`separator${index}`} />
                     ) : undefined
-                  ]);
+                  ])
                 })
               )}
             </div>
           </div>
         </div>
       </PageContent>
-    );
+    )
   }
 }
 

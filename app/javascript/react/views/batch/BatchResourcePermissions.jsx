@@ -18,8 +18,7 @@ function BatchResourcePermissions({ get, authToken }) {
   const [permissions, setPermissions] = useState(() => buildBatchPermissionsState(get))
 
   const mutation = useMutation({
-    mutationFn: () =>
-      saveBatchPermissions(permissions, get.actions.save, get.actions.cancel.url),
+    mutationFn: () => saveBatchPermissions(permissions, get.actions.save, get.actions.cancel.url),
     onSuccess: body => {
       if (body && body.forward_url) {
         window.location = body.forward_url
@@ -57,7 +56,12 @@ function BatchResourcePermissions({ get, authToken }) {
   const onPublicPermissionChange = (permissionTypes, name, value) => {
     setPermissions(prev => ({
       ...prev,
-      public_permission: applyPermissionCascade(prev.public_permission, permissionTypes, name, value)
+      public_permission: applyPermissionCascade(
+        prev.public_permission,
+        permissionTypes,
+        name,
+        value
+      )
     }))
   }
 
@@ -72,7 +76,9 @@ function BatchResourcePermissions({ get, authToken }) {
       const template = list[0] || {}
       const applicable = Object.keys(template).filter(k => k !== 'subject' && k !== 'tooltip_text')
       const types = applicable.length > 0 ? applicable : prev.permission_types
-      types.forEach(pt => { newPerm[pt] = false })
+      types.forEach(pt => {
+        newPerm[pt] = false
+      })
       return { ...prev, [collectionKey]: [...list, newPerm] }
     })
   }

@@ -1,5 +1,5 @@
-import { presence } from '../../lib/present';
-import { get, includes } from 'lodash-es';
+import { presence } from '../../lib/present'
+import { get, includes } from 'lodash-es'
 /**
  * AutoComplete
  *
@@ -125,7 +125,7 @@ class AutoComplete extends React.Component {
           title={presence(existingValueHint) || t('meta_data_input_keywords_existing')}>
           {line}
         </div>
-      );
+      )
     }
     return <div>{line}</div>
   }

@@ -1,5 +1,5 @@
-import { present } from '../../lib/present';
-import { get, includes, isFunction, last, set } from 'lodash-es';
+import { present } from '../../lib/present'
+import { get, includes, isFunction, last, set } from 'lodash-es'
 import { parse as parseUrl, format as buildUrl } from 'url'
 
 export default {
@@ -63,6 +63,6 @@ export default {
           return callback(err, data)
         }
       }
-    );
+    )
   }
 }

@@ -1,18 +1,7 @@
-import { defaults, includes, merge } from 'lodash-es'
+import { defaults, merge } from 'lodash-es'
 import BaseModel from './base-model.js'
 import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 import RailsResource from './rails-resource-mixin.js'
-
-const customDataTypes = {
-  // tri-state: can be true, false, or 'mixed'
-  trilean: {
-    compare(a, b) { return a === b },
-    set(newVal) {
-      if (includes([true, false, 'mixed'], newVal)) return { val: newVal, type: 'trilean' }
-      return { val: newVal, type: `'${newVal}' (${typeof newVal})` }
-    }
-  }
-}
 
 // Base class for RESTful application resources
 const AppResource = BaseModel.extend(RailsResource, {
@@ -51,7 +40,11 @@ const AppResource = BaseModel.extend(RailsResource, {
     })
       .then(async res => {
         let data
-        try { data = await res.json() } catch (_) { data = null }
+        try {
+          data = await res.json()
+        } catch {
+          data = null
+        }
         callback(null, { statusCode: res.status }, data)
       })
       .catch(err => callback(err, null, null))

@@ -1,4 +1,4 @@
-import { get, isString } from 'lodash-es';
+import { get, isString } from 'lodash-es'
 import parseTranslationsFromCSV from './parse-translations-from-csv.js'
 
 // NOTE: this works with browserify and the 'brfs' transform (embeds as string)
@@ -26,5 +26,5 @@ export default function I18nTranslate(marker) {
 
   const s = get(translations, [LANG, marker])
 
-  return isString(s) ? s : '⟨' + marker + '⟩';
+  return isString(s) ? s : '⟨' + marker + '⟩'
 }

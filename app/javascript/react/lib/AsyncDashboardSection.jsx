@@ -1,5 +1,5 @@
-import { present } from '../../lib/present';
-import { get } from 'lodash-es';
+import { present } from '../../lib/present'
+import { get } from 'lodash-es'
 // Proof of Concept: AsyncView - only works for my/dashboard!
 // Tries to fetch the props needed to display the component before rendering it.
 // If it fails, a retry icon is shown, with a fallback link
@@ -78,7 +78,7 @@ class AsyncDashboardSection extends React.Component {
         props.authToken = getRailsCSRFToken()
         return callback(null, props)
       }
-    ));
+    ))
   }
 
   componentWillUnmount() {
@@ -119,7 +119,7 @@ class AsyncDashboardSection extends React.Component {
           </div>
         )}
       </div>
-    );
+    )
   }
 }
 

@@ -10,8 +10,8 @@ import {
   map,
   size,
   sortBy,
-  values,
-} from 'lodash-es';
+  values
+} from 'lodash-es'
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -252,11 +252,11 @@ export default {
           {this._renderValueByContext(function () {}, name, null, metaKey, batch, model)}
         </div>
       )
-    });
+    })
   },
 
   _bundleHasOnlyOneKey(bundle) {
-    return bundle.type === 'single' || (bundle.type === 'block' && size(bundle.content) === 0);
+    return bundle.type === 'single' || (bundle.type === 'block' && size(bundle.content) === 0)
   },
 
   _bundleGetTheOnlyContent(bundle) {
@@ -294,7 +294,7 @@ export default {
     return map(
       meta_meta_data.context_key_ids_by_context_id[context_id],
       context_key_id => meta_meta_data.context_key_by_context_key_id[context_key_id]
-    );
+    )
   },
 
   _renderByContext(
@@ -360,7 +360,7 @@ export default {
         context_key_id = bundle.mainKey.uuid
         return _renderItemByContextKeyId(context_key_id, subForms, false)
       }
-    });
+    })
   },
 
   _sortedVocabularies(meta_meta_data) {
@@ -370,7 +370,7 @@ export default {
       } else {
         return vocabulary.position
       }
-    });
+    })
   },
 
   _sortedMetadata(meta_meta_data, meta_data, vocabulary) {
@@ -383,7 +383,7 @@ export default {
 
     const sorted = sortBy(meta_keys, 'position')
 
-    return map(sorted, meta_key => meta_data.meta_datum_by_meta_key_id[meta_key.uuid]);
+    return map(sorted, meta_key => meta_data.meta_datum_by_meta_key_id[meta_key.uuid])
   },
 
   _renderByVocabularies(
@@ -462,8 +462,8 @@ export default {
             }
           })}
         </div>
-      );
-    });
+      )
+    })
   },
 
   _renderVocabQuickLinks(meta_data, meta_meta_data) {
@@ -497,7 +497,7 @@ export default {
         </div>
         <div style={{ clear: 'both' }} />
       </div>
-    );
+    )
   },
 
   _renderThumbnail(resource, displayMetaData, href = null) {
@@ -641,7 +641,7 @@ export default {
                 label={context.label}
                 active={active}
               />
-            );
+            )
           }
         })}
         {(() => {
@@ -677,10 +677,10 @@ export default {
                 label={t('meta_data_form_all_data')}
                 active={active}
               />
-            );
+            )
           }
         })()}
       </Tabs>
-    );
+    )
   }
 }

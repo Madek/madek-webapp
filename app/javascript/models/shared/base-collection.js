@@ -7,8 +7,14 @@ import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 import BaseModel from './base-model.js'
 
 const SKIP_METHOD_KEYS = new Set([
-  'type', 'model', 'isModel', 'parse', 'initialize',
-  'mainIndex', 'indexes', 'ajaxConfig'
+  'type',
+  'model',
+  'isModel',
+  'parse',
+  'initialize',
+  'mainIndex',
+  'indexes',
+  'ajaxConfig'
 ])
 
 class BaseCollection {
@@ -29,7 +35,7 @@ class BaseCollection {
 
   _createModel(attrs) {
     if (!attrs) return attrs
-    const config  = this.constructor._config || {}
+    const config = this.constructor._config || {}
     const modelFn = config.model
     if (!modelFn) return attrs
     // Distinguish class (extends BaseModel) from factory function
@@ -52,8 +58,14 @@ class BaseCollection {
   }
 
   off(event, fn) {
-    if (!event) { this._listeners = {}; return this }
-    if (!fn)    { this._listeners[event] = []; return this }
+    if (!event) {
+      this._listeners = {}
+      return this
+    }
+    if (!fn) {
+      this._listeners[event] = []
+      return this
+    }
     this._listeners[event] = (this._listeners[event] || []).filter(f => f !== fn)
     return this
   }
@@ -72,20 +84,36 @@ class BaseCollection {
 
   // ── Array-like interface ───────────────────────────────────────────────────
 
-  get length() { return this.models.length }
+  get length() {
+    return this.models.length
+  }
 
-  map(fn)     { return this.models.map(fn) }
-  filter(fn)  { return this.models.filter(fn) }
-  find(fn)    { return this.models.find(fn) }
-  some(fn)    { return this.models.some(fn) }
-  every(fn)   { return this.models.every(fn) }
-  forEach(fn) { return this.models.forEach(fn) }
+  map(fn) {
+    return this.models.map(fn)
+  }
+  filter(fn) {
+    return this.models.filter(fn)
+  }
+  find(fn) {
+    return this.models.find(fn)
+  }
+  some(fn) {
+    return this.models.some(fn)
+  }
+  every(fn) {
+    return this.models.every(fn)
+  }
+  forEach(fn) {
+    return this.models.forEach(fn)
+  }
 
   get(id) {
     return this.models.find(m => m.url === id || m.uuid === id)
   }
 
-  has(id) { return !!this.get(id) }
+  has(id) {
+    return !!this.get(id)
+  }
 
   // ── Mutation ───────────────────────────────────────────────────────────────
 
@@ -112,19 +140,21 @@ class BaseCollection {
 
   // set([]) clears; set([…]) replaces all models
   set(data) {
-    const arr = Array.isArray(data) ? data : (data ? [data] : [])
+    const arr = Array.isArray(data) ? data : data ? [data] : []
     this._setModels(arr)
     this.trigger('reset')
     this.trigger('change')
     return this
   }
 
-  reset(data) { return this.set(data) }
+  reset(data) {
+    return this.set(data)
+  }
 
   // ── Serialization ──────────────────────────────────────────────────────────
 
   serialize() {
-    return this.models.map(m => m && m.serialize ? m.serialize() : m)
+    return this.models.map(m => (m && m.serialize ? m.serialize() : m))
   }
 
   // ── sync — compatibility shim for MetaData.save() ─────────────────────────
@@ -132,7 +162,13 @@ class BaseCollection {
   // where opts.url and opts.json are set.
 
   sync(method, model, opts = {}) {
-    const methodMap = { create: 'POST', update: 'PUT', patch: 'PATCH', delete: 'DELETE', read: 'GET' }
+    const methodMap = {
+      create: 'POST',
+      update: 'PUT',
+      patch: 'PATCH',
+      delete: 'DELETE',
+      read: 'GET'
+    }
     const httpMethod = opts.method || methodMap[method] || 'GET'
     return fetch(opts.url, {
       method: httpMethod,
@@ -142,32 +178,38 @@ class BaseCollection {
         'X-CSRF-Token': getRailsCSRFToken()
       },
       body: opts.json ? JSON.stringify(opts.json) : undefined
-    }).then(async res => {
-      let data
-      try { data = await res.json() } catch (_) { data = null }
-      const resp = { statusCode: res.status, body: data }
-      if (res.ok) {
-        if (opts.success) opts.success(model, data, resp)
-      } else {
-        if (opts.error) opts.error(model, resp)
-      }
-      return res
-    }).catch(err => {
-      if (opts.error) opts.error(model, err)
-      throw err
     })
+      .then(async res => {
+        let data
+        try {
+          data = await res.json()
+        } catch {
+          data = null
+        }
+        const resp = { statusCode: res.status, body: data }
+        if (res.ok) {
+          if (opts.success) opts.success(model, data, resp)
+        } else {
+          if (opts.error) opts.error(model, resp)
+        }
+        return res
+      })
+      .catch(err => {
+        if (opts.error) opts.error(model, err)
+        throw err
+      })
   }
 
   // ── Class factory ──────────────────────────────────────────────────────────
 
   static extend(...args) {
     const ownConfig = args[args.length - 1] || {}
-    const Parent    = this
+    const Parent = this
 
     const parentConfig = Parent._config || {}
     const merged = {
       ...parentConfig,
-      ...ownConfig,
+      ...ownConfig
       // keep parse/initialize from own config if provided
     }
 

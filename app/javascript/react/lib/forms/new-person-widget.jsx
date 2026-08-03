@@ -1,4 +1,4 @@
-import { curry, extend, includes, set, some } from 'lodash-es';
+import { curry, extend, includes, set, some } from 'lodash-es'
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -56,7 +56,7 @@ class NewPersonWidget extends React.Component {
   _onUpdateField = (key, event) => {
     return this.setState({
       newPerson: extend(this.state.newPerson, set({}, key, event.target.value))
-    });
+    })
   }
 
   _inputField = key => {
@@ -68,7 +68,7 @@ class NewPersonWidget extends React.Component {
         value={this.state.newPerson[key] || ''}
         onChange={curry(this._onUpdateField)(key)}
       />
-    );
+    )
   }
 
   _onSubmit = event => {
@@ -81,9 +81,7 @@ class NewPersonWidget extends React.Component {
 
   render() {
     const { id, allowedTypes } = this.props
-    const supportsAnyAllowedType = some(allowedTypes, t =>
-      includes(SUPPORTED_PEOPLE_SUBTYPES, t)
-    )
+    const supportsAnyAllowedType = some(allowedTypes, t => includes(SUPPORTED_PEOPLE_SUBTYPES, t))
     if (!supportsAnyAllowedType) {
       return false
     } else {

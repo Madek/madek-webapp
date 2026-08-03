@@ -1,5 +1,5 @@
-import { presence, present } from '../../lib/present';
-import { each, find, get as _get, keys, map, mapValues, set, snakeCase } from 'lodash-es';
+import { presence, present } from '../../lib/present'
+import { each, find, get as _get, keys, map, mapValues, set, snakeCase } from 'lodash-es'
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -299,7 +299,7 @@ class ResourceMetaDataPagePerContext extends React.Component {
           }
         }
       }
-    );
+    )
   }
 
   // NOTE: just to be save, block *implicit* form submits
@@ -317,7 +317,7 @@ class ResourceMetaDataPagePerContext extends React.Component {
   _toggleBundle(bundleId) {
     const current = this.state.bundleState[bundleId]
     const next = !current
-    return this.setState({ bundleState: set(this.state.bundleState, bundleId, next) });
+    return this.setState({ bundleState: set(this.state.bundleState, bundleId, next) })
   }
 
   _batchConflictByContextKey(context_key_id) {
@@ -396,7 +396,7 @@ There are no contexts defined. Please configure them in the admin tool.\
     if (batch) {
       return batch_resource_type + '[meta_data]'
     } else {
-      return `${snakeCase(resource.type)}[meta_data]`;
+      return `${snakeCase(resource.type)}[meta_data]`
     }
   }
 
@@ -594,7 +594,7 @@ There are no contexts defined. Please configure them in the admin tool.\
           </RailsForm>
         </TabContent>
       </PageContent>
-    );
+    )
   }
 }
 

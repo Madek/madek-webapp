@@ -1,4 +1,4 @@
-import { compact, flatten, includes, isEqual } from 'lodash-es';
+import { compact, flatten, includes, isEqual } from 'lodash-es'
 import React from 'react'
 import BoxTitlebarRender from './BoxTitlebarRender.jsx'
 import t from '../../lib/i18n-translate.js'
@@ -82,7 +82,7 @@ class BoxTitlebar extends React.Component {
         : null
     ])
 
-    return flatten(items);
+    return flatten(items)
   }
 
   getCenterDisabled() {

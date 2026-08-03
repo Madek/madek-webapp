@@ -1,4 +1,4 @@
-import { filter, some } from 'lodash-es';
+import { filter, some } from 'lodash-es'
 import React from 'react'
 import PropTypes from 'prop-types'
 import MadekPropTypes from '../madek-prop-types.js'
@@ -88,7 +88,7 @@ class InputKeywords extends React.Component {
           })}
           {this.props.subForms}
         </div>
-      );
+      )
     }
   }
 }

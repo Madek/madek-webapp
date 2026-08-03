@@ -1,4 +1,4 @@
-import { isEqual, some, values } from 'lodash-es';
+import { isEqual, some, values } from 'lodash-es'
 import React from 'react'
 import ActionsDropdownHelper from './resourcesbox/ActionsDropdownHelper.jsx'
 import ResourceThumbnail from './ResourceThumbnail.jsx'

@@ -1,4 +1,4 @@
-import { kebabCase, map } from 'lodash-es';
+import { kebabCase, map } from 'lodash-es'
 import React from 'react'
 import cx from 'classnames'
 import t from '../../../lib/i18n-translate.js'
@@ -158,11 +158,11 @@ class Relations extends React.Component {
                   </ul>
                 </div>
               </div>
-            );
+            )
           }
         })()}
       </div>
-    );
+    )
   }
 }
 

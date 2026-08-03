@@ -1,4 +1,4 @@
-import { includes } from 'lodash-es';
+import { includes } from 'lodash-es'
 
 export default {
   props: {

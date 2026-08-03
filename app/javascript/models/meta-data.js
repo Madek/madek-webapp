@@ -1,4 +1,4 @@
-import { filter, flatten, keys, map, merge, set, snakeCase, some } from 'lodash-es';
+import { filter, flatten, keys, map, merge, set, snakeCase, some } from 'lodash-es'
 import AppCollection from './shared/app-collection.js'
 import MetaDatum from './meta-datum.js'
 
@@ -20,12 +20,12 @@ export default AppCollection.extend({
 
   // Check if an instance is one the valid models:
   isModel(model) {
-    return some(map(keys(MetaDatum), subType => model instanceof MetaDatum[subType]));
+    return some(map(keys(MetaDatum), subType => model instanceof MetaDatum[subType]))
   },
 
   // Parse `Presenters::MetaData` into array of model objects:
   parse(meta_data) {
-    return filter(flatten(map(meta_data.by_vocabulary, 'meta_data')));
+    return filter(flatten(map(meta_data.by_vocabulary, 'meta_data')))
   },
 
   // Save the collection to the parent resource (Concern `MetaDataUpdate`):
@@ -38,7 +38,7 @@ export default AppCollection.extend({
         url: this.parent.url + '/meta_data',
         json: set({}, snakeCase(this.parent.type), serializeForSave(this))
       })
-    );
+    )
   }
 })
 

@@ -1,4 +1,14 @@
-import { filter, findLast, first, get as _get, isEmpty, map, union, uniqBy, values } from 'lodash-es';
+import {
+  filter,
+  findLast,
+  first,
+  get as _get,
+  isEmpty,
+  map,
+  union,
+  uniqBy,
+  values
+} from 'lodash-es'
 import React from 'react'
 import t from '../../../lib/i18n-translate.js'
 
@@ -36,7 +46,7 @@ class HighlightedContents extends React.Component {
           </ul>
         </div>
       </div>
-    );
+    )
   }
 }
 

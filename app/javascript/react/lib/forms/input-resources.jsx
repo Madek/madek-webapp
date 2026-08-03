@@ -1,4 +1,4 @@
-import { present, presence } from '../../../lib/present';
+import { present, presence } from '../../../lib/present'
 
 import {
   clone,
@@ -16,8 +16,8 @@ import {
   omit,
   pick,
   snakeCase,
-  some,
-} from 'lodash-es';
+  some
+} from 'lodash-es'
 
 /*
  * decaffeinate suggestions:
@@ -86,7 +86,7 @@ class InputResources extends React.Component {
         if (item.type === 'Keyword') {
           return map(this.state.values, 'term').includes(item.term)
         } else if (item.type === 'Person') {
-          return some(this.state.values, o => isEqual(o, item));
+          return some(this.state.values, o => isEqual(o, item))
         } else {
           throw new Error('Unknown Resource type!')
         }
@@ -148,7 +148,7 @@ class InputResources extends React.Component {
   }
 
   _onNewPerson = obj => {
-    return this._onItemAdd(extend(obj, { type: 'Person', isNew: true }));
+    return this._onItemAdd(extend(obj, { type: 'Person', isNew: true }))
   }
 
   _onItemRemove = (itemIndex, _event) => {
@@ -400,7 +400,7 @@ class InputResources extends React.Component {
                               </button>
                             </div>
                           </div>
-                        );
+                        )
                       }
                     })()}
                     {withRoles ? (
@@ -480,13 +480,13 @@ class InputResources extends React.Component {
                                   </a>
                                 </td>
                               </tr>
-                            );
+                            )
                           })}
                         </tbody>
                       </table>
                     ) : undefined}
                   </div>
-                );
+                )
               }
             })()}
           </ul>
@@ -519,7 +519,7 @@ class InputResources extends React.Component {
                     }
                   }
                 })
-              );
+              )
 
               // normal text fields are always just values:
             } else {
@@ -548,11 +548,11 @@ class InputResources extends React.Component {
                 />
               )
             })
-          ];
+          ]
         })}
         {this.props.subForms}
       </div>
-    );
+    )
   }
 }
 

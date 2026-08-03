@@ -1,5 +1,5 @@
-import { presence } from '../lib/present';
-import { get, has, isFunction, merge } from 'lodash-es';
+import { presence } from '../lib/present'
+import { get, has, isFunction, merge } from 'lodash-es'
 const BrowserFile = globalThis.File
 import { config } from '../lib/app-config.js'
 import AppResource from './shared/app-resource.js'
@@ -116,10 +116,7 @@ export default AppResource.extend(
 
       const formData = new FormData()
       formData.append('media_entry[media_file]', this.uploading.file)
-      if (
-        has(this.uploading, 'copyMdFrom.id') &&
-        has(this.uploading, 'copyMdFrom.configuration')
-      ) {
+      if (has(this.uploading, 'copyMdFrom.id') && has(this.uploading, 'copyMdFrom.configuration')) {
         formData.append('media_entry[copy_md_from][id]', this.uploading.copyMdFrom.id)
         formData.append(
           'media_entry[copy_md_from][configuration]',
@@ -187,7 +184,7 @@ export default AppResource.extend(
             return callback(error || null, res)
           }
         }
-      );
+      )
     }
   }
 )

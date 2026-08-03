@@ -1,5 +1,5 @@
-import { present } from '../../../lib/present';
-import { get, has, includes, omit } from 'lodash-es';
+import { present } from '../../../lib/present'
+import { get, has, includes, omit } from 'lodash-es'
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -87,7 +87,7 @@ class RestForm extends React.Component {
         ) : undefined}
         {children}
       </form>
-    );
+    )
   }
 }
 

@@ -1,5 +1,5 @@
-import { presence } from '../../lib/present';
-import { map } from 'lodash-es';
+import { presence } from '../../lib/present'
+import { map } from 'lodash-es'
 import React from 'react'
 import t from '../../lib/i18n-translate.js'
 import SelectCollectionDialog from '../views/Collection/SelectCollectionDialog.jsx'
@@ -246,7 +246,7 @@ Neues Set erstellen und Einträge hinzufügen\
 Zu diesem hinzufügen\
 `}</Button>
                 </li>
-              ));
+              ))
             }
           })()}
         </ol>
@@ -297,4 +297,3 @@ Zu diesem hinzufügen\
     )
   }
 }
-

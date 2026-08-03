@@ -1,8 +1,8 @@
-import { merge, values } from 'lodash-es';
+import { merge, values } from 'lodash-es'
 import PropTypes from 'prop-types'
 
 const UUID_V4_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
-const validateUUID = (value) => UUID_V4_REGEX.test(value)
+const validateUUID = value => UUID_V4_REGEX.test(value)
 
 let M
 

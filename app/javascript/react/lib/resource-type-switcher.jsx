@@ -1,4 +1,4 @@
-import { cloneDeep, compact } from 'lodash-es';
+import { cloneDeep, compact } from 'lodash-es'
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns

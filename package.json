@@ -15,11 +15,11 @@
     "build:server": "mkdir -p public/assets/bundles && vite build --config vite.config.server.mjs",
     "build:integration": "npm run -s build:app",
     "build-devtools": "mkdir -p tmp && node --input-type=module --eval \"import {build} from 'esbuild'; build({entryPoints:['app/javascript/developer-tools.js'],bundle:true,platform:'browser',format:'iife',outfile:'tmp/devtools.js',loader:{'.js':'jsx','.jsx':'jsx'},jsxFactory:'React.createElement',jsxFragment:'React.Fragment',define:{'process.env.NODE_ENV':'\\\"production\\\"'},external:['crypto','fs','net'],minify:false})\"",
-    "format": "prettier 'app/javascript/**/*.{js,jsx}' --write",
-    "format:check": "prettier 'app/javascript/**/*.{js,jsx}' --check",
-    "lint": "eslint 'app/javascript/**/*.{js,jsx}'",
-    "lint:errors": "eslint --quiet 'app/javascript/**/*.{js,jsx}'",
-    "lint:fix": "eslint --fix 'app/javascript/**/*.{js,jsx}'"
+    "format": "prettier 'app/javascript/' --write",
+    "format:check": "prettier 'app/javascript/' --check",
+    "lint": "eslint 'app/javascript/'",
+    "lint:errors": "eslint --quiet 'app/javascript/'",
+    "lint:fix": "eslint --fix 'app/javascript/'"
   },
   "dependencies": {
     "@eins78/typopro-open-sans": "0.0.0",

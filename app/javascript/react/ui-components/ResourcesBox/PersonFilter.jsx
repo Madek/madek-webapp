@@ -1,4 +1,4 @@
-import { filter, get, map, set } from 'lodash-es';
+import { filter, get, map, set } from 'lodash-es'
 import React, { Component } from 'react'
 import cx from 'classnames'
 import t from '../../../lib/i18n-translate.js'
@@ -91,7 +91,7 @@ export default class PersonFilter extends Component {
           />
         </li>
       </ul>
-    );
+    )
   }
 }
 
@@ -104,7 +104,7 @@ function getStaticSource(staticItems) {
     const isMatch =
       term.length === 0 ? () => true : u => u.label.toLowerCase().includes(term.toLowerCase())
     callback(filter(staticItems, user => !user.selected && isMatch(user)))
-  };
+  }
 }
 
 function getRemoteSource(staticItems, contextKeyId, jsonPath) {
@@ -153,5 +153,5 @@ function getRemoteSource(staticItems, contextKeyId, jsonPath) {
     } else {
       _remoteSource(query, callback)
     }
-  };
+  }
 }

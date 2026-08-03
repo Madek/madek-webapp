@@ -1,5 +1,17 @@
-import { present } from '../../../lib/present';
-import { compact, each, flatten, get, includes, map, merge, pick, reject, set, some } from 'lodash-es';
+import { present } from '../../../lib/present'
+import {
+  compact,
+  each,
+  flatten,
+  get,
+  includes,
+  map,
+  merge,
+  pick,
+  reject,
+  set,
+  some
+} from 'lodash-es'
 import React from 'react'
 import PropTypes from 'prop-types'
 import t from '../../../lib/i18n-translate.js'
@@ -166,7 +178,7 @@ class SideFilter extends React.Component {
           return console.error('Could not load side filter data.')
         }
       }
-    );
+    )
   }
 
   _stubPermissionGroup() {
@@ -228,10 +240,10 @@ class SideFilter extends React.Component {
                     subSection.uuid
                   ).isOpen = true)
                 }
-              });
-            });
-          });
-        });
+              })
+            })
+          })
+        })
       }
     )
     return this.setState({ accordion: this.state.accordion })
@@ -273,13 +285,13 @@ class SideFilter extends React.Component {
                 applyCurrentSelectionToFilterTree(sections, current)
                 return map(sections, section => {
                   return this.renderSection(current, section)
-                });
+                })
               }
             })
           )
         )}
       </ul>
-    );
+    )
   }
 
   renderSection(current, section) {
@@ -312,7 +324,7 @@ class SideFilter extends React.Component {
             ))}
         </ul>
       </li>
-    );
+    )
   }
 
   renderSubSection(current, filterType, parent, child) {
@@ -387,9 +399,9 @@ class SideFilter extends React.Component {
                             return this.renderItem(current, child, item, filterType)
                           })}
                         </ul>
-                      );
+                      )
                     }
-                  });
+                  })
                 default:
                   return (
                     <ul className={togglebodyClass}>
@@ -397,13 +409,13 @@ class SideFilter extends React.Component {
                         return this.renderItem(current, child, item, filterType)
                       })}
                     </ul>
-                  );
+                  )
               }
             }
           }
         })()}
       </li>
-    );
+    )
   }
 
   renderPersonSelect(current, child, items, filterType, className, withTitle) {
@@ -547,22 +559,20 @@ class SideFilter extends React.Component {
     let currentPerType = current[filterType] || []
     // When we add a child filter, the parent filter is no longer needed.
     currentPerType = reject(
-        currentPerType,
+      currentPerType,
 
-        // Remove the filter, if it is in the section and consists only of
-        // key, but has no value or match.
-        // If multi is false, then we remove all from this section.
-        function (filter) {
-          const preventDuplicate = filter.key === parent.uuid && filter.value === item.uuid
-          const removeSectionFilter =
-            filter.key === parent.uuid &&
-            (!present(pick(filter, 'value', 'match')) || !parent.multi)
-          return preventDuplicate || removeSectionFilter
+      // Remove the filter, if it is in the section and consists only of
+      // key, but has no value or match.
+      // If multi is false, then we remove all from this section.
+      function (filter) {
+        const preventDuplicate = filter.key === parent.uuid && filter.value === item.uuid
+        const removeSectionFilter =
+          filter.key === parent.uuid && (!present(pick(filter, 'value', 'match')) || !parent.multi)
+        return preventDuplicate || removeSectionFilter
 
-          // Add the Item filter.
-        }
-      )
-      .concat({ key: parent.uuid, value: item.uuid })
+        // Add the Item filter.
+      }
+    ).concat({ key: parent.uuid, value: item.uuid })
 
     current[filterType] = currentPerType
     if (onChange) {
@@ -579,12 +589,11 @@ class SideFilter extends React.Component {
     let currentPerType = current[filterType] || []
     // Remove all Item filters in this section.
     currentPerType = reject(
-        currentPerType,
+      currentPerType,
 
-        // Note: We here also remove an existing section filter actually.
-        filter => filter.key === parent.uuid
-      )
-      .concat({ key: parent.uuid })
+      // Note: We here also remove an existing section filter actually.
+      filter => filter.key === parent.uuid
+    ).concat({ key: parent.uuid })
 
     current[filterType] = currentPerType
     if (onChange) {

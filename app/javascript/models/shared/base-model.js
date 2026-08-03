@@ -27,41 +27,55 @@ function isDerivedKey(instance, key) {
 }
 
 // Merge parent config, mixin configs, and own config into one flat object.
-const CONFIG_KEYS = new Set(['props', 'session', 'children', 'collections', 'derived', 'initialize'])
+const CONFIG_KEYS = new Set([
+  'props',
+  'session',
+  'children',
+  'collections',
+  'derived',
+  'initialize'
+])
 const SKIP_METHOD_KEYS = new Set([
   ...CONFIG_KEYS,
-  'type', 'urlRoot', 'idAttribute', 'extraProperties',
-  'dataTypes', 'typeAttribute', 'mainIndex', 'indexes', 'ajaxConfig'
+  'type',
+  'urlRoot',
+  'idAttribute',
+  'extraProperties',
+  'dataTypes',
+  'typeAttribute',
+  'mainIndex',
+  'indexes',
+  'ajaxConfig'
 ])
 
 function mergeConfigs(parentConfig = {}, mixins, ownConfig) {
   const merged = {
-    props:       { ...(parentConfig.props       || {}) },
-    session:     { ...(parentConfig.session     || {}) },
-    children:    { ...(parentConfig.children    || {}) },
+    props: { ...(parentConfig.props || {}) },
+    session: { ...(parentConfig.session || {}) },
+    children: { ...(parentConfig.children || {}) },
     collections: { ...(parentConfig.collections || {}) },
-    derived:     { ...(parentConfig.derived     || {}) },
+    derived: { ...(parentConfig.derived || {}) },
     extraProperties: parentConfig.extraProperties,
-    initialize:      parentConfig.initialize,
-    type:            ownConfig.type !== undefined ? ownConfig.type : parentConfig.type
+    initialize: parentConfig.initialize,
+    type: ownConfig.type !== undefined ? ownConfig.type : parentConfig.type
   }
 
   mixins.forEach(mixin => {
-    if (mixin.props)       Object.assign(merged.props,       mixin.props)
-    if (mixin.session)     Object.assign(merged.session,     mixin.session)
-    if (mixin.children)    Object.assign(merged.children,    mixin.children)
+    if (mixin.props) Object.assign(merged.props, mixin.props)
+    if (mixin.session) Object.assign(merged.session, mixin.session)
+    if (mixin.children) Object.assign(merged.children, mixin.children)
     if (mixin.collections) Object.assign(merged.collections, mixin.collections)
-    if (mixin.derived)     Object.assign(merged.derived,     mixin.derived)
-    if (mixin.initialize)  merged.initialize = mixin.initialize
+    if (mixin.derived) Object.assign(merged.derived, mixin.derived)
+    if (mixin.initialize) merged.initialize = mixin.initialize
     if (mixin.extraProperties) merged.extraProperties = mixin.extraProperties
   })
 
-  if (ownConfig.props)       Object.assign(merged.props,       ownConfig.props)
-  if (ownConfig.session)     Object.assign(merged.session,     ownConfig.session)
-  if (ownConfig.children)    Object.assign(merged.children,    ownConfig.children)
+  if (ownConfig.props) Object.assign(merged.props, ownConfig.props)
+  if (ownConfig.session) Object.assign(merged.session, ownConfig.session)
+  if (ownConfig.children) Object.assign(merged.children, ownConfig.children)
   if (ownConfig.collections) Object.assign(merged.collections, ownConfig.collections)
-  if (ownConfig.derived)     Object.assign(merged.derived,     ownConfig.derived)
-  if (ownConfig.initialize)  merged.initialize = ownConfig.initialize
+  if (ownConfig.derived) Object.assign(merged.derived, ownConfig.derived)
+  if (ownConfig.initialize) merged.initialize = ownConfig.initialize
   if (ownConfig.extraProperties) merged.extraProperties = ownConfig.extraProperties
 
   return merged
@@ -102,9 +116,9 @@ class BaseModel {
     if (config.extraProperties === 'allow') {
       const handled = new Set([
         ...Object.keys(allProps),
-        ...Object.keys(config.children    || {}),
+        ...Object.keys(config.children || {}),
         ...Object.keys(config.collections || {}),
-        ...Object.keys(config.derived     || {})
+        ...Object.keys(config.derived || {})
       ])
       Object.entries(data).forEach(([key, val]) => {
         if (!handled.has(key)) this[key] = val
@@ -122,8 +136,14 @@ class BaseModel {
   }
 
   off(event, fn) {
-    if (!event) { this._listeners = {}; return this }
-    if (!fn)    { this._listeners[event] = []; return this }
+    if (!event) {
+      this._listeners = {}
+      return this
+    }
+    if (!fn) {
+      this._listeners[event] = []
+      return this
+    }
     this._listeners[event] = (this._listeners[event] || []).filter(f => f !== fn)
     return this
   }
@@ -142,7 +162,10 @@ class BaseModel {
 
   stopListening(other) {
     this._listenedTo = this._listenedTo.filter(({ other: o, event, fn }) => {
-      if (!other || o === other) { o.off(event, fn); return false }
+      if (!other || o === other) {
+        o.off(event, fn)
+        return false
+      }
       return true
     })
   }
@@ -160,7 +183,9 @@ class BaseModel {
     return this
   }
 
-  get(key) { return this[key] }
+  get(key) {
+    return this[key]
+  }
 
   merge(prop, data) {
     return this.set(prop, Object.assign({}, this[prop], data))
@@ -197,7 +222,9 @@ class BaseModel {
     const config = this.constructor._config || {}
     const result = {}
 
-    Object.keys(config.props || {}).forEach(key => { result[key] = this[key] })
+    Object.keys(config.props || {}).forEach(key => {
+      result[key] = this[key]
+    })
 
     Object.keys(config.children || {}).forEach(key => {
       const child = this[key]
@@ -206,13 +233,15 @@ class BaseModel {
 
     Object.keys(config.collections || {}).forEach(key => {
       const coll = this[key]
-      result[key] = coll && coll.serialize ? coll.serialize() : (coll || [])
+      result[key] = coll && coll.serialize ? coll.serialize() : coll || []
     })
 
     return result
   }
 
-  dump() { return this.serialize() }
+  dump() {
+    return this.serialize()
+  }
 
   // ── HTTP ───────────────────────────────────────────────────────────────────
 
@@ -232,59 +261,54 @@ class BaseModel {
     })
       .then(async res => {
         let data
-        try { data = await res.json() } catch (_) { data = null }
+        try {
+          data = await res.json()
+        } catch {
+          data = null
+        }
         callback(null, { statusCode: res.status }, data)
       })
       .catch(err => callback(err, null, null))
   }
 
   save(config = {}) {
-    this._runRequest(
-      { method: 'PUT', url: this.url, json: this.serialize() },
-      (err, res, data) => {
-        if (err || res.statusCode >= 400) {
-          if (config.error) config.error(this, err || data)
-        } else {
-          if (data && typeof data === 'object') this._applyData(data)
-          if (config.success) config.success(this)
-        }
+    this._runRequest({ method: 'PUT', url: this.url, json: this.serialize() }, (err, res, data) => {
+      if (err || res.statusCode >= 400) {
+        if (config.error) config.error(this, err || data)
+      } else {
+        if (data && typeof data === 'object') this._applyData(data)
+        if (config.success) config.success(this)
       }
-    )
+    })
   }
 
   fetch(config = {}) {
-    this._runRequest(
-      { method: 'GET', url: this.url },
-      (err, res, data) => {
-        if (err || res.statusCode >= 400) {
-          if (config.error) config.error(this, err || data)
-        } else {
-          if (data && typeof data === 'object') this._applyData(data)
-          if (config.success) config.success(this)
-        }
+    this._runRequest({ method: 'GET', url: this.url }, (err, res, data) => {
+      if (err || res.statusCode >= 400) {
+        if (config.error) config.error(this, err || data)
+      } else {
+        if (data && typeof data === 'object') this._applyData(data)
+        if (config.success) config.success(this)
       }
-    )
+    })
   }
 
   destroy(config = {}) {
-    this._runRequest(
-      { method: 'DELETE', url: this.url },
-      (err, res, data) => {
-        if (err || res.statusCode >= 400) {
-          if (config.error) config.error(this, err || data)
-        } else {
-          if (config.success) config.success(this)
-        }
+    this._runRequest({ method: 'DELETE', url: this.url }, (err, res, data) => {
+      if (err || res.statusCode >= 400) {
+        if (config.error) config.error(this, err || data)
+      } else {
+        if (config.success) config.success(this)
       }
-    )
+    })
   }
 
   // ── Class factory ──────────────────────────────────────────────────────────
 
   static extend(...args) {
     const ownConfig = args[args.length - 1] || {}
-    const mixins    = args.slice(0, -1)
-    const Parent    = this
+    const mixins = args.slice(0, -1)
+    const Parent = this
 
     const merged = mergeConfigs(Parent._config || {}, mixins, ownConfig)
 

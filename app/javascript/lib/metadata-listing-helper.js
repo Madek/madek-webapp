@@ -1,5 +1,5 @@
-import { present } from './present';
-import { get, includes, some } from 'lodash-es';
+import { present } from './present'
+import { get, includes, some } from 'lodash-es'
 
 export default {
   _listingFromContextOrVocab(contextOrVocab) {
@@ -19,9 +19,9 @@ export default {
       case !!present(listing):
         return true
       case listingType !== 'Vocabulary':
-        return !some(metaData, present);
+        return !some(metaData, present)
       default:
-        return !some(metaData, i => present(i.meta_datum));
+        return !some(metaData, i => present(i.meta_datum))
     }
   },
 

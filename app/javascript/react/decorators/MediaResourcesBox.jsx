@@ -1,5 +1,18 @@
-import { present } from '../../lib/present';
-import { compact, defaultsDeep, each, extend, find, get as _get, includes, isFunction, join, map, merge, omit } from 'lodash-es';
+import { present } from '../../lib/present'
+import {
+  compact,
+  defaultsDeep,
+  each,
+  extend,
+  find,
+  get as _get,
+  includes,
+  isFunction,
+  join,
+  map,
+  merge,
+  omit
+} from 'lodash-es'
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -115,7 +128,7 @@ class MediaResourcesBox extends Component {
       } else {
         return console.error('Not a Function!', fn)
       }
-    });
+    })
   }
 
   initialBoxState = props => {
@@ -149,7 +162,7 @@ class MediaResourcesBox extends Component {
   }
 
   getResources = () => {
-    return map(this.state.boxState.resourceStates, r => r.resource);
+    return map(this.state.boxState.resourceStates, r => r.resource)
   }
 
   getJsonPath = () => {
@@ -373,7 +386,7 @@ class MediaResourcesBox extends Component {
         windowHref: href
       },
       persistPosition
-    );
+    )
   }
 
   _showSelectionLimit = version => {
@@ -617,7 +630,7 @@ class MediaResourcesBox extends Component {
           show_filter: false
         }
       )
-    });
+    })
   }
 
   _supportsFilesearch = () => {
@@ -652,14 +665,14 @@ class MediaResourcesBox extends Component {
     return this.triggerRootEvent({
       action: 'unselect-resources',
       resourceUuids: map(resources, r => r.uuid)
-    });
+    })
   }
 
   selectResources = resources => {
     return this.triggerRootEvent({
       action: 'select-resources',
       resourceUuids: map(resources, r => r.uuid)
-    });
+    })
   }
 
   onSortItemClick = (event, itemKey) => {
@@ -686,7 +699,7 @@ class MediaResourcesBox extends Component {
         this.clearAndLoadNextPage()
         return this._persistListConfig({ list_config: { order: itemKey } })
       }
-    );
+    )
   }
 
   onLayoutClick = (event, layoutMode) => {
@@ -707,7 +720,7 @@ class MediaResourcesBox extends Component {
         }
         return this._persistListConfig({ list_config: { layout: layoutMode.mode } })
       }
-    );
+    )
   }
 
   layoutSave = event => {
@@ -774,7 +787,7 @@ class MediaResourcesBox extends Component {
         return merge(layoutMode, {
           mods: { active: layoutMode.mode === layout },
           href
-        });
+        })
       })
 
       return (
@@ -1015,7 +1028,7 @@ class MediaResourcesBox extends Component {
                       unselectResources={this.unselectResources}
                       selectResources={resources => this.selectResources(resources)}
                     />
-                  );
+                  )
                 }
               })()}
               {paginationNav(resources, get.pagination)}
@@ -1074,7 +1087,7 @@ class MediaResourcesBox extends Component {
           }
         })()}
       </div>
-    );
+    )
   }
 }
 

@@ -1,4 +1,4 @@
-import { map } from 'lodash-es';
+import { map } from 'lodash-es'
 import React from 'react'
 import t from '../../../lib/i18n-translate.js'
 import RailsForm from '../../lib/forms/rails-form.jsx'
@@ -284,7 +284,7 @@ class EditTransferResponsibility extends React.Component {
           </div>
         </RailsForm>
       </div>
-    );
+    )
   }
 }
 

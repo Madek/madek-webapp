@@ -1,5 +1,17 @@
-import { present } from '../../lib/present';
-import { chunk, compact, each, extend, filter, find, get, isFunction, remove, set, size } from 'lodash-es';
+import { present } from '../../lib/present'
+import {
+  chunk,
+  compact,
+  each,
+  extend,
+  filter,
+  find,
+  get,
+  isFunction,
+  remove,
+  set,
+  size
+} from 'lodash-es'
 import BaseModel from './base-model.js'
 const State = BaseModel
 import setUrlParams from '../../lib/set-params-for-url.js'
@@ -69,7 +81,7 @@ export default function (collectionClass, { jsonPath }) {
             url: setUrlParams(this.url, { list: { page: this.firstPage + n } }),
             resources,
             pagination: extend(paginationBase, { page: this.firstPage + n })
-          }));
+          }))
         }
       }
     },
@@ -139,7 +151,7 @@ export default function (collectionClass, { jsonPath }) {
           }
           return callback(null)
         }
-      });
+      })
     },
 
     getJsonPath() {
@@ -193,9 +205,9 @@ export default function (collectionClass, { jsonPath }) {
           return callback({
             result: 'success',
             data: get(body, this.getJsonPath())
-          });
+          })
         }
-      });
+      })
     },
 
     listMetadataJob(resource) {
@@ -211,7 +223,7 @@ export default function (collectionClass, { jsonPath }) {
     },
 
     createPendingJobs(resource) {
-      return compact([!resource.list_meta_data ? this.listMetadataJob(resource) : undefined]);
+      return compact([!resource.list_meta_data ? this.listMetadataJob(resource) : undefined])
     },
 
     tryAddPendingJobs(resource) {
@@ -221,7 +233,7 @@ export default function (collectionClass, { jsonPath }) {
         if (!existing && size(this.jobQueue) < 10) {
           return this.jobQueue.push(job)
         }
-      });
+      })
     },
 
     checkJobs(callback) {
@@ -230,7 +242,7 @@ export default function (collectionClass, { jsonPath }) {
       each(this.pages, page => {
         return each(page.resources, resource => {
           return this.tryAddPendingJobs(resource)
-        });
+        })
       })
 
       const waitingJobs = filter(
@@ -259,5 +271,5 @@ export default function (collectionClass, { jsonPath }) {
     fetchListData() {
       return this.checkJobs()
     }
-  });
+  })
 }

@@ -1,4 +1,4 @@
-import { present } from '../../lib/present';
+import { present } from '../../lib/present'
 import React from 'react'
 import PropTypes from 'prop-types'
 import t from '../../lib/i18n-translate.js'

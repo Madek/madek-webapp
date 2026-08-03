@@ -1,4 +1,4 @@
-import { find, findIndex, first, isEmpty, map, reject, slice, startsWith } from 'lodash-es';
+import { find, findIndex, first, isEmpty, map, reject, slice, startsWith } from 'lodash-es'
 
 export default {
   // NOTE: Temporary solution for "bundling" of keys. comes from instance config.
@@ -7,13 +7,13 @@ export default {
   },
 
   _find_exact_in_bundle(meta_key_id) {
-    return find(this._prefixesForBundle(), prefix => meta_key_id === prefix.group);
+    return find(this._prefixesForBundle(), prefix => meta_key_id === prefix.group)
   },
 
   _diff_keys(a, b) {
     const contains_key = (arr, key_id) => find(arr, ai => ai.data_id === key_id)
 
-    return reject(a, ai => contains_key(b, ai.data_id));
+    return reject(a, ai => contains_key(b, ai.data_id))
   },
 
   _reject_followups(keys_to_check, bundle_key) {
@@ -26,7 +26,7 @@ export default {
       return []
     }
 
-    return slice(keys_to_check, first_not_matching);
+    return slice(keys_to_check, first_not_matching)
   },
 
   _group_context_keys(context_keys) {

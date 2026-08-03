@@ -1,4 +1,4 @@
-import { pick } from 'lodash-es';
+import { pick } from 'lodash-es'
 import PropTypes from 'prop-types'
 
 export default {

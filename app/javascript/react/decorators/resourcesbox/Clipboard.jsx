@@ -1,4 +1,4 @@
-import { chunk, filter, first, get, map, reduce, set, size } from 'lodash-es';
+import { chunk, filter, first, get, map, reduce, set, size } from 'lodash-es'
 /*
  * decaffeinate suggestions:
  * DS102: Remove unnecessary code created because of implicit returns
@@ -60,9 +60,9 @@ class Clipboard extends React.Component {
         return callback({
           result: 'success',
           data: get(body, jsonPath)
-        });
+        })
       }
-    });
+    })
   }
 
   _fetchForAddAll() {
@@ -86,7 +86,7 @@ class Clipboard extends React.Component {
               uuid: entry.uuid,
               type: entry.type
             }))
-          });
+          })
         }
       }
     )

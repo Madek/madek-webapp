@@ -37,7 +37,7 @@ function ResourcePermissions({ get, optionals, authToken }) {
         (() => {
           try {
             return JSON.stringify(err, null, 2)
-          } catch (_) {
+          } catch {
             return String(err)
           }
         })()
@@ -66,7 +66,7 @@ function ResourcePermissions({ get, optionals, authToken }) {
       stopListen()
       stopConfirming()
     }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [])
 
   const onStartEdit = event => {
     if (event) event.preventDefault()
@@ -94,7 +94,12 @@ function ResourcePermissions({ get, optionals, authToken }) {
   const onPublicPermissionChange = (permissionTypes, name, value) => {
     setPermissions(prev => ({
       ...prev,
-      public_permission: applyPermissionCascade(prev.public_permission, permissionTypes, name, value)
+      public_permission: applyPermissionCascade(
+        prev.public_permission,
+        permissionTypes,
+        name,
+        value
+      )
     }))
   }
 
@@ -105,8 +110,10 @@ function ResourcePermissions({ get, optionals, authToken }) {
       const newPerm = { subject }
       const template = list[0] || {}
       const applicable = Object.keys(template).filter(k => k !== 'subject' && k !== 'tooltip_text')
-      const types = applicable.length > 0 ? applicable : (prev.permission_types || [])
-      types.forEach(pt => { newPerm[pt] = false })
+      const types = applicable.length > 0 ? applicable : prev.permission_types || []
+      types.forEach(pt => {
+        newPerm[pt] = false
+      })
       return { ...prev, [collectionKey]: [...list, newPerm] }
     })
   }
@@ -122,11 +129,7 @@ function ResourcePermissions({ get, optionals, authToken }) {
 
   const GroupIndex = ({ subject }) => (
     <span className="text" title={subject.detailed_name}>
-      {subject.can_show ? (
-        <a href={subject.url}>{subject.detailed_name}</a>
-      ) : (
-        subject.detailed_name
-      )}
+      {subject.can_show ? <a href={subject.url}>{subject.detailed_name}</a> : subject.detailed_name}
     </span>
   )
 

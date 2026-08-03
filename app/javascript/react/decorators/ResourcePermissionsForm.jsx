@@ -148,7 +148,9 @@ class ResourcePermissionsForm extends React.Component {
                   showTitles: showTitles,
                   editing: editing,
                   permissionTypes: get.permission_types,
-                  onPermissionChange: row.collectionKey ? onPermissionChange : onPublicPermissionChange,
+                  onPermissionChange: row.collectionKey
+                    ? onPermissionChange
+                    : onPublicPermissionChange,
                   onAddSubject: onAddSubject,
                   onRemoveSubject: onRemoveSubject
                 })}
@@ -228,7 +230,8 @@ class PermissionsBySubjectType extends React.Component {
     const existingUuids = () =>
       (permissionsList.models || permissionsList).map(m => m.subject && m.subject.uuid)
     // Show "add subject" row when editing a subject list
-    const showAddSubject = editing && (isSubjectList != null ? isSubjectList : permissionsList.isCollection)
+    const showAddSubject =
+      editing && (isSubjectList != null ? isSubjectList : permissionsList.isCollection)
 
     return (
       <div className="ui-rights-management-editing">
@@ -249,7 +252,13 @@ class PermissionsBySubjectType extends React.Component {
                   ? (name, value) => {
                       if (collectionKey) {
                         // subject collection: pass collectionKey + subjectUuid
-                        onPermissionChange(collectionKey, subject.uuid, permissionTypes, name, value)
+                        onPermissionChange(
+                          collectionKey,
+                          subject.uuid,
+                          permissionTypes,
+                          name,
+                          value
+                        )
                       } else {
                         // public permission
                         onPermissionChange(permissionTypes, name, value)
@@ -257,9 +266,10 @@ class PermissionsBySubjectType extends React.Component {
                     }
                   : undefined
 
-                const handleRemove = onRemoveSubject && permissions.subject
-                  ? () => onRemoveSubject(collectionKey, permissions.subject.uuid)
-                  : undefined
+                const handleRemove =
+                  onRemoveSubject && permissions.subject
+                    ? () => onRemoveSubject(collectionKey, permissions.subject.uuid)
+                    : undefined
 
                 return (
                   <PermissionsSubject

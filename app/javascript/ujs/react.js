@@ -1,4 +1,4 @@
-import { get, isFunction, set } from 'lodash-es';
+import { get, isFunction, set } from 'lodash-es'
 /*
  * ujs/react.js
  * UJS for React Views (and Decorators)
@@ -37,7 +37,7 @@ export default () => {
     for (const key of Object.keys(element.dataset)) {
       try {
         data[key] = JSON.parse(element.dataset[key])
-      } catch (_) {
+      } catch {
         data[key] = element.dataset[key]
       }
     }
@@ -52,7 +52,7 @@ export default () => {
         if (!component) {
           throw new Error(`No such component: \`${componentClass}\`!`)
         }
-          return callback(
+        return callback(
           React.createElement(
             QueryClientProvider,
             { client: queryClient },

@@ -1,5 +1,5 @@
-import { present } from '../../../lib/present';
-import { curry, isEqual, some, values } from 'lodash-es';
+import { present } from '../../../lib/present'
+import { curry, isEqual, some, values } from 'lodash-es'
 import React from 'react'
 import { t } from '../../lib/ui.js'
 import SelectionScope from '../../../lib/selection-scope.js'
@@ -124,7 +124,7 @@ export default class ActionsDropdown extends React.Component {
                   batchEditables.length,
                   'pen',
                   t('resources_box_batch_actions_edit')
-                );
+                )
               }
             }
           })()}
@@ -143,7 +143,7 @@ export default class ActionsDropdown extends React.Component {
                 batchEditables.length,
                 'pen',
                 t('resources_box_batch_actions_edit_title') + ' (max. 12)'
-              );
+              )
             }
           })()}
 
@@ -176,7 +176,7 @@ export default class ActionsDropdown extends React.Component {
                   batchSetEditables.length,
                   'pen',
                   t('resources_box_batch_actions_edit_sets')
-                );
+                )
               }
             }
           })()}
@@ -198,7 +198,7 @@ export default class ActionsDropdown extends React.Component {
                 batchDestroyables.length,
                 'trash',
                 t('resources_box_batch_actions_delete')
-              );
+              )
             }
           })()}
 
@@ -218,7 +218,7 @@ export default class ActionsDropdown extends React.Component {
                 batchPermissionEditables.length,
                 'lock',
                 t('resources_box_batch_actions_managepermissions')
-              );
+              )
             }
           })()}
 
@@ -238,7 +238,7 @@ export default class ActionsDropdown extends React.Component {
                 batchPermissionSetsEditables.length,
                 'lock',
                 t('resources_box_batch_actions_sets_managepermissions')
-              );
+              )
             }
           })()}
 
@@ -259,7 +259,7 @@ export default class ActionsDropdown extends React.Component {
                 batchTransferResponsibilityEditables.length,
                 'user',
                 t('resources_box_batch_actions_transfer_responsibility_entries')
-              );
+              )
             }
           })()}
 
@@ -280,7 +280,7 @@ export default class ActionsDropdown extends React.Component {
                 batchTransferResponsibilitySetsEditables.length,
                 'user',
                 t('resources_box_batch_actions_transfer_responsibility_sets')
-              );
+              )
             }
           })()}
 
@@ -327,6 +327,6 @@ export default class ActionsDropdown extends React.Component {
             : undefined}
         </Dropdown.Menu>
       </Dropdown>
-    );
+    )
   }
 }
