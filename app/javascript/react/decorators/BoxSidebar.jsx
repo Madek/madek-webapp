@@ -1,5 +1,5 @@
 import React from 'react'
-import { filter, first, get, isEmpty } from 'lodash-es'
+import { filter, first, isEmpty } from 'lodash-es'
 import Preloader from '../ui-components/Preloader.jsx'
 import Button from '../ui-components/Button.jsx'
 import Link from '../ui-components/Link.jsx'
@@ -232,9 +232,9 @@ class BoxSidebar extends React.Component {
   }
 
   renderFiltersNote() {
-    const { currentUrl, parentState } = this.props
-
-    if (get(parentState, 'boxState.props.get.content_type') !== 'MediaResource') {
+    const { currentUrl, config } = this.props
+    const forUrl = config.for_url
+    if (forUrl.query.type !== 'all') {
       return null
     }
 
