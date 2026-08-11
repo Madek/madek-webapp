@@ -29,7 +29,7 @@ export default () => {
     for (const key of Object.keys(element.dataset)) {
       try {
         data[key] = JSON.parse(element.dataset[key])
-      } catch (_) {
+      } catch {
         data[key] = element.dataset[key]
       }
     }
