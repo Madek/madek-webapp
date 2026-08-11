@@ -128,4 +128,22 @@ describe UsersController do
       end
     end
   end
+
+  describe '#toggle_uberadmin' do
+    it 'denies a plain admin without either uberadmin permission' do
+      admin = admin_user_with_only
+
+      expect do
+        post :toggle_uberadmin, session: { user_id: admin.id }
+      end.to raise_error(Errors::ForbiddenError)
+    end
+
+    it 'allows an admin with uberadmin_view' do
+      admin = admin_user_with_only('uberadmin_view')
+
+      post :toggle_uberadmin, session: { user_id: admin.id }
+
+      expect(response).to redirect_to(my_dashboard_path)
+    end
+  end
 end

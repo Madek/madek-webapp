@@ -14,17 +14,24 @@ module Presenters
 
         admin_menu = if @user.admin?
           {
-            url: prepend_url_context('/admin'),
-            admin_mode_toggle: {
-              url: toggle_uberadmin_path,
-              method: 'POST',
-              title: (if uberadmin_mode
-                        I18n.t(:user_menu_admin_mode_toogle_off)
-                      else
-                        I18n.t(:user_menu_admin_mode_toogle_on)
-                      end)
-            }
-          }
+            url: prepend_url_context('/admin')
+          }.merge(
+            if uberadmin_eligible?
+              {
+                admin_mode_toggle: {
+                  url: toggle_uberadmin_path,
+                  method: 'POST',
+                  title: (if uberadmin_mode
+                            I18n.t(:user_menu_admin_mode_toogle_off)
+                          else
+                            I18n.t(:user_menu_admin_mode_toogle_on)
+                          end)
+                }
+              }
+            else
+              {}
+            end
+          )
         end
 
         user_index = Presenters::Users::UserIndex.new(@user)
@@ -62,6 +69,11 @@ module Presenters
 
       def uberadmin_mode
         @user.admin.webapp_session_uberadmin_mode
+      end
+
+      def uberadmin_eligible?
+        @user.has_admin_permission?('uberadmin_view') ||
+          @user.has_admin_permission?('uberadmin_edit')
       end
 
       def shibboleth_sign_in_url

@@ -5,7 +5,8 @@ class UserPolicy < DefaultPolicy
   end
   
   def toggle_uberadmin?
-    user.admin?
+    user.has_admin_permission?('uberadmin_view') ||
+      user.has_admin_permission?('uberadmin_edit')
   end
 
   def set_list_config?

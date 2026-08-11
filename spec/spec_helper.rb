@@ -14,6 +14,12 @@ def restore_seeds
   PgTasks.data_restore Rails.root.join('datalayer', 'db', 'seeds.pgbin')
 end
 
+def admin_user_with_only(*keys)
+  user = FactoryBot.create(:admin_user)
+  user.admin.admin_permissions.where.not(permission_key: keys).delete_all
+  user
+end
+
 def with_disabled_triggers
   ActiveRecord::Base.connection.execute  \
     'SET session_replication_role = REPLICA;'

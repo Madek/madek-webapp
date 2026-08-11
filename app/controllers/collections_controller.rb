@@ -311,13 +311,13 @@ class CollectionsController < ApplicationController
 
   def get_authorized_resource
     init_scope = Collection.unscoped
-    unless uberadmin_mode
+    unless uberadmin_view_mode
       init_scope = init_scope.not_deleted
     end
     begin
       resource = init_scope.find(id_param)
     rescue ActiveRecord::RecordNotFound
-      if !uberadmin_mode && Collection.unscoped.deleted.where(id: id_param).exists?
+      if !uberadmin_view_mode && Collection.unscoped.deleted.where(id: id_param).exists?
         raise Errors::GoneError
       else
         raise

@@ -134,6 +134,10 @@ module Shared
       def responsible_user_or_member_of_delegation?
         record.responsible_user == user or record.delegation_with_user?(user)
       end
+
+      def self.view_tier_queries
+        super + %i(relations? more_data? relation_parents? relation_children? relation_siblings?)
+      end
     end
   end
 end

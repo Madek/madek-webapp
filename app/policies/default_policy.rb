@@ -55,4 +55,10 @@ class DefaultPolicy
   def logged_in?
     not user.nil?
   end
+
+  # queries a view-tier uberadmin (uberadmin_view) may bypass;
+  # subclasses extend this with their own read-only aliases of show?
+  def self.view_tier_queries
+    %i(show? index?)
+  end
 end

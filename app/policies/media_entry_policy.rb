@@ -109,6 +109,10 @@ class MediaEntryPolicy < Shared::MediaResources::MediaResourcePolicy
   alias_method :audio?, :show?
   alias_method :document?, :show?
 
+  def self.view_tier_queries
+    super + %i(browse? siblings? export? rdf_export? image? video? audio? document?)
+  end
+
   private
 
   def allow_for_creator_if_unpublished(record, user)

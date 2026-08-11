@@ -87,7 +87,7 @@ module Modules
         raise_404 unless format_param == 'pdf'
         
         # additional authorization check (`get_full_size` permission is needed for PDF)
-        if uberadmin_mode
+        if uberadmin_view_mode
           skip_authorization
         else
           Pundit.authorize(current_user, entry.media_file, :show?)
