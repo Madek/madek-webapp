@@ -138,7 +138,28 @@ feature 'Resource: MediaEntry' do
         .to eq settings.media_entry_default_license_id
     end
 
-    scenario 'All preview sizes are generated for a 1600x1200 image',
+    scenario 'All preview sizes are generated for a 2000x1500 image',
+             browser: false do
+      visit new_media_entry_path
+      select_file_and_submit('images', 'sleepy_cat_2000.jpg')
+      media_entry = user.unpublished_media_entries.first
+      media_file = media_entry.media_file
+
+      expect(media_file.width).to be == 2000
+      expect(media_file.height).to be == 1500
+
+      thumbnails_dir = Madek::Constants::THUMBNAIL_STORAGE_DIR
+                       .join(media_file.guid.first)
+
+      Madek::Constants::THUMBNAILS.keys.each do |thumb_size|
+        expect(File.exist?(thumbnails_dir.join("#{media_file.guid}_#{thumb_size}.jpg")))
+          .to be(true), "expected preview size #{thumb_size} to exist"
+      end
+
+      expect(media_file.previews.size).to be == Madek::Constants::THUMBNAILS.size
+    end
+
+    scenario 'Only preview sizes below `x_grand` are generated for a 1600x1200 image',
              browser: false do
       visit new_media_entry_path
       select_file_and_submit('images', 'sleepy_cat_1600.jpg')
@@ -152,11 +173,16 @@ feature 'Resource: MediaEntry' do
                        .join(media_file.guid.first)
 
       Madek::Constants::THUMBNAILS.keys.each do |thumb_size|
-        expect(File.exist?(thumbnails_dir.join("#{media_file.guid}_#{thumb_size}.jpg")))
-          .to be(true), "expected preview size #{thumb_size} to exist"
+        if thumb_size == :x_grand
+          expect(File.exist?(thumbnails_dir.join("#{media_file.guid}_#{thumb_size}.jpg")))
+            .to be(false), "expected preview size #{thumb_size} not to exist"
+        else
+          expect(File.exist?(thumbnails_dir.join("#{media_file.guid}_#{thumb_size}.jpg")))
+            .to be(true), "expected preview size #{thumb_size} to exist"
+        end
       end
 
-      expect(media_file.previews.size).to be == Madek::Constants::THUMBNAILS.size
+      expect(media_file.previews.size).to be == Madek::Constants::THUMBNAILS.size - 1
     end
 
     scenario 'Only preview sizes below `grand` are generated for a 1280x960 image',
@@ -173,7 +199,7 @@ feature 'Resource: MediaEntry' do
                        .join(media_file.guid.first)
 
       Madek::Constants::THUMBNAILS.keys.each do |thumb_size|
-        if thumb_size == :grand
+        if thumb_size == :grand || thumb_size == :x_grand
           expect(File.exist?(thumbnails_dir.join("#{media_file.guid}_#{thumb_size}.jpg")))
             .to be(false), "expected preview size #{thumb_size} not to exist"
         else
@@ -182,7 +208,7 @@ feature 'Resource: MediaEntry' do
         end
       end
 
-      expect(media_file.previews.size).to be == Madek::Constants::THUMBNAILS.size - 1
+      expect(media_file.previews.size).to be == Madek::Constants::THUMBNAILS.size - 2
     end
 
     scenario 'Only `medium` and `maximum` are generated for a 620x464 image',
@@ -250,7 +276,7 @@ feature 'Resource: MediaEntry' do
 
       thumbnails_dir = Madek::Constants::THUMBNAIL_STORAGE_DIR \
         .join(media_file.guid.first)
-      expected_presence_map = { maximum: true, grand: false, x_large: false, large: false, medium: true }
+      expected_presence_map = { maximum: true, x_grand: false, grand: false, x_large: false, large: false, medium: true }
       Madek::Constants::THUMBNAILS.keys.each do |thumb_size|
         expected_presence = expected_presence_map.fetch(thumb_size)
         puts "#{thumb_size} #{expected_presence}"

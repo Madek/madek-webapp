@@ -25,6 +25,11 @@ describe MediaEntriesController do
       expect(response.header['Content-Disposition']).to include('test-image-wide.tif.1535x1063.jpg')
     end
 
+    example 'image.jpg?resolution=x_grand' do
+      get :image, params: { id: image_entry, format: 'jpg', resolution: 'x_grand' }
+      expect(response.header['Content-Disposition']).to include('test-image-wide.tif.1535x1063.jpg')
+    end
+
     example 'image.jpg?resolution=grand' do
       get :image, params: { id: image_entry, format: 'jpg', resolution: 'grand' }
       expect(response.header['Content-Disposition']).to include('test-image-wide.tif.1280x886.jpg')
