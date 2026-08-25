@@ -18,24 +18,32 @@ import DatePicker, { parseDate } from '../../ui-components/DatePicker.jsx'
 const SUBTYPES = ['text', 'timestamp', 'duration']
 const formatDuration = DateValues => compact(DateValues).join(' - ')
 const parseDuration = MdValues => isString(MdValues[0]) && MdValues[0].split(' - ')
-const initialSubtype = MdValues => {
-  // if no values (yet), default to timestamp:
-  if (isEmpty(MdValues)) return SUBTYPES[1]
-  // otherwise choose best offer according to content:
-  const dates = (parseDuration(MdValues) || []).map(parseDate)
-  if (!dates[0]) return SUBTYPES[0]
-  if (!dates[0]) return SUBTYPES[0]
-  if (!dates[1]) return SUBTYPES[1]
-  return SUBTYPES[2]
+
+function getInitialState(values) {
+  const value = Array.isArray(values) ? (values[0] ?? '') : ''
+  if (isString(value) && value.includes(' - ')) {
+    const [from, to] = value.split(' - ')
+    if (parseDate(from) && parseDate(to)) {
+      return { subType: 'duration', values: [from || '', to || ''] }
+    }
+  }
+  if (isEmpty(value)) {
+    return { subType: 'timestamp', values: [''] }
+  }
+  if (isString(value) && parseDate(value)) {
+    return { subType: 'timestamp', values: [value] }
+  }
+  return { subType: 'text', values: [value] }
 }
 
 class InputTextDate extends Component {
   constructor(props) {
     super(props)
+    const { subType, values } = getInitialState(props.values)
     this.state = {
       isClient: true,
-      subType: initialSubtype(props.values),
-      values: parseDuration(props.values) || []
+      subType,
+      values
     }
     this._onSelectSubtype = this._onSelectSubtype.bind(this)
     this._formatValues = this._formatValues.bind(this)
