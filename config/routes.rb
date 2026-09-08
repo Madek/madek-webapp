@@ -338,6 +338,7 @@ Madek::Application.routes.draw do
   ####################################################################################
   if Rails.env.test?
     get '/error_500', to: 'only_for_test#error_500'
+    post '/redirect_then_query', to: 'only_for_test#redirect_then_query'
   end
   ####################################################################################
 end

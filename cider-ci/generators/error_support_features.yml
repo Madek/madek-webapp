@@ -23,3 +23,10 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/errors/errors_spec.rb:42"
     RSPEC_TEST: "./spec/features/errors/errors_spec.rb[1:4]"
+"./spec/features/errors/errors_spec.rb[1:5]":
+  name: "./spec/features/errors/errors_spec.rb[1:5]"
+  description: Errors redirect_to heals the connection after a locally-rescued DB
+    error
+  environment_variables:
+    RSPEC_NAME: "./spec/features/errors/errors_spec.rb:55"
+    RSPEC_TEST: "./spec/features/errors/errors_spec.rb[1:5]"

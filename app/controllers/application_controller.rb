@@ -18,6 +18,7 @@ class ApplicationController < ActionController::Base
   include LangParams
   include Errors
   include BannerMessage
+  include TransactionHealing
 
   before_action :notify_if_session_expiring_soon
 

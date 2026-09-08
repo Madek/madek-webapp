@@ -48,6 +48,16 @@ feature 'Errors', ci_group: :error_support do
     expect(page).to have_content I18n.t(:error_403_title)
     expect(page).to have_content I18n.t(:error_403_message)
   end
+
+  # Regression test for #946: proves the `redirect_to` heal specifically
+  # (as opposed to just not crashing), by checking that a write issued
+  # *after* the redirect actually persisted.
+  scenario 'redirect_to heals the connection after a locally-rescued DB error',
+           browser: false do
+    page.driver.submit :post, '/redirect_then_query', {}
+
+    expect(Group.where(name: 'Test Group After Redirect').count).to eq 1
+  end
 end
 
 def error_500_message(with_email: true)
