@@ -5,6 +5,7 @@
 // set/get/merge, serialize, _runRequest, save/fetch/destroy, and
 // the static extend() class factory that mirrors Ampersand's API.
 
+import xhr from 'xhr'
 import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 
 // Ampersand-style client ids for React keys before server uuid exists
@@ -249,30 +250,31 @@ class BaseModel {
 
   // ── HTTP ───────────────────────────────────────────────────────────────────
 
+  // XHR, not fetch: uploads need beforeSend to hook xhr.upload.onprogress
   _runRequest(req, callback) {
-    const { method = 'GET', url, body, json, headers: extra = {} } = req
-    const isFormData = typeof FormData !== 'undefined' && body instanceof FormData
     const headers = {
       Accept: 'application/json',
       'X-CSRF-Token': getRailsCSRFToken(),
-      ...extra
+      ...req.headers
     }
-    if (!isFormData) headers['Content-Type'] = 'application/json'
-    fetch(url, {
-      method,
-      headers,
-      body: body !== undefined ? body : json !== undefined ? JSON.stringify(json) : undefined
-    })
-      .then(async res => {
-        let data
+    let { body } = req
+    if (body === undefined && req.json !== undefined) {
+      body = JSON.stringify(req.json)
+      headers['Content-Type'] = 'application/json'
+    }
+
+    return xhr(
+      { method: req.method, url: req.url, body, beforeSend: req.beforeSend, headers },
+      (err, res, raw) => {
+        let data = raw
         try {
-          data = await res.json()
+          data = JSON.parse(raw)
         } catch {
-          data = null
+          // not JSON — pass the raw body through
         }
-        callback(null, { statusCode: res.status }, data)
-      })
-      .catch(err => callback(err, null, null))
+        callback(err, res, data)
+      }
+    )
   }
 
   save(config = {}) {

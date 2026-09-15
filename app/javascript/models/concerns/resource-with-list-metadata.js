@@ -22,8 +22,7 @@ export default {
 
     return this._runRequest(
       {
-        url,
-        json: true
+        url
       },
       (err, res, json) => {
         if (err) {
