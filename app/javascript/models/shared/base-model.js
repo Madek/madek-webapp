@@ -7,6 +7,9 @@
 
 import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 
+// Ampersand-style client ids for React keys before server uuid exists
+let cidCounter = 0
+
 // Normalize prop declaration forms to a default value.
 // Accepted: 'string' | ['string'] | ['string', required, default] | { type, default, … }
 function propDefault(def) {
@@ -83,6 +86,7 @@ function mergeConfigs(parentConfig = {}, mixins, ownConfig) {
 
 class BaseModel {
   constructor(data = {}) {
+    this.cid = 'c' + ++cidCounter
     this._listeners = {}
     this._listenedTo = []
     this._initFromConfig(data)

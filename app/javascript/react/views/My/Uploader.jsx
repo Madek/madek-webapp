@@ -149,8 +149,7 @@ class Uploader extends React.Component {
     const added = this.props.appCollection.add(
       files.map(file => ({
         uploading: { file, copyMdFrom },
-        title: file.name,
-        image_url: URL.createObjectURL(file)
+        title: file.name
       }))
     )
 
