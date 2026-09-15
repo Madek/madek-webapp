@@ -43,8 +43,7 @@ export default {
 
     return this._runRequest(
       {
-        url: relationsUrl,
-        json: true
+        url: relationsUrl
       },
       (err, res, json) => {
         if (err || res.statusCode >= 400) {

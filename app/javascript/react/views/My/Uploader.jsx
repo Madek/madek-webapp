@@ -146,13 +146,15 @@ class Uploader extends React.Component {
       })
     }
 
-    const added = this.props.appCollection.add(
-      files.map(file => ({
-        uploading: { file, copyMdFrom },
-        title: file.name,
-        image_url: URL.createObjectURL(file)
+    const collection = this.props.appCollection
+    const from = collection.length
+    collection.add(
+      files.map((file, index) => ({
+        clientKey: `upload-${from + index}`,
+        uploading: { file, copyMdFrom }
       }))
     )
+    const added = collection.models.slice(from)
 
     this.setState({ uploading: true })
 

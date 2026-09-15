@@ -18,7 +18,7 @@ class SuperBoxUpload extends React.Component {
         isSelected={false}
         onSelect={null}
         authToken={config.authToken}
-        key={'resource_' + (config.resource.uuid || config.resource.cid)}
+        key={'resource_' + (config.resource.clientKey || config.resource.uuid)}
         pinThumb={false}
         listThumb={false}
         uploadMediaType={config.resource.mediaType}

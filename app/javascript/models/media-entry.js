@@ -110,8 +110,10 @@ export default AppResource.extend(
     },
 
     upload(callback) {
-      if (!(this.uploading.file instanceof BrowserFile)) {
-        throw new Error('Model: MediaEntry: #upload called but no file!')
+      if (!(this.uploading?.file instanceof BrowserFile)) {
+        const err = new Error('Model: MediaEntry: #upload called but no file!')
+        if (isFunction(callback)) return callback(err)
+        throw err
       }
 
       const formData = new FormData()

@@ -1,6 +1,5 @@
 import { defaults, merge } from 'lodash-es'
 import BaseModel from './base-model.js'
-import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 import RailsResource from './rails-resource-mixin.js'
 
 // Base class for RESTful application resources
@@ -22,32 +21,6 @@ const AppResource = BaseModel.extend(RailsResource, {
 
   dump() {
     return this.serialize()
-  },
-
-  _runRequest(req, callback) {
-    const { method = 'GET', url, body, json, headers: extra = {} } = req
-    const isFormData = typeof FormData !== 'undefined' && body instanceof FormData
-    const headers = {
-      Accept: 'application/json',
-      'X-CSRF-Token': getRailsCSRFToken(),
-      ...extra
-    }
-    if (!isFormData) headers['Content-Type'] = 'application/json'
-    fetch(url, {
-      method,
-      headers,
-      body: body !== undefined ? body : json !== undefined ? JSON.stringify(json) : undefined
-    })
-      .then(async res => {
-        let data
-        try {
-          data = await res.json()
-        } catch {
-          data = null
-        }
-        callback(null, { statusCode: res.status }, data)
-      })
-      .catch(err => callback(err, null, null))
   }
 })
 
