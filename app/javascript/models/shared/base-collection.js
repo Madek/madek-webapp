@@ -117,15 +117,18 @@ class BaseCollection {
 
   // ── Mutation ───────────────────────────────────────────────────────────────
 
+  // Returns the added model (or array of models), matching Backbone/Ampersand.
   add(attrsOrArray) {
-    const items = Array.isArray(attrsOrArray) ? attrsOrArray : [attrsOrArray]
-    items.forEach(attrs => {
+    const wasArray = Array.isArray(attrsOrArray)
+    const items = wasArray ? attrsOrArray : [attrsOrArray]
+    const added = items.map(attrs => {
       const model = this._createModel(attrs)
       this.models.push(model)
       this.trigger('add', model)
+      return model
     })
     this.trigger('change')
-    return this
+    return wasArray ? added : added[0]
   }
 
   remove(model) {
