@@ -55,53 +55,71 @@ module Modules
               .fetch("#{type}_permissions", [])
         end
 
-        def get_creator(perms)
-          creators = perms.map(&:creator).uniq.compact
-          if creators.size > 1
-            raise "Ambiguous creator for permissions."
-          else
-            creators.first
-          end
-        end
-
-        def add_creator_and_updator(p, creator)
-          if creator
-            p.merge(creator_id: creator.id,
+        # Derives creator_id/updator_id for a rebuilt permission from its
+        # previous incarnation (matched by receiver), without fabricating
+        # provenance:
+        #   * brand-new receiver        -> creator = current_user, no updator
+        #   * existing, values changed  -> keep creator, updator = current_user
+        #   * existing, values unchanged-> keep both creator and updator as-is
+        def add_creator_and_updator(p, previous)
+          if previous.nil?
+            p.merge(creator_id: current_user.id)
+          elsif permission_changed?(p, previous)
+            p.merge(creator_id: previous.creator_id,
                     updator_id: current_user.id)
           else
-            p.merge(creator_id: current_user.id)
+            p.merge(creator_id: previous.creator_id,
+                    updator_id: previous.updator_id)
           end
         end
 
-        def enriched_by_creator_and_updator(resource)
-          creator = get_creator(resource.user_permissions)
-          yield(resource, creator)
+        # Compares the submitted permission flags against the previous record.
+        # A flag that is absent from the params defaults to false (matching the
+        # database default used on create).
+        def permission_changed?(p, previous)
+          boolean_columns =
+            previous.class.columns.select { |c| c.type == :boolean }.map(&:name)
+          boolean_columns.any? do |col|
+            new_value =
+              if p.key?(col)
+                ActiveModel::Type::Boolean.new.cast(p[col])
+              else
+                false
+              end
+            new_value != previous[col]
+          end
+        end
+
+        # Rebuilds a permission collection from the submitted params while
+        # preserving the original creator (and, for unchanged rows, the original
+        # updator) of each individual permission, matched by its receiver
+        # (e.g. user_id/delegation_id/group_id/...).
+        def rebuild_permissions!(collection, permission_params, &receiver_key)
+          existing_by_receiver = collection.each_with_object({}) do |perm, memo|
+            memo[receiver_key.call(perm)] = perm
+          end
+          collection.destroy_all
+          permission_params.each do |p|
+            previous = existing_by_receiver[receiver_key.call(p)]
+            collection.create! add_creator_and_updator(p, previous)
+          end
         end
 
         def update_user_permissions!(resource)
-          enriched_by_creator_and_updator(resource) do |resource, creator|
-            resource.user_permissions.destroy_all
-            user_permissions_params.each do |p| 
-              resource.user_permissions.create! add_creator_and_updator(p, creator)
-            end
+          rebuild_permissions!(resource.user_permissions, user_permissions_params) do |x|
+            x[:user_id] || x[:delegation_id]
           end
         end
 
         def update_group_permissions!(resource)
-          enriched_by_creator_and_updator(resource) do |resource, creator|
-            resource.group_permissions.destroy_all
-            group_permissions_params.each do |p|
-              resource.group_permissions.create! add_creator_and_updator(p, creator)
-            end
+          rebuild_permissions!(resource.group_permissions, group_permissions_params) do |x|
+            x[:group_id]
           end
         end
 
         def update_api_client_permissions!(resource)
-          enriched_by_creator_and_updator(resource) do |resource, creator|
-            resource.api_client_permissions.destroy_all
-            api_client_permissions_params.each do |p|
-              resource.api_client_permissions.create! add_creator_and_updator(p, creator)
-            end
+          rebuild_permissions!(resource.api_client_permissions, api_client_permissions_params) do |x|
+            x[:api_client_id]
           end
         end
 

@@ -104,6 +104,75 @@ describe BatchController do
     end
   end
 
+  context 'tracking creator and updator across different users' do
+    before :example do
+      @editor = create(:user)
+      @original_creator = create(:user)
+      @media_entry = create(:media_entry, responsible_user: @editor)
+    end
+
+    def batch_put(user_permissions)
+      put :batch_update_entry_permissions,
+          params: {
+            resource_ids: [@media_entry.id],
+            permissions: {
+              user_permissions: user_permissions,
+              public_permission: { get_metadata_and_previews: false }
+            },
+            format: :json,
+            return_to: '/my'
+          },
+          session: { user_id: @editor.id }
+    end
+
+    it 'preserves the original creator and stamps updator '\
+       'for an existing permission' do
+      receiver = create(:user)
+      create(:media_entry_user_permission,
+             media_entry: @media_entry,
+             user: receiver,
+             creator: @original_creator,
+             updator: @original_creator,
+             get_metadata_and_previews: false)
+
+      batch_put([{ subject: receiver.id, get_metadata_and_previews: true }])
+
+      expect(response.status).to be == 200
+      perm = @media_entry.reload.user_permissions.find_by(user_id: receiver.id)
+      expect(perm.get_metadata_and_previews).to be true
+      expect(perm.creator_id).to eq @original_creator.id
+      expect(perm.updator_id).to eq @editor.id
+    end
+
+    it 'sets the acting user as creator for a newly added permission' do
+      receiver = create(:user)
+
+      batch_put([{ subject: receiver.id, get_metadata_and_previews: true }])
+
+      expect(response.status).to be == 200
+      perm = @media_entry.reload.user_permissions.find_by(user_id: receiver.id)
+      expect(perm.creator_id).to eq @editor.id
+    end
+
+    it 'does not stamp updator when an existing permission is unchanged' do
+      receiver = create(:user)
+      create(:media_entry_user_permission,
+             media_entry: @media_entry,
+             user: receiver,
+             creator: @original_creator,
+             updator: @original_creator,
+             get_metadata_and_previews: true)
+
+      batch_put([{ subject: receiver.id, get_metadata_and_previews: true }])
+
+      expect(response.status).to be == 200
+      perm = @media_entry.reload.user_permissions.find_by(user_id: receiver.id)
+      expect(perm.get_metadata_and_previews).to be true
+      expect(perm.creator_id).to eq @original_creator.id
+      expect(perm.updator_id).to eq @original_creator.id
+    end
+  end
+
   context 'Action: Batch Collection Permissions' do
 
     it 'updates properly' do

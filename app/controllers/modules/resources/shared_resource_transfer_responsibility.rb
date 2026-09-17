@@ -52,6 +52,7 @@ module Modules
           existing_permissions.get_full_size = download
           existing_permissions.edit_metadata = edit
           existing_permissions.edit_permissions = manage
+          existing_permissions.updator = current_user if existing_permissions.changed?
           existing_permissions.save!
         else
           config = {
@@ -60,7 +61,8 @@ module Modules
             get_metadata_and_previews: view,
             get_full_size: download,
             edit_metadata: edit,
-            edit_permissions: manage
+            edit_permissions: manage,
+            creator: current_user
           }
           resource.user_permissions.create!(config)
         end
@@ -83,6 +85,7 @@ module Modules
           existing_permissions.get_metadata_and_previews = view
           existing_permissions.edit_metadata_and_relations = edit
           existing_permissions.edit_permissions = manage
+          existing_permissions.updator = current_user if existing_permissions.changed?
           existing_permissions.save!
         else
           config = {
@@ -90,7 +93,8 @@ module Modules
             delegation: resource.responsible_delegation,
             get_metadata_and_previews: view,
             edit_metadata_and_relations: edit,
-            edit_permissions: manage
+            edit_permissions: manage,
+            creator: current_user
           }
           resource.user_permissions.create!(config)
         end

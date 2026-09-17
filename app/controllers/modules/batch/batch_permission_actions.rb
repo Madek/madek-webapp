@@ -163,11 +163,9 @@ module Modules
           p = \
             resource
             .user_permissions
-            .find_or_initialize_by(subject_type_id_key => subject_id)         
+            .find_or_initialize_by(subject_type_id_key => subject_id)
 
-          with_creator_or_updator(p) do |cu_attrs|
-            p.update!(sanitized_attributes.merge(cu_attrs))
-          end
+          create_or_update_permission!(p, sanitized_attributes)
         end
       end
 
@@ -183,9 +181,7 @@ module Modules
             .group_permissions
             .find_or_initialize_by(group_id: p_data[:subject])
 
-          with_creator_or_updator(p) do |cu_attrs|
-            p.update!(sanitized_attributes.merge(cu_attrs))
-          end
+          create_or_update_permission!(p, sanitized_attributes)
         end
       end
 
@@ -201,9 +197,7 @@ module Modules
             .api_client_permissions
             .find_or_initialize_by(api_client_id: p_data[:subject])
 
-          with_creator_or_updator(p) do |cu_attrs|
-            p.update!(sanitized_attributes.merge(cu_attrs))
-          end
+          create_or_update_permission!(p, sanitized_attributes)
         end
       end
 
@@ -213,13 +207,24 @@ module Modules
           .permit SANITIZATION_SPEC[resource_klass.name.to_sym][perm_type]
       end
 
-      def with_creator_or_updator(p)
-        merge_attrs = if p.new_record?
-                        { creator_id: current_user.id }
-                      else
-                        { updator_id: current_user.id }
-                      end
-        yield(merge_attrs)
+      # Persists a permission (new or existing) while attributing provenance
+      # consistently with the single-entry flow
+      # (see Modules::Resources::PermissionsHelpers):
+      #   * new record         -> creator = current_user, no updator
+      #   * existing, changed   -> keep creator, updator = current_user
+      #   * existing, unchanged -> touch neither creator nor updator
+      #
+      # Change detection relies on ActiveRecord dirty tracking over the
+      # submitted (sanitized) attributes only, matching the batch semantics
+      # where permission flags absent from the params must stay untouched.
+      def create_or_update_permission!(p, sanitized_attributes)
+        p.assign_attributes(sanitized_attributes)
+        if p.new_record?
+          p.creator_id = current_user.id
+        elsif p.changed?
+          p.updator_id = current_user.id
+        end
+        p.save!
       end
     end
   end

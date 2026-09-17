@@ -210,5 +210,152 @@ describe MediaEntriesController do
     end.to change { media_entry.reload.edit_sessions.count }.by 1
   end
 
+  context 'tracking creator and updator across different users' do
+    before :example do
+      # the acting/editing user (authorized via responsible_user)
+      @editor = @user
+      # a different user who originally created the existing permissions
+      @original_creator = create(:user)
+      @media_entry = create(:media_entry, responsible_user: @editor)
+    end
+
+    def put_update(permissions)
+      put :permissions_update,
+          params: {
+            id: @media_entry.id,
+            media_entry: permissions.merge(
+              public_permission: { get_metadata_and_previews: false,
+                                   get_full_size: false })
+          },
+          session: { user_id: @editor.id }
+    end
+
+    it 'preserves the original creator and stamps updator '\
+       'when an existing user permission is changed' do
+      receiver = create(:user)
+      create(:media_entry_user_permission,
+             media_entry: @media_entry,
+             user: receiver,
+             creator: @original_creator,
+             updator: @original_creator,
+             get_metadata_and_previews: false)
+
+      put_update(user_permissions: [{ subject: { uuid: receiver.id },
+                                      get_metadata_and_previews: true }])
+
+      perm = @media_entry.reload.user_permissions.find_by(user_id: receiver.id)
+      expect(perm.get_metadata_and_previews).to be true
+      expect(perm.creator_id).to eq @original_creator.id
+      expect(perm.updator_id).to eq @editor.id
+    end
+
+    it 'sets the acting user as creator (and leaves updator empty) '\
+       'for a newly added user permission' do
+      receiver = create(:user)
+
+      put_update(user_permissions: [{ subject: { uuid: receiver.id },
+                                      get_metadata_and_previews: true }])
+
+      perm = @media_entry.reload.user_permissions.find_by(user_id: receiver.id)
+      expect(perm.creator_id).to eq @editor.id
+      expect(perm.updator_id).to be_nil
+    end
+
+    it 'does not touch creator or updator when an existing user permission '\
+       'is submitted unchanged' do
+      receiver = create(:user)
+      create(:media_entry_user_permission,
+             media_entry: @media_entry,
+             user: receiver,
+             creator: @original_creator,
+             updator: @original_creator,
+             get_metadata_and_previews: true,
+             get_full_size: false,
+             edit_metadata: false,
+             edit_permissions: false)
+
+      put_update(user_permissions: [{ subject: { uuid: receiver.id },
+                                      get_metadata_and_previews: true,
+                                      get_full_size: false,
+                                      edit_metadata: false,
+                                      edit_permissions: false }])
+
+      perm = @media_entry.reload.user_permissions.find_by(user_id: receiver.id)
+      expect(perm.creator_id).to eq @original_creator.id
+      expect(perm.updator_id).to eq @original_creator.id
+    end
+
+    it 'preserves the original creator and stamps updator '\
+       'for a changed group permission' do
+      group = create(:group)
+      create(:media_entry_group_permission,
+             media_entry: @media_entry,
+             group: group,
+             creator: @original_creator,
+             updator: @original_creator,
+             get_metadata_and_previews: false)
+
+      put_update(group_permissions: [{ subject: { uuid: group.id },
+                                       get_metadata_and_previews: true }])
+
+      perm = @media_entry.reload.group_permissions.find_by(group_id: group.id)
+      expect(perm.get_metadata_and_previews).to be true
+      expect(perm.creator_id).to eq @original_creator.id
+      expect(perm.updator_id).to eq @editor.id
+    end
+
+    it 'preserves the original creator and stamps updator '\
+       'for a changed api_client permission' do
+      api_client = create(:api_client)
+      create(:media_entry_api_client_permission,
+             media_entry: @media_entry,
+             api_client: api_client,
+             creator: @original_creator,
+             updator: @original_creator,
+             get_metadata_and_previews: false)
+
+      put_update(api_client_permissions: [{ subject: { uuid: api_client.id },
+                                            get_metadata_and_previews: true }])
+
+      perm = @media_entry.reload.api_client_permissions
+        .find_by(api_client_id: api_client.id)
+      expect(perm.get_metadata_and_previews).to be true
+      expect(perm.creator_id).to eq @original_creator.id
+      expect(perm.updator_id).to eq @editor.id
+    end
+
+    # Regression: previously `get_creator` collapsed all existing permissions to
+    # a single creator and raised "Ambiguous creator for permissions." as soon as
+    # two rows had different creators. Each permission must keep its own creator.
+    it 'does not raise when existing user permissions have different creators '\
+       'and preserves each individual creator' do
+      creator_a = create(:user)
+      creator_b = create(:user)
+      receiver_a = create(:user)
+      receiver_b = create(:user)
+      create(:media_entry_user_permission,
+             media_entry: @media_entry, user: receiver_a, creator: creator_a)
+      create(:media_entry_user_permission,
+             media_entry: @media_entry, user: receiver_b, creator: creator_b)
+
+      expect do
+        put_update(user_permissions: [
+                     { subject: { uuid: receiver_a.id },
+                       get_metadata_and_previews: true },
+                     { subject: { uuid: receiver_b.id },
+                       get_metadata_and_previews: true }
+                   ])
+      end.not_to raise_error
+
+      @media_entry.reload
+      perm_a = @media_entry.user_permissions.find_by(user_id: receiver_a.id)
+      perm_b = @media_entry.user_permissions.find_by(user_id: receiver_b.id)
+      expect(perm_a.creator_id).to eq creator_a.id
+      expect(perm_b.creator_id).to eq creator_b.id
+      expect(perm_a.updator_id).to eq @editor.id
+      expect(perm_b.updator_id).to eq @editor.id
+    end
+  end
+
   include_examples 'user permissions with delegation', 'media_entry'
 end
