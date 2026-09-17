@@ -117,6 +117,54 @@ feature 'Resource: MediaEntry' do
       expect(page).to have_no_css('a.disabled', text: 'Medieneinträge vervollständigen')
     end
 
+    scenario 'upload same two files a second time yields four previews' do
+      visit my_dashboard_path
+      within('.ui-body-title-actions') do
+        find('a', text: I18n.t('dashboard_create_media_entry_btn')).click
+      end
+      expect(current_path).to eq new_media_entry_path
+
+      files = [
+        Rails.root.join('spec', 'data', 'sample.jpg'),
+        Rails.root.join('spec', 'data', 'sample.pdf')
+      ]
+
+      attach_file('media_entry[media_file][]', files, make_visible: true)
+      attach_file('media_entry[media_file][]', files, make_visible: true)
+
+      expect(page).to have_content('4 Upload(s)')
+      within('[data-test-id="resources-box"]') do
+        expect(page).to have_css('.ui-resource', count: 4)
+        expect(page).to have_css('img[title="sample.jpg"]', count: 2)
+        expect(page).to have_css('img[title="sample.pdf"]', count: 2)
+      end
+      expect(page).to have_no_css('a.disabled', text: 'Medieneinträge vervollständigen')
+    end
+
+    scenario 'large file shows progress, default icon, and correct upload count' do
+      visit my_dashboard_path
+      within('.ui-body-title-actions') do
+        find('a', text: I18n.t('dashboard_create_media_entry_btn')).click
+      end
+      expect(current_path).to eq new_media_entry_path
+
+      attach_file(
+        'media_entry[media_file][]',
+        Rails.root.join('spec', 'data', 'sample.tif'),
+        make_visible: true
+      )
+
+      within('[data-test-id="resources-box"]') do
+        expect(page).to have_content('1 Upload(s)')
+        expect(page).to have_css('.ui-resource', count: 1)
+        expect(page).to have_css('.ui_media-type-icon')
+        expect(page).to have_content(/Hochladen…|Verarbeiten…/)
+      end
+
+      expect(page).to have_css('img[title="sample.tif"]')
+      expect(page).to have_content('1 Upload(s)')
+      expect(page).to have_no_css('a.disabled', text: 'Medieneinträge vervollständigen')
+    end
 
     scenario 'Default License and Usage are applied on upload as configured',
              browser: false do
