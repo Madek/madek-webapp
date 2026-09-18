@@ -340,6 +340,270 @@ feature 'Resource: MediaEntry' do
       expect(media_entry.meta_data.find_by_meta_key_id('madek_core:title').string).to eq('grumpy_cat_new.jpg')
       expect(media_entry.meta_data.find_by_meta_key_id('media_object:creator')).to be
     end
+
+    scenario 'File metadata referencing a Person by UUID (custom madek XMP namespace) ' \
+             'is extracted and mapped via IoMappings to People MetaData',
+             browser: false do
+
+      person = create(:person)
+      meta_key = create(:meta_key_people)
+      IoInterface.find_or_create_by(id: 'default')
+      IoMapping.create(io_interface_id: 'default',
+                       meta_key_id: meta_key.id,
+                       key_map: 'XMP-madek:Author')
+
+      tagged_image = Rails.root.join('tmp', "tagged_#{SecureRandom.hex(8)}.jpg")
+      FileUtils.cp(
+        Madek::Constants::DATALAYER_ROOT_DIR.join('spec', 'data', 'images', 'grumpy_cat_new.jpg'),
+        tagged_image)
+      config_path =
+        Rails.root.join('config', 'definitions', 'metadata', 'ExifTool_config.pl')
+      system('exiftool', '-config', config_path.to_s,
+             "-XMP-madek:Author=#{person.id}", '-overwrite_original',
+             tagged_image.to_s, exception: true)
+
+      begin
+        visit new_media_entry_path
+        within('.app-body') do
+          attach_file('media_entry_media_file', tagged_image.to_s, make_visible: true)
+          submit_form
+        end
+
+        media_entry = user.unpublished_media_entries.first
+        people_meta_datum = media_entry.meta_data.find_by_meta_key_id(meta_key.id)
+        expect(people_meta_datum).to be
+        expect(people_meta_datum.people).to include(person)
+      ensure
+        FileUtils.rm_f(tagged_image)
+      end
+    end
+
+    scenario 'File metadata referencing multiple People by comma-separated UUIDs ' \
+             'is extracted and mapped via IoMappings to People MetaData',
+             browser: false do
+
+      person_a = create(:person)
+      person_b = create(:person)
+      meta_key = create(:meta_key_people)
+      IoInterface.find_or_create_by(id: 'default')
+      IoMapping.create(io_interface_id: 'default',
+                       meta_key_id: meta_key.id,
+                       key_map: 'XMP-madek:Author')
+
+      tagged_image = Rails.root.join('tmp', "tagged_#{SecureRandom.hex(8)}.jpg")
+      FileUtils.cp(
+        Madek::Constants::DATALAYER_ROOT_DIR.join('spec', 'data', 'images', 'grumpy_cat_new.jpg'),
+        tagged_image)
+      config_path =
+        Rails.root.join('config', 'definitions', 'metadata', 'ExifTool_config.pl')
+      system('exiftool', '-config', config_path.to_s,
+             "-XMP-madek:Author=#{person_a.id},#{person_b.id}", '-overwrite_original',
+             tagged_image.to_s, exception: true)
+
+      begin
+        visit new_media_entry_path
+        within('.app-body') do
+          attach_file('media_entry_media_file', tagged_image.to_s, make_visible: true)
+          submit_form
+        end
+
+        media_entry = user.unpublished_media_entries.first
+        people_meta_datum = media_entry.meta_data.find_by_meta_key_id(meta_key.id)
+        expect(people_meta_datum).to be
+        expect(people_meta_datum.people).to include(person_a, person_b)
+      ensure
+        FileUtils.rm_f(tagged_image)
+      end
+    end
+
+    scenario 'File metadata referencing a Person by an internal <URL> ' \
+             'is extracted and mapped via IoMappings to People MetaData',
+             browser: false do
+
+      person = create(:person)
+      meta_key = create(:meta_key_people)
+      IoInterface.find_or_create_by(id: 'default')
+      IoMapping.create(io_interface_id: 'default',
+                       meta_key_id: meta_key.id,
+                       key_map: 'XMP-madek:Author')
+
+      tagged_image = Rails.root.join('tmp', "tagged_#{SecureRandom.hex(8)}.jpg")
+      FileUtils.cp(
+        Madek::Constants::DATALAYER_ROOT_DIR.join('spec', 'data', 'images', 'grumpy_cat_new.jpg'),
+        tagged_image)
+      config_path =
+        Rails.root.join('config', 'definitions', 'metadata', 'ExifTool_config.pl')
+      person_url = "<http://www.example.com/people/#{person.id}>"
+      system('exiftool', '-config', config_path.to_s,
+             "-XMP-madek:Author=#{person_url}", '-overwrite_original',
+             tagged_image.to_s, exception: true)
+
+      begin
+        visit new_media_entry_path
+        within('.app-body') do
+          attach_file('media_entry_media_file', tagged_image.to_s, make_visible: true)
+          submit_form
+        end
+
+        media_entry = user.unpublished_media_entries.first
+        people_meta_datum = media_entry.meta_data.find_by_meta_key_id(meta_key.id)
+        expect(people_meta_datum).to be
+        expect(people_meta_datum.people).to include(person)
+      ensure
+        FileUtils.rm_f(tagged_image)
+      end
+    end
+
+    scenario 'File metadata referencing a Person by a bare-path <URL> ' \
+             'is extracted and mapped via IoMappings to People MetaData',
+             browser: false do
+
+      person = create(:person)
+      meta_key = create(:meta_key_people)
+      IoInterface.find_or_create_by(id: 'default')
+      IoMapping.create(io_interface_id: 'default',
+                       meta_key_id: meta_key.id,
+                       key_map: 'XMP-madek:Author')
+
+      tagged_image = Rails.root.join('tmp', "tagged_#{SecureRandom.hex(8)}.jpg")
+      FileUtils.cp(
+        Madek::Constants::DATALAYER_ROOT_DIR.join('spec', 'data', 'images', 'grumpy_cat_new.jpg'),
+        tagged_image)
+      config_path =
+        Rails.root.join('config', 'definitions', 'metadata', 'ExifTool_config.pl')
+      person_url = "<people/#{person.id}>"
+      system('exiftool', '-config', config_path.to_s,
+             "-XMP-madek:Author=#{person_url}", '-overwrite_original',
+             tagged_image.to_s, exception: true)
+
+      begin
+        visit new_media_entry_path
+        within('.app-body') do
+          attach_file('media_entry_media_file', tagged_image.to_s, make_visible: true)
+          submit_form
+        end
+
+        media_entry = user.unpublished_media_entries.first
+        people_meta_datum = media_entry.meta_data.find_by_meta_key_id(meta_key.id)
+        expect(people_meta_datum).to be
+        expect(people_meta_datum.people).to include(person)
+      ensure
+        FileUtils.rm_f(tagged_image)
+      end
+    end
+
+    scenario 'File metadata referencing a Keyword by UUID ' \
+             'is extracted and mapped via IoMappings to Keywords MetaData',
+             browser: false do
+
+      meta_key = create(:meta_key_keywords)
+      keyword = create(:keyword, meta_key: meta_key)
+      IoInterface.find_or_create_by(id: 'default')
+      IoMapping.create(io_interface_id: 'default',
+                       meta_key_id: meta_key.id,
+                       key_map: 'XMP-madek:Remark')
+
+      tagged_image = Rails.root.join('tmp', "tagged_#{SecureRandom.hex(8)}.jpg")
+      FileUtils.cp(
+        Madek::Constants::DATALAYER_ROOT_DIR.join('spec', 'data', 'images', 'grumpy_cat_new.jpg'),
+        tagged_image)
+      config_path =
+        Rails.root.join('config', 'definitions', 'metadata', 'ExifTool_config.pl')
+      system('exiftool', '-config', config_path.to_s,
+             "-XMP-madek:Remark=#{keyword.id}", '-overwrite_original',
+             tagged_image.to_s, exception: true)
+
+      begin
+        visit new_media_entry_path
+        within('.app-body') do
+          attach_file('media_entry_media_file', tagged_image.to_s, make_visible: true)
+          submit_form
+        end
+
+        media_entry = user.unpublished_media_entries.first
+        keywords_meta_datum = media_entry.meta_data.find_by_meta_key_id(meta_key.id)
+        expect(keywords_meta_datum).to be
+        expect(keywords_meta_datum.keywords).to include(keyword)
+      ensure
+        FileUtils.rm_f(tagged_image)
+      end
+    end
+
+    scenario 'File metadata referencing multiple Keywords by comma-separated UUIDs ' \
+             'is extracted and mapped via IoMappings to Keywords MetaData',
+             browser: false do
+
+      meta_key = create(:meta_key_keywords)
+      keyword_a = create(:keyword, meta_key: meta_key)
+      keyword_b = create(:keyword, meta_key: meta_key)
+      IoInterface.find_or_create_by(id: 'default')
+      IoMapping.create(io_interface_id: 'default',
+                       meta_key_id: meta_key.id,
+                       key_map: 'XMP-madek:Remark')
+
+      tagged_image = Rails.root.join('tmp', "tagged_#{SecureRandom.hex(8)}.jpg")
+      FileUtils.cp(
+        Madek::Constants::DATALAYER_ROOT_DIR.join('spec', 'data', 'images', 'grumpy_cat_new.jpg'),
+        tagged_image)
+      config_path =
+        Rails.root.join('config', 'definitions', 'metadata', 'ExifTool_config.pl')
+      system('exiftool', '-config', config_path.to_s,
+             "-XMP-madek:Remark=#{keyword_a.id},#{keyword_b.id}", '-overwrite_original',
+             tagged_image.to_s, exception: true)
+
+      begin
+        visit new_media_entry_path
+        within('.app-body') do
+          attach_file('media_entry_media_file', tagged_image.to_s, make_visible: true)
+          submit_form
+        end
+
+        media_entry = user.unpublished_media_entries.first
+        keywords_meta_datum = media_entry.meta_data.find_by_meta_key_id(meta_key.id)
+        expect(keywords_meta_datum).to be
+        expect(keywords_meta_datum.keywords).to include(keyword_a, keyword_b)
+      ensure
+        FileUtils.rm_f(tagged_image)
+      end
+    end
+
+    scenario 'File metadata referencing a Keyword by an internal <URL> ' \
+             'is extracted and mapped via IoMappings to Keywords MetaData',
+             browser: false do
+
+      meta_key = create(:meta_key_keywords)
+      keyword = create(:keyword, meta_key: meta_key)
+      IoInterface.find_or_create_by(id: 'default')
+      IoMapping.create(io_interface_id: 'default',
+                       meta_key_id: meta_key.id,
+                       key_map: 'XMP-madek:Remark')
+
+      tagged_image = Rails.root.join('tmp', "tagged_#{SecureRandom.hex(8)}.jpg")
+      FileUtils.cp(
+        Madek::Constants::DATALAYER_ROOT_DIR.join('spec', 'data', 'images', 'grumpy_cat_new.jpg'),
+        tagged_image)
+      config_path =
+        Rails.root.join('config', 'definitions', 'metadata', 'ExifTool_config.pl')
+      keyword_url = "<http://www.example.com/vocabulary/keyword/#{keyword.id}>"
+      system('exiftool', '-config', config_path.to_s,
+             "-XMP-madek:Remark=#{keyword_url}", '-overwrite_original',
+             tagged_image.to_s, exception: true)
+
+      begin
+        visit new_media_entry_path
+        within('.app-body') do
+          attach_file('media_entry_media_file', tagged_image.to_s, make_visible: true)
+          submit_form
+        end
+
+        media_entry = user.unpublished_media_entries.first
+        keywords_meta_datum = media_entry.meta_data.find_by_meta_key_id(meta_key.id)
+        expect(keywords_meta_datum).to be
+        expect(keywords_meta_datum.keywords).to include(keyword)
+      ensure
+        FileUtils.rm_f(tagged_image)
+      end
+    end
   end
 
   describe 'Copying meta datum from another media entry' do

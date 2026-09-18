@@ -78,9 +78,13 @@ module Modules
 
     def extract_related_uuids(value)
       value.split(',').map do |val|
+        val = val.strip
         url = val.match(/<(.*)>/).try(:[], 1) || val
+        next url if (UUIDTools::UUID.parse(url) rescue nil)
+
         begin
-          Rails.application.routes.recognize_path(url)[:id]
+          route_params = Rails.application.routes.recognize_path(url)
+          route_params[:id] || route_params.except(:controller, :action).values.first
         rescue
           url
         end

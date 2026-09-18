@@ -1,7 +1,9 @@
 class MetadataExtractor
   attr_reader :data
 
-  EXIFTOOL_CMD_LINE_OPTIONS = '-s -a -u -G1'
+  METADATA_CONFIG_PATH =
+    Rails.root.join('config/definitions/metadata/ExifTool_config.pl')
+  EXIFTOOL_CMD_LINE_OPTIONS = "-config \"#{METADATA_CONFIG_PATH}\" -s -a -u -G1"
   Exiftool.command += " #{EXIFTOOL_CMD_LINE_OPTIONS}"
 
   def initialize(file_path)

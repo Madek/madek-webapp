@@ -1977,6 +1977,38 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:288"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:15]"
+"./spec/features/media_entry/media_entry_upload_spec.rb[1:1:16]":
+  name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:16]"
+  description: 'Resource: MediaEntry Action: create (upload/import) File metadata
+    referencing a Person by UUID (custom madek XMP namespace) is extracted and mapped
+    via IoMappings to People MetaData'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:344"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:16]"
+"./spec/features/media_entry/media_entry_upload_spec.rb[1:1:17]":
+  name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:17]"
+  description: 'Resource: MediaEntry Action: create (upload/import) File metadata
+    referencing multiple People by comma-separated UUIDs is extracted and mapped via
+    IoMappings to People MetaData'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:381"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:17]"
+"./spec/features/media_entry/media_entry_upload_spec.rb[1:1:18]":
+  name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:18]"
+  description: 'Resource: MediaEntry Action: create (upload/import) File metadata
+    referencing a Person by an internal <URL> is extracted and mapped via IoMappings
+    to People MetaData'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:419"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:18]"
+"./spec/features/media_entry/media_entry_upload_spec.rb[1:1:19]":
+  name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:19]"
+  description: 'Resource: MediaEntry Action: create (upload/import) File metadata
+    referencing a Person by a bare-path <URL> is extracted and mapped via IoMappings
+    to People MetaData'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:457"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:19]"
 "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:1]":
   name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:1]"
   description: 'Resource: MediaEntry Action: create (upload/import) upload and publish
@@ -1984,6 +2016,30 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:14"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:1]"
+"./spec/features/media_entry/media_entry_upload_spec.rb[1:1:20]":
+  name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:20]"
+  description: 'Resource: MediaEntry Action: create (upload/import) File metadata
+    referencing a Keyword by UUID is extracted and mapped via IoMappings to Keywords
+    MetaData'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:495"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:20]"
+"./spec/features/media_entry/media_entry_upload_spec.rb[1:1:21]":
+  name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:21]"
+  description: 'Resource: MediaEntry Action: create (upload/import) File metadata
+    referencing multiple Keywords by comma-separated UUIDs is extracted and mapped
+    via IoMappings to Keywords MetaData'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:532"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:21]"
+"./spec/features/media_entry/media_entry_upload_spec.rb[1:1:22]":
+  name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:22]"
+  description: 'Resource: MediaEntry Action: create (upload/import) File metadata
+    referencing a Keyword by an internal <URL> is extracted and mapped via IoMappings
+    to Keywords MetaData'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:570"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:22]"
 "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:2]":
   name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:2]"
   description: 'Resource: MediaEntry Action: create (upload/import) upload and publish
@@ -2045,14 +2101,14 @@
   description: 'Resource: MediaEntry Copying meta datum from another media entry when
     user has no relation with media entry the user is not allowed to make a copy'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:349"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:613"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:2:1:1]"
 "./spec/features/media_entry/media_entry_upload_spec.rb[1:2:2:1]":
   name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:2:2:1]"
   description: 'Resource: MediaEntry Copying meta datum from another media entry when
     user is a responsible for media entry Display header with configuration options'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:359"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:623"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:2:2:1]"
 "./spec/features/media_entry/permissions/close_and_cancel_spec.rb[1:1]":
   name: "./spec/features/media_entry/permissions/close_and_cancel_spec.rb[1:1]"
