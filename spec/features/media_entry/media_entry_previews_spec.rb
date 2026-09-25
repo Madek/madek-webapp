@@ -72,6 +72,33 @@ feature 'Resource: MediaEntry' do
             query_params = Rack::Utils.parse_query(URI.parse(iframe[:src]).query)
 
             expect(query_params['accessToken']).to eq @token
+
+            style = iframe[:style].to_s.delete(' ')
+            expect(style).to include('width:100%')
+            expect(style).to include('height:100%')
+            expect(style).not_to include('!important')
+
+            wrapper_style = iframe.find(:xpath, './parent::div')[:style].to_s.delete(' ')
+            expect(wrapper_style).to include('padding-top:56.25%')
+            expect(wrapper_style).to include('position:relative')
+          end
+        end
+      end
+    end
+
+    context 'when media conversion is not finished' do
+      ['audio', 'video'].each do |type|
+        example "#{type.capitalize}: does not embed the player" do
+          prepare_entry_and_token(type, conversion_state: 'submitted')
+
+          visit show_by_confidential_link_media_entry_path(
+            @entry,
+            @token)
+
+          within '.ui-media-overview-preview' do
+            expect(page).to have_no_selector('iframe')
+            expect(page).to have_content(I18n.t(:media_entry_conversion_hint))
+            expect(page).to have_content(I18n.t(:media_entry_conversion_reload))
           end
         end
       end
@@ -118,7 +145,7 @@ feature 'Resource: MediaEntry' do
 
 end
 
-def prepare_entry_and_token(media_type)
+def prepare_entry_and_token(media_type, conversion_state: 'finished')
   @entry = create(
     "media_entry_with_#{media_type}_media_file",
     responsible_user: user)
@@ -130,7 +157,7 @@ def prepare_entry_and_token(media_type)
 
   create(
     :zencoder_job,
-    state: 'finished',
+    state: conversion_state,
     media_file: @entry.media_file)
 
   create(
