@@ -232,9 +232,10 @@ class BoxSidebar extends React.Component {
   }
 
   renderFiltersNote() {
-    const { currentUrl, config } = this.props
-    const forUrl = config.for_url
-    if (forUrl.query.type !== 'all') {
+    const { currentUrl, contentType } = this.props
+
+    // only relevant when entries and sets are shown together (no type selected)
+    if (contentType !== 'MediaResource') {
       return null
     }
 

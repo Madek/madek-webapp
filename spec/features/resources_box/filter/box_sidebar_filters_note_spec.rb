@@ -61,6 +61,18 @@ feature 'BoxSidebar filters note' do
     expect(find_resources_box).to have_no_selector('.filter-panel .mtm')
   end
 
+  scenario 'visible when no type is given' do
+    config = create_data(create_config)
+    user = default_user(config)
+    parent = resource_by_id(config, :parent)
+
+    login(user)
+
+    visit_resource(parent, list: { show_filter: 'true' })
+
+    expect(find_resources_box).to have_selector('.filter-panel .mtm')
+  end
+
   private
 
   def create_config

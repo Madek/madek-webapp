@@ -910,6 +910,7 @@ class MediaResourcesBox extends Component {
           onSearch={this._onSearch}
           supportsFilesearch={this._supportsFilesearch()}
           onlyFilterSearch={get.only_filter_search}
+          contentType={get.content_type}
           parentState={this.state}
           onSideFilterChange={this._onSideFilterChange}
           jsonPath={this.getJsonPath()}

@@ -3721,6 +3721,12 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/resources_box/filter/box_sidebar_filters_note_spec.rb:53"
     RSPEC_TEST: "./spec/features/resources_box/filter/box_sidebar_filters_note_spec.rb[1:5]"
+"./spec/features/resources_box/filter/box_sidebar_filters_note_spec.rb[1:6]":
+  name: "./spec/features/resources_box/filter/box_sidebar_filters_note_spec.rb[1:6]"
+  description: BoxSidebar filters note visible when no type is given
+  environment_variables:
+    RSPEC_NAME: "./spec/features/resources_box/filter/box_sidebar_filters_note_spec.rb:64"
+    RSPEC_TEST: "./spec/features/resources_box/filter/box_sidebar_filters_note_spec.rb[1:6]"
 "./spec/features/resources_box/filter/box_ui_controls/set_spec.rb[1:1]":
   name: "./spec/features/resources_box/filter/box_ui_controls/set_spec.rb[1:1]"
   description: set show box empty collection all
