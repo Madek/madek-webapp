@@ -50,10 +50,12 @@
       = yield
 
     - if use_js
-      -# js: app lib/dependencies. can't use async/defer (would require sep. DOM ops)
+      -# Video.js 10 must load as an ES module (IIFE breaks the player store)
       - if Rails.env == 'development'
+        = javascript_include_tag 'dev-bundle-videojs-player', type: 'module'
         = javascript_include_tag 'dev-bundle'
       - else
+        = javascript_include_tag 'bundle-videojs-player', type: 'module'
         = javascript_include_tag 'bundle'
       -# - now all the per-template scripts, which
           MUST be self-contained and not depending on load order:

@@ -6,21 +6,18 @@
 @import 'video-js-theme';
 @import 'madek_logo_svg';
 
-// responsive ui sizes:
-// mini
-.videojs {
-  font-size: 10px;
+// responsive ui sizes via Video.js 10 skin scale token
+.madek-media-player {
+  --media-scale-unit: 10px;
 }
-// normal
 @media screen and (min-width: 640px) {
-  .videojs {
-    font-size: 12px;
+  .madek-media-player {
+    --media-scale-unit: 12px;
   }
 }
-// large
 @media screen and (min-width: 1600px) {
-  .videojs {
-    font-size: 14px;
+  .madek-media-player {
+    --media-scale-unit: 14px;
   }
 }
 
@@ -135,27 +132,13 @@ body[data-embedded-view] {
 // FULLSCREEN VIEW ONLY:
 
 body[data-fullscreen-view] {
-  .video-js.vjs-fluid,
-  .video-js.vjs-16-9,
-  .video-js.vjs-4-3 {
+  .madek-media-player,
+  .madek-media-player video-neutral-skin,
+  .madek-media-player audio-neutral-skin {
     height: 100%;
     position: absolute;
-  }
-
-  .vjs-default-skin .vjs-big-play-button {
-    font-size: 5rem;
-
-    //  circular button
-    $big-play-width: 8rem;
-    $big-play-height: $big-play-width;
-    border-radius: $big-play-width;
-
-    line-height: $big-play-height;
-    height: $big-play-height;
-    width: $big-play-width;
-
-    margin-left: -($big-play-width / 2);
-    margin-top: -($big-play-width / 2);
+    inset: 0;
+    aspect-ratio: auto;
   }
 
   $scale-factor: 0.3; // use same relative values as above with vmin's
