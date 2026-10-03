@@ -43,7 +43,7 @@ body[data-embedded-view] {
   $titlebar-logo-sizes: 20vmin 10vmin;
   $modal-dialog-padding: 20vmin !important;
 
-  .vjs-titlebar {
+  .madek-titlebar {
     position: absolute;
     top: 0;
     left: 0;
@@ -58,18 +58,19 @@ body[data-embedded-view] {
 
     opacity: 1;
     transition: opacity ease-in-out 0.3s;
-    &.vjs-hidden {
+    &.is-hidden {
       display: block !important;
-      opacity: 0;
+      opacity: 0 !important;
+      pointer-events: none !important;
     }
 
-    .vjs-titlebar-logo,
-    .vjs-titlebar-caption {
+    .madek-titlebar-logo,
+    .madek-titlebar-caption {
       position: absolute;
       top: 0;
     }
 
-    .vjs-titlebar-logo {
+    .madek-titlebar-logo {
       right: 0;
       height: $titlebar-height;
       width: $titlebar-logo-width;
@@ -79,26 +80,26 @@ body[data-embedded-view] {
       background-image: url(madek-logo-svg(white));
     }
 
-    .vjs-titlebar-caption {
+    .madek-titlebar-caption {
       left: 0;
       width: 100%;
       padding: $titlebar-title-padding;
       padding-right: $titlebar-title-padding + $titlebar-logo-width;
     }
 
-    .vjs-titlebar-title,
-    .vjs-titlebar-subtitle {
+    .madek-titlebar-title,
+    .madek-titlebar-subtitle {
       display: block;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .vjs-titlebar-title {
+    .madek-titlebar-title {
       font-weight: 600;
       padding-bottom: 1em;
     }
-    .vjs-titlebar-subtitle {
+    .madek-titlebar-subtitle {
       font-size: 0.5em;
       line-height: 2em;
       margin-top: -1.7em;
@@ -150,7 +151,7 @@ body[data-fullscreen-view] {
   $titlebar-logo-sizes: ($scale-factor * 20rem) ($scale-factor * 10rem);
   $modal-dialog-padding: $scale-factor * 20rem !important;
 
-  .vjs-titlebar {
+  .madek-titlebar {
     position: absolute;
     top: 0;
     left: 0;
@@ -165,18 +166,19 @@ body[data-fullscreen-view] {
 
     opacity: 1;
     transition: opacity ease-in-out 0.3s;
-    &.vjs-hidden {
+    &.is-hidden {
       display: block !important;
-      opacity: 0;
+      opacity: 0 !important;
+      pointer-events: none !important;
     }
 
-    .vjs-titlebar-logo,
-    .vjs-titlebar-caption {
+    .madek-titlebar-logo,
+    .madek-titlebar-caption {
       position: absolute;
       top: 0;
     }
 
-    .vjs-titlebar-logo {
+    .madek-titlebar-logo {
       right: 0;
       height: $titlebar-height;
       width: $titlebar-logo-width;
@@ -186,26 +188,26 @@ body[data-fullscreen-view] {
       background-image: url(madek-logo-svg(white));
     }
 
-    .vjs-titlebar-caption {
+    .madek-titlebar-caption {
       left: 0;
       width: 100%;
       padding: $titlebar-title-padding;
       padding-right: $titlebar-title-padding + $titlebar-logo-width;
     }
 
-    .vjs-titlebar-title,
-    .vjs-titlebar-subtitle {
+    .madek-titlebar-title,
+    .madek-titlebar-subtitle {
       display: block;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .vjs-titlebar-title {
+    .madek-titlebar-title {
       font-weight: 600;
       padding-bottom: 1em;
     }
-    .vjs-titlebar-subtitle {
+    .madek-titlebar-subtitle {
       font-size: 0.5em;
       line-height: 2em;
       margin-top: -1.7em;

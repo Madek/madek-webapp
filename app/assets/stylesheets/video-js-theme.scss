@@ -33,8 +33,13 @@ $main-font-family: 'Open Sans', sans-serif;
   background-repeat: no-repeat;
 }
 
-.vjs-titlebar {
+.madek-titlebar {
   z-index: 2;
+}
+
+.madek-titlebar.is-hidden {
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 .madek-video-quality {

@@ -79,15 +79,15 @@ class TitleOverlay extends Component {
     const { title, logoTitle, subtitle, link, hidden, logo } = this.props
     return (
       <a
-        className={cx('vjs-titlebar', { 'vjs-hidden': hidden })}
+        className={cx('madek-titlebar', { 'is-hidden': hidden })}
         href={link}
         target="_blank"
         rel="noreferrer noopener">
-        <span className="vjs-titlebar-caption">
-          <span className="vjs-titlebar-title">{title}</span>
-          <span className="vjs-titlebar-subtitle">{subtitle}</span>
+        <span className="madek-titlebar-caption">
+          <span className="madek-titlebar-title">{title}</span>
+          <span className="madek-titlebar-subtitle">{subtitle}</span>
         </span>
-        {logo ? <span className="vjs-titlebar-logo" title={logoTitle} /> : null}
+        {logo ? <span className="madek-titlebar-logo" title={logoTitle} /> : null}
       </a>
     )
   }
