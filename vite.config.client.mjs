@@ -6,6 +6,7 @@
  *   application.js            → bundle.js        (prod) / dev-bundle.js        (watch)
  *   embedded-view.js          → bundle-embedded-view.js
  *   integration-testbed.js    → bundle-integration-testbed.js
+ *   videojs-player.js         → bundle-videojs-player.js (ESM; load with type="module")
  */
 
 import { defineConfig } from 'vite'
@@ -34,13 +35,16 @@ function commonRolldownOptions(isDev) {
   }
 }
 
-function outputOptions(outfile, isDev) {
-  return {
+function outputOptions(outfile, isDev, format = 'iife') {
+  const options = {
     file: outfile,
-    format: 'iife',
-    name: '_madek',
-    sourcemap: isDev
+    format,
+    sourcemap: isDev,
+    // Video.js 10 pulls many modules; keep one file so Sprockets can serve it.
+    codeSplitting: false
   }
+  if (format === 'iife') options.name = '_madek'
+  return options
 }
 
 // ---------------------------------------------------------------------------
@@ -61,6 +65,12 @@ const ENTRIES = [
     input: resolve(__dirname, 'app/javascript/integration-testbed.js'),
     prodOut: resolve(__dirname, 'public/assets/bundles/bundle-integration-testbed.js'),
     devOut: resolve(__dirname, 'public/assets/bundles/dev-bundle-integration-testbed.js')
+  },
+  {
+    input: resolve(__dirname, 'app/javascript/videojs-player.js'),
+    prodOut: resolve(__dirname, 'public/assets/bundles/bundle-videojs-player.js'),
+    devOut: resolve(__dirname, 'public/assets/bundles/dev-bundle-videojs-player.js'),
+    format: 'es'
   }
 ]
 
@@ -90,7 +100,7 @@ function clientBundlesPlugin() {
           const watcher = rolldownWatch({
             input: e.input,
             ...commonRolldownOptions(true),
-            output: outputOptions(e.devOut, true)
+            output: outputOptions(e.devOut, true, e.format || 'iife')
           })
           watcher.on('event', event => {
             if (event.code === 'ERROR') console.error('Rolldown watch error:', event.error)
@@ -110,7 +120,9 @@ function clientBundlesPlugin() {
               input: e.input,
               ...commonRolldownOptions(isDev)
             })
-            await bundle.write(outputOptions(isDev ? e.devOut : e.prodOut, isDev))
+            await bundle.write(
+              outputOptions(isDev ? e.devOut : e.prodOut, isDev, e.format || 'iife')
+            )
             await bundle.close()
             console.log('  →', (isDev ? e.devOut : e.prodOut).replace(__dirname + '/', ''))
           })

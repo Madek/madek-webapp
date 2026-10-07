@@ -3,28 +3,16 @@ import PropTypes from 'prop-types'
 import MediaEntryPreview from '../../decorators/MediaEntryPreview.jsx'
 
 const MediaEntryEmbedded = ({ get }) => {
-  const { caption_conf, media_type, embed_config } = get
+  const { caption_conf, embed_config } = get
+  const ratio = embed_config.ratio || '16:9'
 
-  const defaultSize = {
-    width: 500,
-    height: media_type === 'audio' ? 200 : 500,
-    ratio: '16:9'
-  }
-
-  const eWidth = embed_config.width || defaultSize.width
-  const eHeight = embed_config.height || defaultSize.height
-  const fullsize = {
-    height: eHeight + 'px',
-    width: eWidth + 'px'
-  }
-
+  // Audio and video both live in a sized iframe (detail preview, oEmbed, fullscreen).
+  // A fixed pixel box overflows that frame and clips the player.
   const mediaProps = {
-    ...fullsize,
     options: {
       fluid: false,
-      height: eHeight,
-      width: eWidth,
-      ratio: embed_config.ratio || defaultSize.ratio
+      fill: true,
+      ratio
     }
   }
 

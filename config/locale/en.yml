@@ -5,6 +5,13 @@ en:
       messages:
         record_invalid: "Validation failed: %{errors}"
         taken: "has already been taken"
+      models:
+        subtitle:
+          attributes:
+            content:
+              invalid: "must be a WebVTT file (starts with WEBVTT)"
+            language:
+              invalid: "is not a language code"
   flash:
     actions:
       create:
@@ -16,6 +23,12 @@ en:
       destroy:
         success: '%{resource_name} was successfully destroyed.'
         error: '%{resource_name} could not be destroyed.'
+  media_player_config_saved: "Player config saved."
+  media_player_config_invalid: "Config is not a valid JSON object."
+  media_player_subtitle_saved: "Subtitle saved."
+  media_player_subtitle_deleted: "Subtitle deleted."
+  media_player_subtitle_file_missing: "Choose a VTT file."
+  media_player_subtitle_too_large: "The VTT file is too large."
   error_410_title: "Gone"
   error_410_message: "Content has been removed and is no longer available."
   helpers:

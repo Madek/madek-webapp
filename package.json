@@ -24,6 +24,7 @@
   "dependencies": {
     "@eins78/typopro-open-sans": "0.0.0",
     "@tanstack/react-query": "^4.44.0",
+    "@videojs/html": "^10.0.0",
     "any_sha1": "0.1.1",
     "async": "^2.6.4",
     "babyparse": "0.4.6",
@@ -51,7 +52,6 @@
     "react-waypoint": "^8.1.0",
     "tachyons": "^4.7.1",
     "url": "^0.11.4",
-    "video.js": "5.16.0",
     "xhr": "2.4.0"
   },
   "devDependencies": {

@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Madek · Video.js 10 feature overview</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@videojs/cdn@10.0.0/global.css"
+    />
+    <style>
+      :root {
+        --page-bg: #141414;
+        --panel: #1e1e1e;
+        --text: #f1f1f1;
+        --muted: #a8a8a8;
+        --accent: #d0d0d0;
+        --accent-text: #1a1a1a;
+        --border: #333;
+        --font: 'Open Sans', system-ui, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 2rem clamp(1rem, 4vw, 3rem) 4rem;
+        font-family: var(--font);
+        color: var(--text);
+        background:
+          radial-gradient(1200px 600px at 10% -10%, #2a2a2a 0%, transparent 55%),
+          var(--page-bg);
+        line-height: 1.45;
+      }
+
+      h1 {
+        margin: 0 0 0.35rem;
+        font-size: clamp(1.6rem, 3vw, 2.2rem);
+      }
+
+      .lede,
+      .note {
+        color: var(--muted);
+      }
+
+      .lede {
+        max-width: 60rem;
+        margin: 0 0 1.5rem;
+      }
+
+      .toc {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin: 0 0 2rem;
+      }
+
+      .toc a {
+        color: var(--text);
+        text-decoration: none;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 0.35rem 0.75rem;
+        font-size: 0.85rem;
+      }
+
+      section {
+        margin: 0 0 2.5rem;
+        padding: 1.25rem;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 0.75rem;
+      }
+
+      section h2 {
+        margin: 0 0 0.35rem;
+        font-size: 1.2rem;
+      }
+
+      section .note {
+        margin: 0 0 1rem;
+        font-size: 0.92rem;
+      }
+
+      .grid-2 {
+        display: grid;
+        gap: 1rem;
+      }
+
+      @media (min-width: 960px) {
+        .grid-2 {
+          grid-template-columns: 1.45fr 1fr;
+          align-items: start;
+        }
+      }
+
+      .madek-media-player {
+        position: relative;
+        width: 100%;
+        --media-accent-color: var(--accent);
+        --media-accent-text-color: var(--accent-text);
+        --media-font-family: var(--font);
+        --media-scale-unit: 12px;
+      }
+
+      .madek-media-player video-neutral-skin,
+      .madek-media-player audio-neutral-skin {
+        display: block;
+        width: 100%;
+      }
+
+      .madek-media-player--audio audio-neutral-skin {
+        min-height: 7rem;
+        background: #404040;
+        border-radius: 0.5rem;
+      }
+
+      /* Overlays sit above the Video.js host/shadow tree */
+      .madek-overlay-layer {
+        position: absolute;
+        inset: 0;
+        z-index: 20;
+        pointer-events: none;
+      }
+
+      .madek-titlebar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        min-height: 3.75rem;
+        display: block;
+        color: #fff;
+        text-decoration: none;
+        background: rgba(0, 0, 0, 0.72);
+        opacity: 1;
+        transition: opacity 0.25s ease-in-out;
+        pointer-events: auto;
+      }
+
+      .madek-titlebar.is-hidden {
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+
+      .madek-titlebar-caption {
+        display: block;
+        padding: 0.75rem 5rem 0.75rem 0.9rem;
+      }
+
+      .madek-titlebar-title,
+      .madek-titlebar-subtitle {
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .madek-titlebar-title {
+        font-weight: 600;
+      }
+
+      .madek-titlebar-subtitle {
+        margin-top: 0.15rem;
+        font-size: 0.85rem;
+        opacity: 0.9;
+      }
+
+      .madek-titlebar-logo {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 4.25rem;
+        height: 100%;
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        font-size: 1.35rem;
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .madek-video-quality {
+        position: absolute;
+        right: 0.75rem;
+        bottom: 3.4rem;
+        display: inline-flex;
+        align-items: center;
+        padding: 0.25rem 0.5rem;
+        color: #f1f1f1;
+        font-size: 12px;
+        font-weight: 700;
+        background: rgba(0, 0, 0, 0.65);
+        border-radius: 0.25rem;
+        pointer-events: auto;
+      }
+
+      .madek-video-quality-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+      }
+
+      .madek-video-quality-select {
+        color: inherit;
+        font: inherit;
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+      }
+
+      .status {
+        margin: 0.6rem 0 0;
+        font-size: 0.85rem;
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+      }
+
+      .meta-panel,
+      .sections {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+
+      .tag {
+        padding: 0.2rem 0.55rem;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        font-size: 0.8rem;
+      }
+
+      .section-btn {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.65rem;
+        width: 100%;
+        text-align: left;
+        color: inherit;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border);
+        border-radius: 0.45rem;
+        padding: 0.55rem 0.7rem;
+        cursor: pointer;
+        font: inherit;
+      }
+
+      .section-btn:hover,
+      .section-btn[aria-current='true'] {
+        border-color: var(--accent);
+        background: rgba(255, 255, 255, 0.07);
+      }
+
+      .section-btn time {
+        color: var(--muted);
+        font-size: 0.8rem;
+        white-space: nowrap;
+      }
+
+      .section-btn strong {
+        display: block;
+      }
+
+      .section-btn span span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      .brand-swatches {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .brand-swatches button {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        border: 1px solid var(--border);
+        background: #111;
+        color: var(--text);
+        border-radius: 0.4rem;
+        padding: 0.4rem 0.7rem;
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.85rem;
+      }
+
+      .brand-swatches button::before {
+        content: '';
+        width: 0.85rem;
+        height: 0.85rem;
+        border-radius: 999px;
+        background: var(--swatch, #d0d0d0);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+      }
+
+      .brand-swatches button[aria-pressed='true'] {
+        border-color: var(--swatch, var(--accent));
+      }
+
+      .brand-token-status {
+        margin: 0 0 0.75rem;
+        font-size: 0.82rem;
+        color: var(--muted);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+
+      /* Always-visible cue: packaged accent mostly paints the filled seek bar,
+         which is easy to miss when controls auto-hide. */
+      .brand-player-frame {
+        border: 3px solid var(--demo-accent, #d0d0d0);
+        border-radius: var(--demo-radius, 0.5rem);
+        overflow: hidden;
+        transition: border-color 0.2s ease, border-radius 0.2s ease;
+      }
+
+      details {
+        border: 1px solid var(--border);
+        border-radius: 0.45rem;
+        padding: 0.55rem 0.7rem;
+        background: #181818;
+      }
+
+      details summary {
+        cursor: pointer;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+
+      details[open] summary {
+        margin-bottom: 0.55rem;
+      }
+
+      pre {
+        margin: 0;
+        padding: 0.75rem;
+        overflow: auto;
+        background: #111;
+        border: 1px solid var(--border);
+        border-radius: 0.45rem;
+        font-size: 0.8rem;
+      }
+
+      .checklist {
+        margin: 0;
+        padding-left: 1.2rem;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Madek Video.js 10 overview</h1>
+    <p class="lede">
+        Demo of the webapp player upgrade with a longer public MP4 (~10 min), Madek
+        title overlay, progressive SD/HD switch, audio preset, branding tokens, and
+        <code>media_files.additional_data</code> sections.
+    </p>
+
+    <nav class="toc" aria-label="Sections">
+      <a href="#full-demo">Full player</a>
+      <a href="#quality">SD / HD</a>
+      <a href="#titlebar">Title overlay</a>
+      <a href="#audio">Audio</a>
+      <a href="#branding">Branding</a>
+      <a href="#additional-data">additional_data</a>
+    </nav>
+
+    <section id="full-demo">
+      <h2>1. Full Madek-style video player</h2>
+      <p class="note">
+        Long progressive source. Title bar hides on play. Quality starts on SD.
+      </p>
+      <div class="madek-media-player" id="full-player-root">
+        <video-player id="full-video-player">
+          <video-neutral-skin style="aspect-ratio: 16 / 9; --media-scale-unit: 12px">
+            <video id="full-video" preload="metadata" playsinline></video>
+          </video-neutral-skin>
+        </video-player>
+        <div class="madek-overlay-layer">
+          <a
+            id="full-titlebar"
+            class="madek-titlebar"
+            href="https://videojs.org"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            <span class="madek-titlebar-caption">
+              <span class="madek-titlebar-title">ZHdK · Sample lecture</span>
+              <span class="madek-titlebar-subtitle">Madek embed title overlay</span>
+            </span>
+            <span class="madek-titlebar-logo" title="Madek">Z</span>
+          </a>
+          <label class="madek-video-quality">
+            <span class="madek-video-quality-label">Quality</span>
+            <select id="full-quality" class="madek-video-quality-select">
+              <option value="SD" selected>SD</option>
+              <option value="HD">HD</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <p class="status" id="full-status">Loading…</p>
+    </section>
+
+    <section id="quality">
+      <h2>2. Progressive SD / HD switch</h2>
+      <p class="note">
+        Switches progressive sources and restores playhead (same Madek app-level
+        quality UX). Demo uses one long file for both labels so seeks stay valid.
+      </p>
+      <div class="madek-media-player" id="quality-player-root">
+        <video-player>
+          <video-neutral-skin style="aspect-ratio: 16 / 9; --media-scale-unit: 12px">
+            <video id="quality-video" preload="metadata" playsinline></video>
+          </video-neutral-skin>
+        </video-player>
+        <div class="madek-overlay-layer">
+          <label class="madek-video-quality">
+            <span class="madek-video-quality-label">Quality</span>
+            <select id="quality-select" class="madek-video-quality-select">
+              <option value="SD" selected>SD</option>
+              <option value="HD">HD</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <p class="status" id="quality-status">Loading…</p>
+    </section>
+
+    <section id="titlebar">
+      <h2>3. Title overlay vs internal embed</h2>
+      <p class="note">
+        External embeds show the Madek title bar (hides while playing). Internal
+        embeds omit it.
+      </p>
+      <div class="grid-2">
+        <div>
+          <p class="note">External (with title bar)</p>
+          <div class="madek-media-player" id="title-external-root">
+            <video-player>
+              <video-neutral-skin style="aspect-ratio: 16 / 9; --media-scale-unit: 11px">
+                <video id="title-external-video" preload="metadata" playsinline></video>
+              </video-neutral-skin>
+            </video-player>
+            <div class="madek-overlay-layer">
+              <a
+                id="title-external-bar"
+                class="madek-titlebar"
+                href="https://www.zhdk.ch"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                <span class="madek-titlebar-caption">
+                  <span class="madek-titlebar-title">External embed</span>
+                  <span class="madek-titlebar-subtitle">hideOnPlay = true</span>
+                </span>
+                <span class="madek-titlebar-logo" title="Madek">Z</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="note">Internal (no title bar)</p>
+          <div class="madek-media-player">
+            <video-player>
+              <video-neutral-skin style="aspect-ratio: 16 / 9; --media-scale-unit: 11px">
+                <video id="title-internal-video" preload="metadata" playsinline></video>
+              </video-neutral-skin>
+            </video-player>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="audio">
+      <h2>4. Audio preset</h2>
+      <p class="note">
+        <code>&lt;audio-player&gt;</code> + <code>&lt;audio-neutral-skin&gt;</code> with a
+        longer public MP3.
+      </p>
+      <div class="madek-media-player madek-media-player--audio">
+        <audio-player>
+          <audio-neutral-skin style="--media-scale-unit: 12px">
+            <audio
+              id="demo-audio"
+              preload="metadata"
+              src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+            ></audio>
+          </audio-neutral-skin>
+        </audio-player>
+      </div>
+    </section>
+
+    <section id="branding">
+      <h2>5. Packaged skin branding tokens</h2>
+      <p class="note">
+        Public CSS variables on the skin host
+        (<code>--media-accent-color</code>, <code>--media-border-radius</code>,
+        <code>--media-scale-unit</code>). Accent paints the filled seek bar;
+        the colored frame mirrors the token so the change stays obvious when
+        controls auto-hide. Demo seeks to ~1:30.
+      </p>
+      <div class="brand-swatches" id="brand-swatches">
+        <button
+          type="button"
+          style="--swatch: #d0d0d0"
+          data-accent="#d0d0d0"
+          data-text="#1a1a1a"
+          data-radius="0.5rem"
+          data-scale="12px"
+          aria-pressed="true"
+        >
+          Madek default
+        </button>
+        <button
+          type="button"
+          style="--swatch: #f5c518"
+          data-accent="#f5c518"
+          data-text="#111111"
+          data-radius="1.25rem"
+          data-scale="14px"
+        >
+          Gold
+        </button>
+        <button
+          type="button"
+          style="--swatch: #3aa675"
+          data-accent="#3aa675"
+          data-text="#04140c"
+          data-radius="0"
+          data-scale="11px"
+        >
+          Green
+        </button>
+        <button
+          type="button"
+          style="--swatch: #6ea8ff"
+          data-accent="#6ea8ff"
+          data-text="#061018"
+          data-radius="2rem"
+          data-scale="15px"
+        >
+          Blue
+        </button>
+      </div>
+      <p class="brand-token-status" id="brand-token-status" aria-live="polite"></p>
+      <div
+        class="brand-player-frame"
+        id="brand-player-frame"
+        style="--demo-accent: #d0d0d0; --demo-radius: 0.5rem"
+      >
+        <div class="madek-media-player">
+          <video-player>
+            <video-neutral-skin
+              id="brand-skin"
+              style="
+                aspect-ratio: 16 / 9;
+                --media-accent-color: #d0d0d0;
+                --media-accent-text-color: #1a1a1a;
+                --media-scale-unit: 12px;
+                --media-border-radius: 0.5rem;
+              "
+            >
+              <video id="brand-video" preload="metadata" playsinline></video>
+            </video-neutral-skin>
+          </video-player>
+        </div>
+      </div>
+    </section>
+
+    <section id="additional-data">
+      <h2>6. media_files.additional_data (hardcoded fake)</h2>
+      <p class="note">
+        Standalone demo of JSONB on <code>media_files</code> (migration 082).
+        No DB — hardcoded sample drives tags, text, seekable sections, and a
+        title overlay that flashes every 10s while playing.
+      </p>
+      <div class="grid-2">
+        <div>
+          <div class="madek-media-player" id="additional-data-player-root">
+            <video-player>
+              <video-neutral-skin style="aspect-ratio: 16 / 9; --media-scale-unit: 12px">
+                <video id="additional-data-video" preload="metadata" playsinline></video>
+              </video-neutral-skin>
+            </video-player>
+            <div class="madek-overlay-layer">
+              <a
+                id="additional-data-titlebar"
+                class="madek-titlebar"
+                href="#additional-data"
+              >
+                <span class="madek-titlebar-caption">
+                  <span class="madek-titlebar-title" id="additional-data-title">
+                    Sample lecture
+                  </span>
+                  <span class="madek-titlebar-subtitle" id="additional-data-subtitle">
+                    Title cue · 0:00
+                  </span>
+                </span>
+                <span class="madek-titlebar-logo" title="Madek">Z</span>
+              </a>
+            </div>
+          </div>
+          <p class="status" id="additional-data-status">Loading…</p>
+        </div>
+        <div class="meta-panel">
+          <div>
+            <strong>tags</strong>
+            <div class="tags" id="tags"></div>
+          </div>
+          <div>
+            <strong>text</strong>
+            <p class="note" id="extra-text" style="margin: 0.35rem 0 0"></p>
+          </div>
+          <div>
+            <strong>sections</strong>
+            <div class="sections" id="sections"></div>
+          </div>
+          <details open>
+            <summary>Hardcoded JSON</summary>
+            <pre id="additional-data-json"></pre>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <script type="module">
+      import 'https://cdn.jsdelivr.net/npm/@videojs/cdn@10.0.0/video-neutral.js'
+      import 'https://cdn.jsdelivr.net/npm/@videojs/cdn@10.0.0/audio-neutral.js'
+
+      // Long progressive MP4 (~9:56). Same file for SD/HD so quality switch
+      // keeps seek position and section markers stay valid.
+      const LONG_DEMO_SRC =
+        'https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4'
+      const SOURCES = {
+        SD: { label: 'SD', src: LONG_DEMO_SRC },
+        HD: { label: 'HD', src: LONG_DEMO_SRC }
+      }
+
+      const SHORT_DEMO_SRC = SOURCES.SD.src
+
+      // Fake media_files.additional_data — not loaded from the API/DB.
+      const additionalData = {
+        tags: ['lecture', 'design', 'demo'],
+        text: 'Optional longer text stored beside the file — synopsis, notes, or transcript excerpt.',
+        titleOverlay: {
+          intervalSec: 10,
+          showSec: 3,
+          title: 'ZHdK · Sample lecture'
+        },
+        sections: [
+          {
+            start: 0,
+            end: 45,
+            title: 'Cold open',
+            text: 'Establish topic and context.'
+          },
+          {
+            start: 45,
+            end: 120,
+            title: 'Main argument',
+            text: 'Core explanation with on-screen examples.'
+          },
+          {
+            start: 120,
+            end: 240,
+            title: 'Takeaways',
+            text: 'Summary and next steps.'
+          }
+        ]
+      }
+
+      function formatTime(seconds) {
+        if (!Number.isFinite(seconds)) return '0:00'
+        const total = Math.max(0, Math.floor(seconds))
+        const m = Math.floor(total / 60)
+        const s = String(total % 60).padStart(2, '0')
+        return `${m}:${s}`
+      }
+
+      function setStatus(id, video, label) {
+        const el = document.getElementById(id)
+        if (!el || !video) return
+        const update = () => {
+          el.textContent = [
+            `quality=${label || video.dataset.currentLabel || '?'}`,
+            `t=${formatTime(video.currentTime)}`,
+            `duration=${formatTime(video.duration)}`,
+            video.paused ? 'paused' : 'playing'
+          ].join(' · ')
+        }
+        ;['loadedmetadata', 'timeupdate', 'play', 'pause', 'seeking', 'error'].forEach(
+          (type) => video.addEventListener(type, update)
+        )
+        update()
+      }
+
+      async function applySource(video, label, { restore = false } = {}) {
+        const source = SOURCES[label]
+        if (!video || !source) return
+        if (video.dataset.currentLabel === label && video.currentSrc) return
+
+        const currentTime = video.currentTime || 0
+        const wasPlaying = !video.paused && !video.ended
+
+        video.dataset.currentLabel = label
+        video.src = source.src
+        video.load()
+
+        await new Promise((resolve) => {
+          if (video.readyState >= 1) return resolve()
+          const done = () => {
+            video.removeEventListener('loadedmetadata', done)
+            resolve()
+          }
+          video.addEventListener('loadedmetadata', done)
+          setTimeout(done, 4000)
+        })
+
+        if (!restore) return
+
+        const target = Math.min(currentTime, Number.isFinite(video.duration) ? video.duration : currentTime)
+        try {
+          video.currentTime = target
+        } catch {
+          /* ignore */
+        }
+        if (wasPlaying) {
+          try {
+            await video.play()
+          } catch {
+            /* autoplay may block */
+          }
+        }
+      }
+
+      function bindTitlebar(video, bar) {
+        if (!video || !bar) return
+        const hide = () => bar.classList.add('is-hidden')
+        const show = () => bar.classList.remove('is-hidden')
+        // Video.js may drive playback; listen on the media element directly.
+        video.addEventListener('play', hide)
+        video.addEventListener('playing', hide)
+        video.addEventListener('pause', show)
+        video.addEventListener('ended', show)
+      }
+
+      function bindQuality(select, video) {
+        applySource(video, select.value || 'SD')
+        select.addEventListener('change', () => {
+          applySource(video, select.value, { restore: true })
+        })
+      }
+
+      function sectionAt(time) {
+        return (
+          additionalData.sections.find(
+            (section) => time >= section.start && time < section.end
+          ) || additionalData.sections[0]
+        )
+      }
+
+      function bindTimedTitleOverlay(video, bar) {
+        if (!video || !bar) return
+        const cue = additionalData.titleOverlay || { intervalSec: 10, showSec: 3 }
+        const titleEl = document.getElementById('additional-data-title')
+        const subtitleEl = document.getElementById('additional-data-subtitle')
+        let hideTimer = null
+        let lastBucket = -1
+
+        const hide = () => bar.classList.add('is-hidden')
+        const showCue = (time) => {
+          const section = sectionAt(time)
+          const bucket = Math.floor(time / cue.intervalSec) * cue.intervalSec
+          if (titleEl) titleEl.textContent = cue.title || section.title
+          if (subtitleEl) {
+            subtitleEl.textContent = `${section.title} · cue ${formatTime(bucket)}`
+          }
+          bar.classList.remove('is-hidden')
+          clearTimeout(hideTimer)
+          hideTimer = setTimeout(hide, (cue.showSec || 3) * 1000)
+        }
+
+        // Visible before playback; then flash on each 10s boundary while playing.
+        showCue(0)
+
+        video.addEventListener('play', () => {
+          lastBucket = Math.floor(video.currentTime / cue.intervalSec)
+          showCue(video.currentTime)
+        })
+        video.addEventListener('pause', () => {
+          clearTimeout(hideTimer)
+          showCue(video.currentTime)
+        })
+        video.addEventListener('ended', () => {
+          clearTimeout(hideTimer)
+          showCue(video.currentTime)
+        })
+        video.addEventListener('seeked', () => {
+          lastBucket = Math.floor(video.currentTime / cue.intervalSec)
+          if (!video.paused) showCue(video.currentTime)
+        })
+        video.addEventListener('timeupdate', () => {
+          if (video.paused) return
+          const bucket = Math.floor(video.currentTime / cue.intervalSec)
+          if (bucket === lastBucket) return
+          lastBucket = bucket
+          showCue(video.currentTime)
+        })
+      }
+
+      function renderAdditionalData(video) {
+        document.getElementById('additional-data-json').textContent = JSON.stringify(
+          additionalData,
+          null,
+          2
+        )
+        document.getElementById('extra-text').textContent = additionalData.text
+
+        const tags = document.getElementById('tags')
+        tags.innerHTML = ''
+        additionalData.tags.forEach((tag) => {
+          const el = document.createElement('span')
+          el.className = 'tag'
+          el.textContent = tag
+          tags.appendChild(el)
+        })
+
+        const sections = document.getElementById('sections')
+        sections.innerHTML = ''
+        additionalData.sections.forEach((section, index) => {
+          const btn = document.createElement('button')
+          btn.type = 'button'
+          btn.className = 'section-btn'
+          btn.innerHTML = `
+            <time>${formatTime(section.start)}–${formatTime(section.end)}</time>
+            <span>
+              <strong>${section.title}</strong>
+              <span>${section.text}</span>
+            </span>
+          `
+          btn.addEventListener('click', async () => {
+            sections
+              .querySelectorAll('.section-btn')
+              .forEach((node) => node.removeAttribute('aria-current'))
+            btn.setAttribute('aria-current', 'true')
+            if (video.readyState < 1) {
+              video.load()
+              await new Promise((r) => video.addEventListener('loadedmetadata', r, { once: true }))
+            }
+            const max = Number.isFinite(video.duration) ? video.duration - 0.25 : section.start
+            video.currentTime = Math.min(section.start, Math.max(0, max))
+            video.play().catch(() => {})
+          })
+          if (index === 0) btn.setAttribute('aria-current', 'true')
+          sections.appendChild(btn)
+        })
+
+        video.addEventListener('timeupdate', () => {
+          const t = video.currentTime
+          const active = additionalData.sections.findIndex(
+            (section) => t >= section.start && t < section.end
+          )
+          sections.querySelectorAll('.section-btn').forEach((node, i) => {
+            if (i === active) node.setAttribute('aria-current', 'true')
+            else node.removeAttribute('aria-current')
+          })
+        })
+
+        bindTimedTitleOverlay(video, document.getElementById('additional-data-titlebar'))
+      }
+
+      const fullVideo = document.getElementById('full-video')
+      const qualityVideo = document.getElementById('quality-video')
+      const titleExternal = document.getElementById('title-external-video')
+      const titleInternal = document.getElementById('title-internal-video')
+      const brandVideo = document.getElementById('brand-video')
+      const additionalDataVideo = document.getElementById('additional-data-video')
+
+      bindQuality(document.getElementById('full-quality'), fullVideo)
+      bindQuality(document.getElementById('quality-select'), qualityVideo)
+      bindTitlebar(fullVideo, document.getElementById('full-titlebar'))
+      bindTitlebar(titleExternal, document.getElementById('title-external-bar'))
+      setStatus('full-status', fullVideo)
+      setStatus('quality-status', qualityVideo)
+      setStatus('additional-data-status', additionalDataVideo)
+      additionalDataVideo.src = LONG_DEMO_SRC
+      renderAdditionalData(additionalDataVideo)
+
+      // Secondary demos share the same long SD file.
+      ;[titleExternal, titleInternal, brandVideo].forEach((video) => {
+        video.src = SHORT_DEMO_SRC
+      })
+
+      document.getElementById('full-video-player').setAttribute(
+        'poster',
+        'https://peach.blender.org/wp-content/uploads/title_anouncement.jpg'
+      )
+
+      const brandSkin = document.getElementById('brand-skin')
+      const brandFrame = document.getElementById('brand-player-frame')
+      const brandTokenStatus = document.getElementById('brand-token-status')
+
+      function revealBrandControls() {
+        if (!brandSkin) return
+        const root = brandSkin.shadowRoot && brandSkin.shadowRoot.querySelector('.media-skin')
+        if (root) root.setAttribute('data-controls-visible', '')
+        const box = brandSkin.getBoundingClientRect()
+        brandSkin.dispatchEvent(
+          new PointerEvent('pointermove', {
+            bubbles: true,
+            clientX: box.left + box.width / 2,
+            clientY: box.bottom - 24
+          })
+        )
+      }
+
+      function applyBrandTokens(button) {
+        if (!button || !brandSkin) return
+        brandSkin.style.setProperty('--media-accent-color', button.dataset.accent)
+        brandSkin.style.setProperty('--media-accent-text-color', button.dataset.text)
+        brandSkin.style.setProperty('--media-border-radius', button.dataset.radius)
+        brandSkin.style.setProperty('--media-scale-unit', button.dataset.scale)
+        brandFrame.style.setProperty('--demo-accent', button.dataset.accent)
+        brandFrame.style.setProperty('--demo-radius', button.dataset.radius)
+        document
+          .querySelectorAll('#brand-swatches button')
+          .forEach((node) => node.setAttribute('aria-pressed', String(node === button)))
+        brandTokenStatus.textContent = [
+          `--media-accent-color: ${button.dataset.accent}`,
+          `--media-border-radius: ${button.dataset.radius}`,
+          `--media-scale-unit: ${button.dataset.scale}`
+        ].join(' · ')
+        revealBrandControls()
+      }
+
+      document.getElementById('brand-swatches').addEventListener('click', (event) => {
+        applyBrandTokens(event.target.closest('button[data-accent]'))
+      })
+      applyBrandTokens(document.querySelector('#brand-swatches button[aria-pressed="true"]'))
+
+      // Seed progress so the accent fill is visible without playing.
+      brandVideo.addEventListener(
+        'loadedmetadata',
+        () => {
+          try {
+            brandVideo.currentTime = Math.min(90, Math.max(0, brandVideo.duration * 0.15))
+          } catch {
+            /* ignore */
+          }
+          revealBrandControls()
+        },
+        { once: true }
+      )
+    </script>
+  </body>
+</html>

@@ -21,25 +21,6 @@ const propTypes = {
   })
 }
 
-const VIDEOJS_OPTIONS = {
-  controlBar: {
-    children: [
-      'playToggle',
-      'currentTimeDisplay',
-      'timeDivider',
-      'durationDisplay',
-      'progressControl',
-      'liveDisplay',
-      'remainingTimeDisplay',
-      'muteToggle',
-      'volumeControl',
-      'space',
-      'customControlSpacer',
-      'fullscreenToggle'
-    ]
-  }
-}
-
 const sourceLabel = ({ profile }) => (endsWith(profile, '_HD') ? 'HD' : 'SD')
 
 class VideoPlayer extends React.Component {
@@ -76,9 +57,7 @@ class VideoPlayer extends React.Component {
 
     const sortedSources = mp4s.concat(webms)
 
-    return (
-      <VideoJS {...props} sources={sortedSources} options={{ ...VIDEOJS_OPTIONS, ...options }} />
-    )
+    return <VideoJS {...props} sources={sortedSources} options={options || {}} />
   }
 }
 

@@ -9,6 +9,19 @@ de:
         record_invalid: 'Überprüfung fehlgeschlagen: %{errors}'
         taken: "ist bereits vergeben"
         blank: "ist leer"
+      models:
+        subtitle:
+          attributes:
+            content:
+              invalid: "muss eine WebVTT-Datei sein (beginnt mit WEBVTT)"
+            language:
+              invalid: "ist kein Sprachcode"
+  media_player_config_saved: "Player-Konfiguration gespeichert."
+  media_player_config_invalid: "Die Konfiguration ist kein gültiges JSON-Objekt."
+  media_player_subtitle_saved: "Untertitel gespeichert."
+  media_player_subtitle_deleted: "Untertitel gelöscht."
+  media_player_subtitle_file_missing: "Bitte eine VTT-Datei auswählen."
+  media_player_subtitle_too_large: "Die VTT-Datei ist zu gross."
   error_410_title: "Entfernt"
   error_410_message: "Inhalt wurde entfernt und ist nicht mehr verfügbar."
   flash:

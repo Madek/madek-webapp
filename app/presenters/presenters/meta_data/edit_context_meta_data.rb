@@ -5,10 +5,11 @@ module Presenters
 
       attr_reader :context_id, :by_vocabularies
 
-      def initialize(app_resource, user, context_id, by_vocabularies)
+      def initialize(app_resource, user, context_id, by_vocabularies, open_media_player: false)
         super(app_resource, user)
         @context_id = context_id
         @by_vocabularies = by_vocabularies
+        @open_media_player = open_media_player
       end
 
       # NOTE: nest "Index" for the corresponding resource (instead of inheritance)
@@ -77,7 +78,43 @@ module Presenters
         auth_policy(@user, @app_resource).edit_all_meta_data_enabled?
       end
 
+      def open_media_player
+        @open_media_player && media_player.present?
+      end
+
+      def media_player
+        return unless @app_resource.is_a?(MediaEntry)
+
+        media_file = @app_resource.media_file
+        return unless media_file && (media_file.video? || media_file.audio?)
+
+        {
+          media_type: media_file.media_type,
+          media_config: editor_media_config(media_file.media_config),
+          subtitles: media_file.subtitles.order(:kind, :language).map { |subtitle|
+            {
+              id: subtitle.id,
+              language: subtitle.language,
+              label: subtitle.label,
+              kind: subtitle.kind,
+              filename: subtitle.filename,
+              is_default: subtitle.is_default,
+              url: show_subtitle_media_entry_path(@app_resource, subtitle.id),
+              delete_url: destroy_subtitle_media_entry_path(@app_resource, subtitle.id)
+            }
+          },
+          update_media_config_url: update_media_config_media_entry_path(@app_resource),
+          create_subtitle_url: create_subtitle_media_entry_path(@app_resource)
+        }
+      end
+
       private
+
+      def editor_media_config(config)
+        return {} unless config.is_a?(Hash)
+
+        config.except('sources', :sources)
+      end
 
       def edit_by_context_path_helper
         "edit_meta_data_by_context_#{resource_route_name}_path"
