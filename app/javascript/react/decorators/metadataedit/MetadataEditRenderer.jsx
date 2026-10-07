@@ -590,7 +590,8 @@ export default {
     edit_by_vocabularies_url,
     batch_edit_by_vocabularies_url,
     batch_edit_all_collection_url,
-    show_all_data_tab_in_edit_mode
+    show_all_data_tab_in_edit_mode,
+    showMediaPlayer
   ) {
     let tabUrl, nextCurrentTab, active
     return (
@@ -644,6 +645,25 @@ export default {
             )
           }
         })}
+        {(() => {
+          if (!showMediaPlayer) return
+          nextCurrentTab = {
+            byContext: null,
+            byVocabularies: false,
+            mediaPlayer: true
+          }
+          return (
+            <Tab
+              privacyStatus="public"
+              key="mediaPlayer"
+              iconType={null}
+              onClick={curry(onTabClick)(nextCurrentTab)}
+              href={setUrlParams(edit_by_context_fallback_url, { media_player: 1 })}
+              label={t('media_player_settings_title')}
+              active={!!currentTab.mediaPlayer}
+            />
+          )
+        })()}
         {(() => {
           if (show_all_data_tab_in_edit_mode) {
             tabUrl = batch

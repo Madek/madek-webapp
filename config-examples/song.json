@@ -1,0 +1,20 @@
+{
+    "headers": [
+      {
+        "src": "https://medienarchiv.zhdk.ch/logo.svg",
+        "alt": "ZHdK",
+        "href": "https://medienarchiv.zhdk.ch/",
+        "target": "_blank",
+        "start": 0,
+        "end": 3
+      }
+    ],
+    "overlays": [
+      {
+        "start": 5,
+        "end": 8,
+        "stop_media_during_overlay": true,
+        "text": { "de": "ich pausiere", "en": "im pausing" }
+      }
+    ]
+  }

@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>volume repro</title>
+  <style>
+    body { margin: 0; background: #111; color: #fff; font-family: sans-serif; }
+    h2 { margin: 12px; font-size: 14px; }
+    .madek-media-player { position: relative; width: 100%; background: #333; }
+    .madek-media-player--fill,
+    .madek-media-player--fill video-neutral-skin,
+    .madek-media-player--fill audio-neutral-skin {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+    }
+    .box { height: 320px; position: relative; margin: 12px; background: #222; }
+  </style>
+</head>
+<body>
+  <h2>video</h2>
+  <div class="box">
+    <div class="madek-media-player madek-media-player--video madek-media-player--fill">
+      <video-player>
+        <video-neutral-skin style="display:block;width:100%;height:100%;position:absolute;inset:0;overflow:hidden;--media-accent-color:#d0d0d0">
+          <video playsinline preload="metadata" src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain"></video>
+        </video-neutral-skin>
+      </video-player>
+    </div>
+  </div>
+  <h2>audio</h2>
+  <div class="box">
+    <div class="madek-media-player madek-media-player--audio madek-media-player--fill">
+      <audio-player>
+        <audio-neutral-skin style="display:block;width:100%;height:100%;position:absolute;inset:0;background:#444;--media-accent-color:#d0d0d0">
+          <audio preload="metadata" src="https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3"></audio>
+        </audio-neutral-skin>
+      </audio-player>
+    </div>
+  </div>
+  <script type="module" src="/assets/bundles/bundle-videojs-player.js"></script>
+</body>
+</html>

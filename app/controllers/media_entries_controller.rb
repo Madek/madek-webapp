@@ -13,6 +13,7 @@ class MediaEntriesController < ApplicationController
   include Modules::MediaEntries::Embedded
   include Modules::MediaEntries::RdfExport
   include Modules::MediaEntries::Checksum
+  include Modules::MediaEntries::MediaPlayer
   include Modules::MediaEntries::MediaShortcut
   include Modules::MetaDataStorage
   include Modules::Resources::ResourceCustomUrls

@@ -3,25 +3,6 @@ import PropTypes from 'prop-types'
 
 import VideoJS from './VideoJs.jsx'
 
-const VIDEOJS_OPTIONS = {
-  height: 500,
-  controlBar: {
-    children: [
-      'playToggle',
-      'currentTimeDisplay',
-      'timeDivider',
-      'durationDisplay',
-      'progressControl',
-      'remainingTimeDisplay',
-      'muteToggle',
-      'volumeControl',
-      'space',
-      'customControlSpacer',
-      'fullscreenToggle'
-    ]
-  }
-}
-
 const propTypes = {
   /** Soures of different type and quality (e.g. ogg, mp3) */
   sources: PropTypes.arrayOf(
@@ -57,7 +38,7 @@ class AudioPlayer extends React.Component {
           mode="audio"
           className="ui-audio-player"
           sources={videoSources}
-          options={{ ...VIDEOJS_OPTIONS, ...options }}
+          options={options || {}}
         />
       </div>
     )

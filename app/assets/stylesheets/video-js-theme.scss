@@ -1,252 +1,144 @@
 /*
-  Player Skin Designer for Video.js
-  http://videojs.com
-
-  see https://codepen.io/eins78/pen/MbjPmO
+  Madek branding for Video.js 10 packaged Neutral skins.
+  Skin internals are not a public API — only CSS custom properties and Madek overlays.
 */
 
-@import '../../../node_modules/video.js/dist/video-js';
-//= depend_on_asset '../../../node_modules/video.js/dist/video-js'
-@import '../../javascript/lib/videojs-resolution-switcher/lib/videojs-resolution-switcher';
-//= depend_on_asset '../../javascript/lib/videojs-resolution-switcher/lib/videojs-resolution-switcher'
+@import '_tmp_icon';
 
-// default fullscreen sizing:
-// see <https://docs.brightcove.com/en/perform/brightcove-player/guides/sizing-the-player.html#fullscreen>
-body.vjs-full-window {
-  padding: 0;
-  margin: 0;
-  height: 100%;
-  background: black;
-}
-.video-js.vjs-fullscreen {
-  position: fixed;
-  overflow: hidden;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  width: 100% !important;
-  height: 100% !important;
-  max-width: initial !important;
-  max-height: initial !important;
-}
-.video-js:-webkit-full-screen {
-  width: 100% !important;
-  height: 100% !important;
-}
-.video-js.vjs-fullscreen.vjs-user-inactive {
-  cursor: none;
-}
-
-// $brand-color: $main-color;
-$brand-color: darken(white, 20%);
-$contrast-ratio: 16%; // for darker darks
-$brand-color: lighten($brand-color, 8%); // lighter lights
-$controls-opacity: 0.67;
-
-// The color of icons, text, and the big play button border.
-$primary-foreground-color: #f1f1f1; // #fff default
-
-// can still be seen on all-black video frames, which are common.
-$primary-background-color: darken(#666666, $contrast-ratio); // #2B333F default
+// Shared by application.sass thumbnail play overlays
+$primary-foreground-color: #f1f1f1;
+$primary-background-color: darken(#666666, 16%);
+$button-bg-contrast-ratio: 16%;
 $main-font-family: 'Open Sans', sans-serif;
 
-.no-js .video-js .vjs-big-play-button {
-  display: none;
+.madek-media-player {
+  position: relative;
+  width: 100%;
+
+  // Stretch to the iframe/viewport and scale the whole frame into it.
+  // Left in normal flow, the video keeps its intrinsic size and the iframe
+  // (overflow: hidden) shows only a strip.
+  &--fill,
+  &--fill video-neutral-skin,
+  &--fill audio-neutral-skin {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+  }
+
+  &--fill video-neutral-skin {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  &--fill audio-neutral-skin {
+    min-height: 0;
+  }
+
+  &--fill video {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    min-width: 0;
+    min-height: 0;
+    object-fit: contain;
+  }
+
+  --media-accent-color: #d0d0d0;
+  --media-accent-text-color: #1a1a1a;
+  --media-font-family: #{$main-font-family};
+  --media-scale-unit: 12px;
 }
 
-.video-js {
-  /* The base font size controls the size of everything, not just text.
-     All dimensions use em-based sizes so that the scale along with the font size.
-     Try increasing it to 15px and see what happens. */
-  font-size: 12px;
-
-  /* The main font color changes the ICON COLORS as well as the text */
-  color: $primary-foreground-color;
-
-  font-family: $main-font-family;
-}
-
-// sizing
-$control-bar-height: 3em;
-.video-js .vjs-control-bar {
-  height: $control-bar-height;
-}
-
-.vjs-poster {
-  background-color: transparent;
-}
-
-$button-bg-contrast-ratio: 16%;
-$button-fg-transparency: 0; // 0.15;
-.vjs-default-skin .vjs-big-play-button {
-  font-size: 17vmin;
-
-  //  circular button
-  $big-play-width: 30vmin;
-  $big-play-height: $big-play-width;
-  border-radius: $big-play-width;
-
-  line-height: $big-play-height;
-  height: $big-play-height;
-  width: $big-play-width;
-
-  // same width as slider lines:
-  border: 0.05em solid $primary-foreground-color;
-  border: 0.05em solid transparentize($primary-foreground-color, $button-fg-transparency);
-
-  background-color: darken($primary-background-color, $button-bg-contrast-ratio);
-  background-color: transparentize(
-    darken($primary-background-color, $button-bg-contrast-ratio),
-    0.7
-  );
-
-  color: $primary-foreground-color;
-  color: transparentize($primary-foreground-color, $button-fg-transparency);
-
-  /* Align center */
-  left: 50%;
-  top: 50%;
-  margin-left: -($big-play-width / 2);
-  margin-top: -($big-play-width / 2);
-}
-
-.vjs-default-skin:hover .vjs-big-play-button {
-  background-color: darken($primary-background-color, $button-bg-contrast-ratio);
-  background-color: transparentize(
-    darken($primary-background-color, $button-bg-contrast-ratio),
-    0.3
-  );
-}
-
-/* The default color of control backgrounds is mostly black but with a little
-   bit of blue so it can still be seen on all-black video frames, which are common. */
-.video-js .vjs-control-bar,
-// .video-js .vjs-big-play-button,
-.video-js .vjs-menu-button .vjs-menu-content {
-  /* IE8 - has no alpha support */
+.madek-media-player--audio {
   background-color: $primary-background-color;
-  /* Opacity: 1.0 = 100%, 0.0 = 0% */
-  background-color: rgba($primary-background-color, $controls-opacity);
-  background-image: linear-gradient(
-    transparentize(darken(#666, $contrast-ratio), $controls-opacity),
-    transparentize(darken(#4c4c4c, $contrast-ratio), $controls-opacity)
-  );
 }
 
-.vjs-menu {
-  li.vjs-selected,
-  li.vjs-selected:focus,
-  li.vjs-selected:hover {
-    background-color: rgba($primary-foreground-color, $controls-opacity);
-    color: #2b333f;
-  }
-}
-
-// Make a slightly lighter version of the main background
-// for the slider background.
-$slider-bg-color: lighten($primary-background-color, 33.34%);
-
-/* Slider - used for Volume bar and Progress bar */
-.video-js .vjs-slider {
-  background-color: $slider-bg-color;
-  background-color: rgba($slider-bg-color, 0.5);
-}
-
-/* The slider bar color is used for the progress bar and the volume bar
-   (the first two can be removed after a fix that's coming) */
-.video-js .vjs-volume-level,
-.video-js .vjs-play-progress,
-.video-js .vjs-slider-bar {
-  background-color: $primary-foreground-color;
-}
-
-/* The main progress bar also has a bar that shows how much has been loaded. */
-.video-js .vjs-load-progress {
-  /* For IE8 we'll lighten the color */
-  background-color: ligthen($slider-bg-color, 25%);
-  /* Otherwise we'll rely on stacked opacities */
-  background-color: rgba($slider-bg-color, 0.5);
-  // background: #83a92c;
-}
-
-/* The load progress bar also has internal divs that represent
-   smaller disconnected loaded time ranges */
-.video-js .vjs-load-progress div {
-  /* For IE8 we'll lighten the color */
-  background-color: ligthen($slider-bg-color, 50%);
-  /* Otherwise we'll rely on stacked opacities */
-  background-color: rgba($slider-bg-color, 0.75);
-}
-
-// plugins
-.vjs-resolution-button {
-  color: inherit;
-
-  // .vjs-menu .vjs-menu-content {
-  //   width: 3em;
-  // }
-
-  &,
-  // .vjs-resolution-button-label,
-  .vjs-menu li {
-    font-family: $main-font-family;
-    font-weight: bold;
-  }
-
-  .vjs-resolution-button-label {
-    font-size: 1.34em;
-    line-height: 2.23em;
-  }
-}
-
-// fix:
-.vjs-menu-button-popup .vjs-menu {
-  // original styles set a very wide with,
-  // causes layout flicker on menu hover!
-  width: initial;
-}
-
-// // audio variant
-
-// wavesurfer plugin styles:
-
-.vjs-waveform {
-  z-index: 0;
-  position: absolute;
-  bottom: 3em;
-  left: 0;
-  right: 0;
-  top: 0;
-
-  wave,
-  canvas {
-    height: 100% !important;
-  }
-  wave > wave {
-    height: 100% !important;
-  }
-}
-.vjs-control-bar {
-  z-index: 1;
-}
-
-@import '_tmp_icon';
-.video-js.vjs-audio {
+.madek-media-player--audio audio-neutral-skin {
   background-color: $primary-background-color;
   background-image: url(audioIconSvg(rgba(white, 0.34)));
   background-size: 30%;
   background-position: center center;
   background-repeat: no-repeat;
+  border-radius: 0;
+  --media-controls-radius: 0;
+  --media-control-radius: 0;
+  --media-menu-item-radius: 0;
+  --media-popup-radius: 0;
+  --media-dialog-radius: 0;
+  --media-video-border-radius: 0;
+  --media-control-corner-shape: square;
+}
 
-  .vjs-big-play-button {
-    color: white;
-    border-color: $brand-color;
-    background-color: darken($brand-color, 3%);
-    background-image: (linear-gradient(lighten($brand-color, 5%), darken($brand-color, 3%)));
+.madek-player-layers {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.madek-player-header {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  display: flex;
+  padding: 0.35rem 0.5rem;
+  background: rgba(0, 0, 0, 0.72);
+  pointer-events: auto;
+
+  img {
+    display: block;
+    height: 32px;
+    width: auto;
   }
-  &:hover .vjs-big-play-button {
-    border-color: white;
+
+  &[hidden] {
+    display: none;
   }
+}
+
+.madek-player-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(15, 20, 25, 0.72);
+  color: #fff;
+  font-size: 1.75rem;
+  font-weight: 600;
+
+  &[hidden],
+  [hidden] {
+    display: none;
+  }
+}
+
+.madek-player-lyrics {
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: 4.5rem;
+  margin: 0;
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.madek-titlebar {
+  z-index: 2;
+}
+
+.madek-titlebar.is-hidden {
+  opacity: 0 !important;
+  pointer-events: none !important;
 }

@@ -115,6 +115,7 @@ export default class MediaEntryPreview extends React.Component {
           sources={previews.videos}
           options={merge({ fluid: true }, _get(mediaPlayerConfig, 'options'))}
           captionConf={this.props.captionConf}
+          playback={get.playback}
           isInternal={this.props.isInternal}
         />
       ) : // audio player
@@ -125,6 +126,7 @@ export default class MediaEntryPreview extends React.Component {
           getUrl={get.url}
           sources={previews.audios}
           options={merge({ fluid: true }, _get(mediaPlayerConfig, 'options'))}
+          playback={get.playback}
           captionConf={this.props.captionConf}
           isInternal={this.props.isInternal}
         />

@@ -69,6 +69,11 @@ Madek::Application.routes.draw do
       post 'checksum/generate', action: :generate_checksum, as: 'generate_checksum'
       post 'checksum/verify', action: :verify_checksum, as: 'verify_checksum'
 
+      patch 'media_config', action: :update_media_config, as: 'update_media_config'
+      post 'subtitles', action: :create_subtitle, as: 'create_subtitle'
+      get 'subtitles/:subtitle_id', action: :show_subtitle, as: 'show_subtitle'
+      delete 'subtitles/:subtitle_id', action: :destroy_subtitle, as: 'destroy_subtitle'
+
       get 'embedded'
       get 'fullscreen'
 

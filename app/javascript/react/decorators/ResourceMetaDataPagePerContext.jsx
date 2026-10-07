@@ -25,6 +25,7 @@ import getRailsCSRFToken from '../../lib/rails-csrf-token.js'
 
 import validation from '../../lib/metadata-edit-validation.js'
 import Renderer from './metadataedit/MetadataEditRenderer.jsx'
+import MediaPlayerSettings from './MediaPlayerSettings.jsx'
 
 class ResourceMetaDataPagePerContext extends React.Component {
   constructor(props) {
@@ -53,7 +54,8 @@ class ResourceMetaDataPagePerContext extends React.Component {
     const currentTab = this._determineCurrentTab(
       props.get.context_id,
       props.get.by_vocabularies,
-      props.get.meta_meta_data
+      props.get.meta_meta_data,
+      props.get.open_media_player
     )
 
     let batchDiff = {}
@@ -187,8 +189,14 @@ class ResourceMetaDataPagePerContext extends React.Component {
     return models
   }
 
-  _determineCurrentTab(context_id, by_vocabularies, meta_meta_data) {
-    if (by_vocabularies) {
+  _determineCurrentTab(context_id, by_vocabularies, meta_meta_data, open_media_player) {
+    if (open_media_player) {
+      return {
+        byContext: null,
+        byVocabularies: false,
+        mediaPlayer: true
+      }
+    } else if (by_vocabularies) {
       return {
         byContext: null,
         byVocabularies: true
@@ -479,119 +487,129 @@ There are no contexts defined. Please configure them in the admin tool.\
           get.edit_by_vocabularies_url,
           get.batch_edit_by_vocabularies_url,
           get.batch_edit_all_collection_url,
-          this.props.get.show_all_data_tab_in_edit_mode
+          this.props.get.show_all_data_tab_in_edit_mode,
+          !this.props.batch && get.media_player
         )}
         <TabContent>
-          <RailsForm
-            ref={this.formRef}
-            name="resource_meta_data"
-            action={this._actionUrl()}
-            onSubmit={this._onImplicitSumbit}
-            method="put"
-            authToken={authToken}>
-            <input type="hidden" name="return_to" value={this.props.get.return_to} />
-            <div className="ui-container phl ptl">
-              {this.contextDescription()}
-              {!this.props.batch ? Renderer._renderThumbnail(this.props.get.resource) : undefined}
-              <div className="app-body-content table-cell ui-container table-substance ui-container">
-                <div className={'active'}>
-                  {this.state.systemError ? (
-                    <div className="ui-alerts" style={{ marginBottom: '10px' }}>
-                      <div className="error ui-alert">{this.state.systemError}</div>
-                    </div>
-                  ) : undefined}
-                  {this.state.errors && keys(this.state.errors).length > 0 ? (
-                    <div className="ui-alerts" style={{ marginBottom: '10px' }}>
-                      <div className="error ui-alert">
-                        {t('resource_meta_data_has_validation_errors')}
+          {currentTab.mediaPlayer ? (
+            <MediaPlayerSettings
+              mediaPlayer={get.media_player}
+              authToken={authToken}
+              cancelUrl={get.return_to || get.resource.url}
+              thumbnail={Renderer._renderThumbnail(get.resource)}
+            />
+          ) : (
+            <RailsForm
+              ref={this.formRef}
+              name="resource_meta_data"
+              action={this._actionUrl()}
+              onSubmit={this._onImplicitSumbit}
+              method="put"
+              authToken={authToken}>
+              <input type="hidden" name="return_to" value={this.props.get.return_to} />
+              <div className="ui-container phl ptl">
+                {this.contextDescription()}
+                {!this.props.batch ? Renderer._renderThumbnail(this.props.get.resource) : undefined}
+                <div className="app-body-content table-cell ui-container table-substance ui-container">
+                  <div className={'active'}>
+                    {this.state.systemError ? (
+                      <div className="ui-alerts" style={{ marginBottom: '10px' }}>
+                        <div className="error ui-alert">{this.state.systemError}</div>
                       </div>
+                    ) : undefined}
+                    {this.state.errors && keys(this.state.errors).length > 0 ? (
+                      <div className="ui-alerts" style={{ marginBottom: '10px' }}>
+                        <div className="error ui-alert">
+                          {t('resource_meta_data_has_validation_errors')}
+                        </div>
+                      </div>
+                    ) : undefined}
+                    <div className="form-body">
+                      {this.props.batch && !get.collection_id
+                        ? map(get.batch_ids, id => (
+                            <input
+                              key={id}
+                              type="hidden"
+                              name="batch_resource_meta_data[id][]"
+                              value={id}
+                            />
+                          ))
+                        : undefined}
+                      {currentTab.byVocabularies
+                        ? Renderer._renderVocabQuickLinks(get.meta_data, get.meta_meta_data)
+                        : undefined}
+                      {(() => {
+                        if (!currentTab.byVocabularies) {
+                          currentContextId = currentTab.byContext
+                          return Renderer._renderByContext(
+                            currentContextId,
+                            get.meta_meta_data,
+                            published,
+                            name,
+                            this.props.batch,
+                            this.state.models,
+                            this.state.errors,
+                            this._batchConflictByContextKey,
+                            {
+                              onValue: this._onChangeForm,
+                              onChangeBatchAction: this._onChangeBatchAction
+                            },
+                            this.state.bundleState,
+                            this._toggleBundle
+                          )
+                        } else {
+                          return Renderer._renderByVocabularies(
+                            get.meta_data,
+                            get.meta_meta_data,
+                            published,
+                            name,
+                            this.props.batch,
+                            this.state.models,
+                            this.state.errors,
+                            this._batchConflictByMetaKey,
+                            {
+                              onValue: this._onChangeForm,
+                              onChangeBatchAction: this._onChangeBatchAction
+                            },
+                            this.state.bundleState,
+                            this._toggleBundle
+                          )
+                        }
+                      })()}
+                      {(() => {
+                        if (!currentTab.byVocabularies) {
+                          const currentContext =
+                            get.meta_meta_data.contexts_by_context_id[currentContextId]
+                          return Renderer._renderHiddenKeysByContext(
+                            this.props.get.meta_meta_data,
+                            currentContext.uuid,
+                            this.props.batch,
+                            this.state.models,
+                            name
+                          )
+                        }
+                      })()}
                     </div>
-                  ) : undefined}
-                  <div className="form-body">
-                    {this.props.batch && !get.collection_id
-                      ? map(get.batch_ids, id => (
-                          <input
-                            key={id}
-                            type="hidden"
-                            name="batch_resource_meta_data[id][]"
-                            value={id}
-                          />
-                        ))
-                      : undefined}
-                    {currentTab.byVocabularies
-                      ? Renderer._renderVocabQuickLinks(get.meta_data, get.meta_meta_data)
-                      : undefined}
-                    {(() => {
-                      if (!currentTab.byVocabularies) {
-                        currentContextId = currentTab.byContext
-                        return Renderer._renderByContext(
-                          currentContextId,
-                          get.meta_meta_data,
-                          published,
-                          name,
-                          this.props.batch,
-                          this.state.models,
-                          this.state.errors,
-                          this._batchConflictByContextKey,
-                          {
-                            onValue: this._onChangeForm,
-                            onChangeBatchAction: this._onChangeBatchAction
-                          },
-                          this.state.bundleState,
-                          this._toggleBundle
-                        )
-                      } else {
-                        return Renderer._renderByVocabularies(
-                          get.meta_data,
-                          get.meta_meta_data,
-                          published,
-                          name,
-                          this.props.batch,
-                          this.state.models,
-                          this.state.errors,
-                          this._batchConflictByMetaKey,
-                          {
-                            onValue: this._onChangeForm,
-                            onChangeBatchAction: this._onChangeBatchAction
-                          },
-                          this.state.bundleState,
-                          this._toggleBundle
-                        )
-                      }
-                    })()}
-                    {(() => {
-                      if (!currentTab.byVocabularies) {
-                        const currentContext =
-                          get.meta_meta_data.contexts_by_context_id[currentContextId]
-                        return Renderer._renderHiddenKeysByContext(
-                          this.props.get.meta_meta_data,
-                          currentContext.uuid,
-                          this.props.batch,
-                          this.state.models,
-                          name
-                        )
-                      }
-                    })()}
                   </div>
                 </div>
+                {this.props.batch ? <BatchHintBox /> : undefined}
               </div>
-              {this.props.batch ? <BatchHintBox /> : undefined}
-            </div>
-            <div className="ui-actions phl pbl mtl">
-              <a className="link weak" href={get.return_to || get.resource.url}>{` ${t(
-                'meta_data_form_cancel'
-              )} `}</a>
-              <button
-                className="primary-button large"
-                type={this.state.mounted ? 'button' : 'submit'}
-                name="actionType"
-                value="save"
-                onClick={this._onExplicitSubmit}
-                disabled={this._disableSave(published, this.props.batch)}>
-                {t('meta_data_form_save')}
-              </button>
-            </div>
-          </RailsForm>
+              <div className="ui-actions phl pbl mtl">
+                <a className="link weak" href={get.return_to || get.resource.url}>{` ${t(
+                  'meta_data_form_cancel'
+                )} `}</a>
+                <button
+                  className="primary-button large"
+                  type={this.state.mounted ? 'button' : 'submit'}
+                  name="actionType"
+                  value="save"
+                  onClick={this._onExplicitSubmit}
+                  disabled={this._disableSave(published, this.props.batch)}>
+                  {t('meta_data_form_save')}
+                </button>
+              </div>
+            </RailsForm>
+          )}
         </TabContent>
       </PageContent>
     )

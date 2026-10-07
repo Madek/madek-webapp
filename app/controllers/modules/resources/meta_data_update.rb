@@ -13,7 +13,8 @@ module Modules
           resource,
           current_user,
           params[:context_id],
-          false)
+          false,
+          open_media_player: params[:media_player].to_s == '1')
         respond_with @get
       end
 
