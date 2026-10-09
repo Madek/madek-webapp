@@ -139,6 +139,16 @@ const VOLUME_POPOVER_STYLE = `
   }
 `
 
+// Audio: the volume slider is always visible, not only on hover of the mute button.
+const AUDIO_VOLUME_ALWAYS_STYLE = `
+  media-volume-popover {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+`
+
 function orderedAudioSources(sources) {
   const rank = type => (type === 'audio/mpeg' ? 0 : 1)
   return sources
@@ -202,7 +212,11 @@ class VideoJS extends Component {
   onAudioAreaClick(event) {
     const media = this.mediaRef.current
     if (!media) return
-    const path = typeof event.composedPath === 'function' ? event.composedPath() : [event.target]
+    // React's synthetic event has no composedPath(); without the native one, clicks on
+    // shadow-DOM controls (play button) are retargeted to the skin host and would be
+    // handled twice (button toggles, then this handler toggles back).
+    const native = event.nativeEvent || event
+    const path = typeof native.composedPath === 'function' ? native.composedPath() : [event.target]
     const interactive = path.some(node => {
       if (!node || node === event.currentTarget) return false
       if (!node.tagName) return false
@@ -338,7 +352,8 @@ class VideoJS extends Component {
     if (!shadow.querySelector('#madek-volume-popover')) {
       const style = document.createElement('style')
       style.id = 'madek-volume-popover'
-      style.textContent = VOLUME_POPOVER_STYLE
+      style.textContent =
+        VOLUME_POPOVER_STYLE + (this.props.mode === 'audio' ? AUDIO_VOLUME_ALWAYS_STYLE : '')
       shadow.append(style)
     }
 
