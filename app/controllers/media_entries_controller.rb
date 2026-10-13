@@ -14,6 +14,7 @@ class MediaEntriesController < ApplicationController
   include Modules::MediaEntries::RdfExport
   include Modules::MediaEntries::Checksum
   include Modules::MediaEntries::MediaShortcut
+  include Modules::MediaEntries::XmpImport
   include Modules::MetaDataStorage
   include Modules::Resources::ResourceCustomUrls
   include Modules::Resources::ResourceConfidentialLinks

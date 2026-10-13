@@ -604,6 +604,43 @@ feature 'Resource: MediaEntry' do
         FileUtils.rm_f(tagged_image)
       end
     end
+
+    scenario 'File metadata referencing a Keyword of another MetaKey ' \
+             'is skipped without failing the upload',
+             browser: false do
+
+      meta_key = create(:meta_key_keywords)
+      other_meta_key = create(:meta_key_keywords, id: 'test:other_keywords')
+      foreign_keyword = create(:keyword, meta_key: other_meta_key)
+      IoInterface.find_or_create_by(id: 'default')
+      IoMapping.create(io_interface_id: 'default',
+                       meta_key_id: meta_key.id,
+                       key_map: 'XMP-madek:Remark')
+
+      tagged_image = Rails.root.join('tmp', "tagged_#{SecureRandom.hex(8)}.jpg")
+      FileUtils.cp(
+        Madek::Constants::DATALAYER_ROOT_DIR.join('spec', 'data', 'images', 'grumpy_cat_new.jpg'),
+        tagged_image)
+      config_path =
+        Rails.root.join('config', 'definitions', 'metadata', 'ExifTool_config.pl')
+      system('exiftool', '-config', config_path.to_s,
+             "-XMP-madek:Remark=#{foreign_keyword.id}", '-overwrite_original',
+             tagged_image.to_s, exception: true)
+
+      begin
+        visit new_media_entry_path
+        within('.app-body') do
+          attach_file('media_entry_media_file', tagged_image.to_s, make_visible: true)
+          submit_form
+        end
+
+        media_entry = user.unpublished_media_entries.first
+        expect(media_entry).to be
+        expect(media_entry.meta_data.find_by_meta_key_id(meta_key.id)).to be_nil
+      ensure
+        FileUtils.rm_f(tagged_image)
+      end
+    end
   end
 
   describe 'Copying meta datum from another media entry' do

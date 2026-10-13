@@ -4,13 +4,15 @@ import AsyncModal from './Collection/AsyncModal.jsx'
 import SelectCollection from './Collection/SelectCollection.jsx'
 import MediaEntryHeader from './MediaEntryHeader.jsx'
 import Share from './Shared/Share.jsx'
+import XmpImport from './MediaEntry/XmpImport.jsx'
 
 class MediaEntryHeaderWithModal extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       selectCollectionModal: false,
-      shareModal: false
+      shareModal: false,
+      xmpImportModal: false
     }
   }
 
@@ -19,6 +21,8 @@ class MediaEntryHeaderWithModal extends React.Component {
       return this.setState({ selectCollectionModal: true })
     } else if (asyncAction === 'share') {
       return this.setState({ shareModal: true })
+    } else if (asyncAction === 'xmp_import') {
+      return this.setState({ xmpImportModal: true })
     }
   }
 
@@ -98,6 +102,13 @@ class MediaEntryHeaderWithModal extends React.Component {
             )
           }
         })()}
+        {this.state.xmpImportModal && (
+          <XmpImport
+            action={get.header.xmp_import_url}
+            authToken={authToken}
+            onClose={() => this.setState({ xmpImportModal: false })}
+          />
+        )}
         <MediaEntryHeader
           authToken={authToken}
           get={get.header}

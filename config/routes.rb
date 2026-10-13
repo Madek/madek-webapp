@@ -58,6 +58,7 @@ Madek::Application.routes.draw do
       patch 'add_remove_collection', to: 'media_entries#add_remove_collection'
 
       post :publish
+      post :xmp_import
       get 'relations'
       get 'relations/children', action: :relation_children, as: 'relation_children'
       get 'relations/siblings', action: :relation_siblings, as: 'relation_siblings'

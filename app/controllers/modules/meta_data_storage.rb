@@ -33,23 +33,44 @@ module Modules
     private
 
     def extract_and_store_metadata_for_media_entry(extractor, media_entry)
-      exif_data = extractor.hash_for_media_entry
+      data = extractor.hash_for_media_entry
+        .merge("Filename" => media_entry.media_file.filename)
 
-      media_file_data = { "Filename" => media_entry.media_file.filename }
-      exif_data.merge(media_file_data).each do |key_map, value|
-        next if value.blank? # ignore empty values silently
+      io_mapped_values(data).each do |meta_key, value|
+        next if media_entry.meta_data.find_by_meta_key_id(meta_key.id)
 
-        meta_key_ids = IoMapping.where(key_map: key_map).map(&:meta_key_id)
-        meta_key_ids.each do |meta_key_id|
-          next if media_entry.meta_data.find_by_meta_key_id(meta_key_id)
-
-          begin
-            create_meta_datum!(media_entry, meta_key_id, value)
-          rescue
-            next # skip this corrupt meta_datum silently
+        begin
+          in_savepoint_with_immediate_constraints do
+            create_meta_datum!(media_entry, meta_key.id, value)
           end
+        rescue
+          next # skip this corrupt meta_datum silently
         end
       end
+    end
+
+    # Checks deferred constraints within a savepoint instead of at commit,
+    # so a violation only rolls back the block.
+    def in_savepoint_with_immediate_constraints
+      ActiveRecord::Base.transaction(requires_new: true) do
+        yield
+        ActiveRecord::Base.connection.execute('SET CONSTRAINTS ALL IMMEDIATE')
+      end
+    ensure
+      ActiveRecord::Base.connection.execute('SET CONSTRAINTS ALL DEFERRED')
+    end
+
+    # `key_map` may hold several comma-separated keys, the first present one wins.
+    def io_mapped_values(data)
+      IoMapping
+        .includes(:meta_key)
+        .each_with_object({}) do |mapping, result|
+          next if result.key?(mapping.meta_key)
+
+          value = mapping.key_map.split(',').map(&:strip)
+                    .map { |key| data[key] }.find(&:present?)
+          result[mapping.meta_key] = value if value.present?
+        end
     end
 
     def detect_and_set_media_type(extractor, media_file)
@@ -60,20 +81,22 @@ module Modules
     end
 
     def create_meta_datum!(media_entry, meta_key_id, value)
-      meta_datum_klass = \
-        MetaKey.find(meta_key_id).meta_datum_object_type.constantize
+      meta_key = MetaKey.find(meta_key_id)
 
-      meta_datum_klass.create_with_user! \
+      meta_key.meta_datum_object_type.constantize.create_with_user! \
         current_user,
         media_entry_id: media_entry.id,
         meta_key_id: meta_key_id,
         created_by: current_user,
-        value: \
-          (if [MetaDatum::Text, MetaDatum::TextDate].include?(meta_datum_klass)
-             value
-           else
-             extract_related_uuids(value)
-           end)
+        value: meta_datum_value(meta_key, value)
+    end
+
+    def meta_datum_value(meta_key, value)
+      value = Array(value).map(&:to_s).join(', ')
+      case meta_key.meta_datum_object_type
+      when 'MetaDatum::Text', 'MetaDatum::TextDate' then value
+      else extract_related_uuids(value)
+      end
     end
 
     def extract_related_uuids(value)

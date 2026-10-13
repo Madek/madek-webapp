@@ -35,6 +35,10 @@ module Presenters
         share_media_entry_path(@app_resource)
       end
 
+      def xmp_import_url
+        xmp_import_media_entry_path(@app_resource)
+      end
+
       def buttons
         buttons = [
           edit_button,
@@ -47,6 +51,7 @@ module Presenters
           confidential_link_button,
           browse_button,
           update_file_button,
+          xmp_import_button,
           show_in_admin_button
         ]
         buttons.select do |tab|
@@ -58,6 +63,7 @@ module Presenters
         [
           :browse_button,
           :update_file_button,
+          :xmp_import_button,
           :custom_urls_button,
           :confidential_link_button,
           :export_button,
@@ -192,6 +198,18 @@ module Presenters
           title: I18n.t(:resource_action_media_entry_update_file),
           action: new_media_entry_path('copy-md-from-id': @app_resource.id),
           allowed: policy_for(@user).update_file?
+        }
+      end
+
+      def xmp_import_button
+        {
+          id: :xmp_import_button,
+          async_action: 'xmp_import',
+          method: 'get',
+          icon: 'tag',
+          title: I18n.t(:resource_action_media_entry_xmp_import),
+          action: xmp_import_media_entry_path(@app_resource),
+          allowed: policy_for(@user).xmp_import?
         }
       end
     end
