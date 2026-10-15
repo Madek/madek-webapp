@@ -1,0 +1,8 @@
+# osv-scanner config file
+# Suppress false positives or accepted risks here.
+# https://google.github.io/osv-scanner/configuration/
+
+[[IgnoredVulns]]
+id = "GHSA-vfj7-8cjw-p6xm"
+ignoreUntil = 2027-01-15
+reason = "braces (dev, via fast-glob): no fix available; only globs trusted build-time patterns"

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Scan all Dependencies with https://google.github.io/osv-scanner/
+
+PROJECT_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
+
+osv-scanner scan . -r \
+  --format markdown \
+  --config "${PROJECT_DIR}/osv-scanner/osv-scanner.toml" \
+  "$@"
+
+# vi: ft=sh

@@ -20,8 +20,7 @@ def truncate_tables
   PgTasks.truncate_tables
 end
 
-firefox_bin_path = Pathname.new(`which firefox`.strip).expand_path.to_s
-Selenium::WebDriver::Firefox.path = firefox_bin_path
+FIREFOX_BIN_PATH = Pathname.new(`which firefox`.strip).expand_path.to_s
 
 RSpec.configure do |config|
   config.use_transactional_fixtures = false
@@ -135,11 +134,7 @@ def create_firefox_driver(app, timeout, extra_profile_config = {})
   profile = Selenium::WebDriver::Firefox::Profile.new
   profile_config.each { |k, v| profile[k] = v }
 
-  # we need a firefox extension to collect javascript errors
-  # see https://github.com/mguillem/JSErrorCollector
-  profile.add_extension File.join(Rails.root, 'spec/_support/JSErrorCollector.xpi')
-
-  opts = Selenium::WebDriver::Firefox::Options.new(profile: profile)
+  opts = Selenium::WebDriver::Firefox::Options.new(profile: profile, binary: FIREFOX_BIN_PATH)
 
   client = Selenium::WebDriver::Remote::Http::Default.new
   client.read_timeout = timeout

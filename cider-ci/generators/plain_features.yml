@@ -4036,12 +4036,6 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/side_filter/side_filter_spec.rb:19"
     RSPEC_TEST: "./spec/features/side_filter/side_filter_spec.rb[1:1:1]"
-"./spec/features/test_setup_spec.rb[1:1]":
-  name: "./spec/features/test_setup_spec.rb[1:1]"
-  description: Test Setup catches JavaScript errors
-  environment_variables:
-    RSPEC_NAME: "./spec/features/test_setup_spec.rb:6"
-    RSPEC_TEST: "./spec/features/test_setup_spec.rb[1:1]"
 "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:1]":
   name: "./spec/features/transfer_responsibility/transfer_responsibility_collection_spec.rb[1:1]"
   description: Collection - transfer responsibility check collection checkbox behaviour
