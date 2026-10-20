@@ -21,6 +21,8 @@
       react('Views.Collection.ResourceSelection', { get: @get, type: 'checkbox' })
     elsif action_name == 'export' && controller_name == 'media_entries'
       react('Views.MediaEntry.Export', { get: @get })
+    elsif action_name == 'xmp_import' && controller_name == 'media_entries'
+      react('Views.MediaEntry.XmpImport', { get: @get })
     elsif action_name == 'select_collection' && (controller_name == 'media_entries' || controller_name == 'collections')
       react('Views.SelectCollectionModal', { get: @get.collection_selection })
     end
