@@ -1,7 +1,7 @@
 module Modules
   module MetaDataStorage
     extend ActiveSupport::Concern
-    include MetaData
+    include Modules::MetaDataImport
 
     DEFAULT_MIME_TYPE = Madek::Constants::DEFAULT_MIME_TYPE
 
@@ -33,23 +33,10 @@ module Modules
     private
 
     def extract_and_store_metadata_for_media_entry(extractor, media_entry)
-      exif_data = extractor.hash_for_media_entry
+      data = extractor.hash_for_media_entry
+        .merge("Filename" => media_entry.media_file.filename)
 
-      media_file_data = { "Filename" => media_entry.media_file.filename }
-      exif_data.merge(media_file_data).each do |key_map, value|
-        next if value.blank? # ignore empty values silently
-
-        meta_key_ids = IoMapping.where(key_map: key_map).map(&:meta_key_id)
-        meta_key_ids.each do |meta_key_id|
-          next if media_entry.meta_data.find_by_meta_key_id(meta_key_id)
-
-          begin
-            create_meta_datum!(media_entry, meta_key_id, value)
-          rescue
-            next # skip this corrupt meta_datum silently
-          end
-        end
-      end
+      store_io_mapped_meta_data!(media_entry, data, overwrite: false)
     end
 
     def detect_and_set_media_type(extractor, media_file)
@@ -60,35 +47,13 @@ module Modules
     end
 
     def create_meta_datum!(media_entry, meta_key_id, value)
-      meta_datum_klass = \
-        MetaKey.find(meta_key_id).meta_datum_object_type.constantize
+      meta_key = MetaKey.find(meta_key_id)
 
-      meta_datum_klass.create_with_user! \
+      meta_key.meta_datum_object_type.constantize.create_with_user! \
         current_user,
         media_entry_id: media_entry.id,
         meta_key_id: meta_key_id,
-        created_by: current_user,
-        value: \
-          (if [MetaDatum::Text, MetaDatum::TextDate].include?(meta_datum_klass)
-             value
-           else
-             extract_related_uuids(value)
-           end)
-    end
-
-    def extract_related_uuids(value)
-      value.split(',').map do |val|
-        val = val.strip
-        url = val.match(/<(.*)>/).try(:[], 1) || val
-        next url if (UUIDTools::UUID.parse(url) rescue nil)
-
-        begin
-          route_params = Rails.application.routes.recognize_path(url)
-          route_params[:id] || route_params.except(:controller, :action).values.first
-        rescue
-          url
-        end
-      end
+        value: meta_datum_value(meta_key, value)
     end
   end
 end

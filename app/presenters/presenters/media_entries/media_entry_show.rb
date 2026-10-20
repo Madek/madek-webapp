@@ -91,7 +91,7 @@ module Presenters
 
       def meta_data
         return unless %w(
-          show export more_data usage_data show_by_confidential_link
+          show export xmp_import more_data usage_data show_by_confidential_link
         )
           .include?(@active_tab)
         Presenters::MetaData::MetaDataShow.new(@app_resource, @user)

@@ -30,6 +30,9 @@ class MediaEntryPolicy < Shared::MediaResources::MediaResourcePolicy
     allow_for_creator_if_unpublished(record, user)
   end
 
+  alias_method :xmp_import?, :publish?
+  alias_method :xmp_import_create?, :publish?
+
   def ask_delete?
     edit?
   end

@@ -17,7 +17,7 @@ const BaseTmpReact = ({ get, action_name, for_url, authToken }) => {
     main = <Relations get={get} for_url={for_url} authToken={authToken} />
   } else if (['show', 'show_by_confidential_link'].includes(action_name)) {
     main = <MediaEntryShow get={get} for_url={for_url} authToken={authToken} />
-  } else if (['export', 'ask_delete', 'select_collection'].includes(action_name)) {
+  } else if (['export', 'ask_delete', 'select_collection', 'xmp_import'].includes(action_name)) {
     main = <MediaEntryShow get={get} for_url={for_url} authToken={authToken} />
   }
 

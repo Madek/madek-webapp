@@ -28,6 +28,20 @@ module Presenters
           .unshift ['Filename', filename]
       end
 
+      def xmp_sidecars
+        @app_resource.xmp_sidecars.map do |sidecar|
+          {
+            uuid: sidecar.id,
+            filename: sidecar.filename,
+            import_date: sidecar.created_at
+              .in_time_zone(AppSetting.first.time_zone)
+              .strftime('%d.%m.%Y, %H:%M'),
+            user: (::Presenters::Users::UserIndex.new(sidecar.user) if sidecar.user),
+            meta_data: sidecar.meta_data.transform_values { |v| Array(v).join(', ') }.to_a
+          }
+        end
+      end
+
       def importer
         return unless (uploader = @app_resource.media_file.uploader)
         Presenters::People::PersonIndex.new(uploader.person)

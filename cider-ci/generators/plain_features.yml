@@ -2054,6 +2054,28 @@
   environment_variables:
     RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:570"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:22]"
+"./spec/features/media_entry/media_entry_upload_spec.rb[1:1:23]":
+  name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:23]"
+  description: 'Resource: MediaEntry Action: create (upload/import) File metadata
+    referencing a Keyword by a bare-path <URL> is extracted and mapped via IoMappings
+    to Keywords MetaData'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:608"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:23]"
+"./spec/features/media_entry/media_entry_upload_spec.rb[1:1:24]":
+  name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:24]"
+  description: 'Resource: MediaEntry Action: create (upload/import) File metadata
+    referencing a Keyword of another MetaKey is skipped without failing the upload'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:646"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:24]"
+"./spec/features/media_entry/media_entry_upload_spec.rb[1:1:25]":
+  name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:25]"
+  description: 'Resource: MediaEntry Action: create (upload/import) File with a malformed
+    XMP packet is uploaded and its remaining metadata is still imported'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:683"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:25]"
 "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:2]":
   name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:1:2]"
   description: 'Resource: MediaEntry Action: create (upload/import) upload and publish
@@ -2115,15 +2137,117 @@
   description: 'Resource: MediaEntry Copying meta datum from another media entry when
     user has no relation with media entry the user is not allowed to make a copy'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:613"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:732"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:2:1:1]"
 "./spec/features/media_entry/media_entry_upload_spec.rb[1:2:2:1]":
   name: "./spec/features/media_entry/media_entry_upload_spec.rb[1:2:2:1]"
   description: 'Resource: MediaEntry Copying meta datum from another media entry when
     user is a responsible for media entry Display header with configuration options'
   environment_variables:
-    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:623"
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_upload_spec.rb:742"
     RSPEC_TEST: "./spec/features/media_entry/media_entry_upload_spec.rb[1:2:2:1]"
+"./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:10]":
+  name: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:10]"
+  description: 'Resource: MediaEntry Action: xmp_import reports an empty file as unreadable'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_xmp_import_spec.rb:147"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:10]"
+"./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:11]":
+  name: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:11]"
+  description: 'Resource: MediaEntry Action: xmp_import reports a binary file as unreadable'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_xmp_import_spec.rb:147"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:11]"
+"./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:12]":
+  name: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:12]"
+  description: 'Resource: MediaEntry Action: xmp_import reports a text file as unreadable'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_xmp_import_spec.rb:147"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:12]"
+"./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:13]":
+  name: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:13]"
+  description: 'Resource: MediaEntry Action: xmp_import reports an XMP file containing
+    a NUL byte as unreadable'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_xmp_import_spec.rb:147"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:13]"
+"./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:14]":
+  name: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:14]"
+  description: 'Resource: MediaEntry Action: xmp_import reports an XMP file containing
+    a NUL byte in a value as unreadable'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_xmp_import_spec.rb:147"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:14]"
+"./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:15]":
+  name: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:15]"
+  description: 'Resource: MediaEntry Action: xmp_import reports a truncated XMP file
+    as unreadable'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_xmp_import_spec.rb:147"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:15]"
+"./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:1]":
+  name: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:1]"
+  description: 'Resource: MediaEntry Action: xmp_import menu item is not shown for
+    a published entry'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_xmp_import_spec.rb:31"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:1]"
+"./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:2]":
+  name: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:2]"
+  description: 'Resource: MediaEntry Action: xmp_import imports and overwrites meta
+    data from a sidecar file'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_xmp_import_spec.rb:41"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:2]"
+"./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:3]":
+  name: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:3]"
+  description: 'Resource: MediaEntry Action: xmp_import stores the sidecar and shows
+    it in usage data'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_xmp_import_spec.rb:63"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:3]"
+"./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:4]":
+  name: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:4]"
+  description: 'Resource: MediaEntry Action: xmp_import imports people from an XMP
+    array'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_xmp_import_spec.rb:78"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:4]"
+"./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:5]":
+  name: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:5]"
+  description: 'Resource: MediaEntry Action: xmp_import reports references to non-existent
+    keywords and people as warning'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_xmp_import_spec.rb:89"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:5]"
+"./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:6]":
+  name: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:6]"
+  description: 'Resource: MediaEntry Action: xmp_import reports fields that could
+    not be imported as warning'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_xmp_import_spec.rb:104"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:6]"
+"./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:7]":
+  name: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:7]"
+  description: 'Resource: MediaEntry Action: xmp_import reports an error if no field
+    could be imported'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_xmp_import_spec.rb:112"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:7]"
+"./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:8]":
+  name: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:8]"
+  description: 'Resource: MediaEntry Action: xmp_import reports a sidecar without
+    importable meta data'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_xmp_import_spec.rb:119"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:8]"
+"./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:9]":
+  name: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:9]"
+  description: 'Resource: MediaEntry Action: xmp_import rejects a file without .xmp
+    extension'
+  environment_variables:
+    RSPEC_NAME: "./spec/features/media_entry/media_entry_xmp_import_spec.rb:126"
+    RSPEC_TEST: "./spec/features/media_entry/media_entry_xmp_import_spec.rb[1:1:9]"
 "./spec/features/media_entry/permissions/close_and_cancel_spec.rb[1:1]":
   name: "./spec/features/media_entry/permissions/close_and_cancel_spec.rb[1:1]"
   description: 'Resource: MediaEntry warns when closing window and lets user cancel'
