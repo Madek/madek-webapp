@@ -52,4 +52,5 @@ contexts:
               # node_modules/.bin/rspec-to-docs spec/features > ./tmp/features.html
 
               # sanity check as long as the cli does not correctly exit:
-              grep -q "$CIDER_CI_TREE_ID" tmp/features.html
+              # the formatter takes the tree id from git (not from the CI env)
+              grep -q "$(git log -n1 --format=%T)" tmp/features.html
