@@ -90,6 +90,7 @@ module Presenters
           available_locales: AppSetting.available_locales,
           notifications_enabled: @user.beta_tester_notifications?,
           show_all_data_tab_in_edit_mode: @user.show_all_data_tab_in_edit_mode?,
+          video_playback_format: @user.video_playback_format,
           notification_case_user_settings: notification_case_user_settings
         }
       end

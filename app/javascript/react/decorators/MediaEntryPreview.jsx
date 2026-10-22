@@ -91,8 +91,20 @@ export default class MediaEntryPreview extends React.Component {
       )
     }
 
-    if (usesIframeEmbed)
-      return <IframeEmbed url={get.url} accessToken={get.used_confidential_access_token} />
+    if (usesIframeEmbed) {
+      const videos = previews.videos || []
+      const hasMp4 = videos.some(video => video.content_type === 'video/mp4')
+      const hasHls = videos.some(
+        video => video.profile === 'hls' || video.content_type === 'application/vnd.apple.mpegurl'
+      )
+      return (
+        <IframeEmbed
+          url={get.url}
+          accessToken={get.used_confidential_access_token}
+          showFormatBar={hasMp4 && hasHls}
+        />
+      )
+    }
 
     const downloadRef = original_file_url ? original_file_url : export_url
 
@@ -117,6 +129,7 @@ export default class MediaEntryPreview extends React.Component {
           captionConf={this.props.captionConf}
           playback={get.playback}
           isInternal={this.props.isInternal}
+          preferredFormat={this.props.preferredFormat}
         />
       ) : // audio player
       previews.audios ? (
@@ -153,7 +166,7 @@ export default class MediaEntryPreview extends React.Component {
   }
 }
 
-const IframeEmbed = ({ url, accessToken }) => {
+const IframeEmbed = ({ url, accessToken, showFormatBar }) => {
   const parsedUrl = parseUrl(url)
   const params = qs.parse(parsedUrl.query)
   const iframeSrc =
@@ -167,7 +180,10 @@ const IframeEmbed = ({ url, accessToken }) => {
         style={{
           width: '100%',
           position: 'relative',
-          paddingTop: '56.25%'
+          paddingTop: showFormatBar
+            ? 'calc(56.25% + var(--madek-format-bar-height, 36px))'
+            : '56.25%',
+          '--madek-format-bar-height': '36px'
         }}>
         <iframe
           src={iframeSrc}

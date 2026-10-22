@@ -36,6 +36,8 @@ const SERVER_BANNER = [
 
 function commonRolldownOptions(isDev) {
   return {
+    // hls.js is loaded in the browser only, after the user picks HLS.
+    external: ['hls.js'],
     plugins: [sourceTransformPlugin(isDev)],
     resolve: {
       alias: {

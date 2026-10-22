@@ -10,6 +10,7 @@ class MySettings extends React.Component {
     this.state = {
       emailsLocale: props.get.emails_locale,
       showAllDataTabInEditMode: props.get.show_all_data_tab_in_edit_mode,
+      videoPlaybackFormat: props.get.video_playback_format === 'hls' ? 'hls' : 'mp4',
       notificationsEnabled: props.get.notifications_enabled,
       notificationCaseUserSettings: props.get.notification_case_user_settings.map(
         ({ label, email_frequency, allowed_email_frequencies }) => ({
@@ -100,6 +101,34 @@ class MySettings extends React.Component {
         )}
 
         <div className={notificationsEnabled ? 'mtl' : undefined}>
+          <h2 className="title-l mbs">{t('settings_video_playback_title')}</h2>
+          <div className="mbx">
+            <label>
+              <input
+                type="radio"
+                name="videoPlaybackFormat"
+                value="mp4"
+                checked={this.state.videoPlaybackFormat !== 'hls'}
+                onChange={() => this._handleVideoPlaybackFormatChange('mp4')}
+              />{' '}
+              {t('settings_video_playback_mp4')}
+            </label>
+          </div>
+          <div className="mbx">
+            <label>
+              <input
+                type="radio"
+                name="videoPlaybackFormat"
+                value="hls"
+                checked={this.state.videoPlaybackFormat === 'hls'}
+                onChange={() => this._handleVideoPlaybackFormatChange('hls')}
+              />{' '}
+              {t('settings_video_playback_hls')}
+            </label>
+          </div>
+        </div>
+
+        <div className="mtl">
           <h2 className="title-l mbs">{t('settings_advanced_functions_title')}</h2>
           <div className="mbx">
             <label>
@@ -136,6 +165,11 @@ class MySettings extends React.Component {
     window.addEventListener('beforeunload', handleBeforeUnload)
   }
 
+  _handleVideoPlaybackFormatChange(videoPlaybackFormat) {
+    this.setState({ ...this.state, videoPlaybackFormat, dirty: true })
+    window.addEventListener('beforeunload', handleBeforeUnload)
+  }
+
   _handleShowAllDataTabInEditModeChange(showAllDataTabInEditMode) {
     this.setState({ ...this.state, showAllDataTabInEditMode, dirty: true })
     window.addEventListener('beforeunload', handleBeforeUnload)
@@ -168,7 +202,8 @@ export default MySettings
 
 function sendUpdate(url, settings, onSuccess) {
   const data = {
-    show_all_data_tab_in_edit_mode: settings.showAllDataTabInEditMode
+    show_all_data_tab_in_edit_mode: settings.showAllDataTabInEditMode,
+    video_playback_format: settings.videoPlaybackFormat
   }
 
   if (settings.notificationsEnabled) {

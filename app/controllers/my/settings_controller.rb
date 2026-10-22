@@ -7,12 +7,20 @@ class My::SettingsController < ApplicationController
   def update
     setting_params = params.fetch(:setting)
     user_attributes = {}
+    settings = current_user.settings.is_a?(Hash) ? current_user.settings.dup : {}
+    settings_changed = false
     if setting_params.key?(:show_all_data_tab_in_edit_mode)
-      user_attributes[:settings] = current_user.settings.merge(
-        "show_all_data_tab_in_edit_mode" => ActiveRecord::Type::Boolean.new.cast(
-          setting_params[:show_all_data_tab_in_edit_mode])
+      settings['show_all_data_tab_in_edit_mode'] = ActiveRecord::Type::Boolean.new.cast(
+        setting_params[:show_all_data_tab_in_edit_mode]
       )
+      settings_changed = true
     end
+    if setting_params.key?(:video_playback_format)
+      settings['video_playback_format'] =
+        setting_params[:video_playback_format].to_s == 'hls' ? 'hls' : 'mp4'
+      settings_changed = true
+    end
+    user_attributes[:settings] = settings if settings_changed
 
     if current_user.beta_tester_notifications?
       user_attributes[:emails_locale] = setting_params.fetch(:emails_locale)
@@ -36,6 +44,7 @@ class My::SettingsController < ApplicationController
     render json: {
       emails_locale: current_user.emails_locale,
       show_all_data_tab_in_edit_mode: current_user.show_all_data_tab_in_edit_mode?,
+      video_playback_format: current_user.video_playback_format,
       notification_case_user_settings: current_user.notification_case_user_settings
     }
   end

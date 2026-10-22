@@ -269,17 +269,16 @@ class MediaEntryExport extends React.Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {Object.entries(preview).map(([key, image]) => (
-                        <tr key={key}>
-                          {image.width && image.height ? (
-                            <td>{image.width + 'x' + image.height}</td>
-                          ) : (
-                            <td>-</td>
-                          )}
-                          <td>{image.extension}</td>
+                      {(type === 'videos'
+                        ? videoPreviewRows(preview)
+                        : plainPreviewRows(preview)
+                      ).map(row => (
+                        <tr key={row.key}>
+                          <td>{row.resolution}</td>
+                          <td>{row.kind}</td>
                           <td>
                             <a
-                              href={forceDownload(image.url)}
+                              href={row.href}
                               target="_blank"
                               className="primary-button"
                               style={{ float: 'right' }}
@@ -309,5 +308,52 @@ class MediaEntryExport extends React.Component {
 }
 
 const forceDownload = url => setUrlParams(url, { download: 'yes' })
+
+const resolutionOf = image => (image.width && image.height ? image.width + 'x' + image.height : '-')
+
+function plainPreviewRows(preview) {
+  return Object.entries(preview).map(([key, image]) => ({
+    key,
+    resolution: resolutionOf(image),
+    kind: image.extension,
+    href: forceDownload(image.url)
+  }))
+}
+
+function videoPreviewRows(videos) {
+  const rows = []
+  const list = Array.isArray(videos) ? videos : Object.values(videos)
+  list.forEach(image => {
+    if (image.profile === 'hls') {
+      if (image.download_url) {
+        rows.push({
+          key: 'hls-package',
+          resolution: resolutionOf(image),
+          kind: t('media_entry_export_hls_package'),
+          href: image.download_url
+        })
+      }
+      ;(image.renditions || []).forEach(rendition => {
+        rows.push({
+          key: `hls-${rendition.height}-${rendition.url}`,
+          resolution:
+            rendition.width && rendition.height
+              ? rendition.width + 'x' + rendition.height
+              : String(rendition.height || '-'),
+          kind: t('media_entry_export_hls_rendition'),
+          href: forceDownload(rendition.url)
+        })
+      })
+      return
+    }
+    rows.push({
+      key: image.url,
+      resolution: resolutionOf(image),
+      kind: image.extension,
+      href: forceDownload(image.url)
+    })
+  })
+  return rows.filter(row => row.href)
+}
 
 export default MediaEntryExport

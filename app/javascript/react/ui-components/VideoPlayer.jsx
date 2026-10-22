@@ -23,15 +23,31 @@ const propTypes = {
 
 const sourceLabel = ({ profile }) => (endsWith(profile, '_HD') ? 'HD' : 'SD')
 
+const HLS_TYPE = 'application/vnd.apple.mpegurl'
+
 class VideoPlayer extends React.Component {
-  render({ sources, options, ...props } = this.props) {
-    const videoSources = sources.map(source => ({
-      src: source.url,
-      type: source.content_type,
-      label: sourceLabel(source),
-      res: source.height,
-      key: `${source.url}${source.content_type}`
-    }))
+  render({ sources, options, format, ...props } = this.props) {
+    if (format === 'hls') {
+      const hlsSources = sources
+        .filter(source => source.content_type === HLS_TYPE || source.profile === 'hls')
+        .map(source => ({
+          src: source.url,
+          type: source.content_type,
+          label: 'HLS',
+          key: source.url
+        }))
+      return <VideoJS {...props} format="hls" sources={hlsSources} options={options || {}} />
+    }
+
+    const videoSources = sources
+      .filter(source => source.content_type === 'video/mp4' || source.content_type === 'video/webm')
+      .map(source => ({
+        src: source.url,
+        type: source.content_type,
+        label: sourceLabel(source),
+        res: source.height,
+        key: `${source.url}${source.content_type}`
+      }))
 
     const mp4s = videoSources
       .filter(source => source.type === 'video/mp4')
@@ -57,7 +73,7 @@ class VideoPlayer extends React.Component {
 
     const sortedSources = mp4s.concat(webms)
 
-    return <VideoJS {...props} sources={sortedSources} options={options || {}} />
+    return <VideoJS {...props} format="mp4" sources={sortedSources} options={options || {}} />
   }
 }
 

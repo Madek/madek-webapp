@@ -195,7 +195,10 @@ export default function MediaPlayerSettings({ mediaPlayer, authToken, cancelUrl,
                       {t('media_player_file')}
                     </label>
                     <div className="form-item">
-                      <label className="button" htmlFor="subtitle_file" style={{ display: 'block', width: 'stretch' }}>
+                      <label
+                        className="button"
+                        htmlFor="subtitle_file"
+                        style={{ display: 'block', width: 'stretch' }}>
                         {t('media_player_choose_file')}
                       </label>
                       <input

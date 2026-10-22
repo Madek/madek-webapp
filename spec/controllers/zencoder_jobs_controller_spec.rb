@@ -135,5 +135,65 @@ describe ZencoderJobsController, webmock: true do
         expect(zencoder_job.notification).to eq job_details.to_s
       end
     end
+
+    context 'when the job includes an HLS package' do
+      let(:hls_zip) do
+        dir = Dir.mktmpdir
+        File.write(File.join(dir, '360.mp4'), 'media-bytes')
+        File.write(File.join(dir, '360.m3u8'), <<~M3U8)
+          #EXTM3U
+          #EXT-X-MAP:URI="https://zencoder.example/360.mp4"
+          #EXTINF:6,
+          https://zencoder.example/360.mp4
+          #EXT-X-ENDLIST
+        M3U8
+        File.write(File.join(dir, 'master.m3u8'), <<~M3U8)
+          #EXTM3U
+          #EXT-X-STREAM-INF:BANDWIDTH=800000,RESOLUTION=640x360
+          360.m3u8
+        M3U8
+        buffer = Zip::OutputStream.write_buffer do |out|
+          %w[master.m3u8 360.m3u8 360.mp4].each do |name|
+            out.put_next_entry(name)
+            out.write(File.binread(File.join(dir, name)))
+          end
+        end
+        buffer.rewind
+        buffer.read
+      end
+
+      before do
+        allow(Zencoder).to receive(:api_key).and_return('abcd1235')
+        details = job_details.deep_dup
+        details['job']['thumbnails'] = []
+        details['job']['output_media_files'] = [
+          job_details['job']['output_media_files'].first,
+          {
+            'label' => 'hls',
+            'state' => 'finished',
+            'url' => 'http://s3.amazonaws.com/bucket/hls.zip',
+            'format' => 'zip'
+          }
+        ]
+        stub_request(:get, 'https://app.zencoder.com/api/v2/jobs/12345')
+          .with(headers: { 'Zencoder-Api-Key' => 'abcd1235' })
+          .to_return(body: details.to_json)
+        stub_request(:get, 'http://s3.amazonaws.com/bucket/video.mp4')
+        stub_request(:get, 'http://s3.amazonaws.com/bucket/hls.zip')
+          .to_return(body: hls_zip, headers: { 'Content-Type' => 'application/zip' })
+      end
+
+      it 'stores one hls preview and leaves the ladder off the preview table' do
+        post :notification, params: { id: zencoder_job.id, job: { id: 12345 } }
+
+        expect(zencoder_job.reload.state).to eq 'finished'
+        hls = media_file.previews.where(conversion_profile: 'hls')
+        expect(hls.count).to eq 1
+        expect(hls.first.media_type).to eq 'video'
+        expect(File.file?(File.join(media_file.thumbnail_store_location, 'hls', 'master.m3u8'))).to be true
+        expect(File.read(File.join(media_file.thumbnail_store_location, 'hls', '360.m3u8'))).to include('URI="360.mp4"')
+        expect(media_file.previews.where("filename LIKE '%m4f'")).to be_empty
+      end
+    end
   end
 end

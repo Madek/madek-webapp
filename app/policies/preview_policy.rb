@@ -1,5 +1,13 @@
 class PreviewPolicy < DefaultPolicy
 
+  def hls_file?
+    show?
+  end
+
+  def hls_package?
+    show?
+  end
+
   def show?
     return true if record.accessed_by_confidential_link
     # apply inherited permissions from related MediaEntry

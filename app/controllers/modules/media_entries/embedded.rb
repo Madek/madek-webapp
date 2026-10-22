@@ -82,6 +82,9 @@ module Modules
 
         conf = params.permit(:width, :height, :ratio)
           .merge(isInternal: is_internal, referer_info: referer_info)
+        if is_internal && current_user
+          conf = conf.merge(preferredVideoFormat: current_user.video_playback_format)
+        end
 
         @get = Presenters::MediaEntries::MediaEntryEmbedded.new(media_entry, conf)
           .dump.merge(authToken: nil)

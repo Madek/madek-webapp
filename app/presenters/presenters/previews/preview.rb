@@ -29,9 +29,49 @@ module Presenters
       end
 
       def url
+        if @app_resource.hls?
+          return hls_file_preview_path(
+            @app_resource,
+            path: 'master.m3u8',
+            accessToken: @access_token
+          )
+        end
+
         # NOTE: set `format` to force the url to have a nice extension,
         # as a workaround when the HTTP content-type header is not handled correctly by clients
         preview_path(@app_resource, format: self.extension, accessToken: @access_token)
+      end
+
+      def download_url
+        if @app_resource.hls?
+          hls_package_preview_path(@app_resource, accessToken: @access_token)
+        elsif @app_resource.content_type == 'video/mp4'
+          preview_path(
+            @app_resource,
+            format: extension,
+            accessToken: @access_token,
+            download: 'yes'
+          )
+        end
+      end
+
+      def renditions
+        return unless @app_resource.hls?
+
+        HlsPackage.new(@app_resource.media_file).renditions.map do |rendition|
+          {
+            height: rendition[:height],
+            width: rendition[:width],
+            url: hls_file_preview_path(
+              @app_resource,
+              path: rendition[:media_file],
+              accessToken: @access_token,
+              download: 'yes'
+            )
+          }
+        end
+      rescue HlsPackage::InvalidPackage, Errno::ENOENT
+        []
       end
     end
   end

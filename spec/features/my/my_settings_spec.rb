@@ -69,6 +69,8 @@ feature 'My: Settings' do
         expect(page).to have_content(
           I18n.t(:settings_show_all_data_tab_in_edit_mode_label))
         expect(page).to have_unchecked_field('showAllDataTabInEditMode')
+        expect(find('input[name="videoPlaybackFormat"]:checked').value).to eq('mp4')
+        expect(page).to have_content(I18n.t(:settings_video_playback_mp4))
         expect(page).not_to have_content(I18n.t(:settings_notifications_title))
       end
     end
@@ -79,12 +81,15 @@ feature 'My: Settings' do
         sign_in_as user
 
         check('showAllDataTabInEditMode')
+        choose(I18n.t(:settings_video_playback_hls))
         click_on(I18n.t(:settings_save_changes))
 
         visit my_settings_path
         expect(page).to have_checked_field('showAllDataTabInEditMode')
+        expect(find('input[name="videoPlaybackFormat"]:checked').value).to eq('hls')
         expect(user.reload.settings).to include(
           "show_all_data_tab_in_edit_mode" => true,
+          "video_playback_format" => "hls",
           "unrelated" => "kept")
       end
     end

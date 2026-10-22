@@ -26,6 +26,8 @@ const propTypes = {
   mode: PropTypes.oneOf(['audio', 'video']),
   onReady: PropTypes.func,
   onMount: PropTypes.func,
+  format: PropTypes.oneOf(['mp4', 'hls']),
+  onQualityLabel: PropTypes.func,
   sources: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string,
@@ -190,6 +192,8 @@ class VideoJS extends Component {
     super(props)
     this.mediaRef = createRef()
     this.pendingRestore = null
+    this._hls = null
+    this._hlsGeneration = 0
     this.state = {
       selectedLabel: pickInitialLabel(props.sources || []),
       titleHidden: false
@@ -244,6 +248,8 @@ class VideoJS extends Component {
     this.bindMediaEvents()
     const media = this.mediaRef.current
     if (media && onReady) onReady(media)
+    if (this.props.onQualityLabel) this.props.onQualityLabel(this.state.selectedLabel)
+    if (this.props.format === 'hls') this.attachHls()
     this.scheduleQualityMenuSync()
     this.scheduleAudioLayout()
     this.scheduleVolumePopover()
@@ -258,7 +264,28 @@ class VideoJS extends Component {
       }
     }
 
-    if (prevState.selectedLabel !== this.state.selectedLabel && this.pendingRestore) {
+    if (prevProps.format !== this.props.format) {
+      const media = this.mediaRef.current
+      this.pendingRestore = media
+        ? {
+            currentTime: media.currentTime || 0,
+            wasPlaying: !media.paused && !media.ended
+          }
+        : this.pendingRestore
+      this.destroyHls()
+      if (this.props.format === 'hls') {
+        if (media) media.removeAttribute('src')
+        this.attachHls()
+      } else if (this.pendingRestore) {
+        this.restorePlaybackAfterSourceChange()
+      }
+    }
+
+    if (
+      prevState.selectedLabel !== this.state.selectedLabel &&
+      this.pendingRestore &&
+      this.props.format !== 'hls'
+    ) {
       this.restorePlaybackAfterSourceChange()
     }
 
@@ -271,13 +298,15 @@ class VideoJS extends Component {
     if (
       prevProps.sources !== this.props.sources ||
       prevState.selectedLabel !== this.state.selectedLabel ||
-      prevProps.mode !== this.props.mode
+      prevProps.mode !== this.props.mode ||
+      prevProps.format !== this.props.format
     ) {
       this.scheduleQualityMenuSync()
     }
   }
 
   componentWillUnmount() {
+    this.destroyHls()
     this.unbindMediaEvents()
     if (this.qualityMenuTimer) clearTimeout(this.qualityMenuTimer)
     if (this.audioLayoutTimer) clearTimeout(this.audioLayoutTimer)
@@ -462,7 +491,8 @@ class VideoJS extends Component {
       const chapters = [...(media.textTracks || [])].filter(track => track.kind === 'chapters')
       if (!chapters.length) return
       const showing = [...(media.textTracks || [])].find(
-        track => (track.kind === 'subtitles' || track.kind === 'captions') && track.mode === 'showing'
+        track =>
+          (track.kind === 'subtitles' || track.kind === 'captions') && track.mode === 'showing'
       )
       const active =
         chapters.find(track => track.language === (showing && showing.language)) || chapters[0]
@@ -487,7 +517,8 @@ class VideoJS extends Component {
       (this.playbackTracks('subtitles').find(track => track.default) || {}).srclang || ''
     const syncLanguage = () => {
       const showing = [...(media.textTracks || [])].find(
-        track => (track.kind === 'subtitles' || track.kind === 'captions') && track.mode === 'showing'
+        track =>
+          (track.kind === 'subtitles' || track.kind === 'captions') && track.mode === 'showing'
       )
       const language = (showing && showing.language) || fallback
       overlays.forEach(overlay => {
@@ -505,10 +536,8 @@ class VideoJS extends Component {
       const time = media.currentTime || 0
       return time >= Number(element.dataset.start) && time < Number(element.dataset.end)
     }
-    const stopsMedia = overlay =>
-      overlay && overlay.dataset.stopMediaDuringOverlay === 'true'
-    const overlayKey = overlay =>
-      overlay ? `${overlay.dataset.start}-${overlay.dataset.end}` : ''
+    const stopsMedia = overlay => overlay && overlay.dataset.stopMediaDuringOverlay === 'true'
+    const overlayKey = overlay => (overlay ? `${overlay.dataset.start}-${overlay.dataset.end}` : '')
     let holdTimer = 0
     let pausedByOverlay = false
     let scriptedPlay = false
@@ -578,7 +607,8 @@ class VideoJS extends Component {
     const seen = new WeakSet()
     const sync = () => {
       const showing = [...(media.textTracks || [])].find(
-        track => (track.kind === 'subtitles' || track.kind === 'captions') && track.mode === 'showing'
+        track =>
+          (track.kind === 'subtitles' || track.kind === 'captions') && track.mode === 'showing'
       )
       const cue = showing && showing.activeCues && showing.activeCues[0]
       lyrics.hidden = !cue
@@ -683,8 +713,66 @@ class VideoJS extends Component {
     })
   }
 
+  destroyHls() {
+    this._hlsGeneration += 1
+    if (this._hls) {
+      this._hls.destroy()
+      this._hls = null
+    }
+  }
+
+  attachHls() {
+    if (typeof window === 'undefined') return
+    const media = this.mediaRef.current
+    const source = (this.props.sources || [])[0]
+    if (!media || !source) return
+
+    const restore = this.pendingRestore
+    this.pendingRestore = null
+    const generation = this._hlsGeneration
+    const resume = () => {
+      if (!restore || generation !== this._hlsGeneration) return
+      try {
+        media.currentTime = restore.currentTime
+      } catch {
+        // metadata may not be ready yet
+      }
+      if (restore.wasPlaying) {
+        const playPromise = media.play()
+        if (playPromise && typeof playPromise.catch === 'function') playPromise.catch(() => {})
+      }
+    }
+
+    import('hls.js')
+      .then(mod => {
+        if (generation !== this._hlsGeneration || this.props.format !== 'hls') return
+        const Hls = mod.default
+        if (Hls.isSupported()) {
+          const hls = new Hls()
+          this._hls = hls
+          hls.loadSource(source.src)
+          hls.attachMedia(media)
+          media.addEventListener('loadedmetadata', resume, { once: true })
+        } else if (media.canPlayType('application/vnd.apple.mpegurl')) {
+          media.src = source.src
+          media.addEventListener('loadedmetadata', resume, { once: true })
+        }
+      })
+      .catch(() => {})
+  }
+
   syncQualityMenu() {
     if (this.props.mode !== 'video') return true
+    if (this.props.format === 'hls') {
+      const media = this.mediaRef.current
+      const skin = media && media.closest('video-neutral-skin')
+      const shadow = skin && skin.shadowRoot
+      if (!shadow) return false
+      shadow.querySelectorAll('media-menu-radio-group.madek-quality-group').forEach(group => {
+        group.remove()
+      })
+      return true
+    }
     const media = this.mediaRef.current
     const skin = media && media.closest('video-neutral-skin')
     const shadow = skin && skin.shadowRoot
@@ -759,6 +847,7 @@ class VideoJS extends Component {
       : null
 
     this.setState({ selectedLabel: nextLabel })
+    if (this.props.onQualityLabel) this.props.onQualityLabel(nextLabel)
   }
 
   restorePlaybackAfterSourceChange() {
@@ -811,8 +900,7 @@ class VideoJS extends Component {
     if (!playback) return null
     const headers = playback.headers || []
     const overlays = playback.overlays || []
-    const showLyrics =
-      this.props.mode === 'audio' && this.playbackTracks('subtitles').length > 0
+    const showLyrics = this.props.mode === 'audio' && this.playbackTracks('subtitles').length > 0
     if (!headers.length && !overlays.length && !showLyrics) return null
     const fallback =
       (this.playbackTracks('subtitles').find(track => track.default) || {}).srclang || ''
@@ -884,7 +972,8 @@ class VideoJS extends Component {
     const { sources, mode, options = {}, poster, preload, className } = this.props
     if (!sources) throw new TypeError()
 
-    const selected = sourceForLabel(sources, this.state.selectedLabel)
+    const format = this.props.format || 'mp4'
+    const selected = format === 'hls' ? null : sourceForLabel(sources, this.state.selectedLabel)
     const aspectRatio = ratioToCss(options.ratio)
     const skinStyle = {
       display: 'block',
@@ -939,12 +1028,9 @@ class VideoJS extends Component {
           : undefined
     }
 
-    const wrapperClass = cx(
-      className,
-      'madek-media-player',
-      `madek-media-player--${mode}`,
-      { 'madek-media-player--fill': options.fill }
-    )
+    const wrapperClass = cx(className, 'madek-media-player', `madek-media-player--${mode}`, {
+      'madek-media-player--fill': options.fill
+    })
 
     if (mode === 'audio') {
       Object.assign(skinStyle, {
@@ -960,10 +1046,7 @@ class VideoJS extends Component {
       const audioProps = { ...mediaProps }
       delete audioProps.src
       return (
-        <div
-          className={wrapperClass}
-          style={{ cursor: 'pointer' }}
-          onClick={this.onAudioAreaClick}>
+        <div className={wrapperClass} style={{ cursor: 'pointer' }} onClick={this.onAudioAreaClick}>
           <audio-player>
             <audio-neutral-skin style={skinStyle}>
               <audio {...audioProps}>

@@ -23,6 +23,7 @@ const MediaEntryEmbedded = ({ get }) => {
       captionConf={caption_conf}
       isEmbedded={true}
       isInternal={embed_config.isInternal}
+      preferredFormat={embed_config.preferredVideoFormat}
     />
   )
 }

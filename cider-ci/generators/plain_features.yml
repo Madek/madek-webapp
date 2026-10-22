@@ -3432,7 +3432,7 @@
   description: 'My: Settings when user is not a member of the beta-tester group Action:
     update updates the archive settings'
   environment_variables:
-    RSPEC_NAME: "./spec/features/my/my_settings_spec.rb:77"
+    RSPEC_NAME: "./spec/features/my/my_settings_spec.rb:79"
     RSPEC_TEST: "./spec/features/my/my_settings_spec.rb[1:2:2:1]"
 "./spec/features/people/people_edit_spec.rb[1:1:1]":
   name: "./spec/features/people/people_edit_spec.rb[1:1:1]"

@@ -179,7 +179,12 @@ Madek::Application.routes.draw do
   end
 
   resources :media_files, path: :files, only: :show
-  resources :previews, path: 'media', only: :show, defaults: { lang: nil }
+  resources :previews, path: 'media', only: :show, defaults: { lang: nil } do
+    member do
+      get 'hls.zip', action: :hls_package, as: :hls_package, format: false
+      get 'hls/*path', action: :hls_file, as: :hls_file, format: false
+    end
+  end
   # (`lang: nil` to prevent passing along the current locale to media urls via `default_url_options`)
 
   # MetaData & Meta-Resources:
