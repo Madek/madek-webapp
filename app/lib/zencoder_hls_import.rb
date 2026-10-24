@@ -178,7 +178,64 @@ class ZencoderHlsImport
       end
     end
     iframe = keep.any? { |path| path.end_with?('.m3u8') && File.read(path).include?('#EXT-X-I-FRAMES-ONLY') }
-    { renames: renames, iframe: iframe }
+    { renames: renames, iframe: iframe, muxed: write_muxed_playlist!(name, staging, renames.values) }
+  end
+
+  # Zencoder interleaves video and audio fragments in one .m4f with a single
+  # init segment for both tracks, but lists them as a video playlist plus an
+  # alternate audio rendition. hls.js then feeds the two-track init segment
+  # into a video-only SourceBuffer and playback fails. When every audio
+  # fragment directly follows its video fragment, one playlist that loads
+  # both as a single fragment plays as ordinary muxed fMP4.
+  def write_muxed_playlist!(name, staging, staged_names)
+    video = staged_names.find { |file| file.end_with?('.m3u8') && file.include?('-video-') && !file.include?('iframe') }
+    audio = staged_names.find { |file| file.end_with?('.m3u8') && file.include?('-audio-') }
+    return unless video && audio
+
+    muxed = mux_playlists(File.read(File.join(staging, video)), File.read(File.join(staging, audio)))
+    return unless muxed
+
+    File.write(File.join(staging, "#{name}.m3u8"), muxed)
+    "#{name}.m3u8"
+  end
+
+  def mux_playlists(video_text, audio_text)
+    video = media_segments(video_text)
+    audio = media_segments(audio_text)
+    return if video.empty? || video.length != audio.length
+    return unless video_text[/#EXT-X-MAP:.*/] == audio_text[/#EXT-X-MAP:.*/]
+
+    segments = video.zip(audio).map do |v, a|
+      return unless v[:uri] == a[:uri] && v[:offset] + v[:length] == a[:offset]
+
+      v.merge(length: v[:length] + a[:length])
+    end
+
+    header = video_text.lines.take_while { |line| !line.start_with?('#EXTINF') }.join
+    body = segments.map do |segment|
+      "#EXTINF:#{segment[:duration]},\n#EXT-X-BYTERANGE:#{segment[:length]}@#{segment[:offset]}\n#{segment[:uri]}\n"
+    end
+    "#{header}#{body.join}#EXT-X-ENDLIST\n"
+  end
+
+  def media_segments(text)
+    segments = []
+    current = nil
+    text.each_line do |line|
+      stripped = line.strip
+      if stripped.start_with?('#EXTINF:')
+        current = { duration: stripped.delete_prefix('#EXTINF:').delete_suffix(',') }
+      elsif current && (range = stripped.match(/\A#EXT-X-BYTERANGE:(\d+)@(\d+)\z/))
+        current[:length] = range[1].to_i
+        current[:offset] = range[2].to_i
+      elsif current && !stripped.empty? && !stripped.start_with?('#')
+        return [] unless current[:length]
+
+        segments << current.merge(uri: stripped)
+        current = nil
+      end
+    end
+    segments
   end
 
   def split_name(name, base)
@@ -213,7 +270,11 @@ class ZencoderHlsImport
         uri_index = next_uri_index(lines, index + 1)
         uri = uri_index && lines[uri_index].strip
         name = uri && rung_for(uri)
-        out.push(line, staged_name(staged, name, uri, "#{name}.m3u8")) if name && staged[name]
+        if name && (muxed = staged.dig(name, :muxed))
+          out.push(line.sub(/,AUDIO="[^"]*"/, ''), muxed)
+        elsif name && staged[name]
+          out.push(line, staged_name(staged, name, uri, "#{name}.m3u8"))
+        end
         index = (uri_index || index) + 1
         next
       elsif stripped.start_with?('#EXT-X-I-FRAME-STREAM-INF')
@@ -227,6 +288,8 @@ class ZencoderHlsImport
         name = rung_for(uri)
         if name.nil?
           out << line
+        elsif staged.dig(name, :muxed)
+          nil
         elsif staged.dig(name, :renames)&.key?(basename(uri))
           out << line.sub(/URI="[^"]+"/, %(URI="#{staged[name][:renames][basename(uri)]}"))
         end

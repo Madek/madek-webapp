@@ -121,18 +121,31 @@ describe ZencoderHlsImport, webmock: true do
       "#{lines.join("\n")}\n"
     end
 
+    # Fragments are interleaved: video 20@10, audio 5@30, video 15@35, audio 4@50.
+    def track_playlist(media, ranges)
+      segments = ranges.map { |range| "#EXTINF:6.0,\n#EXT-X-BYTERANGE:#{range}\n#{media}\n" }
+      <<~M3U8
+        #EXTM3U
+        #EXT-X-VERSION:7
+        #EXT-X-PLAYLIST-TYPE:VOD
+        #EXT-X-TARGETDURATION:6
+        #EXT-X-MAP:URI="#{media}",BYTERANGE="10@0"
+        #{segments.join}#EXT-X-ENDLIST
+      M3U8
+    end
+
     def rung_zip(rung)
       prefix = "#{id}.profile_hls_#{rung}"
       zip_of(
-        "#{prefix}.m4f" => 'media-bytes-' * 4,
+        "#{prefix}.m4f" => 'media-bytes-' * 5,
         "#{prefix}.m3u8" => <<~M3U8,
           #EXTM3U
           #EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="audio/mp4a",URI="#{prefix}-audio-en-mp4a.m3u8"
           #EXT-X-STREAM-INF:AUDIO="audio/mp4a",BANDWIDTH=944083
           #{prefix}-video-avc1.m3u8
         M3U8
-        "#{prefix}-video-avc1.m3u8" => variant("#{prefix}.m4f"),
-        "#{prefix}-audio-en-mp4a.m3u8" => variant("#{prefix}.m4f"),
+        "#{prefix}-video-avc1.m3u8" => track_playlist("#{prefix}.m4f", %w[20@10 15@35]),
+        "#{prefix}-audio-en-mp4a.m3u8" => track_playlist("#{prefix}.m4f", %w[5@30 4@50]),
         "#{prefix}-video-avc1_iframes.m3u8" => variant("#{prefix}.m4f", iframes: true)
       )
     end
@@ -146,27 +159,49 @@ describe ZencoderHlsImport, webmock: true do
         .to_return(body: split_master(%w[360 720 1080]))
     end
 
-    it 'keeps the split playlists and maps the master to them' do
+    it 'joins each video fragment with its audio fragment and drops the audio rendition' do
       described_class.new(media_file, outputs).call
 
       expect(Dir.children(hls_dir)).to match_array(
         %w[master.m3u8] + %w[360 720].flat_map do |rung|
-          %W[#{rung}.m4f #{rung}-video-avc1.m3u8 #{rung}-audio-en-mp4a.m3u8 #{rung}-video-avc1_iframes.m3u8]
+          %W[#{rung}.m3u8 #{rung}.m4f #{rung}-video-avc1.m3u8 #{rung}-audio-en-mp4a.m3u8
+             #{rung}-video-avc1_iframes.m3u8]
         end
       )
-      expect(File.read(File.join(hls_dir, '360-video-avc1.m3u8'))).to include('URI="360.m4f"', "\n360.m4f\n")
-      expect(File.read(File.join(hls_dir, '360-audio-en-mp4a.m3u8'))).to include('URI="360.m4f"')
+      muxed = File.read(File.join(hls_dir, '360.m3u8'))
+      expect(muxed).to include('#EXT-X-MAP:URI="360.m4f",BYTERANGE="10@0"')
+      expect(muxed.scan(/#EXT-X-BYTERANGE:\S+/)).to eq %w[#EXT-X-BYTERANGE:25@10 #EXT-X-BYTERANGE:19@35]
+      expect(muxed).to end_with("#EXT-X-ENDLIST\n")
 
       master_text = File.read(File.join(hls_dir, 'master.m3u8'))
-      expect(master_text).to include(
-        "\n360-video-avc1.m3u8\n", "\n720-video-avc1.m3u8\n",
-        'URI="360-audio-en-mp4a.m3u8"', 'URI="720-video-avc1_iframes.m3u8"'
-      )
-      expect(master_text).not_to include('profile_hls_1080', './', "#{id}.profile_hls_360-")
+      expect(master_text).to include("\n360.m3u8\n", "\n720.m3u8\n", 'URI="720-video-avc1_iframes.m3u8"')
+      expect(master_text).not_to include('#EXT-X-MEDIA', 'AUDIO=', 'profile_hls_1080', './')
 
       renditions = HlsPackage.new(media_file).renditions
       expect(renditions.map { |rendition| rendition[:media_file] }).to eq %w[360.m4f 720.m4f]
       expect(media_file.previews.find_by(conversion_profile: 'hls')).to be_present
+    end
+
+    it 'keeps the audio rendition when the fragments are not adjacent' do
+      stub_request(:get, "https://zc.example/o/5/#{id}.profile_hls_360.zip?X-Amz-Signature=abc").to_return(
+        body: zip_of(
+          "#{id}.profile_hls_360.m4f" => 'media-bytes-' * 5,
+          "#{id}.profile_hls_360-video-avc1.m3u8" => track_playlist("#{id}.profile_hls_360.m4f", %w[20@10]),
+          "#{id}.profile_hls_360-audio-en-mp4a.m3u8" => track_playlist("#{id}.profile_hls_360.m4f", %w[5@40])
+        )
+      )
+      stub_request(:get, "https://zc.example/o/5/#{id}.profile_hls.m3u8?X-Amz-Signature=abc")
+        .to_return(body: split_master(%w[360]))
+      outputs = [
+        output('hls_360', "https://zc.example/o/5/#{id}.profile_hls_360.zip?X-Amz-Signature=abc"),
+        output('hls', "https://zc.example/o/5/#{id}.profile_hls.m3u8?X-Amz-Signature=abc")
+      ]
+
+      described_class.new(media_file, outputs).call
+
+      master_text = File.read(File.join(hls_dir, 'master.m3u8'))
+      expect(master_text).to include("\n360-video-avc1.m3u8\n", 'URI="360-audio-en-mp4a.m3u8"')
+      expect(Dir.children(hls_dir)).not_to include('360.m3u8')
     end
   end
 
