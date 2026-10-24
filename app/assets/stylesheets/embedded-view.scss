@@ -25,11 +25,13 @@
   --madek-format-bar-height: 36px;
 }
 
+// The player below fills its stage with `position: absolute; inset: 0`.
+// The React mount node has no height, so the frame is pinned to the viewport.
 .madek-format-player {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  min-height: 0;
 }
 
 .madek-format-player__stage {
@@ -42,18 +44,41 @@
   flex: 0 0 var(--madek-format-bar-height);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   height: var(--madek-format-bar-height);
   padding: 0 8px;
+  box-sizing: border-box;
   background: #111;
+
+  // the embed stylesheet does not include the app's `primary-button`
+  .primary-button {
+    display: inline-flex;
+    align-items: center;
+    height: 24px;
+    padding: 0 10px;
+    border: 1px solid #555;
+    border-radius: 3px;
+    background: #2a2a2a;
+    color: $white;
+    font: 600 12px/1 $default-font-family;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      border-color: #999;
+    }
+
+    &[aria-pressed='true'] {
+      background: #d0d0d0;
+      border-color: #d0d0d0;
+      color: #1a1a1a;
+    }
+  }
 }
 
 .madek-format-bar__spacer {
   flex: 1 1 auto;
-}
-
-.madek-format-bar .primary-button[aria-pressed='true'] {
-  outline: 2px solid #fff;
 }
 
 body {
