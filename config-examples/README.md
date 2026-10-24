@@ -11,7 +11,7 @@ Two pieces of data drive the player:
 
 A `sources` key in the JSON is dropped on save. Resolution is not part of this config.
 
-Samples in this folder: [`video.json`](video.json) (two logo windows, overlay with pause and overlay without), [`song.json`](song.json) (one logo window, one pausing overlay).
+Samples in this folder: [`video.json`](video.json) (two logo windows, overlay with pause and overlay without), [`song.json`](song.json) (one logo window, one pausing overlay), [`subtitle.de.vtt`](subtitle.de.vtt) and [`subtitle.en.vtt`](subtitle.en.vtt) (cues on the same windows as the overlays), [`chapters.vtt`](chapters.vtt) (timeline sections).
 
 Live entries:
 
@@ -70,7 +70,7 @@ Subtitles are WebVTT files, not JSON. On the Playback tab, set **language**, kin
 - **Video:** cues use the player’s captions control.
 - **Song:** a CC button is added to the audio controls. The active cue is also drawn as text on the player (lyrics).
 
-The file whose language matches the current interface language (German or English) is turned on by default. Overlay text uses that same language.
+The file whose language matches the current interface language (German or English) is turned on by default. Overlay text uses that same language. [`subtitle.de.vtt`](subtitle.de.vtt) and [`subtitle.en.vtt`](subtitle.en.vtt) use the same windows as the overlays in [`video.json`](video.json).
 
 ```vtt
 WEBVTT
@@ -90,7 +90,7 @@ Resolution is not in `media_config`. It comes from the encoded previews.
 
 Chapters are a second WebVTT upload. Same form, kind **Chapters**. Cue text is the section title; cue times are the section on the timeline.
 
-Chapters are not shown as captions. The player uses them as timeline markers. If several chapter files exist, the one in the active subtitle language is used.
+Chapters are not shown as captions. The player uses them as timeline markers. If several chapter files exist, the one in the active subtitle language is used. Sample: [`chapters.vtt`](chapters.vtt).
 
 ```vtt
 WEBVTT

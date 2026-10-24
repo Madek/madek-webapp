@@ -8,6 +8,12 @@ require 'tmpdir'
 # Without `base_url`, Zencoder temporary storage may deliver a segmented rung
 # as a zip or as a playlist URL, and the master as a playlist or as a zip of
 # the whole package. Each shape is detected from the downloaded bytes.
+#
+# A rung zip can also hold a split package (seen on fMP4 jobs): one `.m4f`,
+# separate `-video-avc1`, `-audio-en-mp4a` and `-video-avc1_iframes`
+# playlists, plus a per-rung multivariant playlist. Those files keep their
+# role suffix and only lose the `<id>.profile_hls_<n>` prefix (`360.m4f`,
+# `360-video-avc1.m3u8`, …), and the master is mapped to the new names.
 class ZencoderHlsImport
   class ImportError < StandardError; end
 
@@ -120,6 +126,8 @@ class ZencoderHlsImport
 
   def normalize_rung!(name, rung_dir, staging)
     playlists = Dir.glob(File.join(rung_dir, '**', '*.m3u8')).sort
+    return stage_split_rung!(name, rung_dir, playlists, staging) if split_rung?(playlists)
+
     iframe, media = playlists.partition { |path| File.read(path).include?('#EXT-X-I-FRAMES-ONLY') }
     variant = media.find { |path| File.read(path).include?('#EXTINF') }
     raise ImportError, "rung #{name}: no media playlist" unless variant
@@ -139,6 +147,44 @@ class ZencoderHlsImport
                  rewrite_references(File.read(iframe.first), renames))
     end
     { iframe: iframe.first.present? }
+  end
+
+  def split_rung?(playlists)
+    playlists.any? { |path| multivariant?(File.read(path)) }
+  end
+
+  def multivariant?(text)
+    text.include?('#EXT-X-STREAM-INF') || text.include?('#EXT-X-MEDIA:')
+  end
+
+  # Returns { renames: { source basename => staged basename }, iframe: … }.
+  # The per-rung multivariant playlist is dropped; the job master replaces it.
+  def stage_split_rung!(name, rung_dir, playlists, staging)
+    keep = Dir.glob(File.join(rung_dir, '**', '*')).select { |path| File.file?(path) }.sort
+              .reject { |path| path.end_with?('.m3u8') && multivariant?(File.read(path)) }
+    raise ImportError, "rung #{name}: no media playlist" if (keep & playlists).empty?
+
+    renames = keep.to_h { |path| [File.basename(path), split_name(name, File.basename(path))] }
+    if renames.values.uniq.length != renames.length
+      raise ImportError, "rung #{name}: file names collide after renaming"
+    end
+
+    keep.each do |path|
+      target = File.join(staging, renames.fetch(File.basename(path)))
+      if path.end_with?('.m3u8')
+        File.write(target, rewrite_references(File.read(path), renames))
+      else
+        FileUtils.cp(path, target)
+      end
+    end
+    iframe = keep.any? { |path| path.end_with?('.m3u8') && File.read(path).include?('#EXT-X-I-FRAMES-ONLY') }
+    { renames: renames, iframe: iframe }
+  end
+
+  def split_name(name, base)
+    label = RUNG_NAMES.key(name)
+    renamed = base.sub(/\A.*?(?:\A|[._])#{Regexp.escape(label)}(?=\z|[-_.])/, name)
+    renamed == base ? "#{name}-#{base}" : renamed
   end
 
   def media_renames(name, playlist_text)
@@ -165,15 +211,24 @@ class ZencoderHlsImport
       stripped = line.strip
       if stripped.start_with?('#EXT-X-STREAM-INF')
         uri_index = next_uri_index(lines, index + 1)
-        name = uri_index && rung_for(lines[uri_index])
-        out.push(line, "#{name}.m3u8") if name && staged[name]
+        uri = uri_index && lines[uri_index].strip
+        name = uri && rung_for(uri)
+        out.push(line, staged_name(staged, name, uri, "#{name}.m3u8")) if name && staged[name]
         index = (uri_index || index) + 1
         next
       elsif stripped.start_with?('#EXT-X-I-FRAME-STREAM-INF')
         uri = stripped[/URI="([^"]+)"/, 1]
         name = uri && rung_for(uri)
         if name && staged.dig(name, :iframe)
-          out << line.sub(/URI="[^"]+"/, %(URI="#{name}-iframe-index.m3u8"))
+          target = staged_name(staged, name, uri, "#{name}-iframe-index.m3u8")
+          out << line.sub(/URI="[^"]+"/, %(URI="#{target}"))
+        end
+      elsif stripped.start_with?('#EXT-X-MEDIA:') && (uri = stripped[/URI="([^"]+)"/, 1])
+        name = rung_for(uri)
+        if name.nil?
+          out << line
+        elsif staged.dig(name, :renames)&.key?(basename(uri))
+          out << line.sub(/URI="[^"]+"/, %(URI="#{staged[name][:renames][basename(uri)]}"))
         end
       else
         out << line
@@ -187,6 +242,13 @@ class ZencoderHlsImport
     "#{out.join("\n")}\n"
   end
 
+  def staged_name(staged, name, uri, default)
+    renames = staged.dig(name, :renames)
+    return default unless renames
+
+    renames.fetch(basename(uri)) { raise ImportError, "rung #{name}: master names missing #{basename(uri)}" }
+  end
+
   def next_uri_index(lines, from)
     (from...lines.length).find do |index|
       stripped = lines[index].strip
@@ -195,9 +257,9 @@ class ZencoderHlsImport
   end
 
   def rung_for(uri)
-    stem = File.basename(basename(uri), '.m3u8').sub(/[-_.]?iframe.*\z/i, '')
+    stem = File.basename(basename(uri), '.m3u8')
     RUNG_NAMES.each do |label, name|
-      return name if stem == name || stem == label || stem.end_with?("_#{label}", ".#{label}")
+      return name if stem.match?(/\A#{name}(?:\z|-)/) || stem.match?(/(?:\A|[._])#{label}(?:\z|[-_.])/)
     end
     nil
   end
