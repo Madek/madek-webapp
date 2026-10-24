@@ -79,6 +79,27 @@ function sourceForLabel(sources, label) {
   return match ? match.source : null
 }
 
+function sourcesKey(sources) {
+  return (sources || []).map(source => source.key || source.src).join('|')
+}
+
+const HLS_AUTO = 'Auto'
+
+// Rungs can share a height (a 720p source yields 720p for the 720 and 1080
+// rungs); the menu offers each height once, backed by its highest bitrate.
+function hlsQualityOptions(levels) {
+  const byHeight = new Map()
+  ;(levels || []).forEach((level, index) => {
+    if (!level.height) return
+    const current = byHeight.get(level.height)
+    if (!current || level.bitrate > levels[current].bitrate) byHeight.set(level.height, index)
+  })
+  const options = [...byHeight.entries()]
+    .sort(([a], [b]) => b - a)
+    .map(([height, index]) => ({ label: `${height}p`, level: index }))
+  return options.length > 1 ? [{ label: HLS_AUTO, level: -1 }, ...options] : []
+}
+
 const CAST_CHROME_STYLE = `
   media-cast-button {
     display: none !important;
@@ -196,6 +217,8 @@ class VideoJS extends Component {
     this._hlsGeneration = 0
     this.state = {
       selectedLabel: pickInitialLabel(props.sources || []),
+      hlsQuality: HLS_AUTO,
+      hlsLevels: [],
       titleHidden: false
     }
     this.qualityMenuAttempts = 0
@@ -257,7 +280,7 @@ class VideoJS extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.sources !== this.props.sources) {
+    if (sourcesKey(prevProps.sources) !== sourcesKey(this.props.sources)) {
       const nextLabel = pickInitialLabel(this.props.sources || [])
       if (nextLabel !== this.state.selectedLabel) {
         this.setState({ selectedLabel: nextLabel })
@@ -296,8 +319,10 @@ class VideoJS extends Component {
     }
 
     if (
-      prevProps.sources !== this.props.sources ||
+      sourcesKey(prevProps.sources) !== sourcesKey(this.props.sources) ||
       prevState.selectedLabel !== this.state.selectedLabel ||
+      prevState.hlsQuality !== this.state.hlsQuality ||
+      prevState.hlsLevels !== this.state.hlsLevels ||
       prevProps.mode !== this.props.mode ||
       prevProps.format !== this.props.format
     ) {
@@ -343,7 +368,18 @@ class VideoJS extends Component {
 
   onQualityMenuChange(event) {
     const nextLabel = event.detail && event.detail.value
+    if (this.props.format === 'hls') {
+      this.onHlsQualityChange(nextLabel)
+      return
+    }
     this.onQualityChange({ target: { value: nextLabel } })
+  }
+
+  onHlsQualityChange(label) {
+    const option = hlsQualityOptions(this.state.hlsLevels).find(entry => entry.label === label)
+    if (!option || label === this.state.hlsQuality) return
+    if (this._hls) this._hls.currentLevel = option.level
+    this.setState({ hlsQuality: label })
   }
 
   scheduleAudioLayout() {
@@ -730,6 +766,9 @@ class VideoJS extends Component {
     const restore = this.pendingRestore
     this.pendingRestore = null
     const generation = this._hlsGeneration
+    if (this.state.hlsLevels.length || this.state.hlsQuality !== HLS_AUTO) {
+      this.setState({ hlsLevels: [], hlsQuality: HLS_AUTO })
+    }
     const resume = () => {
       if (!restore || generation !== this._hlsGeneration) return
       try {
@@ -755,6 +794,10 @@ class VideoJS extends Component {
               // eslint-disable-next-line no-console
               console.warn('HLS playback error', data.type, data.details, data.reason || '')
           })
+          hls.on(Hls.Events.MANIFEST_PARSED, (_event, data) => {
+            if (generation !== this._hlsGeneration) return
+            this.setState({ hlsLevels: data.levels || hls.levels || [] })
+          })
           hls.loadSource(source.src)
           hls.attachMedia(media)
           media.addEventListener('loadedmetadata', resume, { once: true })
@@ -768,34 +811,33 @@ class VideoJS extends Component {
 
   syncQualityMenu() {
     if (this.props.mode !== 'video') return true
-    if (this.props.format === 'hls') {
-      const media = this.mediaRef.current
-      const skin = media && media.closest('video-neutral-skin')
-      const shadow = skin && skin.shadowRoot
-      if (!shadow) return false
-      shadow.querySelectorAll('media-menu-radio-group.madek-quality-group').forEach(group => {
-        group.remove()
-      })
-      return true
-    }
     const media = this.mediaRef.current
     const skin = media && media.closest('video-neutral-skin')
     const shadow = skin && skin.shadowRoot
     if (!shadow || !customElements.get('media-menu-radio-group')) return false
     this.hideCastButton(shadow)
 
-    const options = uniqueQualityOptions(this.props.sources || [])
+    const hls = this.props.format === 'hls'
+    const options = hls
+      ? hlsQualityOptions(this.state.hlsLevels)
+      : uniqueQualityOptions(this.props.sources || [])
     const nativeGroup = shadow.querySelector('media-quality-radio-group')
+    // The skin's own quality group is removed on first sync; keep its page so
+    // later syncs (e.g. after an MP4/HLS switch) can still find the menu.
     const page =
       (nativeGroup && nativeGroup.parentElement) ||
-      shadow.querySelector('media-menu-radio-group.madek-quality-group')?.parentElement
+      shadow.querySelector('media-menu-radio-group.madek-quality-group')?.parentElement ||
+      (this.qualityMenuPage && this.qualityMenuPage.isConnected ? this.qualityMenuPage : null)
     if (!page) return false
-
-    if (options.length < 2) return true
-
-    if (nativeGroup) nativeGroup.remove()
+    this.qualityMenuPage = page
 
     let group = page.querySelector('media-menu-radio-group.madek-quality-group')
+    if (options.length < 2) {
+      if (group) group.remove()
+      return true
+    }
+
+    if (nativeGroup) nativeGroup.remove()
     if (!group) {
       group = document.createElement('media-menu-radio-group')
       group.className = 'media-menu-radio-group madek-quality-group'
@@ -830,7 +872,7 @@ class VideoJS extends Component {
       )
     }
 
-    const selected = this.state.selectedLabel || labels[0]
+    const selected = (hls ? this.state.hlsQuality : this.state.selectedLabel) || labels[0]
     if (group.value !== selected) group.value = selected
     if (typeof group.publishMenuOptionState === 'function') {
       group.publishMenuOptionState(false, false, 'available')
