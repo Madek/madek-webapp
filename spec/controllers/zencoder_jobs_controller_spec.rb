@@ -195,5 +195,35 @@ describe ZencoderJobsController, webmock: true do
         expect(media_file.previews.where("filename LIKE '%m4f'")).to be_empty
       end
     end
+
+    context 'when the HLS import fails' do
+      before do
+        allow(Zencoder).to receive(:api_key).and_return('abcd1235')
+        details = job_details.deep_dup
+        details['job']['thumbnails'] = []
+        details['job']['output_media_files'] = [
+          job_details['job']['output_media_files'].first,
+          { 'label' => 'hls_360', 'state' => 'finished', 'url' => 'http://s3.amazonaws.com/bucket/hls_360.zip' },
+          { 'label' => 'hls', 'state' => 'finished', 'url' => 'http://s3.amazonaws.com/bucket/hls.m3u8' }
+        ]
+        stub_request(:get, 'https://app.zencoder.com/api/v2/jobs/12345')
+          .with(headers: { 'Zencoder-Api-Key' => 'abcd1235' })
+          .to_return(body: details.to_json)
+        stub_request(:get, 'http://s3.amazonaws.com/bucket/video.mp4')
+        stub_request(:get, 'http://s3.amazonaws.com/bucket/hls.m3u8')
+          .to_return(body: "#EXTM3U\n#EXT-X-STREAM-INF:BANDWIDTH=1,RESOLUTION=640x360\n360.m3u8\n")
+        stub_request(:get, 'http://s3.amazonaws.com/bucket/hls_360.zip').to_return(status: 403)
+      end
+
+      it 'keeps the job finished with the MP4 preview and records the reason' do
+        post :notification, params: { id: zencoder_job.id, job: { id: 12345 } }
+
+        zencoder_job.reload
+        expect(zencoder_job.state).to eq 'finished'
+        expect(zencoder_job.comment).to start_with 'hls import failed: download 403'
+        expect(media_file.previews.where(conversion_profile: 'Web').count).to eq 1
+        expect(media_file.previews.where(conversion_profile: 'hls')).to be_empty
+      end
+    end
   end
 end

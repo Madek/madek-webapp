@@ -64,7 +64,17 @@ module Modules
 
       def create_previews!(media_file)
         media_file.create_previews! if media_file.previews_internal?
-        process_with_zencoder(media_file) if media_file.previews_zencoder?
+        return unless media_file.previews_zencoder?
+
+        if local_video_encoding?(media_file)
+          rescue_errors_silently { LocalHlsEncoder.new(media_file, progressive: true).call }
+        else
+          process_with_zencoder(media_file)
+        end
+      end
+
+      def local_video_encoding?(media_file)
+        Rails.env.development? && !Settings.zencoder_enabled && media_file.video?
       end
 
       def add_default_license(media_entry)
