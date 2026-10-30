@@ -60,6 +60,27 @@ feature 'Resource: MediaEntry' do
         .to match_array [keyword_a, keyword_b]
     end
 
+    scenario 'io mapping position decides which of two XMP fields fills a meta key' do
+      rights_meta_key = create(:meta_key_text, id: 'test:rights')
+      IoMapping.create!(
+        io_interface_id: 'default',
+        meta_key_id: rights_meta_key.id,
+        key_map: 'XMP-dc:Rights')
+      owner_map = IoMapping.create!(
+        io_interface_id: 'default',
+        meta_key_id: rights_meta_key.id,
+        key_map: 'XMP-xmpRights:Owner')
+
+      import_xmp(rights: 'FOO', owner: 'FANCY')
+      expect(media_entry.reload.meta_data.find_by(meta_key: rights_meta_key).string)
+        .to eq 'FOO'
+
+      owner_map.move_to_top
+      import_xmp(rights: 'FOO', owner: 'FANCY')
+      expect(media_entry.reload.meta_data.find_by(meta_key: rights_meta_key).string)
+        .to eq 'FANCY'
+    end
+
     scenario 'stores the sidecar and shows it in usage data' do
       import_xmp(title: 'Sidecar Title', subjects: ['not-a-keyword'])
 
@@ -157,9 +178,13 @@ end
 
 private
 
-def import_xmp(title: nil, subjects: [], creators: [], extension: '.xmp', content: nil)
+def import_xmp(title: nil, subjects: [], creators: [], rights: nil, owner: nil,
+               extension: '.xmp', content: nil)
   sidecar = Rails.root.join('tmp', "sidecar_#{SecureRandom.hex(8)}#{extension}")
-  File.binwrite(sidecar, content || xmp_content(title: title, subjects: subjects, creators: creators))
+  File.binwrite(
+    sidecar,
+    content || xmp_content(title: title, subjects: subjects, creators: creators,
+                           rights: rights, owner: owner))
 
   visit media_entry_path(media_entry)
   within '.ui-body-title-actions .ui-dropdown' do
@@ -174,18 +199,23 @@ ensure
   FileUtils.rm_f(sidecar) if sidecar
 end
 
-def xmp_content(title:, subjects:, creators:)
+def xmp_content(title:, subjects:, creators:, rights:, owner:)
   title_xml = title ? "<dc:title><rdf:Alt><rdf:li xml:lang=\"x-default\">#{title}</rdf:li></rdf:Alt></dc:title>" : ''
   subjects_xml = subjects.any? ? "<dc:subject><rdf:Bag>#{subjects.map { |s| "<rdf:li>#{s}</rdf:li>" }.join}</rdf:Bag></dc:subject>" : ''
   creators_xml = creators.any? ? "<dc:creator><rdf:Seq>#{creators.map { |c| "<rdf:li>#{c}</rdf:li>" }.join}</rdf:Seq></dc:creator>" : ''
+  rights_xml = rights ? "<dc:rights><rdf:Alt><rdf:li xml:lang=\"x-default\">#{rights}</rdf:li></rdf:Alt></dc:rights>" : ''
+  owner_xml = owner ? "<xmpRights:Owner><rdf:Alt><rdf:li xml:lang=\"x-default\">#{owner}</rdf:li></rdf:Alt></xmpRights:Owner>" : ''
+  xmp_rights_ns = owner ? ' xmlns:xmpRights="http://ns.adobe.com/xap/1.0/rights/"' : ''
   <<~XMP
     <?xpacket begin="" id="W5M0MpCehiHzreSzNTczkc9d"?>
     <x:xmpmeta xmlns:x="adobe:ns:meta/">
       <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-        <rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/">
+        <rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/"#{xmp_rights_ns}>
           #{title_xml}
           #{subjects_xml}
           #{creators_xml}
+          #{owner_xml}
+          #{rights_xml}
         </rdf:Description>
       </rdf:RDF>
     </x:xmpmeta>

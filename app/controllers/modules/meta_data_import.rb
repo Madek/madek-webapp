@@ -39,9 +39,11 @@ module Modules
     end
 
     # `key_map` may hold several comma-separated keys, the first present one wins.
+    # Several mappings of one meta key: the first by `position` wins.
     def io_mapped_values(data)
       IoMapping
         .includes(:meta_key)
+        .reorder(:io_interface_id, :position, :id)
         .each_with_object({}) do |mapping, result|
           next if result.key?(mapping.meta_key)
 
