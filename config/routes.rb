@@ -298,6 +298,10 @@ Madek::Application.routes.draw do
 
   get '/release', controller: 'release', action: 'show'
 
+  get '/ns', to: 'xmp_namespaces#index', as: 'xmp_namespaces'
+  get '/ns/:prefix', to: 'xmp_namespaces#show', as: 'xmp_namespace',
+    constraints: { prefix: /[A-Za-z_][A-Za-z0-9_-]*/ }
+
   resources :about, path: 'about', only: [:index, :show], controller: :about_pages
 
   # STYLEGUIDE #################################################################

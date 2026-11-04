@@ -38,15 +38,16 @@ module Modules
       ActiveRecord::Base.connection.execute('SET CONSTRAINTS ALL DEFERRED')
     end
 
-    # `key_map` may hold several comma-separated keys, the first present one wins.
+    # The first present key wins, ordered by mapping position.
     def io_mapped_values(data)
       IoMapping
-        .includes(:meta_key)
+        .where(io_interface_id: 'default')
+        .includes(:meta_key, xmp_property: :xmp_namespace)
+        .order(:position, :created_at)
         .each_with_object({}) do |mapping, result|
           next if result.key?(mapping.meta_key)
 
-          value = mapping.key_map.to_s.split(',').map(&:strip)
-                    .map { |key| data[key] }.find(&:present?)
+          value = mapping.exiftool_keys.map { |key| data[key] }.find(&:present?)
           result[mapping.meta_key] = value if value.present?
         end
     end
