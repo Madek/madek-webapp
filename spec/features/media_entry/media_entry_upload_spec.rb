@@ -292,13 +292,13 @@ feature 'Resource: MediaEntry' do
         FactoryBot.create(:meta_key_text, id: 'madek_core:title')
       end
       IoInterface.find_or_create_by(id: 'default')
+      IoMapping.where(io_interface_id: 'default', meta_key_id: 'madek_core:title').destroy_all
       IoMapping.create(io_interface_id: 'default',
                        meta_key_id: 'madek_core:title',
                        key_map: 'Filename')
       IoMapping.create(io_interface_id: 'default',
                        meta_key_id: 'media_object:creator',
                        key_map: 'XMP-dc:Creator')
-      IoMapping.where(io_interface_id: 'default', key_map: 'XMP-dc:Title').destroy_all
 
       visit new_media_entry_path
       select_file_and_submit('images', 'grumpy_cat_new.jpg')
