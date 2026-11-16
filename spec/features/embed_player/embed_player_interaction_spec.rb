@@ -11,6 +11,8 @@ feature 'Embed aka. "Madek-Player"' do
       page.within_frame(page.find('iframe')) do
         play_btn = find('.vjs-big-play-button')
         play_btn.click
+        # give video.js time to start playback and show controls
+        sleep 3
 
         within('.vjs-control-bar') do
           res_btn = find('.vjs-resolution-button')

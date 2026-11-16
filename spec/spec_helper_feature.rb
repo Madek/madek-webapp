@@ -2,6 +2,7 @@
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
+require 'shellwords'
 
 DEFAULT_BROWSER_TIMEOUT = 180 # instead of the default 60
 BROWSER_DONWLOAD_DIR = Rails.root.join('tmp', 'test_driver_browser_downloads')
@@ -21,6 +22,51 @@ def truncate_tables
 end
 
 FIREFOX_BIN_PATH = Pathname.new(`which firefox`.strip).expand_path.to_s
+
+def browser_tool_versions_log_lines
+  firefox_version = begin
+    `#{Shellwords.escape(FIREFOX_BIN_PATH)} --version 2>&1`.strip
+  rescue StandardError => e
+    "error: #{e.class}: #{e.message}"
+  end
+  geckodriver_bin = `which geckodriver 2>/dev/null`.strip
+  geckodriver_version = begin
+    `geckodriver --version 2>&1`.to_s.lines.first.to_s.strip
+  rescue StandardError => e
+    "error: #{e.class}: #{e.message}"
+  end
+  [
+    "firefox_bin=#{FIREFOX_BIN_PATH}",
+    "firefox=#{firefox_version.presence || 'unknown'}",
+    "geckodriver_bin=#{geckodriver_bin.presence || 'not found'}",
+    "geckodriver=#{geckodriver_version.presence || 'unknown'}",
+    "selenium-webdriver=#{Gem.loaded_specs['selenium-webdriver']&.version || 'unknown'}"
+  ]
+end
+
+def log_browser_tool_versions(example)
+  return unless Capybara.current_driver.presence_in %i(selenium selenium_ff selenium_ff_nojs)
+
+  puts "[browser versions] example=#{example.full_description.inspect} " \
+       "driver=#{Capybara.current_driver} " \
+       "#{browser_tool_versions_log_lines.join(' ')}"
+end
+
+def log_browser_session_versions(example)
+  return unless Capybara.current_driver.presence_in %i(selenium selenium_ff selenium_ff_nojs)
+
+  caps = page.driver.browser.capabilities
+  browser_name = caps[:browser_name] || caps['browserName']
+  browser_version = caps[:browser_version] || caps['browserVersion'] ||
+                    caps[:version] || caps['version']
+  puts "[browser session] example=#{example.full_description.inspect} " \
+       "driver=#{Capybara.current_driver} " \
+       "browser_name=#{browser_name.inspect} " \
+       "browser_version=#{browser_version.inspect}"
+rescue StandardError => e
+  puts "[browser session] example=#{example.full_description.inspect} " \
+       "error=#{e.class}: #{e.message}"
+end
 
 RSpec.configure do |config|
   config.use_transactional_fixtures = false
@@ -70,7 +116,9 @@ RSpec.configure do |config|
   config.before(:each) do |example|
     prepare_db(example)
     set_browser(example)
+    log_browser_tool_versions(example)
     maximize_window_if_possible
+    log_browser_session_versions(example)
   end
 
   config.after(:each) do |example|
