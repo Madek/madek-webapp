@@ -27,8 +27,6 @@ feature 'Resource: MediaEntry' do
       input.set(user.login)
       results = find('.ui-autocomplete .ui-menu-item', text: user.email)
       expect(results).to be
-      visit('about:blank')
-      accept_confirm
     end
   end
 

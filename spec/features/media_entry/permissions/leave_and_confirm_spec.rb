@@ -16,11 +16,10 @@ feature 'Resource: MediaEntry' do
 
   it 'warns when leaving edit form and lets user confirm' do
     open_permission_editable
-    interact_with_page_so_we_dont_look_like_spammers
+    expect(leave_warning_message).to eq I18n.t(:app_confirm_form_leave_msg)
 
-    # trying to leave the page with a link:
+    # leaving the page with a link (the browser auto-accepts the prompt):
     find('header li a', text: I18n.t(:sitemap_my_archive)).click
-    accept_confirm
     wait_until { current_path == my_dashboard_path }
   end
 
