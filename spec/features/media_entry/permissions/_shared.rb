@@ -77,19 +77,6 @@ module MediaEntryPermissionsShared
     find('h2', text: I18n.t(:permissions_responsible_user_and_responsibility_group_title)).click
   end
 
-  # NOTE: Firefox (>= 128) auto-accepts native `beforeunload` prompts under WebDriver,
-  # so we dispatch the event ourselves and return the message the app would show
-  def leave_warning_message
-    page.evaluate_script(<<~JS)
-      (() => {
-        const e = document.createEvent('BeforeUnloadEvent')
-        e.initEvent('beforeunload', false, true)
-        window.dispatchEvent(e)
-        return e.returnValue
-      })()
-    JS
-  end
-
   def expect_permission(perm, name, bool)
     expect(perm[name]).to be bool, lambda do
        "expected permission `#{name}` to be `#{bool}`, got `#{!bool}`!"
