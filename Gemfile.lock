@@ -466,7 +466,6 @@ DEPENDENCIES
   faker
   git (~> 1.13)
   haml-rails
-  json (< 3)
   json-ld
   kaminari (~> 1.2.1)
   kramdown
