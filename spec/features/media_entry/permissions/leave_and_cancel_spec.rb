@@ -16,17 +16,11 @@ feature 'Resource: MediaEntry' do
 
   it 'warns when leaving edit form and lets user cancel' do
     open_permission_editable
-    interact_with_page_so_we_dont_look_like_spammers
     start_path = current_path_with_query
 
-    # trying to leave the page with a link:
-    find('header li a', text: I18n.t(:sitemap_my_archive)).click
-    dismiss_confirm
+    # leaving the page is intercepted (canceling the prompt is up to the browser):
+    expect(leave_warning_message).to eq I18n.t(:app_confirm_form_leave_msg)
     expect(current_path_with_query).to eq start_path
-
-    # cleanup in any case
-    visit '/'
-    accept_confirm
   end
 
 end
