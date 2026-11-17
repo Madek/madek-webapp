@@ -483,7 +483,7 @@ DEPENDENCIES
   puma_worker_killer
   pundit
   rack (~> 2.2.25)
-  rails (~> 8.1, >= 8.1.4.1)
+  rails (~> 8.1.4, >= 8.1.4.1)
   rails-controller-testing
   rdf
   rdf-rdfxml
