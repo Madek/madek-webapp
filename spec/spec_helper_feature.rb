@@ -38,8 +38,10 @@ RSpec.configure do |config|
   end
 
   Capybara.register_driver :selenium_ff_nojs do |app|
+    # Braces required: with `bidi:` as a keyword arg, a bare trailing hash
+    # would be treated as keywords (`unknown keyword: "general.useragent.override"`).
     create_firefox_driver(app, DEFAULT_BROWSER_TIMEOUT,
-                          'general.useragent.override' => 'Firefox NOJSPLZ')
+                          { 'general.useragent.override' => 'Firefox NOJSPLZ' })
   end
 
   # Firefox >= 124 auto-accepts `beforeunload` prompts in a WebDriver Classic
