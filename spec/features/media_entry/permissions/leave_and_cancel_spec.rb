@@ -14,7 +14,7 @@ feature 'Resource: MediaEntry' do
     sign_in_as @user.login
   end
 
-  it 'warns when leaving edit form and lets user cancel' do
+  it 'warns when leaving edit form and lets user cancel', browser: :firefox_bidi do
     open_permission_editable
     interact_with_page_so_we_dont_look_like_spammers
     start_path = current_path_with_query
@@ -24,9 +24,9 @@ feature 'Resource: MediaEntry' do
     dismiss_confirm
     expect(current_path_with_query).to eq start_path
 
-    # cleanup in any case
-    visit '/'
-    accept_confirm
+    # `visit` blocks while the form is dirty: BiDi waits for the load, and the
+    # prompt never gets accepted. Accept it from the click instead.
+    accept_confirm { find('header li a', text: I18n.t(:sitemap_my_archive)).click }
   end
 
 end

@@ -14,11 +14,12 @@ feature 'Resource: MediaEntry' do
     sign_in_as @user.login
   end
 
-  it 'warns when leaving edit form and lets user confirm' do
+  it 'warns when leaving edit form and lets user confirm', browser: :firefox_bidi do
     open_permission_editable
     interact_with_page_so_we_dont_look_like_spammers
 
-    # trying to leave the page with a link:
+    # trying to leave the page with a link.
+    # Firefox shows its own beforeunload text, so do not match the app message.
     find('header li a', text: I18n.t(:sitemap_my_archive)).click
     accept_confirm
     wait_until { current_path == my_dashboard_path }
