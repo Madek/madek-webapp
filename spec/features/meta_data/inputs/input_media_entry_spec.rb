@@ -122,6 +122,7 @@ feature 'Resource: MetaDatum' do
               expect(hidden_input.value).to eq(";#{description}")
             end
 
+            expect(page).to have_current_path(media_entry_path(@media_entry))
             expect(page).not_to have_css('.ui-media-overview-metadata .media-data-content')
             expect(page).not_to have_link(@other_media_entry.title,
                                           href: media_entry_path(@other_media_entry))
@@ -142,6 +143,7 @@ feature 'Resource: MetaDatum' do
               expect(hidden_input.value).to eq(';')
             end
 
+            expect(page).to have_current_path(media_entry_path(@media_entry))
             expect(page).not_to have_css('.ui-media-overview-metadata .media-data-content')
             expect(page).not_to have_link(@other_media_entry.title,
                                           href: media_entry_path(@other_media_entry))
