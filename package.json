@@ -71,7 +71,7 @@
     "prettier": "^3.8.1",
     "prettier-eslint": "^17.1.1",
     "resolve": "^1.22.10",
-    "vite": "^8.1.5"
+    "vite": "^8.1.6"
   },
   "overrides": {
     "form-data": "^2.5.4",

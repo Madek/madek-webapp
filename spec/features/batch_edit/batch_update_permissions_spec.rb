@@ -52,7 +52,7 @@ feature 'Batch update media entries permissions' do
       find('.primary-button').click
     end
 
-    expect(current_path).to eq(my_content_page)
+    expect(page).to have_current_path(my_content_page, ignore_query: true)
 
     # assertions
 
@@ -89,7 +89,7 @@ feature 'Batch update media entries permissions' do
       find('.primary-button').click
     end
 
-    expect(current_path).to eq(my_content_page)
+    expect(page).to have_current_path(my_content_page, ignore_query: true)
 
     # assertions
 

@@ -38,8 +38,17 @@ RSpec.configure do |config|
   end
 
   Capybara.register_driver :selenium_ff_nojs do |app|
+    # Braces required: with `bidi:` as a keyword arg, a bare trailing hash
+    # would be treated as keywords (`unknown keyword: "general.useragent.override"`).
     create_firefox_driver(app, DEFAULT_BROWSER_TIMEOUT,
-                          'general.useragent.override' => 'Firefox NOJSPLZ')
+                          { 'general.useragent.override' => 'Firefox NOJSPLZ' })
+  end
+
+  # Firefox >= 124 auto-accepts `beforeunload` prompts in a WebDriver Classic
+  # session. A BiDi session keeps the prompt open so a spec can dismiss or
+  # accept it. Only the leave-page specs opt in (`browser: :firefox_bidi`).
+  Capybara.register_driver :selenium_ff_bidi do |app|
+    create_firefox_driver(app, DEFAULT_BROWSER_TIMEOUT, {}, bidi: true)
   end
 
   def set_browser(example)
@@ -49,6 +58,7 @@ RSpec.configure do |config|
       when nil, true, :firefox then :selenium_ff
       when false then :rack_test
       when :firefox_nojs then :selenium_ff_nojs
+      when :firefox_bidi then :selenium_ff_bidi
       else fail 'unknown browser!'
       end
   end
@@ -62,7 +72,7 @@ RSpec.configure do |config|
   end
 
   def maximize_window_if_possible
-    if Capybara.current_driver.presence_in %i(selenium_ff selenium_ff_nojs)
+    if Capybara.current_driver.presence_in %i(selenium_ff selenium_ff_nojs selenium_ff_bidi)
       Capybara.page.driver.browser.manage.window.maximize
     end
   end
@@ -98,7 +108,7 @@ RSpec.configure do |config|
     Dir.mkdir screenshot_dir rescue nil
     path = screenshot_dir.join(name)
     case Capybara.current_driver
-    when :selenium_ff, :selenium_ff_nojs, :selenium_chrome
+    when :selenium_ff, :selenium_ff_nojs, :selenium_ff_bidi, :selenium_chrome
       page.driver.browser.save_screenshot(path) rescue nil
     when :poltergeist
       page.driver.render(path, full: true) rescue nil
@@ -118,9 +128,27 @@ RSpec.configure do |config|
     end
   end
 
+  # BiDi navigation waits until the load completes. An open `beforeunload`
+  # prompt blocks that call until read_timeout, including Capybara's session
+  # reset. Dismiss a prompt that is already open, then stop the app's
+  # listeners so the reset navigation does not open a new one.
+  config.after(:each) do
+    next unless Capybara.current_driver == :selenium_ff_bidi
+
+    browser = page.driver.instance_variable_get(:@browser)
+    next unless browser
+
+    browser.switch_to.alert.dismiss rescue nil
+    browser.execute_script(
+      "window.addEventListener('beforeunload', e => e.stopImmediatePropagation(), true)"
+    )
+  rescue StandardError
+    nil
+  end
+
 end
 
-def create_firefox_driver(app, timeout, extra_profile_config = {})
+def create_firefox_driver(app, timeout, extra_profile_config = {}, bidi: false)
   dont_ask_on_downloads_config = { #
     'browser.helperApps.neverAsk.saveToDisk' => 'image/jpeg,application/pdf',
     'browser.download.manager.showWhenStarting' => false,
@@ -134,7 +162,17 @@ def create_firefox_driver(app, timeout, extra_profile_config = {})
   profile = Selenium::WebDriver::Firefox::Profile.new
   profile_config.each { |k, v| profile[k] = v }
 
-  opts = Selenium::WebDriver::Firefox::Options.new(profile: profile, binary: FIREFOX_BIN_PATH)
+  option_args = { profile: profile, binary: FIREFOX_BIN_PATH }
+  if bidi
+    option_args[:web_socket_url] = true
+    # `beforeUnload: ignore` is what leaves the prompt open. The default still
+    # dismisses alert/confirm/prompt dialogs.
+    option_args[:unhandled_prompt_behavior] = {
+      beforeUnload: 'ignore',
+      default: 'dismiss and notify'
+    }
+  end
+  opts = Selenium::WebDriver::Firefox::Options.new(**option_args)
 
   client = Selenium::WebDriver::Remote::Http::Default.new
   client.read_timeout = timeout
