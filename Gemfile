@@ -1,6 +1,9 @@
 SHARED_GEMFILE = './datalayer/Gemfile'
 eval_gemfile(SHARED_GEMFILE) if File.exist?(SHARED_GEMFILE)
 
+# stay on patched rack 2.2.x (Rails stack for this app)
+gem 'rack', '~> 2.2.25'
+
 ####################################################################
 # required in production PRODUCTION
 #####################################################################
@@ -34,7 +37,6 @@ gem 'cider_ci-open_session', '>= 1.0.0', '< 2.0.0'
 gem 'execjs'
 gem 'exiftool_vendored'
 gem 'git', '~> 1.13'
-gem 'json', '>= 2.15.2.1'
 gem 'kaminari', '~> 1.2.1'
 gem 'pundit'
 gem 'sitemap_generator'
