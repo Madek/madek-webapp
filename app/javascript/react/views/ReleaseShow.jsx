@@ -4,19 +4,18 @@ import currentLocale from '../../lib/current-locale.js'
 import { isEmpty } from '../../lib/utils.js'
 import t from '../../lib/i18n-translate.js'
 
-const DevelopmentInfo = ({ git_hash, git_url }) => {
+const DevelopmentInfo = ({ git_hash }) => {
   return (
     <div className="ui-container pbm">
       <h2 className="title-s">
-        {t('release_local_git_version')}: <a href={git_url}>{git_hash}</a>
+        {t('release_local_git_version')}: {git_hash}
       </h2>
     </div>
   )
 }
 
-const DeploymentInfo = ({ tree_id, commit_id, deploy_time }) => {
+const DeploymentInfo = ({ commit_id, deploy_time }) => {
   Moment.locale(currentLocale())
-  const buildUrl = `https://ci.zhdk.ch/cider-ci/ui/workspace/trees/${tree_id}`
   const commitUrl = `https://github.com/Madek/Madek/commits/${commit_id}`
 
   return (
@@ -27,11 +26,6 @@ const DeploymentInfo = ({ tree_id, commit_id, deploy_time }) => {
       <div className="mtm">
         <h2 className="title-s">
           <a href={commitUrl}>{t('release_source_history')}</a>
-        </h2>
-      </div>
-      <div className="mtm">
-        <h2 className="title-s">
-          <a href={buildUrl}>Build</a>
         </h2>
       </div>
     </div>

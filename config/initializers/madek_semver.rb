@@ -57,7 +57,6 @@ def version_from_git
   {
     type: 'git',
     git_hash: git_hash,
-    git_url: "https://ci.zhdk.ch/cider-ci/ui/workspace?git_ref=#{git_hash}",
     version_name: 'git-' + git_hash
   }
 end
