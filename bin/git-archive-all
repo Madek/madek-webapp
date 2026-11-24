@@ -7,6 +7,17 @@ cd "${PROJECT_DIR}"
 ### Install Python and dependencies ############################################
 
 ./bin/env/python-setup
+# Reuse the cached venv only when it still works. A venv whose files were
+# removed underneath it (systemd-tmpfiles cleaning /tmp after 10 days removes
+# the files but leaves the directory skeleton; a python removed by the tool
+# versions manager leaves a dangling bin/python) still has its directory, but
+# pip then fails with "No module named 'pip._internal.cli.main'".
+if [[ -d "${PROJECT_DIR}/.venv" ]] \
+  && ! ( "${PROJECT_DIR}/.venv/bin/python" -c 'import pip._internal.cli.main' > /dev/null 2>&1 \
+         && [[ -x "${PROJECT_DIR}/.venv/bin/git-archive-all" ]] ); then
+  echo "venv in ${PROJECT_DIR}/.venv is broken or incomplete, recreating it"
+  rm -rf "${PROJECT_DIR}/.venv"
+fi
 if [[ ! -d "${PROJECT_DIR}/.venv" ]]; then
   python3 -m venv ${PROJECT_DIR}/.venv
 fi
